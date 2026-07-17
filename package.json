@@ -1,0 +1,32 @@
+{
+  "name": "nex-tech-hub",
+  "version": "0.1.0",
+  "build": "R170726",
+  "ibuild": "R010726",
+  "updated": "17 Luglio 2026",
+  "description": "nex tech hub — dashboard universale per tecnici e sistemisti su VMware, Proxmox, Kubernetes e Linux",
+  "author": "Copyright © 2026 vlT di Veronesi Lorenzo",
+  "scripts": {
+    "predev": "node scripts/fetch-static-data.mjs",
+    "dev": "vite",
+    "data:fetch": "node scripts/fetch-static-data.mjs --force",
+    "auth:encrypt": "node auth/encrypt-settings.mjs encrypt",
+    "auth:secret": "node auth/encrypt-settings.mjs secret",
+    "auth:write-dispatch": "node auth/encrypt-settings.mjs write-env",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-dropzone": "^17.0.0",
+    "react-icons": "^5.7.0",
+    "react-router-dom": "^7.18.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.3",
+    "playwright": "^1.61.1",
+    "vite": "^8.1.5"
+  }
+}

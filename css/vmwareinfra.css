@@ -1,0 +1,473 @@
+/* -------------------- vmware infrastructure dashboard -------------------- */
+/* accent: VMware green #56a668 */
+
+.vmw-iv-dashboard-container {
+  width: 100%;
+  max-width: 100%;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 1rem;
+}
+
+.vmw-iv-dashboard-title {
+  font-size: 1.8rem;
+  font-family: Nasalization, 'Segoe UI', sans-serif;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #251e3b;
+}
+
+.vmw-iv-dashboard-subtitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1.3rem;
+  text-align: center;
+  color: #251e3b;
+}
+
+.vmw-iv-dashboard-subtitle.vmxtools {
+  font-size: 0.9rem;
+  font-weight: 650;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.vmw-iv-dashboard-icon {
+  font-size: 1.5rem;
+  margin-bottom: -0.3rem;
+  margin-right: 0.2rem;
+}
+.vmw-iv-dashboard-icon.title   { font-size: 2.8rem; margin-bottom: -0.8rem; margin-right: 1rem; }
+.vmw-iv-dashboard-icon.mini    { font-size: 1.2rem; margin-bottom: 0.1rem; }
+.vmw-iv-dashboard-icon.vmxtools{ font-size: 1.5rem; margin-bottom: -0.5rem; margin-right: 0.2rem; }
+.vmw-iv-dashboard-icon.upbutton { font-size: 2rem; color: #878787; cursor: pointer; }
+.vmw-iv-dashboard-icon.upbutton:hover { color: #56a668; transition: 0.3s; }
+
+/* ---- grid ---- */
+.vmw-iv-dashboard-grid {
+  --columns: 5;
+  --gap-h: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem var(--gap-h);
+  margin-bottom: 3rem;
+  justify-content: center;
+}
+
+.vmw-iv-dashboard-grid.computehd { --columns: 5; }
+.vmw-iv-dashboard-grid.compute   { --columns: 4; }
+.vmw-iv-dashboard-grid.margin    { --columns: 4; }
+.vmw-iv-dashboard-grid.clu       { --columns: 6; }
+.vmw-iv-dashboard-grid.clu-nodes { --columns: 4; }
+.vmw-iv-dashboard-grid.gnr       { --columns: 4; }
+.vmw-iv-dashboard-grid.vms       { --columns: 3; }
+.vmw-iv-dashboard-grid.vmsrec    { --columns: 4; }
+.vmw-iv-dashboard-grid.lic       { --columns: 3; }
+.vmw-iv-dashboard-grid.pgroup    { --columns: 4; }
+
+.vmw-iv-dashboard-grid > .vmw-iv-dashboard-card {
+  flex: 0 0 calc((100% - (var(--columns) - 1) * var(--gap-h)) / var(--columns));
+  max-width: calc((100% - (var(--columns) - 1) * var(--gap-h)) / var(--columns));
+  box-sizing: border-box;
+}
+
+/* ---- cards ---- */
+.vmw-iv-dashboard-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1rem;
+  gap: 0.5rem;
+  min-width: 220px;
+  min-height: 140px;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  background-color: #f1f5f9;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vmw-iv-dashboard-card.clu-nodes { min-width: 450px; }
+.vmw-iv-dashboard-card.lic       { min-width: 720px; }
+.vmw-iv-dashboard-card.pgroup    { min-width: 350px; }
+.vmw-iv-dashboard-card.vmsrec    { min-width: 250px; }
+.vmw-iv-dashboard-card.esxnode   { min-width: 320px; }
+
+.vmw-iv-dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.vmw-iv-dashboard-card h3 {
+  font-size: 1.2rem;
+  margin: 0 0 0.5rem;
+  color: #251e3b;
+}
+
+.vmw-iv-dashboard-card p {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0.25rem 0;
+  font-size: 1.8rem;
+  color: #334155;
+  word-break: break-word;
+  font-weight: 570;
+}
+
+.vmw-iv-dashboard-card.ds p       { font-size: 1.5rem; }
+.vmw-iv-dashboard-card.clu-nodes p{ font-size: 1.5rem; }
+.vmw-iv-dashboard-card.pgroup p   { font-size: 1.2rem; }
+.vmw-iv-dashboard-card.gnr p      { font-size: 1.6rem; }
+.vmw-iv-dashboard-card.esxnode p  { font-size: 1.2rem; }
+.vmw-iv-dashboard-card.vmsrec p   { font-size: 1.5rem; }
+.vmw-iv-dashboard-card p strong   { flex: 0 0 auto; font-weight: 700; }
+
+.vmw-iv-dashboard-subsection {
+  margin-top: 2rem;
+  border-top: 2px solid #e2e8f0;
+  padding-top: 1.5rem;
+}
+
+.vmw-iv-dashboard-select {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  font-size: 0.875rem;
+  color: #334155;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23334155'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 0.75rem;
+  margin: 0 0.5rem;
+}
+.vmw-iv-dashboard-select:focus {
+  outline: none;
+  border-color: #56a668;
+  box-shadow: 0 0 0 3px rgba(86, 166, 104, 0.24);
+}
+
+.vmw-iv-dashboard-filtergroup {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 1rem;
+  flex-wrap: wrap;
+}
+
+.vmw-iv-dashboard-filter-input {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 0 1rem 0;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.vmw-iv-dashboard-filter-input:focus {
+  outline: none;
+  border-color: #56a668;
+  box-shadow: 0 0 0 3px rgba(86, 166, 104, 0.2);
+}
+.vmw-iv-dashboard-filter-input::placeholder { color: #999; }
+
+/* ---- tabbar ---- */
+@keyframes vmw-iv-btn-enter {
+  from { opacity: 0; transform: scale(0.88) translateY(4px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes vmw-iv-tab-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.vmw-iv-dashboard-tabbar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-top: 1rem;
+  padding: 0.2rem 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.vmw-iv-dashboard-tabbar::-webkit-scrollbar { display: none; }
+
+.vmw-iv-tabnav-sep {
+  width: 1px; height: 22px;
+  background: #d4d4d8;
+  margin: 0 0.5rem;
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.vmw-iv-dashboard-btn-secondary {
+  background: #e5e7eb;
+  color: #111827;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: normal;
+  text-align: left;
+  line-height: 1.1;
+}
+.vmw-iv-dashboard-btn-secondary:hover { background: #d1d5db; }
+
+.vmw-iv-dashboard-tabbar .vmw-iv-dashboard-btn-secondary {
+  flex-shrink: 0;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 2.4rem;
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+  animation: vmw-iv-btn-enter 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: max-width 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+              padding 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.22s ease, background 0.18s;
+}
+.vmw-iv-dashboard-tabbar .vmw-iv-dashboard-btn-secondary .vmw-iv-dashboard-icon { flex-shrink: 0; }
+.vmw-iv-dashboard-tabbar .vmw-iv-dashboard-btn-secondary:hover {
+  max-width: 18rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-shadow: 0 6px 22px rgba(86, 166, 104, 0.3);
+  animation: none;
+}
+
+.vmw-iv-tabnav {
+  display: flex;
+  gap: 0.1rem;
+  flex-wrap: nowrap;
+  flex: 1;
+}
+
+.vmw-iv-taknav-btn,
+.vmw-iv-tabnav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.52rem 0.9rem;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #6b7280;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s;
+  animation: vmw-iv-tab-in 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.vmw-iv-tabnav-btn:nth-child(1)  { animation-delay: 0.06s; }
+.vmw-iv-tabnav-btn:nth-child(2)  { animation-delay: 0.10s; }
+.vmw-iv-tabnav-btn:nth-child(3)  { animation-delay: 0.14s; }
+.vmw-iv-tabnav-btn:nth-child(4)  { animation-delay: 0.18s; }
+.vmw-iv-tabnav-btn:nth-child(5)  { animation-delay: 0.22s; }
+.vmw-iv-tabnav-btn:nth-child(6)  { animation-delay: 0.26s; }
+.vmw-iv-tabnav-btn:nth-child(7)  { animation-delay: 0.30s; }
+.vmw-iv-tabnav-btn:nth-child(8)  { animation-delay: 0.34s; }
+.vmw-iv-tabnav-btn:nth-child(9)  { animation-delay: 0.38s; }
+.vmw-iv-tabnav-btn:nth-child(10) { animation-delay: 0.42s; }
+
+.vmw-iv-tabnav-btn:hover {
+  background: rgba(86, 166, 104, 0.09);
+  color: #56a668;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(86, 166, 104, 0.15);
+}
+
+.vmw-iv-tabnav-btn.active {
+  background: #56a668;
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(86, 166, 104, 0.35);
+}
+
+.vmw-iv-tabcontent { animation: fadeInUp 0.34s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+.vmw-iv-tabcontent > .vmw-iv-dashboard-subsection:first-child {
+  border-top: none;
+  margin-top: 1.25rem;
+}
+
+/* ---- legacy toolbar / configbar / jumpbar (kept for backwards compat) ---- */
+.vmw-iv-dashboard-toolbar,
+.vmw-iv-dashboard-configbar,
+.vmw-iv-dashboard-jumpbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.vmw-iv-dashboard-toolbar   { gap: 1rem;        margin: 0 0 2rem 0; }
+.vmw-iv-dashboard-configbar { gap: 1rem 1.5rem;  margin: 1rem 0 1.5rem 0; }
+.vmw-iv-dashboard-jumpbar   { gap: 1rem;         margin: 1rem 0 4rem 0; }
+
+.vmw-iv-dashboard-configbar h4,
+.vmw-iv-dashboard-jumpbar h4 {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 0 0 auto;
+  line-height: 1.1;
+}
+
+/* ---- toggle switches ---- */
+.vmw-iv-toggle-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex: 0 1 auto;
+  min-width: fit-content;
+  cursor: pointer;
+  user-select: none;
+}
+
+.vmw-iv-toggle-switch input { display: none; }
+
+.vmw-iv-toggle-switch h4 {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1;
+  color: #111827;
+}
+
+.vmw-iv-toggle-switch .vmw-iv-slider {
+  width: 40px; height: 20px;
+  background: #e2e8f0;
+  border-radius: 10px;
+  position: relative;
+  transition: background 0.2s;
+  margin-right: 0.5rem;
+}
+
+.vmw-iv-toggle-switch .vmw-iv-slider::before {
+  content: '';
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 16px; height: 16px;
+  background: #f8fafc;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.vmw-iv-toggle-switch input:checked + .vmw-iv-slider { background: #56a668; }
+.vmw-iv-toggle-switch input:checked + .vmw-iv-slider::before { transform: translateX(20px); }
+
+/* ---- table ---- */
+.vmw-iv-table-container { overflow-x: auto; margin-top: 1rem; }
+.vmw-iv-table { width: 100%; border-collapse: collapse; }
+.vmw-iv-table th,
+.vmw-iv-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 0.9rem; }
+.vmw-iv-table th { background-color: #f1f5f9; color: #475569; font-weight: 600; }
+.vmw-iv-table tr:hover { background-color: #f8fafc; }
+
+/* ---- responsive ---- */
+@media (max-width: 1024px) {
+  .vmw-iv-dashboard-configbar { gap: 0.75rem 1rem; }
+  .vmw-iv-dashboard-jumpbar   { gap: 0.75rem; }
+  .vmw-iv-toggle-switch h4,
+  .vmw-iv-dashboard-btn-secondary { font-size: 0.9rem; }
+}
+
+@media (max-width: 768px) {
+  .vmw-iv-dashboard-container { padding: 1rem; border-radius: 0.5rem; }
+  .vmw-iv-dashboard-grid { --gap-h: 1rem; gap: 1rem; }
+  .vmw-iv-dashboard-grid > .vmw-iv-dashboard-card {
+    flex: 1 1 calc(50% - 0.5rem);
+    max-width: calc(50% - 0.5rem);
+  }
+  .vmw-iv-dashboard-card { min-width: 0; min-height: 100px; }
+  .vmw-iv-dashboard-card.clu-nodes,
+  .vmw-iv-dashboard-card.lic,
+  .vmw-iv-dashboard-card.pgroup,
+  .vmw-iv-dashboard-card.esxnode { min-width: 0; }
+  .vmw-iv-dashboard-title { font-size: 1.4rem; }
+  .vmw-iv-dashboard-subtitle { font-size: 1.1rem; }
+  .vmw-iv-dashboard-configbar,
+  .vmw-iv-dashboard-jumpbar { gap: 0.75rem; }
+  .vmw-iv-toggle-switch     { gap: 0.5rem; }
+  .vmw-iv-toggle-switch h4,
+  .vmw-iv-dashboard-btn-secondary { font-size: 0.85rem; }
+}
+
+@media (max-width: 480px) {
+  .vmw-iv-dashboard-grid > .vmw-iv-dashboard-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+  .vmw-iv-dashboard-card p { font-size: 1.4rem; }
+  .vmw-iv-dashboard-tabbar { flex-wrap: wrap; }
+}
+
+/* ---- dark theme ---- */
+.homepage-main.theme-dark .vmw-iv-dashboard-container {
+  background: #161719;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+.homepage-main.theme-dark .vmw-iv-dashboard-title,
+.homepage-main.theme-dark .vmw-iv-dashboard-subtitle { color: #e2e8f0; }
+.homepage-main.theme-dark .vmw-iv-dashboard-card {
+  background: #1c1e24;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.homepage-main.theme-dark .vmw-iv-dashboard-card h3 { color: #e2e8f0; }
+.homepage-main.theme-dark .vmw-iv-dashboard-card p  { color: #cbd5e1; }
+.homepage-main.theme-dark .vmw-iv-dashboard-subsection { border-color: rgba(255, 255, 255, 0.08); }
+.homepage-main.theme-dark .vmw-iv-dashboard-select {
+  background-color: #1c1e24;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23cbd5e1'/%3E%3C/svg%3E");
+}
+.homepage-main.theme-dark .vmw-iv-dashboard-filter-input {
+  background: #1c1e24;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+}
+.homepage-main.theme-dark .vmw-iv-dashboard-filter-input::placeholder { color: #4b5563; }
+.homepage-main.theme-dark .vmw-iv-table th {
+  background: #1c1e24;
+  color: #8b9ab7;
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+.homepage-main.theme-dark .vmw-iv-table td {
+  color: #cbd5e1;
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+.homepage-main.theme-dark .vmw-iv-table tr:hover { background: rgba(86, 166, 104, 0.06); }
+.homepage-main.theme-dark .vmw-iv-toggle-switch h4 { color: #e2e8f0; }
+.homepage-main.theme-dark .vmw-iv-toggle-switch .vmw-iv-slider { background: rgba(255, 255, 255, 0.15); }
+.homepage-main.theme-dark .vmw-iv-toggle-switch input:checked + .vmw-iv-slider { background: #56a668; }
+.homepage-main.theme-dark .vmw-iv-dashboard-btn-secondary { background: #1c1e24; color: #e2e8f0; }
+.homepage-main.theme-dark .vmw-iv-dashboard-btn-secondary:hover { background: #252830; }
+.homepage-main.theme-dark .vmw-iv-tabnav-sep { background: rgba(255, 255, 255, 0.12); }
+.homepage-main.theme-dark .vmw-iv-tabnav-btn { color: #8b9ab7; }
+.homepage-main.theme-dark .vmw-iv-tabnav-btn.active { color: #fff; }
+.homepage-main.theme-dark .vmw-iv-tabnav-btn:hover {
+  background: rgba(86, 166, 104, 0.1);
+  color: #56a668;
+}

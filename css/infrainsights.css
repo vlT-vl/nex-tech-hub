@@ -1,0 +1,567 @@
+/* -------------------- infra hub — page shell -------------------- */
+.iv-container {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  margin-top: -2rem;
+  position: relative;
+}
+
+.iv-page-title {
+  font-size: 1.8rem;
+  font-weight: normal;
+  font-family: 'Nasalization', 'Century Gothic', 'Segoe UI', sans-serif;
+  text-align: right;
+  text-transform: lowercase;
+  color: #323232;
+}
+
+/* ---- tech switcher ---- */
+.insights-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  animation: ivSlideFadeIn 0.24s ease-out both;
+}
+
+.insights-tech-switcher {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.insights-tech-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.52rem 1.1rem;
+  border-radius: 999px;
+  border: 2px solid rgba(0, 0, 0, 0.14);
+  background: transparent;
+  color: #4b5563;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s, box-shadow 0.15s;
+  white-space: nowrap;
+}
+
+.insights-tech-tab:hover {
+  border-color: rgba(0, 0, 0, 0.28);
+  background: rgba(0, 0, 0, 0.04);
+  color: #1f2937;
+}
+
+.insights-tech-tab.active {
+  border-color: var(--tab-color, #5b5bd6);
+  background: rgba(0, 0, 0, 0.04);
+  color: #1f2937;
+  box-shadow: 0 0 0 1px var(--tab-color, #5b5bd6);
+}
+
+.insights-tab-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* ---- vmware section divider ---- */
+.insights-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #9ca3af;
+  font-size: 0.82rem;
+  margin: 0.4rem 0;
+}
+
+.insights-divider::before,
+.insights-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e5e7eb;
+}
+
+.insights-vmw-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* ---- upload form ---- */
+.iv-upload-form {
+  width: 100%;
+  max-width: 600px;
+  padding: 1.5rem;
+  background-color: #f8fafc;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin: 0 auto;
+  animation: ivSlideFadeIn 0.28s ease-out both;
+}
+
+.iv-upload-form--flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.iv-upload-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 3rem;
+  text-align: center;
+  animation: ivSlideFadeIn 0.28s ease-out 0.04s both;
+}
+
+.iv-upload-subtitle {
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+  color: #374151;
+}
+
+.iv-dropzone {
+  border: 2px dashed #94a3b8;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  background-color: #ffffff;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
+  animation: ivSlideFadeIn 0.28s ease-out 0.08s both;
+}
+
+.iv-dropzone-active {
+  background-color: #e2e8f0;
+  border-color: #f97316 !important;
+}
+
+/* ---- download cards ---- */
+/* Contenitore statico, di proposito: nessuna animazione hover/click qui.
+   Tutte le animazioni (hover, click, download-in-corso) vivono sulle singole
+   mini-card per OS/versione (.iv-download-os-btn) più sotto. */
+.iv-download-card {
+  margin-top: 1.2rem;
+  padding: 1.2rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #f8fafc;
+  animation: ivSlideFadeIn 0.28s ease-out 0.12s both;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.iv-download-card:not(.iv-pmxui-card):hover {
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+  border-color: rgba(249, 115, 22, 0.32);
+}
+
+.iv-download-card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.4rem 0;
+}
+
+.iv-download-card-text,
+.iv-download-card-version { margin: 0 0 0.8rem 0; }
+
+.iv-download-card-actions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.iv-pmxui-actions {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.iv-download-card-actions .iv-download-os-btn {
+  animation: ivSlideFadeIn 0.24s ease-out both;
+}
+.iv-download-card-actions .iv-download-os-btn:nth-child(1) { animation-delay: 0.18s; }
+.iv-download-card-actions .iv-download-os-btn:nth-child(2) { animation-delay: 0.20s; }
+.iv-download-card-actions .iv-download-os-btn:nth-child(3) { animation-delay: 0.22s; }
+.iv-download-card-actions .iv-download-os-btn:nth-child(4) { animation-delay: 0.24s; }
+.iv-download-card-actions .iv-download-os-btn:nth-child(5) { animation-delay: 0.26s; }
+
+.iv-download-os-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 108px;
+  padding: 0.9rem 0.7rem;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.iv-download-os-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.1);
+  border-color: #f97316;
+  background: rgba(249, 115, 22, 0.06);
+}
+
+.iv-download-os-btn:active {
+  transform: translateY(-1px) scale(0.95);
+  box-shadow: 0 3px 8px rgba(15, 23, 42, 0.1);
+  transition-duration: 0.08s;
+}
+
+.iv-download-icon { font-size: 2.3rem; }
+
+/* ---- download-in-progress: sostituisce il contenuto della singola mini-card OS ----
+   Accent Proxmox (arancio #f97316), coerente col resto della sezione (card,
+   hover, switcher tech in alto) — non la palette brand viola/verde. */
+.iv-download-os-btn--downloading {
+  border-color: #f97316 !important;
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.16), rgba(249, 115, 22, 0.06)) !important;
+}
+
+.iv-download-btn-progress-icon {
+  font-size: 2.3rem;
+  color: #f97316;
+  animation: ivBtnProgressPulse 0.9s ease-in-out infinite;
+}
+
+@keyframes ivBtnProgressPulse {
+  0%, 100% { transform: translateY(-3px); opacity: 0.6; }
+  50%      { transform: translateY(3px); opacity: 1; }
+}
+
+.iv-download-os-btn span {
+  font-size: 0.85rem;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.iv-download-card-error { margin-top: 0.8rem; color: #b91c1c; font-size: 0.9rem; }
+
+/* ---- rvtools download card (inside upload-form, fills remaining space) ---- */
+.iv-rvtools-download-card {
+  flex: 1;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-color: rgba(86, 166, 104, 0.25);
+  min-height: 110px;
+}
+.iv-rvtools-download-card:hover {
+  border-color: rgba(86, 166, 104, 0.5);
+  box-shadow: 0 8px 22px rgba(86, 166, 104, 0.1);
+}
+.iv-rvtools-download-card .iv-download-card-title {
+  justify-content: center;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+.iv-rvtools-download-card .iv-download-card-version {
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+.iv-rvtools-download-actions {
+  grid-template-columns: minmax(180px, 260px) !important;
+  justify-content: center;
+}
+.iv-rvtools-download-actions .iv-download-os-btn {
+  min-height: 64px;
+  padding: 0.9rem 1.8rem;
+  border-color: rgba(86, 166, 104, 0.3);
+}
+.iv-rvtools-download-actions .iv-download-os-btn:hover {
+  border-color: #56a668;
+  background: rgba(86, 166, 104, 0.07);
+  box-shadow: 0 4px 14px rgba(86, 166, 104, 0.18);
+}
+
+/* ---- rvtools result card (icon left, details right) ---- */
+.iv-rvtools-result-card {
+  flex: 1;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: left;
+  padding: 1.4rem 1.6rem;
+  border-color: rgba(86, 166, 104, 0.3);
+}
+.iv-rvtools-result-icon {
+  flex-shrink: 0;
+  font-size: 3.2rem;
+  color: #56a668;
+  display: flex;
+  align-items: center;
+}
+.iv-rvtools-result-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.iv-rvtools-result-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #56a668;
+  margin: 0;
+}
+.iv-rvtools-result-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.6rem 0;
+  word-break: break-all;
+}
+.iv-rvtools-result-actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.iv-rvtools-result-actions .iv-download-os-btn {
+  min-height: 48px;
+  padding: 0.6rem 1rem;
+  flex-direction: row;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+}
+
+/* ---- pmxtools notices ---- */
+.iv-pmxcli-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  background: rgba(217, 119, 6, 0.07);
+  border: 1px solid rgba(217, 119, 6, 0.22);
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  margin: 0.5rem 0 1rem;
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: #374151;
+  animation: ivSlideFadeIn 0.28s ease-out 0.16s both;
+}
+
+.iv-pmxcli-notice__pill {
+  display: inline-block;
+  flex-shrink: 0;
+  background: rgba(217, 119, 6, 0.14);
+  border: 1px solid rgba(217, 119, 6, 0.3);
+  color: #d97706;
+  border-radius: 20px;
+  padding: 0.1rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-top: 0.1rem;
+}
+
+.iv-pmxui-card {
+  margin-top: 1rem;
+  border-color: rgba(249, 115, 22, 0.25) !important;
+  background: rgba(249, 115, 22, 0.04) !important;
+  animation: ivSlideFadeIn 0.28s ease-out 0.18s both;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.iv-pmxui-card:hover {
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+  border-color: rgba(249, 115, 22, 0.32) !important;
+}
+
+.iv-pmxui-icon-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.iv-pmxui-logo {
+  width: 64px; height: 64px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.iv-pmxui-title {
+  justify-content: center;
+  text-align: center;
+}
+
+.iv-pmxui-version {
+  text-align: center;
+}
+
+.iv-pmxui-desc {
+  font-size: 0.86rem;
+  line-height: 1.55;
+  text-align: center;
+  color: #6b7280;
+  margin: 0.4rem 0 1rem;
+}
+.iv-pmxui-desc strong { color: #374151; font-weight: 700; }
+
+.homepage-main.theme-dark .iv-pmxui-desc { color: #8b9ab7; }
+.homepage-main.theme-dark .iv-pmxui-desc strong { color: #e2e8f0; }
+
+/* ---- error modal ---- */
+.error-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-modal-box {
+  max-width: 600px;
+  width: 90%;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, #7f1d1d, #450a0a);
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.error-icon { font-size: 2.5rem; margin-bottom: 0.75rem; color: #f87171; }
+.error-modal-box h2 { font-size: 1.5rem; margin-bottom: 0.5rem; color: #fff; font-weight: 650; }
+.error-modal-box p  { font-size: 1rem; margin-bottom: 0.5rem; font-weight: 600; text-align: left; }
+
+.error-modal-box button {
+  padding: 0.4rem 1.2rem;
+  font-size: 0.9rem;
+  background: #ef4444;
+  color: #111827;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.error-modal-box button:hover { background: #dc2626; }
+
+/* ---- animations ---- */
+@keyframes ivSlideFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- no-tech message ---- */
+.insights-no-tech {
+  color: var(--text-muted, #6b7280);
+  font-size: 0.92rem;
+  padding: 0.5rem 0 1rem;
+}
+
+/* ---- responsive ---- */
+@media (max-width: 768px) {
+  .iv-container { padding: 1rem; margin-top: -1rem; }
+  .iv-download-card-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 480px) {
+  .iv-upload-form { padding: 1rem; }
+  .iv-upload-title { font-size: 1.5rem; }
+  .insights-tech-tab { font-size: 0.8rem; padding: 0.44rem 0.85rem; }
+}
+
+/* ---- dark theme ---- */
+.homepage-main.theme-dark .iv-page-title { color: #e2e8f0; }
+
+.homepage-main.theme-dark .insights-tech-tab {
+  border-color: rgba(255, 255, 255, 0.14);
+  color: #8b9ab7;
+}
+.homepage-main.theme-dark .insights-tech-tab:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.04);
+  color: #e2e8f0;
+}
+.homepage-main.theme-dark .insights-tech-tab.active {
+  background: rgba(255, 255, 255, 0.04);
+  color: #e2e8f0;
+}
+
+.homepage-main.theme-dark .insights-divider { color: #4b5563; }
+.homepage-main.theme-dark .insights-divider::before,
+.homepage-main.theme-dark .insights-divider::after { background: rgba(255, 255, 255, 0.1); }
+
+.homepage-main.theme-dark .iv-upload-form {
+  background: #161719;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+.homepage-main.theme-dark .iv-upload-subtitle { color: #8b9ab7; }
+
+.homepage-main.theme-dark .iv-dropzone {
+  background: #1c1e24;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.homepage-main.theme-dark .iv-dropzone p { color: #8b9ab7; }
+.homepage-main.theme-dark .iv-dropzone-active { background: rgba(249, 115, 22, 0.08); }
+
+.homepage-main.theme-dark .iv-download-card {
+  background: #161719;
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.homepage-main.theme-dark .iv-download-os-btn {
+  background: #1c1e24;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+}
+.homepage-main.theme-dark .iv-download-os-btn:hover {
+  border-color: rgba(249, 115, 22, 0.55);
+  background: rgba(249, 115, 22, 0.1);
+  box-shadow: 0 8px 20px rgba(249, 115, 22, 0.14);
+}
+.homepage-main.theme-dark .iv-rvtools-download-card {
+  border-color: rgba(86, 166, 104, 0.18);
+}
+.homepage-main.theme-dark .iv-rvtools-download-card:hover {
+  border-color: rgba(86, 166, 104, 0.38);
+  box-shadow: 0 8px 22px rgba(86, 166, 104, 0.12);
+}
+.homepage-main.theme-dark .iv-rvtools-download-actions .iv-download-os-btn {
+  border-color: rgba(86, 166, 104, 0.25);
+}
+.homepage-main.theme-dark .iv-rvtools-download-actions .iv-download-os-btn:hover {
+  border-color: #56a668;
+  background: rgba(86, 166, 104, 0.1);
+  box-shadow: 0 4px 14px rgba(86, 166, 104, 0.2);
+}
+.homepage-main.theme-dark .iv-rvtools-result-card {
+  border-color: rgba(86, 166, 104, 0.22);
+}
+.homepage-main.theme-dark .iv-rvtools-result-name { color: #e2e8f0; }
+.homepage-main.theme-dark .iv-rvtools-result-actions .iv-download-os-btn {
+  border-color: rgba(86, 166, 104, 0.25);
+}
+.homepage-main.theme-dark .iv-rvtools-result-actions .iv-download-os-btn:hover {
+  border-color: #56a668;
+  background: rgba(86, 166, 104, 0.1);
+}
+.homepage-main.theme-dark .iv-pmxcli-notice { color: #8b9ab7; }
+.homepage-main.theme-dark .iv-pmxui-card {
+  border-color: rgba(249, 115, 22, 0.2) !important;
+  background: rgba(249, 115, 22, 0.04) !important;
+}
+.homepage-main.theme-dark .iv-pmxui-card:hover {
+  border-color: rgba(249, 115, 22, 0.32) !important;
+  box-shadow: 0 8px 22px rgba(249, 115, 22, 0.1);
+}

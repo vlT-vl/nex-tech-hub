@@ -1,0 +1,67 @@
+/* ==========================================
+   GLOBAL ANIMATIONS — nex-tech-hub
+   ========================================== */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-18px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes cardEnter {
+  from { opacity: 0; transform: translateY(24px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes floatOrb {
+  from { transform: translate(0, 0)     scale(1);   }
+  to   { transform: translate(40px, 30px) scale(1.1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-9px); }
+  40%       { transform: translateX(9px); }
+  60%       { transform: translateX(-5px); }
+  80%       { transform: translateX(5px); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+
+/* ---- sidebar / about logo — slide fade from top ---- */
+@keyframes slideInDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---- sidebar logo — entry ---- */
+@keyframes logoEntry {
+  0%   { opacity: 0; transform: scale(0.82) translateY(-8px); }
+  100% { opacity: 1; transform: none; }
+}
+
+/* ---- NexLogo text — slow brand glow, always running ---- */
+@keyframes nthTextGlow {
+  0%, 100% { text-shadow: 0 0 0px transparent; }
+  50%       { text-shadow: 0 0 12px rgba(109, 109, 208, 0.55), 0 0 24px rgba(0, 179, 107, 0.18); }
+}
+
+/* ---- view transitions ---- */
+.view-panel--hidden { display: none; }
+.view-panel--active { animation: fadeInUp 0.38s cubic-bezier(0.16, 1, 0.3, 1) both; }

@@ -1,0 +1,53 @@
+/* ---- font ---- */
+@font-face {
+  font-family: 'Nasalization';
+  src: url('/res/nasalization.ttf') format('truetype');
+}
+
+/* ---- custom properties ---- */
+:root {
+  --bg-primary:    #090d19;
+  --bg-secondary:  #0d1525;
+  --bg-card:       rgba(255, 255, 255, 0.04);
+  --accent:        #5b5bd6;
+  --accent-green:  #00b36b;
+  --accent-dim:    rgba(91, 91, 214, 0.15);
+  --text-primary:  #e2e8f0;
+  --text-muted:    #8b9ab7;
+  --border:        rgba(255, 255, 255, 0.08);
+  --sidebar-w:     230px;
+  --radius:        12px;
+  --shadow:        0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* ---- reset ---- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
+  min-height: 100vh;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- scrollbar ---- */
+::-webkit-scrollbar            { width: 5px; height: 5px; }
+::-webkit-scrollbar-track      { background: transparent; }
+::-webkit-scrollbar-thumb      { background: rgba(91, 91, 214, 0.25); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover{ background: rgba(91, 91, 214, 0.45); }
+

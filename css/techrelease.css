@@ -1,0 +1,189 @@
+/* -------------------- tech release page -------------------- */
+@keyframes techReleaseEnter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.tech-release-page {
+  padding: 2rem;
+  color: #1f2937;
+  min-height: 100vh;
+  box-sizing: border-box;
+  animation: fadeIn 0.18s ease-out both;
+}
+
+.tech-release-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  animation: techReleaseEnter 0.24s ease-out both;
+}
+
+.tech-release-title {
+  font-size: 1.8rem;
+  font-weight: normal;
+  font-family: 'Nasalization', 'Century Gothic', 'Segoe UI', sans-serif;
+  text-align: right;
+  text-transform: lowercase;
+  color: #323232;
+}
+
+/* ---- technology pills bar ---- */
+.tech-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  animation: techReleaseEnter 0.24s ease-out 0.02s both;
+}
+
+.tech-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.42rem 0.9rem;
+  border-radius: 999px;
+  border: 1.5px solid rgba(0, 0, 0, 0.15);
+  background: transparent;
+  color: #4b5563;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s, box-shadow 0.15s;
+  white-space: nowrap;
+}
+
+.tech-pill:hover {
+  border-color: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.04);
+  color: #1f2937;
+}
+
+.tech-pill.active {
+  border-color: var(--pill-color, #5b5bd6);
+  background: var(--pill-color-dim, rgba(91, 91, 214, 0.1));
+  color: #1f2937;
+  box-shadow: 0 0 0 1px var(--pill-color, #5b5bd6);
+}
+
+.tech-pill-icon {
+  font-size: 0.88rem;
+  flex-shrink: 0;
+}
+
+/* ---- selectors row ---- */
+.tech-release-selectors {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  animation: techReleaseEnter 0.24s ease-out 0.04s both;
+}
+
+.tech-release-selectors select {
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  border: 2px solid var(--pill-color, #5b5bd6);
+  background-color: transparent;
+  color: var(--pill-color, #5b5bd6);
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.tech-release-selectors select:hover {
+  background-color: var(--pill-color, #5b5bd6);
+  color: #ffffff;
+}
+
+.tech-release-selectors input {
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  border: 2px solid var(--pill-color, #5b5bd6);
+  color: var(--pill-color, #5b5bd6);
+  background-color: transparent;
+  font-weight: bold;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.tech-release-table-transition {
+  animation: techReleaseEnter 0.22s ease-out both;
+}
+
+.tech-release-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  color: #1f2937;
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.tech-release-table th,
+.tech-release-table td {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tech-release-table thead {
+  background-color: #d6d6d6;
+  font-weight: 600;
+}
+
+.tech-release-table tbody tr {
+  transition: background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.tech-release-table tbody tr:hover {
+  background: rgba(91, 91, 214, 0.06);
+  box-shadow: inset 3px 0 0 #5b5bd6;
+}
+
+.tech-release-empty {
+  text-align: center;
+  padding: 2rem !important;
+  color: #9ca3af;
+}
+
+/* ---- table scroll wrapper (always) ---- */
+.tech-release-table-transition {
+  overflow-x: auto;
+  border-radius: 12px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---- responsive ---- */
+@media (max-width: 900px) {
+  .tech-release-page { padding: 1.5rem; }
+  .tech-release-selectors { gap: 0.6rem; }
+}
+
+@media (max-width: 600px) {
+  .tech-release-page { padding: 1rem 0.75rem; }
+  .tech-release-header { margin-bottom: 1rem; }
+  .tech-release-title { font-size: 1.4rem; }
+  .tech-release-selectors { margin-bottom: 1.25rem; gap: 0.4rem; }
+  .tech-release-selectors select,
+  .tech-release-selectors input {
+    padding: 0.48rem 0.75rem;
+    font-size: 0.88rem;
+  }
+  .tech-release-table { font-size: 0.85rem; min-width: 520px; }
+  .tech-release-table th,
+  .tech-release-table td { padding: 0.6rem 0.65rem; }
+}
+
+@media (max-width: 400px) {
+  .tech-release-page { padding: 0.75rem 0.5rem; }
+  .tech-release-title { font-size: 1.25rem; }
+  .tech-release-table { font-size: 0.78rem; }
+  .tech-release-table th,
+  .tech-release-table td { padding: 0.48rem 0.45rem; }
+  .tech-pill { font-size: 0.75rem; padding: 0.35rem 0.65rem; }
+}
