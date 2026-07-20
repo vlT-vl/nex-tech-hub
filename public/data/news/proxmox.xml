@@ -4,21 +4,333 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Mon, 20 Jul 2026 14:01:46 +0000</pubDate>
-    <lastBuildDate>Mon, 20 Jul 2026 14:01:46 +0000</lastBuildDate>
+    <pubDate>Mon, 20 Jul 2026 19:29:46 +0000</pubDate>
+    <lastBuildDate>Mon, 20 Jul 2026 19:29:46 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
+      <title>Frage zum Freitag: Desktop Environment on top of PVE</title>
+      <pubDate>Mon, 20 Jul 2026 19:16:25 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/frage-zum-freitag-desktop-environment-on-top-of-pve.184796/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:184796</guid>
+      <author>invalid@example.com (Bob.Dig)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>Bob.Dig</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Habe das dazu gefunden: <a href="https://pve.proxmox.com/wiki/Developer_Workstations_with_Proxmox_VE_and_X11" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://pve.proxmox.com/wiki/Developer_Workstations_with_Proxmox_VE_and_X11</a><br />
+<br />
+Ist dem etwas hinzufügen? Hintergrund ist, ich möchte meinen Homeserver von Windows mit Hyper-V auf Proxmox umstellen, aber gewisse Dinge möchte ich weiterhin per Maus schubsen, insbesondere was Dateien betrifft, denn auch der main Storage wird lokal auf dem PVE-Host sein (ZFS), ergänzt durch zfsnas. Eine eigene Storage-VM erscheint mir für meine Zwecke überflüssig und würde mir das...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/frage-zum-freitag-desktop-environment-on-top-of-pve.184796/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>54</slash:comments>
+    </item>
+    <item>
+      <title>[feature request]: expand the storage/upload API to support `snippets`</title>
+      <pubDate>Mon, 20 Jul 2026 19:04:26 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/feature-request-expand-the-storage-upload-api-to-support-snippets.185204/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185204</guid>
+      <author>invalid@example.com (coming.link)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>coming.link</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">This is a feature/improvement request.<br />
+I am working on a tool that sets up a few templates onto a cluster, each template is meant for automated testing and relies on cloud-init to do all of the early bootstrapping.<br />
+<br />
+Right now, I can issue a `GET` request to the API to see any snippets/images ... etc that I have stored:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>GET /api2/json/nodes/{node}/storage/{storage}/content/</code></pre>
+	</div>
+</div><br />
+And I get back an array of objects like so:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>[
+  &lt;...&gt;
+  {&#039;volid&#039;...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/feature-request-expand-the-storage-upload-api-to-support-snippets.185204/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
       <title>W: Couldn't identify type of root file system '/dev/pve/rootu/dev/pve/root' for fsck hook</title>
-      <pubDate>Mon, 20 Jul 2026 13:55:57 +0000</pubDate>
+      <pubDate>Mon, 20 Jul 2026 18:23:45 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/w-couldnt-identify-type-of-root-file-system-dev-pve-rootu-dev-pve-root-for-fsck-hook.185177/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185177</guid>
       <author>invalid@example.com (jacobrale)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
       <dc:creator>jacobrale</dc:creator>
       <content:encoded><![CDATA[<div class="bbWrapper">I get text in the subject as a warning in /var/log/term.log when I run my PVE updates. I gather it&#039;s not a problem, because everything works fine.  Also, there is no &#039;/dev/pve/rootu/dev/pve/root&#039;.  Thoughts? I don&#039;t want to ignore a warning that might actually be tried to tell me something significant!</div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
+    <item>
+      <title>Better way to idmap and control devices permissions in LCX</title>
+      <pubDate>Mon, 20 Jul 2026 18:04:39 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/better-way-to-idmap-and-control-devices-permissions-in-lcx.185182/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185182</guid>
+      <author>invalid@example.com (Tecnolobo)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Tecnolobo</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone.<br />
+<br />
+I&#039;ve been using Proxmox for about 30 days, and I came up with a different way to make `idmap` work more transparently.<br />
+<br />
+Most of the posts I found explain how to customize `idmap` so that the host users and groups match those inside the container, allowing the container to access host devices.<br />
+<br />
+This usually results in a configuration like this:<br />
+<br />
+
+
+
+
+<blockquote data-attributes="" data-quote="" data-source=""
+	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
+	
+	<div class="bbCodeBlock-content">
+		
+		<div class="bbCodeBlock-expandContent js-expandContent ">
+			lxc.idmap: u 0 100000 65536<br />
+lxc.idmap: g 0 100000 44<br />
+lxc.idmap: g 44 44 1<br />
+lxc.idmap: g 45 100045 62<br />
+lxc.idmap: g 107 104 1...
+		</div>
+		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
+	</div>
+</blockquote><br />
+<a href="https://forum.proxmox.com/threads/better-way-to-idmap-and-control-devices-permissions-in-lcx.185182/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>PBS hinter Apache2 Reverse Proxy</title>
+      <pubDate>Mon, 20 Jul 2026 17:24:27 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pbs-hinter-apache2-reverse-proxy.184665/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:184665</guid>
+      <author>invalid@example.com (philippms)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
+      <dc:creator>philippms</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+für eine ganz spezielle Netzconfig müsste ich einen Apache2 als Reverse Proxy für einzelne Backup Hosts einrichten.<br />
+<br />
+Leider verzweifele ich an der Config und habe bisher nur Beispiele für nginx und co gefunden. Egal ob ich ProxyPass auf https://, auf h2:// setzen, egal welche Header ich setze, entweder fehlt der Upgrade Header oder der proxmox-backup-proxy beschwert sich über fehlende Header.<br />
+<br />
+Mit log_forensic sehe ich nun, dass sich der client wirklich strange meldet mit...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pbs-hinter-apache2-reverse-proxy.184665/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>11</slash:comments>
+    </item>
+    <item>
+      <title>Anfrage zur Migration des Proxmox Corosync/Heartbeat-Netzwerks ohne Betriebsunterbrechung</title>
+      <pubDate>Mon, 20 Jul 2026 16:52:56 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/anfrage-zur-migration-des-proxmox-corosync-heartbeat-netzwerks-ohne-betriebsunterbrechung.185200/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185200</guid>
+      <author>invalid@example.com (der_Marcus)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>der_Marcus</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Sehr geehrtes Proxmox Support-Team,<br />
+<br />
+wir betreiben aktuell einen Proxmox VE 8 Cluster mit zwei Nodes und einer gemeinsamen SAN-Infrastruktur.<br />
+<br />
+Die aktuelle Umgebung:<br />
+<ul>
+<li data-xf-list-type="ul">Proxmox VE Version: 8.x</li>
+<li data-xf-list-type="ul">Cluster: 2 Nodes</li>
+<li data-xf-list-type="ul">Storage: gemeinsames SAN</li>
+<li data-xf-list-type="ul">Corosync/Heartbeat läuft aktuell über ein separates Netzwerkinterface</li>
+<li data-xf-list-type="ul">Keine zusätzlichen Netzwerkkarten verfügbar</li>
+<li data-xf-list-type="ul">Umgebung ist produktiv im Einsatz (kritische Infrastruktur Feuerwehr)</li>
+</ul>Wir müssen das bestehende Cluster-/Heartbeat-Netzwerk...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/anfrage-zur-migration-des-proxmox-corosync-heartbeat-netzwerks-ohne-betriebsunterbrechung.185200/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>OH SH!T!</title>
+      <pubDate>Mon, 20 Jul 2026 16:40:21 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/oh-sh-t.185201/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185201</guid>
+      <author>invalid@example.com (ITCowboy)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>ITCowboy</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I recently upgraded from 8.x PVE to 9.x PVE and during the upgrade it failed (cant remember the error message) and it will not find internet on reboot. no apps will load and no services will install.<br />
+<br />
+I can get the network to boot manually using the manual method of brtcl and assigning ip address but EVERYTIME the server has to update or power outage I have to perform the same steps to just get it online!! HELP!!!</div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>NVIDIA 580.x + Kernel 7.0 incompatibility on Trixie</title>
+      <pubDate>Mon, 20 Jul 2026 16:02:22 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/nvidia-580-x-kernel-7-0-incompatibility-on-trixie.183421/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:183421</guid>
+      <author>invalid@example.com (crazywolf13)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>crazywolf13</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Has anyone got any idea for my seeminly hopeless situation with nvidia drivers on the proxmox host?<br />
+<br />
+<b>Hardware:</b> GTX 1060 (Pascal) + GTX 180 Ti (Kepler)<br />
+<b>PVE version:</b> 9.1.2<br />
+<br />
+<br />
+<b>The problem:</b> Nvidia Driver 580.x is the last series supporting Pascal/Kepler hardware.<br />
+It builds fine on kernel 6.17 but since proxmox updated to kernel 7.0 it fails due to VMA locking API changes (VMA_LOCK_OFFSET removed, __is_vma_write_locked signature changed in mmap_lock.h).<br />
+<br />
+<br />
+<b>The repositorys</b>...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/nvidia-580-x-kernel-7-0-incompatibility-on-trixie.183421/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>13</slash:comments>
+    </item>
+    <item>
+      <title>High Latency on a new HDD-disks (ceph)</title>
+      <pubDate>Mon, 20 Jul 2026 15:58:43 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/high-latency-on-a-new-hdd-disks-ceph.185190/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185190</guid>
+      <author>invalid@example.com (DEZERTIR)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>DEZERTIR</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello<br />
+<br />
+We installed nine new HDD drives in a CEPH cluster, a Proxmox VE cluster.<br />
+<br />
+For a week now, we&#039;ve been observing that only these drives have high latency (20-80).<br />
+<br />
+There&#039;s no PG imbalance; everything is fine with the old HDD drives.<br />
+<br />
+<a href="https://forum.proxmox.com/attachments/99016/" target="_blank">View attachment 99016</a><br />
+<br />
+<a href="https://forum.proxmox.com/attachments/1784536862914-png.99017/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98713-1fc24056c3bfd363d87254b04c6dce39.jpg?hash=HqFV5nwCJ9"
+		srcset="https://forum.proxmox.com/data/attachments/98/2x/98713-1fc24056c3bfd363d87254b04c6dce39.jpg?hash=HqFV5nwCJ9 2x"
+		class="bbImage "
+		style=""
+		alt="1784536862914.png"
+		title="1784536862914.png"
+		width="171" height="150" loading="lazy" /></a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox 8.4.19 to 9.2.4 failure</title>
+      <pubDate>Mon, 20 Jul 2026 15:56:39 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-8-4-19-to-9-2-4-failure.185134/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185134</guid>
+      <author>invalid@example.com (mark69)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>mark69</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><b>Scenario:</b><br />
+<ul>
+<li data-xf-list-type="ul">Upgrade from Proxmox 8.4.19 to Proxmox 9.2.</li>
+<li data-xf-list-type="ul">Remote standalone Proxmox server hosted at IONOS, no physical access only a VNC Console</li>
+<li data-xf-list-type="ul">pve8to9 -full checklist was clear, all green ticks (after the VMs were shut down)</li>
+<li data-xf-list-type="ul">Worked through the prerequisites list, known issues list and googled for any horror stories.</li>
+<li data-xf-list-type="ul">Ironically GRUB was mentioned as a horror story but since I don&#039;t use ZFS or LVM I didn&#039;t think it would be an issue.</li>
+<li data-xf-list-type="ul">Upgrade went smoothly, no errors...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/proxmox-8-4-19-to-9-2-4-failure.185134/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Can't see USB ethernet on "reboot" BUT PowerOFF/ON laptop can see USB in Proxmox</title>
+      <pubDate>Mon, 20 Jul 2026 15:54:17 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/cant-see-usb-ethernet-on-reboot-but-poweroff-on-laptop-can-see-usb-in-proxmox.185174/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185174</guid>
+      <author>invalid@example.com (Robin_T)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>Robin_T</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello<br />
+Proxmox VE v9 is installed on ASUS Laptop. To have 1Gb network, I had to buy USB gigabit ethernet.<br />
+After many hours of configuring boot sequence and using GRUB AMD64(grubx64.efi), I finally got this USB working, except when I use a simple reboot sequence...<br />
+<br />
+Booting from power off-&gt;on everything works from BIOS to Proxmox and USB gigabit is up and running.<br />
+If I click &quot;reboot&quot; on Proxmox GUI or reboot from terminal window, Proxmox will reboot but the USB will not show on &quot;ip a&quot;...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/cant-see-usb-ethernet-on-reboot-but-poweroff-on-laptop-can-see-usb-in-proxmox.185174/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
+    </item>
+    <item>
+      <title>Datacenter Manager API Dev Guide</title>
+      <pubDate>Mon, 20 Jul 2026 14:53:49 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/datacenter-manager-api-dev-guide.185106/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185106</guid>
+      <author>invalid@example.com (rvencu)</author>
+      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
+      <dc:creator>rvencu</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi, I need some insight on how to integrate with the datacenter manager via API. I could not find the API documentation around andnot sure how to kickstart our integration.</div>]]></content:encoded>
       <slash:comments>5</slash:comments>
+    </item>
+    <item>
+      <title>How to configure DSCP ?</title>
+      <pubDate>Mon, 20 Jul 2026 14:46:38 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-to-configure-dscp.183986/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:183986</guid>
+      <author>invalid@example.com (hloudes)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>hloudes</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
+<br />
+Following the latest release of Corosync, the totem.ip_dscp option was introduced. I would like to explore this feature and have implemented it on a 4-node cluster as follows: <br />
+<br />
+I modified the /etc/corosync/corosync.conf file by adding <br />
+ip_dscp: 48 to the totem section. After that, I restarted the service because the logs indicated that this setting is not applied on the fly.<br />
+<br />
+Next, I captured packets at the VLAN subinterface, the bridge, and the bond. None of these tcpdump...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/how-to-configure-dscp.183986/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
+    </item>
+    <item>
+      <title>VM becomes unresponsive during Veeam backup</title>
+      <pubDate>Mon, 20 Jul 2026 14:37:22 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/vm-becomes-unresponsive-during-veeam-backup.185199/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185199</guid>
+      <author>invalid@example.com (sudomaster.ljs)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>sudomaster.ljs</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">When a Veeam backup job runs against a VM on our HDD-backed Ceph cluster, the VM becomes unresponsive partway through the backup. In some cases, it recovers automatically once the job completes. Sometimes, it requires a hard reset to come back online.<br />
+<br />
+We have reproduced this across multiple VMs, and it appears to affect only our HDD-based clusters. Backups using Proxmox Backup Server from the same cluster complete without issue. In both cases, the backup source and target storage are the...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/vm-becomes-unresponsive-during-veeam-backup.185199/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Migration from VMware</title>
+      <pubDate>Mon, 20 Jul 2026 14:27:25 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/migration-from-vmware.185194/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185194</guid>
+      <author>invalid@example.com (Jens-Complea)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Jens-Complea</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi.<br />
+I&#039;m in a bit of a pickle.<br />
+My Proxmox experience is not the highest. But i have many years in VMware, Hyper-V, TrueNAS and some in Nutanix.<br />
+<br />
+I have a VMware server (Standalone) with some VM&#039;s, that i want to migrate to Proxmox (Standalone).<br />
+- I did a fresh install of Proxmox, created 2 ZFS&#039;sm one with SAS and one with SATA drives.<br />
+- Applied license key (Community edition).<br />
+- Run updates on Proxmox.<br />
+- Connect the Proxmox to VMware using &quot;Datacenter&quot; &quot;Storage&quot; and added VMware ESXi...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/migration-from-vmware.185194/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>16</slash:comments>
     </item>
     <item>
       <title>Possible regression in PVE 9.2.x: unable to remove physical passthrough disks using "qm set --delete"</title>
@@ -75,27 +387,6 @@ I reproduced the issue...<br />
       <slash:comments>2</slash:comments>
     </item>
     <item>
-      <title>Migration from VMware</title>
-      <pubDate>Mon, 20 Jul 2026 13:50:31 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/migration-from-vmware.185194/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185194</guid>
-      <author>invalid@example.com (Jens-Complea)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Jens-Complea</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi.<br />
-I&#039;m in a bit of a pickle.<br />
-My Proxmox experience is not the highest. But i have many years in VMware, Hyper-V, TrueNAS and some in Nutanix.<br />
-<br />
-I have a VMware server (Standalone) with some VM&#039;s, that i want to migrate to Proxmox (Standalone).<br />
-- I did a fresh install of Proxmox, created 2 ZFS&#039;sm one with SAS and one with SATA drives.<br />
-- Applied license key (Community edition).<br />
-- Run updates on Proxmox.<br />
-- Connect the Proxmox to VMware using &quot;Datacenter&quot; &quot;Storage&quot; and added VMware ESXi...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/migration-from-vmware.185194/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>15</slash:comments>
-    </item>
-    <item>
       <title>Unable to delete template, missing linked clone?</title>
       <pubDate>Mon, 20 Jul 2026 13:36:32 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/unable-to-delete-template-missing-linked-clone.185198/</link>
@@ -130,24 +421,6 @@ Is there a way to find out why Proxmox seems to think there&#039;s a linked clon
       <slash:comments>2</slash:comments>
     </item>
     <item>
-      <title>Can't see USB ethernet on "reboot" BUT PowerOFF/ON laptop can see USB in Proxmox</title>
-      <pubDate>Mon, 20 Jul 2026 13:35:50 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/cant-see-usb-ethernet-on-reboot-but-poweroff-on-laptop-can-see-usb-in-proxmox.185174/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185174</guid>
-      <author>invalid@example.com (Robin_T)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>Robin_T</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello<br />
-Proxmox VE v9 is installed on ASUS Laptop. To have 1Gb network, I had to buy USB gigabit ethernet.<br />
-After many hours of configuring boot sequence and using GRUB AMD64(grubx64.efi), I finally got this USB working, except when I use a simple reboot sequence...<br />
-<br />
-Booting from power off-&gt;on everything works from BIOS to Proxmox and USB gigabit is up and running.<br />
-If I click &quot;reboot&quot; on Proxmox GUI or reboot from terminal window, Proxmox will reboot but the USB will not show on &quot;ip a&quot;...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/cant-see-usb-ethernet-on-reboot-but-poweroff-on-laptop-can-see-usb-in-proxmox.185174/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
       <title>Intermittent I/O errors on SAN-backed VM disks (Proxmox VE 9.2)</title>
       <pubDate>Mon, 20 Jul 2026 13:34:24 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/intermittent-i-o-errors-on-san-backed-vm-disks-proxmox-ve-9-2.185144/</link>
@@ -179,21 +452,6 @@ I&#039;m facing an intermittent issue in a Proxmox VE 9.2 cluster and I&#039;d l
       <slash:comments>5</slash:comments>
     </item>
     <item>
-      <title>VM becomes unresponsive during Veeam backup</title>
-      <pubDate>Mon, 20 Jul 2026 13:33:03 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/vm-becomes-unresponsive-during-veeam-backup.185199/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185199</guid>
-      <author>invalid@example.com (sudomaster.ljs)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>sudomaster.ljs</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">When a Veeam backup job runs against a VM on our HDD-backed Ceph cluster, the VM becomes unresponsive partway through the backup. In some cases, it recovers automatically once the job completes. Sometimes, it requires a hard reset to come back online.<br />
-<br />
-We have reproduced this across multiple VMs, and it appears to affect only our HDD-based clusters. Backups using Proxmox Backup Server from the same cluster complete without issue. In both cases, the backup source and target storage are the...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/vm-becomes-unresponsive-during-veeam-backup.185199/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
       <title>Upgrade von 6.3-2</title>
       <pubDate>Mon, 20 Jul 2026 13:05:23 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/upgrade-von-6-3-2.185196/</link>
@@ -214,37 +472,6 @@ Meine...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/upgrade-von-6-3-2.185196/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>How to configure DSCP ?</title>
-      <pubDate>Mon, 20 Jul 2026 12:16:53 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/how-to-configure-dscp.183986/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:183986</guid>
-      <author>invalid@example.com (hloudes)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>hloudes</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
-<br />
-Following the latest release of Corosync, the totem.ip_dscp option was introduced. I would like to explore this feature and have implemented it on a 4-node cluster as follows: <br />
-<br />
-I modified the /etc/corosync/corosync.conf file by adding <br />
-ip_dscp: 48 to the totem section. After that, I restarted the service because the logs indicated that this setting is not applied on the fly.<br />
-<br />
-Next, I captured packets at the VLAN subinterface, the bridge, and the bond. None of these tcpdump...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/how-to-configure-dscp.183986/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>Datacenter Manager API Dev Guide</title>
-      <pubDate>Mon, 20 Jul 2026 12:13:27 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/datacenter-manager-api-dev-guide.185106/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185106</guid>
-      <author>invalid@example.com (rvencu)</author>
-      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
-      <dc:creator>rvencu</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi, I need some insight on how to integrate with the datacenter manager via API. I could not find the API documentation around andnot sure how to kickstart our integration.</div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
     </item>
     <item>
       <title>Is a vzdump backupjob on a slow nfs-server able to trigger watchdog</title>
@@ -279,209 +506,6 @@ Jul 20 07:38:31 pve2...</code></pre>
 </div><br />
 <a href="https://forum.proxmox.com/threads/is-a-vzdump-backupjob-on-a-slow-nfs-server-able-to-trigger-watchdog.185195/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>Error: Disk cannot be removed</title>
-      <pubDate>Mon, 20 Jul 2026 10:54:39 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/error-disk-cannot-be-removed.185161/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185161</guid>
-      <author>invalid@example.com (pivo1408)</author>
-      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
-      <dc:creator>pivo1408</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><a href="https://forum.proxmox.com/attachments/1784369045565-png.99006/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98702-e28308a234466385071be52d1c6aa043.jpg?hash=9Ea_5RTTK2"
-		srcset="https://forum.proxmox.com/data/attachments/98/2x/98702-e28308a234466385071be52d1c6aa043.jpg?hash=9Ea_5RTTK2 2x"
-		class="bbImage "
-		style=""
-		alt="1784369045565.png"
-		title="1784369045565.png"
-		width="647" height="150" loading="lazy" /></a><br />
-<br />
-<br />
-Error: Disk cannot be removed<br />
-Hi every all .<br />
-I&#039;m running into an issue with Proxmox 9.2.3 when moving a VM to a new node; it seems the old disk is still holding onto a session on the old node. I&#039;m using local LVM. I&#039;ve tried deleting them but haven&#039;t succeeded. Has anyone else encountered this problem?</div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>PBS hinter Apache2 Reverse Proxy</title>
-      <pubDate>Mon, 20 Jul 2026 10:53:21 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pbs-hinter-apache2-reverse-proxy.184665/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:184665</guid>
-      <author>invalid@example.com (philippms)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
-      <dc:creator>philippms</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-für eine ganz spezielle Netzconfig müsste ich einen Apache2 als Reverse Proxy für einzelne Backup Hosts einrichten.<br />
-<br />
-Leider verzweifele ich an der Config und habe bisher nur Beispiele für nginx und co gefunden. Egal ob ich ProxyPass auf https://, auf h2:// setzen, egal welche Header ich setze, entweder fehlt der Upgrade Header oder der proxmox-backup-proxy beschwert sich über fehlende Header.<br />
-<br />
-Mit log_forensic sehe ich nun, dass sich der client wirklich strange meldet mit...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pbs-hinter-apache2-reverse-proxy.184665/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>10</slash:comments>
-    </item>
-    <item>
-      <title>Anscheinend schwere IO Probleme</title>
-      <pubDate>Mon, 20 Jul 2026 10:34:16 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/anscheinend-schwere-io-probleme.184839/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:184839</guid>
-      <author>invalid@example.com (gueniepr)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>gueniepr</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo Leute,<br />
-<br />
-Da glaubt man, man hat einen viel zu großen Server und dann das,<br />
-ich habe einen HP DL-380 Gen9 mit einem Raid Contoller HP 440 dieser wude auf RMA umgestellt wie es laut Proxmox gemacht werden soll und dann wurden ZFS pools erstellt.<br />
-Jetzt nach drei VM Installationen habe ich schon Probleme Updates in den VM&#039;s zu installieren.<br />
-Ein Backup einzuspielen kann bis zu 1-2 Stunden dauern?<br />
-<br />
-Jetz zur Frage, hat jemand von Euch Erfahrung mit solchen Systemen und kann Hinweise zu...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/anscheinend-schwere-io-probleme.184839/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>13</slash:comments>
-    </item>
-    <item>
-      <title>VM processes stall when rebooting adjacent node</title>
-      <pubDate>Mon, 20 Jul 2026 10:08:01 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/vm-processes-stall-when-rebooting-adjacent-node.185178/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185178</guid>
-      <author>invalid@example.com (crlt)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>crlt</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I am experiencing an issue where processes in virtual machines experience stalls (&lt;10s) during the reboot of an adjacent node. So the HA VM hosted on pve1 will stall when I reboot pve3. It seems to impact sensitive things such as leader elections in Kubernetes processes. It also only appears to impact VMs where Ceph is the storage backend as migrating a VM to use local storage alleviates the issue.<br />
-<br />
-Setup (verified cabling is correct and each bond is functional):<br />
-<ul>
-<li data-xf-list-type="ul">3x PVE 9.2.4 Nodes w/...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/vm-processes-stall-when-rebooting-adjacent-node.185178/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>Nächstes freies Tape selber bestimmen</title>
-      <pubDate>Mon, 20 Jul 2026 10:07:29 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/n%C3%A4chstes-freies-tape-selber-bestimmen.184760/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:184760</guid>
-      <author>invalid@example.com (philippms)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
-      <dc:creator>philippms</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
-<br />
-ich habe mein Tape Backup nun am laufen und muss sagen, dass das wirklich gut funktioniert. Aktuell habe ich aber &quot;nur&quot; ein einfaches Laufwerk ohne Autoloader.<br />
-Bisher hatten wir Veeam im Einsatz, welches einmal am Wochenende ein Tape geschrieben hat, nach dem Wochenende wurde das dann von einem Mitarbeiter getauscht.<br />
-<br />
-Veeam Tape Jobs prüfen zu Beginn ob ein Tape eingelegt ist, welches neu oder dessen Retention abgelaufen ist und legen dann los.<br />
-<br />
-Der PBS wiederum besteht auf...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/n%C3%A4chstes-freies-tape-selber-bestimmen.184760/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>New install on Dell R710 - Upgrade PERC 6 to H310 or H730?</title>
-      <pubDate>Mon, 20 Jul 2026 09:31:20 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/new-install-on-dell-r710-upgrade-perc-6-to-h310-or-h730.185179/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185179</guid>
-      <author>invalid@example.com (WhiteKnight976)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>WhiteKnight976</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m currently looking to build a virtual environment for some certification studies. Specifically Palo Alto and Cisco equipment. So, it&#039;s not going to be a production environment really. I just finished installing Proxmax VE and ran into a few small issues. Upon looking into it, it appears I should have completed the initial and hypervisor config a bit different.<br />
-<br />
-The server is a Dell PowerEdge R710 which is obviously dated. However, let me list the specs.<br />
-<br />
-CPU: 2 × Intel Xeon L5640<br />
-144 GB...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/new-install-on-dell-r710-upgrade-perc-6-to-h310-or-h730.185179/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>Kein Backup möglich wenn eine von zwei Nodes Offline ist</title>
-      <pubDate>Mon, 20 Jul 2026 09:25:45 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/kein-backup-m%C3%B6glich-wenn-eine-von-zwei-nodes-offline-ist.185186/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185186</guid>
-      <author>invalid@example.com (peaemer)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>peaemer</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
-<br />
-Ich habe Proxmox VE 9.1.1 auf meinem mini PC laufen. Auf dem Gerät läuft ein Container der jeden Tag um 23 uhr ein Backup fahren soll. Das ist aber die letzten Tage nicht passiert also wollte ich das ganze mal Manuel anstoßen um zu prüfen da los ist. Dabei hab ich folgende Fehlermeldung bekommen: <br />
-<br />
-Some errors have been encountered:<br />
-pveopteron: Node is offline<br />
-<br />
-Hier ist das interessante - ja die Node ist offline aber diese Node hat überhaupt nix mit dem Backup zutun. Weder der...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/kein-backup-m%C3%B6glich-wenn-eine-von-zwei-nodes-offline-ist.185186/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>High Latency on a new HDD-disks (ceph)</title>
-      <pubDate>Mon, 20 Jul 2026 09:14:09 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/high-latency-on-a-new-hdd-disks-ceph.185190/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185190</guid>
-      <author>invalid@example.com (DEZERTIR)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>DEZERTIR</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello<br />
-<br />
-We installed nine new HDD drives in a CEPH cluster, a Proxmox VE cluster.<br />
-<br />
-For a week now, we&#039;ve been observing that only these drives have high latency (20-80).<br />
-<br />
-There&#039;s no PG imbalance; everything is fine with the old HDD drives.<br />
-<br />
-<a href="https://forum.proxmox.com/attachments/99016/" target="_blank">View attachment 99016</a><br />
-<br />
-<a href="https://forum.proxmox.com/attachments/1784536862914-png.99017/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98713-1fc24056c3bfd363d87254b04c6dce39.jpg?hash=HqFV5nwCJ9"
-		srcset="https://forum.proxmox.com/data/attachments/98/2x/98713-1fc24056c3bfd363d87254b04c6dce39.jpg?hash=HqFV5nwCJ9 2x"
-		class="bbImage "
-		style=""
-		alt="1784536862914.png"
-		title="1784536862914.png"
-		width="171" height="150" loading="lazy" /></a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Better way to idmap and control devices permissions in LCX</title>
-      <pubDate>Mon, 20 Jul 2026 08:54:01 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/better-way-to-idmap-and-control-devices-permissions-in-lcx.185182/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185182</guid>
-      <author>invalid@example.com (Tecnolobo)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Tecnolobo</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone.<br />
-<br />
-I&#039;ve been using Proxmox for about 30 days, and I came up with a different way to make `idmap` work more transparently.<br />
-<br />
-Most of the posts I found explain how to customize `idmap` so that the host users and groups match those inside the container, allowing the container to access host devices.<br />
-<br />
-This usually results in a configuration like this:<br />
-<br />
-
-
-
-
-<blockquote data-attributes="" data-quote="" data-source=""
-	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
-	
-	<div class="bbCodeBlock-content">
-		
-		<div class="bbCodeBlock-expandContent js-expandContent ">
-			lxc.idmap: u 0 100000 65536<br />
-lxc.idmap: g 0 100000 44<br />
-lxc.idmap: g 44 44 1<br />
-lxc.idmap: g 45 100045 62<br />
-lxc.idmap: g 107 104 1...
-		</div>
-		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
-	</div>
-</blockquote><br />
-<a href="https://forum.proxmox.com/threads/better-way-to-idmap-and-control-devices-permissions-in-lcx.185182/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
     </item>
   </channel>
 </rss>
