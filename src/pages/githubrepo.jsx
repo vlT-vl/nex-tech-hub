@@ -8,6 +8,7 @@ import {
 import { LuExternalLink, LuSearch, LuX } from 'react-icons/lu';
 import { TbBrandGithubCopilot } from 'react-icons/tb';
 import { getUiText } from '../lib/uiText';
+import vltcube from '../../res/vltcube.svg';
 
 const GITHUB_USER = 'vlT-vl';
 // nex-tech-hub è questa stessa app: va sempre esclusa dalla vista "vlT".
@@ -153,7 +154,7 @@ function VltCubeIcon({ className }) {
   return (
     <img
       className={`gh-repo-vlt-cube${className ? ` ${className}` : ''}`}
-      src={`${import.meta.env.BASE_URL}res/vltcube.svg`}
+      src={vltcube}
       alt=""
       aria-hidden="true"
     />

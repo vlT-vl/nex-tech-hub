@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-0.1.0--R170726-5b5bd6?style=flat-square" alt="version"/>
+  <img src="https://img.shields.io/badge/version-0.1.0--R180726-5b5bd6?style=flat-square" alt="version"/>
   <img src="https://img.shields.io/badge/react-19-61DAFB?style=flat-square&logo=react&logoColor=white" alt="react"/>
   <img src="https://img.shields.io/badge/vite-8-646CFF?style=flat-square&logo=vite&logoColor=white" alt="vite"/>
   <img src="https://img.shields.io/badge/deploy-GitHub%20Pages-black?style=flat-square&logo=github" alt="deploy"/>
@@ -297,8 +297,8 @@ The page will be available at: `https://vlt-vl.github.io/nex-tech-hub/`
 | Field | Value |
 |---|---|
 | Version | 0.1.0 |
-| Build | R170726 |
-| Updated | July 17, 2026 |
+| Build | R180726 |
+| Updated | July 18, 2026 |
 | Initial build | R110326 |
 
 ---
