@@ -4,14 +4,108 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Fri, 24 Jul 2026 01:52:43 +0000</pubDate>
-    <lastBuildDate>Fri, 24 Jul 2026 01:52:43 +0000</lastBuildDate>
+    <pubDate>Fri, 24 Jul 2026 08:11:24 +0000</pubDate>
+    <lastBuildDate>Fri, 24 Jul 2026 08:11:24 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
+      <title>Cannot migrate VM, because HA resource vm is not allowed</title>
+      <pubDate>Fri, 24 Jul 2026 06:42:05 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/cannot-migrate-vm-because-ha-resource-vm-is-not-allowed.184806/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:184806</guid>
+      <author>invalid@example.com (Nemesiz)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Nemesiz</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I&#039;m not sure which update caused this issue, but using HA Affinity Rules I can&#039;t migrate a VM to another node.<br />
+<br />
+In migration dialog I see: Cannot migrate VM, because HA resource vm:121 is not allowed on the selected target node.<br />
+<br />
+Using console<br />
+<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code># qm migrate 121 nmz-cl-1 --online
+Requesting HA migration for VM 121 to node nmz-cl-1
+cannot migrate resource &#039;vm:121&#039; to node &#039;nmz-cl-1&#039;:
+
+- resource &#039;vm:121&#039; not allowed on target node &#039;nmz-cl-1&#039;
+command &#039;ha-manager migrate vm:121...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/cannot-migrate-vm-because-ha-resource-vm-is-not-allowed.184806/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>10</slash:comments>
+    </item>
+    <item>
+      <title>LXC and Docker compatibility now</title>
+      <pubDate>Fri, 24 Jul 2026 06:41:41 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/lxc-and-docker-compatibility-now.185224/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185224</guid>
+      <author>invalid@example.com (Thendeo)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Thendeo</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m new to Proxmox, started to play a bit with, and currently loving it !<br />
+<br />
+I&#039;m using LXCs on a dedicated server to support various services for myself. Still, I have one that is using Docker (Affine.pro self-hosted setup is simpler with it). I saw some threads about using Docker under LXC not being that good (<a href="https://forum.proxmox.com/threads/docker-inside-lxc-net-ipv4-ip_unprivileged_port_start-error.175437/post-814307" class="link link--internal">here</a> for example), but other saying it is fine (<a href="https://forum.proxmox.com/threads/best-config-storage-strategy-for-multiple-lxc-with-docker.152493/post-794346" class="link link--internal">here</a> for example). On the <a href="https://pve.proxmox.com/wiki/Linux_Container" target="_blank" class="link link--external" rel="nofollow ugc noopener">official doc</a> the only reference to docker is about the keyctl flag.<br />
+<br />
+Currently I&#039;ve got no...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/lxc-and-docker-compatibility-now.185224/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>How to configure DSCP ?</title>
+      <pubDate>Fri, 24 Jul 2026 06:27:10 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-to-configure-dscp.183986/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:183986</guid>
+      <author>invalid@example.com (hloudes)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>hloudes</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
+<br />
+Following the latest release of Corosync, the totem.ip_dscp option was introduced. I would like to explore this feature and have implemented it on a 4-node cluster as follows: <br />
+<br />
+I modified the /etc/corosync/corosync.conf file by adding <br />
+ip_dscp: 48 to the totem section. After that, I restarted the service because the logs indicated that this setting is not applied on the fly.<br />
+<br />
+Next, I captured packets at the VLAN subinterface, the bridge, and the bond. None of these tcpdump...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/how-to-configure-dscp.183986/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
+    <item>
+      <title>Unable to run VM migration between 2 clusters</title>
+      <pubDate>Fri, 24 Jul 2026 06:25:25 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/unable-to-run-vm-migration-between-2-clusters.185268/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185268</guid>
+      <author>invalid@example.com (ginesea)</author>
+      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
+      <dc:creator>ginesea</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone!<br />
+<br />
+I´m trying to migrate an offline VM from one cluster to another cluster in a different network segment. Firewall rules are correcly configured to allow all traffic, and API Token has admin permissions, but for some reason the establishment of the tunnel is failing.<br />
+<br />
+If I try to run the migration via Proxmox Datacenter Manager v1.1.6, I get this error right at the begining of the process :<br />
+<i>2026-07-23 14:31:02 remote: started tunnel worker &#039;XXXXX&#039;<br />
+tunnel: -&gt; sending command...</i><br />
+<br />
+<a href="https://forum.proxmox.com/threads/unable-to-run-vm-migration-between-2-clusters.185268/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
       <title>How do you enforce per-pool (tenant) resource quotas for CPU / RAM / disk in Proxmox?</title>
-      <pubDate>Thu, 23 Jul 2026 23:24:46 +0000</pubDate>
+      <pubDate>Fri, 24 Jul 2026 06:25:13 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/how-do-you-enforce-per-pool-tenant-resource-quotas-for-cpu-ram-disk-in-proxmox.180395/</link>
       <guid isPermaLink="false">urn:xenforo:thread:180395</guid>
       <author>invalid@example.com (Fearless-Grape5584)</author>
@@ -25,7 +119,115 @@ However, the obvious problem is that a pool admin can still consume as much <b>C
 What I’m trying to achieve is something like...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/how-do-you-enforce-per-pool-tenant-resource-quotas-for-cpu-ram-disk-in-proxmox.180395/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>12</slash:comments>
+    </item>
+    <item>
+      <title>Win2025 retrim fails with "Data error (cyclic redundancy check). (0x80070017)" while Win11 OK</title>
+      <pubDate>Fri, 24 Jul 2026 06:13:11 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/win2025-retrim-fails-with-data-error-cyclic-redundancy-check-0x80070017-while-win11-ok.184694/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:184694</guid>
+      <author>invalid@example.com (hpaluch-pil)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>hpaluch-pil</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Found that on fresh Win2025 server install (+latest updates) retrim fails with strange errors:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>C:&gt; defrag c: /l /v
+
+Invoking retrim on WIN20256-STD (C:)...
+
+        Retrim:  skipped.
+
+Data error (cyclic redundancy check). (0x80070017)</code></pre>
+	</div>
+</div><br />
+Event log shows two items:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>The storage optimizer skipped slab consolidation on WIN20256-STD (C:) because: Slab size is too small. (0x8900002D)
+The storage optimizer couldn&#039;t complete retrim on WIN20256-STD (C:) because: Data error (cyclic redundancy...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/win2025-retrim-fails-with-data-error-cyclic-redundancy-check-0x80070017-while-win11-ok.184694/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>11</slash:comments>
+    </item>
+    <item>
+      <title>W2K25 Trim not possible after upgrade from 9.2+pve1 to 11.0+pve2</title>
+      <pubDate>Fri, 24 Jul 2026 05:52:31 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/w2k25-trim-not-possible-after-upgrade-from-9-2-pve1-to-11-0-pve2.185269/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185269</guid>
+      <author>invalid@example.com (LnxBil)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>LnxBil</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I just used a WS2K25 template on a newly installed PVE installation and changed only machine version from 9.2+pve1 to 11.0+pve2 and after that, I&#039;m not able to use the powershell trim command, which fails due to &quot;not supported&quot;. If I change it back to 9.2, trim will work again. VM has the current virtio version 285. Anyone experienced this?</div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Upgrade from Proxmox VE 8.4.x to 9.1. Veeam Related</title>
+      <pubDate>Fri, 24 Jul 2026 05:29:49 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/upgrade-from-proxmox-ve-8-4-x-to-9-1-veeam-related.185270/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185270</guid>
+      <author>invalid@example.com (hishamrixs)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>hishamrixs</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+I&#039;m planning to upgrade pve from 8.4.x to 9.1. The reason is because version 9.2 is still not supported by Veeam. If I proceed with this upgrade I may not be able to perform agentless backup. Correct me if I&#039;m wrong. Is there any way to pin the version to 9.1?</div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Open-source Cloud Management Platform for Proxmox</title>
+      <pubDate>Fri, 24 Jul 2026 05:23:48 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/open-source-cloud-management-platform-for-proxmox.181946/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:181946</guid>
+      <author>invalid@example.com (sangtq)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>sangtq</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Folk!<br />
+<br />
+I’ve been experimenting with AI coding and built a lightweight cloud management platform on top of Proxmox VE — inspired by VMware vCloud Director.<br />
+The goal is to add a simple “cloud layer” for Proxmox to support multi-tenancy and self-service use cases (private cloud, internal platform, or small VPS offering).<br />
+<br />
+<b>Key features:</b><br />
+<ul>
+<li data-xf-list-type="ul">Self-service VM provisioning from templates</li>
+<li data-xf-list-type="ul">Multi-tenancy (organization isolation)</li>
+<li data-xf-list-type="ul">Quotas (CPU, RAM, storage, VM count)</li>
+<li data-xf-list-type="ul">RBAC...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/open-source-cloud-management-platform-for-proxmox.181946/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
+    </item>
+    <item>
+      <title>No SSH and Web-GUI connection from non-local subnet</title>
+      <pubDate>Fri, 24 Jul 2026 05:16:44 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/no-ssh-and-web-gui-connection-from-non-local-subnet.185273/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185273</guid>
+      <author>invalid@example.com (Lumir)</author>
+      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
+      <dc:creator>Lumir</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I cannot manage PMG after my admin PC ip address change. I can use SSH and Web-GUI access from a PC in the same subnet. (The routing table is equal on PMG and the second PC).<br />
+Tcpdump shows the initial packets are coming to PMG but no outgoing packets at all. It looks like a packet filter job on PMG site but I cannot find.<br />
+<br />
+pmg-api/8.1.2/c979cfd1d78a (running kernel: 6.8.8-2-pve) (iso installation)<br />
+<br />
+Thanks for your help</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
     </item>
     <item>
       <title>VMs mit mehr als 2 GB RAM starten nicht durch - PVE läuft nested auf Hyper-V</title>
@@ -235,17 +437,6 @@ We have reproduced this across multiple VMs, and it appears to affect only our H
       <slash:comments>7</slash:comments>
     </item>
     <item>
-      <title>W2K25 Trim not possible after upgrade from 9.2+pve1 to 11.0+pve2</title>
-      <pubDate>Thu, 23 Jul 2026 16:09:35 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/w2k25-trim-not-possible-after-upgrade-from-9-2-pve1-to-11-0-pve2.185269/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185269</guid>
-      <author>invalid@example.com (LnxBil)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>LnxBil</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I just used a WS2K25 template on a newly installed PVE installation and changed only machine version from 9.2+pve1 to 11.0+pve2 and after that, I&#039;m not able to use the powershell trim command, which fails due to &quot;not supported&quot;. If I change it back to 9.2, trim will work again. VM has the current virtio version 285. Anyone experienced this?</div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
       <title>Proxmox9: EVPN Type-5 routes not imported to FIB</title>
       <pubDate>Thu, 23 Jul 2026 14:46:15 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/proxmox9-evpn-type-5-routes-not-imported-to-fib.177033/</link>
@@ -291,178 +482,6 @@ BGP table...</code></pre>
 <br />
 <a href="https://forum.proxmox.com/threads/getting-control-d-screen-but-mounting-manually-works.185230/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>Unable to run VM migration between 2 clusters</title>
-      <pubDate>Thu, 23 Jul 2026 14:12:50 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/unable-to-run-vm-migration-between-2-clusters.185268/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185268</guid>
-      <author>invalid@example.com (ginesea)</author>
-      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
-      <dc:creator>ginesea</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone!<br />
-<br />
-I´m trying to migrate an offline VM from one cluster to another cluster in a different network segment. Firewall rules are correcly configured to allow all traffic, and API Token has admin permissions, but for some reason the establishment of the tunnel is failing.<br />
-<br />
-If I try to run the migration via Proxmox Datacenter Manager v1.1.6, I get this error right at the begining of the process :<br />
-<i>2026-07-23 14:31:02 remote: started tunnel worker &#039;XXXXX&#039;<br />
-tunnel: -&gt; sending command...</i><br />
-<br />
-<a href="https://forum.proxmox.com/threads/unable-to-run-vm-migration-between-2-clusters.185268/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>How to configure DSCP ?</title>
-      <pubDate>Thu, 23 Jul 2026 14:11:59 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/how-to-configure-dscp.183986/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:183986</guid>
-      <author>invalid@example.com (hloudes)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>hloudes</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
-<br />
-Following the latest release of Corosync, the totem.ip_dscp option was introduced. I would like to explore this feature and have implemented it on a 4-node cluster as follows: <br />
-<br />
-I modified the /etc/corosync/corosync.conf file by adding <br />
-ip_dscp: 48 to the totem section. After that, I restarted the service because the logs indicated that this setting is not applied on the fly.<br />
-<br />
-Next, I captured packets at the VLAN subinterface, the bridge, and the bond. None of these tcpdump...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/how-to-configure-dscp.183986/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>S3 Local datastore recommendations?</title>
-      <pubDate>Thu, 23 Jul 2026 14:08:19 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/s3-local-datastore-recommendations.185232/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185232</guid>
-      <author>invalid@example.com (cfgmgr)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>cfgmgr</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Greetings!<br />
-<br />
-I was looking at the document that talks about configuring a backend for S3. I was curious about the local datastore. This part here discusses it.<br />
-
-
-
-
-<blockquote data-attributes="" data-quote="" data-source=""
-	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
-	
-	<div class="bbCodeBlock-content">
-		
-		<div class="bbCodeBlock-expandContent js-expandContent ">
-			A new datastore with S3 backend can be created using one of the configured S3 endpoints. Although storing all contents on the S3 object store, the datastore requires nevertheless a local persistent cache, used to increase performance and reduce the number of requests to the backend. For this, a local filesystem path has to be...
-		</div>
-		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
-	</div>
-</blockquote><br />
-<a href="https://forum.proxmox.com/threads/s3-local-datastore-recommendations.185232/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>PMG Medium Severity Vulnerabilities</title>
-      <pubDate>Thu, 23 Jul 2026 13:57:08 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pmg-medium-severity-vulnerabilities.185267/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185267</guid>
-      <author>invalid@example.com (antonin.chadima)</author>
-      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
-      <dc:creator>antonin.chadima</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-we get this information all the time from our internet provider:<br />
-<br />
-<b>Port 25/tcp<br />
-<br />
-SSL Anonymous Cipher Suites Supported</b><br />
-The remote host supports the use of anonymous SSL ciphers. While this enables an administrator to set up a service that encrypts traffic without having to generate and configure SSL certificates, it offers no way to verify the remote host&#039;s identity and renders the service vulnerable to a man-in-the-middle attack.<br />
-<a href="https://cvedetails.com/cve/CVE-2007-1858" target="_blank" class="link link--external" rel="nofollow ugc noopener">CVE-2007-1858</a> <a href="https://www.securityfocus.com/bid/28482" target="_blank" class="link link--external" rel="nofollow ugc noopener">BID-28482</a> <a href="http://www.nessus.org/u?3a040ada" target="_blank" class="link link--external" rel="nofollow ugc noopener">URL</a>...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pmg-medium-severity-vulnerabilities.185267/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Configuration Concerns</title>
-      <pubDate>Thu, 23 Jul 2026 13:28:49 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/configuration-concerns.185258/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185258</guid>
-      <author>invalid@example.com (mikeatuabb)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>mikeatuabb</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">1. /usr/share is for packages, not for end users (including admins); If the key is not managed by a package, it should be in /etc/apt/keyrings.<br />
-<br />
-2. It appears that the key changed, yet there is no instruction that explains the old key needs to be replaced<br />
-
-
-
-
-<blockquote data-attributes="" data-quote="" data-source=""
-	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
-	
-	<div class="bbCodeBlock-content">
-		
-		<div class="bbCodeBlock-expandContent js-expandContent ">
-			```<br />
-# apt update<br />
-Hit:1 <a href="http://security.debian.org/debian-security" target="_blank" class="link link--external" rel="nofollow ugc noopener">http://security.debian.org/debian-security</a> trixie-security InRelease<br />
-Get:2 <a href="http://download.proxmox.com/debian/pve" target="_blank" class="link link--external" rel="nofollow ugc noopener">http://download.proxmox.com/debian/pve</a> trixie InRelease [3,534 B]         <br />
-Err:2 <a href="http://download.proxmox.com/debian/pve" target="_blank" class="link link--external" rel="nofollow ugc noopener">http://download.proxmox.com/debian/pve</a>...
-		</div>
-		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
-	</div>
-</blockquote><br />
-<a href="https://forum.proxmox.com/threads/configuration-concerns.185258/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>http proxy for the OpenID realms</title>
-      <pubDate>Thu, 23 Jul 2026 13:18:31 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/http-proxy-for-the-openid-realms.174099/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:174099</guid>
-      <author>invalid@example.com (hudecof)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>hudecof</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-I would like to ask, if there is a way to use http proxy, set in the Configuration-&gt;Other-General also for the OpenID realms.<br />
-The PBS server is trying to connect the OPenID server directly. <br />
-As this server is air gapped enviroment, the only access out is by the http proxy.<br />
-<br />
-For PVE this works, the PVE is using the global HTTP proxy settings for the OpenID relams.</div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Datacenter deployment on Oracle Cloud</title>
-      <pubDate>Thu, 23 Jul 2026 13:18:10 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/datacenter-deployment-on-oracle-cloud.185266/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185266</guid>
-      <author>invalid@example.com (wahwizard)</author>
-      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
-      <dc:creator>wahwizard</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi Guys,<br />
-<br />
-Has anyone had any experience deploying this on oci or any other cloud providers?<br />
-<br />
-Any compatibility issues to take in to consideration<br />
-<br />
-Many thanks</div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>SOLVED - HELP - only boots to maintenance</title>
-      <pubDate>Thu, 23 Jul 2026 13:17:08 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/solved-help-only-boots-to-maintenance.185254/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185254</guid>
-      <author>invalid@example.com (racs)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>racs</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hopefully the attached picture offers the details you need to help me figure this out.<br />
-<br />
-Recovering journal... Maybe the file system is corrupted.<br />
-<br />
-Also, I installed USB HDDs but they are no longer available. How do I remove the commands to mount them etc.?<br />
-<br />
-Thank you!</div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
     </item>
   </channel>
 </rss>
