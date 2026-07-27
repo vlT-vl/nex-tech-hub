@@ -12,7 +12,7 @@
 	<atom:link href="https://blogs.vmware.com/feed" rel="self" type="application/rss+xml" />
 	<link>https://blogs.vmware.com/</link>
 	<description>VMware Blogs</description>
-	<lastBuildDate>Fri, 24 Jul 2026 20:59:41 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 27 Jul 2026 17:16:50 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -20,6 +20,268 @@
 	1	</sy:updateFrequency>
 	<generator>https://wordpress.org/?v=6.8.6</generator>
 <site xmlns="com-wordpress:feed-additions:1">237817777</site>	<item>
+		<title>Modernizing Infrastructure: VMware Aria Automation 8.18.1 to VMware Cloud Foundation Automation 9.1 Upgrade Technical Deep Dive</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/07/27/modernizing-infrastructure-vmware-aria-automation-8-18-1-to-vmware-cloud-foundation-automation-9-1-upgrade-technical-deep-dive/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Mon, 27 Jul 2026 17:10:36 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10092836</guid>
+
+					<description><![CDATA[<img width="300" height="152" src="https://blogs.vmware.com/wp-content/uploads/2026/06/165032308_l.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>Learn how the VMware Aria Automation 8.18.1 to VCF Automation 9.1 upgrade works under the hood, covering the Fleet Lifecycle architecture, each migration phase, and exactly what happens to your data and services throughout the transition. Overview Upgrading from VMware Aria Automation 8.18.1 to VMware Cloud Foundation (VCF) Automation 9.1 is more than a version &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/07/27/modernizing-infrastructure-vmware-aria-automation-8-18-1-to-vmware-cloud-foundation-automation-9-1-upgrade-technical-deep-dive/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/07/27/modernizing-infrastructure-vmware-aria-automation-8-18-1-to-vmware-cloud-foundation-automation-9-1-upgrade-technical-deep-dive/">Modernizing Infrastructure: VMware Aria Automation 8.18.1 to VMware Cloud Foundation Automation 9.1 Upgrade Technical Deep Dive</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="152" src="https://blogs.vmware.com/wp-content/uploads/2026/06/165032308_l.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="152" src="https://blogs.vmware.com/wp-content/uploads/2026/06/165032308_l.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg 1170w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg?resize=300,152 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg?resize=768,389 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg?resize=1024,519 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg?resize=600,304 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+<p>Learn how the VMware Aria Automation 8.18.1 to VCF Automation 9.1 upgrade works under the hood, covering the Fleet Lifecycle architecture, each migration phase, and exactly what happens to your data and services throughout the transition.</p>
+<h2 class="wp-block-heading" id="h-overview"><strong>Overview</strong></h2>
+<p>Upgrading from VMware Aria Automation 8.18.1 to VMware Cloud Foundation (VCF) Automation 9.1 is more than a version increment. The process introduces a carefully orchestrated migration architecture designed to safely transition your environment while preserving all existing automation content.</p>
+<p>While the official upgrade guide covers each required step, this post explains the architecture behind the upgrade, the purpose of each migration stage, and what happens to your data and services throughout the process. Understanding this context will help you prepare more effectively for the transition.</p>
+<h2 class="wp-block-heading"><strong>Environment Details</strong></h2>
+<p>This upgrade path applies to the following environment:</p>
+<ul class="wp-block-list">
+<li>Source: VMware Aria Automation 8.18.x (minimum version 8.18.1)</li>
+<li>Target: VCF Automation 9.1</li>
+</ul>
+<h2 class="wp-block-heading"><strong>Prerequisites</strong></h2>
+<p>Ensure your environment meets the following requirements before initiating the upgrade through VCF Operations.</p>
+<p><strong>Technical Requirements:</strong></p>
+<ul class="wp-block-list">
+<li>Import: VMware Aria Automation 8.18.1 or later must be imported into VCF Operations.</li>
+<li>Networking: Allocate a dedicated /29 CIDR block with a range of eight contiguous IP addresses for the cluster. Create a new VCF Services Runtime 9.1 FQDN that resolves to a unique IP address outside the dedicated CIDR range. This FQDN serves as the internal endpoint for the VCF Services runtime instance hosting the VCF Automation 9.1 nodes and is used exclusively for communication between VCF components.</li>
+<li>Infrastructure: Download the VCF Automation 9.1.0.0 upgrade binaries and install the Migration Service Engine binary through the software depot.</li>
+</ul>
+<h2 class="wp-block-heading"><strong>The Fleet Lifecycle</strong></h2>
+<p>The Fleet Lifecycle oversees the comprehensive lifecycle of management components, including end-to-end upgrades, patching, day-2 operations, and backup and recovery processes. It facilitates the transition to version 9.1.x for environments running VMware Aria Automation 8.18.x or VCF Automation 9.0.x.</p>
+<p><strong>Video walkthrough: A video overview of the Fleet Lifecycle upgrade process is available for reference.</strong></p>
+<figure class="wp-block-image size-large"><a href="https://youtu.be/q_4_JxB569E?si=GLqzbpBEAh9VrZjQ"><img fetchpriority="high" decoding="async" height="576" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/07/For-8.18-Video-Part-1.jpg" alt="" class="wp-image-33139" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/For-8.18-Video-Part-1.jpg 1280w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/For-8.18-Video-Part-1.jpg?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/For-8.18-Video-Part-1.jpg?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/For-8.18-Video-Part-1.jpg?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/For-8.18-Video-Part-1.jpg?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/For-8.18-Video-Part-1.jpg?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/For-8.18-Video-Part-1.jpg?resize=600,338 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></a></figure>
+<h2 class="wp-block-heading"><strong>Upgrade Process: Stage-by-Stage Breakdown</strong></h2>
+<p>The transition from VMware Aria Automation 8.18.x to VCF Automation 9.1 follows a highly orchestrated workflow. The process divides into an initial import and orchestration phase, followed by a core 16-stage component upgrade.</p>
+<h3 class="wp-block-heading">Phase 1: Import and Orchestration</h3>
+<p>Before the upgrade begins, the Fleet Lifecycle collects the inputs needed to deploy the target environment. This top-level orchestration wrapper handles the following steps:</p>
+<ol class="wp-block-list">
+<li>Validation and Deployment: Validates all required configuration parameters and deploys the new VCF 9.1 service runtime and dedicated clusters as needed.</li>
+<li>Stage and Import: Stages the VCF Automation and bundle packages, then imports the existing VMware Aria Automation component to extract necessary details such as the component ID and sizing requirements.</li>
+<li>Pre-checks: Runs the comprehensive five-group pre-check sequence (connectivity, source, health, topology, application) against the target clusters.</li>
+<li>Trigger: Once the component is imported and validated, the Fleet Lifecycle initiates the core upgrade workflow on the cluster.</li>
+</ol>
+<h3 class="wp-block-heading">Phase 2: Preparation and Export (Stages 1 to 8)</h3>
+<p>In this phase, the source environment prepares for migration:</p>
+<ol class="wp-block-list">
+<li>Snapshots: Quiesced VM snapshots (without memory) are created through vCenter to provide a safe rollback point.</li>
+<li>Graceful Shutdowns: All pods and services on the source Aria Automation 8.18.x nodes are stopped via SSH.</li>
+<li>Data Export: The Aria Automation 8.18.x databases and configuration data are exported to &#8220;Hard disk 2&#8221;.</li>
+<li>All remaining internal pods and services are stopped, and the source VM name is stored securely.</li>
+</ol>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td class="has-text-align-center" data-align="center"><strong>Stage</strong></td>
+<td class="has-text-align-center" data-align="center"><strong>Task Name</strong></td>
+<td class="has-text-align-center" data-align="center"><strong>Description</strong></td>
+</tr>
+<tr>
+<td class="has-text-align-center" data-align="center">1</td>
+<td class="has-text-align-center" data-align="center">Provide Source Node IP Addresses&nbsp;</td>
+<td class="has-text-align-center" data-align="center">Collects all Aria Automation 8.18.x node IP addresses to prepare for remote execution.</td>
+</tr>
+<tr>
+<td class="has-text-align-center" data-align="center">2</td>
+<td class="has-text-align-center" data-align="center">Create a Snapshot of the Source Environment&nbsp;</td>
+<td class="has-text-align-center" data-align="center">Creates quiesced VM snapshots (without memory) of all source nodes via vCenter.</td>
+</tr>
+<tr>
+<td class="has-text-align-center" data-align="center">3</td>
+<td class="has-text-align-center" data-align="center">Stop Source pods and Services&nbsp;</td>
+<td class="has-text-align-center" data-align="center">Gracefully stops all pods and&nbsp; services on the source via SSH.</td>
+</tr>
+<tr>
+<td class="has-text-align-center" data-align="center">4</td>
+<td class="has-text-align-center" data-align="center">Export Source System Data&nbsp;</td>
+<td class="has-text-align-center" data-align="center">Exports databases and configuration data onto &#8220;Hard disk 2&#8221;.</td>
+</tr>
+<tr>
+<td class="has-text-align-center" data-align="center">5</td>
+<td class="has-text-align-center" data-align="center">Stop All Source Services&nbsp;</td>
+<td class="has-text-align-center" data-align="center">Stops all remaining internal and background services on the source nodes.</td>
+</tr>
+<tr>
+<td class="has-text-align-center" data-align="center">6</td>
+<td class="has-text-align-center" data-align="center">Provide Source Environment IP Address&nbsp;</td>
+<td class="has-text-align-center" data-align="center">Retrieves the primary IP address of the source VM.</td>
+</tr>
+<tr>
+<td class="has-text-align-center" data-align="center">7</td>
+<td class="has-text-align-center" data-align="center">Identify Source VM Name from IP Address&nbsp;</td>
+<td class="has-text-align-center" data-align="center">Resolves the vCenter VM name from the IP address to identify the disk source.</td>
+</tr>
+<tr>
+<td class="has-text-align-center" data-align="center">8</td>
+<td class="has-text-align-center" data-align="center">Confirm Source VM Name&nbsp;</td>
+<td class="has-text-align-center" data-align="center">Stores the resolved VM name for use in downstream mounting tasks.</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<h3 class="wp-block-heading">Phase 3: The Downtime Window (Stages 9 to 12)</h3>
+<p>Downtime begins at Stage 9, when the original Aria Automation 8.18.x environment is powered off entirely. The Fleet Lifecycle then detaches &#8220;Hard disk 2&#8221; from the source node and mounts it to the target VCF Automation node.</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td class="has-text-align-center" data-align="center"><strong>Stage</strong></td>
+<td class="has-text-align-center" data-align="center"><strong>Task Name</strong></td>
+<td class="has-text-align-center" data-align="center"><strong>Description</strong></td>
+</tr>
+<tr>
+<td class="has-text-align-center" data-align="center">9</td>
+<td class="has-text-align-center" data-align="center">Shut Down the Source Environment&nbsp;</td>
+<td class="has-text-align-center" data-align="center">Triggers OS-level shutdown of all Aria Automation 8.18.x nodes and polls until they are offline.</td>
+</tr>
+<tr>
+<td class="has-text-align-center" data-align="center">10</td>
+<td class="has-text-align-center" data-align="center">Attach Source VMDKs to the Target Environment&nbsp;</td>
+<td class="has-text-align-center" data-align="center">Mounts &#8220;Hard disk 2&#8221; from the source VM to the new target VCF Automation node.</td>
+</tr>
+<tr>
+<td class="has-text-align-center" data-align="center">11</td>
+<td class="has-text-align-center" data-align="center">Store the Resolved Environment Name&nbsp;</td>
+<td class="has-text-align-center" data-align="center">Persists the resolved VM name to durable storage (workaround for race conditions).</td>
+</tr>
+<tr>
+<td class="has-text-align-center" data-align="center">12</td>
+<td class="has-text-align-center" data-align="center">Create a Data Migration Indicator&nbsp;</td>
+<td class="has-text-align-center" data-align="center">Enables native data restoration from the mounted disk during cluster deployment.&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<h3 class="wp-block-heading">Phase 4: Post-Deployment and Cleanup (Stages 13 to 16)</h3>
+<p>Once the new VCF Automation 9.1 cluster deploys successfully and begins serving traffic, the system initiates the post-deployment workflow:</p>
+<ol class="wp-block-list">
+<li>The system retrieves the original VM details and unmounts &#8220;Hard disk 2&#8221; from the new deployment, returning it to the original source VM.</li>
+<li>All temporary Kubernetes upgrade secrets are cleaned up to complete the process.</li>
+</ol>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td class="has-text-align-center" data-align="center"><strong>Stage</strong></td>
+<td class="has-text-align-center" data-align="center"><strong>Task Name</strong></td>
+<td class="has-text-align-center" data-align="center"><strong>Description</strong></td>
+</tr>
+<tr>
+<td class="has-text-align-center" data-align="center">13</td>
+<td class="has-text-align-center" data-align="center">Restore resolved VM name&nbsp;</td>
+<td class="has-text-align-center" data-align="center">Restores the persisted VM name after the new 9.1 VCF Automation cluster is live.</td>
+</tr>
+<tr>
+<td class="has-text-align-center" data-align="center">14</td>
+<td class="has-text-align-center" data-align="center">Provide mounted source VM name&nbsp;</td>
+<td class="has-text-align-center" data-align="center">Reads the restored VM name and exposes it as a task output for the unmount operation.</td>
+</tr>
+<tr>
+<td class="has-text-align-center" data-align="center">15</td>
+<td class="has-text-align-center" data-align="center">Unmount VMDKs from the target environment</td>
+<td class="has-text-align-center" data-align="center">Detaches &#8220;Hard disk 2&#8221; from the new node and returns it to the original source VM.</td>
+</tr>
+<tr>
+<td class="has-text-align-center" data-align="center">16</td>
+<td class="has-text-align-center" data-align="center">Clean up upgrade configuration files&nbsp;</td>
+<td class="has-text-align-center" data-align="center">Deletes the temporary Kubernetes upgrade configuration secrets.</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<h2 class="wp-block-heading"><strong>Summary</strong></h2>
+<p>The orchestrated upgrade to VCF Automation 9.1 modernizes your infrastructure with minimal risk by isolating migration data onto a dedicated disk and transferring it cleanly to the new cluster. Each phase is designed to preserve your existing automation content while providing clear rollback options at every stage.</p>
+<p><em><strong>Acknowledgements:</strong> Special thanks to <a href="arun.nukula@broadcom.com">Arun Nukula</a>, <a href="iyaz.khan@broadcom.com">Iyaz Khan</a>, and <a href="owen.sheehy@broadcom.com">Owen Sheehy</a></em></p>
+</p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/07/27/modernizing-infrastructure-vmware-aria-automation-8-18-1-to-vmware-cloud-foundation-automation-9-1-upgrade-technical-deep-dive/">Modernizing Infrastructure: VMware Aria Automation 8.18.1 to VMware Cloud Foundation Automation 9.1 Upgrade Technical Deep Dive</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/07/27/modernizing-infrastructure-vmware-aria-automation-8-18-1-to-vmware-cloud-foundation-automation-9-1-upgrade-technical-deep-dive/">Modernizing Infrastructure: VMware Aria Automation 8.18.1 to VMware Cloud Foundation Automation 9.1 Upgrade Technical Deep Dive</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10092836</post-id>	</item>
+		<item>
+		<title>Modernizing Infrastructure: A Deep Dive into the VMware Cloud foundation Automation 9.0 to 9.1 Upgrade Precheck and Execution Stages</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/07/27/modernizing-infrastructure-a-deep-dive-into-the-vmware-cloud-foundation-automation-9-0-to-9-1-upgrade-precheck-and-execution-stages/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Mon, 27 Jul 2026 17:09:49 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10092841</guid>
+
+					<description><![CDATA[<img width="300" height="152" src="https://blogs.vmware.com/wp-content/uploads/2026/06/165032308_l.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Learn how the VCF Automation 9.0.x to 9.1.0.0 upgrade works, from the five precheck validation categories to the six-stage side-by-side migration model orchestrated by Fleet Lifecycle. Overview This post is part of the VCF Support infrastructure modernization series. It focuses exclusively on upgrading from VMware Cloud Foundation (VCF) Automation 9.0.x to 9.1.0.0, setting aside older &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/07/27/modernizing-infrastructure-a-deep-dive-into-the-vmware-cloud-foundation-automation-9-0-to-9-1-upgrade-precheck-and-execution-stages/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/07/27/modernizing-infrastructure-a-deep-dive-into-the-vmware-cloud-foundation-automation-9-0-to-9-1-upgrade-precheck-and-execution-stages/">Modernizing Infrastructure: A Deep Dive into the VMware Cloud foundation Automation 9.0 to 9.1 Upgrade Precheck and Execution Stages</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="152" src="https://blogs.vmware.com/wp-content/uploads/2026/06/165032308_l.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="152" src="https://blogs.vmware.com/wp-content/uploads/2026/06/165032308_l.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg 1170w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg?resize=300,152 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg?resize=768,389 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg?resize=1024,519 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg?resize=600,304 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<p>Learn how the VCF Automation 9.0.x to 9.1.0.0 upgrade works, from the five precheck validation categories to the six-stage side-by-side migration model orchestrated by Fleet Lifecycle.</p>
+<h2 class="wp-block-heading" id="h-overview"><strong>Overview</strong></h2>
+<p>This post is part of the VCF Support infrastructure modernization series. It focuses exclusively on upgrading from VMware Cloud Foundation (VCF) Automation 9.0.x to 9.1.0.0, setting aside older 8.18.x migration paths to examine the current supported upgrade path in detail.</p>
+<p>When planning a move to VCF Automation 9.1.0.0, preparation and predictability are critical. A successful upgrade depends on VCF&#8217;s Fleet Lifecycle management capabilities, and the central gatekeeper to this entire process is the Precheck Phase. This post explains what occurs during these prechecks and maps out the execution stages the system proceeds through to complete the upgrade.</p>
+<p><strong>Video walkthrough:</strong> A video overview of the Fleet Lifecycle upgrade process is available for reference.</p>
+<figure class="wp-block-image size-large"><a href="https://youtu.be/O36PywL-E38?si=pHhDQs46OunvnuZ-"><img loading="lazy" decoding="async" height="576" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/07/For-VCFA-9.0-to-9.1-Video-Part-2.jpg" alt="" class="wp-image-33144" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/For-VCFA-9.0-to-9.1-Video-Part-2.jpg 1280w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/For-VCFA-9.0-to-9.1-Video-Part-2.jpg?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/For-VCFA-9.0-to-9.1-Video-Part-2.jpg?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/For-VCFA-9.0-to-9.1-Video-Part-2.jpg?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/For-VCFA-9.0-to-9.1-Video-Part-2.jpg?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/For-VCFA-9.0-to-9.1-Video-Part-2.jpg?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/For-VCFA-9.0-to-9.1-Video-Part-2.jpg?resize=600,338 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></a></figure>
+<h2 class="wp-block-heading"><strong>Environment Details</strong></h2>
+<ul class="wp-block-list">
+<li>Source version: VCF Automation 9.0.x</li>
+<li>Target version: VCF Automation 9.1.0.0</li>
+</ul>
+<h2 class="wp-block-heading"><strong>Prerequisites</strong></h2>
+<p>Before initiating the upgrade, confirm the following:</p>
+<ul class="wp-block-list">
+<li>The source appliance is running a supported VCF Automation 9.0.x build.</li>
+<li>The Primary FQDN resolves correctly to an IP address.</li>
+<li>SSH (port 22) is accessible and authentication is configured.</li>
+<li>Kubernetes nodes are in a &#8220;Ready&#8221; state.</li>
+<li>Sufficient disk I/O capacity is available on Postgres pods. This is validated by a 30-second, 250 MB latency test during prechecks.</li>
+<li>DNS resolves correctly for all allocated node IPs.</li>
+<li>Allocated node IPs are not already in use on the network.</li>
+</ul>
+<h2 class="wp-block-heading"><strong>Understanding the Precheck Phase</strong></h2>
+<p>Upgrading an automation platform requires orchestrating new configurations and migrating data at scale. The precheck phase serves as a non-destructive safety net, running a series of validations in a strict dependency order before any destructive operations are triggered.</p>
+<h3 class="wp-block-heading">The Five Precheck Categories</h3>
+<p>The Fleet Lifecycle evaluates the environment across five major categories to confirm readiness before the upgrade begins:</p>
+<ul class="wp-block-list">
+<li><strong>Connectivity Checks: </strong>The Fleet Lifecycle verifies communication channels with the source environment. This includes confirming that the Primary FQDN resolves to an IP address, verifying that SSH (port 22) is open, ensuring cipher negotiation matches expectations, and validating SSH authentication.</li>
+<li><strong>Source Validation:</strong> The system verifies that the upgrade proceeds from a supported starting point. It runs a Product Identification Check to confirm the source is a VCF Automation 9.0.x product, alongside a strict Version Validation Check.</li>
+<li><strong>Health Checks:</strong> The system confirms that Kubernetes nodes are in a &#8220;Ready&#8221; state, verifies that application category services are healthy, checks for database split-brain conditions, validates the TLS certificate chain, and runs a 30-second, 250 MB disk I/O latency test on Postgres pods.</li>
+<li><strong>Topology Checks: </strong>This phase confirms that the physical and logical infrastructure maps correctly to the upgrade configuration. It validates datastore consistency, checks that node IP pools and Platform VIPs fall within the target network CIDR block, confirms DNS resolution locally, and pings allocated node IPs to verify they are not already in use.</li>
+<li><strong>Application Prechecks: </strong>The system verifies application-level compliance, specifically the FIPS Endpoint Compatibility check, which assesses the current FIPS mode status on the source VCF Automation 9.x environment.</li>
+</ul>
+<p><strong>Troubleshooting note:</strong> If a precheck fails, the 9.x precheck execution logs are written via SSH to the source appliance at the following path:</p>
+<p>&#8220;/tmp/vcfa-upgrade/logs/upgrade-precheck&lt;script&gt; &lt;timestamp&gt;.log&#8221;</p>
+<h2 class="wp-block-heading"><strong>Executing the VCF Automation 9.1 Upgrade</strong></h2>
+<p>VCF Automation does not perform an in-place software update. Instead, it uses a side-by-side migration approach. The Fleet Lifecycle deploys a new 9.1 cluster alongside the existing 9.0.x nodes, migrates data to the new cluster, and then powers down the legacy environment. This approach reduces risk and preserves data integrity throughout the transition.</p>
+<h3 class="wp-block-heading">The Complete Upgrade Workflow</h3>
+<p>The upgrade process proceeds through six coordinated stages:</p>
+<p><strong>Stage 1: Initialization and Staging</strong><br />The system retrieves source component details, initializes required parameters, and validates the IP and FQDN specifications provided during configuration. It then stages the necessary VCF Automation packages and imports the source configuration.</p>
+<p><strong>Stage 2: Create Automation Cluster</strong><br />The Fleet Lifecycle creates a dedicated vcf-automation folder on the management vCenter, deploys a runtime template (vcf-services-runtime-template-9.1.0.0), and provisions a temporary bootstrap virtual machine. The bootstrap VM clones and deploys three new VCF Automation 9.1 nodes, assigning them IP addresses from the provided CIDR block.</p>
+<p><strong>Stage 3: Discover Automation Cluster</strong><br />Once the new virtual machines are online, an initialization process discovers the newly created VCF services runtime cluster and verifies it is ready to receive data.</p>
+<p><strong>Stage 4: Perform Component Upgrade</strong><br />This is the core data migration phase. The orchestrator syncs legacy 9.0.x data to the new 9.1 nodes through the following sequence:</p>
+<ol class="wp-block-list">
+<li>A full backup of the source 9.0.x cluster is initiated.</li>
+<li>The Postgres database is prepared for migration.</li>
+<li>VCF component services on the source cluster are scaled down to prevent new writes.</li>
+<li>A final component backup is taken and data is transferred to the new cluster.</li>
+<li>Services and configurations are restored on the target 9.1 nodes.</li>
+<li>The old 9.0.x nodes are powered off.</li>
+<li>Component services are installed on the new cluster, the Postgres upgrade is finalized, and the target component version is patched to 9.1.0.0.</li>
+</ol>
+<p><strong>Stage 5: Install Backend Services</strong><br />The system installs the required VCD Migrator Backend Service on the new 9.1 cluster.</p>
+<p><strong>Stage 6: Inventory Sync and Cleanup</strong><br />The Fleet Lifecycle runs an inventory sync to register the new 9.1 infrastructure in the Fleet Lifecycle manager. It then unstages downloaded binaries and removes all temporary files.</p>
+<h2 class="wp-block-heading"><strong>Summary</strong></h2>
+<p>The upgrade from VCF Automation 9.0.x to 9.1 is designed to be automated and low-risk. The precheck phase validates network topology, credentials, and database performance before any configuration changes occur. The side-by-side migration model ensures continuity by standing up the new environment before decommissioning the old one. Understanding these validation gates and execution stages enables administrators to plan and execute infrastructure modernization with confidence.</p>
+<h3 class="wp-block-heading"><strong>Acknowledgements</strong></h3>
+<p>Special thanks to <a href="arun.nukula@broadcom.com">Arun Nukula</a>, <a href="iyaz.khan@broadcom.com">Iyaz Khan</a>, and <a href="owen.sheehy@broadcom.com">Owen Sheehy</a>.</p>
+</p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/07/27/modernizing-infrastructure-a-deep-dive-into-the-vmware-cloud-foundation-automation-9-0-to-9-1-upgrade-precheck-and-execution-stages/">Modernizing Infrastructure: A Deep Dive into the VMware Cloud foundation Automation 9.0 to 9.1 Upgrade Precheck and Execution Stages</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/07/27/modernizing-infrastructure-a-deep-dive-into-the-vmware-cloud-foundation-automation-9-0-to-9-1-upgrade-precheck-and-execution-stages/">Modernizing Infrastructure: A Deep Dive into the VMware Cloud foundation Automation 9.0 to 9.1 Upgrade Precheck and Execution Stages</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10092841</post-id>	</item>
+		<item>
 		<title>The Heartbeat of Hands-on Labs at Explore &#124; Command Center Wall</title>
 		<link>https://blogs.vmware.com/hol/2026/07/the-heartbeat-of-hands-on-labs-at-explore-command-center-wall.html</link>
 		
@@ -28,13 +290,13 @@
 				<category><![CDATA[Education & Certification]]></category>
 		<guid isPermaLink="false">https://blogs.vmware.com/?p=10092382</guid>
 
-					<description><![CDATA[<img width="300" height="300" src="https://blogs.vmware.com/wp-content/uploads/2026/07/cropped-IMG_20250827_071435_674.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" fetchpriority="high" srcset="https://blogs.vmware.com/wp-content/uploads/2026/07/cropped-IMG_20250827_071435_674.jpg 300w, https://blogs.vmware.com/wp-content/uploads/2026/07/cropped-IMG_20250827_071435_674.jpg?resize=150,150 150w, https://blogs.vmware.com/wp-content/uploads/2026/07/cropped-IMG_20250827_071435_674.jpg?resize=210,210 210w" sizes="(max-width: 300px) 100vw, 300px" /><p>Nothing marks the start of quite Explore like the Hands-on Labs Command Center Wall! Attendees get a glimpse into real time metrics during Explore 2025 Weeks before Explore happens, a small team of dedicated engineers begins designing and building the infrastructure monitoring.&#160; The dashboards created are then used to populate the Command Center Wall &#8211; &#8230; <a href="https://blogs.vmware.com/hol/2026/07/the-heartbeat-of-hands-on-labs-at-explore-command-center-wall.html">Continued</a></p>
+					<description><![CDATA[<img width="300" height="300" src="https://blogs.vmware.com/wp-content/uploads/2026/07/cropped-IMG_20250827_071435_674.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/wp-content/uploads/2026/07/cropped-IMG_20250827_071435_674.jpg 300w, https://blogs.vmware.com/wp-content/uploads/2026/07/cropped-IMG_20250827_071435_674.jpg?resize=150,150 150w, https://blogs.vmware.com/wp-content/uploads/2026/07/cropped-IMG_20250827_071435_674.jpg?resize=210,210 210w" sizes="auto, (max-width: 300px) 100vw, 300px" /><p>Nothing marks the start of quite Explore like the Hands-on Labs Command Center Wall! Attendees get a glimpse into real time metrics during Explore 2025 Weeks before Explore happens, a small team of dedicated engineers begins designing and building the infrastructure monitoring.&#160; The dashboards created are then used to populate the Command Center Wall &#8211; &#8230; <a href="https://blogs.vmware.com/hol/2026/07/the-heartbeat-of-hands-on-labs-at-explore-command-center-wall.html">Continued</a></p>
 <p>The post <a href="https://blogs.vmware.com/hol/2026/07/the-heartbeat-of-hands-on-labs-at-explore-command-center-wall.html">The Heartbeat of Hands-on Labs at Explore | Command Center Wall</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
 										<content:encoded><![CDATA[<img width="300" height="300" src="https://blogs.vmware.com/wp-content/uploads/2026/07/cropped-IMG_20250827_071435_674.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/wp-content/uploads/2026/07/cropped-IMG_20250827_071435_674.jpg 300w, https://blogs.vmware.com/wp-content/uploads/2026/07/cropped-IMG_20250827_071435_674.jpg?resize=150,150 150w, https://blogs.vmware.com/wp-content/uploads/2026/07/cropped-IMG_20250827_071435_674.jpg?resize=210,210 210w" sizes="auto, (max-width: 300px) 100vw, 300px" /><div><img width="300" height="300" src="https://blogs.vmware.com/wp-content/uploads/2026/07/cropped-IMG_20250827_071435_674.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/cropped-IMG_20250827_071435_674.jpg 3024w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/cropped-IMG_20250827_071435_674.jpg?resize=150,150 150w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/cropped-IMG_20250827_071435_674.jpg?resize=300,300 300w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/cropped-IMG_20250827_071435_674.jpg?resize=768,768 768w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/cropped-IMG_20250827_071435_674.jpg?resize=1024,1024 1024w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/cropped-IMG_20250827_071435_674.jpg?resize=1536,1536 1536w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/cropped-IMG_20250827_071435_674.jpg?resize=2048,2048 2048w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/cropped-IMG_20250827_071435_674.jpg?resize=600,600 600w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/cropped-IMG_20250827_071435_674.jpg?resize=360,360 360w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
 <p>Nothing marks the start of quite Explore like the Hands-on Labs <strong>Command Center Wall</strong>!</p>
 <div class="wp-block-image">
-<figure class="aligncenter size-full is-resized"><a href="https://blogs.vmware.com/wp-content/uploads/2026/07/image_f247f7.png"><img decoding="async" width="512" height="341" src="https://blogs.vmware.com/wp-content/uploads/2026/07/image_f247f7.png" alt="" class="wp-image-4494" style="width:536px;height:auto" srcset="https://blogs.vmware.com/wp-content/uploads/2026/07/image_f247f7.png 512w, https://blogs.vmware.com/wp-content/uploads/2026/07/image_f247f7.png?resize=300,200 300w" sizes="(max-width: 512px) 100vw, 512px" /></a><figcaption class="wp-element-caption">Attendees get a glimpse into real time metrics during Explore 2025</figcaption></figure>
+<figure class="aligncenter size-full is-resized"><a href="https://blogs.vmware.com/wp-content/uploads/2026/07/image_f247f7.png"><img loading="lazy" decoding="async" width="512" height="341" src="https://blogs.vmware.com/wp-content/uploads/2026/07/image_f247f7.png" alt="" class="wp-image-4494" style="width:536px;height:auto" srcset="https://blogs.vmware.com/wp-content/uploads/2026/07/image_f247f7.png 512w, https://blogs.vmware.com/wp-content/uploads/2026/07/image_f247f7.png?resize=300,200 300w" sizes="auto, (max-width: 512px) 100vw, 512px" /></a><figcaption class="wp-element-caption">Attendees get a glimpse into real time metrics during Explore 2025</figcaption></figure>
 </div>
 <p>Weeks before Explore happens, a small team of dedicated engineers begins designing and building the infrastructure monitoring.&nbsp; The dashboards created are then used to populate the Command Center Wall &#8211; these<strong> live dashboards </strong>monitor the usage, metrics and performance of the infrastructure &#8211; in real time!&nbsp; When you sit down to take a lab, your impact shows up on the wall!&nbsp;</p>
 <p>This year, the Command Center Wall is showcasing the full power of VCF 9.1 &#8211; and there&#8217;s a lot to showcase.</p>
@@ -46,7 +308,7 @@
 <h3 class="wp-block-heading" id="h-vcf-9-1-takes-center-stage"><strong>VCF 9.1 Takes Center Stage</strong></h3>
 <p>This year the monitoring is showcasing VCF 9.1 across its full stack. Here&#8217;s what&#8217;s coming:</p>
 <div class="wp-block-image">
-<figure class="aligncenter size-large"><a href="https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/image_729cde.png"><img decoding="async" height="685" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/07/image_729cde.png" alt="" class="wp-image-4495" srcset="https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/image_729cde.png 1602w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/image_729cde.png?resize=300,201 300w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/image_729cde.png?resize=768,514 768w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/image_729cde.png?resize=1024,685 1024w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/image_729cde.png?resize=1536,1028 1536w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/image_729cde.png?resize=600,401 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></a><figcaption class="wp-element-caption">VMware Cloud Foundation Operations Health Daashboard</figcaption></figure>
+<figure class="aligncenter size-large"><a href="https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/image_729cde.png"><img loading="lazy" decoding="async" height="685" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/07/image_729cde.png" alt="" class="wp-image-4495" srcset="https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/image_729cde.png 1602w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/image_729cde.png?resize=300,201 300w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/image_729cde.png?resize=768,514 768w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/image_729cde.png?resize=1024,685 1024w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/image_729cde.png?resize=1536,1028 1536w, https://blogs.vmware.com/hol/wp-content/uploads/sites/45/2026/07/image_729cde.png?resize=600,401 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></a><figcaption class="wp-element-caption">VMware Cloud Foundation Operations Health Daashboard</figcaption></figure>
 </div>
 <p><strong>VCF Operations</strong> has been a staple of the Command Center Wall for several years, and 9.1 brings improvements to dashboards, data presentation, and customization that make it easier to surface the right metrics at the right time. Custom dashboards tailored to the event environment span partner cloud capacity, private cloud hosts, and everything in between &#8211; a showcase of just how flexible the platform is.</p>
 <p><strong>VCF Operations for Logs</strong> is now deeply integrated into the core Operations experience in 9.1, and the CCW puts that integration front and center. A dedicated Logs dashboard built specifically for the Command Center Wall surfaces log insights in a way that&#8217;s both visually compelling and operationally actionable &#8211; even for first-time viewers.</p>
@@ -323,180 +585,5 @@
 		
 		
 		<post-id xmlns="com-wordpress:feed-additions:1">10091556</post-id>	</item>
-		<item>
-		<title>Faster is Still Safer: The Three R’s of Enterprise Security in the Era of AI-Driven Exploits</title>
-		<link>https://blogs.vmware.com/tanzu/faster-is-still-safer-the-three-rs-of-enterprise-security-in-the-era-of-ai-driven-exploits/</link>
-		
-		<dc:creator><![CDATA[darin zook and ryan conley]]></dc:creator>
-		<pubDate>Mon, 20 Jul 2026 17:24:53 +0000</pubDate>
-				<category><![CDATA[Modern Apps]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10091536</guid>
-
-					<description><![CDATA[<p>A decade ago, the VMware Tanzu team (at that time, Pivotal) published a security manifesto, a radical call to action of sorts, via a blog post that broke the glass of traditional security culture inside of enterprise IT. The premise was faster is safer, a radical departure from the calcified, change-resistant security policies of the &#8230; <a href="https://blogs.vmware.com/tanzu/faster-is-still-safer-the-three-rs-of-enterprise-security-in-the-era-of-ai-driven-exploits/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/tanzu/faster-is-still-safer-the-three-rs-of-enterprise-security-in-the-era-of-ai-driven-exploits/">Faster is Still Safer: The Three R’s of Enterprise Security in the Era of AI-Driven Exploits</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<div><img loading="lazy" width="300" height="157" src="https://blogs.vmware.com/wp-content/uploads/2026/04/vmw-blogtile-tanzu-platform-v3-2.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2025/03/vmw-blogtile-tanzu-platform-v3-2.png 1200w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2025/03/vmw-blogtile-tanzu-platform-v3-2.png?resize=300,157 300w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2025/03/vmw-blogtile-tanzu-platform-v3-2.png?resize=768,402 768w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2025/03/vmw-blogtile-tanzu-platform-v3-2.png?resize=1024,536 1024w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2025/03/vmw-blogtile-tanzu-platform-v3-2.png?resize=600,314 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<p>A decade ago, the VMware Tanzu team (at that time, Pivotal) published a security manifesto, a radical call to action of sorts, via a blog post that broke the glass of traditional security culture inside of enterprise IT. The premise was faster is safer, a radical departure from the calcified, change-resistant security policies of the &#8230; <a href="https://blogs.vmware.com/tanzu/faster-is-still-safer-the-three-rs-of-enterprise-security-in-the-era-of-ai-driven-exploits/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/tanzu/faster-is-still-safer-the-three-rs-of-enterprise-security-in-the-era-of-ai-driven-exploits/">Faster is Still Safer: The Three R’s of Enterprise Security in the Era of AI-Driven Exploits</a> appeared first on <a href="https://blogs.vmware.com/tanzu">Tanzu</a>.</p><p>The post <a href="https://blogs.vmware.com/tanzu/faster-is-still-safer-the-three-rs-of-enterprise-security-in-the-era-of-ai-driven-exploits/">Faster is Still Safer: The Three R’s of Enterprise Security in the Era of AI-Driven Exploits</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10091536</post-id>	</item>
-		<item>
-		<title>Simplified Identity Management with Authentik for Holodeck 9.1</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/07/20/identity-mgmt-for-holodeck/</link>
-		
-		<dc:creator><![CDATA[nikhil m kulkarni]]></dc:creator>
-		<pubDate>Mon, 20 Jul 2026 17:04:39 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10091516</guid>
-
-					<description><![CDATA[<img width="299" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/07/Screenshot-165.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Holodeck 9.1 ships Authentik as a first-class service on the Holorouter. Two commands are all it takes to stand up a fully federated identity layer for your VMware Cloud Foundation (VCF) lab — no external LDAP, no manual UI clicks, no secrets scattered across config files. What is Authentik? Authentik is a self-hosted, open-source Identity &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/07/20/identity-mgmt-for-holodeck/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/07/20/identity-mgmt-for-holodeck/">Simplified Identity Management with Authentik for Holodeck 9.1</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="299" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/07/Screenshot-165.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/07/Screenshot-165.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-165.png 1920w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-165.png?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-165.png?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-165.png?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-165.png?resize=1536,864 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-165.png?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-165.png?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-165.png?resize=600,338 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<p><a href="https://vmware.github.io/Holodeck/release_notes/#holodeck-91-major-release">Holodeck 9.1</a> ships Authentik as a first-class service on the Holorouter. Two commands are all it takes to stand up a fully federated identity layer for your VMware Cloud Foundation (VCF) lab — no external LDAP, no manual UI clicks, no secrets scattered across config files.</p>
-<p><strong>What is Authentik?</strong></p>
-<p><a href="https://goauthentik.io/">Authentik </a>is a self-hosted, open-source Identity Provider (IdP) that speaks the protocols modern platforms actually use: OIDC, OAuth2, SAML 2.0, and SCIM 2.0. Think of it as the identity backbone you would normally outsource to some third-party vendors — except it runs on your own infrastructure, costs nothing per user, and integrates natively with Kubernetes via a Helm chart.</p>
-<p>In Holodeck 9.1, Authentik is deployed inside the Holorouter&#8217;s single-node Kubernetes cluster at auth.vcf.lab. It is installed automatically as part of the Set-HoloRouter command, which in turn is part of New-HolodeckInstance command, so by the time your nested VCF deployment starts, the IdP is already healthy and waiting.</p>
-<h3 class="wp-block-heading" id="h-advantages-of-authentik"><strong>Advantages of Authentik</strong></h3>
-<ul class="wp-block-list">
-<li><strong>Open Source and Self-Hosted</strong> — Fully open source with no per-seat licensing costs. Runs entirely inside the Holodeck environment on the Holorouter.</li>
-<li><strong>Standards-Based Protocols</strong> — Native support for OIDC, OAuth2, SAML 2.0, and SCIM 2.0 — exactly the protocols VCF Operations expects from its external identity provider.</li>
-<li><strong>Fine-Grained Access Policies</strong> — Policy engine lets you attach authentication flows, MFA stages, and group-based authorisation rules to each application independently.</li>
-<li><strong>Automated Provisioning</strong> — Pushes users and groups to downstream services automatically. No manual account creation in VCF Operations after deployment.</li>
-<li><strong>Kubernetes-Native Deployment</strong> — Deployed via Helm in the single-node Kubernetes cluster running on Holorouter. No extra infrastructure or VMs required.</li>
-</ul>
-<h2 class="wp-block-heading" id="h-vcf-sso-one-identity-across-the-entire-stack"><strong>VCF SSO: One Identity Across the Entire Stack</strong></h2>
-<p>VCF Operations 9.0 introduced a fleet-level Single Sign-On (SSO) layer that federates authentication across every VCF component — vCenter, NSX, VCF Automation, and VCF Operations itself — through a single external identity provider. VCF Operations registers an IdP, exchanges tokens, and uses the IdP to keep its internal user/group directory in sync with the source of truth in the IdP.</p>
-<h3 class="wp-block-heading" id="h-advantages-of-vcf-sso"><strong>Advantages of VCF SSO</strong></h3>
-<ul class="wp-block-list">
-<li><strong>Single Login for the Entire Stack</strong> — One identity authenticates across vCenter, NSX Manager, VCF Operations, and VCF Automation.</li>
-<li><strong>Federated Identity </strong>— VCF Operations delegates authentication entirely to the external IdP without storing credentials locally.</li>
-<li><strong>Users and Groups Sync</strong> — Groups and users are pushed to VCF by IdP and then roles (e.g. vcf_administrator) are assigned directly to synced groups.</li>
-<li><strong>Domain-Based User Routing</strong> — Users log in with their domain suffix (e.g. admin@vcf.lab) and VCF SSO routes the authentication request to the matching identity provider automatically.</li>
-<li><strong>Centralised Role Management</strong> — RBAC lives in VCF SSO rather than individual component UIs. Add a user to an Authentik group and access propagates everywhere.</li>
-</ul>
-<h2 class="wp-block-heading" id="h-the-use-case-authentik-as-the-vcf-sso-identity-provider"><strong>The Use Case: Authentik as the VCF SSO Identity Provider</strong></h2>
-<p>A fresh VCF Operations instance ships with a local administrator account. Any real lab workflow — day-2 automation, multi-operator testing, or CI pipeline runs — needs a proper identity layer. The traditional answer is to connect an external Active Directory, but standing up AD in a lab environment is heavyweight and time-consuming.</p>
-<p>Authentik closes that gap. It acts as a lightweight IdP that VCF Operations already knows how to talk to. In Holodeck 9.1, Authentik becomes the OIDC issuer VCF Operations trusts, and SCIM becomes the channel through which Authentik continuously pushes user and group changes into its internal directory. The result is a federated lab identity stack that mirrors production behaviour without the overhead of a domain controller.</p>
-<p><strong>What Holodeck configures automatically:</strong></p>
-<p>Holodeck provisions the full integration end-to-end — Authentik groups (<em>VCF Administrators</em>), a lab admin user (admin@vcf.lab), an OIDC provider (<em>holodeck</em>) with VCF-compatible redirect URIs, a SCIM provider (<em>scim-holodeck</em>) targeting the VCF Operations SCIMv2 endpoint, and role assignment of vcf_administrator to the synced group — all without opening a browser.</p>
-<h2 class="wp-block-heading" id="h-integrating-authentik-with-vcf-sso-two-commands-in-holodeck"><strong>Integrating Authentik with VCF SSO: Two Commands in Holodeck</strong></h2>
-<p>The entire Authentik–VCF SSO integration is automated through two PowerShell commands exposed by the Holodeck module. Run them in order after your VCF deployment is complete.</p>
-<figure class="wp-block-table">
-<table class="has-fixed-layout">
-<thead>
-<tr>
-<th><strong>Step</strong></th>
-<th><strong>Command / Action</strong></th>
-<th><strong>What Happens</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>1 (Pre-requisite)</strong></td>
-<td>Set-HoloRouter (part of New-HolodeckInstance)</td>
-<td>Deploys Authentik via Helm on the HoloRouter Kubernetes cluster.</td>
-</tr>
-<tr>
-<td><strong>2</strong></td>
-<td>Initialize-Authentik</td>
-<td>Creates groups and users inside Authentik, registers the <em>holodeck</em> OIDC provider, and binds it to the <em>vcf</em> application.</td>
-</tr>
-<tr>
-<td><strong>3</strong></td>
-<td>Set-VCFSSOConfiguration</td>
-<td>Calls the VCF Operations IAM API to create an SSO realm, register Authentik as the IdP, generate a SCIM sync token, trigger SCIM sync, and assign vcf_administrator to the synced group.</td>
-</tr>
-<tr>
-<td><strong>4 </strong><strong><br /></strong><strong>(Validation)</strong></td>
-<td>Login complete</td>
-<td>Users navigate to VCF Operations, enter admin@vcf.lab, authenticate via Authentik, and land back with full administrator rights.</td>
-</tr>
-</tbody>
-</table>
-</figure>
-<h3 class="wp-block-heading" id="h-command-1-initialize-authentik"><strong>Command 1 — Initialize-Authentik</strong></h3>
-<p>Initialize-Authentik connects to the freshly deployed Authentik instance at auth.vcf.lab and bootstraps everything VCF SSO needs on the IdP side:</p>
-<figure class="wp-block-table">
-<table class="has-fixed-layout">
-<thead>
-<tr>
-<th><strong>What it does</strong></th>
-<th><strong>Detail</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Creates VCF Administrators group</td>
-<td>Superuser-flagged group in Authentik that maps to the vcf_administrator role in VCF Operations.</td>
-</tr>
-<tr>
-<td>Creates admin user</td>
-<td>admin@vcf.lab, a member of VCF Administrators, used for VCF Operations login after federation is complete.</td>
-</tr>
-<tr>
-<td>Registers holodeck OIDC provider</td>
-<td>Creates a confidential OAuth2 client with appropriate redirect URI.</td>
-</tr>
-<tr>
-<td>Creates vcf application</td>
-<td>Binds the OIDC provider to an Authentik application object, enabling the OIDC discovery endpoint that VCF Operations will use.</td>
-</tr>
-</tbody>
-</table>
-</figure>
-<p><strong>Invocation:</strong></p>
-<pre class="crayon-plain-tag">$oidcProvider = Initialize-Authentik -AdminPassword 'VMware123!VMware123!' -Site a -UserPassword 'VMware123!VMware123!' -BootstrapToken 'holodeck'</pre>
-<p>The command returns the OIDC provider object — containing client_id and client_secret — that is passed directly into Set-VCFSSOConfiguration in the next step.</p>
-<h3 class="wp-block-heading" id="h-command-2-set-vcfssoconfiguration"><strong>Command 2 — Set-VCFSSOConfiguration</strong></h3>
-<p>Set-VCFSSOConfiguration calls the VCF Operations fleet-management IAM API to wire Authentik in as the trusted external IdP and kick off the initial SCIM synchronisation:</p>
-<figure class="wp-block-table">
-<table class="has-fixed-layout">
-<thead>
-<tr>
-<th><strong>What it does</strong></th>
-<th><strong>Detail</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Acquires VCF Operations OpsToken</td>
-<td>Authenticates with VCF Operations API server and obtains the bearer token for every subsequent API call.</td>
-</tr>
-<tr>
-<td>Creates SSO realm</td>
-<td>Create the VCF identity domain that anchors all federations.</td>
-</tr>
-<tr>
-<td>Registers Authentik as OIDC/SCIM IdP</td>
-<td>Sends the OIDC discovery endpoint, client_id/secret, and auth.vcf.lab TLS certificate chain to VCF Operations.</td>
-</tr>
-<tr>
-<td>Generates SCIM sync token</td>
-<td>Obtains an access token that Authentik uses to push users and groups to VCF Operations via SCIMv2.</td>
-</tr>
-<tr>
-<td>Triggers Authentik SCIM sync</td>
-<td>Configures the <em>scim-holodeck</em> provider in Authentik, then immediately syncs all users and groups into VCF Operations.</td>
-</tr>
-<tr>
-<td>Assigns vcf_administrator role</td>
-<td>Once the VCF Administrators group appears, it grants the vcf_administrator rights.</td>
-</tr>
-</tbody>
-</table>
-</figure>
-<p><strong>Invocation (pass the OIDC provider returned by Initialize-Authentik):</strong></p>
-<pre class="crayon-plain-tag">Set-VCFSSOConfiguration -Site a -Username admin -Password 'VMware123!VMware123!' -BootstrapToken 'holodeck' -oidcProvider $oidcProvider</pre>
-<p>After both commands complete, users can log into VCF Operations at https://ops-a.site-a.vcf.lab with admin@vcf.lab — authenticated by Authentik, authorised by VCF SSO, and carrying full vcf_administrator rights. No browser, no manual UI configuration, no multi-step integration process.</p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/07/20/identity-mgmt-for-holodeck/">Simplified Identity Management with Authentik for Holodeck 9.1</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/07/20/identity-mgmt-for-holodeck/">Simplified Identity Management with Authentik for Holodeck 9.1</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10091516</post-id>	</item>
 	</channel>
 </rss>
