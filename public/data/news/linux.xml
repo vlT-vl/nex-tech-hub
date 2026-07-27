@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Linux News</title><item>
+   <title>Linux 7.2-rc5 Released: &quot;Once More We Have Quite A Massive -rc5&quot;</title>
+   <link>https://www.phoronix.com/news/Linux-7.2-rc5-Released</link>
+   <guid>https://www.phoronix.com/news/Linux-7.2-rc5-Released</guid>
+   <description>In working toward releasing the stable Linux 7.2 kernel in less than one month's time, out today is Linux 7.2-rc5 to ship this week's latest bug/regression fixes and help facilitate more testing of this in-development kernel version...</description>
+   <pubDate>Sun, 26 Jul 2026 18:05:14 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
+   <title>GNU Binutils 2.47 Released With More RISC-V Extensions, New Options</title>
+   <link>https://www.phoronix.com/news/GNU-Binutils-2.47</link>
+   <guid>https://www.phoronix.com/news/GNU-Binutils-2.47</guid>
+   <description>Along with this weekend's release of GNU C Library 2.44, the GNU Binutils 2.47 release is also now available for this important set of binary utilities common to Linux systems and other platforms with the GNU toolchain...</description>
+   <pubDate>Sun, 26 Jul 2026 15:36:15 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
    <title>&quot;KVM Chainsaw&quot; Expected To Hit Linux 7.3 For Dealing With God Data Structure</title>
    <link>https://www.phoronix.com/news/KVM-Chainsaw-Linux-7.3</link>
    <guid>https://www.phoronix.com/news/KVM-Chainsaw-Linux-7.3</guid>
@@ -207,20 +221,6 @@
    <guid>https://www.phoronix.com/news/SDL-HDR10-Rendering-Support</guid>
    <description>Sam Lantinga of Valve and SDL fame has landed HDR10 rendering support into the Simple DirectMedia Library...</description>
    <pubDate>Wed, 22 Jul 2026 15:13:21 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>COSMIC Epoch 1.4 Released With More Fixes, Force Quit For COSMIC Monitor</title>
-   <link>https://www.phoronix.com/news/COSMIC-Epoch-1.4</link>
-   <guid>https://www.phoronix.com/news/COSMIC-Epoch-1.4</guid>
-   <description>System76 developers today released COSMIC Epoch 1.4 as the newest stable release to their Rust-based desktop environment...</description>
-   <pubDate>Wed, 22 Jul 2026 14:48:39 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>AMD EPYC Turin With PCIe 5.0 Storage Shows Off Nice Gains On Linux 7.2</title>
-   <link>https://www.phoronix.com/review/linux-72-epyc-9455p</link>
-   <guid>https://www.phoronix.com/review/linux-72-epyc-9455p</guid>
-   <description>Earlier this week was an exciting look at Intel Xe3 graphics performance gains on Linux 7.2 with Intel Core Ultra Series 3 &quot;Panther Lake&quot; hardware. On the other side of the table, with AMD hardware on this forthcoming kernel an area to be excited about are some I/O improvements at least for 5th Gen EPYC with speedy PCIe Gen5 NVMe SSD storage.</description>
-   <pubDate>Wed, 22 Jul 2026 12:00:00 -0400</pubDate>
    <dc:creator>Michael Larabel</dc:creator>
   </item><item><title>Confidential computing and the new regulatory focus on data in use</title><link>https://ubuntu.com//blog/confidential-computing-and-the-new-regulatory-focus-on-data-in-use</link><description>&lt;p&gt;Most organizations already understand encryption at rest and encryption in transit. These controls are mature, widely deployed, and often explicitly referenced in security frameworks. However, runtime is different: when an application processes sensitive information, that data is typically available in memory. In a traditional infrastructure model, the workload owner may need to trust a large [&amp;hellip;]&lt;/p&gt;
 </description><content:encoded>
@@ -719,6 +719,15 @@ dpkg-query -W -f '${source:Package}\t${binary:Package}\n' | awk '$1 ~ "^linux-me
 &lt;pre class="wp-block-code"&gt;&lt;code&gt;sudo rm /etc/modprobe.d/pedit-cow.conf
 sudo update-initramfs -u -k all&lt;/code&gt;&lt;/pre&gt;
 </content:encoded><author>Luci Stanescu (Luci Stanescu)</author><category>Security</category><category>Vulnerabilities</category><pubDate>Wed, 01 Jul 2026 07:50:02 +0000</pubDate></item><item>
+        <title>Kernel prepatch 7.2-rc5</title>
+        <link>https://lwn.net/Articles/1085422/</link>
+        <guid>https://lwn.net/Articles/1085422/</guid>
+        <dc:creator>corbet</dc:creator>
+        <description>The &lt;a href=&quot;https://lwn.net/Articles/1085421/&quot;&gt;7.2-rc5&lt;/a&gt; kernel prepatch is out for
+testing.  Linus said: &quot;&lt;q&gt;So it's a bit too big for my liking, but nothing
+in there strikes me as particularly strange or scary&lt;/q&gt;&quot;.</description>
+        <pubDate>Sun, 26 Jul 2026 22:10:54 +0000</pubDate>
+        </item><item>
         <title>A Debian general resolution on LLM usage</title>
         <link>https://lwn.net/Articles/1085314/</link>
         <guid>https://lwn.net/Articles/1085314/</guid>
@@ -951,12 +960,4 @@ and justifies&lt;/a&gt; these policies.
 	storing single-use software that would pollute our FLOSS commons.
 &lt;/blockquote&gt;</description>
         <pubDate>Thu, 23 Jul 2026 13:27:38 +0000</pubDate>
-        </item><item>
-        <title>Security updates for Thursday</title>
-        <link>https://lwn.net/Articles/1084401/</link>
-        <guid>https://lwn.net/Articles/1084401/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>Security updates have been issued by &lt;b&gt;AlmaLinux&lt;/b&gt; (acl, dogtag-pki, dovecot, glibc, go-toolset:rhel8, golang-github-openprinting-ipp-usb, grafana, grafana-pcp, httpd:2.4, javapackages-tools:201801, libtiff, mariadb-connector-c, perl-HTTP-Daemon, pki-deps:10.6, and sssd), &lt;b&gt;Debian&lt;/b&gt; (bind9, chromium, firefox-esr, and pdns-recursor), &lt;b&gt;Fedora&lt;/b&gt; (chromium, collectl, fractal, kernel, libssh, llvm, nginx, nginx-mod-brotli, nginx-mod-fancyindex, nginx-mod-headers-more, nginx-mod-js-challenge, nginx-mod-modsecurity, nginx-mod-naxsi, nginx-mod-vts, perl-DBI, perl-YAML-Syck, and srt), &lt;b&gt;SUSE&lt;/b&gt; (7zip, GraphicsMagick, ImageMagick, multipath-tools, perl-YAML, python-sqlparse, python3-sqlparse, python313-bleach, and sssd), and &lt;b&gt;Ubuntu&lt;/b&gt; (apache2, commons-beanutils, exim4, gawk, giflib, gst-plugins-good1.0, krb5, libapache-mod-jk, libarchive, libgphoto2, libhtml-parser-perl, linux-aws, linux-aws-5.15, linux-aws-fips, linux-fips, linux-ibm, linux-nvidia, linux-fips, linux-lowlatency, linux-lowlatency-hwe-6.8, linux-oracle, linux-ibm, linux-oracle, linux-ibm-5.15, linux-nvidia, linux-nvidia-6.8, linux-nvidia-lowlatency, linux-nvidia-tegra, linux-nvidia-tegra-igx, linux-oem-6.17, linux-oracle-6.8, python-aiohttp, and tar).
-</description>
-        <pubDate>Thu, 23 Jul 2026 13:05:28 +0000</pubDate>
         </item></channel></rss>
