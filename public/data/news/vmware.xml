@@ -12,7 +12,7 @@
 	<atom:link href="https://blogs.vmware.com/feed" rel="self" type="application/rss+xml" />
 	<link>https://blogs.vmware.com/</link>
 	<description>VMware Blogs</description>
-	<lastBuildDate>Mon, 27 Jul 2026 17:16:50 +0000</lastBuildDate>
+	<lastBuildDate>Tue, 28 Jul 2026 11:48:22 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -20,6 +20,141 @@
 	1	</sy:updateFrequency>
 	<generator>https://wordpress.org/?v=6.8.6</generator>
 <site xmlns="com-wordpress:feed-additions:1">237817777</site>	<item>
+		<title>Memory Tiering for VMs and VKS: Deployment Flexibility, Smarter Consolidation, Intelligent Resource Consumption</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/07/28/memory-tiering-for-vms-and-vks-deployment-flexibility-smarter-consolidation-intelligent-resource-consumption/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Tue, 28 Jul 2026 11:00:00 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10092952</guid>
+
+					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/07/sleek-enterprise-featured-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>If you’re running workloads on vSphere Kubernetes Service (VKS) today, or planning to, one of the questions that comes up quickly is how container workloads interact with infrastructure-level capabilities like Memory Tiering. Can VKS take full advantage of the same memory efficiency features that VM workloads use? Does adding a Kubernetes layer on top change &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/07/28/memory-tiering-for-vms-and-vks-deployment-flexibility-smarter-consolidation-intelligent-resource-consumption/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/07/28/memory-tiering-for-vms-and-vks-deployment-flexibility-smarter-consolidation-intelligent-resource-consumption/">Memory Tiering for VMs and VKS: Deployment Flexibility, Smarter Consolidation, Intelligent Resource Consumption</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/07/sleek-enterprise-featured-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/07/sleek-enterprise-featured-1200x600-1.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/sleek-enterprise-featured-1200x600-1.png 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/sleek-enterprise-featured-1200x600-1.png?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/sleek-enterprise-featured-1200x600-1.png?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/sleek-enterprise-featured-1200x600-1.png?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/sleek-enterprise-featured-1200x600-1.png?resize=600,300 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<p>If you’re running workloads on vSphere Kubernetes Service (VKS) today, or planning to, one of the questions that comes up quickly is how container workloads interact with infrastructure-level capabilities like Memory Tiering. Can VKS take full advantage of the same memory efficiency features that VM workloads use? Does adding a Kubernetes layer on top change the performance story? We’re glad you’ve asked, because we put it to the test, and the results are worth talking about.</p>
+<p>What we want to walk you through today is how VKS, running natively inside VMware Cloud Foundation (VCF), inherits Memory Tiering completely transparently, and what that means for your infrastructure consolidation strategy. Let’s dig in.</p>
+<div style="height:30px" aria-hidden="true" class="wp-block-spacer"></div>
+<h2 class="wp-block-heading" id="h-vks-kubernetes-built-into-vcf"><strong>VKS &#8211; Kubernetes Built into VCF</strong></h2>
+<p>VKS is a Cloud Native Computing Foundation (CNCF) conformant Kubernetes distribution that runs on top of the vSphere Supervisor. The Supervisor is the Kubernetes control plane embedded natively into each vSphere cluster, and is what enables VKS to provision and manage upstream Kubernetes clusters as first-class objects within VCF.</p>
+<p>The same infrastructure policies, networking constructs, storage integrations, and lifecycle operations you rely on for your VMs apply equally to your Kubernetes clusters. There is no external Kubernetes management platform to stand up or maintain alongside your existing infrastructure stack, and no need to run a separate operational model for container workloads.</p>
+<p>A few things that make VKS stand out in the VCF context.</p>
+<ul class="wp-block-list">
+<li><strong>Lifecycle management is automated.</strong> VKS cluster provisioning, upgrades, and scaling are managed natively through VCF. No separate lifecycle tooling is required.</li>
+<li><strong>Networking is integrated.</strong> VKS clusters use open-source CNI options (Antrea by default or Calico/Cilium). In NSX-enabled environments, VKS clusters leverage the same micro-segmentation, and policy controls your VMs already use.</li>
+<li><strong>Storage is native.</strong> Persistent volumes leverage vSAN and the broader VCF storage stack, with no bolt-on solutions required.</li>
+<li><strong>It’s included in VCF licensing.</strong> You’re not paying for a separate Kubernetes platform on top of your existing investment.</li>
+</ul>
+<p>For organizations managing a mixed workload environment, VKS is the answer to the question of how to support containers without creating a second infrastructure silo. The result is a standards-conformant Kubernetes runtime with the operational consistency, storage, networking, and lifecycle integration of VCF built in.</p>
+<p>And because VKS runs on the same vSphere infrastructure as your VMs, it also inherits every hypervisor-level capability automatically, including Memory Tiering.</p>
+<div class="wp-block-image">
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6a689701b0e59&quot;}" data-wp-interactive="core/image" class="aligncenter size-large wp-lightbox-container"><img fetchpriority="high" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="572" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/07/professional-enterprise-9c271f39.jpg" alt="" class="wp-image-33187" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/professional-enterprise-9c271f39.jpg 1376w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/professional-enterprise-9c271f39.jpg?resize=300,167 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/professional-enterprise-9c271f39.jpg?resize=768,429 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/professional-enterprise-9c271f39.jpg?resize=1024,572 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/professional-enterprise-9c271f39.jpg?resize=600,335 600w" sizes="(max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+</div>
+<div style="height:30px" aria-hidden="true" class="wp-block-spacer"></div>
+<h2 class="wp-block-heading" id="h-memory-tiering-what-vks-gets-for-free"><strong>Memory Tiering &#8211; What VKS Gets for Free</strong></h2>
+<p>Memory Tiering isn’t something VKS workloads need to be configured to use. When you enable it on a VCF cluster, every workload running on that cluster benefits, whether it’s a traditional VM or a containerized application running inside a VKS-managed Kubernetes node.</p>
+<p>Here’s how it works. vSphere manages a tiered memory pool that combines fast DRAM with a secondary tier, typically NVMe-based storage configured as a memory extension. The hypervisor handles the placement and movement of memory pages between tiers automatically, based on access patterns. Hot pages stay in DRAM. Cooler pages move to the secondary tier. If a cooled page gets accessed again, it’s promoted back. This entire process happens below the guest OS, below the Kubernetes node VM, and below the container runtime. Nothing above the hypervisor needs to know it’s happening.</p>
+<p>There’s no driver to install, no kernel parameter to tune, and no application change required. The workload sees a single, contiguous memory address space, regardless of whether it’s a VM, a Kubernetes pod, or a containerized microservice. For VKS specifically, this means your platform team doesn’t need to manage memory tiering separately for container workloads. You configure it once at the cluster level, and VKS inherits it completely.</p>
+<p>The practical implication is significant. You can run more VKS clusters per host, reduce the DRAM footprint required for your Kubernetes infrastructure, and drive down the cost per workload; all without touching application code, Kubernetes manifests, or container configurations. That’s a meaningful TCO lever, and it works across the entire VCF portfolio.</p>
+<div style="height:30px" aria-hidden="true" class="wp-block-spacer"></div>
+<h2 class="wp-block-heading" id="h-vks-and-memory-tiering-nbsp"><strong>VKS and Memory Tiering&nbsp;</strong></h2>
+<p>A question people ask is whether their workloads running in VKS can benefit from Memory Tiering. We performed several experiments to answer this question using the popular HammerDB benchmark. We compared the relative throughput achieved by the benchmark between a Memory Tiering enabled system against a baseline where Memory Tiering is not enabled. The baseline cases ran on a host that has 1 TB of DRAM. The Memory Tiering cases ran on a host that has 512 GB of DRAM and 512 GB of Tier 1 memory from an NVMe SSD device.</p>
+<p>Different HammerDB parameters were tested to demonstrate how VKS workloads can benefit from Memory Tiering. These test parameters change the working set exercised during the measurement while following the recommended guidelines for Memory Tiering, keeping the active memory under 50% of DRAM capacity. For further details on sizing guidance, refer to the <a href="https://www.vmware.com/docs/memtier-vcf9-perf">Memory Tiering performance whitepaper</a>. The chart below shows that our VKS workloads are able to achieve close to 100% of the throughput of the baseline, while running with only half the DRAM, using Memory Tiering. This is a significant infrastructure cost advantage offered by Memory Tiering.</p>
+<div style="height:30px" aria-hidden="true" class="wp-block-spacer"></div>
+<div class="wp-block-image">
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6a689701b1965&quot;}" data-wp-interactive="core/image" class="aligncenter size-large wp-lightbox-container"><img decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="580" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/07/image_1f86b2.png" alt="" class="wp-image-33176" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/image_1f86b2.png 1346w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/image_1f86b2.png?resize=300,170 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/image_1f86b2.png?resize=768,435 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/image_1f86b2.png?resize=1024,580 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/image_1f86b2.png?resize=600,340 600w" sizes="(max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+</div>
+<p>We ran a similar set of tests to check the Memory Tiering benefits for VMs using the same HammerDB parameters. The table below shows that both VM and VKS workloads see similar infrastructure benefits, achieving throughput close to that of a fully DRAM-provisioned system, using only half the DRAM.</p>
+<figure class="wp-block-table aligncenter">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td colspan="2">HammerDB Parameters</td>
+<td colspan="2">TPM achieved as % of baseline</td>
+</tr>
+<tr>
+<td>VUs</td>
+<td>ThinkTime+Keytime</td>
+<td>VKS</td>
+<td>VM</td>
+</tr>
+<tr>
+<td>100</td>
+<td>40ms</td>
+<td>97%</td>
+<td>97%</td>
+</tr>
+<tr>
+<td>200</td>
+<td>80ms</td>
+<td>95%</td>
+<td>97%</td>
+</tr>
+<tr>
+<td>300</td>
+<td>120ms</td>
+<td>92%</td>
+<td>91%</td>
+</tr>
+<tr>
+<td>500</td>
+<td>400ms</td>
+<td>92%</td>
+<td>94%</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<div style="height:30px" aria-hidden="true" class="wp-block-spacer"></div>
+<h3 class="wp-block-heading" id="h-test-parameters"><strong>Test Parameters</strong></h3>
+<p>All tests were run using HammerDB against MySQL, measuring Transactions Per Minute (TPM) across four virtual user (VU) concurrency levels, with the same infrastructure and Memory Tiering configuration for both environments.</p>
+<p><strong>Common parameters</strong></p>
+<ul class="wp-block-list">
+<li>MySQL innodb_buffer_pool_size set to 92GB</li>
+<li>MySQL VM sized at 6 vCPUs + 120GB memory</li>
+<li>HammerDB test with 25-minute ramp-up + 60-minute runtime</li>
+</ul>
+<div style="height:30px" aria-hidden="true" class="wp-block-spacer"></div>
+<h2 class="wp-block-heading" id="h-bringing-it-all-together"><strong>Bringing It All Together</strong></h2>
+<p>Let’s step back and connect the dots, because this is where the VKS story gets really compelling.</p>
+<p>VKS gives you a fully integrated, CNCF-conformant Kubernetes runtime inside VCF, without the operational overhead of a separate Kubernetes platform. And because it runs on the same vSphere infrastructure as your VMs, it inherits Memory Tiering automatically. No extra configuration, no separate capacity planning, no Kubernetes-specific memory policies to maintain.</p>
+<p>What the test results confirm is that this inheritance is real and functionally complete. VKS workloads on Memory Tiering stay within 10% of a full DRAM baseline, matching what VMware documents for VM workloads. And when we run VKS and VMs side by side on the same Memory Tiering-enabled cluster, both showed clear benefits from memory tiering in a similar trend.&nbsp;</p>
+<p>What this means practically for your infrastructure planning.</p>
+<ul class="wp-block-list">
+<li>VKS workloads can be sized and planned using the same Memory Tiering guidelines as VM workloads. One set of recommendations covers the entire VCF fleet.</li>
+<li>TCO projections and consolidation ratios you’ve built for VM workloads translate to VKS workloads with confidence.</li>
+<li>Teams running a hybrid of VMs and containers don’t need separate memory tiering policies, separate sizing guidance, or separate capacity plans. One VCF environment, one configuration, consistent results across both deployment models.</li>
+</ul>
+<div style="height:28px" aria-hidden="true" class="wp-block-spacer"></div>
+<div class="wp-block-image">
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6a689701b2567&quot;}" data-wp-interactive="core/image" class="aligncenter size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="559" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/07/vksVMstransparent.jpg" alt="" class="wp-image-33190" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/vksVMstransparent.jpg 1408w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/vksVMstransparent.jpg?resize=300,164 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/vksVMstransparent.jpg?resize=768,419 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/vksVMstransparent.jpg?resize=1024,559 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/vksVMstransparent.jpg?resize=600,327 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+</div>
+<div style="height:40px" aria-hidden="true" class="wp-block-spacer"></div>
+<p>VKS in VCF already removes the operational tax of running Kubernetes alongside your VM infrastructure. Memory Tiering removes the DRAM tax of running it at scale. Together, they give you a genuinely unified platform for modern workloads, and the performance data backs it up.</p>
+<div style="height:28px" aria-hidden="true" class="wp-block-spacer"></div>
+<p><strong>Special Thanks</strong></p>
+<p>A big thank you to Ching-Yen, and Dazhi Wang for their contributions, testing work, and feedback that made this post possible.</p>
+<div style="height:30px" aria-hidden="true" class="wp-block-spacer"></div>
+</p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/07/28/memory-tiering-for-vms-and-vks-deployment-flexibility-smarter-consolidation-intelligent-resource-consumption/">Memory Tiering for VMs and VKS: Deployment Flexibility, Smarter Consolidation, Intelligent Resource Consumption</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/07/28/memory-tiering-for-vms-and-vks-deployment-flexibility-smarter-consolidation-intelligent-resource-consumption/">Memory Tiering for VMs and VKS: Deployment Flexibility, Smarter Consolidation, Intelligent Resource Consumption</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10092952</post-id>	</item>
+		<item>
 		<title>Modernizing Infrastructure: VMware Aria Automation 8.18.1 to VMware Cloud Foundation Automation 9.1 Upgrade Technical Deep Dive</title>
 		<link>https://blogs.vmware.com/cloud-foundation/2026/07/27/modernizing-infrastructure-vmware-aria-automation-8-18-1-to-vmware-cloud-foundation-automation-9-1-upgrade-technical-deep-dive/</link>
 		
@@ -28,10 +163,10 @@
 				<category><![CDATA[Cloud Infrastructure]]></category>
 		<guid isPermaLink="false">https://blogs.vmware.com/?p=10092836</guid>
 
-					<description><![CDATA[<img width="300" height="152" src="https://blogs.vmware.com/wp-content/uploads/2026/06/165032308_l.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>Learn how the VMware Aria Automation 8.18.1 to VCF Automation 9.1 upgrade works under the hood, covering the Fleet Lifecycle architecture, each migration phase, and exactly what happens to your data and services throughout the transition. Overview Upgrading from VMware Aria Automation 8.18.1 to VMware Cloud Foundation (VCF) Automation 9.1 is more than a version &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/07/27/modernizing-infrastructure-vmware-aria-automation-8-18-1-to-vmware-cloud-foundation-automation-9-1-upgrade-technical-deep-dive/">Continued</a></p>
+					<description><![CDATA[<img width="300" height="152" src="https://blogs.vmware.com/wp-content/uploads/2026/06/165032308_l.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Learn how the VMware Aria Automation 8.18.1 to VCF Automation 9.1 upgrade works under the hood, covering the Fleet Lifecycle architecture, each migration phase, and exactly what happens to your data and services throughout the transition. Overview Upgrading from VMware Aria Automation 8.18.1 to VMware Cloud Foundation (VCF) Automation 9.1 is more than a version &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/07/27/modernizing-infrastructure-vmware-aria-automation-8-18-1-to-vmware-cloud-foundation-automation-9-1-upgrade-technical-deep-dive/">Continued</a></p>
 <p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/07/27/modernizing-infrastructure-vmware-aria-automation-8-18-1-to-vmware-cloud-foundation-automation-9-1-upgrade-technical-deep-dive/">Modernizing Infrastructure: VMware Aria Automation 8.18.1 to VMware Cloud Foundation Automation 9.1 Upgrade Technical Deep Dive</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
-										<content:encoded><![CDATA[<img width="300" height="152" src="https://blogs.vmware.com/wp-content/uploads/2026/06/165032308_l.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="152" src="https://blogs.vmware.com/wp-content/uploads/2026/06/165032308_l.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg 1170w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg?resize=300,152 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg?resize=768,389 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg?resize=1024,519 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg?resize=600,304 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+										<content:encoded><![CDATA[<img width="300" height="152" src="https://blogs.vmware.com/wp-content/uploads/2026/06/165032308_l.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="152" src="https://blogs.vmware.com/wp-content/uploads/2026/06/165032308_l.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg 1170w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg?resize=300,152 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg?resize=768,389 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg?resize=1024,519 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/165032308_l.jpg?resize=600,304 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
 <p>Learn how the VMware Aria Automation 8.18.1 to VCF Automation 9.1 upgrade works under the hood, covering the Fleet Lifecycle architecture, each migration phase, and exactly what happens to your data and services throughout the transition.</p>
 <h2 class="wp-block-heading" id="h-overview"><strong>Overview</strong></h2>
 <p>Upgrading from VMware Aria Automation 8.18.1 to VMware Cloud Foundation (VCF) Automation 9.1 is more than a version increment. The process introduces a carefully orchestrated migration architecture designed to safely transition your environment while preserving all existing automation content.</p>
@@ -565,25 +700,5 @@
 		
 		
 		<post-id xmlns="com-wordpress:feed-additions:1">10091563</post-id>	</item>
-		<item>
-		<title>VCF Automation 活用 – 第４部 プライベートクラウドへの「VPC」の必要性とネットワークアーキテクチャ</title>
-		<link>https://blogs.vmware.com/vmware-japan/2026/07/vcfa-4.html</link>
-		
-		<dc:creator><![CDATA[susumu nagatoishi]]></dc:creator>
-		<pubDate>Tue, 21 Jul 2026 02:39:22 +0000</pubDate>
-				<category><![CDATA[International]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10091556</guid>
-
-					<description><![CDATA[<img width="298" height="125" src="https://blogs.vmware.com/wp-content/uploads/2026/07/Screenshot-2025-11-29-at-15.33.26.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>このブログでは、VMware Cloud Foundation® 9 （VCF 9）の新機能である VMware Cloud Foundation® Automation（VCF Automation） を複数回のテーマに分けてご紹介していきたいと思います。 第3部では、VCF 9 が「3つの管理者ロール」による職務分離（SoD）に基づき、いかに効率的かつ安全な「次世代テナント管理」を実現するかを、導入・運用フローと共に詳細に解説しました。 第4部では、そのテナント分離技術である「VPC（Virtual Private Cloud）」の概念と、それを支える VCF 9 の次世代ネットワークアーキテクチャについて、VMware NSX® のコンポーネントと関連付けながら詳細に掘り下げます。 プライベートクラウドへの「VPC」の必要性 従来のプライベートクラウドのマルチテナントは、多くの場合、vSphere の「リソースプール」や IAM（Identity and Access Management）による「論理分離」に依存していました。 ? 従来の単一テナントモデル（限界） ハードウェアと VCF 基盤を全社で共有し、プロジェクトは IAM によってアクセス制御されるだけでした。これでは、リソースの競合は防げても、ネットワークレベルの分離は担保されません。 ネットワーク分離（VLANなど）は、ITインフラ管理者が手動で行う必要があり、これが第1部で述べた「スピードのボトルネック」と「人的ミス」を多く誘発する要因となっていました。 ? VCF 9 マルチテナントモデル（次世代） VCF 9 は、パブリッククラウド（AWS, Azure, GCP）で標準となっている「VPC」の概念を導入しています。 各テナントは、プロバイダーポータルが管理する VCF 基盤上で、ネットワークレベルで完全に分離された専用のプライベートクラウド（VPC）を持つことができます。VPC は、独立したルーティングテーブル、サブネット、FWルール、NAT、ロードバランサ、VPN などを持つ、隔離された仮想ネットワーク空間です。 この VPC によるインフラ分離により、テナント間の不正アクセスを原理的に防止しつつ（ゼロトラストの実現）、リソース消費の一元管理していくことができるようになります。例えば、「GPU &#8230; <a href="https://blogs.vmware.com/vmware-japan/2026/07/vcfa-4.html">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/vmware-japan/2026/07/vcfa-4.html">VCF Automation 活用 – 第４部 プライベートクラウドへの「VPC」の必要性とネットワークアーキテクチャ</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="298" height="125" src="https://blogs.vmware.com/wp-content/uploads/2026/07/Screenshot-2025-11-29-at-15.33.26.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="126" src="https://blogs.vmware.com/wp-content/uploads/2026/07/Screenshot-2025-11-29-at-15.33.26.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2025/11/Screenshot-2025-11-29-at-15.33.26.png 3500w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2025/11/Screenshot-2025-11-29-at-15.33.26.png?resize=300,126 300w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2025/11/Screenshot-2025-11-29-at-15.33.26.png?resize=768,322 768w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2025/11/Screenshot-2025-11-29-at-15.33.26.png?resize=1024,429 1024w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2025/11/Screenshot-2025-11-29-at-15.33.26.png?resize=1536,644 1536w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2025/11/Screenshot-2025-11-29-at-15.33.26.png?resize=2048,859 2048w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2025/11/Screenshot-2025-11-29-at-15.33.26.png?resize=600,252 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<p>このブログでは、VMware Cloud Foundation® 9 （VCF 9）の新機能である VMware Cloud Foundation® Automation（VCF Automation） を複数回のテーマに分けてご紹介していきたいと思います。 第3部では、VCF 9 が「3つの管理者ロール」による職務分離（SoD）に基づき、いかに効率的かつ安全な「次世代テナント管理」を実現するかを、導入・運用フローと共に詳細に解説しました。 第4部では、そのテナント分離技術である「VPC（Virtual Private Cloud）」の概念と、それを支える VCF 9 の次世代ネットワークアーキテクチャについて、VMware NSX® のコンポーネントと関連付けながら詳細に掘り下げます。 プライベートクラウドへの「VPC」の必要性 従来のプライベートクラウドのマルチテナントは、多くの場合、vSphere の「リソースプール」や IAM（Identity and Access Management）による「論理分離」に依存していました。 ? 従来の単一テナントモデル（限界） ハードウェアと VCF 基盤を全社で共有し、プロジェクトは IAM によってアクセス制御されるだけでした。これでは、リソースの競合は防げても、ネットワークレベルの分離は担保されません。 ネットワーク分離（VLANなど）は、ITインフラ管理者が手動で行う必要があり、これが第1部で述べた「スピードのボトルネック」と「人的ミス」を多く誘発する要因となっていました。 ? VCF 9 マルチテナントモデル（次世代） VCF 9 は、パブリッククラウド（AWS, Azure, GCP）で標準となっている「VPC」の概念を導入しています。 各テナントは、プロバイダーポータルが管理する VCF 基盤上で、ネットワークレベルで完全に分離された専用のプライベートクラウド（VPC）を持つことができます。VPC は、独立したルーティングテーブル、サブネット、FWルール、NAT、ロードバランサ、VPN などを持つ、隔離された仮想ネットワーク空間です。 この VPC によるインフラ分離により、テナント間の不正アクセスを原理的に防止しつつ（ゼロトラストの実現）、リソース消費の一元管理していくことができるようになります。例えば、「GPU &#8230; <a href="https://blogs.vmware.com/vmware-japan/2026/07/vcfa-4.html">続き</a></p>
-<p>The post <a href="https://blogs.vmware.com/vmware-japan/2026/07/vcfa-4.html">VCF Automation 活用 &#8211; 第４部 プライベートクラウドへの「VPC」の必要性とネットワークアーキテクチャ</a> appeared first on <a href="https://blogs.vmware.com/vmware-japan">VMware Japan Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/vmware-japan/2026/07/vcfa-4.html">VCF Automation 活用 – 第４部 プライベートクラウドへの「VPC」の必要性とネットワークアーキテクチャ</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10091556</post-id>	</item>
 	</channel>
 </rss>
