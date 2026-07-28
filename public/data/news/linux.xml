@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Linux News</title><item>
-   <title>CachyOS Outperforming Windows 11, Ubuntu &amp; Fedora On AMD Ryzen AI 9 HX 470</title>
+   <title>Starling: A New Linux Desktop Written In Swift, Own Wayland Compositor &amp; Written With AI</title>
+   <link>https://www.phoronix.com/news/Starling-Swift-Desktop</link>
+   <guid>https://www.phoronix.com/news/Starling-Swift-Desktop</guid>
+   <description>There's yet another new open-source desktop option for Linux users in the era of new open-source projects largely written via AI/LLMs. Starling is this new project largely written via Claude and using the Swift programming language for the desktop while having its own Wayland compositor implemented in C. It also includes a built-in X11 server for handling X11 clients...</description>
+   <pubDate>Tue, 28 Jul 2026 11:50:00 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
+   <title>CachyOS Outperforming Windows 11, Slight Advantage Over Ubuntu &amp; Fedora On AMD Ryzen AI 9 HX 470</title>
    <link>https://www.phoronix.com/review/amd-hx470-windows-linux</link>
    <guid>https://www.phoronix.com/review/amd-hx470-windows-linux</guid>
    <description>A recent mini PC being benchmarked at Phoronix is the BOSGAME VTA-439 that employs the new AMD Ryzen AI 9 HX 470 Gorgon Point SoC. With the BOSGAME mini PC having shipped with Microsoft Windows 11, here are some comparison benchmarks of the out-of-the-box Windows 11 performance up against Ubuntu 26.04 LTS and Fedora Workstation 44 while also tossing the rolling-release, highly-optimized Arch Linux based CachyOS into the benchmarking mix.</description>
-   <pubDate>Tue, 28 Jul 2026 09:33:04 -0400</pubDate>
+   <pubDate>Tue, 28 Jul 2026 10:04:04 -0400</pubDate>
    <dc:creator>Michael Larabel</dc:creator>
   </item><item>
    <title>AMD P-State Linux Driver Patches Can Boost 1%-Low FPS Gaming Performance By 31%</title>
@@ -214,13 +221,6 @@
    <guid>https://www.phoronix.com/news/Imagination-BXM-4-64-Linux-7.3</guid>
    <description>Sent out today was the weekly round of drm-misc-next patches of new Direct Rendering Manager feature material ready to be queued in DRM-Next ahead of the Linux 7.3 merge window...</description>
    <pubDate>Fri, 24 Jul 2026 13:04:00 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>Ubuntu Linux Looking To Get Rid Of /etc/debian_version Historical Artifact</title>
-   <link>https://www.phoronix.com/news/Ubuntu-Drop-Debian-Version</link>
-   <guid>https://www.phoronix.com/news/Ubuntu-Drop-Debian-Version</guid>
-   <description>Ubuntu Linux has shipped /etc/debian_version that is carried over from upstream Debian and in turn just indicating the Debian Sid development version from which the packages are arrived. Besides it being inaccurate, /etc/os-release has been the long preferred standard for reading the OS release information. Thus finally Ubuntu developers are looking at dropping the /etc/debian_version file...</description>
-   <pubDate>Fri, 24 Jul 2026 10:20:58 -0400</pubDate>
    <dc:creator>Michael Larabel</dc:creator>
   </item><item><title>Ubuntu’s virtualization hardware enablement (HWE) stack: a new model for confidential computing enablement</title><link>https://ubuntu.com//blog/ubuntu-virtualization-hwe-stack-confidential-computing</link><description>&lt;p&gt;Confidential computing is moving quickly. The foundation is already here: AMD SEV-SNP and Intel TDX have made it possible to run confidential virtual machines (VMs) with stronger protection for data in use. Ubuntu 26.04 Long Term Support (LTS) brings integrated host and guest support for both of these technologies, making confidential computing a native&amp;nbsp; part [&amp;hellip;]&lt;/p&gt;
 </description><content:encoded>
@@ -732,6 +732,73 @@ dpkg-query -W -f '${source:Package}\t${binary:Package}\n' | awk '$1 ~ "^linux-me
 &lt;li&gt;If you have this enabled, the patches above will be automatically applied within 24 hours of being available, but a reboot is still required.&lt;/li&gt;
 &lt;/ul&gt;
 </content:encoded><author>Luci Stanescu (Luci Stanescu)</author><category>Security</category><category>Vulnerabilities</category><pubDate>Wed, 01 Jul 2026 07:57:40 +0000</pubDate></item><item>
+        <title>[$] Progress toward compiling Linux with gccrs</title>
+        <link>https://lwn.net/Articles/1083202/</link>
+        <guid>https://lwn.net/Articles/1083202/</guid>
+        <dc:creator>daroc</dc:creator>
+        <description>&lt;p&gt;
+The &lt;a href=&quot;https://rust-gcc.github.io/&quot;&gt;
+&lt;tt&gt;gccrs&lt;/tt&gt; project&lt;/a&gt;, which is creating a Rust frontend for the GCC compiler, has
+spent the first half of 2026 focusing on compiling the Linux
+kernel. By testing the compiler against the kernel crates, the
+development team has made significant progress toward generating correct code
+for other Rust programs. As detailed in the project's
+&lt;a href=&quot;https://github.com/Rust-GCC/Reporting/tree/main/2026&quot;&gt;
+weekly&lt;/a&gt; and
+&lt;a href=&quot;https://rust-gcc.github.io/#status-reports&quot;&gt;
+monthly&lt;/a&gt; reports, this effort has uncovered and resolved problems
+in areas such as
+attribute handling (described in the
+&lt;a href=&quot;https://rust-gcc.github.io/2026/03/10/2026-02-monthly-report.html&quot;&gt;
+report for February&lt;/a&gt;), name resolution, and resource management (both
+&lt;a href=&quot;https://rust-gcc.github.io/2026/06/02/2026-05-monthly-report.html&quot;&gt;
+detailed in the May report&lt;/a&gt;). Currently, the compiler can only handle simple
+standalone programs, but that situation could change rapidly in the coming
+months.
+&lt;/p&gt;
+</description>
+        <pubDate>Tue, 28 Jul 2026 17:40:01 +0000</pubDate>
+        </item><item>
+        <title>Wayfire 0.11 released</title>
+        <link>https://lwn.net/Articles/1085894/</link>
+        <guid>https://lwn.net/Articles/1085894/</guid>
+        <dc:creator>jzb</dc:creator>
+        <description>&lt;p&gt;&lt;a href=&quot;https://wayfire.org/2026/07/24/Wayfire-0-11.html&quot;&gt;Version
+0.11&lt;/a&gt; of the &lt;a
+href=&quot;https://gitlab.freedesktop.org/wlroots/wlroots#wlroots&quot;&gt;wlroots&lt;/a&gt;-based
+&lt;a href=&quot;https://wayfire.org/&quot;&gt;Wayfire&lt;/a&gt; Wayland compositor has been
+released. Notable changes include better fractional scaling,
+per-output &lt;a href=&quot;https://en.wikipedia.org/wiki/ICC_profile&quot;&gt;ICC
+profiles&lt;/a&gt;, support for additional Wayland protocols, and more.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+        <pubDate>Tue, 28 Jul 2026 14:54:01 +0000</pubDate>
+        </item><item>
+        <title>[$] A report from Debian's new DFSG team</title>
+        <link>https://lwn.net/Articles/1084499/</link>
+        <guid>https://lwn.net/Articles/1084499/</guid>
+        <dc:creator>jzb</dc:creator>
+        <description>&lt;p&gt;The &lt;a href=&quot;https://wiki.debian.org/Teams/DFSG&quot;&gt;DFSG, Licensing
+&amp;amp; New Packages Team&lt;/a&gt; (usually shortened to &quot;DFSG team&quot;) was
+created in October 2025 as part of the &lt;a
+href=&quot;https://lwn.net/Articles/1043364/&quot;&gt;ftpmaster team split&lt;/a&gt;. Its
+job is to review packages in the &lt;a
+href=&quot;https://wiki.debian.org/NewQueue&quot;&gt;new queue&lt;/a&gt; for compliance
+with the &lt;a
+href=&quot;https://wiki.debian.org/DebianFreeSoftwareGuidelines&quot;&gt;Debian
+Free Software Guidelines&lt;/a&gt; (DFSG), among other things, before the
+packages are allowed to enter the &lt;a
+href=&quot;https://www.debian.org/doc/manuals/debian-faq/ftparchives.en&quot;&gt;Debian
+archive&lt;/a&gt;. The change was long in coming, and some questions
+remained after the split whether it was the right move. Andrew
+McMillan provided an overview of the team's activities and its current
+status during &lt;a
+href=&quot;https://debconf26.debconf.org/&quot;&gt;DebConf26&lt;/a&gt;. While it may be
+too early to say with certainty, his report suggests that the new
+division of duties is working out well.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 28 Jul 2026 14:21:44 +0000</pubDate>
+        </item><item>
         <title>Security updates for Tuesday</title>
         <link>https://lwn.net/Articles/1085855/</link>
         <guid>https://lwn.net/Articles/1085855/</guid>
@@ -879,79 +946,4 @@ open&lt;/a&gt; for the 2026 Linux Plumbers Conference, to be held October&amp;#1
 to&amp;#160;7 in Prague, Czechia.  Tickets to this event tend to sell out
 quickly, so interested attendees probably should not procrastinate.</description>
         <pubDate>Fri, 24 Jul 2026 16:27:27 +0000</pubDate>
-        </item><item>
-        <title>De Vlieger: The Fedora 45 sausage factory</title>
-        <link>https://lwn.net/Articles/1084920/</link>
-        <guid>https://lwn.net/Articles/1084920/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>&lt;p&gt;Fedora contributor Simon de Vlieger has published a &lt;a
-href=&quot;https://supakeen.com/weblog/the-fedora-45-sausage-factory/&quot;&gt;blog
-post&lt;/a&gt; with a walkthrough of how the project turns source code and
-packages into the final release that users install on their systems.&lt;/p&gt;
-
-&lt;blockquote class=&quot;bq&quot;&gt;
-&lt;p&gt;It follows the a package from a packager's git push to a composed
-release: ISOs, cloud images, container images, and OSTree
-deployments.&lt;/p&gt;
-
-&lt;p&gt;The walkthrough describes how the Fedora 'sausage' is created as of
-Fedora 45, things change all the time; I hope to have time to update
-this document every cycle or every few cycles of Fedora releases so
-there's both history and people can find up to date information.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-        <pubDate>Fri, 24 Jul 2026 15:11:09 +0000</pubDate>
-        </item><item>
-        <title>[$] An update on netkit and the use of BPF in user space</title>
-        <link>https://lwn.net/Articles/1083418/</link>
-        <guid>https://lwn.net/Articles/1083418/</guid>
-        <dc:creator>daroc</dc:creator>
-        <description>&lt;p&gt;
-Daniel Borkmann led a session at the 2026
-&lt;a href=&quot;https://events.linuxfoundation.org/lsfmmbpf/&quot;&gt;
-Linux Filesystem, Memory-Management,
-and BPF Summit&lt;/a&gt; about the progress that has been made with netkit, the subsystem
-that allows virtual machines (VMs) running on Linux to perform networking efficiently.
-When that did not fill the full time, he went on to discuss his idea for
-using BPF to live-patch user-space applications. While netkit is making
-progress, and can now support zero-copy receipt of packets into a VM in a
-network namespace, the idea of using BPF for patching user-space programs
-remains entirely speculative.
-&lt;/p&gt;
-</description>
-        <pubDate>Fri, 24 Jul 2026 13:17:28 +0000</pubDate>
-        </item><item>
-        <title>Home Assistant Device Database public preview</title>
-        <link>https://lwn.net/Articles/1084861/</link>
-        <guid>https://lwn.net/Articles/1084861/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>&lt;p&gt;The &lt;a href=&quot;https://www.openhomefoundation.org/&quot;&gt;Open Home
-Foundation&lt;/a&gt;, which governs the &lt;a
-href=&quot;https://www.home-assistant.io/&quot;&gt;Home Assistant&lt;/a&gt;
-home-automation project, has &lt;a
-href=&quot;https://www.openhomefoundation.org/blog/building-the-device-database-together/&quot;&gt;announced&lt;/a&gt;
-the &quot;public preview&quot; of its &lt;a
-href=&quot;https://device-database-preview.openhomefoundation.org/&quot;&gt;Device
-Database&lt;/a&gt;:&lt;/p&gt;
-
-&lt;blockquote class=&quot;bq&quot;&gt;
-&lt;p&gt;Providing a public, open way to browse the anonymous, aggregated
-device data we collect was always part of the plan, and this preview
-is our first step toward it.&lt;/p&gt;
-
-&lt;p&gt;You can already use it to search and filter devices to see
-aggregated community insights, starting with a deliberately focused
-set of specifics, such as whether a device requires an internet
-connection, and which protocols and integrations it works with. We've
-kept that initial scope narrow on purpose, giving us a solid
-foundation we can build on together with you, our community, as the
-database grows.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;LWN &lt;a href=&quot;https://lwn.net/Articles/1017945/&quot;&gt;looked at&lt;/a&gt; Home
-Assistant in May 2025.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-        <pubDate>Fri, 24 Jul 2026 13:16:47 +0000</pubDate>
         </item></channel></rss>
