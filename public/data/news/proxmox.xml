@@ -4,49 +4,338 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Thu, 30 Jul 2026 08:11:37 +0000</pubDate>
-    <lastBuildDate>Thu, 30 Jul 2026 08:11:37 +0000</lastBuildDate>
+    <pubDate>Thu, 30 Jul 2026 13:31:27 +0000</pubDate>
+    <lastBuildDate>Thu, 30 Jul 2026 13:31:27 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
-      <title>Use the extra space available due to zfs compression</title>
-      <pubDate>Thu, 30 Jul 2026 08:10:39 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/use-the-extra-space-available-due-to-zfs-compression.185399/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185399</guid>
-      <author>invalid@example.com (Gareth Blades)</author>
+      <title>Proxmox Datacenter Manager</title>
+      <pubDate>Thu, 30 Jul 2026 13:30:41 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-datacenter-manager.185418/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185418</guid>
+      <author>invalid@example.com (Abhinav Arya)</author>
+      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
+      <dc:creator>Abhinav Arya</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><b>Hi Team,</b><br />
+<br />
+We are currently running <b>Proxmox Datacenter Manager (PDM) version 1.1.7</b><br />
+<br />
+Is there any way to enable users to <b>create, deploy, and manage virtual machines directly from PDM</b>, providing centralized management across the Proxmox environment?<br />
+<br />
+Also, if there is no such option available, is there any product roadmap regarding a <b>single pane of glass</b> management experience which allows all the above-mentioned tasks to be performed from PDM itself.</div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>Need Clarification on High Availability / CRS Behavior</title>
+      <pubDate>Thu, 30 Jul 2026 13:28:06 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/need-clarification-on-high-availability-crs-behavior.185427/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185427</guid>
+      <author>invalid@example.com (sk.)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Gareth Blades</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have zfs setup as raid-5 using 4 960GB SSD drives.<br />
-zpool list shows 3.48TB of total drives and zfs list shows Avail+Used as 2.61 which is what I would expect after you loose one drive for parity and then a little space for metadata etc...<br />
+      <dc:creator>sk.</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
 <br />
-The question I have is that if you look at vm-104 for example it has a 80GB disk allocated and 8GB of memory so a total disk usage of 88GB. However compression is enabled so the actual disk usage is less than 88GB but it appears that ZFS is allocating...<br />
+I&#039;m a bit confused about High Availability and the Cluster Resource Scheduler (CRS). I don&#039;t think I&#039;ve fully understood how High Availability works yet. Could you help me understand it better?<br />
 <br />
-<a href="https://forum.proxmox.com/threads/use-the-extra-space-available-due-to-zfs-compression.185399/" class="link link--internal">Read more</a></div>]]></content:encoded>
+I&#039;m referring to the following scenario.<br />
+ <br />
+Let&#039;s assume the cluster has five nodes, and all of them are running at approximately 60% utilization. If one node fails, all HA virtual machines on that node are stopped and then restarted on the remaining nodes.<br />
+ <br />
+My concern is this: when one node...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/need-clarification-on-high-availability-crs-behavior.185427/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Questions about the dynamic CRS</title>
+      <pubDate>Thu, 30 Jul 2026 13:23:12 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/questions-about-the-dynamic-crs.183171/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:183171</guid>
+      <author>invalid@example.com (Cookiefamily)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Cookiefamily</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I noticed that a dynamic mode was introduced to the CRS (yay! Been waiting for this for so long and it really comes in handy now with us planning our migration away from VMware, thank you so much Team!!!).<br />
+I enabled it on all my testing environments and it seemed to work pretty well. <br />
+<br />
+There are two modes the CRS can run in, TOPSIS and &quot;Brute Force&quot; with the latter one being the default. What are the differences in practice between the two modes? Are there scenarios where you should...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/questions-about-the-dynamic-crs.183171/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>24</slash:comments>
+    </item>
+    <item>
+      <title>Multiple osd for device fail</title>
+      <pubDate>Thu, 30 Jul 2026 13:19:15 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/multiple-osd-for-device-fail.185426/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185426</guid>
+      <author>invalid@example.com (petruzzo)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>petruzzo</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi I try to create multiple osd with <br />
+<br />
+<code class="bbCodeInline">pveceph os create DEV --osds-per-device 2</code><br />
+but the script give me an error and dont see The osd on web interface <br />
+
+
+<div class="bbCodeSpoiler">
+	<button type="button" class="button bbCodeSpoiler-button button--longText" data-xf-click="toggle" data-xf-init="tooltip" title="Click to reveal or hide spoiler"><span class="button-text">
+
+		<span>Spoiler: <span class="bbCodeSpoiler-button-title">pveversion</span></span>
+	</span></button>
+	<div class="bbCodeSpoiler-content">
+		<div class="bbCodeBlock bbCodeBlock--spoiler">
+			<div class="bbCodeBlock-content">proxmox-ve: 9.2.0 (running kernel: 7.0.14-4-pve)pve-manager: 9.2.4 (running version: 9.2.4/5e5ae681198514d4)proxmox-kernel-helper: 9.2.0proxmox-kernel-7.0.14-4-pve-signed: 7.0.14-4proxmox-kernel-7.0: 7.0.14-4proxmox-kernel-7.0.2-6-pve-signed: 7.0.2-6ceph: 20.2.2-pve1ceph-fuse: 20.2.2-pve1corosync: 3.1.10-pve2criu...</div>
+		</div>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/multiple-osd-for-device-fail.185426/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Nested interfaces.d/sdn directory in interfaces.d</title>
+      <pubDate>Thu, 30 Jul 2026 13:14:18 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/nested-interfaces-d-sdn-directory-in-interfaces-d.185423/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185423</guid>
+      <author>invalid@example.com (ns33)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>ns33</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am unable to recreate this mishap, but I figured it&#039;s worth posting about in case anyone else has a &quot;it worked a second ago&quot;<br />
+<br />
+I have cluster, with a handful of evpn zones, and an external bgp neighbor. Everything was great for months, until I made some changes to a few vnets, applied my changes and noticed all external routing stopped. (Routing within a zone was fine.) My external switch was still a bgp neighbor, but nothing could get in nor out. Tracing the route shows it would hit the...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/nested-interfaces-d-sdn-directory-in-interfaces-d.185423/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>Nested PVE (on PVE host) Kernel panic Host injected async #PF in kernel mode</title>
+      <pubDate>Thu, 30 Jul 2026 13:12:53 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/nested-pve-on-pve-host-kernel-panic-host-injected-async-pf-in-kernel-mode.165902/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:165902</guid>
+      <author>invalid@example.com (Darkangeel_hd)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Darkangeel_hd</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello<br />
+I&#039;ve been trying run a nested proxmox instance on my already running proxmox installation.<br />
+<br />
+Installation went as normal and everything seem right.<br />
+But the VM of the nested proxmox will, always eventually kernel panic.<br />
+<br />
+This are some of the panics it gave me over the course of trying to figure out what&#039;s going on:<br />
+
+
+<div class="bbCodeSpoiler">
+	<button type="button" class="button bbCodeSpoiler-button button--longText" data-xf-click="toggle" data-xf-init="tooltip" title="Click to reveal or hide spoiler"><span class="button-text">
+
+		<span>Spoiler: <span class="bbCodeSpoiler-button-title">Kernel panic logs</span></span>
+	</span></button>
+	<div class="bbCodeSpoiler-content">
+		<div class="bbCodeBlock bbCodeBlock--spoiler">
+			<div class="bbCodeBlock-content">
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>[10037.609096] Kernel panic - not syncing: Host injected async #PF in kernel mode
+[10037.611446] CPU: 1 PID: 27733 Comm: pvescheduler Tainted: P           O...</code></pre>
+	</div>
+</div></div>
+		</div>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/nested-pve-on-pve-host-kernel-panic-host-injected-async-pf-in-kernel-mode.165902/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>43</slash:comments>
+    </item>
+    <item>
+      <title>VIRTIO SCSI vs VIRTIO SCSI single</title>
+      <pubDate>Thu, 30 Jul 2026 13:08:44 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/virtio-scsi-vs-virtio-scsi-single.28426/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:28426</guid>
+      <author>invalid@example.com (mir)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>mir</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Can anybody explain the big performance difference between VIRTIO SCSI and VIRTIO SCSI single especially when using iotread=0 and iothread=1?<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>read : io=1637.7MB, bw=39596KB/s, iops=6491, runt= 42350msec  VIRTIO SCSI iotread=0
+read : io=1637.7MB, bw=41136KB/s, iops=6744, runt= 40765msec  VIRTIO SCSI single iotread=0
+read : io=1637.7MB, bw=36911KB/s, iops=6051, runt= 45431msec  VIRTIO SCSI iotread=1
+read : io=1637.7MB, bw=53724KB/s, iops=8808, runt= 31213msec  VIRTIO SCSI single iotread=1...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/virtio-scsi-vs-virtio-scsi-single.28426/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>18</slash:comments>
+    </item>
+    <item>
+      <title>PBS meets Hetzner Storagebox</title>
+      <pubDate>Thu, 30 Jul 2026 12:56:40 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pbs-meets-hetzner-storagebox.185425/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185425</guid>
+      <author>invalid@example.com (Baconpie)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>Baconpie</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Moin,<br />
+<br />
+ich habe jetzt bereits eine weile eine Hetzner Storagebox via SMB in meinem PBS eingebunden und bin gerade dabei zu schauen wie ich die Geschwindigkeit optimieren kann.<br />
+<br />
+cache=none<br />
+actimeo=60<br />
+closetimeo=5<br />
+<br />
+6 Threads im Lesen<br />
+6 Threads im Schreiben<br />
+<br />
+Den meisten Leistungszuwachs habe ich durch die Erhöhung der Threads bekommen. Hat jemand hier mehr Erfahrungswerte? Wie weit kann ich die Threads hoch schrauben bis ich ans maximum bei Hetzner komme?<br />
+<br />
+Angebunden bin ich mit 300<s>mb/s</s>...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pbs-meets-hetzner-storagebox.185425/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Utilizing PMG with Office 365</title>
+      <pubDate>Thu, 30 Jul 2026 12:56:11 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/utilizing-pmg-with-office-365.184598/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:184598</guid>
+      <author>invalid@example.com (john-tapestry)</author>
+      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
+      <dc:creator>john-tapestry</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I am attempting to use PMG as a mail gateway for our 365 instance, but when analyzing the tracking center, I receive an error message as follows for any inbound email:<br />
+<br />
+   <br />
+<br />
+2026-06-26T01:28:36.567425+00:00 proxmox-mail-gateway postfix/smtpd[304985]: connect from mx3.[hidden].com[X.X.X.X]<br />
+2026-06-26T01:28:36.862400+00:00 proxmox-mail-gateway postfix/smtpd[304985]: NOQUEUE: reject: RCPT from mx3.[hidden].com[X.X.X.X]: 454 4.7.1 &lt;[hidden]@[hidden]&gt;: Relay access denied; from=&lt;[hidden]@[hidden].com&gt; to=&lt;[hidden]@[hidden].com&gt;...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/utilizing-pmg-with-office-365.184598/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>12</slash:comments>
+    </item>
+    <item>
+      <title>DataDomain Virtual Edition</title>
+      <pubDate>Thu, 30 Jul 2026 12:51:23 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/datadomain-virtual-edition.185424/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185424</guid>
+      <author>invalid@example.com (minimii0o)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>minimii0o</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello everybody,<br />
+I try to install a DataDomain Virtual Edition version 8.8 on Proxmox 9.2.4.<br />
+I&#039;ve installed it with a KVM Image. The installation worked fine, but after exactly one hour the DDOS restarted.<br />
+Have someone else these problems or could share the configuration options? <br />
+Dell is not a help at the moment, they refuse the support, because Proxmox is not officially supported.</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Netapp Storage Manager for Proxmox</title>
+      <pubDate>Thu, 30 Jul 2026 12:28:47 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/netapp-storage-manager-for-proxmox.185417/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185417</guid>
+      <author>invalid@example.com (PoschMox93)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>PoschMox93</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Could be interesting for you when you running Netapp together with Proxmox:<br />
+<br />
+Storage Manager for Proxmox (SMP) offers end-to-end storage management for virtual machines within Proxmox environments that utilize NetApp storage systems. By allowing administrators to directly manage storage, SMP simplifies both storage and data management tasks in Proxmox environments.<br />
+<h3 class="bbHeading"><a class="u-anchorTarget" name="-key-features"></a>Key features&#8203;<a class="hoverLink" href="#-key-features" title="Permanent link"></a></h3><ul>
+<li data-xf-list-type="ul"><b>End-to-end storage management</b>: SMP provides complete lifecycle management for virtual machines...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/netapp-storage-manager-for-proxmox.185417/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>3</slash:comments>
     </item>
     <item>
-      <title>PBS: Is this a good alternative to a Pull Sync Job that also encrypts my snapshots?</title>
-      <pubDate>Thu, 30 Jul 2026 08:07:59 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pbs-is-this-a-good-alternative-to-a-pull-sync-job-that-also-encrypts-my-snapshots.185294/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185294</guid>
-      <author>invalid@example.com (Zlendy)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>Zlendy</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
+      <title>Einstellungen Mail Filter (Block-/Welcomelist)</title>
+      <pubDate>Thu, 30 Jul 2026 12:21:49 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/einstellungen-mail-filter-block-welcomelist.185402/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185402</guid>
+      <author>invalid@example.com (S3v|\|)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-mail-gateway-deutsch-german.21/"><![CDATA[Proxmox Mail Gateway (Deutsch/German)]]></category>
+      <dc:creator>S3v|\|</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Bei uns funktioniert die Spamerkennung nicht so wie erwartet. Daher hab ich mal ein paar Grundlegende Fragen:<br />
+1.) Angeblich kann man einstellen ob der Mail Filer vor oder nach der &quot;Queue&quot; angewendet werden soll:<br />
+<a href="https://pmg.proxmox.com/pmg-docs/pmg-admin-guide.html#pmgconfig_mailproxy_before_after_queue" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://pmg.proxmox.com/pmg-docs/pmg-admin-guide.html#pmgconfig_mailproxy_before_after_queue</a><br />
+Wo sieht man was eingestellt ist und kann man das über die WebGUI einstellen?<br />
+(Ich möchte es gerne davor machen - allein schon wegen backscatter mail)<br />
+2.) Welcome- and Blocklists...<br />
 <br />
-I basically added localhost as a remote to my PBS instance and created a Push Sync Job to itself on another datastore.<br />
+<a href="https://forum.proxmox.com/threads/einstellungen-mail-filter-block-welcomelist.185402/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Phänomen mit PMG v9.1.0. und Regelsatz mit mehreren Aktions-Elementen</title>
+      <pubDate>Thu, 30 Jul 2026 12:17:09 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ph%C3%A4nomen-mit-pmg-v9-1-0-und-regelsatz-mit-mehreren-aktions-elementen.185404/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185404</guid>
+      <author>invalid@example.com (a.woll)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-mail-gateway-deutsch-german.21/"><![CDATA[Proxmox Mail Gateway (Deutsch/German)]]></category>
+      <dc:creator>a.woll</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
 <br />
-This is the only hacky way I found to effectively make a Pull Sync Job that also encrypts my unencrypted snapshots on the fly.<br />
+vielleicht hat jemand von Euch eine Idee zu folgendem:<br />
 <br />
-Do you people know of a better way to do this? Or is this the best known way even though it is probably less efficient than operating strictly on local IO because of networking stuff?<br />
+Ich habe eine Regel gebaut, die prophylaktisch E-Mails mit Archivanhängen automatisch in die Quarantäne zieht. <b>Das funktioniert.</b><br />
+Sie sollte aber als zweite Aktion den Empfänger auch auf diesen Umstand per Notify hinweisen. <b>Das funktioniert nicht.<br />
+<a href="https://forum.proxmox.com/attachments/1785335026797-png.99167/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98863-e011fef014535cf507ea31ff67232219.jpg?hash=twIgJvKYfW"
+		srcset="https://forum.proxmox.com/data/attachments/98/2x/98863-e011fef014535cf507ea31ff67232219.jpg?hash=twIgJvKYfW 2x"
+		class="bbImage "
+		style=""
+		alt="1785335026797.png"
+		title="1785335026797.png"
+		width="270" height="150" loading="lazy" /></a><br />
+<a href="https://forum.proxmox.com/attachments/1785335108362-png.99168/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98864-e1879a4a1a88e41577c2f39616ac01c6.jpg?hash=zrxUOqgagA"
+		srcset="https://forum.proxmox.com/data/attachments/98/2x/98864-e1879a4a1a88e41577c2f39616ac01c6.jpg?hash=zrxUOqgagA 2x"
+		class="bbImage "
+		style=""
+		alt="1785335108362.png"
+		title="1785335108362.png"
+		width="301" height="150" loading="lazy" /></a></b><br />
+Ich dachte eigentlich, die Variable __RECEIVERS__ sollte genau das bewerkstelligen, tut sie aber anscheinend nicht. Bei Tests wird die...<br />
 <br />
-Thanks.</div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
+<a href="https://forum.proxmox.com/threads/ph%C3%A4nomen-mit-pmg-v9-1-0-und-regelsatz-mit-mehreren-aktions-elementen.185404/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Vorgehen PVE Neuinstallation</title>
+      <pubDate>Thu, 30 Jul 2026 12:12:15 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/vorgehen-pve-neuinstallation.185364/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185364</guid>
+      <author>invalid@example.com (Schmiddi)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>Schmiddi</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Moin zusammen,<br />
+bei mir steht <i>leider </i>eine Neuinstallation von Proxmox an.<br />
+<br />
+<b>Kurzes Vorwort</b> dazu:<br />
+2024 startete ich mit einem CWWK n305 und hatte nicht geahnt, dass es in einem so massiven Single-Point-of-Failure ausartet <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f600.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":D" title="Big Grin    :D"  data-smilie="8"data-shortname=":D" /><br />
+Sprich, heute würde ich definitiv lieber andere Hardware einsetzen und sehr viel mehr auf Ausfallsicherheit setzen. Bei den aktuellen Preisen setze ich das jedoch nicht um und hoffe auf Besserung Richtung 2028 <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f635.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt="o_O" title="Er... what?    o_O"  data-smilie="12"data-shortname="o_O" /><br />
+<br />
+<b>Ursache</b>:<br />
+Meine eingesetzte Samsung 970...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/vorgehen-pve-neuinstallation.185364/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>11</slash:comments>
     </item>
     <item>
       <title>Grub starts the old kernel</title>
-      <pubDate>Thu, 30 Jul 2026 08:04:26 +0000</pubDate>
+      <pubDate>Thu, 30 Jul 2026 12:11:01 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/grub-starts-the-old-kernel.185330/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185330</guid>
       <author>invalid@example.com (frankz)</author>
@@ -75,11 +364,65 @@ proxmox-kernel-7.0.6-2-pve-signed: 7.0.6-2...</code></pre>
 	</div>
 </div><br />
 <a href="https://forum.proxmox.com/threads/grub-starts-the-old-kernel.185330/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>25</slash:comments>
+      <slash:comments>26</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox + Older NVIDIA GPUs (GTX 1060 / P4000 / V100) LXC Passthrough Guide (Updated June 2026)</title>
+      <pubDate>Thu, 30 Jul 2026 12:07:06 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-older-nvidia-gpus-gtx-1060-p4000-v100-lxc-passthrough-guide-updated-june-2026.183835/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:183835</guid>
+      <author>invalid@example.com (itamarbudin)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>itamarbudin</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><h3 class="bbHeading"><a class="u-anchorTarget" name="-recommended-configurations"></a>Recommended Configurations&#8203;<a class="hoverLink" href="#-recommended-configurations" title="Permanent link"></a></h3><h4 class="bbHeading"><a class="u-anchorTarget" name="-most-proven-configuration"></a>Most Proven Configuration&#8203;<a class="hoverLink" href="#-most-proven-configuration" title="Permanent link"></a></h4>
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Proxmox Kernel 6.14 / 6.17
+NVIDIA Driver 575.57.08
+CUDA 12.9.1</code></pre>
+	</div>
+</div><br />
+Works well with:<br />
+<br />
+<ul>
+<li data-xf-list-type="ul">GTX 1060 / 1070 / 1080</li>
+<li data-xf-list-type="ul">Quadro P4000 / P5000</li>
+<li data-xf-list-type="ul">Tesla V100</li>
+</ul><h4 class="bbHeading"><a class="u-anchorTarget" name="-new-configuration-kernel-7-x"></a>New Configuration (Kernel 7.x)&#8203;<a class="hoverLink" href="#-new-configuration-kernel-7-x" title="Permanent link"></a></h4>
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Proxmox Kernel 7.x
+NVIDIA Driver 580.159.04
+CUDA 13.x</code></pre>
+	</div>
+</div><br />
+Reported working with:<br />
+<br />
+<ul>
+<li data-xf-list-type="ul">Tesla V100</li>
+<li data-xf-list-type="ul">Various Volta-based GPUs</li>
+</ul>Kernel 7.x support is still evolving for older Pascal cards. If stability is your top...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-older-nvidia-gpus-gtx-1060-p4000-v100-lxc-passthrough-guide-updated-june-2026.183835/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>7</slash:comments>
     </item>
     <item>
       <title>7.0.14-6-pve: acpi_pad consumes CPU and ZFS write performance drops from 257 MiB/s to 7.5 MiB/s</title>
-      <pubDate>Thu, 30 Jul 2026 07:55:02 +0000</pubDate>
+      <pubDate>Thu, 30 Jul 2026 12:00:05 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/7-0-14-6-pve-acpi_pad-consumes-cpu-and-zfs-write-performance-drops-from-257-mib-s-to-7-5-mib-s.185368/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185368</guid>
       <author>invalid@example.com (Radik Makhmudov)</author>
@@ -105,11 +448,11 @@ fio \<br />
   --bs=1M \...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/7-0-14-6-pve-acpi_pad-consumes-cpu-and-zfs-write-performance-drops-from-257-mib-s-to-7-5-mib-s.185368/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
+      <slash:comments>9</slash:comments>
     </item>
     <item>
       <title>Problem mit TPM in Windows Server 2025</title>
-      <pubDate>Thu, 30 Jul 2026 07:48:31 +0000</pubDate>
+      <pubDate>Thu, 30 Jul 2026 11:58:35 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/problem-mit-tpm-in-windows-server-2025.185373/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185373</guid>
       <author>invalid@example.com (lblaesius)</author>
@@ -126,52 +469,11 @@ Kurzgesagt:<br />
 - Installiert man das Update von Microsoft, startet die VM neu ist...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/problem-mit-tpm-in-windows-server-2025.185373/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>Faster VM moves between two nodes with node-local ZFS pools (per-blocksize storages)</title>
-      <pubDate>Thu, 30 Jul 2026 07:31:45 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/faster-vm-moves-between-two-nodes-with-node-local-zfs-pools-per-blocksize-storages.185376/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185376</guid>
-      <author>invalid@example.com (Q-wulf)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Q-wulf</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><b><u>SETUP</u></b><br />
-- 2 nodes, PVE 9.2.3 (kernel 7.0.14-4-pve, EFI). No shared storage.<br />
-- Cluster history: originally built on PVE 7, upgraded through to PVE 9<br />
-  (so some storage naming/layout predates current versions).<br />
-- Each node has its own local ZFS RAID10 pool (4x mirror, WD SN640 NVMe).<br />
-- Dedicated migration net: isolated, non-routed, 100 GbE (ConnectX-5), MTU 9000.<br />
-- datacenter.cfg: migration: type=insecure,network=&lt;isolated /24&gt;<br />
-<br />
-<u>STORAGE LAYOUT (the core issue)</u><br />
-Each pool is...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/faster-vm-moves-between-two-nodes-with-node-local-zfs-pools-per-blocksize-storages.185376/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Kernel 6.17 - End of Support after July</title>
-      <pubDate>Thu, 30 Jul 2026 07:25:55 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/kernel-6-17-end-of-support-after-july.185216/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185216</guid>
-      <author>invalid@example.com (t.lamprecht)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>t.lamprecht</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-Given that ubuntu upstream is in process of phasing this kernel out, and we&#039;re already now spending considerable amount of engineering time to handled backporting (security) fixes on top of upstreams work, we decided to go through with the <a href="https://forum.proxmox.com/threads/kernel-6-14-end-of-support.183689/#post-853416" class="link link--internal">previously announced plan</a> to end support for the 6.17-based kernel series at the end of July.<br />
-<br />
-At the time of writing, still-supported kernel release series:<br />
-<ul>
-<li data-xf-list-type="ul">Kernel 6.8 for Proxmox VE 8 and other Debian Bookworm-based Proxmox project...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/kernel-6-17-end-of-support-after-july.185216/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
+      <slash:comments>8</slash:comments>
     </item>
     <item>
       <title>Neue Installation - im Netzwerk nicht erreibar</title>
-      <pubDate>Thu, 30 Jul 2026 07:21:49 +0000</pubDate>
+      <pubDate>Thu, 30 Jul 2026 11:40:33 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/neue-installation-im-netzwerk-nicht-erreibar.185413/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185413</guid>
       <author>invalid@example.com (Longbowbln)</author>
@@ -188,262 +490,21 @@ Die Installation hat auch es so übernommen, das alles eingestellt ist die IP! D
 Nur leider wird die Weboberfläche über den Browser nicht gefunden, im Unifi wird er auch nicht in der Übersicht angezeigt, nu grau ohne IP. <br />
 <br />
 Was hab ich bitte falsch gemacht?</div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE 9 installer fails on Dell PowerEdge T630 before installer UI, while Proxmox VE 8 and Debian 13.6 installer boot successfully-same hardware</title>
-      <pubDate>Thu, 30 Jul 2026 07:10:58 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-9-installer-fails-on-dell-poweredge-t630-before-installer-ui-while-proxmox-ve-8-and-debian-13-6-installer-boot-successfully-same-hardware.185406/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185406</guid>
-      <author>invalid@example.com (MVerBerkmoes)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>MVerBerkmoes</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have been struggling with this for several weeks and even opened a bug report without success.  I&#039;m hoping someone here that is far more versed in Linux and ProxMox can help me get my v8 machine upgraded.<br />
-<br />
-I attempted to bare install v9.2 on new SD cards on working ProxMox v8.4.19 hardware so in case of failure, I didn&#039;t lose my working v8 machine.<br />
-<br />
-Dell PowerEdge T630<br />
-BIOS: 2.17.0<br />
-iDRAC/Lifecycle Controller: 2.84.84.84<br />
-CPU: (2) Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz<br />
-RAM: 384.00 GB...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-9-installer-fails-on-dell-poweredge-t630-before-installer-ui-while-proxmox-ve-8-and-debian-13-6-installer-boot-successfully-same-hardware.185406/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>Ich möchte Proxmox neu aufsetzen - Was sollte ich verändern?</title>
-      <pubDate>Thu, 30 Jul 2026 07:05:07 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ich-m%C3%B6chte-proxmox-neu-aufsetzen-was-sollte-ich-ver%C3%A4ndern.185397/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185397</guid>
-      <author>invalid@example.com (tp1de)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>tp1de</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Ich bräuchte euren Expertenrat. Meine aktuelle Proxmox-Installation sieht folgendermaßen aus:<br />
-<br />
-2 x Mini PCs mit NVMe im HA-Cluster + QDevice auf Raspberry PI.<br />
-Jeweils ZFS Replikation zwischen den Proxmox Nodes - kein CEPH<br />
-<br />
-2 x Synology NAS - eines mit PBS unter Virtual Manager zur Sicherung<br />
-<br />
-All das hat 2 Jahre gut funktioniert. Jetzt hat die NVMe der primären Node die TBW-Grenze erreicht. (War eine Consumer NVMe)<br />
-<br />
-Jetzt bin ich am überlegen:<br />
-<br />
-1. Sollte ich das Proxmox OS auf einer separaten...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/ich-m%C3%B6chte-proxmox-neu-aufsetzen-was-sollte-ich-ver%C3%A4ndern.185397/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>42</slash:comments>
-    </item>
-    <item>
-      <title>Intel 125U chipset unusable with proxmox or bad hardware? Constant system hangs/freezes</title>
-      <pubDate>Thu, 30 Jul 2026 06:46:10 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/intel-125u-chipset-unusable-with-proxmox-or-bad-hardware-constant-system-hangs-freezes.185314/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185314</guid>
-      <author>invalid@example.com (richardh_nz)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>richardh_nz</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I purchased a new GMKtec K15 AI Mini PC Oculink with Intel Core Ultra 5 125U Processor for use with proxmox and it has been unstable from day one. Longest uptime is 3 days, shortest is a few minutes. System hangs with no messages in any log file and requires forced reboot. Works brilliantly when it works, but obviously totally unusable as a home server.  Seems to hang faster when the GPU is used.<br />
-<br />
-Has anyone successfully used proxmox on this or similar hardware?<br />
-<br />
-I have put in the hours with...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/intel-125u-chipset-unusable-with-proxmox-or-bad-hardware-constant-system-hangs-freezes.185314/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>9</slash:comments>
     </item>
     <item>
-      <title>Proxmox VE 9.1 installation process does not recognize keyboard and mouse</title>
-      <pubDate>Thu, 30 Jul 2026 06:44:46 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-9-1-installation-process-does-not-recognize-keyboard-and-mouse.185381/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185381</guid>
-      <author>invalid@example.com (sannsor)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>sannsor</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello Everyone, <br />
-<br />
-I start to install Proxmox VE version 9.1 on HP Tower Server Z400 Workstation-V3, during booting process it can select &quot;Install Proxmox VE (Graphical) and install but after it shows Proxmox VE Installer with Abort and Agree button. This step caused keyboard is not light up on keyboard and event mouse can move but cannot click any button. Does it causes by version or USB port v2 or v3 problem?<br />
-<br />
-Please give any suggestion?<br />
-<br />
-Thanks</div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>(Community tool) Windows template → clone + Sysprep customize on PVE</title>
-      <pubDate>Thu, 30 Jul 2026 06:22:03 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/community-tool-windows-template-%E2%86%92-clone-sysprep-customize-on-pve.185412/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185412</guid>
-      <author>invalid@example.com (robertlukan)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>robertlukan</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I built a small community project for something I kept missing after moving Windows workloads to Proxmox: take a golden-image template, clone it, and customize the guest (hostname, network, timezone/locale, workgroup or AD join) with Sysprep — roughly in the spirit of VMware guest customization.<br />
-<br />
-It runs as Docker Compose (or Podman with Compose v2), talks to PVE over the API, and drives the guest through the QEMU guest agent. There’s a web UI and a machine API. Current release is...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/community-tool-windows-template-%E2%86%92-clone-sysprep-customize-on-pve.185412/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Use ZFS Special vdev with Raid 5</title>
-      <pubDate>Thu, 30 Jul 2026 06:10:25 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/use-zfs-special-vdev-with-raid-5.185137/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185137</guid>
-      <author>invalid@example.com (joshiyamamoto)</author>
+      <title>Cluster Resource Scheduler (CRS) migrates VMs during Backup</title>
+      <pubDate>Thu, 30 Jul 2026 11:40:16 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/cluster-resource-scheduler-crs-migrates-vms-during-backup.185348/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185348</guid>
+      <author>invalid@example.com (thomasb132)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>joshiyamamoto</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi all,<br />
+      <dc:creator>thomasb132</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">A scheduled backup of a VM to a Proxmox backup server fails if the CRS simultaneously migrates the VM from one PVE host to another.<br />
+The backup job was scheduled to run at night, the migration of the VM was initiated by CRS without user input.<br />
 <br />
-I&#039;d like a sanity check on a plan before I execute it, and I&#039;m aware it&#039;s not the textbook ZFS setup – so I&#039;d appreciate honest opinions on the risk.<br />
-<br />
-Problem:<br />
-Garbage collection on my main PBS datastore (storage1) takes ~28–46 hours per run. The datastore holds ~16 million chunks, ~17.5 TiB on-disk, dedup factor ~90. I&#039;ve already maxed gc-cache-capacity (8388608), and the last GC log shows a 96% chunk-cache hit ratio, so the software side is exhausted. The bottleneck is clearly...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/use-zfs-special-vdev-with-raid-5.185137/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>16</slash:comments>
-    </item>
-    <item>
-      <title>Install screen is too big</title>
-      <pubDate>Thu, 30 Jul 2026 05:13:14 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/install-screen-is-too-big.139114/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:139114</guid>
-      <author>invalid@example.com (Vaillant)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>Vaillant</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-I&#039;m just wanting to start playing with PBS but I cannot install it.<br />
-<br />
-When I boot from the iso everything is great.<br />
-<a href="https://forum.proxmox.com/attachments/20240102_201915-jpg.60678/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/60/60374-a5bc7338aa1ac413f64827cf7c45854a.jpg?hash=pbxzOKoaxB"
-		srcset=""
-		class="bbImage "
-		style=""
-		alt="20240102_201915.jpg"
-		title="20240102_201915.jpg"
-		width="201" height="150" loading="lazy" /></a><br />
-<br />
-But after choosing the graphical interface my screen is oversize and I can&#039;t manage anything.<br />
-<a href="https://forum.proxmox.com/attachments/20240102_202325-jpg.60679/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/60/60375-9546a1c4a197b8ed0e7252b1a8af2af2.jpg?hash=lUahxKGXuO"
-		srcset=""
-		class="bbImage "
-		style=""
-		alt="20240102_202325.jpg"
-		title="20240102_202325.jpg"
-		width="201" height="150" loading="lazy" /></a><br />
-I also tried console and terminal UI which just give me a black screen.<br />
-<br />
-How can I install?</div>]]></content:encoded>
-      <slash:comments>9</slash:comments>
-    </item>
-    <item>
-      <title>The cloned virtual machine failed to start</title>
-      <pubDate>Thu, 30 Jul 2026 04:26:35 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/the-cloned-virtual-machine-failed-to-start.185239/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185239</guid>
-      <author>invalid@example.com (tangshuai)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>tangshuai</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">通过PBS备份恢复的虚拟机可以正常启动，但将虚拟机转换为模板后，克隆的虚拟机却无法正常启动。<a href="https://forum.proxmox.com/attachments/1784709584641-png.99057/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98753-b5c0c19b285e22c9f7e4415c68b4bc29.jpg?hash=8RBceHPf5H"
-		srcset="https://forum.proxmox.com/data/attachments/98/2x/98753-b5c0c19b285e22c9f7e4415c68b4bc29.jpg?hash=8RBceHPf5H 2x"
-		class="bbImage "
-		style=""
-		alt="1784709584641.png"
-		title="1784709584641.png"
-		width="276" height="150" loading="lazy" /></a><a href="https://forum.proxmox.com/attachments/1784709651559-png.99058/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98754-bd7a92265742e575aa6dc880f61c4dd6.jpg?hash=qQfV9VADDp"
-		srcset="https://forum.proxmox.com/data/attachments/98/2x/98754-bd7a92265742e575aa6dc880f61c4dd6.jpg?hash=qQfV9VADDp 2x"
-		class="bbImage "
-		style=""
-		alt="1784709651559.png"
-		title="1784709651559.png"
-		width="274" height="150" loading="lazy" /></a></div>]]></content:encoded>
-      <slash:comments>8</slash:comments>
-    </item>
-    <item>
-      <title>IPv6 DHCP in LXC</title>
-      <pubDate>Thu, 30 Jul 2026 00:56:22 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ipv6-dhcp-in-lxc.185315/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185315</guid>
-      <author>invalid@example.com (kb1sph)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>kb1sph</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Okay, I&#039;m going to apologize ahead of time, because I know a lot of people have posted about this, but there are so many posts that I just can&#039;t find a working answer.<br />
-<br />
-I&#039;m running Proxmox VE 9.2.5.  I have opnsense set up and working perfectly and giving out IPv6 addresses through DHCP and everything that gets an address for physical machines on the lan have IPv6 connectivity.  The problem is, I can&#039;t seem to get this to work automatically in a LXC.  There has to be something I am not...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/ipv6-dhcp-in-lxc.185315/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>12</slash:comments>
-    </item>
-    <item>
-      <title>Intel I225-V igc NETDEV WATCHDOG/reset loop on 7.0 kernels; stable on 6.17</title>
-      <pubDate>Wed, 29 Jul 2026 22:31:21 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/intel-i225-v-igc-netdev-watchdog-reset-loop-on-7-0-kernels-stable-on-6-17.185410/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185410</guid>
-      <author>invalid@example.com (cbuechler)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>cbuechler</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I’m seeing a repeatable regression with an Intel I225-V NIC on Proxmox VE 9.2.5 which completely breaks the NIC.<br />
-<br />
-The affected interface is one port of a quad-port 2.5 GbE card:<br />
-
-
-
-
-<blockquote data-attributes="" data-quote="" data-source=""
-	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
-	
-	<div class="bbCodeBlock-content">
-		
-		<div class="bbCodeBlock-expandContent js-expandContent ">
-			85:00.0 Ethernet controller [0200]: Intel Corporation Ethernet Controller I225-V [8086:15f3] (rev 03)<br />
-Subsystem: Intel Corporation Device [8086:0000]<br />
-        Kernel driver in use: igc
-		</div>
-		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
-	</div>
-</blockquote><br />
-The interface is enp133s0, attached to Linux bridge vmbr8.<br />
-<br />
-With both tested 7.0 kernels, the interface repeatedly hits a...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/intel-i225-v-igc-netdev-watchdog-reset-loop-on-7-0-kernels-stable-on-6-17.185410/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Issues with giving an unprivileged LXC write access to storage on the host</title>
-      <pubDate>Wed, 29 Jul 2026 21:46:41 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/issues-with-giving-an-unprivileged-lxc-write-access-to-storage-on-the-host.184141/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:184141</guid>
-      <author>invalid@example.com (spencerjohnson272)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>spencerjohnson272</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">The way I have my server structured is a SSD for the boot drive, two NVME drives in a mirror pool for the services, and five HDDs in a zfs pool for bulk storage (images, media files, etc.).<br />
-<br />
-I&#039;m trying to set up Immich in an unprivileged LXC. I used the <a href="https://community-scripts.org/scripts/immich" target="_blank" class="link link--external" rel="nofollow ugc noopener">community script</a> to install it, added the storage folder on the host as a mount point, and followed <a href="https://github.com/community-scripts/ProxmoxVE/discussions/5075" target="_blank" class="link link--external" rel="nofollow ugc noopener">these instructions</a> to change the storage folder to the mounted directory from the host.<br />
-<br />
-The first thing I tried to do to allow...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/issues-with-giving-an-unprivileged-lxc-write-access-to-storage-on-the-host.184141/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>network traffic scale</title>
-      <pubDate>Wed, 29 Jul 2026 21:42:57 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/network-traffic-scale.185405/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185405</guid>
-      <author>invalid@example.com (dipstickone)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>dipstickone</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Is there an option to set the units used for network traffic in the summary?<br />
-I cant seem to see it anywhere.......Am i missing something?<br />
-Mention of the scale would be a plus.</div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
+Is there a way to prevent HA migrations for a specific VM while a backup job is running?</div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
     </item>
   </channel>
 </rss>
