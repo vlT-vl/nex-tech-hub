@@ -4,14 +4,134 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Wed, 29 Jul 2026 19:02:06 +0000</pubDate>
-    <lastBuildDate>Wed, 29 Jul 2026 19:02:06 +0000</lastBuildDate>
+    <pubDate>Thu, 30 Jul 2026 01:31:16 +0000</pubDate>
+    <lastBuildDate>Thu, 30 Jul 2026 01:31:16 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
+      <title>IPv6 DHCP in LXC</title>
+      <pubDate>Thu, 30 Jul 2026 00:56:22 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ipv6-dhcp-in-lxc.185315/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185315</guid>
+      <author>invalid@example.com (kb1sph)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>kb1sph</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Okay, I&#039;m going to apologize ahead of time, because I know a lot of people have posted about this, but there are so many posts that I just can&#039;t find a working answer.<br />
+<br />
+I&#039;m running Proxmox VE 9.2.5.  I have opnsense set up and working perfectly and giving out IPv6 addresses through DHCP and everything that gets an address for physical machines on the lan have IPv6 connectivity.  The problem is, I can&#039;t seem to get this to work automatically in a LXC.  There has to be something I am not...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/ipv6-dhcp-in-lxc.185315/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>12</slash:comments>
+    </item>
+    <item>
+      <title>Kernel 6.17 - End of Support after July</title>
+      <pubDate>Wed, 29 Jul 2026 23:36:24 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/kernel-6-17-end-of-support-after-july.185216/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185216</guid>
+      <author>invalid@example.com (t.lamprecht)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>t.lamprecht</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+Given that ubuntu upstream is in process of phasing this kernel out, and we&#039;re already now spending considerable amount of engineering time to handled backporting (security) fixes on top of upstreams work, we decided to go through with the <a href="https://forum.proxmox.com/threads/kernel-6-14-end-of-support.183689/#post-853416" class="link link--internal">previously announced plan</a> to end support for the 6.17-based kernel series at the end of July.<br />
+<br />
+At the time of writing, still-supported kernel release series:<br />
+<ul>
+<li data-xf-list-type="ul">Kernel 6.8 for Proxmox VE 8 and other Debian Bookworm-based Proxmox project...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/kernel-6-17-end-of-support-after-july.185216/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Intel I225-V igc NETDEV WATCHDOG/reset loop on 7.0 kernels; stable on 6.17</title>
+      <pubDate>Wed, 29 Jul 2026 22:31:21 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/intel-i225-v-igc-netdev-watchdog-reset-loop-on-7-0-kernels-stable-on-6-17.185410/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185410</guid>
+      <author>invalid@example.com (cbuechler)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>cbuechler</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I’m seeing a repeatable regression with an Intel I225-V NIC on Proxmox VE 9.2.5 which completely breaks the NIC.<br />
+<br />
+The affected interface is one port of a quad-port 2.5 GbE card:<br />
+
+
+
+
+<blockquote data-attributes="" data-quote="" data-source=""
+	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
+	
+	<div class="bbCodeBlock-content">
+		
+		<div class="bbCodeBlock-expandContent js-expandContent ">
+			85:00.0 Ethernet controller [0200]: Intel Corporation Ethernet Controller I225-V [8086:15f3] (rev 03)<br />
+Subsystem: Intel Corporation Device [8086:0000]<br />
+        Kernel driver in use: igc
+		</div>
+		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
+	</div>
+</blockquote><br />
+The interface is enp133s0, attached to Linux bridge vmbr8.<br />
+<br />
+With both tested 7.0 kernels, the interface repeatedly hits a...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/intel-i225-v-igc-netdev-watchdog-reset-loop-on-7-0-kernels-stable-on-6-17.185410/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Issues with giving an unprivileged LXC write access to storage on the host</title>
+      <pubDate>Wed, 29 Jul 2026 21:46:41 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/issues-with-giving-an-unprivileged-lxc-write-access-to-storage-on-the-host.184141/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:184141</guid>
+      <author>invalid@example.com (spencerjohnson272)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>spencerjohnson272</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">The way I have my server structured is a SSD for the boot drive, two NVME drives in a mirror pool for the services, and five HDDs in a zfs pool for bulk storage (images, media files, etc.).<br />
+<br />
+I&#039;m trying to set up Immich in an unprivileged LXC. I used the <a href="https://community-scripts.org/scripts/immich" target="_blank" class="link link--external" rel="nofollow ugc noopener">community script</a> to install it, added the storage folder on the host as a mount point, and followed <a href="https://github.com/community-scripts/ProxmoxVE/discussions/5075" target="_blank" class="link link--external" rel="nofollow ugc noopener">these instructions</a> to change the storage folder to the mounted directory from the host.<br />
+<br />
+The first thing I tried to do to allow...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/issues-with-giving-an-unprivileged-lxc-write-access-to-storage-on-the-host.184141/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>network traffic scale</title>
+      <pubDate>Wed, 29 Jul 2026 21:42:57 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/network-traffic-scale.185405/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185405</guid>
+      <author>invalid@example.com (dipstickone)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>dipstickone</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Is there an option to set the units used for network traffic in the summary?<br />
+I cant seem to see it anywhere.......Am i missing something?<br />
+Mention of the scale would be a plus.</div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox VE 9 installer fails on Dell PowerEdge T630 before installer UI, while Proxmox VE 8 and Debian 13.6 installer boot successfully-same hardware</title>
+      <pubDate>Wed, 29 Jul 2026 21:32:47 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-ve-9-installer-fails-on-dell-poweredge-t630-before-installer-ui-while-proxmox-ve-8-and-debian-13-6-installer-boot-successfully-same-hardware.185406/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185406</guid>
+      <author>invalid@example.com (MVerBerkmoes)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>MVerBerkmoes</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have been struggling with this for several weeks and even opened a bug report without success.  I&#039;m hoping someone here that is far more versed in Linux and ProxMox can help me get my v8 machine upgraded.<br />
+<br />
+I attempted to bare install v9.2 on new SD cards on working ProxMox v8.4.19 hardware so in case of failure, I didn&#039;t lose my working v8 machine.<br />
+<br />
+Dell PowerEdge T630<br />
+BIOS: 2.17.0<br />
+iDRAC/Lifecycle Controller: 2.84.84.84<br />
+CPU: (2) Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz<br />
+RAM: 384.00 GB...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-ve-9-installer-fails-on-dell-poweredge-t630-before-installer-ui-while-proxmox-ve-8-and-debian-13-6-installer-boot-successfully-same-hardware.185406/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
       <title>Ich möchte Proxmox neu aufsetzen - Was sollte ich verändern?</title>
-      <pubDate>Wed, 29 Jul 2026 18:54:21 +0000</pubDate>
+      <pubDate>Wed, 29 Jul 2026 20:59:49 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/ich-m%C3%B6chte-proxmox-neu-aufsetzen-was-sollte-ich-ver%C3%A4ndern.185397/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185397</guid>
       <author>invalid@example.com (tp1de)</author>
@@ -31,36 +151,11 @@ Jetzt bin ich am überlegen:<br />
 1. Sollte ich das Proxmox OS auf einer separaten...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/ich-m%C3%B6chte-proxmox-neu-aufsetzen-was-sollte-ich-ver%C3%A4ndern.185397/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>33</slash:comments>
-    </item>
-    <item>
-      <title>Detected Hardware Unit Hang - Pve Host verliert quorum und wird unresponsive</title>
-      <pubDate>Wed, 29 Jul 2026 18:48:03 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/detected-hardware-unit-hang-pve-host-verliert-quorum-und-wird-unresponsive.185215/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185215</guid>
-      <author>invalid@example.com (nhh)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>nhh</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Jul 21 12:45:37 XXXXXX kernel: e1000e 0000:00:1f.6 eno1: Detected Hardware Unit Hang:
-                                   TDH                  &lt;32&gt;
-                                   TDT                  &lt;38&gt;
-                                   next_to_use          &lt;38&gt;
-                                   next_to_clean        &lt;31&gt;
-                                 buffer_info[next_to_clean]:
-                                   time_stamp           &lt;14660e9db&gt;...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/detected-hardware-unit-hang-pve-host-verliert-quorum-und-wird-unresponsive.185215/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>9</slash:comments>
+      <slash:comments>41</slash:comments>
     </item>
     <item>
       <title>Grub starts the old kernel</title>
-      <pubDate>Wed, 29 Jul 2026 18:40:24 +0000</pubDate>
+      <pubDate>Wed, 29 Jul 2026 20:47:41 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/grub-starts-the-old-kernel.185330/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185330</guid>
       <author>invalid@example.com (frankz)</author>
@@ -89,11 +184,100 @@ proxmox-kernel-7.0.6-2-pve-signed: 7.0.6-2...</code></pre>
 	</div>
 </div><br />
 <a href="https://forum.proxmox.com/threads/grub-starts-the-old-kernel.185330/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>15</slash:comments>
+      <slash:comments>20</slash:comments>
+    </item>
+    <item>
+      <title>Install screen is too big</title>
+      <pubDate>Wed, 29 Jul 2026 20:26:24 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/install-screen-is-too-big.139114/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:139114</guid>
+      <author>invalid@example.com (Vaillant)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>Vaillant</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I&#039;m just wanting to start playing with PBS but I cannot install it.<br />
+<br />
+When I boot from the iso everything is great.<br />
+<a href="https://forum.proxmox.com/attachments/20240102_201915-jpg.60678/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/60/60374-a5bc7338aa1ac413f64827cf7c45854a.jpg?hash=pbxzOKoaxB"
+		srcset=""
+		class="bbImage "
+		style=""
+		alt="20240102_201915.jpg"
+		title="20240102_201915.jpg"
+		width="201" height="150" loading="lazy" /></a><br />
+<br />
+But after choosing the graphical interface my screen is oversize and I can&#039;t manage anything.<br />
+<a href="https://forum.proxmox.com/attachments/20240102_202325-jpg.60679/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/60/60375-9546a1c4a197b8ed0e7252b1a8af2af2.jpg?hash=lUahxKGXuO"
+		srcset=""
+		class="bbImage "
+		style=""
+		alt="20240102_202325.jpg"
+		title="20240102_202325.jpg"
+		width="201" height="150" loading="lazy" /></a><br />
+I also tried console and terminal UI which just give me a black screen.<br />
+<br />
+How can I install?</div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
+    <item>
+      <title>Intel BE200 (Gale Peak) WiFi broken on kernel 7.0.x: driver wants ucode &gt;=100, pve-firmware ships 96 (fix + 3-line patch)</title>
+      <pubDate>Wed, 29 Jul 2026 20:05:46 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/intel-be200-gale-peak-wifi-broken-on-kernel-7-0-x-driver-wants-ucode-100-pve-firmware-ships-96-fix-3-line-patch.185409/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185409</guid>
+      <author>invalid@example.com (CanuteTheGreat)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>CanuteTheGreat</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Posting this as a solved-with-workaround report, since the two existing BE200/BE202 threads here end without a fix and the cause turns out to be a packaging gap rather than anything wrong with the hardware.<br />
+<br />
+<b>Symptoms</b><br />
+<br />
+Intel Wi-Fi 7 BE200 refuses to initialise. No wireless interface appears, though the card is detected correctly:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>iwlwifi 0000:ad:00.0: Detected Intel(R) Wi-Fi 7 BE200 320MHz
+iwlwifi 0000:ad:00.0: Direct firmware load for iwlwifi-gl-c0-fm-c0-c101.ucode failed with...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/intel-be200-gale-peak-wifi-broken-on-kernel-7-0-x-driver-wants-ucode-100-pve-firmware-ships-96-fix-3-line-patch.185409/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Faster VM moves between two nodes with node-local ZFS pools (per-blocksize storages)</title>
+      <pubDate>Wed, 29 Jul 2026 19:15:56 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/faster-vm-moves-between-two-nodes-with-node-local-zfs-pools-per-blocksize-storages.185376/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185376</guid>
+      <author>invalid@example.com (Q-wulf)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Q-wulf</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><b><u>SETUP</u></b><br />
+- 2 nodes, PVE 9.2.3 (kernel 7.0.14-4-pve, EFI). No shared storage.<br />
+- Cluster history: originally built on PVE 7, upgraded through to PVE 9<br />
+  (so some storage naming/layout predates current versions).<br />
+- Each node has its own local ZFS RAID10 pool (4x mirror, WD SN640 NVMe).<br />
+- Dedicated migration net: isolated, non-routed, 100 GbE (ConnectX-5), MTU 9000.<br />
+- datacenter.cfg: migration: type=insecure,network=&lt;isolated /24&gt;<br />
+<br />
+<u>STORAGE LAYOUT (the core issue)</u><br />
+Each pool is...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/faster-vm-moves-between-two-nodes-with-node-local-zfs-pools-per-blocksize-storages.185376/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
     </item>
     <item>
       <title>7.0.14-6-pve: acpi_pad consumes CPU and ZFS write performance drops from 257 MiB/s to 7.5 MiB/s</title>
-      <pubDate>Wed, 29 Jul 2026 18:35:05 +0000</pubDate>
+      <pubDate>Wed, 29 Jul 2026 19:08:02 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/7-0-14-6-pve-acpi_pad-consumes-cpu-and-zfs-write-performance-drops-from-257-mib-s-to-7-5-mib-s.185368/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185368</guid>
       <author>invalid@example.com (Radik Makhmudov)</author>
@@ -119,7 +303,32 @@ fio \<br />
   --bs=1M \...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/7-0-14-6-pve-acpi_pad-consumes-cpu-and-zfs-write-performance-drops-from-257-mib-s-to-7-5-mib-s.185368/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
+      <slash:comments>5</slash:comments>
+    </item>
+    <item>
+      <title>Detected Hardware Unit Hang - Pve Host verliert quorum und wird unresponsive</title>
+      <pubDate>Wed, 29 Jul 2026 18:48:03 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/detected-hardware-unit-hang-pve-host-verliert-quorum-und-wird-unresponsive.185215/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185215</guid>
+      <author>invalid@example.com (nhh)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>nhh</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Jul 21 12:45:37 XXXXXX kernel: e1000e 0000:00:1f.6 eno1: Detected Hardware Unit Hang:
+                                   TDH                  &lt;32&gt;
+                                   TDT                  &lt;38&gt;
+                                   next_to_use          &lt;38&gt;
+                                   next_to_clean        &lt;31&gt;
+                                 buffer_info[next_to_clean]:
+                                   time_stamp           &lt;14660e9db&gt;...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/detected-hardware-unit-hang-pve-host-verliert-quorum-und-wird-unresponsive.185215/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
     </item>
     <item>
       <title>Containers assigned an SDN won't start</title>
@@ -193,19 +402,6 @@ The question I have is that if you look at vm-104 for example it has a 80GB disk
       <slash:comments>1</slash:comments>
     </item>
     <item>
-      <title>network traffic scale</title>
-      <pubDate>Wed, 29 Jul 2026 17:32:32 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/network-traffic-scale.185405/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185405</guid>
-      <author>invalid@example.com (dipstickone)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>dipstickone</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Is there an option to set the units used for network traffic in the summary?<br />
-I cant seem to see it anywhere.......Am i missing something?<br />
-Mention of the scale would be a plus.</div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
       <title>Verständnisfrage Ports</title>
       <pubDate>Wed, 29 Jul 2026 17:22:51 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/verst%C3%A4ndnisfrage-ports.185408/</link>
@@ -277,146 +473,6 @@ read : io=1637.7MB, bw=53724KB/s, iops=8808, runt= 31213msec  VIRTIO SCSI single
 </div><br />
 <a href="https://forum.proxmox.com/threads/virtio-scsi-vs-virtio-scsi-single.28426/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>17</slash:comments>
-    </item>
-    <item>
-      <title>Problem mit TPM in Windows Server 2025</title>
-      <pubDate>Wed, 29 Jul 2026 16:23:09 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/problem-mit-tpm-in-windows-server-2025.185373/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185373</guid>
-      <author>invalid@example.com (lblaesius)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>lblaesius</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
-<br />
-wir sind bei unserem Cluster auf ein Problem gestoßen. Mit dem neusten Sicherheitsupdate von Microsoft verlieren unsere Windows 2025 RDS Server ihr TPM Modul. TPM.MSC zeigt an, dass kein Modul verbunden wäre. Vor dem Update lief alles normal.<br />
-<br />
-Ich habe mit Hilfe von Claude eine Diagnose gemacht. Diese ist im Anhang. <br />
-<br />
-Kurzgesagt:<br />
-- Wir haben 5 AMD Epyc Server die alle identisch sind. Das Problem ist auf allen Hosts.<br />
-- Installiert man das Update von Microsoft, startet die VM neu ist...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/problem-mit-tpm-in-windows-server-2025.185373/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>What is process to get new CT Template added to Proxmox VE 9.x?</title>
-      <pubDate>Wed, 29 Jul 2026 16:18:32 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/what-is-process-to-get-new-ct-template-added-to-proxmox-ve-9-x.185407/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185407</guid>
-      <author>invalid@example.com (josh.greyz)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>josh.greyz</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m not able to find the information for this, so I am asking here if anyone knows the process to get new CT Template added to Proxmox VE 9.x.<br />
-<br />
-Alpine Linux 3.24 was released early June 2026 and it is missing from the CT Templates downloads.</div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>[Community project] Proximo — an open-source, least-privilege MCP/API layer for managing PVE with an AI agent (feedback wanted)</title>
-      <pubDate>Wed, 29 Jul 2026 16:13:03 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/community-project-proximo-%E2%80%94-an-open-source-least-privilege-mcp-api-layer-for-managing-pve-with-an-ai-agent-feedback-wanted.184435/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:184435</guid>
-      <author>invalid@example.com (broadway)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>broadway</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi all — sharing an open-source side project for feedback from people who actually run Proxmox in anger. It&#039;s a community project, not affiliated with Proxmox, and this isn&#039;t a support request — I&#039;m after criticism of the approach.<br />
-<br />
-What it is: Proximo is a small server that lets an AI agent (or any MCP/A2A client) manage a PVE cluster through the REST API with a scoped API token. It does not touch the hypervisor directly and is API-only by default. Safety was the design priority, because...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/community-project-proximo-%E2%80%94-an-open-source-least-privilege-mcp-api-layer-for-managing-pve-with-an-ai-agent-feedback-wanted.184435/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>74</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE 9 installer fails on Dell PowerEdge T630 before installer UI, while Proxmox VE 8 and Debian 13.6 installer boot successfully-same hardware</title>
-      <pubDate>Wed, 29 Jul 2026 15:40:07 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-9-installer-fails-on-dell-poweredge-t630-before-installer-ui-while-proxmox-ve-8-and-debian-13-6-installer-boot-successfully-same-hardware.185406/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185406</guid>
-      <author>invalid@example.com (MVerBerkmoes)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>MVerBerkmoes</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have been struggling with this for several weeks and even opened a bug report without success.  I&#039;m hoping someone here that is far more versed in Linux and ProxMox can help me get my v8 machine upgraded.<br />
-<br />
-I attempted to bare install v9.2 on new SD cards on working ProxMox v8.4.19 hardware so in case of failure, I didn&#039;t lose my working v8 machine.<br />
-<br />
-Dell PowerEdge T630<br />
-BIOS: 2.17.0<br />
-iDRAC/Lifecycle Controller: 2.84.84.84<br />
-CPU: (2) Intel(R) Xeon(R) CPU E5-2695 v4 @ 2.10GHz<br />
-RAM: 384.00 GB...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-9-installer-fails-on-dell-poweredge-t630-before-installer-ui-while-proxmox-ve-8-and-debian-13-6-installer-boot-successfully-same-hardware.185406/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Questions about the dynamic CRS</title>
-      <pubDate>Wed, 29 Jul 2026 15:22:27 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/questions-about-the-dynamic-crs.183171/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:183171</guid>
-      <author>invalid@example.com (Cookiefamily)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Cookiefamily</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-I noticed that a dynamic mode was introduced to the CRS (yay! Been waiting for this for so long and it really comes in handy now with us planning our migration away from VMware, thank you so much Team!!!).<br />
-I enabled it on all my testing environments and it seemed to work pretty well. <br />
-<br />
-There are two modes the CRS can run in, TOPSIS and &quot;Brute Force&quot; with the latter one being the default. What are the differences in practice between the two modes? Are there scenarios where you should...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/questions-about-the-dynamic-crs.183171/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>22</slash:comments>
-    </item>
-    <item>
-      <title>Moving from 3-node full-mesh SDN to a 6-node using switches</title>
-      <pubDate>Wed, 29 Jul 2026 15:20:37 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/moving-from-3-node-full-mesh-sdn-to-a-6-node-using-switches.183681/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:183681</guid>
-      <author>invalid@example.com (traveltrex)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>traveltrex</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi there,<br />
-<br />
-we currently have a 3-node full-meshed SDN using OpenFabric for our ceph backend (used on separate interfaces and networks). Ceph backend uses 25gbit/s FC (we have 2x 2 Port Cards). We want to increase our cluster by 3 nodes but dissolving the SDN in the process, as the setup using a switch with this many nodes is much simpler and less cost-intensive. <br />
-<br />
-What would be the best way to switch away from SDN without downtime? <br />
-<br />
-Thanks in advance!<br />
-<br />
-Patrick</div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>Windows Server 2025 CPU suddenly at 100%</title>
-      <pubDate>Wed, 29 Jul 2026 15:07:47 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/windows-server-2025-cpu-suddenly-at-100.184763/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:184763</guid>
-      <author>invalid@example.com (rlopez)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>rlopez</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-I have a branch new Proxmox VE 9.2.3 installed with all updates.<br />
-I have some VMs, and one of them is a recently installed Windows Server 2025, It has no software or any particular configuration, only system installed, VirtioTools latest version, and all updates done.<br />
-Suddenly, working with windows explorer inside the vm, the entire vm &quot;stucks&quot; and stop respond, If I go to Proxmox VM Summary I can see that CPU is running at 99,99%. It does this for a minute or two and then goes again...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/windows-server-2025-cpu-suddenly-at-100.184763/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>26</slash:comments>
-    </item>
-    <item>
-      <title>QEMU 11.0 available on pve-test and pve-no-subscription as of now</title>
-      <pubDate>Wed, 29 Jul 2026 15:01:18 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/qemu-11-0-available-on-pve-test-and-pve-no-subscription-as-of-now.183494/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:183494</guid>
-      <author>invalid@example.com (fiona)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>fiona</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">There is a new QEMU 11.0 package available in the <code class="bbCodeInline">pve-test</code> and <code class="bbCodeInline">pve-no-subscription</code> repositories for Proxmox VE 9.<br />
-<br />
-After internally testing QEMU 11.0 for over two weeks and having this version available on the <code class="bbCodeInline">pve-test</code> repository for over a week, we now (2026-05-13) made our QEMU 11.0 package available in the <a href="https://pve.proxmox.com/wiki/Package_Repositories#sysadmin_no_subscription_repo" target="_blank" class="link link--external" rel="noopener">pve-no-subscription</a> repository.<br />
-<br />
-Version <code class="bbCodeInline">11.0.0-2</code> of our QEMU package <code class="bbCodeInline">pve-qemu-kvm</code> includes some important stable fixes that have been developed...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/qemu-11-0-available-on-pve-test-and-pve-no-subscription-as-of-now.183494/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>46</slash:comments>
     </item>
   </channel>
 </rss>
