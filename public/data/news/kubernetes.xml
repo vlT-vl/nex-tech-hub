@@ -1,4 +1,165 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37 Sneak Peek</title><link>https://kubernetes.io/blog/2026/07/31/kubernetes-v1-37-sneak-peek/</link><pubDate>Fri, 31 Jul 2026 08:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/07/31/kubernetes-v1-37-sneak-peek/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Gateway API v1.6: TCPRoute and UDPRoute Graduate to Standard</title><link>https://kubernetes.io/blog/2026/08/03/gateway-api-v1-6-release/</link><pubDate>Mon, 03 Aug 2026 08:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/08/03/gateway-api-v1-6-release/</guid><description>
+&lt;p>&lt;img src="https://kubernetes.io/blog/2026/08/03/gateway-api-v1-6-release/gateway-api-logo.svg" alt="Gateway API logo">&lt;/p>
+&lt;p>The Kubernetes SIG Network community is thrilled to share the release of &lt;strong>Gateway API v1.6.0&lt;/strong>, which was released on June 30th of this year!&lt;/p>
+&lt;p>Gateway API has become the standard for modern, role-oriented,
+and expressive service networking in Kubernetes.
+In previous releases, Gateway API established a production-grade foundation
+for HTTP and TLS layer 7 traffic.
+With version 1.6.0, Gateway API takes a major step forward by expanding
+standard layer 4 protocol routing and introducing cleaner API boundaries for experimental innovation.&lt;/p>
+&lt;p>Here is a quick summary of what's new in Gateway API v1.6.0:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>TCPRoute and UDPRoute Graduate to Standard&lt;/strong>: Raw L4 TCP and UDP traffic routing reach GA stability in the &lt;code>v1&lt;/code> API version.&lt;/li>
+&lt;li>&lt;strong>Experimental API Group Separation&lt;/strong>: Experimental resources transition to a distinct API group (&lt;code>gateway.networking.x-k8s.io&lt;/code>) with an &lt;code>X&lt;/code> prefix to make experimental vs. standard boundaries crystal clear.&lt;/li>
+&lt;/ul>
+&lt;p>Let's dive into the details!&lt;/p>
+&lt;h2 id="tcproute-and-udproute-graduate-to-standard">TCPRoute and UDPRoute graduate to Standard&lt;a class="td-heading-self-link" href="#tcproute-and-udproute-graduate-to-standard" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Leads: &lt;a href="https://github.com/youngnick">Nick Young&lt;/a>, &lt;a href="https://github.com/rikatz">Ricardo Katz&lt;/a> and &lt;a href="https://github.com/zac-nixon">Zac Nixon&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://gateway-api.sigs.k8s.io/geps/gep-2644/">GEP-2644 - TCPRoute&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://gateway-api.sigs.k8s.io/geps/gep-2645/">GEP-2645 - UDPRoute&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Until now, Gateway API only offered a stable routing model for HTTP and TLS traffic.
+Workloads that speak a raw protocol over TCP or UDP - databases,
+DNS, VoIP, gaming, IoT telemetry - had no portable way to plug
+into a Gateway. Users either fell back to a plain Kubernetes Service,
+or to an implementation-specific CRD that doesn't travel between Gateway controllers.&lt;/p>
+&lt;p>&lt;a href="https://gateway-api.sigs.k8s.io/guides/user-guides/tcp/">TCPRoute&lt;/a> and &lt;a href="https://gateway-api.sigs.k8s.io/guides/user-guides/udp/">UDPRoute&lt;/a> close that gap: they route traffic to backends based on protocol and port alone, no L7 awareness required.
+With this release, both have graduated from the Experimental channel to Standard, and moved to the &lt;code>v1&lt;/code> API version.
+The &lt;code>v1alpha2&lt;/code> version of each was deprecated as of the v1.6 release, and will be removed in a future release.&lt;/p>
+&lt;h3 id="how-it-works">How it works&lt;a class="td-heading-self-link" href="#how-it-works" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>A Gateway needs a listener that allows TCPRoute attachment:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Gateway&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-gateway&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gatewayClassName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-gateway-class&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">listeners&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">foo&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TCP&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">12345&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">allowedRoutes&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kinds&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TCPRoute&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>A TCPRoute then attaches to that listener and forwards traffic to a backend:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TCPRoute&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">tcp-app&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">parentRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-gateway&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">sectionName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">foo&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">rules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">backendRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">my-foo-service&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">6000&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Traffic arriving on the Gateway's port &lt;code>12345&lt;/code> is proxied to the endpoints of &lt;code>my-foo-service&lt;/code> on port &lt;code>6000&lt;/code>. Omitting &lt;code>sectionName&lt;/code> and &lt;code>port&lt;/code> from &lt;code>parentRefs&lt;/code> attaches the route to every TCP listener on the Gateway instead of a single one.&lt;/p>
+&lt;p>UDPRoute follows the same pattern; swap the listener protocol and the route kind:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Gateway&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-gateway&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gatewayClassName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-gateway-class&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">listeners&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">foo&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">UDP&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">12345&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">allowedRoutes&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kinds&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">UDPRoute&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">UDPRoute&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">udp-app&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">parentRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-gateway&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">sectionName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">foo&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">rules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">backendRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">my-foo-service&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">6000&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="xbackend-arrives-in-experimental">XBackend arrives in Experimental&lt;a class="td-heading-self-link" href="#xbackend-arrives-in-experimental" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Leads: &lt;a href="https://github.com/keithmattix">Keith Mattix II&lt;/a>&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/kubernetes-sigs/gateway-api/issues/4894">GEP-4894 - Backend Resource&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Gateway API v1.6 introduces the new &lt;code>XBackend&lt;/code> resource, which is a general-purpose decorator for Service (and other backend types) within Gateway API.&lt;/p>
+&lt;p>The Service resource is an amazing, stable, and flexible object, but that comes with some costs: The flexibility creates a lot of edge cases that Gateway API needs to handle, and the stability makes it impossible to add new concepts to Service.&lt;/p>
+&lt;p>The XBackend resource builds on the ideas in the upstream &lt;a href="https://github.com/kubernetes/enhancements/issues/6116">&lt;code>EndpointSelector&lt;/code> KEP&lt;/a>, to add a Gateway API-native object that still targets the backend app, while allowing the community to extend it to handle use cases that are difficult or dangerous to handle with Service.&lt;/p>
+&lt;p>The first version of XBackend includes support for ExternalHostname destinations, which are ruled out from Service support in Gateway API because of the possibility of confused deputy attacks.&lt;/p>
+&lt;p>For XBackend, this support is an Extended/Optional feature, allowing implementations and users to opt in once they understand the security tradeoffs.&lt;/p>
+&lt;p>This support is very useful for egress use cases (which are most commonly used for cluster-hosted agentic workloads), which the community is also working towards formalizing in GEPs about Gateways for Egress (work in progress, stay tuned!)&lt;/p>
+&lt;p>&lt;strong>The XBackend API is experimental and its behavior can change, do not assume it is ready for production&lt;/strong>&lt;/p>
+&lt;p>An example of a Gateway with an ExternalName backend that can be used for egress to a cloud AI API is as follows:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c"># Gateway-level TLS remains authoritative for incoming connections&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Gateway&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">listeners&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">https&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">HTTPS&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">tls&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">certificateRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway-cert&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c"># Backend resource for external destination&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.x-k8s.io/v1alpha1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">XBackend&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ai-provider-api&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ai-apps&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ExternalHostname&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">externalHostname&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">hostname&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">api.ai-provider.com&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c"># HTTPRoute referencing XBackend&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">HTTPRoute&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">rules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">backendRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ai-provider-api&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">XBackend&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">group&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.x-k8s.io&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The community is also working on moving Session Persistence config from &lt;code>XBackendTrafficPolicy&lt;/code> into &lt;code>XBackend&lt;/code>, along with other use cases like retries, TLS origination and similar config that is useful to be able to configure per-application rather than per-Route.&lt;/p>
+&lt;h2 id="experimental-resources-move-off-the-standard-api-group">Experimental resources move off the standard API group&lt;a class="td-heading-self-link" href="#experimental-resources-move-off-the-standard-api-group" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Previously, experimental resources shared the same API group as standard ones - &lt;code>gateway.networking.k8s.io&lt;/code> - distinguished only by a &lt;code>v1alpha2&lt;/code>-style version. TCPRoute and UDPRoute were the last resources to graduate under that scheme.&lt;/p>
+&lt;p>Going forward, new experimental resources are defined in a separate group,
+&lt;code>gateway.networking.x-k8s.io&lt;/code>,
+and the names of their API types get an &lt;code>X&lt;/code> prefix - for example XBackend and XMesh.
+When one of these graduates to Standard, it's renamed into the &lt;code>gateway.networking.k8s.io&lt;/code> group
+and drops the &lt;code>X&lt;/code> prefix, the same way XMesh is expected to become Mesh.&lt;/p>
+&lt;p>This separation makes the experimental/standard boundary explicit at the API group level, rather than relying on version strings alone.&lt;/p>
+&lt;h2 id="what-s-next-getting-involved">What's next &amp;amp; getting involved&lt;a class="td-heading-self-link" href="#what-s-next-getting-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The graduation of TCPRoute and UDPRoute to Standard marks an essential milestone
+in making Gateway API a complete, universal ingress and mesh networking API
+for Kubernetes workloads across layer 4 and layer 7 protocols.&lt;/p>
+&lt;h3 id="try-it-out">Try it out&lt;a class="td-heading-self-link" href="#try-it-out" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>You can start using Gateway API v1.6.0 today with your favorite Gateway controller implementation:&lt;/p>
+&lt;ul>
+&lt;li>Check out the &lt;a href="https://gateway-api.sigs.k8s.io/">Gateway API Documentation&lt;/a> for detailed guides and API references.&lt;/li>
+&lt;li>View the &lt;a href="https://github.com/kubernetes-sigs/gateway-api/releases/tag/v1.6.0">v1.6.0 Release Notes&lt;/a> for complete details on the CRD installation and changes.&lt;/li>
+&lt;/ul>
+&lt;p>Gateway API relies on an extensive conformance test suite to ensure consistent,
+portable behavior across all implementations.
+Here is a list of the implementations that are conforment with v1.6 on the day we published the article:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/kubernetes-sigs/gateway-api/tree/main/conformance/reports/v1.6/agentgateway-agentgateway">Agentgateway&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/kubernetes-sigs/gateway-api/tree/main/conformance/reports/v1.6/airlock-microgateway">Airlock Microgateway&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/kubernetes-sigs/gateway-api/tree/main/conformance/reports/v1.6/gke-gateway">GKE Gateway&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/kubernetes-sigs/gateway-api/tree/main/conformance/reports/v1.6/kgateway">kgateway&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/kubernetes-sigs/gateway-api/tree/main/conformance/reports/v1.6/nginx-nginx-gateway-fabric">NGINX Gateway Fabric&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/kubernetes-sigs/gateway-api/tree/main/conformance/reports/v1.6/traefik-traefik">Traefik Proxy&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h3 id="get-involved">Get involved&lt;a class="td-heading-self-link" href="#get-involved" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Gateway API is an open, community-driven project built under Kubernetes SIG Network. We welcome contributions, feedback, and participation from everyone!&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Join our Slack Channel&lt;/strong>: Join &lt;code>#sig-network-gateway-api&lt;/code> on the &lt;a href="https://slack.k8s.io/">Kubernetes Slack&lt;/a>.&lt;/li>
+&lt;li>&lt;strong>Attend Community Meetings&lt;/strong>: We hold weekly community meetings. Check out the &lt;a href="https://www.kubernetes.dev/community/community-groups/sigs/network/">SIG Network Calendar&lt;/a> for dates and agendas.&lt;/li>
+&lt;li>&lt;strong>Contribute on GitHub&lt;/strong>: File issues, suggest enhancements (GEPs), or submit PRs at &lt;a href="https://github.com/kubernetes-sigs/gateway-api">kubernetes-sigs/gateway-api&lt;/a>.&lt;/li>
+&lt;/ul>
+&lt;h3 id="acknowledgments">Acknowledgments&lt;a class="td-heading-self-link" href="#acknowledgments" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>A huge thank you to all the contributors, reviewers, maintainers, and implementation authors whose hard work made Gateway API v1.6.0 possible!&lt;/p></description></item><item><title>Kubernetes v1.37 Sneak Peek</title><link>https://kubernetes.io/blog/2026/07/31/kubernetes-v1-37-sneak-peek/</link><pubDate>Fri, 31 Jul 2026 08:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/07/31/kubernetes-v1-37-sneak-peek/</guid><description>
 &lt;p>As we get closer to the release date for Kubernetes v1.37, the project develops and matures,
 features may be deprecated, removed, or replaced with better ones for the project's overall
 health. This blog outlines some of the planned changes for the Kubernetes v1.37 release that the
@@ -7973,29 +8134,4 @@ alt="Plugin development"/> &lt;figcaption>
 &lt;li>We've improved OIDC security with PKCE support, helping unblock more secure and standards-compliant OIDC setups when deploying Headlamp in-cluster.&lt;/li>
 &lt;/ul>
 &lt;h2 id="conclusion">Conclusion&lt;a class="td-heading-self-link" href="#conclusion" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Thank you to everyone who has contributed to Headlamp this year – whether through pull requests, plugins, or simply sharing how you're using the project. Seeing the different ways teams are adopting and extending the project is a big part of what keeps us moving forward. If your organization uses Headlamp, consider adding it to our &lt;a href="https://github.com/kubernetes-sigs/headlamp/blob/main/ADOPTERS.md">adopters list&lt;/a>.&lt;/p>
-&lt;p>If you haven't tried Headlamp recently, all these updates are available today. Check out the latest Headlamp release, explore the new views, plugins, and docs, and share your feedback with us on Slack or GitHub – your feedback helps shape where Headlamp goes next.&lt;/p></description></item><item><title>Announcing the Checkpoint/Restore Working Group</title><link>https://kubernetes.io/blog/2026/01/21/introducing-checkpoint-restore-wg/</link><pubDate>Wed, 21 Jan 2026 10:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/01/21/introducing-checkpoint-restore-wg/</guid><description>
-&lt;p>The community around Kubernetes includes a number of Special Interest Groups (SIGs) and Working Groups (WGs) facilitating discussions on important topics between interested contributors. Today we would like to announce the new &lt;a href="https://github.com/kubernetes/community/tree/master/wg-checkpoint-restore">Kubernetes Checkpoint Restore WG&lt;/a> focusing on the integration of Checkpoint/Restore functionality into Kubernetes.&lt;/p>
-&lt;h2 id="motivation-and-use-cases">Motivation and use cases&lt;a class="td-heading-self-link" href="#motivation-and-use-cases" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>There are several high-level scenarios discussed in the working group:&lt;/p>
-&lt;ul>
-&lt;li>Optimizing resource utilization for interactive workloads, such as Jupyter notebooks and AI chatbots&lt;/li>
-&lt;li>Accelerating startup of applications with long initialization times, including Java applications and &lt;a href="https://doi.org/10.1145/3731599.3767354">LLM inference services&lt;/a>&lt;/li>
-&lt;li>Using periodic checkpointing to enable fault-tolerance for long-running workloads, such as distributed model training&lt;/li>
-&lt;li>Providing &lt;a href="https://doi.org/10.1007/978-3-032-10507-3_3">interruption-aware scheduling&lt;/a> with transparent checkpoint/restore, allowing lower-priority Pods to be preempted while preserving the runtime state of applications&lt;/li>
-&lt;li>Facilitating Pod migration across nodes for load balancing and maintenance, without disrupting workloads.&lt;/li>
-&lt;li>Enabling forensic checkpointing to investigate and analyze security incidents such as cyberattacks, data breaches, and unauthorized access.&lt;/li>
-&lt;/ul>
-&lt;p>Across these scenarios, the goal is to help facilitate discussions of ideas between the Kubernetes community and the growing Checkpoint/Restore in Userspace (CRIU) ecosystem. The CRIU community includes several projects that support these use cases, including:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://github.com/checkpoint-restore/criu">CRIU&lt;/a> - A tool for checkpointing and restoring running applications and containers&lt;/li>
-&lt;li>&lt;a href="https://github.com/checkpoint-restore/checkpointctl">checkpointctl&lt;/a> - A tool for in-depth analysis of container checkpoints&lt;/li>
-&lt;li>&lt;a href="https://github.com/checkpoint-restore/criu-coordinator">criu-coordinator&lt;/a> - A tool for coordinated checkpoint/restore of distributed applications with CRIU&lt;/li>
-&lt;li>&lt;a href="https://github.com/checkpoint-restore/checkpoint-restore-operator">checkpoint-restore-operator&lt;/a> - A Kubernetes operator for managing checkpoints&lt;/li>
-&lt;/ul>
-&lt;p>More information about the checkpoint/restore integration with Kubernetes is also available &lt;a href="https://criu.org/Kubernetes">here&lt;/a>.&lt;/p>
-&lt;h2 id="related-events">Related events&lt;a class="td-heading-self-link" href="#related-events" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Following our presentation about &lt;a href="https://sched.co/1tx7i">transparent checkpointing&lt;/a> at KubeCon EU 2025, we are excited to welcome you to our &lt;a href="https://sched.co/2CW6P">panel discussion&lt;/a> and &lt;a href="https://sched.co/2CW7Z">AI + ML session&lt;/a> at KubeCon + CloudNativeCon Europe 2026.&lt;/p>
-&lt;h2 id="connect-with-us">Connect with us&lt;a class="td-heading-self-link" href="#connect-with-us" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>If you are interested in contributing to Kubernetes or CRIU, there are several ways to participate:&lt;/p>
-&lt;ul>
-&lt;li>Join our meeting every second Thursday at 17:00 UTC via the Zoom link in our &lt;a href="https://docs.google.com/document/d/1ZMtHBibXfTw4cQerM4O4DJonzVs3W7Hp2K5ml6pTufs/edit">meeting notes&lt;/a>; recordings of our prior meetings are available &lt;a href="https://www.youtube.com/playlist?list=PL69nYSiGNLP1P7F40IMVL3NsNiIm5AGos">here&lt;/a>.&lt;/li>
-&lt;li>Chat with us on the &lt;a href="http://slack.k8s.io/">Kubernetes Slack&lt;/a>: &lt;a href="https://kubernetes.slack.com/messages/wg-checkpoint-restore">#wg-checkpoint-restore&lt;/a>&lt;/li>
-&lt;li>Email us at the &lt;a href="https://groups.google.com/a/kubernetes.io/g/wg-checkpoint-restore">wg-checkpoint-restore mailing list&lt;/a>&lt;/li>
-&lt;/ul></description></item></channel></rss>
+&lt;p>If you haven't tried Headlamp recently, all these updates are available today. Check out the latest Headlamp release, explore the new views, plugins, and docs, and share your feedback with us on Slack or GitHub – your feedback helps shape where Headlamp goes next.&lt;/p></description></item></channel></rss>

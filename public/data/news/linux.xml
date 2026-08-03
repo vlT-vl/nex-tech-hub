@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Linux News</title><item>
+   <title>Linux 7.3 Looks Like It Will Upstream FailFS</title>
+   <link>https://www.phoronix.com/news/Linux-7.3-Expects-FailFS</link>
+   <guid>https://www.phoronix.com/news/Linux-7.3-Expects-FailFS</guid>
+   <description>Merged back in Linux 7.3 was NULLFS as a "completely catatonic minimal pseudo filesystem". Now expected for Linux 7.3 is its sibling: FailFS...</description>
+   <pubDate>Mon, 03 Aug 2026 14:46:16 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
+   <title>Benchmarking Six Linux Distributions On The Framework Laptop 13 Pro</title>
+   <link>https://www.phoronix.com/review/framework-laptop-13-pro-linux</link>
+   <guid>https://www.phoronix.com/review/framework-laptop-13-pro-linux</guid>
+   <description>With the new Framework Laptop 13 Pro now shipping powered by Intel Core Ultra Series 3 (Panther Lake) and a brand new hardware design, I have spent the past week testing out various Linux distributions on this very nice high-end laptop. All of the modern Linux distributions tested have been playing nicely with this new Panther Lake laptop. Of course, beyond testing for compatibility I also took the opportunity to run some Linux distribution performance benchmarks for this laptop powered by the flagship Core Ultra X9 388H.</description>
+   <pubDate>Mon, 03 Aug 2026 10:42:55 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
    <title>zlib-rs 0.6.7 Released With LoongArch LSX Optimizations, Use-After-Free Fix</title>
    <link>https://www.phoronix.com/news/zlib-rs-0.6.7</link>
    <guid>https://www.phoronix.com/news/zlib-rs-0.6.7</guid>
@@ -202,25 +216,11 @@
    <pubDate>Fri, 31 Jul 2026 11:22:00 -0400</pubDate>
    <dc:creator>Michael Larabel</dc:creator>
   </item><item>
-   <title>Arch Linux AUR Under Another Wave Of Malicious Packages, Package Adoptions Halted</title>
-   <link>https://www.phoronix.com/news/Arch-Linux-AUR-Adoptions-Halted</link>
-   <guid>https://www.phoronix.com/news/Arch-Linux-AUR-Adoptions-Halted</guid>
-   <description>Last month the Arch Linux User Repository "AUR" saw more than 1,500 malicious packages amid a sophisticated malware attack and then also seeing an influx of spam and profanities amid this community/user-maintained repository for the popular Arch Linux distribution. Unfortunately, there is another round of AUR troubles...</description>
-   <pubDate>Fri, 31 Jul 2026 09:59:23 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
    <title>Nouveau vs. NVIDIA R610 On CachyOS With The GeForce RTX 5090 Laptop GPU</title>
    <link>https://www.phoronix.com/review/nvidia-rtx-5090-laptop-linux</link>
    <guid>https://www.phoronix.com/review/nvidia-rtx-5090-laptop-linux</guid>
    <description>With the Razer Blade 18 as the first laptop Razer&#039;s certifying for (Ubuntu) Linux use while testing it out I was predominantly using the NVIDIA R610 official driver stack. Some users were interested though in how well this laptop is working with the open-source, upstream Nouveau+NVK driver stack given Razer is marketing this high-end laptop for Linux use too. Before sending the review unit back I had run some graphics benchmarks to see how Nouveau+NVK was performing for this Razer Blade RZ09-0582 with the flagship GeForce RTX 5090 Laptop GPU.</description>
    <pubDate>Thu, 30 Jul 2026 11:00:00 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>CachyOS Outperforming Windows 11, Slight Advantage Over Ubuntu &amp; Fedora On AMD Ryzen AI 9 HX 470</title>
-   <link>https://www.phoronix.com/review/amd-hx470-windows-linux</link>
-   <guid>https://www.phoronix.com/review/amd-hx470-windows-linux</guid>
-   <description>A recent mini PC being benchmarked at Phoronix is the BOSGAME VTA-439 that employs the new AMD Ryzen AI 9 HX 470 Gorgon Point SoC. With the BOSGAME mini PC having shipped with Microsoft Windows 11, here are some comparison benchmarks of the out-of-the-box Windows 11 performance up against Ubuntu 26.04 LTS and Fedora Workstation 44 while also tossing the rolling-release, highly-optimized Arch Linux based CachyOS into the benchmarking mix.</description>
-   <pubDate>Tue, 28 Jul 2026 10:04:04 -0400</pubDate>
    <dc:creator>Michael Larabel</dc:creator>
   </item><item><title>Ubuntu’s virtualization hardware enablement (HWE) stack: a new model for confidential computing enablement</title><link>https://ubuntu.com//blog/ubuntu-virtualization-hwe-stack-confidential-computing</link><description>&lt;p&gt;Confidential computing is moving quickly. The foundation is already here: AMD SEV-SNP and Intel TDX have made it possible to run confidential virtual machines (VMs) with stronger protection for data in use. Ubuntu 26.04 Long Term Support (LTS) brings integrated host and guest support for both of these technologies, making confidential computing a native&amp;nbsp; part [&amp;hellip;]&lt;/p&gt;
 </description><content:encoded>
@@ -732,6 +732,83 @@ dpkg-query -W -f '${source:Package}\t${binary:Package}\n' | awk '$1 ~ "^linux-me
 &lt;li&gt;If you have this enabled, the patches above will be automatically applied within 24 hours of being available, but a reboot is still required.&lt;/li&gt;
 &lt;/ul&gt;
 </content:encoded><author>Luci Stanescu (Luci Stanescu)</author><category>Security</category><category>Vulnerabilities</category><pubDate>Wed, 01 Jul 2026 07:57:40 +0000</pubDate></item><item>
+        <title>C-Kermit 11 released</title>
+        <link>https://lwn.net/Articles/1086953/</link>
+        <guid>https://lwn.net/Articles/1086953/</guid>
+        <dc:creator>corbet</dc:creator>
+        <description>For those of us with a long memory: John Goerzen has &lt;a
+href=&quot;https://changelog.complete.org/archives/44456-celebrating-45-years-of-kermit-with-the-first-new-c-kermit-release-in-15-years-and-working-with-a-decades-old-c-codebase&quot;&gt;announced&lt;/a&gt;
+the release of C-Kermit&amp;#160;11, the first release of this file-transfer
+utility in 15&amp;#160;years.
+&lt;p&gt;
+&lt;blockquote class=&quot;bq&quot;&gt;
+	As Debian maintainer of Kermit, I noticed some areas where it
+	wasn't matching modern expectations. One area was, not surprising
+	for a project of its age, security. Another area was that its
+	character set or line-ending conversions are usually not desired
+	now; we are used to byte-identical binary transfers, and the
+	defaults caused confusion and even some rare instances of data
+	corruption. So I started making a few patches last year.
+&lt;/blockquote&gt;
+&lt;p&gt;
+See &lt;a
+href=&quot;https://github.com/OpenKermit/ckermit/releases/tag/v11.0.506&quot;&gt;the
+changelog&lt;/a&gt; for details on the work that has been done.
+&lt;p&gt;
+Most of us probably haven't thought about C-Kermit in years (if ever), but
+there was a time when it was an essential tool for moving files between
+machines.</description>
+        <pubDate>Mon, 03 Aug 2026 18:15:59 +0000</pubDate>
+        </item><item>
+        <title>[$] Buffer sizes for FUSE io_uring</title>
+        <link>https://lwn.net/Articles/1085618/</link>
+        <guid>https://lwn.net/Articles/1085618/</guid>
+        <dc:creator>jake</dc:creator>
+        <description>The &lt;a href=&quot;https://docs.kernel.org/filesystems/fuse/&quot;&gt;Filesystem in
+Userspace&lt;/a&gt; (FUSE) subsystem provides a way to service filesystem
+requests from a user-space server, which moves the format-handling code out
+of the kernel.  The FUSE server can &lt;a
+href=&quot;https://www.kernel.org/doc/html/next/filesystems/fuse-io-uring.html&quot;&gt;use&lt;/a&gt; the &lt;a
+href=&quot;https://man7.org/linux/man-pages/man7/io_uring.7.html&quot;&gt;io_uring&lt;/a&gt;
+facility for better performance, but Bernd Schubert is concerned that
+memory is being wasted because the current implementation has a single,
+large buffer size that is excessive for small &lt;span
+class=&quot;nobreak&quot;&gt;I/O&lt;/span&gt; operations.  He led a discussion on that topic
+in the filesystem track of the 2026 &lt;a
+href=&quot;https://events.linuxfoundation.org/lsfmmbpf/&quot;&gt;Linux Storage,
+Filesystem, Memory Management, and BPF Summit&lt;/a&gt; in Zagreb, Croatia.
+</description>
+        <pubDate>Mon, 03 Aug 2026 16:05:10 +0000</pubDate>
+        </item><item>
+        <title>SQLite Critical CVEs or LLM Slop? (JFrog blog)</title>
+        <link>https://lwn.net/Articles/1086936/</link>
+        <guid>https://lwn.net/Articles/1086936/</guid>
+        <dc:creator>corbet</dc:creator>
+        <description>The JFrog blog &lt;a
+href=&quot;https://research.jfrog.com/post/sqlite-critical-cves-or-llm-slops/&quot;&gt;examines
+some reported vulnerabilities in SQLite&lt;/a&gt;, some of which made their way
+into high-profile vulnerability databases, that turned out to be entirely
+fabricated by LLMs.
+&lt;p&gt;
+&lt;blockquote class=&quot;bq&quot;&gt;
+	These LLM slop CVEs can cause organizations to waste time
+	investigating and patching vulnerabilities that do not actually
+	exist, as well as polluting vulnerability databases. In
+	environments where Critical vulnerabilities are automatically
+	prioritized or tickets are opened based on vulnerability scores,
+	such fabricated CVEs can turn into a real burden.
+&lt;p&gt;
+	In environments where AI is used to automate vulnerability triage
+	and remediation this becomes even more concerning. An AI agent that
+	encounters a fabricated CVE may attempt to locate the vulnerable
+	function, generate a patch, or recommend changes based on code that
+	does not even exist. Instead of helping security teams remediate
+	real vulnerabilities, it can lead them down a completely wrong
+	path, potentially introducing unnecessary changes and wasting time.
+&lt;/blockquote&gt;
+&lt;p&gt;</description>
+        <pubDate>Mon, 03 Aug 2026 14:59:31 +0000</pubDate>
+        </item><item>
         <title>Four stable kernels for Monday</title>
         <link>https://lwn.net/Articles/1086900/</link>
         <guid>https://lwn.net/Articles/1086900/</guid>
@@ -940,61 +1017,4 @@ of these kernels are advised to upgrade.&lt;/p&gt;
 
         </description>
         <pubDate>Thu, 30 Jul 2026 00:01:09 +0000</pubDate>
-        </item><item>
-        <title>[$] Debugging information for inlined functions</title>
-        <link>https://lwn.net/Articles/1083985/</link>
-        <guid>https://lwn.net/Articles/1083985/</guid>
-        <dc:creator>daroc</dc:creator>
-        <description>&lt;p&gt;
-BPF programs use
-&lt;a href=&quot;https://docs.kernel.org/bpf/btf.html&quot;&gt;
-BPF type format&lt;/a&gt; (BTF) debugging information in order to
-determine how to interact with functions in the kernel. Specifically, tracing a
-kernel function involves finding its address in the kernel's BTF section — but
-that doesn't work for functions that have been inlined, and therefore don't have
-a single, specific address. Alan Maguire wants to add information about inlined
-functions to BTF in order to allow them to be traced, and led a session on that
-topic at the 2026
-&lt;a href=&quot;https://events.linuxfoundation.org/lsfmmbpf/&quot;&gt;
-Linux Storage, Filesystem, Memory-Management, and BPF Summit&lt;/a&gt;.
-&lt;/p&gt;
-</description>
-        <pubDate>Wed, 29 Jul 2026 18:05:21 +0000</pubDate>
-        </item><item>
-        <title>Three stable kernels for Wednesday fix a single regression</title>
-        <link>https://lwn.net/Articles/1086047/</link>
-        <guid>https://lwn.net/Articles/1086047/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>&lt;p&gt;Greg Kroah-Hartman has announced the release of the &lt;a
-href=&quot;https://lwn.net/Articles/1086049/&quot;&gt;6.12.99&lt;/a&gt;, &lt;a
-href=&quot;https://lwn.net/Articles/1086050/&quot;&gt;6.6.146&lt;/a&gt;, and &lt;a
-href=&quot;https://lwn.net/Articles/1086051/&quot;&gt;6.1.179&lt;/a&gt; stable kernels. This batch of
-stable kernels includes a single fix for a &lt;a
-href=&quot;https://lore.kernel.org/all/CAHmU7GkfHNdA-sph9mBf-s+a=9m22KcGTq6r=78=qSf5BKBgag@mail.gmail.com/&quot;&gt;regression&lt;/a&gt;
-caused by &lt;a
-href=&quot;https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?id=6650527444dadc63d84aa939d14ecba4fadb2f69&quot;&gt;this
-commit&lt;/a&gt;. Users of those kernels should upgrade.&lt;/p&gt;</description>
-        <pubDate>Wed, 29 Jul 2026 17:00:36 +0000</pubDate>
-        </item><item>
-        <title>[$] Fedora approves a smaller GRUB</title>
-        <link>https://lwn.net/Articles/1085609/</link>
-        <guid>https://lwn.net/Articles/1085609/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>&lt;p&gt;Leo Sandoval and Marta Lewandowska have put forward a &lt;a
-href=&quot;https://fedoraproject.org/wiki/Changes/Grub2LightForConfidentialComputing#Detailed_Description&quot;&gt;change
-proposal&lt;/a&gt; for Fedora&amp;#160;45, which is expected in October, to
-provide a separate, slimmed-down version of &lt;a
-href=&quot;https://www.gnu.org/software/grub/&quot;&gt;GRUB&lt;/a&gt; for a niche use
-case. The new package would be in addition to the main GRUB package
-and would not replace it for the majority of Fedora users. The idea
-met with some resistance from Fedora contributors who thought that it
-would be better to use &lt;a
-href=&quot;https://www.freedesktop.org/software/systemd/man/latest/systemd-boot.html&quot;&gt;systemd-boot&lt;/a&gt;,
-or another modern bootloader, rather than trying to wrangle GRUB into
-a suitable state for the use case. The Fedora Engineering Steering
-Council (FESCo), however, &lt;a
-href=&quot;https://forge.fedoraproject.org/fesco/tickets/issues/3626#issuecomment-1058486&quot;&gt;voted
-to accept the change&lt;/a&gt; on July&amp;#160;7.&lt;/p&gt;
-</description>
-        <pubDate>Wed, 29 Jul 2026 15:44:01 +0000</pubDate>
         </item></channel></rss>
