@@ -4,72 +4,244 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Tue, 04 Aug 2026 14:00:03 +0000</pubDate>
-    <lastBuildDate>Tue, 04 Aug 2026 14:00:03 +0000</lastBuildDate>
+    <pubDate>Tue, 04 Aug 2026 19:22:04 +0000</pubDate>
+    <lastBuildDate>Tue, 04 Aug 2026 19:22:04 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
-      <title>Using a TCP/Telnet Serial Console for Proxmox VMs</title>
-      <pubDate>Tue, 04 Aug 2026 13:55:03 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/using-a-tcp-telnet-serial-console-for-proxmox-vms.185512/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185512</guid>
-      <author>invalid@example.com (longer)</author>
+      <title>ProxmoxVE and the shared root account for update/upgrades.</title>
+      <pubDate>Tue, 04 Aug 2026 19:09:08 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmoxve-and-the-shared-root-account-for-update-upgrades.185462/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185462</guid>
+      <author>invalid@example.com (_--James--_)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>longer</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><span style="color: white">.</span><br />
-As mentioned in the <b>Serial Terminal </b>wiki [0], you can configure a VM&#039;s serial console to listen on a local TCP port instead of the default socket:<br />
-
-
-
-
-<blockquote data-attributes="" data-quote="" data-source=""
-	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
-	
-	<div class="bbCodeBlock-content">
-		
-		<div class="bbCodeBlock-expandContent js-expandContent ">
-			Qemu also supports binding the emulated serial port to a telnet server.  Look for the -chardev parameter in the qemu-kvm manual page.  (With proxmox you would then use the &quot;args:&quot; parameter in vm.conf to specify extra args.)  This would allow you to telnet to your host on a specific port to get a serial console.  As with every...
-		</div>
-		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
-	</div>
-</blockquote><br />
-<a href="https://forum.proxmox.com/threads/using-a-tcp-telnet-serial-console-for-proxmox-vms.185512/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <dc:creator>_--James--_</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">First off, there is already a Bugzilla tracking this issue dating back to 2018: <a href="https://bugzilla.proxmox.com/show_bug.cgi?id=1856" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://bugzilla.proxmox.com/show_bug.cgi?id=1856</a><br />
+<br />
+Proxmox has grown significantly in enterprise adoption since then. It&#039;s time to bring this issue to resolution.<br />
+<br />
+The continued requirement to use the shared root@pam account for host administration is incompatible with many enterprise compliance frameworks and security policies. This is no longer a feature request for convenience. It is an enterprise...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmoxve-and-the-shared-root-account-for-update-upgrades.185462/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>12</slash:comments>
+    </item>
+    <item>
+      <title>PSA: ZFS performance bug on &gt;=256k recordsize</title>
+      <pubDate>Tue, 04 Aug 2026 18:56:35 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/psa-zfs-performance-bug-on-256k-recordsize.185519/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185519</guid>
+      <author>invalid@example.com (snullp)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>snullp</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have been seeing this issue for years and recently I finally figured it out: <a href="https://github.com/openzfs/zfs/issues/18893" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://github.com/openzfs/zfs/issues/18893</a><br />
+Before this bug is fixed do not use recordsize that is &gt;= 256k.</div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Lockout of Minisforum MS-A2! Brick Warning ! ; after 1.03 update of 9955hx</title>
+      <pubDate>Tue, 04 Aug 2026 18:53:35 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/lockout-of-minisforum-ms-a2-brick-warning-after-1-03-update-of-9955hx.184834/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:184834</guid>
+      <author>invalid@example.com (futiless)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>futiless</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have updated to the April 01 (seriously hope it wasn&#039;t a joke). Anyways, afterwards the vm&#039;s I have all fail to start unless I # out the pci passthrough. So that means no WAN and LAN is down ; !@#! Ahhh ... Seems that there have been people BRICKING the system to go back to 1.02 for this very reason. <br />
+<br />
+vfio-pci 0000:08:00.0 : Firmware has requested this device have a 1:1 IOMMU mapping, rejecting configuring the device without a 1:1 mapping. Contact your platform vendor. <br />
+kbm: -device...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/lockout-of-minisforum-ms-a2-brick-warning-after-1-03-update-of-9955hx.184834/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
+    <item>
+      <title>Dell R760 High I/O Pressure with NFS, but No Measurable VM Impact</title>
+      <pubDate>Tue, 04 Aug 2026 18:47:11 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/dell-r760-high-i-o-pressure-with-nfs-but-no-measurable-vm-impact.185518/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185518</guid>
+      <author>invalid@example.com (orkiniec)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>orkiniec</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am seeing sustained I/O Pressure and I/O Delay on one Proxmox node only when its VM disks are stored on NFS. <br />
+These are standalone nodes and are not in a cluster.<br />
+Node 1: Proxmox VE 9.2.2, kernel 7.0.2-6-pve, Dell PowerEdge R760, dual Xeon Gold 6426Y, 512 GB RAM, Intel E810 25 Gb NIC, 4 VMs.<br />
+Node 2: Proxmox VE 9.2.2, kernel 7.0.2-6-pve, Fujitsu RX2540, dual Xeon Silver 4410, 256 GB RAM, Intel X722 10 Gb NIC, 13 VMs.<br />
+Storage: Both nodes use the same TrueNAS H20 Enterprise NVMe storage, the...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/dell-r760-high-i-o-pressure-with-nfs-but-no-measurable-vm-impact.185518/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Broadcom BCM57504 (100G) bnxt_en TX timeout and NIC reset on Proxmox 8.1.5 — while BCM57414 (25G) works fine on same host</title>
+      <pubDate>Tue, 04 Aug 2026 18:40:21 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/broadcom-bcm57504-100g-bnxt_en-tx-timeout-and-nic-reset-on-proxmox-8-1-5-%E2%80%94-while-bcm57414-25g-works-fine-on-same-host.179837/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:179837</guid>
+      <author>invalid@example.com (walissongois)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>walissongois</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
+<br />
+I&#039;m experiencing a recurring network failure on a Proxmox VE host using a Broadcom NetXtreme-E 100G NIC (BCM57504).<br />
+The NIC stops transmitting, triggers a TX timeout, and then fails to reset correctly. After that, the interface is disabled and vmbr0 loses connectivity until the host is rebooted.<br />
+Interestingly, the same host also has another Broadcom NIC (BCM57414 dual 10G/25G) using the same driver and kernel, and it works perfectly without any issues. The problem only...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/broadcom-bcm57504-100g-bnxt_en-tx-timeout-and-nic-reset-on-proxmox-8-1-5-%E2%80%94-while-bcm57414-25g-works-fine-on-same-host.179837/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>14</slash:comments>
+    </item>
+    <item>
+      <title>PVE Management IP on a SDN VLAN</title>
+      <pubDate>Tue, 04 Aug 2026 18:38:00 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-management-ip-on-a-sdn-vlan.143138/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:143138</guid>
+      <author>invalid@example.com (pghv)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>pghv</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">On a single Host, I created vmbr1, with bond0 as an enslaved interface.<br />
+<br />
+On the parent Datacenter, I setup an SDN (type=VLAN) and some VNets, one of which was Infra (vlan 100).<br />
+<br />
+How would I get the management IP of the PVE installation to be on the Infra VNet itself? The issue is that my locally defined management (1) interface conflicts with the SDN interface (2). I get error message with ifup that <i>assigning an IP address is not allowed on enslaved interfaces</i><br />
+<br />
+1)...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pve-management-ip-on-a-sdn-vlan.143138/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>12</slash:comments>
+    </item>
+    <item>
+      <title>Moving from 3-node full-mesh SDN to a 6-node using switches</title>
+      <pubDate>Tue, 04 Aug 2026 18:27:28 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/moving-from-3-node-full-mesh-sdn-to-a-6-node-using-switches.183681/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:183681</guid>
+      <author>invalid@example.com (traveltrex)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>traveltrex</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi there,<br />
+<br />
+we currently have a 3-node full-meshed SDN using OpenFabric for our ceph backend (used on separate interfaces and networks). Ceph backend uses 25gbit/s FC (we have 2x 2 Port Cards). We want to increase our cluster by 3 nodes but dissolving the SDN in the process, as the setup using a switch with this many nodes is much simpler and less cost-intensive. <br />
+<br />
+What would be the best way to switch away from SDN without downtime? <br />
+<br />
+Thanks in advance!<br />
+<br />
+Patrick</div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
+    </item>
+    <item>
+      <title>Slow speed on second bridge</title>
+      <pubDate>Tue, 04 Aug 2026 17:59:53 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/slow-speed-on-second-bridge.185439/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185439</guid>
+      <author>invalid@example.com (echelon)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>echelon</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello, I am a newbie in proxmox, and having problem about slow speed on second bridge on OpenWrt SNAPSHOT, here is my NETWORK interfaces :<a href="https://forum.proxmox.com/attachments/network-png.99194/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98890-9797ac5eaf1bb52dffb4b6f6c25e0a0c.jpg?hash=LijKI463Ys"
+		srcset="https://forum.proxmox.com/data/attachments/98/2x/98890-9797ac5eaf1bb52dffb4b6f6c25e0a0c.jpg?hash=LijKI463Ys 2x"
+		class="bbImage "
+		style=""
+		alt="Network.png"
+		title="Network.png"
+		width="375" height="150" loading="lazy" /></a><br />
+<br />
+Here is how it&#039;s configured in OpenWrt VM : <br />
+<a href="https://forum.proxmox.com/attachments/network-vm-png.99195/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98891-731b19ebb512f0c9fca5e13b78881721.jpg?hash=Rzj-qVfJTx"
+		srcset="https://forum.proxmox.com/data/attachments/98/2x/98891-731b19ebb512f0c9fca5e13b78881721.jpg?hash=Rzj-qVfJTx 2x"
+		class="bbImage "
+		style=""
+		alt="network-vm.png"
+		title="network-vm.png"
+		width="639" height="105" loading="lazy" /></a><br />
+<br />
+As you can there are 3 bridges assigned to the VM, for lan1 I am getting maximum full speed while for lan2 I am getting only around 10-12 Mbps.<br />
+<br />
+In lan2 there is a gigabit switch in which there are various devices connected to it, for example a wifi router, which I run speedtest.net...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/slow-speed-on-second-bridge.185439/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>2</slash:comments>
     </item>
     <item>
-      <title>backup connect failed: command error: failed to set owner on s3 backend</title>
-      <pubDate>Tue, 04 Aug 2026 13:52:54 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/backup-connect-failed-command-error-failed-to-set-owner-on-s3-backend.185514/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185514</guid>
-      <author>invalid@example.com (infraerik)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>infraerik</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I just setup a fresh install of PBS, following the documentation as best I understood it. I setup two datastores - one local directory and one S3.<br />
+      <title>Possible to auto sync groups from OIDC on login; specifically remove groups from a user?</title>
+      <pubDate>Tue, 04 Aug 2026 17:35:36 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/possible-to-auto-sync-groups-from-oidc-on-login-specifically-remove-groups-from-a-user.185517/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185517</guid>
+      <author>invalid@example.com (NextPancake401)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>NextPancake401</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I set up OIDC and it works great but I&#039;m having a groups removal issue. If a user is in the &#039;info-tech&#039; group in our IdP and they log into PVE, they&#039;re assigned to that group in Proxmox but if I were to remove that same user from the &#039;info-tech&#039; group on the IdP side, they continue to have &#039;info-tech&#039; group in Proxmox. <br />
 <br />
-Running the backups I keep seeing the following errors on certain VMs:<br />
+This is dangerous especially if we need to remove someone&#039;s access if they&#039;re being terminated. <br />
 <br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+We have LDAP configured so we can always just fallback on that and only use...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/possible-to-auto-sync-groups-from-oidc-on-login-specifically-remove-groups-from-a-user.185517/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Feature Suggestion: Display "VLAN Raw Device" in Network Interface Overview</title>
+      <pubDate>Tue, 04 Aug 2026 17:28:27 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/feature-suggestion-display-vlan-raw-device-in-network-interface-overview.185507/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185507</guid>
+      <author>invalid@example.com (m0z)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>m0z</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+It would be useful to display the <b>&quot;VLAN raw device&quot;</b> directly in the Proxmox network overview.<br />
+<br />
+Currently, bridge interfaces show their ports/slaves, but for VLAN interfaces the parent interface is only visible when opening the configuration. Displaying the raw device in the interface list would improve visibility and simplify troubleshooting, especially on hosts with many VLANs.<br />
+<br />
+Thanks.</div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Tailscale in OMV-VM drives me crazy...</title>
+      <pubDate>Tue, 04 Aug 2026 17:24:25 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/tailscale-in-omv-vm-drives-me-crazy.185375/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185375</guid>
+      <author>invalid@example.com (jok3r)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>jok3r</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello guys, I need help. I google 4 hours and talked 20 to the KI, my brain is mush....<br />
+<br />
+I try it short:<br />
+<br />
+I got a proxmox server, running OpenMediaVault in a VM. All is in my local Fritz-Network (192.168.178.0.1)<br />
+My goal is to grant a friend access to my local OMV (specific folders) via SMB.<br />
+<br />
+So I installed tailscale on the VM and on my home-win-PC to test it out myself. The configuration worked well and I dont think that there is an issue.<br />
+Tailscale given me 100.8x.x.x IPs on both devices...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/tailscale-in-omv-vm-drives-me-crazy.185375/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>VM Migration error</title>
+      <pubDate>Tue, 04 Aug 2026 16:30:44 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/vm-migration-error.185470/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185470</guid>
+      <author>invalid@example.com (Frank-75)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Frank-75</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
 	<div class="bbCodeBlock-title">
 		Code:
 	</div>
 	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>ERROR: Backup of VM 102 failed - VM 102 qmp command &#039;backup&#039; failed - backup connect failed: command error: failed to set owner on s3 backend</code></pre>
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>026-08-01 19:39:00 use dedicated network address for sending migration traffic (172.21.21.7)
+2026-08-01 19:39:00 starting migration of VM 101 to node &#039;pve-ML350pGen8&#039; (172.21.21.7)
+2026-08-01 19:39:01 found local disk &#039;LOCALSTORE_RAID5_VM:vm-101-disk-0.qcow2&#039; (attached)
+2026-08-01 19:39:01 found local disk &#039;LOCALSTORE_RAID5_VM:vm-101-disk-1.qcow2&#039; (attached)
+2026-08-01 19:39:01 found local disk &#039;LOCALSTORE_RAID5_VM:vm-101-disk-2.qcow2&#039; (attached)
+2026-08-01 19:39:01 copying local disk...</code></pre>
 	</div>
 </div><br />
-And when I check the contents of the backups up that datastore, the VM is missing.<br />
-<br />
-Any hints on where to look to fix this?</div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
+<a href="https://forum.proxmox.com/threads/vm-migration-error.185470/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>16</slash:comments>
     </item>
     <item>
       <title>no ssh and GUI access</title>
-      <pubDate>Tue, 04 Aug 2026 13:49:32 +0000</pubDate>
+      <pubDate>Tue, 04 Aug 2026 16:25:51 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/no-ssh-and-gui-access.185486/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185486</guid>
       <author>invalid@example.com (dbrega)</author>
@@ -99,170 +271,11 @@ In this proxmox running Lxc Container and the ip address responde to ping comman
 In this situation, the only thing I can do is force-shutdown the PVE using the power button, then restart it, and everything starts...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/no-ssh-and-gui-access.185486/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>19</slash:comments>
-    </item>
-    <item>
-      <title>Clocksource error when live migrating VM</title>
-      <pubDate>Tue, 04 Aug 2026 13:16:43 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/clocksource-error-when-live-migrating-vm.185511/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185511</guid>
-      <author>invalid@example.com (kagerito)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>kagerito</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-We are trying out a Proxmox setup and are currently running two hosts with VE 9.1<br />
-The hosts are both Dell Poweredge 640:<br />
-56 x Intel(R) Xeon(R) Gold 5117 CPU @ 2.00GHz (2 Sockets)<br />
-and<br />
-80 x Intel(R) Xeon(R) Gold 6248 CPU @ 2.50GHz (2 Sockets)<br />
-<br />
-I am testing live migration of a Rocky Linux 10.1 VM (clean installed), and am encountering a clocksource error:<br />
-<br />
-[root@localhost ~]# dmesg | grep -i &#039;clocksource.*unstable\|tsc.*watchdog&#039;<br />
-[   36.126271] clocksource: timekeeping watchdog on CPU0...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/clocksource-error-when-live-migrating-vm.185511/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>PMG 9.1 + SSL Zertifikate</title>
-      <pubDate>Tue, 04 Aug 2026 12:48:46 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pmg-9-1-ssl-zertifikate.185365/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185365</guid>
-      <author>invalid@example.com (LoM+OeF)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-mail-gateway-deutsch-german.21/"><![CDATA[Proxmox Mail Gateway (Deutsch/German)]]></category>
-      <dc:creator>LoM+OeF</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Moin,<br />
-<br />
-ich bin auf die Idee gekommen, mir PMG 9.1 als Mailgateway zu Hause zu installieren, der einen hMailserver bedienen soll.<br />
-Zu Hause habe ich einen DS-Lite Anschluß - meine POP3 Konten liegen bei IONOS - ebenso die (.de) Domäne.<br />
-Zu hause habe ich natürlich (vor Jahren eingerichtet) eine .local Domäne - das soll aber kein Hinderungsgrund sein.<br />
-<br />
-Die fetchmail Abfrage der POP3 Konten mit POP3s (Port 995) schlägt natürlich wegen eines fehlenden SSL Zertifikates fehl.<br />
-<br />
-1. ich sehe das...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pmg-9-1-ssl-zertifikate.185365/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>PBS cannot restore large disk from S3</title>
-      <pubDate>Tue, 04 Aug 2026 12:46:24 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pbs-cannot-restore-large-disk-from-s3.180617/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:180617</guid>
-      <author>invalid@example.com (Hashfastr)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>Hashfastr</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello, been struggling with this recently and seeing that S3 support is new I suppose it&#039;s time to make a post.<br />
-<br />
-I have PBS 4.1.2 running as a VM on, and supporting, a PVE 8.4.16 installation. PVE has 32c/64t with 768GB RAM. PBS has 32c with 32GB RAM, along with a 8TB. S3 storage is on Backblaze B2. I am trying to restore a ~4TB VM disk from S3 to a ZFS disk roughly 142TB in size. ZFS has a 512GB NVMe dedicated and 128GB RAM for L1 cache. Because of ZFS large backups, like from NFS, will...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pbs-cannot-restore-large-disk-from-s3.180617/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>12</slash:comments>
-    </item>
-    <item>
-      <title>PBS 3.4.8 datastore corruption causing backup failures with "Structure needs cleaning (os error 117)" and restore CRC checksum errors</title>
-      <pubDate>Tue, 04 Aug 2026 12:30:00 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pbs-3-4-8-datastore-corruption-causing-backup-failures-with-structure-needs-cleaning-os-error-117-and-restore-crc-checksum-errors.185508/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185508</guid>
-      <author>invalid@example.com (Pavitra)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>Pavitra</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
-<br />
-I am facing an issue with my Proxmox Backup Server and would appreciate any guidance.<br />
-<br />
-<h2 class="bbHeading"><a class="u-anchorTarget" name="-environment"></a>Environment&#8203;<a class="hoverLink" href="#-environment" title="Permanent link"></a></h2><ul>
-<li data-xf-list-type="ul"><b>Proxmox Backup Server Version:</b> 3.4.8</li>
-<li data-xf-list-type="ul"><b>Installation Type:</b> Dedicated PBS Server</li>
-<li data-xf-list-type="ul"><b>Filesystem:</b> XFS</li>
-<li data-xf-list-type="ul"><b>Datastore:</b> Demo Datastore</li>
-<li data-xf-list-type="ul"><b>Storage Capacity:</b> ~100 TB</li>
-<li data-xf-list-type="ul"><b>Number of connected Proxmox VE nodes:</b> Multiple</li>
-</ul><h2 class="bbHeading"><a class="u-anchorTarget" name="-problem"></a>Problem&#8203;<a class="hoverLink" href="#-problem" title="Permanent link"></a></h2>Backups from multiple Proxmox VE nodes were working normally, but now almost every backup fails...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pbs-3-4-8-datastore-corruption-causing-backup-failures-with-structure-needs-cleaning-os-error-117-and-restore-crc-checksum-errors.185508/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Possible mismatch of reported and actual machine version</title>
-      <pubDate>Tue, 04 Aug 2026 11:46:02 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/possible-mismatch-of-reported-and-actual-machine-version.185504/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185504</guid>
-      <author>invalid@example.com (CPO_Siemens)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>CPO_Siemens</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-while creating a small script for exporting information about running VMs I noticed something unusual:<br />
-Some of our Windows VMs show machine type q35 5.1 in the web UI.<br />
-No matter whether I try to get VM information via the API (<i>/nodes/&lt;node&gt;/qemu/&lt;vmid&gt;/config</i>) or via cli (<code class="bbCodeInline">qm config &lt;vmid&gt;</code>) or even <code class="bbCodeInline">ps aux | grep &lt;vmid&gt;</code> I find nothing but creation version 11.0, or this cli flag from the command line: &quot;-machine type=pc-q35-11.0+pve0&quot;.<br />
-<br />
-Now I am beginning to question, if...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/possible-mismatch-of-reported-and-actual-machine-version.185504/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>10</slash:comments>
-    </item>
-    <item>
-      <title>Storage-Anzeige in GUI auf local-zfs beschränken / Backup-Storages ausblenden</title>
-      <pubDate>Tue, 04 Aug 2026 11:40:15 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/storage-anzeige-in-gui-auf-local-zfs-beschr%C3%A4nken-backup-storages-ausblenden.185367/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185367</guid>
-      <author>invalid@example.com (plurgi95)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>plurgi95</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
-<br />
-ich betreibe einen Cluster mit drei Proxmox VE Servern und habe dort mehrere ZFS-Pools für unterschiedliche Systeme eingerichtet. Auf meinem Proxmox Backup Server (PBS) existieren ebenfalls separate Pools, um die Systeme logisch zu trennen jeder Pool liegt dabei auf einer eigenen Festplatte. Entsprechend wurde für jeden Pool ein eigener Backup-Storage in Proxmox VE angelegt.<br />
-<br />
-In der Server- bzw. Storage-Übersicht des Webinterface werden mir jetzt all diese Storages und...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/storage-anzeige-in-gui-auf-local-zfs-beschr%C3%A4nken-backup-storages-ausblenden.185367/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>8</slash:comments>
-    </item>
-    <item>
-      <title>Migration from DELL VxRail to Proxmox</title>
-      <pubDate>Tue, 04 Aug 2026 11:35:50 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/migration-from-dell-vxrail-to-proxmox.185506/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185506</guid>
-      <author>invalid@example.com (Abdennour)</author>
-      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
-      <dc:creator>Abdennour</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi Proxmox Team,<br />
-<br />
-I have a Dell VxRail cluster integrated with VMware vSphere, and I am considering migrating my virtualization infrastructure to Proxmox VE.<br />
-<br />
-I would like to know whether this migration is feasible and if anyone has experience with this type of project. I would appreciate any guidance on the recommended migration steps, best practices, potential challenges, and any prerequisites I should be aware of before starting.<br />
-<br />
-Our current environment consists of:<br />
-<br />
-<ul>
-<li data-xf-list-type="ul">6-node Dell...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/migration-from-dell-vxrail-to-proxmox.185506/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Request for Validation of My Proxmox VE 9 Cluster Installation and Configuration</title>
-      <pubDate>Tue, 04 Aug 2026 11:29:03 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/request-for-validation-of-my-proxmox-ve-9-cluster-installation-and-configuration.185505/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185505</guid>
-      <author>invalid@example.com (zahmad)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>zahmad</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Dear Proxmox Team and Community,<br />
-<br />
-I have recently completed the deployment of a <b>3-node Proxmox VE 9 cluster</b> for our production environment at my organization. The cluster was initially deployed on Proxmox VE 8.4 and has since been successfully upgraded to <b>Proxmox VE 9</b>. I would greatly appreciate it if the Proxmox experts could review my architecture and configuration to confirm that I have followed best practices and that the environment is ready for production.<br />
-<br />
-<ul>
-<li data-xf-list-type="ul">...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/request-for-validation-of-my-proxmox-ve-9-cluster-installation-and-configuration.185505/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
+      <slash:comments>21</slash:comments>
     </item>
     <item>
       <title>Wrong default bootloader entry: "Reboot into firmware interface"</title>
-      <pubDate>Tue, 04 Aug 2026 11:20:09 +0000</pubDate>
+      <pubDate>Tue, 04 Aug 2026 16:17:00 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/wrong-default-bootloader-entry-reboot-into-firmware-interface.185510/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185510</guid>
       <author>invalid@example.com (jAston)</author>
@@ -291,162 +304,146 @@ System:
 	</div>
 </div><br />
 <a href="https://forum.proxmox.com/threads/wrong-default-bootloader-entry-reboot-into-firmware-interface.185510/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>ProxmoxVE and the shared root account for update/upgrades.</title>
-      <pubDate>Tue, 04 Aug 2026 11:11:21 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmoxve-and-the-shared-root-account-for-update-upgrades.185462/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185462</guid>
-      <author>invalid@example.com (_--James--_)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>_--James--_</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">First off, there is already a Bugzilla tracking this issue dating back to 2018: <a href="https://bugzilla.proxmox.com/show_bug.cgi?id=1856" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://bugzilla.proxmox.com/show_bug.cgi?id=1856</a><br />
-<br />
-Proxmox has grown significantly in enterprise adoption since then. It&#039;s time to bring this issue to resolution.<br />
-<br />
-The continued requirement to use the shared root@pam account for host administration is incompatible with many enterprise compliance frameworks and security policies. This is no longer a feature request for convenience. It is an enterprise...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmoxve-and-the-shared-root-account-for-update-upgrades.185462/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>Problem mit TPM in Windows Server 2025</title>
-      <pubDate>Tue, 04 Aug 2026 11:10:35 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/problem-mit-tpm-in-windows-server-2025.185373/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185373</guid>
-      <author>invalid@example.com (lblaesius)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>lblaesius</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
-<br />
-wir sind bei unserem Cluster auf ein Problem gestoßen. Mit dem neusten Sicherheitsupdate von Microsoft verlieren unsere Windows 2025 RDS Server ihr TPM Modul. TPM.MSC zeigt an, dass kein Modul verbunden wäre. Vor dem Update lief alles normal.<br />
-<br />
-Ich habe mit Hilfe von Claude eine Diagnose gemacht. Diese ist im Anhang. <br />
-<br />
-Kurzgesagt:<br />
-- Wir haben 5 AMD Epyc Server die alle identisch sind. Das Problem ist auf allen Hosts.<br />
-- Installiert man das Update von Microsoft, startet die VM neu ist...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/problem-mit-tpm-in-windows-server-2025.185373/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>13</slash:comments>
-    </item>
-    <item>
-      <title>Neue Installation - im Netzwerk nicht erreibar</title>
-      <pubDate>Tue, 04 Aug 2026 10:24:37 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/neue-installation-im-netzwerk-nicht-erreibar.185413/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185413</guid>
-      <author>invalid@example.com (Longbowbln)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>Longbowbln</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo, <br />
-<br />
-habe den Proxmox Server neu installiert, dabei ist der mit dem Netzwerkkabel am Router verbunden. <br />
-<br />
-Ip: 192.168.20.150 <br />
-Gaeway: 192.168.20.1 <br />
-<br />
-Die Installation hat auch es so übernommen, das alles eingestellt ist die IP! Die Interfaces und Hosts stimmen. <br />
-Nur leider wird die Weboberfläche über den Browser nicht gefunden, im Unifi wird er auch nicht in der Übersicht angezeigt, nu grau ohne IP. <br />
-<br />
-Was hab ich bitte falsch gemacht?</div>]]></content:encoded>
-      <slash:comments>12</slash:comments>
-    </item>
-    <item>
-      <title>Der Proxday 2026 in Deutschland, Mönchengladbach</title>
-      <pubDate>Tue, 04 Aug 2026 10:17:51 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/der-proxday-2026-in-deutschland-m%C3%B6nchengladbach.183761/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:183761</guid>
-      <author>invalid@example.com (gyptazy)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>gyptazy</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hey zusammen,<br />
-<br />
-gerne möchte <a href="https://gyptazy.com" target="_blank" class="link link--external" rel="nofollow ugc noopener">ich</a> (einige kennen mich sicherlich bereits von <a href="https://proxlb.de" target="_blank" class="link link--external" rel="nofollow ugc noopener">ProxLB</a>, <a href="https://pegaprox.com" target="_blank" class="link link--external" rel="nofollow ugc noopener">PegaProx</a> und den <a href="https://github.com/ansible-collections/community.proxmox/tree/main" target="_blank" class="link link--external" rel="nofollow ugc noopener">Ansible Modulen für PVE</a>) euch auf das Community-Event <a href="https://www.proxday.de" target="_blank" class="link link--external" rel="nofollow ugc noopener">Proxday 2026</a> aufmerksam machen, der von der <a href="https://credativ.de" target="_blank" class="link link--external" rel="nofollow ugc noopener">credativ GmbH</a> veranstaltet wird. Das Konzept ist ähnlich zu dem des <a href="https://forum.proxmox.com/threads/dutch-proxmox-day-2026.183546/" class="link link--internal">Dutch Proxmox Day 2026</a>, der von unseren Freunden, den <a href="https://www.tuxis.nl/de/" target="_blank" class="link link--external" rel="nofollow ugc noopener">Tuxis</a> aus den Niederlanden, veranstaltet wird. Und so werden auch wir bei den Tuxis dabei sein, sowie unsere Freunde von...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/der-proxday-2026-in-deutschland-m%C3%B6nchengladbach.183761/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>Optimizing Windows VM performance on older hardware - settings advice needed</title>
-      <pubDate>Tue, 04 Aug 2026 10:14:53 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/optimizing-windows-vm-performance-on-older-hardware-settings-advice-needed.185499/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185499</guid>
-      <author>invalid@example.com (verishare)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>verishare</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
-<br />
-I&#039;m looking for advice on the best Proxmox settings to get a Windows VM running smoothly on my setup.<br />
-<br />
-<b>Host specs:</b><br />
-<ul>
-<li data-xf-list-type="ul">CPU: Intel Core i5-3570 @ 3.40GHz (4 cores, 1 socket)</li>
-<li data-xf-list-type="ul">RAM: 32GB</li>
-<li data-xf-list-type="ul">Storage: SSD + HDD</li>
-<li data-xf-list-type="ul">GPU: AMD Radeon HD 7470/8470 (Caicos XT)</li>
-</ul><b>My Current VM configuration:</b><br />
-<ul>
-<li data-xf-list-type="ul">Memory: 8.00 GiB</li>
-<li data-xf-list-type="ul">Processors: 2 (1 socket, 2 cores) [x86-64-v2-AES]</li>
-<li data-xf-list-type="ul">BIOS: OVMF (UEFI)</li>
-<li data-xf-list-type="ul">Display: VirtIO-GPU (virtio)</li>
-<li data-xf-list-type="ul">Machine: pc-q35-11.0+pve2</li>
-<li data-xf-list-type="ul">SCSI Controller...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/optimizing-windows-vm-performance-on-older-hardware-settings-advice-needed.185499/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>10</slash:comments>
-    </item>
-    <item>
-      <title>Configuration Validation</title>
-      <pubDate>Tue, 04 Aug 2026 10:01:32 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/configuration-validation.185446/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185446</guid>
-      <author>invalid@example.com (zahmad)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>zahmad</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><div><a href="https://forum.proxmox.com/threads/request-for-validation-of-my-proxmox-ve-9-cluster-installation-and-configuration.185505/" class="link link--internal">https://forum.proxmox.com/threads/r...luster-installation-and-configuration.185505/</a></div></div>]]></content:encoded>
       <slash:comments>1</slash:comments>
     </item>
     <item>
-      <title>Opt-in Linux 7.0 Kernel for Proxmox VE 9 available</title>
-      <pubDate>Tue, 04 Aug 2026 09:12:06 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:182328</guid>
-      <author>invalid@example.com (t.lamprecht)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>t.lamprecht</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">We recently uploaded the 7.0 (rc6) kernel to our repositories. The current default kernel for the Proxmox VE 9 series is still 6.17, but 7.0 is now an option.<br />
+      <title>Kernel 6.17.2-2-pve bootet nicht: XFS log recovery write I/O error</title>
+      <pubDate>Tue, 04 Aug 2026 16:08:04 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/kernel-6-17-2-2-pve-bootet-nicht-xfs-log-recovery-write-i-o-error.178762/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:178762</guid>
+      <author>invalid@example.com (jedie)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>jedie</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Der aktuelle PVE Kernel 6.17.2-2 startet bei mir nicht. Lande im initramfs BusyBox mit der Meldung &quot;XFS log recovery write I/O error&quot;<br />
 <br />
-We plan to use the 7.0 kernel as the new default for the upcoming Proxmox VE 9.2 and Proxmox Backup Server 4.2 releases planned later in Q2.<br />
-This follows our tradition of upgrading the Proxmox VE kernel to match the current Ubuntu version until we reach an Ubuntu LTS release, at which point we will only provide newer kernels as an...<br />
+Also hab ich mal die Boot SSD ausgebaut und manual an meinem Rechner geprüft: SMART Werte und SMART Quick test sind in Ordnung... <br />
+Aber <b>xfs_repair</b> hat wirklich gemeckert. Fix war über mounten... Leider hab ich mir das Vorgehen und die Ausgaben nicht notiert. <br />
 <br />
-<a href="https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>207</slash:comments>
+Platte wieder eingebaut und gebootet und selbe Problem... Dann hab ich einfach statt...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/kernel-6-17-2-2-pve-bootet-nicht-xfs-log-recovery-write-i-o-error.178762/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>13</slash:comments>
     </item>
     <item>
-      <title>Ich möchte Proxmox neu aufsetzen - Was sollte ich verändern?</title>
-      <pubDate>Tue, 04 Aug 2026 09:08:09 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ich-m%C3%B6chte-proxmox-neu-aufsetzen-was-sollte-ich-ver%C3%A4ndern.185397/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185397</guid>
-      <author>invalid@example.com (tp1de)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>tp1de</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Ich bräuchte euren Expertenrat. Meine aktuelle Proxmox-Installation sieht folgendermaßen aus:<br />
+      <title>backup connect failed: command error: failed to set owner on s3 backend</title>
+      <pubDate>Tue, 04 Aug 2026 15:41:07 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/backup-connect-failed-command-error-failed-to-set-owner-on-s3-backend.185514/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185514</guid>
+      <author>invalid@example.com (infraerik)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>infraerik</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I just setup a fresh install of PBS, following the documentation as best I understood it. I setup two datastores - one local directory and one S3.<br />
 <br />
-2 x Mini PCs mit NVMe im HA-Cluster + QDevice auf Raspberry PI.<br />
-Jeweils ZFS Replikation zwischen den Proxmox Nodes - kein CEPH<br />
+Running the backups I keep seeing the following errors on certain VMs:<br />
 <br />
-2 x Synology NAS - eines mit PBS unter Virtual Manager zur Sicherung<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>ERROR: Backup of VM 102 failed - VM 102 qmp command &#039;backup&#039; failed - backup connect failed: command error: failed to set owner on s3 backend</code></pre>
+	</div>
+</div><br />
+And when I check the contents of the backups up that datastore, the VM is missing.<br />
 <br />
-All das hat 2 Jahre gut funktioniert. Jetzt hat die NVMe der primären Node die TBW-Grenze erreicht. (War eine Consumer NVMe)<br />
+Any hints on where to look to fix this?</div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>Hello, I need to change the IP of one host for corosync network link0.</title>
+      <pubDate>Tue, 04 Aug 2026 15:09:45 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/hello-i-need-to-change-the-ip-of-one-host-for-corosync-network-link0.185515/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185515</guid>
+      <author>invalid@example.com (HristoY)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>HristoY</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello, I have cluster with 5 nodes and one of them (Host1) has ip adress of the management network (10.100.250.x) instead of the corosync (10.100.252.x) network. How to modify it without  any cluster or VM downtime:<br />
+Proxmox version 9.2.4 for all hosts.<br />
 <br />
-Jetzt bin ich am überlegen:<br />
+<a href="https://forum.proxmox.com/attachments/1785853354786-png.99287/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98983-e8ebc0bb1c3f9ec25ebab764ecc4c6e7.jpg?hash=FXGCURL6-X"
+		srcset="https://forum.proxmox.com/data/attachments/98/2x/98983-e8ebc0bb1c3f9ec25ebab764ecc4c6e7.jpg?hash=FXGCURL6-X 2x"
+		class="bbImage "
+		style=""
+		alt="1785853354786.png"
+		title="1785853354786.png"
+		width="539" height="150" loading="lazy" /></a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>LXC migration fails with "cannot migrate local bind mount point" although bind mount is shared NFS on both cluster nodes (PVE 9.2.6)</title>
+      <pubDate>Tue, 04 Aug 2026 14:41:28 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/lxc-migration-fails-with-cannot-migrate-local-bind-mount-point-although-bind-mount-is-shared-nfs-on-both-cluster-nodes-pve-9-2-6.185478/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185478</guid>
+      <author>invalid@example.com (Steefie)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Steefie</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
 <br />
-1. Sollte ich das Proxmox OS auf einer separaten...<br />
 <br />
-<a href="https://forum.proxmox.com/threads/ich-m%C3%B6chte-proxmox-neu-aufsetzen-was-sollte-ich-ver%C3%A4ndern.185397/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>45</slash:comments>
+I have encountered what appears to be an issue with LXC migration on Proxmox VE 9.2.6.<br />
+<br />
+<br />
+After several hours of troubleshooting, I reduced the problem to a minimal reproducible example.<br />
+<br />
+<br />
+<h2 class="bbHeading"><a class="u-anchorTarget" name="-environment"></a>Environment&#8203;<a class="hoverLink" href="#-environment" title="Permanent link"></a></h2><br />
+<ul>
+<li data-xf-list-type="ul">Proxmox VE 9.2.6</li>
+<li data-xf-list-type="ul">pve-container 6.1.12</li>
+<li data-xf-list-type="ul">Two-node cluster</li>
+<li data-xf-list-type="ul">QDevice configured and working correctly</li>
+<li data-xf-list-type="ul">Synology NAS using NFS</li>
+<li data-xf-list-type="ul">Both nodes run identical package versions</li>
+</ul><br />
+<h2 class="bbHeading"><a class="u-anchorTarget" name="-shared-nfs-mount"></a>Shared NFS mount&#8203;<a class="hoverLink" href="#-shared-nfs-mount" title="Permanent link"></a></h2><br />
+The following NFS export is mounted on <b>both</b> nodes...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/lxc-migration-fails-with-cannot-migrate-local-bind-mount-point-although-bind-mount-is-shared-nfs-on-both-cluster-nodes-pve-9-2-6.185478/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Open-source Cloud Management Platform for Proxmox</title>
+      <pubDate>Tue, 04 Aug 2026 14:36:37 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/open-source-cloud-management-platform-for-proxmox.181946/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:181946</guid>
+      <author>invalid@example.com (sangtq)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>sangtq</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Folk!<br />
+<br />
+I’ve been experimenting with AI coding and built a lightweight cloud management platform on top of Proxmox VE — inspired by VMware vCloud Director.<br />
+The goal is to add a simple “cloud layer” for Proxmox to support multi-tenancy and self-service use cases (private cloud, internal platform, or small VPS offering).<br />
+<br />
+<b>Key features:</b><br />
+<ul>
+<li data-xf-list-type="ul">Self-service VM provisioning from templates</li>
+<li data-xf-list-type="ul">Multi-tenancy (organization isolation)</li>
+<li data-xf-list-type="ul">Quotas (CPU, RAM, storage, VM count)</li>
+<li data-xf-list-type="ul">RBAC...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/open-source-cloud-management-platform-for-proxmox.181946/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>7</slash:comments>
+    </item>
+    <item>
+      <title>VM becomes unresponsive during Veeam backup</title>
+      <pubDate>Tue, 04 Aug 2026 14:26:06 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/vm-becomes-unresponsive-during-veeam-backup.185199/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185199</guid>
+      <author>invalid@example.com (sudomaster.ljs)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>sudomaster.ljs</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">When a Veeam backup job runs against a VM on our HDD-backed Ceph cluster, the VM becomes unresponsive partway through the backup. In some cases, it recovers automatically once the job completes. Sometimes, it requires a hard reset to come back online.<br />
+<br />
+We have reproduced this across multiple VMs, and it appears to affect only our HDD-based clusters. Backups using Proxmox Backup Server from the same cluster complete without issue. In both cases, the backup source and target storage are the...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/vm-becomes-unresponsive-during-veeam-backup.185199/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>10</slash:comments>
     </item>
   </channel>
 </rss>
