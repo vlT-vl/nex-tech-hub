@@ -4,29 +4,248 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Mon, 03 Aug 2026 19:22:41 +0000</pubDate>
-    <lastBuildDate>Mon, 03 Aug 2026 19:22:41 +0000</lastBuildDate>
+    <pubDate>Tue, 04 Aug 2026 01:37:23 +0000</pubDate>
+    <lastBuildDate>Tue, 04 Aug 2026 01:37:23 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
-      <title>Troubleshooting - LXC TTY Terminal Login Prompt Shows Gibberish</title>
-      <pubDate>Mon, 03 Aug 2026 19:12:04 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/troubleshooting-lxc-tty-terminal-login-prompt-shows-gibberish.178350/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:178350</guid>
-      <author>invalid@example.com (Wolveraptor)</author>
+      <title>cores vs CPUs</title>
+      <pubDate>Tue, 04 Aug 2026 00:05:21 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/cores-vs-cpus.185501/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185501</guid>
+      <author>invalid@example.com (Marc_de)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Wolveraptor</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello Proxmox Community,<br />
+      <dc:creator>Marc_de</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi forum<br />
 <br />
-I have encountered a weird issue that has been present for a while. The issue does not affect the usability of the LXC it is a mere annoyance. It happened when I upgraded from <b>Fedora 42</b> within an <b>LXC</b> to <b>Fedora 43</b> within an <b>LXC</b>. Since this has not hindered/impacted the LXC I did retain a backup prior to the upgrade form <b>Fedora 42</b> to <b>Fedora 43</b>. The upgrade form <b>Fedora 42</b> to <b>Fedora 43</b> within the LXC was...<br />
+I noticed that the node summary page and the assignment of processors page do use different terminology.<br />
+In the node summary under CPU usage a # of CPUs is stated, whereas in the Edit: Processors section a field called Cores is present.<br />
+<a href="https://forum.proxmox.com/attachments/node-jpg.99266/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98962-2e176732cfb4e0072ad4b6e3186c8965.jpg?hash=qOxSV0rhpC"
+		srcset="https://forum.proxmox.com/data/attachments/98/2x/98962-2e176732cfb4e0072ad4b6e3186c8965.jpg?hash=qOxSV0rhpC 2x"
+		class="bbImage "
+		style=""
+		alt="node.jpg"
+		title="node.jpg"
+		width="627" height="150" loading="lazy" /></a><br />
 <br />
-<a href="https://forum.proxmox.com/threads/troubleshooting-lxc-tty-terminal-login-prompt-shows-gibberish.178350/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>8</slash:comments>
+<img src="https://forum.proxmox.com/attachments/processors-jpg.99267/?hash=40fb5955adbe6c8ea095770936e92fba" data-url="https://forum.proxmox.com/attachments/processors-jpg.99267/?hash=40fb5955adbe6c8ea095770936e92fba" class="bbImage " loading="lazy"
+		 style="width: 50%; height: 50%" width="" height="" /><br />
+<br />
+My question is, are these different by intend or is just the terminology not aligned?</div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Optimizing Windows VM performance on older hardware - settings advice needed</title>
+      <pubDate>Mon, 03 Aug 2026 23:18:08 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/optimizing-windows-vm-performance-on-older-hardware-settings-advice-needed.185499/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185499</guid>
+      <author>invalid@example.com (verishare)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>verishare</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
+<br />
+I&#039;m looking for advice on the best Proxmox settings to get a Windows VM running smoothly on my setup.<br />
+<br />
+<b>Host specs:</b><br />
+<ul>
+<li data-xf-list-type="ul">CPU: Intel Core i5-3570 @ 3.40GHz (4 cores, 1 socket)</li>
+<li data-xf-list-type="ul">RAM: 32GB</li>
+<li data-xf-list-type="ul">Storage: SSD + HDD</li>
+<li data-xf-list-type="ul">GPU: AMD Radeon HD 7470/8470 (Caicos XT)</li>
+</ul><b>My Current VM configuration:</b><br />
+<ul>
+<li data-xf-list-type="ul">Memory: 8.00 GiB</li>
+<li data-xf-list-type="ul">Processors: 2 (1 socket, 2 cores) [x86-64-v2-AES]</li>
+<li data-xf-list-type="ul">BIOS: OVMF (UEFI)</li>
+<li data-xf-list-type="ul">Display: VirtIO-GPU (virtio)</li>
+<li data-xf-list-type="ul">Machine: pc-q35-11.0+pve2</li>
+<li data-xf-list-type="ul">SCSI Controller...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/optimizing-windows-vm-performance-on-older-hardware-settings-advice-needed.185499/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>IOMMU/DMAR Regression (PTE Write access) on Alder Lake-P (Ugreen DXP6800 Pro) – 6.17.13-2-pve vs 6.17.9-1-pve</title>
+      <pubDate>Mon, 03 Aug 2026 22:47:36 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/iommu-dmar-regression-pte-write-access-on-alder-lake-p-ugreen-dxp6800-pro-%E2%80%93-6-17-13-2-pve-vs-6-17-9-1-pve.182168/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:182168</guid>
+      <author>invalid@example.com (wuselfaktor)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>wuselfaktor</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
+<br />
+I would like to report a regression regarding PCI Passthrough on the Ugreen DXP6800 Pro hardware. This issue caused downtime and forced me to recover corrupted ZFS datasets, so I hope this report helps others avoid the same situation.<br />
+<br />
+<b>About me:</b><br />
+<br />
+I am a software developer and hobbyist/homelab enthusiast, but I am not a professional senior Linux administrator. I have drafted this post with the assistance of Gemini to ensure the technical details are presented as clearly...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/iommu-dmar-regression-pte-write-access-on-alder-lake-p-ugreen-dxp6800-pro-%E2%80%93-6-17-13-2-pve-vs-6-17-9-1-pve.182168/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>12</slash:comments>
+    </item>
+    <item>
+      <title>NVME LVMcache w/ LVM Thin?</title>
+      <pubDate>Mon, 03 Aug 2026 22:08:35 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/nvme-lvmcache-w-lvm-thin.185479/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185479</guid>
+      <author>invalid@example.com (dawydiuk)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>dawydiuk</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I use spinning drives(HDDs) in a RAID 6 configuration using LVM thin for my VM data storage. I&#039;m hoping to be able to add an NVME read cache(bonus if i can add a write cache). I don&#039;t see any recent posts on this topic. Has anyone done this successfully? Any recommendations?</div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>Nested PVE (on PVE host) Kernel panic Host injected async #PF in kernel mode</title>
+      <pubDate>Mon, 03 Aug 2026 21:34:22 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/nested-pve-on-pve-host-kernel-panic-host-injected-async-pf-in-kernel-mode.165902/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:165902</guid>
+      <author>invalid@example.com (Darkangeel_hd)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Darkangeel_hd</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello<br />
+I&#039;ve been trying run a nested proxmox instance on my already running proxmox installation.<br />
+<br />
+Installation went as normal and everything seem right.<br />
+But the VM of the nested proxmox will, always eventually kernel panic.<br />
+<br />
+This are some of the panics it gave me over the course of trying to figure out what&#039;s going on:<br />
+
+
+<div class="bbCodeSpoiler">
+	<button type="button" class="button bbCodeSpoiler-button button--longText" data-xf-click="toggle" data-xf-init="tooltip" title="Click to reveal or hide spoiler"><span class="button-text">
+
+		<span>Spoiler: <span class="bbCodeSpoiler-button-title">Kernel panic logs</span></span>
+	</span></button>
+	<div class="bbCodeSpoiler-content">
+		<div class="bbCodeBlock bbCodeBlock--spoiler">
+			<div class="bbCodeBlock-content">
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>[10037.609096] Kernel panic - not syncing: Host injected async #PF in kernel mode
+[10037.611446] CPU: 1 PID: 27733 Comm: pvescheduler Tainted: P           O...</code></pre>
+	</div>
+</div></div>
+		</div>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/nested-pve-on-pve-host-kernel-panic-host-injected-async-pf-in-kernel-mode.165902/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>44</slash:comments>
+    </item>
+    <item>
+      <title>Best practice: Upgrade from PVE 8 to 9 with Ceph</title>
+      <pubDate>Mon, 03 Aug 2026 21:05:16 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/best-practice-upgrade-from-pve-8-to-9-with-ceph.185493/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185493</guid>
+      <author>invalid@example.com (YICT)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>YICT</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi, we want to upgrade our cluster from PVE 8 to 9, which also means upgrading Ceph.<br />
+<br />
+Our plan is to move the VMs to local storage first, then upgrade Ceph, and then upgrade the kernel.<br />
+<br />
+Of course, we have image backups, but we have a few questions.<br />
+<br />
+When moving VM storage, will it move the VM to local storage or only the disk? I do not see the option in migration to migrate to local storage, only to another node.<br />
+<br />
+If the VMs are moved to local storage, what is the expected impact and...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/best-practice-upgrade-from-pve-8-to-9-with-ceph.185493/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>7</slash:comments>
+    </item>
+    <item>
+      <title>adding remote to PDM after deleting the same remote via CLI in /etc/proxmox-datacenter-manager/remotes.cfg :-(</title>
+      <pubDate>Mon, 03 Aug 2026 21:03:50 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/adding-remote-to-pdm-after-deleting-the-same-remote-via-cli-in-etc-proxmox-datacenter-manager-remotes-cfg.185500/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185500</guid>
+      <author>invalid@example.com (lanepark5033)</author>
+      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
+      <dc:creator>lanepark5033</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Did a stupid thing and looking for hel in resolving my issue.<br />
+I deleted a running remote (pve) in this file, /etc/proxmox-datacenter-manager/remotes.cfg and after a while wanted to re-add the same remote.<br />
+In the PDM gui i tried to create the same remote in the PDM, but failed with &quot;the certficate already exsists&quot;. <br />
+How can I re add this remote pve back into my PDM ?</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>VM processes stall when rebooting adjacent node</title>
+      <pubDate>Mon, 03 Aug 2026 21:03:00 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/vm-processes-stall-when-rebooting-adjacent-node.185178/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185178</guid>
+      <author>invalid@example.com (crlt)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>crlt</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am experiencing an issue where processes in virtual machines experience stalls (&lt;10s) during the reboot of an adjacent node. So the HA VM hosted on pve1 will stall when I reboot pve3. It seems to impact sensitive things such as leader elections in Kubernetes processes. It also only appears to impact VMs where Ceph is the storage backend as migrating a VM to use local storage alleviates the issue.<br />
+<br />
+Setup (verified cabling is correct and each bond is functional):<br />
+<ul>
+<li data-xf-list-type="ul">3x PVE 9.2.4 Nodes w/...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/vm-processes-stall-when-rebooting-adjacent-node.185178/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>7</slash:comments>
+    </item>
+    <item>
+      <title>Warning during PBS backup</title>
+      <pubDate>Mon, 03 Aug 2026 20:53:04 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/warning-during-pbs-backup.185312/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185312</guid>
+      <author>invalid@example.com (lanepark5033)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>lanepark5033</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I take warnings seriously, and try to correct them when they appear.<br />
+Below is a snippet of the backup log that ran last night and I need some help in understanding what I need to change to make the warnings go away.<br />
+Any help is appriciated...</div>]]></content:encoded>
+      <slash:comments>11</slash:comments>
+    </item>
+    <item>
+      <title>user forwarding spam to a specific email address to get blacklisted</title>
+      <pubDate>Mon, 03 Aug 2026 20:41:27 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/user-forwarding-spam-to-a-specific-email-address-to-get-blacklisted.185497/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185497</guid>
+      <author>invalid@example.com (raj)</author>
+      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
+      <dc:creator>raj</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Team,<br />
+<br />
+Is it possible to have an email as <a href="mailto:spam@domain.com">spam@domain.com</a> and one as <a href="mailto:ham@domain.com">ham@domain.com</a>. When users get spams in the mailbox they can forwrad it to that email and pmg will automatically block them. I tried to use bayes and it works sometimes then same emails get through again. The db is well trained for 4 years. Any advice would be welcome or if anyone has already has this option working.<br />
+<br />
+Regards,<br />
+<br />
+rajbps</div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Vorgehen PVE Neuinstallation</title>
+      <pubDate>Mon, 03 Aug 2026 20:10:52 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/vorgehen-pve-neuinstallation.185364/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185364</guid>
+      <author>invalid@example.com (Schmiddi)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>Schmiddi</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Moin zusammen,<br />
+bei mir steht <i>leider </i>eine Neuinstallation von Proxmox an.<br />
+<br />
+<b>Kurzes Vorwort</b> dazu:<br />
+2024 startete ich mit einem CWWK n305 und hatte nicht geahnt, dass es in einem so massiven Single-Point-of-Failure ausartet <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f600.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":D" title="Big Grin    :D"  data-smilie="8"data-shortname=":D" /><br />
+Sprich, heute würde ich definitiv lieber andere Hardware einsetzen und sehr viel mehr auf Ausfallsicherheit setzen. Bei den aktuellen Preisen setze ich das jedoch nicht um und hoffe auf Besserung Richtung 2028 <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f635.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt="o_O" title="Er... what?    o_O"  data-smilie="12"data-shortname="o_O" /><br />
+<br />
+<b>Ursache</b>:<br />
+Meine eingesetzte Samsung 970...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/vorgehen-pve-neuinstallation.185364/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>13</slash:comments>
     </item>
     <item>
       <title>NVME Passthrough performance</title>
-      <pubDate>Mon, 03 Aug 2026 19:11:25 +0000</pubDate>
+      <pubDate>Mon, 03 Aug 2026 19:37:26 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/nvme-passthrough-performance.162876/</link>
       <guid isPermaLink="false">urn:xenforo:thread:162876</guid>
       <author>invalid@example.com (dreamerdeciever)</author>
@@ -37,33 +256,30 @@ I have encountered a weird issue that has been present for a while. The issue do
 I followed the pcie passthrough guide on the proxmox manual, all disks have their own IOMMU group and it seems to be passing through the devices. i have set up md raid 6 as a test however the performance i am getting...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/nvme-passthrough-performance.162876/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
+      <slash:comments>8</slash:comments>
     </item>
     <item>
-      <title>Kernel 7.0.x - Windows VMs freezing with cpu high 60-70%, newer cpus?</title>
-      <pubDate>Mon, 03 Aug 2026 19:00:28 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/kernel-7-0-x-windows-vms-freezing-with-cpu-high-60-70-newer-cpus.183461/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:183461</guid>
-      <author>invalid@example.com (glaeken2)</author>
+      <title>VMware OVA Appliances on Proxmox !</title>
+      <pubDate>Mon, 03 Aug 2026 19:28:54 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/vmware-ova-appliances-on-proxmox.185495/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185495</guid>
+      <author>invalid@example.com (Malavudeen)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>glaeken2</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello!<br />
+      <dc:creator>Malavudeen</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><b>Hello Everyone,<br />
 <br />
-I encountered a problem with kernels 7.0.x<br />
+Has anyone tried VMware OVA appliances on Proxmox?<br />
 <br />
-Windows VMs (mostly win10, but also win11) can randomly freeze, with cpu usage about 60-70%. <br />
-This happens only on newer (faster?) cpus, to be exact:<b> i7-13 gen and i9-12 gen</b><br />
-I <b>don&#039;t</b> observe this behavior on any older hardware which spans from multiple types of xeons to i5-7400, i7-6700, etc etc.<br />
+Will VMware-specific OVA appliances work on Proxmox or are there compatibility issues ? <br />
 <br />
-What is troubling - there is nothing in logs, like it never happened. Only guest agent ping timeouts.<br />
-Can&#039;t strace kvm process for now...<br />
+I&#039;d appreciate it if anyone can share their experience or any workarounds they have found.<br />
 <br />
-<a href="https://forum.proxmox.com/threads/kernel-7-0-x-windows-vms-freezing-with-cpu-high-60-70-newer-cpus.183461/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
+Thank you !</b></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
     </item>
     <item>
       <title>Error Connecting Drive using NBD CephCluster</title>
-      <pubDate>Mon, 03 Aug 2026 18:59:40 +0000</pubDate>
+      <pubDate>Mon, 03 Aug 2026 19:24:24 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/error-connecting-drive-using-nbd-cephcluster.185287/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185287</guid>
       <author>invalid@example.com (hcorneliussen)</author>
@@ -97,37 +313,44 @@ we have the follwing Infrastructure: <br />
 Ceph Network: connected in a ring using Fabrics...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/error-connecting-drive-using-nbd-cephcluster.185287/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
+      <slash:comments>2</slash:comments>
     </item>
     <item>
-      <title>Optimizing Windows VM performance on older hardware - settings advice needed</title>
-      <pubDate>Mon, 03 Aug 2026 18:54:16 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/optimizing-windows-vm-performance-on-older-hardware-settings-advice-needed.185499/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185499</guid>
-      <author>invalid@example.com (verishare)</author>
+      <title>Troubleshooting - LXC TTY Terminal Login Prompt Shows Gibberish</title>
+      <pubDate>Mon, 03 Aug 2026 19:12:04 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/troubleshooting-lxc-tty-terminal-login-prompt-shows-gibberish.178350/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:178350</guid>
+      <author>invalid@example.com (Wolveraptor)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>verishare</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
+      <dc:creator>Wolveraptor</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello Proxmox Community,<br />
 <br />
-I&#039;m looking for advice on the best Proxmox settings to get a Windows VM running smoothly on my setup.<br />
+I have encountered a weird issue that has been present for a while. The issue does not affect the usability of the LXC it is a mere annoyance. It happened when I upgraded from <b>Fedora 42</b> within an <b>LXC</b> to <b>Fedora 43</b> within an <b>LXC</b>. Since this has not hindered/impacted the LXC I did retain a backup prior to the upgrade form <b>Fedora 42</b> to <b>Fedora 43</b>. The upgrade form <b>Fedora 42</b> to <b>Fedora 43</b> within the LXC was...<br />
 <br />
-<b>Host specs:</b><br />
-<ul>
-<li data-xf-list-type="ul">CPU: Intel Core i5-3570 @ 3.40GHz (4 cores, 1 socket)</li>
-<li data-xf-list-type="ul">RAM: 32GB</li>
-<li data-xf-list-type="ul">Storage: SSD + HDD</li>
-<li data-xf-list-type="ul">GPU: AMD Radeon HD 7470/8470 (Caicos XT)</li>
-</ul><b>My Current VM configuration:</b><br />
-<ul>
-<li data-xf-list-type="ul">Memory: 8.00 GiB</li>
-<li data-xf-list-type="ul">Processors: 2 (1 socket, 2 cores) [x86-64-v2-AES]</li>
-<li data-xf-list-type="ul">BIOS: OVMF (UEFI)</li>
-<li data-xf-list-type="ul">Display: VirtIO-GPU (virtio)</li>
-<li data-xf-list-type="ul">Machine: pc-q35-11.0+pve2</li>
-<li data-xf-list-type="ul">SCSI Controller...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/optimizing-windows-vm-performance-on-older-hardware-settings-advice-needed.185499/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
+<a href="https://forum.proxmox.com/threads/troubleshooting-lxc-tty-terminal-login-prompt-shows-gibberish.178350/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
+    <item>
+      <title>Kernel 7.0.x - Windows VMs freezing with cpu high 60-70%, newer cpus?</title>
+      <pubDate>Mon, 03 Aug 2026 19:00:28 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/kernel-7-0-x-windows-vms-freezing-with-cpu-high-60-70-newer-cpus.183461/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:183461</guid>
+      <author>invalid@example.com (glaeken2)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>glaeken2</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello!<br />
+<br />
+I encountered a problem with kernels 7.0.x<br />
+<br />
+Windows VMs (mostly win10, but also win11) can randomly freeze, with cpu usage about 60-70%. <br />
+This happens only on newer (faster?) cpus, to be exact:<b> i7-13 gen and i9-12 gen</b><br />
+I <b>don&#039;t</b> observe this behavior on any older hardware which spans from multiple types of xeons to i5-7400, i7-6700, etc etc.<br />
+<br />
+What is troubling - there is nothing in logs, like it never happened. Only guest agent ping timeouts.<br />
+Can&#039;t strace kvm process for now...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/kernel-7-0-x-windows-vms-freezing-with-cpu-high-60-70-newer-cpus.183461/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
     </item>
     <item>
       <title>Windows Server 2025 CPU suddenly at 100%</title>
@@ -197,210 +420,6 @@ I have PBS 4.1.2 running as a VM on, and supporting, a PVE 8.4.16 installation. 
 <br />
 <a href="https://forum.proxmox.com/threads/pbs-cannot-restore-large-disk-from-s3.180617/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>11</slash:comments>
-    </item>
-    <item>
-      <title>In Proxmox 9.2.3 what is this UI checkbox for?</title>
-      <pubDate>Mon, 03 Aug 2026 17:24:25 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/in-proxmox-9-2-3-what-is-this-ui-checkbox-for.184022/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:184022</guid>
-      <author>invalid@example.com (Domino)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>Domino</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">The checkbox is described as &#039;Host-Managed&#039;, it shows up when you edit a LXC guest&#039;s network interface:<br />
-<br />
-<a href="https://forum.proxmox.com/attachments/chrome_quypcea3nk-png.98154/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/97/97850-2561f64146719c1ba8536d530fa2782b.jpg?hash=clxFJ_0hFH"
-		srcset="https://forum.proxmox.com/data/attachments/97/2x/97850-2561f64146719c1ba8536d530fa2782b.jpg?hash=clxFJ_0hFH 2x"
-		class="bbImage "
-		style=""
-		alt="chrome_quYpcEa3Nk.png"
-		title="chrome_quYpcEa3Nk.png"
-		width="250" height="150" loading="lazy" /></a><br />
-<br />
-Unfortunately the Help page doesn&#039;t have any reference information for this checkbox.</div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Ideale Server-Konfig für externen Speicher</title>
-      <pubDate>Mon, 03 Aug 2026 17:21:28 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ideale-server-konfig-f%C3%BCr-externen-speicher.185115/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185115</guid>
-      <author>invalid@example.com (S3v|\|)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
-      <dc:creator>S3v|\|</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen<br />
-<br />
-meine aktuelle Proxmox Backup Server (PBS) Konfig ist wie folgt:<br />
-Auf meinem Proxmox Virtual Environment (PVE) läuft eine PBS-VM. Diese sichert täglich über SMB auf eine QNAP-NAS mit Festplatten.<br />
-Diese Konfig läuft so weit recht OK - nur bei Verify, Prune und Garbage Collect stößt sie an die Grenzen.<br />
-Die zur Verfügung gestellte (virtuelle) Hardeware wird nie voll ausgenutzt. (16 GB RAM, 4 Kerne)<br />
-Dass diese Konfig nicht ideal ist, ist mir inzwischen auch bewusst geworden.<br />
-Daher...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/ideale-server-konfig-f%C3%BCr-externen-speicher.185115/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>44</slash:comments>
-    </item>
-    <item>
-      <title>[GUIDE] Install Home Assistant OS in a VM</title>
-      <pubDate>Mon, 03 Aug 2026 16:42:17 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/guide-install-home-assistant-os-in-a-vm.143251/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:143251</guid>
-      <author>invalid@example.com (dondizzurp)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>dondizzurp</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">So just like my other guide, this is more for my own records so I can come back and refer to it.<br />
-<br />
-I know there are scripts for these things, but I prefer doing them manually so I can learn along the way.<br />
-<br />
-Maybe it can help someone else in the future.<br />
-<br />
-<hr /><br />
-<br />
-<b><u><span style="font-size: 18px">Obtain the VM image</span></u></b><br />
-<br />
-- Navigate to the installation page on the HA website: <a href="https://www.home-assistant.io/installation/alternative" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://www.home-assistant.io/installation/alternative</a><br />
-<br />
-- Simply right-click the KVM/Proxmox link and copy the address<br />
-<br />
-- In your...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/guide-install-home-assistant-os-in-a-vm.143251/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>92</slash:comments>
-    </item>
-    <item>
-      <title>Fragen zum Thema NetAPP Proxmox und LVM with NVMe/TCP</title>
-      <pubDate>Mon, 03 Aug 2026 16:29:02 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/fragen-zum-thema-netapp-proxmox-und-lvm-with-nvme-tcp.185432/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185432</guid>
-      <author>invalid@example.com (CoolTux)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>CoolTux</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
-<br />
-Ein Kollege von mir soll Proxmox mit einer NetApp verheiraten. Da die NetApp als DiskImage Storage Verwendung finden soll haben wir an LVM with NVMe/TCP gedacht.<br />
-Das scheint jetzt nicht direkt von Proxmox unterstützt zu werden wenn ich das richtig sehe. Also keine Konfiguration über den pvesm. Hat schon jemand Erfahrung in dem Bereich gesammelt und kann mir da ein paar Schlagworte oder eine Richtung geben in der ich mich entlang hangeln kann?<br />
-<br />
-<br />
-<br />
-Danke und Grüße</div>]]></content:encoded>
-      <slash:comments>16</slash:comments>
-    </item>
-    <item>
-      <title>Container creation stopped allowing Ceph RBD storage</title>
-      <pubDate>Mon, 03 Aug 2026 16:06:07 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/container-creation-stopped-allowing-ceph-rbd-storage.185456/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185456</guid>
-      <author>invalid@example.com (GorgonzolaPrimavera)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>GorgonzolaPrimavera</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have made several LXCs in my PVE 9.1.1 cluster over the past few months but when I tried to create a new one today, I was unable to choose my `vms` RBD store. The only choices I got were either the two NFS shares or the `local` store. I thought maybe I had been dreaming that I had created them there but I looked at them all and they were all assigned to the Ceph store. My store is RBD, [obviously], enabled, with &quot;Disk Image&quot; and &quot;Container&quot; content types. Ceph version per the Datacenter UI is...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/container-creation-stopped-allowing-ceph-rbd-storage.185456/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>Testing Fix / Prevention: pve-ha-manager deadlock during apt dist-upgrade (Automated Script)</title>
-      <pubDate>Mon, 03 Aug 2026 15:07:54 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/testing-fix-prevention-pve-ha-manager-deadlock-during-apt-dist-upgrade-automated-script.185455/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185455</guid>
-      <author>invalid@example.com (Meister Mopper)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Meister Mopper</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><b>Problem Statement &amp; Context<br />
-<br />
-The Problem:</b><br />
-When performing system updates (<code class="bbCodeInline">apt-get dist-upgrade</code>) on a Proxmox VE node within an HA cluster, a deadlock can occur during package processing:<br />
-<ul>
-<li data-xf-list-type="ul"><b>Package Hang via Synchronous Triggers:</b> During the update of the `pve-ha-manager` package, `dpkg` executes post-installation scripts that attempt to synchronously reload the local HA service (`pve-ha-lrm`). If dependent systemd services or underlying libraries are updated at the exact...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/testing-fix-prevention-pve-ha-manager-deadlock-during-apt-dist-upgrade-automated-script.185455/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>Repeated host-level outage during PBS backups after recent kernel updates — what evidence should I collect?</title>
-      <pubDate>Mon, 03 Aug 2026 15:07:25 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/repeated-host-level-outage-during-pbs-backups-after-recent-kernel-updates-%E2%80%94-what-evidence-should-i-collect.185480/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185480</guid>
-      <author>invalid@example.com (jbhorner)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>jbhorner</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I am troubleshooting repeated Proxmox VE host-level outages that appear temporally correlated with recent Proxmox kernel/runtime updates. I am not trying to assign blame prematurely, but I would like guidance on what evidence would be most useful if this happens again. These circumstances began after I restarted the server a couple of days ago; prior to that, the last restart was June.<br />
-<br />
-<h3 class="bbHeading"><a class="u-anchorTarget" name="-summary"></a>Summary&#8203;<a class="hoverLink" href="#-summary" title="Permanent link"></a></h3>I have had multiple incidents where the PVE host suffers a host-level outage during...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/repeated-host-level-outage-during-pbs-backups-after-recent-kernel-updates-%E2%80%94-what-evidence-should-i-collect.185480/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Storage-Anzeige in GUI auf local-zfs beschränken / Backup-Storages ausblenden</title>
-      <pubDate>Mon, 03 Aug 2026 14:53:43 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/storage-anzeige-in-gui-auf-local-zfs-beschr%C3%A4nken-backup-storages-ausblenden.185367/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185367</guid>
-      <author>invalid@example.com (plurgi95)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>plurgi95</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
-<br />
-ich betreibe einen Cluster mit drei Proxmox VE Servern und habe dort mehrere ZFS-Pools für unterschiedliche Systeme eingerichtet. Auf meinem Proxmox Backup Server (PBS) existieren ebenfalls separate Pools, um die Systeme logisch zu trennen jeder Pool liegt dabei auf einer eigenen Festplatte. Entsprechend wurde für jeden Pool ein eigener Backup-Storage in Proxmox VE angelegt.<br />
-<br />
-In der Server- bzw. Storage-Übersicht des Webinterface werden mir jetzt all diese Storages und...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/storage-anzeige-in-gui-auf-local-zfs-beschr%C3%A4nken-backup-storages-ausblenden.185367/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>Cluster Resource Scheduler (CRS) migrates VMs during Backup</title>
-      <pubDate>Mon, 03 Aug 2026 14:40:03 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/cluster-resource-scheduler-crs-migrates-vms-during-backup.185348/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185348</guid>
-      <author>invalid@example.com (thomasb132)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>thomasb132</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">A scheduled backup of a VM to a Proxmox backup server fails if the CRS simultaneously migrates the VM from one PVE host to another.<br />
-The backup job was scheduled to run at night, the migration of the VM was initiated by CRS without user input.<br />
-<br />
-Is there a way to prevent HA migrations for a specific VM while a backup job is running?</div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>PVE 9.1.11: HA CRM stuck in wait_for_quorum despite corosync quorum OK</title>
-      <pubDate>Mon, 03 Aug 2026 14:08:09 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pve-9-1-11-ha-crm-stuck-in-wait_for_quorum-despite-corosync-quorum-ok.185454/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185454</guid>
-      <author>invalid@example.com (reshma)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>reshma</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Environment:<br />
-- Proxmox VE 9.1.11 (Debian 13.4 Trixie), kernel 7.0.2-4-pve<br />
-- 3-node cluster, non-enterprise repositories<br />
-- pve-ha-manager 5.2.4, libpve-cluster-perl 9.1.6, libpve-rs-perl 0.15.3 (aligned on all nodes)<br />
-- corosync 3.1.10-pve2, watchdog configured (softdog)<br />
-<br />
-Problem:<br />
-pve-ha-crm starts successfully but immediately enters &quot;wait_for_quorum&quot; state and never progresses. This has persisted for several days across multiple restarts/reboots.<br />
-<br />
-Evidence:<br />
-- Corosync shows quorum...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pve-9-1-11-ha-crm-stuck-in-wait_for_quorum-despite-corosync-quorum-ok.185454/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>ProxmoxVE and the shared root account for update/upgrades.</title>
-      <pubDate>Mon, 03 Aug 2026 13:54:23 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmoxve-and-the-shared-root-account-for-update-upgrades.185462/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185462</guid>
-      <author>invalid@example.com (_--James--_)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>_--James--_</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">First off, there is already a Bugzilla tracking this issue dating back to 2018: <a href="https://bugzilla.proxmox.com/show_bug.cgi?id=1856" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://bugzilla.proxmox.com/show_bug.cgi?id=1856</a><br />
-<br />
-Proxmox has grown significantly in enterprise adoption since then. It&#039;s time to bring this issue to resolution.<br />
-<br />
-The continued requirement to use the shared root@pam account for host administration is incompatible with many enterprise compliance frameworks and security policies. This is no longer a feature request for convenience. It is an enterprise...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmoxve-and-the-shared-root-account-for-update-upgrades.185462/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
     </item>
   </channel>
 </rss>
