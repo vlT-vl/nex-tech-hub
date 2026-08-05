@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Linux News</title><item>
+   <title>Denial WM: New Wayland Compositor With Flutter Directly Embedded</title>
+   <link>https://www.phoronix.com/news/Denial-WM-Compositor</link>
+   <guid>https://www.phoronix.com/news/Denial-WM-Compositor</guid>
+   <description>The newest Wayland compositor to talk about and discuss is Denial, a Wayland compositor focused on optimal Arch Linux integration and that embeds the Flutter engine directly into the codebase. Denial makes use of the Rust programming language and leverages Smithay to help in the compositor responsibilities...</description>
+   <pubDate>Wed, 05 Aug 2026 12:10:08 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
    <title>Cloudflare Announces Open-Source Cloudflare OS As AI &quot;Operating System&quot;</title>
    <link>https://www.phoronix.com/news/Cloudflare-OS</link>
    <guid>https://www.phoronix.com/news/Cloudflare-OS</guid>
@@ -207,13 +214,6 @@
    <guid>https://www.phoronix.com/news/Ubuntu-Touch-Toward-26.04</guid>
    <description>Following last week's release of Ubuntu Touch 24.04-2.0 for this community-maintained, mobile flavor of Ubuntu Linux, more details are now available on their upcoming development efforts and eventual transition to an Ubuntu 26.04 base...</description>
    <pubDate>Sun, 02 Aug 2026 06:37:06 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>Linux 7.2-rc6 Fixes Some AMD Zen 5 CPUs Being Mistakenly Identified As Zen 6</title>
-   <link>https://www.phoronix.com/news/Linux-7.2-rc6-Fixing-Zen-5-IDs</link>
-   <guid>https://www.phoronix.com/news/Linux-7.2-rc6-Fixing-Zen-5-IDs</guid>
-   <description>Today's batch of x86 fixes for the kernel ahead of the Linux 7.2-rc6 release later in the day addresses some AMD Zen 5 processors mistakenly being classified as Zen 6...</description>
-   <pubDate>Sun, 02 Aug 2026 06:25:00 -0400</pubDate>
    <dc:creator>Michael Larabel</dc:creator>
   </item><item>
    <title>Nouveau vs. NVIDIA R610 On CachyOS With The GeForce RTX 5090 Laptop GPU</title>
@@ -732,6 +732,67 @@ dpkg-query -W -f '${source:Package}\t${binary:Package}\n' | awk '$1 ~ "^linux-me
 &lt;li&gt;If you have this enabled, the patches above will be automatically applied within 24 hours of being available, but a reboot is still required.&lt;/li&gt;
 &lt;/ul&gt;
 </content:encoded><author>Luci Stanescu (Luci Stanescu)</author><category>Security</category><category>Vulnerabilities</category><pubDate>Wed, 01 Jul 2026 07:57:40 +0000</pubDate></item><item>
+        <title>b4 0.16.0 released</title>
+        <link>https://lwn.net/Articles/1087388/</link>
+        <guid>https://lwn.net/Articles/1087388/</guid>
+        <dc:creator>corbet</dc:creator>
+        <description>Konstantin Ryabitsev has announced the release of version 0.16.0 of the &lt;a
+href=&quot;https://b4.docs.kernel.org/en/latest/&quot;&gt;b4&lt;/a&gt; 
+software-development tool.  The biggest change is the addition of
+bug-tracking support:
+&lt;p&gt;
+&lt;blockquote class=&quot;bq&quot;&gt;
+	The new &quot;b4 bugs&quot; command integrates with git-bug to let you track
+	bug reports alongside your git repository. Bugs are stored as git
+	objects inside the repo, so they travel with the code and can be
+	shared via git push/pull without any external service.
+&lt;/blockquote&gt;
+&lt;p&gt;
+There are also a lot of improvements to &lt;tt&gt;b4 review&lt;/tt&gt; (which was &lt;a
+href=&quot;https://lwn.net/Articles/1063303/#:~:text=entirely%2E-,b4%20review&quot;&gt;covered
+here&lt;/a&gt; in March), better conflict resolution in &lt;tt&gt;b4 shazam&lt;/tt&gt;,
+improved history rewriting, and more.
+</description>
+        <pubDate>Wed, 05 Aug 2026 17:24:28 +0000</pubDate>
+        </item><item>
+        <title>[$] Examining other network namespaces using BPF</title>
+        <link>https://lwn.net/Articles/1085896/</link>
+        <guid>https://lwn.net/Articles/1085896/</guid>
+        <dc:creator>daroc</dc:creator>
+        <description>&lt;p&gt;
+Jordan Rife's work involves writing BPF programs for
+&lt;a href=&quot;https://cilium.io/&quot;&gt;
+Cilium&lt;/a&gt; that interface with
+&lt;a href=&quot;https://kubernetes.io/&quot;&gt;
+Kubernetes&lt;/a&gt;
+networking. As part of that work, he wants to enable BPF programs with
+appropriate permissions to iterate through the sockets of a different network
+namespace. He led a session about the idea at the 2026
+&lt;a href=&quot;https://events.linuxfoundation.org/lsfmmbpf/&quot;&gt;
+Linux Storage,
+Filesystem, Memory-Management, and BPF Summit&lt;/a&gt; where the BPF developers in
+attendance were quick to suggest a number of related alternatives.
+&lt;/p&gt;
+</description>
+        <pubDate>Wed, 05 Aug 2026 16:59:26 +0000</pubDate>
+        </item><item>
+        <title>[$] FUSE status and plans</title>
+        <link>https://lwn.net/Articles/1086336/</link>
+        <guid>https://lwn.net/Articles/1086336/</guid>
+        <dc:creator>jake</dc:creator>
+        <description>&lt;a
+href=&quot;https://docs.kernel.org/filesystems/fuse/&quot;&gt;Filesystem in
+Userspace&lt;/a&gt; (FUSE) maintainer Miklos Szeredi led a birds-of-a-feather
+(BoF) discussion about the subsystem at
+the 2026 &lt;a
+href=&quot;https://events.linuxfoundation.org/lsfmmbpf/&quot;&gt;Linux Storage,
+Filesystem, Memory Management, and BPF Summit&lt;/a&gt;.  In it, he talked about
+maintenance challenges, proposed features and their status, and his plans
+for  a new FUSE API.  There is a lot of interest and activity in the
+FUSE community these days it seems.
+</description>
+        <pubDate>Wed, 05 Aug 2026 15:59:08 +0000</pubDate>
+        </item><item>
         <title>Nelson: rust-lang/rust is adopting an LLM policy</title>
         <link>https://lwn.net/Articles/1087326/</link>
         <guid>https://lwn.net/Articles/1087326/</guid>
@@ -998,54 +1059,4 @@ upgrade.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
         <pubDate>Mon, 03 Aug 2026 13:42:58 +0000</pubDate>
-        </item><item>
-        <title>NetBSD 11.0 released</title>
-        <link>https://lwn.net/Articles/1086898/</link>
-        <guid>https://lwn.net/Articles/1086898/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>&lt;p&gt;The release of &lt;a
-href=&quot;https://netbsd.org/&quot;&gt;NetBSD&lt;/a&gt; 11.0, the 19th major version of the operating
-system, has been &lt;a href=&quot;https://lwn.net/Articles/1086899/&quot;&gt;announced&lt;/a&gt;. There are
-many changes and enhancements since the 10.1 release, including a new
-port to RISC-V, better support for Linux system calls in &lt;a
-href=&quot;https://man.netbsd.org/NetBSD-11.0/compat_linux.8&quot;&gt;&lt;tt&gt;compat_linux()&lt;/tt&gt;&lt;/a&gt;,
-as well as improvements to the &lt;a
-href=&quot;https://man.netbsd.org/NetBSD-11.x-BRANCH/npf.7&quot;&gt;NPF&lt;/a&gt;
-firewall.&lt;/p&gt;
-
-&lt;blockquote class=&quot;bq&quot;&gt;
-&lt;p&gt;As you are probably aware, the number of security issues found or
-suspected everywhere has massively increased with the advent of AI
-tools. As a consequence, we can't publish a release without open
-issues. Instead of delaying the release further to fix them (new ones
-are being reported all the time), we've instead chosen to be
-transparent about this.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;See the full &lt;a
-href=&quot;https://netbsd.org/releases/formal-11/NetBSD-11.0.html&quot;&gt;release
-notes&lt;/a&gt; for links to the binary distributions and links to the full
-change logs.&lt;/p&gt;
-
-&lt;p&gt;</description>
-        <pubDate>Mon, 03 Aug 2026 13:33:10 +0000</pubDate>
-        </item><item>
-        <title>Security updates for Monday</title>
-        <link>https://lwn.net/Articles/1086897/</link>
-        <guid>https://lwn.net/Articles/1086897/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>Security updates have been issued by &lt;b&gt;AlmaLinux&lt;/b&gt; (.NET 10.0, .NET 8.0, .NET 9.0, fence-agents, kernel, kernel-rt, openssh, osbuild-composer, perl-Archive-Tar, perl-DBI, perl:5.32, pipewire, python-pillow, qemu-kvm, unbound, and vim), &lt;b&gt;Debian&lt;/b&gt; (chromium, incus, kernel, kissfft, libgd2, libmodbus, libssh, node-tar, php8.4, poppler, python-authlib, sslh, and starlette), &lt;b&gt;Fedora&lt;/b&gt; (borgbackup, coturn, curl, exim, fuse-overlayfs, gh, GitPython, goaccess, lemonldap-ng, libgit2, nextcloud, nsd, php, postgresql16, python3.12, rabbitmq-server, rust-libgit2-sys, and xen), &lt;b&gt;Mageia&lt;/b&gt; (bluez, firmware, kernel, kmod, wireless-regdb), &lt;b&gt;Oracle&lt;/b&gt; (buildah, compat-libtiff3, dovecot, fence-agents, firefox, gimp, glibc, grafana, gstreamer1-plugins-bad-free, java-25-openjdk, kernel, libgcrypt, libtiff, libXfont2, nodejs24, nodejs:22, nodejs:24, openssh, openssl, PackageKit, pipewire, python-pillow, rest, sssd, vim, and yelp), &lt;b&gt;SUSE&lt;/b&gt; (bind, chromium, dnsdist, gdk-pixbuf-loader-libheif, gio-branding-upstream, google-guest-agent, govulncheck-vulndb, GraphicsMagick, ignition, ImageMagick, keybase-client, kronosnet, libblkid-devel, libntpc1, libpng16, nano, openssh, openssl-1_0_0, openssl-3, openvpn, PackageKit, perl-mojolicious, php8, python-nltk, python313-asteval, python313-certifi, python313-GitPython, python313-huggingface-hub, rsyslog, tomcat, tomcat10, tomcat11, traefik2, valkey, warewulf4, webkit2gtk3, and yq), and &lt;b&gt;Ubuntu&lt;/b&gt; (linux-intel-iotg).
-</description>
-        <pubDate>Mon, 03 Aug 2026 13:12:40 +0000</pubDate>
-        </item><item>
-        <title>Kernel prepatch 7.2-rc6</title>
-        <link>https://lwn.net/Articles/1086727/</link>
-        <guid>https://lwn.net/Articles/1086727/</guid>
-        <dc:creator>corbet</dc:creator>
-        <description>The &lt;a href=&quot;https://lwn.net/Articles/1086726/&quot;&gt;7.2-rc6&lt;/a&gt; kernel prepatch is out for
-testing.  Quoth Linus: &quot;&lt;q&gt;Hmm. This rc is huge.  Even by the &quot;new normal&quot;
-standards this is a big rc, and I think it's the biggest rc6 we've had in
-years at least by commit count.&lt;/q&gt;&quot;  There were 537 non-merge commits
-applied between 7.2-rc5 and 7.2-rc6.</description>
-        <pubDate>Mon, 03 Aug 2026 00:11:08 +0000</pubDate>
         </item></channel></rss>
