@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Linux News</title><item>
+   <title>AMD Posts Proposal &amp; Linux Patches For eSPI Subsystem</title>
+   <link>https://www.phoronix.com/news/AMD-eSPI-Linux-Patches</link>
+   <guid>https://www.phoronix.com/news/AMD-eSPI-Linux-Patches</guid>
+   <description>AMD has posted patches proposing a new Linux subsystem for the Enhanced Serial Peripheral Interface (eSPI) standard that was in turn originally developed by Intel. With AMD now making use of eSPI, they are proposing a new subsystem for it within the Linux kernel, which includes a new driver for their hardware...</description>
+   <pubDate>Tue, 04 Aug 2026 20:33:08 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
    <title>AMD openSIL &amp; Coreboot Pull Requests For Phoenix AM5 Support</title>
    <link>https://www.phoronix.com/news/AMD-openSIL-Phoenix-AM5-PR</link>
    <guid>https://www.phoronix.com/news/AMD-openSIL-Phoenix-AM5-PR</guid>
@@ -207,13 +214,6 @@
    <guid>https://www.phoronix.com/news/Arch-Linux-Foxboron</guid>
    <description>Arch Linux developer, security team member, AUR maintainer, and package maintainer Morten Linderud "Foxboron" announced today he is resigning from the project...</description>
    <pubDate>Sat, 01 Aug 2026 07:47:02 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>Linux 7.2-rc6 Working Around Several Buggy Western Digital SATA Drives</title>
-   <link>https://www.phoronix.com/news/Linux-7.2-rc6-ATA</link>
-   <guid>https://www.phoronix.com/news/Linux-7.2-rc6-ATA</guid>
-   <description>Merged ahead of tomorrow's Linux 7.2-rc6 kernel test release are several ATA fixes that include a number of device-specific workarounds for some Western Digital SATA drives that have been failing to work on recent versions of the Linux kernel...</description>
-   <pubDate>Sat, 01 Aug 2026 06:49:22 -0400</pubDate>
    <dc:creator>Michael Larabel</dc:creator>
   </item><item>
    <title>Nouveau vs. NVIDIA R610 On CachyOS With The GeForce RTX 5090 Laptop GPU</title>
@@ -732,6 +732,42 @@ dpkg-query -W -f '${source:Package}\t${binary:Package}\n' | awk '$1 ~ "^linux-me
 &lt;li&gt;If you have this enabled, the patches above will be automatically applied within 24 hours of being available, but a reboot is still required.&lt;/li&gt;
 &lt;/ul&gt;
 </content:encoded><author>Luci Stanescu (Luci Stanescu)</author><category>Security</category><category>Vulnerabilities</category><pubDate>Wed, 01 Jul 2026 07:57:40 +0000</pubDate></item><item>
+        <title>An LLM agent attempts to compromise a project on GitHub</title>
+        <link>https://lwn.net/Articles/1087162/</link>
+        <guid>https://lwn.net/Articles/1087162/</guid>
+        <dc:creator>corbet</dc:creator>
+        <description>The AI Security Institute has released &lt;a
+href=&quot;https://www.aisi.gov.uk/blog/incident-report-unsanctioned-agent-behaviour-during-cyber-testing&quot;&gt;a
+detailed report&lt;/a&gt; on an security incident of its own making.  The
+Institute set some LLM agents loose on the Internet with a security
+challenge; soon they were creating malware-laden pull requests and
+sock-puppet accounts to promote them.
+&lt;p&gt;
+&lt;blockquote class=&quot;bq&quot;&gt;
+	The agent opened a malicious pull request (PR) to ⟨REPO_A⟩ and
+	pursued a number of strategies to get it merged:
+&lt;ol class=&quot;spacylist&quot;&gt;
+&lt;li&gt; Repeatedly commented on the PR with sockpuppet accounts to manufacture
+     consensus and pressure the maintainer into approving with minimal
+     review.
+
+&lt;li&gt; Opened a GitHub Issue in another repository (also owned by ⟨PERSON_A⟩)
+     containing a prompt injection for other coding agents. The malicious
+     instructions were addressed to issue-triage AI coding agents and
+     invisible to humans viewing the website.
+
+&lt;li&gt; Sent multiple emails to ⟨PERSON_A⟩ and ⟨PERSON_B⟩, with different
+     pretexts to get them to run malicious code. Over the course of the
+     sample, the agent sent five emails, some containing malware, others
+     aimed at persuading a maintainer to accept the pull request.
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;
+It would be surprising if this were the only incident of this type; the
+only real difference here is that the people involved are documenting what
+happened.</description>
+        <pubDate>Tue, 04 Aug 2026 23:04:32 +0000</pubDate>
+        </item><item>
         <title>[$] Fedora considers conflict-of-interest policy</title>
         <link>https://lwn.net/Articles/1086488/</link>
         <guid>https://lwn.net/Articles/1086488/</guid>
@@ -1021,35 +1057,4 @@ does not really have a package manager at the moment.
 &lt;/p&gt;
 </description>
         <pubDate>Fri, 31 Jul 2026 13:52:38 +0000</pubDate>
-        </item><item>
-        <title>Arch Linux disables AUR package adoption</title>
-        <link>https://lwn.net/Articles/1086489/</link>
-        <guid>https://lwn.net/Articles/1086489/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>&lt;p&gt;The Arch Linux DevOps team has &lt;a
-href=&quot;https://lists.archlinux.org/archives/list/aur-general@lists.archlinux.org/message/DRDEU3JUSC72CB265XHXPFA3DFSLXPBP/&quot;&gt;announced&lt;/a&gt;
-that adoption of orphaned packages in the Arch User Repository (AUR)
-has been disabled due to &quot;&lt;q&gt;the current influx of malicious package
-adoptions and follow-up commits made via the AUR&lt;/q&gt;&quot;. Michael Taggart
-has posted &lt;a
-href=&quot;https://discourse.ifin.network/t/new-aur-attack-prompts-adoption-lock/698?&quot;&gt;a brief analysis&lt;/a&gt; of the malware being added to a &lt;a
-href=&quot;https://lists.archlinux.org/archives/list/aur-general@lists.archlinux.org/thread/P4WIRHTFNH2YZWQHGBAKQWX5YOAFIDLY/&quot;&gt;long
-list of packages&lt;/a&gt; in this round of attacks. The payload &lt;a
-href=&quot;https://gist.github.com/ysf/57850cdee152da066ac51c07a452e883&quot;&gt;appears
-to be&lt;/a&gt; an remote-access trojan (RAT) that takes commands over the
-Tor network and attempts to upload a wide range of user data.&lt;/p&gt;
-
-&lt;p&gt;The project had &lt;a
-href=&quot;https://lists.archlinux.org/archives/list/aur-general@lists.archlinux.org/message/4JRS73YVTE7JUYHHE3ZDUIHXYHXZ3YQQ/&quot;&gt;suspended
-new account registration&lt;/a&gt; in June. That followed &lt;a
-href=&quot;https://lwn.net/Articles/1077619/&quot;&gt;a campaign&lt;/a&gt; in which an
-attacker or attackers created new accounts to adopt orphaned packages
-and push malicious updates to them that would install malware on user
-systems. AUR registration was &lt;a
-href=&quot;https://lists.archlinux.org/archives/list/aur-general@lists.archlinux.org/message/TT3OCFFNM6SBMUBKIVTHTKA6UZJNMXIJ/&quot;&gt;reopened&lt;/a&gt;
-on July&amp;#160;13 after the DevOps team added some minor, and apparently
-ineffective, restrictions on creating new accounts.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-        <pubDate>Fri, 31 Jul 2026 13:38:04 +0000</pubDate>
         </item></channel></rss>
