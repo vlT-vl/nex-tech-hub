@@ -4,73 +4,198 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Thu, 06 Aug 2026 13:45:10 +0000</pubDate>
-    <lastBuildDate>Thu, 06 Aug 2026 13:45:10 +0000</lastBuildDate>
+    <pubDate>Thu, 06 Aug 2026 23:53:22 +0000</pubDate>
+    <lastBuildDate>Thu, 06 Aug 2026 23:53:22 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
-      <title>USB Problem - die 1658. - oder so ...</title>
-      <pubDate>Thu, 06 Aug 2026 13:44:57 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/usb-problem-die-1658-oder-so.185558/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185558</guid>
-      <author>invalid@example.com (Nobster)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>Nobster</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Moin,<br />
-ich möchte gerne einen USB-Stick an eine VM hängen. Das System läuft mit einem Proxmox 9.2.6. Ich stecke also den USB-Stick in die USB Buchse, gehe auf die virtuelle Maschine und &quot;hänge&quot; den Stick über Hardware / Add USB device ein. Auf dem &quot;Gast&quot;, einem Ubuntu 26.04, kann ich dann mit lsusb das device auch sehen. Aber das war es dann auch. Mit lsblk sehe ich nur die lokale, virtuelle /dev/sda1. Wie komme ich denn jetzt an das USB-device ran. Ich habe sowohl die VE wie auch die VM...<br />
+      <title>Getting  client timeouts in PDM system log</title>
+      <pubDate>Thu, 06 Aug 2026 23:48:38 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/getting-client-timeouts-in-pdm-system-log.184344/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:184344</guid>
+      <author>invalid@example.com (deebsr)</author>
+      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
+      <dc:creator>deebsr</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">In the system log I&#039;m seeing the following entries for all the nodes in one of my clusters ( x25 nodes )<br />
 <br />
-<a href="https://forum.proxmox.com/threads/usb-problem-die-1658-oder-so.185558/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
+<i>marking client node01 as unreachable<br />
+client timed out on request /api2/extjs/cluster/metrics/export?history=1&amp;local%2Donly=0&amp;start%2Dtime=0, trying another remote</i><br />
+<br />
+I have another cluster that seems to not having this issue.<br />
+I have tried removing and re-adding which dos not change anything.<br />
+I notice that on the affected cluster I&#039;m unable to see any metric data in PDM. On the...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/getting-client-timeouts-in-pdm-system-log.184344/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>11</slash:comments>
     </item>
     <item>
-      <title>Proxmox VE 9.2.6 - NFS storage is reported as inactive although the mount is accessible</title>
-      <pubDate>Thu, 06 Aug 2026 13:43:51 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-6-nfs-storage-is-reported-as-inactive-although-the-mount-is-accessible.185564/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185564</guid>
-      <author>invalid@example.com (Klitschko)</author>
+      <title>backup corosync link for HA Cluseter</title>
+      <pubDate>Thu, 06 Aug 2026 23:40:35 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/backup-corosync-link-for-ha-cluseter.185573/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185573</guid>
+      <author>invalid@example.com (ladowny)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Klitschko</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><div style="text-align: center"><div class="bbTable">
-<table style='width: 100%'><tr><td style='width: 653px'><b>Summary</b><br />
-Proxmox reports an NFS storage as inactive even though the export is mounted and accessible from the host. The behaviour was observed with both NFSv4.x and NFSv3. NFSv4.x showed a GETATTR hang during investigation, while NFSv3 avoids that hang, but Proxmox still marks the storage as inactive.</td></tr></table>
-</div></div><br />
+      <dc:creator>ladowny</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi All. I&#039;m new to Proxmox. Been using VMWare so far and just decided to migrate.  Setting up Proxmox HA cluster on OVH Bare Metal RISE-3 machines so I&#039;m somewhat limited by OVH restrictions, only 2 networks cards, one for management interface and the other connected to vRack for VLAN&#039;s for Public, Local and pfsync network userd by CARP.<br />
 <br />
-<h3 class="bbHeading"><a class="u-anchorTarget" name="-environment"></a>Environment&#8203;<a class="hoverLink" href="#-environment" title="Permanent link"></a></h3><div style="text-align: center"><div class="bbTable">
-<table style='width: 100%'><tr><td style='width: 149px'><b>Proxmox</b></td><td style='width: 504px'>Proxmox VE 9.2.6; Linux kernel 6.17.13-7-pve; host IP &lt;management-IP&gt;</td></tr><tr><td></td><td></td></tr></table>
-...</div></div><br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-6-nfs-storage-is-reported-as-inactive-although-the-mount-is-accessible.185564/" class="link link--internal">Read more</a></div>]]></content:encoded>
+I have a seperate VLAN for corosync link on local vRack NIC and was wondering if it makes sense to set up a second corosync ring  over the management NIC (...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/backup-corosync-link-for-ha-cluseter.185573/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>nfs backup storage fails silently.</title>
+      <pubDate>Thu, 06 Aug 2026 23:35:59 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/nfs-backup-storage-fails-silently.185576/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185576</guid>
+      <author>invalid@example.com (Daxcor)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Daxcor</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am trying to setup a backup location on a remote nfs server.  When I go to setup the nfs storage via the datacenter, it goes through and sets up the storage.<br />
+<br />
+storage.cfg snippet<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>nfs: nfs-backup
+        export /home
+        path /mnt/pve/nfs-backup
+        server 10.20.10.22
+        content backup,images
+        prune-backups keep-all=1</code></pre>
+	</div>
+</div><br />
+when I run the backup it proceeds with no errors, however it silently fails to connect to the nfs server and saved the file on the local system at...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/nfs-backup-storage-fails-silently.185576/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>7.0.14-7 kernel breaks NVMe link training</title>
+      <pubDate>Thu, 06 Aug 2026 23:30:12 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/7-0-14-7-kernel-breaks-nvme-link-training.185549/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185549</guid>
+      <author>invalid@example.com (aoxiangtianji)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>aoxiangtianji</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have a SK hynix PE4010 (HFS960GD0TEG-6410A, 894G) installed on a PCIe splitter card on an ASRock B450M Pro4-F. The splitter card has no switch chip; it relies on the motherboard&#039;s PCIe bifurcation.<br />
+<br />
+After updating from 7.0.2 to 7.0.14-8, PVE got stuck during boot because it couldn&#039;t detect my disk. The NVMe controller is simply not visible, and I couldn&#039;t confirm any error in dmesg (in that state I wasn&#039;t able to export the log).<br />
+<br />
+After some testing, I found that 7.0.14-6 is the latest...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/7-0-14-7-kernel-breaks-nvme-link-training.185549/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>3</slash:comments>
     </item>
     <item>
-      <title>Reboots causing windows to display the improper shutdown reason screen</title>
-      <pubDate>Thu, 06 Aug 2026 13:42:40 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/reboots-causing-windows-to-display-the-improper-shutdown-reason-screen.185561/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185561</guid>
-      <author>invalid@example.com (dimante)</author>
+      <title>Proxmox 9.0.4 doesn't get IP by DHCP</title>
+      <pubDate>Thu, 06 Aug 2026 23:06:20 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-9-0-4-doesnt-get-ip-by-dhcp.169721/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:169721</guid>
+      <author>invalid@example.com (yonder)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>yonder</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">After changing /etc/network/interfaces on a fresh install to:<br />
+<br />
+iface vmbr0 inet dhcp<br />
+<br />
+and running ifreload -a I&#039;m receiving an error message: <br />
+<br />
+vmbr0: cmd &#039;/sbin/dhclient -pf /run/dhclient.vmbr0.pid -lf /var/lib/dhcpdhclient.vmbr0.leases vmbr0&#039; failed([Errno 2] No such file or directory: &#039;/sbin/dhclient&#039;)<br />
+<br />
+Indeed there is no file &#039;dhclient&#039; in /sbin forlder.<br />
+<br />
+Strangely enough it looks like the installer runs DHCP client to pick the IP bound to MAC address up but makes it static. <br />
+<br />
+It worked...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-9-0-4-doesnt-get-ip-by-dhcp.169721/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>22</slash:comments>
+    </item>
+    <item>
+      <title>user forwarding spam to a specific email address to get blacklisted</title>
+      <pubDate>Thu, 06 Aug 2026 23:00:45 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/user-forwarding-spam-to-a-specific-email-address-to-get-blacklisted.185497/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185497</guid>
+      <author>invalid@example.com (raj)</author>
+      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
+      <dc:creator>raj</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Team,<br />
+<br />
+Is it possible to have an email as <a href="mailto:spam@domain.com">spam@domain.com</a> and one as <a href="mailto:ham@domain.com">ham@domain.com</a>. When users get spams in the mailbox they can forwrad it to that email and pmg will automatically block them. I tried to use bayes and it works sometimes then same emails get through again. The db is well trained for 4 years. Any advice would be welcome or if anyone has already has this option working.<br />
+<br />
+Regards,<br />
+<br />
+rajbps</div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>CEPH Performance</title>
+      <pubDate>Thu, 06 Aug 2026 22:36:54 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ceph-performance.185542/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185542</guid>
+      <author>invalid@example.com (it4business)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>dimante</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have all of the agents on the vms.  When performing a PVE reboot even though the instance shuts all of the VMs down and then reboots when the servers come back up they display the message window indicating the system was not shut down properly.  Any ideas on preventing this from happening?</div>]]></content:encoded>
+      <dc:creator>it4business</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">What can I expect on a CEPH Datastore?<br />
+- 5 DELL R740 Nodes<br />
+- 60pcs 1,92 TB SAS SSD mixed-use<br />
+- Dual 100Gbps Link exclusive for CEPH</div>]]></content:encoded>
       <slash:comments>3</slash:comments>
     </item>
     <item>
-      <title>Verify Error, "error reading a body from connection" could this be made retriable?</title>
-      <pubDate>Thu, 06 Aug 2026 13:38:53 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/verify-error-error-reading-a-body-from-connection-could-this-be-made-retriable.185559/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185559</guid>
-      <author>invalid@example.com (Mike_Scholes)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>Mike_Scholes</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Aug 05 02:32:58 pbs proxmox-backup-proxy[2125]: can&#039;t verify chunk, load failed - error reading a body from connection<br />
+      <title>Failed hard drive = chaos!</title>
+      <pubDate>Thu, 06 Aug 2026 21:35:16 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/failed-hard-drive-chaos.185546/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185546</guid>
+      <author>invalid@example.com (alex591)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>alex591</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I’m currently running a single server, with 3 ZFS pools:<br />
+- rpool, mirrored, containing the OS.<br />
+- pool0, striped, containing (I thought*), only a PBS datastore.<br />
+- pool1, mirrored, containing the VMs.<br />
 <br />
-Pretty sure this is a network glitch as it&#039;s a 7.9TB VM and takes around 44 hours to verify. Seems like something to add as a retriable ?<br />
+A drive in pool0 failed a couple of days ago. I was away at the time, and the first I knew of it was that VMs started behaving strangely - SMB server clearly still running but refusing connections, CCTV not showing certain cameras, etc.<br />
 <br />
-Backup Server 4.2.3</div>]]></content:encoded>
+I managed to log on via SSH, and with no time to...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/failed-hard-drive-chaos.185546/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>PVE installed on top of an SDN VXLAN zone: terminal/Web UI stalls and "failed to set mtu to 1500"</title>
+      <pubDate>Thu, 06 Aug 2026 21:24:36 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-installed-on-top-of-an-sdn-vxlan-zone-terminal-web-ui-stalls-and-failed-to-set-mtu-to-1500.185551/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185551</guid>
+      <author>invalid@example.com (Fearless-Grape5584)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>Fearless-Grape5584</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Posting this because I could not find the same case anywhere on the forum or via search, and the symptoms are easy to misread as something else.<br />
+<br />
+<b>TL;DR</b> — If you run a PVE instance whose uplink sits on a network with an MTU below 1500 (an SDN VXLAN vnet gives you 1450), you have to set the MTU manually on <i>both</i> the NIC and the bridge. Setting it on only one of them fixes only half of the symptoms.<br />
+<br />
+<hr /><br />
+<span style="font-size: 15px"><b>Setup</b></span><br />
+<br />
+<ul>
+<li data-xf-list-type="ul">Host: PVE 9.2.6, SDN VXLAN zone, vnet MTU 1450...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/pve-installed-on-top-of-an-sdn-vxlan-zone-terminal-web-ui-stalls-and-failed-to-set-mtu-to-1500.185551/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
     </item>
     <item>
       <title>VPS crashing</title>
-      <pubDate>Thu, 06 Aug 2026 13:06:25 +0000</pubDate>
+      <pubDate>Thu, 06 Aug 2026 21:23:11 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/vps-crashing.185560/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185560</guid>
       <author>invalid@example.com (paradox55)</author>
@@ -87,226 +212,99 @@ I checked dmesg on the OP5+ and there are no errors listed.<br />
 How would I go...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/vps-crashing.185560/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
+      <slash:comments>8</slash:comments>
     </item>
     <item>
-      <title>Proxmox VE 9.2.6 - NFS storage is reported as inactive although the mount is accessible</title>
-      <pubDate>Thu, 06 Aug 2026 12:54:35 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-6-nfs-storage-is-reported-as-inactive-although-the-mount-is-accessible.185565/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185565</guid>
-      <author>invalid@example.com (Klitschko)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Klitschko</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><div style="text-align: center"><div class="bbTable">
-<table style='width: 100%'><tr><td style='width: 653px'><b>Summary</b><br />
-Proxmox reports an NFS storage as inactive even though the export is mounted and accessible from the host. The behaviour was observed with both NFSv4.x and NFSv3. NFSv4.x showed a GETATTR hang during investigation, while NFSv3 avoids that hang, but Proxmox still marks the storage as inactive.</td></tr></table>
-</div></div><br />
-<br />
-<h3 class="bbHeading"><a class="u-anchorTarget" name="-environment"></a>Environment&#8203;<a class="hoverLink" href="#-environment" title="Permanent link"></a></h3><div style="text-align: center"><div class="bbTable">
-<table style='width: 100%'><tr><td style='width: 149px'><b>Proxmox</b></td><td style='width: 504px'>Proxmox VE 9.2.6; Linux kernel 6.17.13-7-pve; host IP &lt;management-IP&gt;</td></tr><tr><td></td><td></td></tr></table>
-...</div></div><br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-6-nfs-storage-is-reported-as-inactive-although-the-mount-is-accessible.185565/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>after upgrade to PVE9 one Node stuck on Loading initial ramdisk</title>
-      <pubDate>Thu, 06 Aug 2026 12:52:59 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/after-upgrade-to-pve9-one-node-stuck-on-loading-initial-ramdisk.185532/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185532</guid>
-      <author>invalid@example.com (udo)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>udo</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-this mornig I&#039;ve upgrade 3 Nodes of an Cluster to proxmox-ve: 9.2.0 (running kernel: 7.0.14-8-pve).<br />
-On a Dell R6615 with Boss-Card (NVMe Raid-1) proxmox stuck at Loading initial ramdisk - even with the 7.0.14-8 kernel also with 6.8.12-39.<br />
-The Server had installed the actual BIOS during the upgrade process.<br />
-<br />
-Rescue Boot with the pve 9.2 iso work fortunately.<br />
-<br />
-I&#039;ve tried :<br />
-update-grub<br />
-proxmox-boot-tool refresh (No /etc/kernel/proxmox-boot-uuids found, skipping ESP sync.)<br />
-grub-install...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/after-upgrade-to-pve9-one-node-stuck-on-loading-initial-ramdisk.185532/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>10</slash:comments>
-    </item>
-    <item>
-      <title>Optimizing Windows VM performance on older hardware - settings advice needed</title>
-      <pubDate>Thu, 06 Aug 2026 12:44:05 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/optimizing-windows-vm-performance-on-older-hardware-settings-advice-needed.185499/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185499</guid>
-      <author>invalid@example.com (verishare)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>verishare</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
-<br />
-I&#039;m looking for advice on the best Proxmox settings to get a Windows VM running smoothly on my setup.<br />
-<br />
-<b>Host specs:</b><br />
-<ul>
-<li data-xf-list-type="ul">CPU: Intel Core i5-3570 @ 3.40GHz (4 cores, 1 socket)</li>
-<li data-xf-list-type="ul">RAM: 32GB</li>
-<li data-xf-list-type="ul">Storage: SSD + HDD</li>
-<li data-xf-list-type="ul">GPU: AMD Radeon HD 7470/8470 (Caicos XT)</li>
-</ul><b>My Current VM configuration:</b><br />
-<ul>
-<li data-xf-list-type="ul">Memory: 8.00 GiB</li>
-<li data-xf-list-type="ul">Processors: 2 (1 socket, 2 cores) [x86-64-v2-AES]</li>
-<li data-xf-list-type="ul">BIOS: OVMF (UEFI)</li>
-<li data-xf-list-type="ul">Display: VirtIO-GPU (virtio)</li>
-<li data-xf-list-type="ul">Machine: pc-q35-11.0+pve2</li>
-<li data-xf-list-type="ul">SCSI Controller...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/optimizing-windows-vm-performance-on-older-hardware-settings-advice-needed.185499/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>15</slash:comments>
-    </item>
-    <item>
-      <title>Nested PVE (on PVE host) Kernel panic Host injected async #PF in kernel mode</title>
-      <pubDate>Thu, 06 Aug 2026 12:33:48 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/nested-pve-on-pve-host-kernel-panic-host-injected-async-pf-in-kernel-mode.165902/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:165902</guid>
-      <author>invalid@example.com (Darkangeel_hd)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Darkangeel_hd</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello<br />
-I&#039;ve been trying run a nested proxmox instance on my already running proxmox installation.<br />
-<br />
-Installation went as normal and everything seem right.<br />
-But the VM of the nested proxmox will, always eventually kernel panic.<br />
-<br />
-This are some of the panics it gave me over the course of trying to figure out what&#039;s going on:<br />
-
-
-<div class="bbCodeSpoiler">
-	<button type="button" class="button bbCodeSpoiler-button button--longText" data-xf-click="toggle" data-xf-init="tooltip" title="Click to reveal or hide spoiler"><span class="button-text">
-
-		<span>Spoiler: <span class="bbCodeSpoiler-button-title">Kernel panic logs</span></span>
-	</span></button>
-	<div class="bbCodeSpoiler-content">
-		<div class="bbCodeBlock bbCodeBlock--spoiler">
-			<div class="bbCodeBlock-content">
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>[10037.609096] Kernel panic - not syncing: Host injected async #PF in kernel mode
-[10037.611446] CPU: 1 PID: 27733 Comm: pvescheduler Tainted: P           O...</code></pre>
-	</div>
-</div></div>
-		</div>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/nested-pve-on-pve-host-kernel-panic-host-injected-async-pf-in-kernel-mode.165902/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>47</slash:comments>
-    </item>
-    <item>
-      <title>Windows Server 2016 (1607) migration with StarWinds V2V (9.0.1.848) | Can not obtain the version of proxmox host</title>
-      <pubDate>Thu, 06 Aug 2026 12:32:34 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/windows-server-2016-1607-migration-with-starwinds-v2v-9-0-1-848-can-not-obtain-the-version-of-proxmox-host.185563/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185563</guid>
-      <author>invalid@example.com (S.H.)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>S.H.</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hey, weird behavior. Currently running <code class="bbCodeInline">pve-manager/9.2.2/b9984c6d90a4bd80 (running kernel: 7.0.2-6-pve)</code> and maybe I need to update to a newer PVE version but before I will do that I play a little longer and maybe I can figure it out by myself. If that&#039;s the case I will post the solution here.<br />
-<br />
-I successfully migrated two windows server 2019 beforehand without issues around two months ago. I don&#039;t know anymore if that was before we updated our cluster or not. Anyway, it&#039;s particular for...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/windows-server-2016-1607-migration-with-starwinds-v2v-9-0-1-848-can-not-obtain-the-version-of-proxmox-host.185563/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>ARM64 CT templates</title>
-      <pubDate>Thu, 06 Aug 2026 12:30:22 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/arm64-ct-templates.185562/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185562</guid>
-      <author>invalid@example.com (paradox55)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>paradox55</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Please add more CT templates for Arm64.<br />
-<br />
-Currently only alpine-3.24-default_20260803_arm64.tar.xz is available. It works, but it&#039;s not what I&#039;m familiar with.</div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Dell R760 High I/O Pressure with NFS, but No Measurable VM Impact</title>
-      <pubDate>Thu, 06 Aug 2026 12:29:19 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/dell-r760-high-i-o-pressure-with-nfs-but-no-measurable-vm-impact.185518/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185518</guid>
-      <author>invalid@example.com (orkiniec)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>orkiniec</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I am seeing sustained I/O Pressure and I/O Delay on one Proxmox node only when its VM disks are stored on NFS. <br />
-These are standalone nodes and are not in a cluster.<br />
-Node 1: Proxmox VE 9.2.2, kernel 7.0.2-6-pve, Dell PowerEdge R760, dual Xeon Gold 6426Y, 512 GB RAM, Intel E810 25 Gb NIC, 4 VMs.<br />
-Node 2: Proxmox VE 9.2.2, kernel 7.0.2-6-pve, Fujitsu RX2540, dual Xeon Silver 4410, 256 GB RAM, Intel X722 10 Gb NIC, 13 VMs.<br />
-Storage: Both nodes use the same TrueNAS H20 Enterprise NVMe storage, the...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/dell-r760-high-i-o-pressure-with-nfs-but-no-measurable-vm-impact.185518/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>12</slash:comments>
-    </item>
-    <item>
-      <title>Mehrere Datastores auf EIN Tape sichern</title>
-      <pubDate>Thu, 06 Aug 2026 12:24:57 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/mehrere-datastores-auf-ein-tape-sichern.185529/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185529</guid>
-      <author>invalid@example.com (high_performer)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
-      <dc:creator>high_performer</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo, liebe Tape Gemeinde,<br />
-<br />
-es geht um Tape-Backup Jobs.<br />
-Habe keine Tape-Library, nur ein LTO8 Laufwerk.<br />
-<br />
-Nun stelle ich mir vor, ganau an dieser Stelle (&quot;Local Datastore&quot;) mehrere Datastores auswählen zu können.<br />
-<br />
-Dann sichern, tape auswerfen, wenn fertig. Funktioniert ja auch - aber halt nur mit EINEM Datastore <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f633.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":oops:" title="Oops!    :oops:"  data-smilie="10"data-shortname=":oops:" /><br />
-<br />
-<a href="https://forum.proxmox.com/attachments/1785924034829-png.99297/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98993-9b4a91adc8b247d14da325a2611024df.jpg?hash=eJHvSRWwdu"
-		srcset="https://forum.proxmox.com/data/attachments/98/2x/98993-9b4a91adc8b247d14da325a2611024df.jpg?hash=eJHvSRWwdu 2x"
+      <title>PBS 4.2 boot install error in VM hyper-v lab</title>
+      <pubDate>Thu, 06 Aug 2026 20:40:42 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pbs-4-2-boot-install-error-in-vm-hyper-v-lab.185575/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185575</guid>
+      <author>invalid@example.com (Presales-CMS)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>Presales-CMS</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I want to install PBS 4.2 in a VM in hyper-v fron windows 11 as lab.<br />
+I use the installer proxmox-backup-server_4.2-1.iso and I have this error:<br />
+<a href="https://forum.proxmox.com/attachments/1786048667187-png.99329/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99025-57c38fba9d2147a72f212ef07efd9e41.jpg?hash=fNZAJ37ws6"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99025-57c38fba9d2147a72f212ef07efd9e41.jpg?hash=fNZAJ37ws6 2x"
 		class="bbImage "
 		style=""
-		alt="1785924034829.png"
-		title="1785924034829.png"
-		width="254" height="150" loading="lazy" /></a><br />
+		alt="1786048667187.png"
+		title="1786048667187.png"
+		width="570" height="150" loading="lazy" /></a><br />
+ <br />
+I modified the line &quot;nomodeset&quot;, but i have the same error.<br />
 <br />
-Andere probate Lösungen sind natürlich herzlich willkommen!<br />
-<br />
-Ich habe es schon mit 2 Tape-Backup Jobs versucht - einer startet um 05:00 ein zweiter um 05:05...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/mehrere-datastores-auf-ein-tape-sichern.185529/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
+Saludos,<br />
+Rafael</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
     </item>
     <item>
-      <title>IPv6 on ISCSI and Proxmox 8</title>
-      <pubDate>Thu, 06 Aug 2026 12:07:51 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ipv6-on-iscsi-and-proxmox-8.154879/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:154879</guid>
-      <author>invalid@example.com (khaled.j.hussein)</author>
+      <title>A sudden error in the cluster, 2 reasons and 2nd one me being an idiot :-)</title>
+      <pubDate>Thu, 06 Aug 2026 20:29:47 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/a-sudden-error-in-the-cluster-2-reasons-and-2nd-one-me-being-an-idiot.185461/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185461</guid>
+      <author>invalid@example.com (Arctica67)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>khaled.j.hussein</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I installed new proxmox node running pve8, and I have cluster of 5 nodes of pve7. I configured ISCSI and multipath to connect to my DELL MD 3820 <br />
-I joined pve8 node to the cluster, it added and it show all disks on cluster normally<br />
+      <dc:creator>Arctica67</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am maybe not a beginner with Proxmox, been running a cluster of 3 Lenovo ThinkCentre M70q at home for soon a year now, but the thing is, it&#039;s been runnig flawlessly since I did set it up, so I have no experience in troubleshooting when the shit hits the fan. Which it did today...<br />
+Around noon I received an alert email:<br />
 <br />
-but I see in the journal logs these erroras, I tried to disable IPv6 from interfaces  using this <br />
-    post-up echo 1 &gt; /proc/sys/net/ipv6/conf/eth0/disable_ipv6<br />
+
+
+
+
+<blockquote data-attributes="" data-quote="" data-source=""
+	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
+	
+	<div class="bbCodeBlock-content">
+		
+		<div class="bbCodeBlock-expandContent js-expandContent ">
+			The node &#039;proxmox2&#039; in cluster &#039;cluster&#039; failed and needs manual intervention.<br />
 <br />
-but it did not work <br />
+The PVE HA manager will now fence &#039;proxmox2&#039;.<br />
 <br />
-Sep 24 09:48:46 pmx10.bisan.com iscsid[221847]: connection-1:0 cannot make a...<br />
+<b>Status:</b> Try to fence node &#039;proxmox2&#039;...
+		</div>
+		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
+	</div>
+</blockquote><br />
+<a href="https://forum.proxmox.com/threads/a-sudden-error-in-the-cluster-2-reasons-and-2nd-one-me-being-an-idiot.185461/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>20</slash:comments>
+    </item>
+    <item>
+      <title>Webzugang funktioniert nicht</title>
+      <pubDate>Thu, 06 Aug 2026 20:20:42 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/webzugang-funktioniert-nicht.185534/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185534</guid>
+      <author>invalid@example.com (puba)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>puba</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
+seit einigen Tagen funktioniert mein Web-Zungang nicht mehr, d.h. es wird kein Bild aufgebaut.<br />
+Der ssh-Zugang ist möglich. (Proxmox-Version 8.4.17)<br />
+kann mir jemand bei der Lösung helfen?<br />
+Gruß puba</div>]]></content:encoded>
+      <slash:comments>21</slash:comments>
+    </item>
+    <item>
+      <title>Can't find Proxmox GUI</title>
+      <pubDate>Thu, 06 Aug 2026 20:17:26 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/cant-find-proxmox-gui.185550/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185550</guid>
+      <author>invalid@example.com (PedanticDan)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>PedanticDan</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;ve been running Home Assistant for while in a Promo VM. I decided I wanted to add another VM, but I can&#039;t find the GUI. The Proxmox machine is on Debian 13, pve-manager  is 9.2, and teh machine is only listening on ports 22, 25, 85, 111, and 3128.<br />
 <br />
-<a href="https://forum.proxmox.com/threads/ipv6-on-iscsi-and-proxmox-8.154879/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
+Over the last couple days. I&#039;ve searched for information on how to enable/disable the GUI, but I have not found anything.<br />
+<br />
+Can someone point to docs, or troubleshottig info to figure why there is nothing listeing on port 8006?</div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
     </item>
     <item>
       <title>Meinung Disaster Recovery Konzept</title>
-      <pubDate>Thu, 06 Aug 2026 11:58:59 +0000</pubDate>
+      <pubDate>Thu, 06 Aug 2026 20:09:23 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/meinung-disaster-recovery-konzept.185537/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185537</guid>
       <author>invalid@example.com (rothkraut)</author>
@@ -325,107 +323,110 @@ Standort A und Standort B. Beide Cluster sind wie folgt aufgebaut: <br />
 Standort A beherbergt das produktive Cluster. Sollte dieses komplett ausfallen, sollen die VMs im Standort B wieder...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/meinung-disaster-recovery-konzept.185537/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>13</slash:comments>
+      <slash:comments>17</slash:comments>
     </item>
     <item>
-      <title>Off Topic - Community Stand bei der Kielux</title>
-      <pubDate>Thu, 06 Aug 2026 11:53:10 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/off-topic-community-stand-bei-der-kielux.165900/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:165900</guid>
-      <author>invalid@example.com (Falk R.)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>Falk R.</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo Zusammen,<br />
+      <title>Backup Plan funktioniert nicht</title>
+      <pubDate>Thu, 06 Aug 2026 20:06:40 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/backup-plan-funktioniert-nicht.185539/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185539</guid>
+      <author>invalid@example.com (umsmin)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
+      <dc:creator>umsmin</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Nach verschiedenen Anleitungen und auch mit dem Backup-Planer Tool komme ich nicht dort hin wo ich möchte (für Sinnvoll erachte). <br />
+Ich verwende den PBS als vm in meinem Cluster mit drei Nodes. Die Sicherung auf meine eingebundene Synology  funktioniert auch. <br />
+Folgende Backup-Pläne bin ich momentan am testen:<br />
 <br />
-ich möchte dieses Jahr auf der <a href="https://kielux.de/" target="_blank" class="link link--external" rel="nofollow ugc noopener">Kielux</a> (19.-20.09. in Kiel) einen Community Stand betreiben.<br />
-Da ich allein nicht alle Fragen beantworten kann und  auch mal Biopausen brauche, hätte ich gern Unterstützung dabei.<br />
-Wer hat denn Lust an den beiden Tagen in Kiel vor Ort &quot;Forumsarbeit&quot; in Real Life zu betreiben und Fragen direkt zu beantworten?<br />
+<a href="https://forum.proxmox.com/attachments/pbs-1-png.99303/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98999-7db29d79af1e4d2b817fb01b697182b2.jpg?hash=oepIwkJFk2"
+		srcset="https://forum.proxmox.com/data/attachments/98/2x/98999-7db29d79af1e4d2b817fb01b697182b2.jpg?hash=oepIwkJFk2 2x"
+		class="bbImage "
+		style=""
+		alt="pbs-1.PNG"
+		title="pbs-1.PNG"
+		width="641" height="150" loading="lazy" /></a><br />
 <br />
-Den Stand organisiere ich und Werbematerial wie Sticker &amp; Co. bekomme ich auch.<br />
+Die 223 ist die vm worin PBS läuft. Nach meinem Verständnis sollten nachstehende Regeln greifen :<br />
 <br />
-Gern auch per PM anschreiben.<br />
+1. Täglich 05:00 Uhr wird 8 Tage lang gesichert. Am neunten Tag wird der...<br />
 <br />
-Viele Grüße, Falk</div>]]></content:encoded>
+<a href="https://forum.proxmox.com/threads/backup-plan-funktioniert-nicht.185539/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>What Replaces SRM and vSphere Replication on Proxmox?</title>
+      <pubDate>Thu, 06 Aug 2026 19:44:11 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/what-replaces-srm-and-vsphere-replication-on-proxmox.185521/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185521</guid>
+      <author>invalid@example.com (bbgeek17)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>bbgeek17</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Everyone,<br />
+<br />
+Disaster recovery keeps coming up with folks moving off VMware, usually as some version of &quot;what replaces SRM?&quot; We&#039;ve answered pieces of this in threads for years, so we finally sat down and wrote the whole thing up properly.<br />
+<br />
+Mapping VMware DR Features to Proxmox VE: SRM, vSphere Replication, and Site Recovery <a href="https://kb.blockbridge.com/technote/proxmox-vmware-disaster-recovery/" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://kb.blockbridge.com/technote/proxmox-vmware-disaster-recovery/</a><br />
+<br />
+The technote maps each VMware DR feature to its nearest native PVE equivalent: pvesr and...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/what-replaces-srm-and-vsphere-replication-on-proxmox.185521/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
+    </item>
+    <item>
+      <title>Ideale Server-Konfig für externen Speicher</title>
+      <pubDate>Thu, 06 Aug 2026 19:16:04 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ideale-server-konfig-f%C3%BCr-externen-speicher.185115/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185115</guid>
+      <author>invalid@example.com (S3v|\|)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
+      <dc:creator>S3v|\|</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen<br />
+<br />
+meine aktuelle Proxmox Backup Server (PBS) Konfig ist wie folgt:<br />
+Auf meinem Proxmox Virtual Environment (PVE) läuft eine PBS-VM. Diese sichert täglich über SMB auf eine QNAP-NAS mit Festplatten.<br />
+Diese Konfig läuft so weit recht OK - nur bei Verify, Prune und Garbage Collect stößt sie an die Grenzen.<br />
+Die zur Verfügung gestellte (virtuelle) Hardeware wird nie voll ausgenutzt. (16 GB RAM, 4 Kerne)<br />
+Dass diese Konfig nicht ideal ist, ist mir inzwischen auch bewusst geworden.<br />
+Daher...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/ideale-server-konfig-f%C3%BCr-externen-speicher.185115/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>57</slash:comments>
+    </item>
+    <item>
+      <title>Are there mitigations available for CVE-2026-64561 'Zapscape'</title>
+      <pubDate>Thu, 06 Aug 2026 19:07:34 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/are-there-mitigations-available-for-cve-2026-64561-zapscape.185574/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185574</guid>
+      <author>invalid@example.com (synvara)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>synvara</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello.<br />
+<br />
+There is again a exploit called &quot;Zapscape&quot;<br />
+<br />
+Is Proxmox aware of this explot, and perhaps are aware of any possible mitigations?<br />
+<br />
+<a href="https://github.com/V4bel/Zapscape" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://github.com/V4bel/Zapscape</a></div>]]></content:encoded>
       <slash:comments>3</slash:comments>
     </item>
     <item>
-      <title>Unable to get PID for CT on stop</title>
-      <pubDate>Thu, 06 Aug 2026 11:35:59 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/unable-to-get-pid-for-ct-on-stop.56785/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:56785</guid>
-      <author>invalid@example.com (bootsie123)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>bootsie123</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi. I&#039;m running into an issue where when I try to stop a container. In my syslog I get this error:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Aug 07 18:27:40 vmworld pvestatd[4024]: unable to get PID for CT 122 (not running?)
-Aug 07 18:27:41 vmworld pvestatd[4024]: unable to get PID for CT 122 (not running?)
-Aug 07 18:27:50 vmworld pvestatd[4024]: unable to get PID for CT 122 (not running?)
-Aug 07 18:27:50 vmworld pvestatd[4024]: unable to get PID for CT 122 (not running?)
-Aug 07 18:27:53 vmworld pvedaemon[4053]: unable to get PID for CT 122...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/unable-to-get-pid-for-ct-on-stop.56785/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>11</slash:comments>
-    </item>
-    <item>
-      <title>Severe Upgrade Issues</title>
-      <pubDate>Thu, 06 Aug 2026 11:02:40 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/severe-upgrade-issues.185548/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185548</guid>
-      <author>invalid@example.com (pma66271)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>pma66271</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi all,<br />
-<br />
-I tried to upgrade from 7.0.6-2-pve to 7.0.14-8-pve.<br />
-<br />
-During that upgrade I faced the error messages below:<br />
-<b>Failed to copy data from &quot;/usr/lib/systemd/boot/efi/systemd-bootx64.efi&quot; to &quot;/var/tmp/espmounts/B791-118F/EFI/systemd/.#systemd-bootx64.efi01029a360a392119&quot;: No space left on device<br />
-Failed to copy data from &quot;/usr/lib/systemd/boot/efi/systemd-bootx64.efi&quot; to &quot;/var/tmp/espmounts/B791-118F/EFI/BOOT/.#BOOTX64.EFI5247c37d17910daa&quot;: No space left on device</b><br />
-<br />
-After reboot the...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/severe-upgrade-issues.185548/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>Wasserdichtes System für kleine Multi Teant Anwendung</title>
-      <pubDate>Thu, 06 Aug 2026 10:49:34 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/wasserdichtes-system-f%C3%BCr-kleine-multi-teant-anwendung.185556/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185556</guid>
-      <author>invalid@example.com (MarroniJohny)</author>
+      <title>Grundsatz für Shared Storage</title>
+      <pubDate>Thu, 06 Aug 2026 18:55:06 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/grundsatz-f%C3%BCr-shared-storage.185325/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185325</guid>
+      <author>invalid@example.com (AlexanderB)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>MarroniJohny</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hoi<br />
+      <dc:creator>AlexanderB</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo liebe Community,<br />
 <br />
-Im Moment wurstle ich im non-commerce Bereicht mit zwei ESXi rum. Die Server haben je einen durchgereichten HBA an napp-it (Solarish), da liegen die VMs und &quot;Backups&quot; drauf. Dazu 10 Gbit Anbindung, zwei 10 Gbit Firewalls mit je drei X540, 5 Switches, sowas. Grosssteil Uralthardware, die Firewalls sind Haswell, die ESXi Broadwell-E mit 256 GB Ram und 22 Core CPU, Backupserver Broadwell-E mit 128 GB und 16 Core CPU. Alles DC Hardware, inkl. dem Storage. Habe auch die meisten Teile auf...<br />
+ich würde gern meine gesamten Daten aus der Cloud nach Hause holen.<br />
+Um das ganze grundsätzlich richtig aufzusetzen, habe ich noch eine Frage.<br />
+Ich möchte gern meine Daten irgendwie zentral verfügbar haben, sodass Dienste, wie Immich, Joplin, Nextcloud, etc. darauf zugreifen können.<br />
+Also meine Daten sollen nicht gekapselt in einer VM liegen, sodass nur der eine Dienst damit arbeiten kann.<br />
+Wie tut man diesen, ich nenn ihn mal &quot;shared storage&quot; in Proxmox aufsetzen? Auch...<br />
 <br />
-<a href="https://forum.proxmox.com/threads/wasserdichtes-system-f%C3%BCr-kleine-multi-teant-anwendung.185556/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>CRS Load Balancer - tech preview or not?</title>
-      <pubDate>Thu, 06 Aug 2026 10:48:48 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/crs-load-balancer-tech-preview-or-not.184079/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:184079</guid>
-      <author>invalid@example.com (limone)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>limone</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi, just a quick question. The <a href="https://pve.proxmox.com/wiki/High_Availability#ha_manager_crs" target="_blank" class="link link--external" rel="nofollow ugc noopener">documentation</a> says that this feature is still in technology preview, but that note only appears there—not in the <a href="https://www.proxmox.com/en/about/company-details/press-releases/proxmox-virtual-environment-9-2" target="_blank" class="link link--external" rel="nofollow ugc noopener">press release</a>, not in the <a href="https://pve.proxmox.com/wiki/Roadmap#Proxmox_VE_9.2" target="_blank" class="link link--external" rel="nofollow ugc noopener">roadmap</a>, and not in the configuration menu itself, as is the case with “Snapshots as Volume-Chain,” for example.<br />
-<br />
-Is this a mistake in the documentation, or is it really a tech preview?</div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
+<a href="https://forum.proxmox.com/threads/grundsatz-f%C3%BCr-shared-storage.185325/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>44</slash:comments>
     </item>
   </channel>
 </rss>

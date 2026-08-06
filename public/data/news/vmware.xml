@@ -12,14 +12,376 @@
 	<atom:link href="https://blogs.vmware.com/feed" rel="self" type="application/rss+xml" />
 	<link>https://blogs.vmware.com/</link>
 	<description>VMware Blogs</description>
-	<lastBuildDate>Thu, 06 Aug 2026 13:17:39 +0000</lastBuildDate>
+	<lastBuildDate>Thu, 06 Aug 2026 17:03:24 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
 	<sy:updateFrequency>
 	1	</sy:updateFrequency>
-	<generator>https://wordpress.org/?v=6.8.6</generator>
+	<generator>https://wordpress.org/?v=6.8.7</generator>
 <site xmlns="com-wordpress:feed-additions:1">237817777</site>	<item>
+		<title>Securing your VMware Cloud Foundation 9.1 Environment</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/08/06/securing-your-vmware-cloud-foundation-9-1-environment/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Thu, 06 Aug 2026 15:05:37 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10094669</guid>
+
+					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/08/illu-sec-lock-protection-whtbg.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>Congratulations, you have just upgraded your infrastructure to VMware Cloud Foundation (VCF) 9.1, taking advantage of its latest capabilities and source code hardening. But your security journey does not stop there; this is just the beginning. With VCF 9.1, Broadcom leverages frontier AI models to uncover vulnerabilities and conduct rigorous source code review, delivering its &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/08/06/securing-your-vmware-cloud-foundation-9-1-environment/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/06/securing-your-vmware-cloud-foundation-9-1-environment/">Securing your VMware Cloud Foundation 9.1 Environment</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/08/illu-sec-lock-protection-whtbg.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/08/illu-sec-lock-protection-whtbg.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/illu-sec-lock-protection-whtbg.jpg 5333w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/illu-sec-lock-protection-whtbg.jpg?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/illu-sec-lock-protection-whtbg.jpg?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/illu-sec-lock-protection-whtbg.jpg?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/illu-sec-lock-protection-whtbg.jpg?resize=1536,768 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/illu-sec-lock-protection-whtbg.jpg?resize=2048,1024 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/illu-sec-lock-protection-whtbg.jpg?resize=600,300 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+<p>Congratulations, you have just upgraded your infrastructure to VMware Cloud Foundation (VCF) 9.1, taking advantage of its latest capabilities and source code hardening. But your security journey does not stop there; this is just the beginning.</p>
+<p>With VCF 9.1, Broadcom leverages frontier AI models to uncover vulnerabilities and conduct rigorous source code review, delivering its most secure platform to date. But a successful deployment is just the starting point. Ongoing work to harden your environment and take advantage of the platform&#8217;s security capabilities remains essential to reducing your overall risk and safeguarding sensitive data and workloads against evolving threats.</p>
+<p>If you just finished your migration, or you&#8217;re planning it now, here are five steps you need to take to secure your VCF 9.1 environment.</p>
+<h2 class="wp-block-heading" id="h-1-harden-the-platform"><strong>1. Harden the Platform</strong></h2>
+<p>Hardening is the deliberate process of minimizing your attack surface by disabling unnecessary services, locking down management planes, and enforcing strict access controls. This is the most important step in this list and if you don&#8217;t know where to start, we have you covered:</p>
+<ul class="wp-block-list">
+<li><strong>VMware Security Configuration Guides (SCG):</strong> For commercial enterprises, the SCG is your baseline. The SCG outlines 260 controls, providing guidance on how to assess and implement these controls in your environment. The controls are aligned to NIST 800-53 R5, PCI DSS 4.0.1 and the Secure Controls Framework to help you with mapping applicable controls to your cybersecurity framework practices.
+<ul class="wp-block-list">
+<li>Click <a href="https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-configuration-hardening-guide/cloud-foundation/9.1" target="_blank" rel="noreferrer noopener">here</a> to learn more.</li>
+</ul>
+</li>
+<li><strong>STIG Readiness Guides:</strong> For federal agencies, defense contractors, and highly regulated industries, baseline security is not enough. You must align with the Defense Information Systems Agency (DISA) standards. The STIG Readiness Guides provide the validated configurations needed to ensure your VCF 9.1 environment meets these rigorous, audit-ready mandates.
+<ul class="wp-block-list">
+<li>Click <a href="https://github.com/vmware/dod-compliance-and-automation/tree/master/vcf/9.x" target="_blank" rel="noreferrer noopener">here</a> to learn more. </li>
+</ul>
+</li>
+</ul>
+<p>We always recommend that you test the implementation of hardened configurations in a lab or test environment prior to moving to production. Security is never a one-size-fits-all-approach. What works in one environment may cause disruptions in another, so it is important that you perform proper due diligence and testing of security related controls.&nbsp;</p>
+<h2 class="wp-block-heading" id="h-2-secure-identities"><strong>2. Secure Identities</strong></h2>
+<p>Compromised administrator credentials remain one of the main attack vectors used by bad actors to gain access to private cloud environments. Having strong role-based access controls following the concept of least privilege is the best way to protect your administrative credentials.&nbsp;</p>
+<ul class="wp-block-list">
+<li><strong>VCF Identity Broker (VIDB):</strong> VIDB acts as a centralized bridge for SSO integrations with external providers, mandating OAuth-based token validation for all programmatic interfaces. By separating the authentication logic from the VMware vCenter layer, it provides a more resilient and unified framework for identity governance across the platform.</li>
+</ul>
+<h2 class="wp-block-heading" id="h-3-reduce-the-attack-surface"><strong>3. Reduce the Attack Surface</strong></h2>
+<p>If an attacker compromises a virtual machine, what happens next? They perform reconnaissance, escalate privileges, and move laterally, potentially compromising your business critical data.</p>
+<p>VCF 9.1 is designed for Zero Trust, but it is not on by default; you have to configure and implement the appropriate processes behind it. By leveraging VMware vDefend, you can fortify your network boundaries and reduce the attack surface.</p>
+<ul class="wp-block-list">
+<li><strong>Microsegmentation:</strong> Distributed (east/west) and Gateway (north/south) firewalls are the mechanisms for implementing a Zero Trust network architecture in the environment and isolate business critical workloads.</li>
+<li><strong>Threat Inspection:</strong> Turn on distributed IDS/IPS to actively monitor lateral traffic, allowing the system to block traffic that exhibits malicious behavior.</li>
+</ul>
+<h2 class="wp-block-heading" id="h-4-streamline-patch-management"><strong>4. Streamline Patch Management</strong></h2>
+<p>Historically, security teams and IT operations were constantly at odds Security demanded immediate patching for critical Common Vulnerabilities and Exposures (CVEs) and operations delayed them because patching required host evacuations, massive vMotion events, and disruptive downtime.</p>
+<p>VCF 9.1 fundamentally breaks this tension, but your operational teams need to adopt the new workflows to benefit from it.</p>
+<ul class="wp-block-list">
+<li><strong>Centralized Lifecycle Management:</strong> Use VCF Operations to handle the lifecycle of the entire stack. This helps ensure that compute, network, and storage patches are applied in the correct, validated order, preventing compatibility breaks.</li>
+<li><strong>Zero-Downtime Live Patching:</strong> VCF 9.1 introduces TPM-enabled VMware ESX Live Patching. You can apply critical security updates to the hypervisor without migrating workloads, evacuating hosts, or entering maintenance mode.</li>
+</ul>
+<h2 class="wp-block-heading" id="h-5-manage-configuration-drift"><strong>5. Manage Configuration Drift</strong></h2>
+<p>You followed the SCG, segmented your network, and patched your hosts. You are secure on Day 1. But what about Day 201? How do you ensure your current state meets the target secure state? Configuration drift must be managed and addressed in a timely manner to maintain a robust security posture. In VCF 9.1 we have native capabilities to manage your configuration drift:</p>
+<ul class="wp-block-list">
+<li><strong>Native Security Posture Visibility:</strong> VMware Cloud Foundation Operations features a dedicated Security Operations (SecOps) dashboard, giving you single-pane-of-glass insight into the security configuration of your entire VCF environment.</li>
+<li><strong>VMware Advanced Cyber Compliance (ACC):</strong> Leverages VMware Salt to continuously monitor your VCF 9.1 stack against your chosen security baseline (SCG or PCI-DSS). If an ESX host drifts out of compliance, ACC detects it and can automatically remediate the configuration back to the desired state.</li>
+</ul>
+<h2 class="wp-block-heading" id="h-the-path-forward"><strong>The Path Forward</strong></h2>
+<p>Upgrading to VCF 9.1 delivers an incredibly robust, deeply hardened foundation right out of the gate—but optimal security is a journey, not a single milestone. Building a true Zero Trust private cloud requires moving past the default settings to actively enforce hardening baselines, strong access controls, improving patch operations, microsegmentation, and elimination of configuration drift.&nbsp;</p>
+<p>If you want to fast-track your security transformation, our <a href="https://www.vmware.com/resources/professional-services" target="_blank" rel="noreferrer noopener">VCF Professional Services</a> team is ready to jump in as an extension of your own.</p>
+<p>Whether you need a comprehensive security posture assessment, tailored architectural design, or hands-on help deploying automated compliance workflows, we bring the deep technical expertise to make it happen. Let’s bridge the gap between your current deployment and a highly secure, audit-ready future state.&nbsp;</p>
+<p>Reach out to your <a href="https://www.vmware.com/resources/professional-services#tam" target="_blank" rel="noreferrer noopener">VCF Technical Adoption Manager (TAM)</a> for more information, or talk to your Account Director about how you can engage the <a href="https://www.vmware.com/resources/professional-services" target="_blank" rel="noreferrer noopener">VCF Professional Services</a> team to ensure that your VCF environment is resilient and secure.</p>
+</p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/06/securing-your-vmware-cloud-foundation-9-1-environment/">Securing your VMware Cloud Foundation 9.1 Environment</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/06/securing-your-vmware-cloud-foundation-9-1-environment/">Securing your VMware Cloud Foundation 9.1 Environment</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10094669</post-id>	</item>
+		<item>
+		<title>Your Guide to VCF Sessions for Better Private Cloud Operations at VMware Explore 2026</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/08/06/your-guide-to-vcf-sessions-for-better-private-cloud-operations-at-vmware-explore-2026/</link>
+		
+		<dc:creator><![CDATA[sehjung hah]]></dc:creator>
+		<pubDate>Thu, 06 Aug 2026 15:00:00 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10094704</guid>
+
+					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/08/2376048-vmwx24-social-pro-yt-1200x600-1.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>VMware Explore 2026 is shaping up to be an exciting event, taking place in Las Vegas from August 31 to September 3. VMware Cloud Foundation (VCF) will be front and center, showcasing how it helps customers accelerate key IT priorities such as their AI strategy and infrastructure readiness. If modernizing your private cloud operations is &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/08/06/your-guide-to-vcf-sessions-for-better-private-cloud-operations-at-vmware-explore-2026/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/06/your-guide-to-vcf-sessions-for-better-private-cloud-operations-at-vmware-explore-2026/">Your Guide to VCF Sessions for Better Private Cloud Operations at VMware Explore 2026</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/08/2376048-vmwx24-social-pro-yt-1200x600-1.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/08/2376048-vmwx24-social-pro-yt-1200x600-1.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/2376048-vmwx24-social-pro-yt-1200x600-1.jpg 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/2376048-vmwx24-social-pro-yt-1200x600-1.jpg?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/2376048-vmwx24-social-pro-yt-1200x600-1.jpg?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/2376048-vmwx24-social-pro-yt-1200x600-1.jpg?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/2376048-vmwx24-social-pro-yt-1200x600-1.jpg?resize=600,300 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<p><a href="https://www.vmware.com/explore/us">VMware Explore 2026</a> is shaping up to be an exciting event, taking place in Las Vegas from August 31 to September 3. VMware Cloud Foundation (VCF) will be front and center, showcasing how it helps customers accelerate key IT priorities such as their AI strategy and infrastructure readiness.</p>
+<p>If modernizing your private cloud operations is on your roadmap, this blog will help you get the most out of VMware Explore 2026. Discover how VCF empowers you to build and optimize operations for your sovereign private cloud infrastructure.&nbsp;</p>
+<p>Here are the key sessions and activities you shouldn&#8217;t miss.</p>
+<h2 class="wp-block-heading has-vivid-cyan-blue-color has-text-color has-link-color wp-elements-1d571ece43aa08f817c9085af5faa538" id="h-sessions-on-private-cloud-operations">Sessions on private cloud operations</h2>
+<p>Be sure to register for these breakout sessions designed to deepen your understanding of operating VMware Cloud Foundation. The sessions feature real-world insights into how organizations are modernizing their infrastructure with VCF.&nbsp;</p>
+<p>For an overview, we recommend “<a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?search=CLOT1139LV&amp;search=CLOT1139LV"><strong>CLOT1139LV: What&#8217;s New in VMware Cloud Foundation Operations</strong></a>.” This session explores the latest operational capabilities in VCF 9.1, including simplified infrastructure management, stronger security, and better support for private cloud environments. Be sure to explore the additional sessions below.</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td><strong>Session ID</strong></td>
+<td><strong>Title</strong></td>
+<td><strong>Day and Time</strong></td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOB1488LV"><strong>CLOB1488LV</strong></a></td>
+<td>Seeing Through the Fog: Mastering Operations in Private Clouds</td>
+<td>Monday, Aug 31, 2026<br />09:00 am &#8211; 09:45 am PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOM1823LV"><strong>CLOM1823LV</strong></a></td>
+<td>Breaking Silos: Co-Designing the Future of Full-Stack Observability in VMware Cloud Foundation</td>
+<td>Monday, Aug 31, 2026<br />10:00 am &#8211; 10:30 am PDT</p>
+<p>Tuesday, Sep 1, 2026<br />09:00 am &#8211; 09:30 am PDT</p>
+<p>Wednesday, Sep 2, 2026<br />02:00 pm &#8211; 02:30 pm PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOB1257LV"><strong>CLOB1257LV</strong></a></td>
+<td>Choosing the Right Path to VMware Cloud Foundation 9: Upgrade, Converge, Import, or Rebuild</td>
+<td>Monday, Aug 31, 2026<br />10:15 am &#8211; 11:00 am PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOB1805LVS"><strong>CLOB1805LVS</strong></a></td>
+<td>Fleet Commander: Full-Stack VMware Cloud Foundation Operations and Modernization</td>
+<td>Monday, Aug 31, 2026<br />11:30 am &#8211; 12:15 pm PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?search=CLOB1118LV"><strong>CLOB1118LV</strong></a></td>
+<td>From Firefighting to Foresight: Mastering VMware Cloud Foundation Health and Diagnostics</td>
+<td>Monday, Aug 31, 2026<br />12:45 pm &#8211; 01:30 pm PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?search=CLOT1139LV"><strong>CLOT1139LV</strong></a></td>
+<td>What&#8217;s New in VMware Cloud Foundation Operations</td>
+<td>Monday, Aug 31, 2026<br />02:00 pm &#8211; 03:30 pm PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOM1532LV"><strong>CLOM1532LV</strong></a></td>
+<td>VCF Operations &#8211; Cost Management and FinOps</td>
+<td>Tuesday, Sep 1, 2026<br />09:00 am &#8211; 09:30 am PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOB1276LV"><strong>CLOB1276LV</strong></a></td>
+<td>VMware Cloud Foundation 9.1: Most Cost-Effective, Secure Platform for Production AI</td>
+<td>Tuesday, Sep 1, 2026<br />10:15 am &#8211; 11:00 am PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOM1537LV"><strong>CLOM1537LV</strong></a></td>
+<td>VMware Cloud Foundation Operations &#8211; Diagnostics and Health</td>
+<td>Tuesday, Sep 1, 2026<br />10:30 am &#8211; 11:00 am PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CODEQT1201LV"><strong>CODEQT1201LV</strong></a></td>
+<td>Advanced Management Pack Strategies for VMware Cloud Foundation Operations</td>
+<td>Tuesday, Sep 1, 2026<br />11:30 am &#8211; 11:50 am PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOB1188LV"><strong>CLOB1188LV</strong></a></td>
+<td>Easing Regulatory Compliance with Operational Guidance</td>
+<td>Tuesday, Sep 1, 2026<br />12:45 pm &#8211; 01:30 pm PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOB1763LV"><strong>CLOB1763LV</strong></a></td>
+<td>A Complete Guide to Protecting and Recovering Your VMware Cloud Foundation Deployments</td>
+<td>Tuesday, Sep 1, 2026 <br />04:30 pm &#8211; 05:15 pm PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOB1224LV"><strong>CLOB1224LV</strong></a></td>
+<td>Full-Stack Troubleshooting with VMware Cloud Foundation Operations</td>
+<td>Wednesday, Sep 2, 2026<br />09:00 am &#8211; 09:45 am PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOM1530LV"><strong>CLOM1530LV</strong></a></td>
+<td>VMware Cloud Foundation Operations &#8211; Best Practices to Capacity Management</td>
+<td>Wednesday, Sep 2, 2026 <br />10:30 am &#8211; 11:00 am PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOM1534LV"><strong>CLOM1534LV</strong></a></td>
+<td>VMware Cloud Foundation Operations &#8211; Observability, Troubleshooting, Performance</td>
+<td>Wednesday, Sep 2, 2026 <br />11:00 am &#8211; 11:30 am PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CODEQT1326LV"><strong>CODEQT1326LV</strong></a></td>
+<td>AI-Powered VMware Cloud Foundation: How I Cut a 4-Hour Task Down to 4 Minutes</td>
+<td>Wednesday, Sep 2, 2026<br />11:30 am &#8211; 11:50 am PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOB1145LV"><strong>CLOB1145LV</strong></a></td>
+<td>Design &amp; Architecture: Managing and Operating a Private Cloud</td>
+<td>Wednesday, Sep 2, 2026<br />11:30 am &#8211; 12:15 pm PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOB1200LV"><strong>CLOB1200LV</strong></a></td>
+<td>VMware Cloud Foundation Operations for Networks: Helping Prove VCF Network Innocence</td>
+<td>Wednesday, Sep 2, 2026 <br />11:30 am &#8211; 12:15 pm PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOM1538LV"><strong>CLOM1538LV</strong></a></td>
+<td>VMware Cloud Foundation Operations &#8211; Fleet Management</td>
+<td>Wednesday, Sep 2, 2026 <br />12:30 pm &#8211; 01:00 pm PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOB1168LV"><strong>CLOB1168LV</strong></a></td>
+<td>From Tokens to Traces: AI Observability in VMware Cloud Foundation Operations</td>
+<td>Wednesday, Sep 2, 2026 <br />12:45 pm &#8211; 01:30 pm PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOT1184LV"><strong>CLOT1184LV</strong></a></td>
+<td>Hardening and Securing VMware Cloud Foundation</td>
+<td>Wednesday, Sep 2, 2026 <br />12:45 pm &#8211; 02:15 pm PDT</td>
+</tr>
+<tr>
+<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOT1238LV"><strong>CLOT1238LV</strong></a></td>
+<td>Effectively Managing Your Private Cloud at Scale with VMware Cloud Foundation Operations Fleet Management</td>
+<td>Wednesday, Sep 2, 2026<br />03:15 pm &#8211; 04:45 pm PDT</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<h2 class="wp-block-heading has-vivid-cyan-blue-color has-text-color has-link-color wp-elements-f76d5b1a8540f8522203c93aab29689c" id="h-hands-on-labs">Hands-on Labs</h2>
+<p>Experience the new capabilities in action. The <a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?search=&amp;tab.sessioncatalogtabs=1747347809815001igUo&amp;search.sessiontype=1652970791111003XvhN">Hands-on Labs</a> are available with a presenter helping you walk through the capabilities (expert-led) or at your own pace (self-paced) at the Hub.&nbsp;</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td><strong>Session ID</strong></td>
+<td><strong>Title</strong></td>
+<td><strong>Day and Time</strong></td>
+</tr>
+<tr>
+<td><strong>ELW-HOL-2711-01-VCF-L</strong></td>
+<td>VMware Cloud Foundation Operations 9.1: What&#8217;s New</td>
+<td>Monday, Aug 31, 2026<br />09:30 am &#8211; 11:00 am PDT</td>
+</tr>
+<tr>
+<td><strong>ELW-HOL-2711-02-VCF-L</strong></td>
+<td>Go from Zero to Hero with VCF Operations 9.1</td>
+<td>Monday, Aug 31, 2026<br />03:30 pm &#8211; 05:00 pm PDT</td>
+</tr>
+<tr>
+<td><strong>ELW-HOL-2711-12-VCF-L</strong></td>
+<td>Fantastic Dashboards, Awesome Views &amp; Super Metrics and How to Build Them!</td>
+<td>Tuesday, Sep 1, 2026 <br />09:30 am &#8211; 11:00 am PDT</td>
+</tr>
+<tr>
+<td><strong>ELW-HOL-2711-08-VCF-L</strong></td>
+<td>Capacity Planning and Rightsizing with VCF Operations</td>
+<td>Tuesday, Sep 1, 2026<br />01:15 pm &#8211; 02:45 pm PDT</td>
+</tr>
+<tr>
+<td><strong>ELW-HOL-2705-03-VCF-L</strong></td>
+<td>Zero Downtime: Cross-Site Migration &amp; Automation with VCF Operations HCX</td>
+<td>Tuesday, Sep 1, 2026 <br />03:45 pm &#8211; 05:15 pm PDT</td>
+</tr>
+<tr>
+<td><strong>ELW-HOL-2711-03-VCF-L</strong></td>
+<td>Mastering Proactive Health and Diagnostics in VCF Operations 9.1</td>
+<td>Wednesday, Sep 2, 2026 <br />11:45 am &#8211; 01:15 pm PDT</td>
+</tr>
+<tr>
+<td><strong>SPL-HOL-2711-02-VCF-L</strong></td>
+<td>Getting Started with Operations on VMware Cloud Foundation 9.1</td>
+<td>Hands-on Labs Self-paced Lab</td>
+</tr>
+<tr>
+<td><strong>SPL-HOL-2711-12-VCF-L</strong></td>
+<td>Mastering Super Metrics, Custom Views and Custom Dashboards</td>
+<td>Hands-on Labs Self-paced Lab</td>
+</tr>
+<tr>
+<td><strong>SPL-HOL-2704-01-VCF-L</strong></td>
+<td>Mastering the VCF Lifecycle: From Deployment to Operations</td>
+<td>Hands-on Labs Self-paced Lab</td>
+</tr>
+<tr>
+<td><strong>SPL-HOL-2705-03-VCF-L</strong></td>
+<td>VMware Cloud Foundation 9.1 &#8211; Operations Workload Mobility (HCX)</td>
+<td>Hands-on Labs Self-paced Lab</td>
+</tr>
+<tr>
+<td><strong>SPL-HOL-2711-01-VCF-L</strong></td>
+<td>VMware Cloud Foundation Operations 9.1: What&#8217;s New</td>
+<td>Hands-on Labs Self-paced Lab</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<h2 class="wp-block-heading has-vivid-cyan-blue-color has-text-color has-link-color wp-elements-ea86cd2467f97f8cce63a68abf384047" id="h-meet-the-expert-roundtables">Meet the Expert Roundtables</h2>
+<p>Meet the Expert Roundtables are small-group discussions with subject-matter experts.</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td>CLOM1524LV</td>
+<td>VMware Cloud Foundation Architecture and Installation </td>
+<td>Monday, Aug 31<br />9:00 AM &#8211; 9:30 AM PDT</p>
+<p>Monday, Aug 31<br />2:00 PM &#8211; 2:30 PM PDT</td>
+</tr>
+<tr>
+<td>CLOM1532LV</td>
+<td>VCF Operations &#8211; Cost Management and FinOps </td>
+<td>Tuesday, Sep 1<br />9:00 AM &#8211; 9:30 AM PDT</td>
+</tr>
+<tr>
+<td>CLOM1534LV</td>
+<td>VMware Cloud Foundation Operations &#8211; Observability, Troubleshooting, Performance</td>
+<td>Tuesday, Sep 1<br />9:30 AM &#8211; 10:00 AM PDT</p>
+<p>Wednesday, Sep 2<br />11:00 AM &#8211; 11:30 AM PDT</td>
+</tr>
+<tr>
+<td>CLOM1537LV</td>
+<td>VMware Cloud Foundation Operations &#8211; Diagnostics and Health</td>
+<td>Tuesday, Sep 1<br />10:30 AM &#8211; 11:00 AM PDT</td>
+</tr>
+<tr>
+<td>CLOM1530LV</td>
+<td>VMware Cloud Foundation Operations &#8211; Best Practices to Capacity Management</td>
+<td>Tuesday, Sep 1<br />11:30 AM &#8211; 12:00 PM PDT</p>
+<p>Wednesday, Sep 2<br />10:30 AM &#8211; 11:00 AM PDT</td>
+</tr>
+<tr>
+<td>CLOM1523LV</td>
+<td>Importing Existing vSphere Environments to VCF 9.1</td>
+<td>Wednesday, Sep 2<br />9:00 AM &#8211; 9:30 AM PDT</td>
+</tr>
+<tr>
+<td>CLOM1538LV</td>
+<td>VMware Cloud Foundation Operations &#8211; Fleet Management</td>
+<td>Wednesday, Sep 2<br />12:30 PM &#8211; 1:00 PM PDT</td>
+</tr>
+<tr>
+<td>CLOM1523LV</td>
+<td>Importing Existing vSphere Environments to VCF 9.1</td>
+<td>Wednesday, Sep 2<br />2:00 PM &#8211; 2:30 PM PDT</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<h2 class="wp-block-heading has-vivid-cyan-blue-color has-text-color has-link-color wp-elements-e30b1aa915e28a98440245671014160a" id="h-demonstrations">Demonstrations</h2>
+<p>Visit all the demo booths at the Hub. Make sure to visit the booth “Scale and Simplify Your Private Cloud Operations” to learn more about the latest capabilities with VCF Operations.</p>
+<h2 class="wp-block-heading has-vivid-cyan-blue-color has-text-color has-link-color wp-elements-82942c1ae9d41c233ce5a3f7333bb248" id="h-booth-theater-session">Booth Theater Session</h2>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td>VBT2027LV</td>
+<td>Take Control of Cost, Health, and SecOps with VMware Cloud Foundation Operations </td>
+<td>Wednesday, Sep 2<br />5:00 PM &#8211; 5:20 PM PDT</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<h2 class="wp-block-heading has-vivid-cyan-blue-color has-text-color has-link-color wp-elements-c162e6e8bee9d5cfa4f2f3b8a5140b7e">Meetings</h2>
+<p>Please contact your Broadcom sales account team to arrange in-depth, onsite meetings with our product teams for various VMware Cloud Foundation topics.</p>
+<h2 class="wp-block-heading has-vivid-cyan-blue-color has-text-color has-link-color wp-elements-8b221d7b0a6ff1b672a33ee8bc7764ce" id="h-make-time-for-fun-nbsp">Make time for fun!&nbsp;</h2>
+<p>Join us at the <a href="https://www.vmware.com/explore/us/engage/activities"><strong>VMware Explore Party at the TAO Beach and Nightclub</strong></a> on Wednesday, September 2, 2026, 7:00 PM to 10:00 PM PDT for food and music.</p>
+<p>Access is included with the Full Event Pass.</p>
+<p>We look forward to seeing you in Las Vegas!</p>
+<h2 class="wp-block-heading has-vivid-cyan-blue-color has-text-color has-link-color wp-elements-5d514ff3a0841c8a08a7bf9fe0c20214">Resources</h2>
+<p><a href="https://www.vmware.com/explore/us"><strong>VMware Explore 2026 in Las Vegas event site</strong></a></p>
+<p><a href="https://event.vmware.com/my/widget/vmware/explore2026lv/1785271196967001kpzi"><strong>VCF Operations Private Cloud track highlighted agenda</strong></a></p>
+<p><a href="https://blogs.vmware.com/explore/"><strong>VMware Explore 2026 in Las Vegas Blog site</strong></a></p>
+<p><a href="https://www.vmware.com/explore/us/engage/activities"><strong>Activities at Explore</strong></a></p>
+<p><a href="https://www.vmware.com/products/cloud-infrastructure/vmware-cloud-foundation"><strong>VMware Cloud Foundation website</strong></a></p>
+<figure class="wp-block-image size-large"><a href="https://www.vmware.com/explore/us"><img loading="lazy" decoding="async" height="1024" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/08/vmwx26-top-reasons_toolkit.png" alt="" class="wp-image-33421" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/vmwx26-top-reasons_toolkit.png 1080w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/vmwx26-top-reasons_toolkit.png?resize=150,150 150w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/vmwx26-top-reasons_toolkit.png?resize=300,300 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/vmwx26-top-reasons_toolkit.png?resize=768,768 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/vmwx26-top-reasons_toolkit.png?resize=1024,1024 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/vmwx26-top-reasons_toolkit.png?resize=600,600 600w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/vmwx26-top-reasons_toolkit.png?resize=360,360 360w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></a></figure>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/06/your-guide-to-vcf-sessions-for-better-private-cloud-operations-at-vmware-explore-2026/">Your Guide to VCF Sessions for Better Private Cloud Operations at VMware Explore 2026</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/06/your-guide-to-vcf-sessions-for-better-private-cloud-operations-at-vmware-explore-2026/">Your Guide to VCF Sessions for Better Private Cloud Operations at VMware Explore 2026</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10094704</post-id>	</item>
+		<item>
 		<title>Avi Strengthens Web Application Security, Boosts Performance and Improves Operational Efficiency</title>
 		<link>https://blogs.vmware.com/load-balancing/2026/08/06/avi-waap-and-ai-assistant/</link>
 		
@@ -28,7 +390,7 @@
 				<category><![CDATA[Cloud Infrastructure]]></category>
 		<guid isPermaLink="false">https://blogs.vmware.com/?p=10094651</guid>
 
-					<description><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Mythos-Frontier-AI-Blog.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" fetchpriority="high" /><p>Announcing Avi’s software-defined Web Application and API Protection (WAAP), significant performance improvement and AI-powered Assistant to enhance operator productivity Earlier in May, VMware Avi Load Balancer delivered plug-and-play integration in VMware Cloud Foundation (VCF) 9.1, featuring support for self-service multi-tenant Virtual Private Clouds (VPC) and complete automation via the VMware vSphere Kubernetes Service (VKS). We &#8230; <a href="https://blogs.vmware.com/load-balancing/2026/08/06/avi-waap-and-ai-assistant/">Continued</a></p>
+					<description><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Mythos-Frontier-AI-Blog.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Announcing Avi’s software-defined Web Application and API Protection (WAAP), significant performance improvement and AI-powered Assistant to enhance operator productivity Earlier in May, VMware Avi Load Balancer delivered plug-and-play integration in VMware Cloud Foundation (VCF) 9.1, featuring support for self-service multi-tenant Virtual Private Clouds (VPC) and complete automation via the VMware vSphere Kubernetes Service (VKS). We &#8230; <a href="https://blogs.vmware.com/load-balancing/2026/08/06/avi-waap-and-ai-assistant/">Continued</a></p>
 <p>The post <a href="https://blogs.vmware.com/load-balancing/2026/08/06/avi-waap-and-ai-assistant/">Avi Strengthens Web Application Security, Boosts Performance and Improves Operational Efficiency</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
 										<content:encoded><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Mythos-Frontier-AI-Blog.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Mythos-Frontier-AI-Blog.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/07/Mythos-Frontier-AI-Blog.jpg 1200w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/07/Mythos-Frontier-AI-Blog.jpg?resize=300,169 300w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/07/Mythos-Frontier-AI-Blog.jpg?resize=768,432 768w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/07/Mythos-Frontier-AI-Blog.jpg?resize=1024,576 1024w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/07/Mythos-Frontier-AI-Blog.jpg?resize=752,423 752w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/07/Mythos-Frontier-AI-Blog.jpg?resize=576,324 576w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/07/Mythos-Frontier-AI-Blog.jpg?resize=600,338 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
@@ -39,12 +401,12 @@
 <li><strong>AI Assistant for VMware Avi</strong> to improve operational efficiency: a GenAI-powered assistant designed to accelerate how administrators troubleshoot security anomalies and application performance issues.</li>
 <li><strong>Improved Application Delivery Performance</strong> to reduce CapEx with scale-out throughput boosted up to 12.25Tbps (88% increase) per controller instance.</li>
 </ul>
-<figure class="wp-block-image size-large"><img decoding="async" height="522" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Screenshot-2026-08-05-091055.png" alt="" class="wp-image-2145" srcset="https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091055.png 1127w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091055.png?resize=300,153 300w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091055.png?resize=768,391 768w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091055.png?resize=1024,522 1024w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091055.png?resize=600,306 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="522" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Screenshot-2026-08-05-091055.png" alt="" class="wp-image-2145" srcset="https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091055.png 1127w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091055.png?resize=300,153 300w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091055.png?resize=768,391 768w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091055.png?resize=1024,522 1024w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091055.png?resize=600,306 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
 <h2 class="wp-block-heading" id="h-waf-to-waap-enhancing-in-line-web-app-security"><strong><br />WAF to WAAP: Enhancing In-Line Web App Security</strong></h2>
 <p>Web Application Firewalls (WAFs) provide the first line of defense against OWASP Top 10 Web Attacks including cross-site scripting (XSS) and SQL injection (SQLi). Avi has made significant enhancements to <a href="https://blogs.vmware.com/load-balancing/2024/11/05/vmware-avi-load-balancer-new-innovations-for-the-application-era/" target="_blank" rel="noreferrer noopener">WAF performance</a>, <a href="https://blogs.vmware.com/load-balancing/2025/11/12/delivering-app-resiliency-and-security-for-vcf/" target="_blank" rel="noreferrer noopener">evaluation mode and web app security assessment report</a>. WAF is a mandatory requirement for compliance including PCI, HIPAA and GDPR.</p>
 <p>APIs have emerged as primary vectors for malicious actors attempting infrastructure breaches. Nearly 87% of global organizations suffered an API security incident last year<sup>1</sup>, and 43% of Cybersecurity and Infrastructure Security Agency (CISA) known exploited vulnerabilities (KEV) additions are API-related<sup>2</sup>. The unprecedented velocity, massive scale and expanded attack surface of AI-fueled web threats demand a critical evolution from WAFs to comprehensive WAAP frameworks. The exponential growth of API interactions driven by Kubernetes and AI workloads requires comprehensive protection against the OWASP Top 10 API vulnerabilities.</p>
 <p>To close this gap, Avi is extending its WAF into a software-defined, scale-out WAAP solution that auto heals, auto scales and delivers high performance to counter automated AI-driven exploits. By integrating directly into the load-balancing data path, Avi delivers a single, in-line security shield that delivers high-performance, scale-out and hairpin-free protection against both web vulnerabilities as well as sophisticated API exploits. Avi provides protection throughout the discovery, enforcement, and operations stages.</p>
-<figure class="wp-block-image size-large"><img decoding="async" height="397" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Screenshot-2026-08-05-091141.png" alt="" class="wp-image-2146" srcset="https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091141.png 1130w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091141.png?resize=300,116 300w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091141.png?resize=768,298 768w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091141.png?resize=1024,397 1024w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091141.png?resize=600,233 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="397" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Screenshot-2026-08-05-091141.png" alt="" class="wp-image-2146" srcset="https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091141.png 1130w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091141.png?resize=300,116 300w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091141.png?resize=768,298 768w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091141.png?resize=1024,397 1024w, https://blogs.vmware.com/load-balancing/wp-content/uploads/sites/127/2026/08/Screenshot-2026-08-05-091141.png?resize=600,233 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
 <h3 class="wp-block-heading" id="h-key-features-of-avi-s-waap-solution-include">Key features of Avi’s WAAP solution include:</h3>
 <ul class="wp-block-list">
 <li><strong>Comprehensive Web App Security Stack:</strong> Avi WAAP provides a fully integrated, defense-in-depth architecture that simplifies policy management for both applications and APIs. The stack unifies WAF with distributed DDoS protection, advanced bot management, Layer 7 rate limiting, IP reputation filtering, and robust SSL/TLS termination all functioning within a single, software-defined architecture.</li>
@@ -501,139 +863,5 @@
 		
 		
 		<post-id xmlns="com-wordpress:feed-additions:1">10094220</post-id>	</item>
-		<item>
-		<title>Refreshing an Existing vSAN Cluster with New Servers</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/08/03/refreshing-an-existing-vsan-cluster-with-new-servers/</link>
-		
-		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
-		<pubDate>Mon, 03 Aug 2026 15:13:16 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10094200</guid>
-
-					<description><![CDATA[<img width="299" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/08/RefreshingExistingvSANClusters-FI.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Refreshing hardware is an inevitable task of lifecycle management in a data center. Existing vSAN clusters may have servers that are nearing the end of life by the manufacturer, or simply may no longer meet the technical requirements of an organization. The most common strategy for replacing servers is to provision an entirely new cluster, &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/08/03/refreshing-an-existing-vsan-cluster-with-new-servers/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/03/refreshing-an-existing-vsan-cluster-with-new-servers/">Refreshing an Existing vSAN Cluster with New Servers</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="299" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/08/RefreshingExistingvSANClusters-FI.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/08/RefreshingExistingvSANClusters-FI.png" class="attachment-medium size-medium wp-post-image" alt="Refreshing Existing vSAN Clusters with new Hardware" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/RefreshingExistingvSANClusters-FI.png 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/RefreshingExistingvSANClusters-FI.png?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/RefreshingExistingvSANClusters-FI.png?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/RefreshingExistingvSANClusters-FI.png?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/RefreshingExistingvSANClusters-FI.png?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/RefreshingExistingvSANClusters-FI.png?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/RefreshingExistingvSANClusters-FI.png?resize=600,338 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<p>Refreshing hardware is an inevitable task of lifecycle management in a data center. Existing vSAN clusters may have servers that are nearing the end of life by the manufacturer, or simply may no longer meet the technical requirements of an organization.</p>
-<p>The most common strategy for replacing servers is to provision an entirely new cluster, and <a href="https://www.vmware.com/docs/vmw-vsan-migration-guide">migrate workloads from one cluster to another using vMotion</a>. But there may occasionally be a desire to replace the older servers with new hardware while preserving the existing cluster to maintain configurations or data services. With the latter option, this can lead to the question of, “<em>Should I add and decommission servers in the cluster one-by-one, or should I add all of the new servers, followed by decommissioning the old servers?”</em></p>
-<h2 class="wp-block-heading" id="h-understanding-the-options-for-in-place-server-refreshes-in-a-vsan-cluster">Understanding the Options for In-Place Server Refreshes in a vSAN Cluster</h2>
-<p>vSAN offers a lot of flexibility with hardware refreshes of nearly any type. When replacing aging servers with new servers while keeping the existing cluster, the options generally fall into three categories.</p>
-<ul class="wp-block-list">
-<li><strong>Bulk addition and incremental removal. </strong>Add all new servers to the existing cluster sequentially, and decommission one old host at a time.</li>
-<li><strong>Incremental addition and incremental removal &#8211; repeating until completion. </strong>Add one new server to the existing cluster, and decommission one old host at a time. Repeat the process until complete.</li>
-<li><strong>Group addition and incremental removal, repeating until completion.</strong> Add a group of new servers to an existing cluster, and decommission the same number of hosts added, one old host at a time. Repeat the process until complete.</li>
-</ul>
-<p>By &#8220;decommission&#8221; we mean that one of the older hosts would be entered into maintenance mode and forcing the data to be reconstructed elsewhere to regain the prescribed level of resilience. Once complete, clicking on “Remove from inventory” in the vSphere Client will remove that host from the cluster.</p>
-<p>What makes the most sense? The answer depends a bit on your environment, so let&#8217;s walk through these options.</p>
-<h2 class="wp-block-heading" id="h-understanding-how-vsan-distributes-data-across-a-cluster">Understanding How vSAN Distributes Data Across a Cluster</h2>
-<p>Before we look at the options in more detail, let&#8217;s revisit vSAN’s approach to distributing data in a resilient way across a cluster. With the following examples we’ll assume a standard, single site vSAN cluster.</p>
-<p>vSAN’s object manager determines data placement for provisioning, evacuations, and rebalancing based on these criteria:</p>
-<ul class="wp-block-list">
-<li><strong>Eligible hosts for placement of data. </strong>vSAN will use anti-affinity logic of redundant data to ensure that object components that provide data resilience (mirrored data, or parity data from an erasure code) never reside on the same host.</li>
-<li><strong>Available capacity of a host within a vSAN cluster</strong>. vSAN will give preference to hosts with more free capacity over hosts with less free capacity.</li>
-</ul>
-<p>As shown in Figure 1, vSAN’s anti-affinity logic ensures that no components that make the data resilient within a RAID-6 object reside on the same host. When the host is evacuated, vSAN will place most of the evacuated data on the new host that is relatively empty. But as capacity consumption begins to even out across hosts, <strong>vSAN may place some evacuated components on other eligible hosts that may still need to be decommissioned</strong>. This is the reason why adding just one host followed by the removal of an old host may occasionally create unnecessary resynchronization traffic in subsequent decommissioning. Adding two or more hosts at a time will reduce the chance of this occurring.</p>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="282" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/08/RefreshingExistingvSANClusters-F01.png" alt="Redistributing data in vSAN" class="wp-image-33323" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/RefreshingExistingvSANClusters-F01.png 1110w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/RefreshingExistingvSANClusters-F01.png?resize=300,83 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/RefreshingExistingvSANClusters-F01.png?resize=768,212 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/RefreshingExistingvSANClusters-F01.png?resize=1024,282 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/RefreshingExistingvSANClusters-F01.png?resize=600,165 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
-<p>Figure 1. vSAN’s approach to redistributing data when a host is decommissioned.</p>
-<p>This criteria and supporting example helps us better understand how different approaches may impact the placement and movement of data as hardware is refreshed.</p>
-<h2 class="wp-block-heading" id="h-option-1-bulk-addition-and-incremental-removal">Option 1: Bulk Addition and Incremental Removal</h2>
-<p>In this scenario, all new servers would be added to the cluster prior to the removal of the older hosts, one at a time.</p>
-<p><strong>Advantages:</strong> This approach works if you have the physical resources available. vSAN’s data placement rules treat this in a very simple way. When a host is permanently decommissioned, the data will be reconstructed on one of the new hosts, because: 1) The new hosts are eligible for the migrated data because it adheres to anti-affinity rules to ensure the data remains resilient and available. 2) The new hosts have more free capacity than the old hosts. It will reduce the chance of the same data already moved to be moved again on subsequent host decommissioning.</p>
-<p><strong>Disadvantages:</strong> This may be a difficult approach to take with larger clusters, where adding all of the new hosts at once may exceed the available rack space, network ports, or power requirements. One could even exceed the maximum number of hosts for a given cluster topology (64 hosts for standard cluster, and 40 hosts for a stretched cluster)</p>
-<p><strong>When to use: </strong>The requirements make this option less desirable with anything other than hardware refreshes with small clusters that have sufficient free rack space, power, and network connectivity to perform in this manner.</p>
-<h2 class="wp-block-heading" id="h-option-2-incremental-addition-and-incremental-removal">Option 2: Incremental Addition and Incremental Removal</h2>
-<p>In this scenario, after a single new host is added to the cluster, an older host is decommissioned from the cluster. The cycle is repeated until the refresh is complete.</p>
-<p><strong>Advantages: </strong>This option allows you to perform a cluster refresh under severe physical constraints, such as racks with little room to provision new servers, or ToR switches with limited free ports.</p>
-<p><strong>Disadvantages:</strong> Depending on the circumstances, this approach may increase the chance of the same data already moved to be moved again on subsequent host decommissioning, as shown in Figure 1. vSAN handles the redistribution of data automatically, but adding and removing a single host at a time may generate additional data movement.</p>
-<p><strong>When to use:</strong> This may be the only, or best option available for environments under severe physical constraints. Its potential inefficiencies in data movement make it less desirable under typical conditions.</p>
-<h2 class="wp-block-heading" id="h-option-3-group-addition-and-incremental-removal">Option 3: Group Addition and Incremental Removal</h2>
-<p>This approach uses a blend of the two options above, where a group of hosts (two or more hosts depending on the host count of the cluster) are added followed by a decommissioning of hosts equal to the number of new hosts added. The cycle is repeated until the refresh is complete.</p>
-<p><strong>Advantages: </strong>Adding a group of hosts allows the permanently decommissioned host several new host targets with ample free capacity, and adhere to its anti-affinity logic to ensure data resilience. This will minimize the likelihood of any secondary movement of data due to subsequent decommissioning.</p>
-<p><strong>Disadvantages:</strong> It will require more physical resources (rack space, power, and network ports) than option 2, but not nearly as much as option 1.</p>
-<p><strong>When to use: </strong>This is the best option for most environments. It blends the benefits of a bulk addition of hosts while not needing the physical resources to do so. It also minimizes the chance that migrated data will land on older hosts that may need to be migrated again at some point.</p>
-<h2 class="wp-block-heading" id="h-recommendations">Recommendations</h2>
-<p>Regardless of the approach you choose, the following recommendations will help this process be smooth and predictable.</p>
-<p><strong>Add between two and six hosts at a time prior to decommissioning older hosts.</strong> For smaller clusters with perhaps just three hosts, add two hosts prior to decommissioning any of the older hosts. For Auto-RAID enabled clusters, this will preserve its use of RAID-5 erasure coding instead of an automatic (but temporary) reconfiguration to RAID-6 while the refresh is occurring. For clusters with six or more hosts, adding two to three hosts prior to decommissioning any of the older hosts can be an effective way to minimize any unnecessary reshuffling of data when refreshing the rest of the cluster. Adding six hosts at a time will allow provisioning activities such as new VMs or persistent volumes to house the <strong>entire object</strong> across the new hosts versus some of the hosts that have yet to be decommissioned.</p>
-<p><strong>Know what to expect with Auto-RAID on small clusters. </strong>With Auto-RAID in vSAN for VMware Cloud Foundation (VCF) 9.1, adding hosts to a small cluster that uses RAID-5 erasure coding may increase the host count to a level that eventually reconfigures the data for RAID-6 erasure coding (e.g. Adding two hosts to a 4-host cluster). Simply proceed as planned by decommissioning the older hosts after the new hosts are added. Depending on your circumstances, you may wish to add new hosts in small increments, or simply let vSAN handle the reconfiguration automatically.</p>
-<p><strong>Choose your physical placement of new hosts wisely.</strong> Refrain from hosts in a vSAN cluster being arbitrarily placed across multiple racks. This may produce more network traffic than desired. For more information, see the post: “<a href="https://blogs.vmware.com/cloud-foundation/2025/05/20/vsan-networking-optimal-placement-of-hosts-in-racks/">vSAN Networking – Optimal Placement of Hosts in Racks</a>.”</p>
-<p><strong>Temporarily disable “Automatic Rebalance” feature in vSAN.</strong> If enabled (it is disabled by default), temporarily disable “Automatic Rebalance” during the refresh to prevent premature data movement. The <a href="https://blogs.vmware.com/cloud-foundation/2020/04/15/should-automatic-rebalancing-be-enabled-vsan-cluster/">Automatic Rebalance</a> feature can be turned back on after the refresh is complete</p>
-<p><strong>Recognize when scenarios favor a host decommission prior to host additions. </strong>Flipping the steps so that one or more hosts are removed from inventory <strong>before </strong>adding the new hosts is an option for clusters in racks with no physical space or networking resources. This will only work if the space utilization is low enough to absorb the temporarily reduced capacity, and may generate more data movement than the other options described. It also may not be ideal for clusters with 6 or more hosts, as it could temporarily change the automatically prescribed level of resilience by Auto-RAID.</p>
-<p><strong>Use “Full data migration” for host decommissioning.</strong> When decommissioning a host, select “Full data migration” when entering host into maintenance mode to immediately reconstruct data and maintain resilience. Choosing “Ensure accessibility” will also work, but data reconstruction will often be delayed by an hour.</p>
-<p><strong>Be deliberate with host decommissioning.</strong> Wait until all resynchronizations are complete before decommissioning the next host. This will limit the amount of data being resynchronized.</p>
-<p><strong>If you are still using vSAN OSA, recognize the opportunity to transition to ESA. </strong>Hardware refreshes are an ideal time to transition from vSAN OSA to ESA, but <strong>transitioning to ESA will require the deployment of a new cluster</strong>, and a migration of the workloads using typical approaches such as vMotion. But don’t let the lack of new hardware stop you from transitioning to vSAN ESA. <strong>Many older vSphere servers can be easily repurposed as vSAN ESA hosts with little more than adding NVMe storage devices</strong>. See: “<a href="https://www.vmware.com/docs/vmw-repurpose-esxi-servers-for-vmware-vsan-faq">Repurposing ESX Servers for VMware vSAN</a>” and “<a href="https://blogs.vmware.com/cloud-foundation/2026/02/25/the-2026-structural-supply-crisis-why-vmware-cloud-foundation-is-the-answer-to-the-2026-hardware-crunch/">The 2026 Structural Supply Crisis: Why VMware Cloud Foundation Is The Answer to the 2026 Hardware Crunch</a>” for more details.</p>
-<h2 class="wp-block-heading" id="h-summary">Summary</h2>
-<p>In most cases, creating a new vSAN cluster to introduce new servers into an environment is a simple and predictable path to a hardware refresh. But there can be times where replacing servers in an existing cluster makes sense. Now you have the information and the options to make the right decision for your environment.</p>
-<p><a href="https://x.com/vmpete">@vmpete</a></p>
-</p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/03/refreshing-an-existing-vsan-cluster-with-new-servers/">Refreshing an Existing vSAN Cluster with New Servers</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/03/refreshing-an-existing-vsan-cluster-with-new-servers/">Refreshing an Existing vSAN Cluster with New Servers</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10094200</post-id>	</item>
-		<item>
-		<title>Your First Line of Defense: How VMware vSphere Foundation 9.1 Addresses AI-Era Security Threats</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/08/03/your-first-line-of-defense-how-vmware-vsphere-foundation-9-1-addresses-ai-era-security-threats/</link>
-		
-		<dc:creator><![CDATA[oliver romero]]></dc:creator>
-		<pubDate>Mon, 03 Aug 2026 13:00:00 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10094182</guid>
-
-					<description><![CDATA[<img width="300" height="138" src="https://blogs.vmware.com/wp-content/uploads/2026/08/193821142_l.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>The AI era has reshaped what it means to keep infrastructure secure. The most urgent shift is not the workloads themselves. It is how AI is being used against organizations. Frontier AI security models are now capable of what researchers call “vulnerability chaining”—combining two or three low-severity findings into a single, critical exploit path. That &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/08/03/your-first-line-of-defense-how-vmware-vsphere-foundation-9-1-addresses-ai-era-security-threats/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/03/your-first-line-of-defense-how-vmware-vsphere-foundation-9-1-addresses-ai-era-security-threats/">Your First Line of Defense: How VMware vSphere Foundation 9.1 Addresses AI-Era Security Threats</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="138" src="https://blogs.vmware.com/wp-content/uploads/2026/08/193821142_l.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="138" src="https://blogs.vmware.com/wp-content/uploads/2026/08/193821142_l.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/193821142_l.jpg 1170w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/193821142_l.jpg?resize=300,138 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/193821142_l.jpg?resize=768,354 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/193821142_l.jpg?resize=1024,472 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/193821142_l.jpg?resize=600,276 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<p>The AI era has reshaped what it means to keep infrastructure secure. The most urgent shift is not the workloads themselves. It is how AI is being used against organizations. Frontier AI security models are now capable of what researchers call “vulnerability chaining”—combining two or three low-severity findings into a single, critical exploit path. That capability operates at a velocity and volume that traditional security operations were never designed to handle. AI workloads also expand the physical attack surface: accelerated hardware, high-speed data movement, large memory pools, and continuous operation leave fewer natural windows for patching and remediation.</p>
-<p>The question many IT leaders are asking right now is not whether they need to modernize their security posture. It is how to do that without disrupting what is already running, and without committing to a full platform overhaul before the organization is ready.</p>
-<p>VMware vSphere Foundation (VVF) 9.1 addresses that question directly. We designed this release to deliver a security-by-default infrastructure that protects modern workloads, including AI and machine learning environments, without requiring a full platform overhaul. It is built for organizations that need to act now and build toward the future.</p>
-<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow">
-<p class="has-text-align-center"><em><strong>76.5% of enterprises report a lack of confidence in their ability to recover from a sophisticated infrastructure-level cyberattack. [1] VVF 9.1 is designed to close that gap.</strong></em></p>
-</blockquote>
-<figure class="wp-block-image size-large"><img fetchpriority="high" decoding="async" height="628" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Screenshot-2026-07-24-at-2.45.31-PM.png" alt="" class="wp-image-33165" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-2026-07-24-at-2.45.31-PM.png 2537w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-2026-07-24-at-2.45.31-PM.png?resize=300,184 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-2026-07-24-at-2.45.31-PM.png?resize=768,471 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-2026-07-24-at-2.45.31-PM.png?resize=1024,628 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-2026-07-24-at-2.45.31-PM.png?resize=1536,942 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-2026-07-24-at-2.45.31-PM.png?resize=2048,1256 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-2026-07-24-at-2.45.31-PM.png?resize=600,368 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
-<p class="has-text-align-center"><em><strong>Figure 1:</strong> VVF 9.1 Security Layer Architecture: hardware (TPM 2.0, Intel QAT), hypervisor (Live Patching, FIPS 140-2), operations (VCF Operations compliance dashboards)</em></p>
-<p><strong>Security Built into the Platform, Not Bolted On</strong></p>
-<p>Legacy security models treat hardening as a Day 2 operation, something applied after deployment through manual processes, scheduled audits, and periodic patch windows. VMware vSphere Foundation 9.1 inverts that model. Security is the default state, not a configuration target.</p>
-<p>Live Patching for hosts equipped with a Trusted Platform Module (TPM) is a clear execution of this philosophy. Security updates can now be applied without taking hosts offline or evacuating virtual machines. The result is zero downtime for up to 80% of security patches [2], eliminating the gap between vulnerability disclosure and remediation that has historically been an attacker&#8217;s opportunity.</p>
-<p>Encrypted vMotion with Intel QAT extends that protection to data in motion. Workload migrations, including AI inference jobs and GPU-backed training tasks, are encrypted end to end, with hardware acceleration offloading the cryptographic work to dedicated silicon. Source CPU consumption drops by up to 70% [2], removing the historical performance trade-off that caused many teams to skip encryption during high-velocity migrations.</p>
-<p>FIPS 140-2 compliance is enabled out of the box. TLS 1.3 is the default transport protocol. TPM 2.0 attestation, VM encryption, vSphere Trust Authority, and identity federation with Microsoft Active Directory, Entra ID, ADFS, PingFederate, and Okta are all included. </p>
-<p><strong>Visibility Is Half the Battle</strong></p>
-<p>Security failures do not always begin with an attack. They often begin with a blind spot: a transient anomaly that existing monitoring tools averaged away, a misconfiguration that drifted undetected, a compliance gap that only surfaced at the quarterly audit.</p>
-<p>VMware vSphere Foundation 9.1 addresses this with high-fidelity telemetry that captures granular data across ESXi, vCenter, and vSAN at sub-minute intervals. Traditional five-minute polling averages suppress exactly the kind of transient spikes that matter in AI workload environments. With VVF 9.1, those spikes are visible and actionable in real time.</p>
-<p>The built-in compliance framework covers NIST SP 800-171, NIST SP 800-53 R5, CIS, PCI DSS 4.0, ISO/IEC 27001:2022, and HIPAA. When benchmarks are active in the platform, drift is detected and remediated continuously rather than discovered at the next scheduled review.</p>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="521" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Screenshot-2026-07-24-at-2.59.15-PM.png" alt="" class="wp-image-33166" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-2026-07-24-at-2.59.15-PM.png 3214w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-2026-07-24-at-2.59.15-PM.png?resize=300,153 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-2026-07-24-at-2.59.15-PM.png?resize=768,390 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-2026-07-24-at-2.59.15-PM.png?resize=1024,521 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-2026-07-24-at-2.59.15-PM.png?resize=1536,781 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-2026-07-24-at-2.59.15-PM.png?resize=2048,1041 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/07/Screenshot-2026-07-24-at-2.59.15-PM.png?resize=600,305 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
-<p class="has-text-align-center"><em><strong>Figure 2:</strong> VVF 9.1 Compliance Coverage Map: NIST SP 800-171, NIST SP 800-53 R5, CIS, PCI DSS 4.0, ISO/IEC 27001:2022, HIPAA, FIPS 140-2, TLS 1.3</em></p>
-<p><strong>Securing AI Without Sacrificing Infrastructure Economics</strong></p>
-<p>DRAM prices surged between 80 and 170% year over year in 2026, driven largely by AI demand [3]. Enterprises deploying AI workloads are managing a new threat landscape while simultaneously managing a hardware cost crisis. VMware vSphere Foundation 9.1 addresses both pressures.</p>
-<p>NVMe Memory Tiering expands effective memory capacity without additional DRAM investment, offloading 20 to 25% of memory accesses to high-performance NVMe [2]. GPU vMotion is now up to 6x faster [2], enabling AI training and inference workloads to migrate cleanly during maintenance without interrupting model execution. Monster VM support covers up to 960 vCPUs and 16TB of memory per VM, ensuring that large AI workloads run without artificial infrastructure constraints. Together, these capabilities establish a private infrastructure that can run AI workloads securely, observe them precisely, and protect them continuously.</p>
-<p><strong>A Strong Foundation. A Clear Path Forward.</strong></p>
-<p>VMware vSphere Foundation 9.1 delivers enterprise-grade security for organizations that need to act now, without waiting for a full platform migration. It provides live patching, hardware-accelerated encryption, continuous compliance monitoring, and high-fidelity telemetry on a platform that integrates naturally with existing vSphere environments.</p>
-<p>For organizations ready to go further, to add full network security with NSX, extended automation, sovereign AI infrastructure, and advanced cyber recovery, VMware Cloud Foundation (VCF) 9.1 is the comprehensive private cloud platform built for that level of scale. VVF 9.1 does not just protect your infrastructure today. It positions organizations to make that transition on their terms, at their pace, without disruption. By standardizing on VVF 9.1 now, organizations establish the security foundation they need today and the architectural readiness for VMware Cloud Foundation 9.1 when the time is right.</p>
-<p><strong>Guidance for Existing VVF Deployments</strong></p>
-<p>Broadcom is analyzing in-support VMware products using frontier AI security models. For vSphere 8.x, VCF/VVF 5.x, and VCF/VVF 9.0 environments, patch releases will continue on the existing schedule based on Broadcom’s standard Security Advisory processes. The overall guidance for existing deployments is to upgrade to VCF/VVF 9.1 as soon as possible to access its enhanced security capabilities. To make adoption easier, VVF 9.1 supports new upgrade paths from vSphere 8.x and VVF 5.x environments. Upgrading from VVF 9.0 to VVF 9.1 is a seamless, in-place process.</p>
-<p><strong>Work with your Broadcom team to get to VVF 9.1</strong></p>
-<p>Broadcom is committed to delivering the most secure platform possible for our customers. The new reality is that organizations must adapt to the latest phase of cybersecurity risk with urgency. Speed is no longer optional in secured environments. Upgrading to VVF 9.1 puts the enhanced security capabilities you need in place now. Contact your Broadcom account team or Broadcom partner to conduct a VVF 9.1 upgrade readiness review, and accelerate the process through professional services.</p>
-<p><strong>Explore the latest resources:</strong></p>
-<ul class="wp-block-list">
-<li><a href="https://www.vmware.com/products/cloud-infrastructure/vsphere-foundation">VMware vSphere Foundation Product Page</a></li>
-<li><a href="https://www.vmware.com/products/cloud-infrastructure/vsphere-foundation/resources">VMware vSphere Foundation Resource Page</a></li>
-<li><a href="https://www.vmware.com/docs/vmware-vsphere-foundation-9-1-faqs">VMware vSphere Foundation 9.1 Customer FAQ</a></li>
-<li><a href="https://blogs.vmware.com/cloud-foundation/2026/05/05/announcing-vcf-9-1-modern-private-cloud-built-for-efficiency-and-resilience/">VMware Cloud Foundation 9.1 Announcement</a></li>
-<li><a href="https://blogs.vmware.com/cloud-foundation/2026/05/11/ai-has-changed-the-threat-landscape-is-your-infrastructure-ready/">AI Has Changed the Threat Landscape. Is your Infrastructure Ready?</a></li>
-</ul>
-<p><strong>Sources:</strong></p>
-<ul class="wp-block-list">
-<li><strong>[1]&nbsp; </strong><a href="https://www.idc.com/resource-center/blog/responsible-and-secure-ai-the-key-to-ai-fueled-growth">&#8220;Responsible and Secure AI: The Key to AI-Fueled Growth.&#8221; <em>IDC Blog</em>, 2024</a></li>
-<li><strong>[2]&nbsp; </strong>Broadcom internal testing</li>
-<li><strong>[3]&nbsp; </strong><a href="https://blog.shi.com/business-of-it/procurement/global-memory-shortage/">&#8220;What’s Driving the Global RAM Shortage and Why it’s So Expensive.&#8221; SHI Resource HUB, 2026</a></li>
-</ul>
-<p><em>Disclaimer: All performance and cost improvement claims based on Broadcom internal engineering estimates and hardware test results, 2026, unless otherwise specified. Results subject to change.</em></p>
-</p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/03/your-first-line-of-defense-how-vmware-vsphere-foundation-9-1-addresses-ai-era-security-threats/">Your First Line of Defense: How VMware vSphere Foundation 9.1 Addresses AI-Era Security Threats</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/03/your-first-line-of-defense-how-vmware-vsphere-foundation-9-1-addresses-ai-era-security-threats/">Your First Line of Defense: How VMware vSphere Foundation 9.1 Addresses AI-Era Security Threats</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10094182</post-id>	</item>
 	</channel>
 </rss>

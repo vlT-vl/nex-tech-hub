@@ -239,10 +239,9 @@ where we teach the community how the project is structured, and we'll guide you 
 &lt;li>Share your &lt;a href="https://www.cncf.io/case-studies/">Kubernetes End User Story&lt;/a>&lt;/li>
 &lt;li>Learn more about the &lt;a href="https://github.com/kubernetes/sig-release/tree/master/release-team">Kubernetes Release Team&lt;/a>&lt;/li>
 &lt;/ul></description></item><item><title>How the controller-runtime Cache Actually Works, and Why Your Controller Does Not Crash the API Server</title><link>https://kubernetes.io/blog/2026/07/29/controller-runtime-cache-explained/</link><pubDate>Wed, 29 Jul 2026 10:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/07/29/controller-runtime-cache-explained/</guid><description>
-&lt;!-- TODO: remove this banner once the corrections to this article have merged. -->
-&lt;div class="alert alert-caution" role="note">&lt;h4 class="alert-heading">Caution:&lt;/h4>Some of the technical detail in this article is not accurate. We are reviewing it and preparing
-corrections. Until then, check what you read here against the
-&lt;a href="https://pkg.go.dev/sigs.k8s.io/controller-runtime">&lt;code>controller-runtime&lt;/code> documentation&lt;/a>.&lt;/div>
+&lt;div class="pageinfo pageinfo-primary">
+&lt;p>This article has been revised since it was first published, to correct several significant technical inaccuracies in the original text.&lt;/p>
+&lt;/div>
 &lt;p>Kubernetes has long been the default platform for distributed workloads, and writing your own
 controller for it is now a matter of a few hours. The common path — Golang, using &lt;code>kubebuilder&lt;/code> on top of
 &lt;code>controller-runtime&lt;/code> — gives you a project scaffold, types, and a reconciler. For typical
@@ -260,7 +259,7 @@ re-read the object and immediately see the new state. In practice the model is t
 &lt;code>controller-runtime&lt;/code> operates against a local copy of the data populated through &lt;strong>list&lt;/strong> + &lt;strong>watch&lt;/strong>.
 Reads inside a reconciler cost almost nothing and do not load the control plane even at
 hundreds of calls per second — but the price of this design is that a controller can quietly
-consume gigabytes of memory, perform hidden &lt;code>O(n)&lt;/code> scans, and regularly trip over stale reads.&lt;/p>
+consume gigabytes of memory, perform hidden O(n) scans, and regularly trip over stale reads.&lt;/p>
 &lt;p>This post is aimed at engineers who already write controllers in Go with &lt;code>controller-runtime&lt;/code>
 but want to consolidate the pieces into a single mental model rather than carry around a bag
 of isolated observations. The focus is the practical impact on production clusters: memory,
@@ -317,14 +316,14 @@ the API server? If it did, picture the scene: a dozen controllers, each issuing 
 a &lt;strong>list&lt;/strong> per reconcile, with hundreds of reconciles per second. The API server and &lt;code>etcd&lt;/code>
 would be writing each other farewell letters within minutes.&lt;/p>
 &lt;p>To prevent that, Kubernetes was built around a &lt;em>watch model&lt;/em> rather than polling from the
-very beginning. The standard mechanism works like this: a client issues &lt;strong>list&lt;/strong> once, gets a
-snapshot of the slice of the world it cares about, then subscribes to a stream of changes via
-&lt;strong>watch&lt;/strong> and keeps a local copy current. Everything happens over a single long-lived HTTP
-connection, with no &amp;quot;what is in the world right now?&amp;quot; loop.&lt;/p>
+very beginning. The standard mechanism works like this: a client takes a snapshot of the slice
+of the world it cares about once, then subscribes to a stream of changes and keeps a local copy
+current. This is the &lt;strong>list&lt;/strong> + &lt;strong>watch&lt;/strong> pattern, and there is no &amp;quot;what is in the world right
+now?&amp;quot; loop anywhere in it.&lt;/p>
 &lt;p>This idea has lived in &lt;code>client-go&lt;/code> since the very first controllers in
 &lt;code>kube-controller-manager&lt;/code>. &lt;code>controller-runtime&lt;/code> wraps it in a friendly framework so
-that you do not have to glue &lt;code>Reflector&lt;/code>, &lt;code>DeltaFIFO&lt;/code>, and &lt;code>Indexer&lt;/code> together yourself (more
-on those below).&lt;/p>
+that you do not have to glue the &lt;code>Reflector&lt;/code>, the delta queue, and the &lt;code>Indexer&lt;/code> together
+yourself (more on those below).&lt;/p>
 &lt;p>So when people talk about &amp;quot;the controller-runtime cache&amp;quot;, they are not talking about a clever
 optimization. They are describing the foundation of the entire model: you read from memory,
 you write to the API server, and you receive feedback through a watch.&lt;/p>
@@ -340,7 +339,7 @@ Kubernetes: group, version, and kind, for example &lt;code>apps/v1/Deployment&lt
 &lt;/li>
 &lt;li>
 &lt;p>&lt;strong>resourceVersion&lt;/strong> — a &lt;a href="https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions">monotonic counter&lt;/a>
-that the API server tracks automatically, and that gets increased every time an object gets updated.
+that the API server tracks automatically, and that changes every time the object is written.
 Although it's a decimal number, the field is represented as a string.
 Resource versions serve two main purposes. The first one, you can use them for
 &lt;em>optimistic concurrency control&lt;/em> (for example: on &lt;strong>update&lt;/strong>, the API server checks
@@ -369,15 +368,15 @@ Each informer in &lt;code>controller-runtime&lt;/code> has its own store.&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>&lt;strong>ResourceEventHandler&lt;/strong> — an interface with three methods: &lt;code>OnAdd&lt;/code>, &lt;code>OnUpdate&lt;/code>, &lt;code>OnDelete&lt;/code>.
-The informer calls them for every event delivered through DeltaFIFO. The store is updated
-in lockstep with the handler invocation, so a handler already sees the latest version of
-the object in the indexer. Subscribers (your controllers) register handlers like this and
-learn about changes through them.&lt;/p>
+The informer calls them for every event delivered through the delta queue. The store is
+always updated before the handler runs, so a handler never sees an indexer that is behind
+its own event. Subscribers (your controllers) register handlers like this and learn about
+changes through them.&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;strong>workqueue&lt;/strong> — a queue of object keys (&lt;code>namespace/name&lt;/code>) with deduplication and rate
-limiting. On every event the controller enqueues a key; workers pop keys one at a time and
-hand them to &lt;code>Reconcile&lt;/code> as a &lt;code>ctrl.Request&lt;/code>.&lt;/p>
+&lt;p>&lt;strong>workqueue&lt;/strong> — a queue of reconcile requests (&lt;code>namespace/name&lt;/code>) with deduplication and rate
+limiting. On every event the controller enqueues a request; workers pop them one at a time
+and hand them to &lt;code>Reconcile&lt;/code> as a &lt;code>ctrl.Request&lt;/code>.&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>&lt;strong>Predicate&lt;/strong> — a controller-side filter. A predicate decides whether an event should be
@@ -396,8 +395,8 @@ into a queue as &lt;em>deltas&lt;/em>. A delta is a record of the form &amp;quot
 change log.&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;strong>DeltaFIFO&lt;/strong> — the queue that holds those deltas. Per &lt;code>namespace/name&lt;/code> key it accumulates
-the list of things that happened to that object, in order.&lt;/p>
+&lt;p>The &lt;strong>delta queue&lt;/strong> (&lt;code>RealFIFO&lt;/code>, or &lt;code>DeltaFIFO&lt;/code> on older client-go) — holds those deltas in
+arrival order until the informer processes them.&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>&lt;strong>Indexer (Store)&lt;/strong> — the in-memory object store, plus the indexes built over it.&lt;/p>
@@ -411,56 +410,77 @@ to subscribers — your controllers and any other observers.&lt;/p>
 &lt;figure>
 &lt;img src="https://kubernetes.io/blog/2026/07/29/controller-runtime-cache-explained/pipeline.svg"
 alt="A vertical flow chart with seven labeled boxes connected by arrows, from API server at the top to Reconcile at the bottom."/> &lt;figcaption>
-&lt;p>Pipeline diagram: API server to Reflector to DeltaFIFO to Indexer to Event handlers&lt;/p>
+&lt;p>Pipeline diagram: API server to Reflector to the delta queue to Indexer to Event handlers&lt;/p>
 &lt;/figcaption>
 &lt;/figure>
 &lt;p>Now walk through each link.&lt;/p>
-&lt;h3 id="reflector-and-resourceversion">Reflector and resourceVersion&lt;a class="td-heading-self-link" href="#reflector-and-resourceversion" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The Reflector is the only component that talks to the API server directly. It has exactly two
-jobs: do a single &lt;strong>list&lt;/strong> at startup, then keep a &lt;strong>watch&lt;/strong> open from there on.&lt;/p>
-&lt;p>This is where the &lt;code>resourceVersion&lt;/code> earns its keep. Along with the list of objects, the API
-server returns the version at which the snapshot was produced. The Reflector then says to the
-API server, &amp;quot;open a &lt;strong>watch&lt;/strong> from version X&amp;quot;, and receives a stream of events for everything
-that happened after that version. That is the basis of consistency: there is no risk of
-missing an event between &lt;strong>list&lt;/strong> and &lt;strong>watch&lt;/strong>, because &lt;strong>watch&lt;/strong> resumes exactly at the point
-where &lt;strong>list&lt;/strong> ended.&lt;/p>
+&lt;h3 id="reflector-and-resourceversion">Reflector and resourceVersion&lt;a class="td-heading-self-link" href="#reflector-and-resourceversion" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Within the cache, the Reflector is the only component that talks to the API server. It has
+exactly two jobs: fetch the initial snapshot at startup, then keep a &lt;strong>watch&lt;/strong> open from there
+on. (Writes and &lt;code>APIReader&lt;/code> reads bypass the cache entirely and reach the API server on their
+own — more on those later.)&lt;/p>
+&lt;p>This is where the &lt;code>resourceVersion&lt;/code> earns its keep. Along with the objects, the API server
+reports the version at which the snapshot was produced. The Reflector then says to the API
+server, &amp;quot;open a &lt;strong>watch&lt;/strong> from version X&amp;quot;, and receives a stream of events for everything that
+happened after that version. That is the basis of consistency: there is no gap between the
+snapshot and the stream, because the stream resumes exactly where the snapshot ended.&lt;/p>
+&lt;p>That snapshot no longer arrives as a separate &lt;strong>list&lt;/strong> call by default. Current versions use a
+&lt;a href="https://kubernetes.io/docs/reference/using-api/api-concepts/#streaming-lists">streaming list&lt;/a> instead: the Reflector
+opens the &lt;strong>watch&lt;/strong> with &lt;code>sendInitialEvents=true&lt;/code>, and the API server begins the stream with
+synthetic &lt;code>ADDED&lt;/code> events for the whole current state before switching to live changes. One
+request instead of two, and a plain &lt;strong>list&lt;/strong> as the fallback. The pattern is unchanged —
+snapshot, then stream — which is why this article keeps saying &lt;strong>list&lt;/strong> + &lt;strong>watch&lt;/strong>, the way the
+Kubernetes documentation does.&lt;/p>
 &lt;p>If the connection drops, the Reflector reconnects with the last known &lt;code>resourceVersion&lt;/code>. If
 the API server replies with &lt;code>410 Gone&lt;/code> (&amp;quot;that version is no longer in the history, you are
-too far behind&amp;quot;), the Reflector performs a fresh &lt;strong>list&lt;/strong> and starts over. This is called a
+too far behind&amp;quot;), the Reflector fetches a fresh snapshot and starts over. This is called a
 &lt;em>relist&lt;/em>, and it does not happen on a schedule — only in those failure scenarios.&lt;/p>
-&lt;h3 id="deltafifo-a-queue-of-deltas">DeltaFIFO: a queue of deltas&lt;a class="td-heading-self-link" href="#deltafifo-a-queue-of-deltas" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>This piece is worth pausing on. &lt;code>DeltaFIFO&lt;/code> is the buffer between the Reflector and the rest of
-the informer. Its input is a stream of events from the API server; its output is the same
-events, but &lt;em>grouped by key&lt;/em> and in strict order.&lt;/p>
-&lt;p>More precisely, DeltaFIFO solves three problems:&lt;/p>
+&lt;h3 id="the-delta-queue">The delta queue&lt;a class="td-heading-self-link" href="#the-delta-queue" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>This piece is worth pausing on, and it is also the piece that changed most recently.&lt;/p>
+&lt;p>Historically the buffer between the Reflector and the rest of the informer was &lt;code>DeltaFIFO&lt;/code>,
+which held deltas in a map keyed by &lt;code>namespace/name&lt;/code>: deltas for one object accumulated in a
+slot, &lt;code>Pop()&lt;/code> handed back the whole slice for that key at once, and a &lt;code>dedupDeltas&lt;/code> helper
+collapsed consecutive &lt;code>Deleted&lt;/code> entries. If you have read about informer internals before,
+that is probably the picture you are carrying.&lt;/p>
+&lt;p>That is no longer the default. Shared informers now use &lt;code>RealFIFO&lt;/code>, and since client-go 1.36
+&lt;code>DeltaFIFO&lt;/code> cannot be switched back on at all. Which version you compile against is what
+decides this, not the version of the cluster you point at. The new queue is deliberately
+simpler — a flat, strictly ordered slice of deltas:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">RealFIFO&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// ...&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">items&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="nx">Delta&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Its own documentation states the design goal plainly: every notification from the Reflector is
+passed, in order, through &lt;code>Pop&lt;/code>. Which means:&lt;/p>
 &lt;ol>
-&lt;li>&lt;strong>It preserves order.&lt;/strong> Whatever stream of changes flows in for &lt;code>default/my-deploy&lt;/code>, the
-consumer sees the same ordering the API server delivered.&lt;/li>
-&lt;li>&lt;strong>It groups by key.&lt;/strong> All deltas for a single &lt;code>namespace/name&lt;/code> accumulate in one slot.
-&lt;code>Pop()&lt;/code> returns not a single delta but a &lt;strong>slice&lt;/strong> of every delta accumulated under that
-key — the consumer sees, in one shot, everything that has happened to the object since the
-last call.&lt;/li>
-&lt;li>&lt;strong>It deduplicates selectively.&lt;/strong> The built-in &lt;code>dedupDeltas&lt;/code> function collapses
-&lt;strong>consecutive &lt;code>Deleted&lt;/code> deltas&lt;/strong> for the same key, so two delete events do not turn into
-two separate processing rounds.&lt;/li>
+&lt;li>&lt;strong>Order is preserved globally&lt;/strong>, not just per object. Deltas come out in exactly the
+sequence they arrived.&lt;/li>
+&lt;li>&lt;strong>One &lt;code>Pop&lt;/code>, one delta.&lt;/strong> There is no per-key slot and no slice — &lt;code>Pop&lt;/code> takes
+&lt;code>items[0]&lt;/code>. (There is also a &lt;code>PopBatch&lt;/code> for processing several deltas in one pass, on by
+default since client-go 1.35, but it is a batching optimization, not a merge: each delta is
+still delivered.)&lt;/li>
+&lt;li>&lt;strong>No deduplication whatsoever.&lt;/strong> &lt;code>RealFIFO&lt;/code> has no &lt;code>dedupDeltas&lt;/code> equivalent. Nothing is
+collapsed — including consecutive deletes, and including intermediate states.&lt;/li>
 &lt;/ol>
-&lt;p>An important caveat: &lt;strong>DeltaFIFO does not merge consecutive &lt;code>Added&lt;/code> or consecutive &lt;code>Updated&lt;/code>
-deltas.&lt;/strong> Collapsing every intermediate state into a single final one is, in general, not its
-job.&lt;/p>
-&lt;p>A worked example. Suppose three events for object &lt;code>default/my-deploy&lt;/code> arrive in quick
-succession:&lt;/p>
+&lt;p>So the worked example gets simpler than it used to be. Suppose three events for
+&lt;code>default/my-deploy&lt;/code> arrive in quick succession:&lt;/p>
 &lt;ol>
 &lt;li>&lt;code>Added&lt;/code> — the Deployment is created (say, with &lt;code>spec.replicas=1&lt;/code>).&lt;/li>
 &lt;li>&lt;code>Updated&lt;/code> — somebody bumps &lt;code>spec.replicas&lt;/code> to &lt;code>2&lt;/code>.&lt;/li>
 &lt;li>&lt;code>Updated&lt;/code> — and immediately to &lt;code>3&lt;/code>.&lt;/li>
 &lt;/ol>
-&lt;p>DeltaFIFO places all three deltas into the slot keyed by &lt;code>default/my-deploy&lt;/code>. &lt;code>Pop()&lt;/code> returns
-them as a single slice, and &lt;code>sharedIndexInformer.HandleDeltas&lt;/code> walks through them in order:
-first &lt;code>OnAdd&lt;/code>, then two &lt;code>OnUpdate&lt;/code> calls (one for the intermediate &lt;code>1→2&lt;/code> transition and one
-for the final &lt;code>2→3&lt;/code>). The event handler runs three times, no shortcuts.&lt;/p>
-&lt;p>There &lt;strong>is&lt;/strong> per-object deduplication, but not in DeltaFIFO — it lives one layer up, in the
-controller's workqueue. The mechanic is straightforward: for each delta from DeltaFIFO, the
-controller's event handler extracts the &lt;code>namespace/name&lt;/code> &lt;em>key&lt;/em> from the object and enqueues
-it. Re-inserting the same key silently coalesces with the existing entry; the workqueue does
-not care about the object itself.&lt;/p>
+&lt;p>All three are appended to the queue and popped one at a time, and the informer dispatches them
+in order: first &lt;code>OnAdd&lt;/code>, then two &lt;code>OnUpdate&lt;/code> calls (the intermediate &lt;code>1→2&lt;/code>, then the final
+&lt;code>2→3&lt;/code>). The event handler runs three times, no shortcuts.&lt;/p>
+&lt;p>The store is written &lt;em>before&lt;/em> the handlers are notified, and handler delivery is asynchronous — the informer writes the indexer, then hands the
+notification to a per-subscriber buffer that the subscriber's own goroutine drains later. So
+your handler never sees an indexer lagging behind its own event, but it can see one that has
+moved well past it. Handling the &lt;code>1→2&lt;/code> update, a &lt;code>Get&lt;/code> from the cache can legitimately
+return &lt;code>3&lt;/code> — or &lt;code>NotFound&lt;/code>, if the object has since been deleted. Never treat the object in the
+store as &amp;quot;the state at the time of my event&amp;quot;.&lt;/p>
+&lt;p>Deduplication does exist — but it lives one layer up, in the controller's workqueue, and with
+&lt;code>RealFIFO&lt;/code> that is now the &lt;em>only&lt;/em> place it happens. The mechanic is straightforward: for each
+delta, the controller's event handler extracts the &lt;code>namespace/name&lt;/code> &lt;em>key&lt;/em> from the object and
+enqueues it. Re-inserting the same key silently coalesces with the existing entry; the
+workqueue does not care about the object itself.&lt;/p>
 &lt;p>A concrete picture: you create a Pod. Within a second or two a flurry of &lt;code>Updated&lt;/code> deltas
 arrives — the scheduler assigns a node, the kubelet sets &lt;code>Pending&lt;/code>, then &lt;code>ContainerCreating&lt;/code>,
 &lt;code>Running&lt;/code>, &lt;code>Ready&lt;/code>. Five deltas in a row, and the event handler fires on every one of them —
@@ -469,26 +489,32 @@ By the time &lt;code>Reconcile&lt;/code> pops it, the cache already holds the fi
 runs once.&lt;/p>
 &lt;p>So you get two layers with cleanly separated responsibilities:&lt;/p>
 &lt;ul>
-&lt;li>&lt;strong>DeltaFIFO&lt;/strong> — an ordered queue of deltas, grouped by key, with deduplication only for
-consecutive &lt;code>Deleted&lt;/code> events. Its job is to deliver change facts to consumers in the right
-order.&lt;/li>
-&lt;li>&lt;strong>workqueue&lt;/strong> — a queue of &lt;strong>keys&lt;/strong> with proper deduplication and rate limiting. This is
-the layer that collapses &amp;quot;ten updates in a row → one reconcile&amp;quot;.&lt;/li>
+&lt;li>The &lt;strong>delta queue&lt;/strong> — an ordered stream of change facts, delivered one at a time and
+without merging. Its job is to tell consumers everything that happened, in the right order.&lt;/li>
+&lt;li>&lt;strong>workqueue&lt;/strong> — a queue of &lt;strong>keys&lt;/strong> with deduplication. This is the layer
+that collapses &amp;quot;ten updates in a row → a reconcile or two&amp;quot;.&lt;/li>
 &lt;/ul>
 &lt;p>If you keep that two-layer picture in your head, it becomes clear why a flood of events
 against a single object barely affects controller throughput — the workqueue absorbs them.&lt;/p>
-&lt;h3 id="indexer-the-local-copy-of-the-cluster">Indexer: the local copy of the cluster&lt;a class="td-heading-self-link" href="#indexer-the-local-copy-of-the-cluster" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The Indexer (also known as &lt;code>ThreadSafeStore&lt;/code>) is the local copy of the cluster. Underneath
-it is a plain &lt;code>map[string]interface{}&lt;/code> keyed by &lt;code>namespace/name&lt;/code>, plus a mutex, plus a
-dictionary of registered indexes (covered in their own section below).&lt;/p>
-&lt;p>Yes — at heart it is a map in memory. No B-trees, no LSMs. That is precisely why a cache-hit
-&lt;code>r.Get&lt;/code> costs microseconds: it is a map lookup followed by a copy of a Go struct.&lt;/p>
-&lt;h3 id="sharedindexinformer-and-subscriptions">SharedIndexInformer and subscriptions&lt;a class="td-heading-self-link" href="#sharedindexinformer-and-subscriptions" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>A SharedIndexInformer fuses Reflector, DeltaFIFO, and Indexer together and exposes two
-interfaces to the rest of the world:&lt;/p>
+&lt;h3 id="indexer-the-local-copy-of-the-cluster">Indexer: the local copy of the cluster&lt;a class="td-heading-self-link" href="#indexer-the-local-copy-of-the-cluster" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The Indexer, backed by a &lt;code>ThreadSafeStore&lt;/code>, is the local copy of the cluster. Underneath
+it is a plain &lt;code>map[string]interface{}&lt;/code> keyed by &lt;code>namespace/name&lt;/code>, plus a single
+&lt;code>sync.RWMutex&lt;/code>, plus a dictionary of registered indexes (covered in their own section below).&lt;/p>
+&lt;p>An uncontended &lt;code>r.Get&lt;/code> is cheap: a map lookup followed by a &lt;code>DeepCopy&lt;/code> of the object. The
+part of that structure that matters most at scale, though, is not the map — it is the one
+&lt;code>sync.RWMutex&lt;/code>, which guards the store and every index at once. Readers hold it for shared
+access, the informer needs it exclusively to write, so the two genuinely compete: a &lt;code>List&lt;/code>
+holds the read lock while it walks every object of that kind, and the next store write waits
+behind that walk. This was a real bottleneck in &lt;code>kube-controller-manager&lt;/code> at scale
+(&lt;a href="https://github.com/kubernetes/kubernetes/issues/130767">kubernetes#130767&lt;/a>); recent
+client-go releases hold the write lock for much less time.&lt;/p>
+&lt;h3 id="sharedindexinformer-and-subscriptions">SharedIndexInformer and subscriptions&lt;a class="td-heading-self-link" href="#sharedindexinformer-and-subscriptions" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>A SharedIndexInformer fuses the Reflector, the delta queue, and the Indexer together and
+exposes two interfaces to the rest of the world:&lt;/p>
 &lt;ul>
 &lt;li>Read objects directly from the indexer.&lt;/li>
 &lt;li>Register a &lt;code>ResourceEventHandler&lt;/code> and receive notifications for every event coming out of
-DeltaFIFO — &lt;code>OnAdd&lt;/code>, &lt;code>OnUpdate&lt;/code>, &lt;code>OnDelete&lt;/code>. The store is updated in lockstep with the
-handler call, so by the time your handler runs, the indexer already reflects the new state.&lt;/li>
+the queue — &lt;code>OnAdd&lt;/code>, &lt;code>OnUpdate&lt;/code>, &lt;code>OnDelete&lt;/code>. The store is written before the handler call,
+so by the time your handler runs the indexer already reflects that event, and possibly
+later ones too.&lt;/li>
 &lt;/ul>
 &lt;p>&amp;quot;Outside&amp;quot; here means your controllers. When a controller registers &lt;code>Watches(...)&lt;/code>, under the
 hood it asks the informer: &amp;quot;add a handler that, on every change, enqueues the key into my
@@ -504,24 +530,27 @@ alt="A single Pod informer at the top with three arrows fanning out to two contr
 &lt;/figure>
 &lt;p>In other words: an informer is the thing that subscribed to Pods once, holds them locally,
 and serves every interested party in the process. From the API server's perspective, that is
-one &lt;strong>list&lt;/strong> and one &lt;strong>watch&lt;/strong> per GVK, regardless of how many reconcilers live inside your
+one snapshot and one &lt;strong>watch&lt;/strong> per GVK, regardless of how many reconcilers live inside your
 process.&lt;/p>
 &lt;h2 id="what-happens-at-startup-and-on-the-very-first-r-get">What happens at startup and on the very first &lt;code>r.Get&lt;/code>&lt;a class="td-heading-self-link" href="#what-happens-at-startup-and-on-the-very-first-r-get" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Step by step, here is what happens between the moment the manager starts and the first
 &lt;code>r.Get&lt;/code> inside your reconciler:&lt;/p>
 &lt;ol>
 &lt;li>The manager's &lt;code>mgr.Start(ctx)&lt;/code> brings up every registered informer.&lt;/li>
-&lt;li>For each GVK, the Reflector performs a full &lt;strong>list&lt;/strong> of every object that falls within your
-scope.&lt;/li>
-&lt;li>The &lt;strong>list&lt;/strong> response is loaded into the informer's store, registered indexes are rebuilt,
-and the informer's &lt;code>HasSynced()&lt;/code> flag flips to &lt;code>true&lt;/code>.&lt;/li>
-&lt;li>After that, a &lt;strong>watch&lt;/strong> is opened starting from the &lt;code>resourceVersion&lt;/code> returned by &lt;strong>list&lt;/strong>.&lt;/li>
-&lt;li>&lt;strong>Only then&lt;/strong> does the controller start invoking &lt;code>Reconcile&lt;/code> — specifically, once
-&lt;code>cache.WaitForCacheSync&lt;/code> has returned &lt;code>true&lt;/code> for every source it owns. Until that point,
-workers do not drain the workqueue, even if events have already started piling up.&lt;/li>
+&lt;li>For each GVK, the Reflector fetches a full snapshot: every object of that type that falls
+within your scope.&lt;/li>
+&lt;li>The snapshot is loaded into the informer's store, registered indexes are rebuilt, and the
+informer is marked as synced.&lt;/li>
+&lt;li>The same stream then continues as an ordinary &lt;strong>watch&lt;/strong> from the &lt;code>resourceVersion&lt;/code> the
+snapshot synced to.&lt;/li>
+&lt;li>&lt;strong>Only then&lt;/strong> does the controller start invoking &lt;code>Reconcile&lt;/code> — specifically, once every
+source it owns reports synced, which includes its event handlers having processed the
+initial snapshot. Until that point, workers do not drain the workqueue, even if events have
+already started piling up.&lt;/li>
 &lt;/ol>
-&lt;p>So in &lt;code>controller-runtime&lt;/code>, &amp;quot;the reconciler is running but the cache is still empty&amp;quot; is
-&lt;strong>not a state you can ever observe&lt;/strong> by construction. The warm-up always happens up front,
-never lazily.&lt;/p>
+&lt;p>So &amp;quot;the reconciler is running but the cache is still empty&amp;quot; is &lt;strong>not a state you can
+observe&lt;/strong> — the warm-up happens before the first &lt;code>Reconcile&lt;/code>. (The one exception: a &lt;code>Get&lt;/code> for a
+type nothing registered a watch for starts a new informer on the spot, and blocks until it is
+warm.)&lt;/p>
 &lt;p>What happens during the first &lt;code>r.Get&lt;/code>? Suppose your reconciler contains:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">obj&lt;/span> &lt;span class="nx">appsv1&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Deployment&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">r&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Get&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">ctx&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">req&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">NamespacedName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">obj&lt;/span>&lt;span class="p">)&lt;/span>
@@ -531,18 +560,20 @@ never lazily.&lt;/p>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nx">apierrors&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewNotFound&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">...&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// DeepCopy into obj&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>No HTTP, no TLS, no protobuf serialization, no &lt;code>etcd&lt;/code>. A map lookup, a struct copy, return.
-Microseconds.&lt;/p>
-&lt;p>To repeat, because it matters: even the very first &lt;code>Get&lt;/code> in the controller's lifetime reads
-from a fully warmed-up, fully indexed snapshot. There is no &amp;quot;first time slow, then fast&amp;quot;.&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>No HTTP, no TLS, no protobuf serialization, no &lt;code>etcd&lt;/code>. A map lookup plus a deep copy of the
+object, and no I/O at all.&lt;/p>
+&lt;p>To repeat, because it matters: even the very first &lt;code>Get&lt;/code> for a registered type reads from a
+fully warmed-up, fully indexed snapshot. There is no &amp;quot;first time slow, then fast&amp;quot;.&lt;/p>
 &lt;p>&lt;strong>Note:&lt;/strong> This applies specifically to &lt;code>mgr.GetClient()&lt;/code>. If for some reason you need to
 read objects &lt;strong>before&lt;/strong> &lt;code>mgr.Start()&lt;/code> (for example, during initialization), use
-&lt;code>mgr.GetAPIReader()&lt;/code>, which goes straight to the API server. More on this later.&lt;/p>
+&lt;code>mgr.GetAPIReader()&lt;/code>, which goes straight to the API server. The regular client does not hand
+you an empty result at that point — it fails fast with &lt;code>ErrCacheNotStarted&lt;/code>. More on this
+later.&lt;/p>
 &lt;h2 id="client-cache-read-from-memory-write-to-the-api-server">Client ≠ Cache: read from memory, write to the API server&lt;a class="td-heading-self-link" href="#client-cache-read-from-memory-write-to-the-api-server" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Another point that often gets lost. &lt;code>client.Client&lt;/code> in &lt;code>controller-runtime&lt;/code> is a composite
 object:&lt;/p>
 &lt;ul>
 &lt;li>&lt;strong>Reads&lt;/strong> (&lt;code>Get&lt;/code>, &lt;code>List&lt;/code>) go through the cache.&lt;/li>
-&lt;li>&lt;strong>Writes&lt;/strong> (&lt;code>Create&lt;/code>, &lt;code>Update&lt;/code>, &lt;code>Patch&lt;/code>, &lt;code>Delete&lt;/code>, &lt;code>DeleteAllOf&lt;/code>) go straight to the API
+&lt;li>&lt;strong>Writes&lt;/strong> (&lt;code>Create&lt;/code>, &lt;code>Update&lt;/code>, &lt;code>Patch&lt;/code>, &lt;code>Apply&lt;/code>, &lt;code>Delete&lt;/code>, &lt;code>DeleteAllOf&lt;/code>) go straight to the API
 server.&lt;/li>
 &lt;/ul>
 &lt;p>This is not a hack — it is a deliberate design choice:&lt;/p>
@@ -578,8 +609,8 @@ alt="A vertical diagram showing how a write travels from user code through the A
 &lt;p>Write visibility diagram: client.Update to API server to watch event to cache&lt;/p>
 &lt;/figcaption>
 &lt;/figure>
-&lt;p>Between &amp;quot;you executed &lt;code>Update&lt;/code>&amp;quot; and &amp;quot;the cache reflects the new state&amp;quot; there is a
-microscopic window, on the order of milliseconds. Inside that window, an &lt;code>r.Get&lt;/code> for the
+&lt;p>Between &amp;quot;you executed &lt;code>Update&lt;/code>&amp;quot; and &amp;quot;the cache reflects the new state&amp;quot; there is a window —
+usually milliseconds, but with no guaranteed upper bound. Inside that window, an &lt;code>r.Get&lt;/code> for the
 same object returns the previous version. The next section is essentially a list of mistakes
 that grow out of that window.&lt;/p>
 &lt;h2 id="common-mistakes-that-everyone-makes">Common mistakes that everyone makes&lt;a class="td-heading-self-link" href="#common-mistakes-that-everyone-makes" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;h3 id="mistake-1-expecting-read-after-write">Mistake 1: expecting read-after-write&lt;a class="td-heading-self-link" href="#mistake-1-expecting-read-after-write" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>A familiar pattern:&lt;/p>
@@ -598,9 +629,10 @@ the cache catches up asynchronously, through the watch.&lt;/p>
 must always look at the current state. If it does not match the desired state, the next
 reconcile fixes it. You do not need to &amp;quot;wait 100ms&amp;quot; or &amp;quot;re-trigger&amp;quot;. You need to write the
 logic so that one or two extra invocations break nothing.&lt;/p>
-&lt;p>If you genuinely need guaranteed freshness — for example, in a validating webhook where you
-cannot afford to act on stale state — that is what &lt;code>APIReader&lt;/code> is for. More on this
-shortly.&lt;/p>
+&lt;p>If a stale read is a genuine correctness problem for you, a live read does not fix it — a
+concurrent write can be mid-commit anyway. See the
+&lt;a href="https://github.com/kubernetes-sigs/controller-runtime/blob/820ed1a84f67c2f5c4ee4a104bc6c00faddb1384/FAQ.md#q-my-cache-might-be-stale-if-i-read-from-a-cache-how-should-i-deal-with-that">controller-runtime FAQ&lt;/a>
+for patterns that do.&lt;/p>
 &lt;h3 id="mistake-2-deepcopy-and-who-owns-the-memory">Mistake 2: &lt;code>DeepCopy&lt;/code> and who owns the memory&lt;a class="td-heading-self-link" href="#mistake-2-deepcopy-and-who-owns-the-memory" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>To make sense of this, a quick word on event mechanics inside a controller. When you register
 a source via &lt;code>Watches(...)&lt;/code>, two layers sit between the indexer and your &lt;code>Reconcile&lt;/code>:&lt;/p>
 &lt;ul>
@@ -614,12 +646,15 @@ a source via &lt;code>Watches(...)&lt;/code>, two layers sit between the indexer
 the informer's shared store&lt;/strong>. The same &lt;code>*corev1.Pod&lt;/code> is seen by every controller subscribed
 to Pods.&lt;/p>
 &lt;p>Because Go has no immutable structs, nothing prevents you from doing
-&lt;code>pod.Labels[&amp;quot;foo&amp;quot;] = &amp;quot;bar&amp;quot;&lt;/code> directly inside a handler. Historically, &lt;code>Get&lt;/code> and &lt;code>List&lt;/code>
-returned a pointer into the store as well, with predictable consequences: somebody patched a
-status &amp;quot;for convenience&amp;quot; in one controller and broke the world view of an unrelated
-controller next door.&lt;/p>
-&lt;p>Today, &lt;code>controller-runtime&lt;/code> performs a &lt;code>DeepCopy&lt;/code> on &lt;code>Get&lt;/code> and &lt;code>List&lt;/code> by default. The simple
-rule:&lt;/p>
+&lt;code>pod.Labels[&amp;quot;foo&amp;quot;] = &amp;quot;bar&amp;quot;&lt;/code> directly inside a handler — and that Pod is the one in the store.
+Raw &lt;code>client-go&lt;/code> listers have always worked this way; &lt;code>ThreadSafeStore&lt;/code>'s own documentation puts
+it bluntly: you must not modify anything returned by &lt;code>Get&lt;/code> or &lt;code>List&lt;/code> as it will break the indexing
+feature. Patch a status &amp;quot;for convenience&amp;quot; in a handler and you break the world view of an
+unrelated controller next door.&lt;/p>
+&lt;p>The cache-backed client from &lt;code>controller-runtime&lt;/code> shields you from that on the read path: &lt;code>Get&lt;/code> and
+&lt;code>List&lt;/code> deep-copy by default, and have since its earliest releases. You can opt out with
+&lt;code>UnsafeDisableDeepCopy&lt;/code>, which is named that way on purpose. The event path is not shielded —
+there is no &lt;code>DeepCopy&lt;/code> anywhere between the informer and your predicate. The simple rule:&lt;/p>
 &lt;ul>
 &lt;li>Anything you receive from &lt;code>r.Get&lt;/code> / &lt;code>r.List&lt;/code> is yours; mutate freely.&lt;/li>
 &lt;li>Anything you receive in a &lt;code>Predicate&lt;/code> or an &lt;code>EventHandler&lt;/code> is shared, not yours. If you
@@ -630,13 +665,18 @@ cache for every other controller subscribed to the same type.&lt;/li>
 &lt;code>handler.EnqueueRequestsFromMapFunc(...)&lt;/code> contains expressions like
 &lt;code>e.ObjectNew.SetLabels(...)&lt;/code> or &lt;code>obj.Status.X = Y&lt;/code>, stop and ask whether a &lt;code>DeepCopy&lt;/code> is
 missing before that mutation.&lt;/p>
-&lt;h3 id="mistake-3-resync-is-not-relist">Mistake 3: resync is not relist&lt;a class="td-heading-self-link" href="#mistake-3-resync-is-not-relist" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>An informer has a &lt;code>resyncPeriod&lt;/code> parameter (10 hours by default in &lt;code>controller-runtime&lt;/code>), and
-many people read it as &amp;quot;rebuild the cache from the API server every N hours&amp;quot;.&lt;/p>
-&lt;p>It does not. A resync does &lt;strong>not&lt;/strong> perform a &lt;strong>list&lt;/strong>. It &lt;em>re-emits&lt;/em> everything currently in the
-indexer back through DeltaFIFO as &lt;code>Sync&lt;/code> deltas, and the informer processes them as usual,
-calling &lt;code>OnUpdate(old, old)&lt;/code> for each object. This gives a controller that has somehow
-missed its reconcile window (a stuck worker, a dropped handler) a chance to see the world
-again. It generates no traffic to the API server.&lt;/p>
+&lt;h3 id="mistake-3-resync-is-not-relist">Mistake 3: resync is not relist&lt;a class="td-heading-self-link" href="#mistake-3-resync-is-not-relist" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>An informer has a resync period (&lt;code>cache.Options.SyncPeriod&lt;/code>, 10 hours by default in
+&lt;code>controller-runtime&lt;/code>), and many people read it as meaning: &lt;em>rebuild the cache from the API
+server every n hours, fetching every resource once again&lt;/em>.&lt;/p>
+&lt;p>It does not. A resync does &lt;strong>not&lt;/strong> perform a &lt;strong>list&lt;/strong>. It &lt;em>re-emits&lt;/em> everything currently in
+the indexer back through the delta queue, and the informer dispatches an update per object,
+calling &lt;code>OnUpdate(old, old)&lt;/code> for each one. This is for controllers that manage state outside
+the Kubernetes API (a cloud provider resource, for example): out-of-band changes produce no
+watch event, and a periodic resync is the only way to notice them. It generates no traffic to
+the API server.&lt;/p>
+&lt;p>One caveat before you rely on resync as a safety net: because both sides of the synthetic
+update are the same object, predicates that compare old and new — such as
+&lt;code>GenerationChangedPredicate&lt;/code> — will drop it.&lt;/p>
 &lt;p>A real &lt;code>relist&lt;/code> happens only in two cases: when the &lt;strong>watch&lt;/strong> died with &lt;code>410 Gone&lt;/code>, and when
 you explicitly recreate the informer.&lt;/p>
 &lt;h3 id="mistake-4-do-not-confuse-requeueafter-with-a-timer">Mistake 4: do not confuse &lt;code>RequeueAfter&lt;/code> with a timer&lt;a class="td-heading-self-link" href="#mistake-4-do-not-confuse-requeueafter-with-a-timer" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>A small note that often saves time. Sometimes you want to wait inside a reconciler — &amp;quot;we
@@ -649,8 +689,6 @@ If a real event for the same object arrives within that window, the reconcile fi
 immediately, without waiting for the timer (the key is deduplicated in the queue). This is
 both cheaper and more correct than a hand-rolled timer: you do not hold a worker, and you do
 not risk missing a real event.&lt;/p>
-&lt;p>There is also &lt;code>ctrl.Result{Requeue: true}&lt;/code> — enqueue immediately, subject to the rate
-limiter.&lt;/p>
 &lt;h2 id="cache-index-almost-sql">cache + index = almost SQL&lt;a class="td-heading-self-link" href="#cache-index-almost-sql" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Now you get to what is, arguably, the most useful capability of the cache — and the one most
 controllers leave unused.&lt;/p>
 &lt;p>By default, a &lt;code>List&lt;/code> from the cache looks like this:&lt;/p>
@@ -661,9 +699,10 @@ controllers leave unused.&lt;/p>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// do something&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>It works — until the cluster has 50,000 Pods and reconciles run hundreds of times per
-second, at which point the controller is shuffling the same half-gigabyte of pointers back
-and forth on every trigger. &lt;code>O(n)&lt;/code> per reconcile.&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>It works — until the cluster has 50,000 Pods and reconciles run hundreds of times per second.
+Then the loop turns slow: every trigger walks all 50,000 Pods under the store's read lock,
+then deep-copies each one after the lock is released, doing O(n) work per reconcile, and it is
+the walk, not the copying, that blocks writers into the store.&lt;/p>
 &lt;p>The Indexer in &lt;code>client-go&lt;/code> can do much better. You declare up front which field you want to
 index on:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Index by spec.nodeName for Pods&lt;/span>
@@ -689,6 +728,7 @@ JSONPath and does not check it against the object's schema — you could write &
 or &lt;code>&amp;quot;xyzzy&amp;quot;&lt;/code> and it would behave identically. The only rule is that the &lt;em>exact same
 string&lt;/em> comes back in &lt;code>MatchingFields&lt;/code> at query time. Naming the index after the field it
 happens to read is a readability convention, nothing more.&lt;/p>
+&lt;p>But remember: this only works for reads served from the cache.&lt;/p>
 &lt;p>&lt;strong>The indexed value is computed, not read.&lt;/strong> The function returns whatever strings you
 build; they need not be the verbatim contents of any single field. You can lowercase a
 value, join several fields into one composite key, bucket a timestamp (the &lt;em>time-bucket&lt;/em>
@@ -758,21 +798,28 @@ by a specific window.&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>&lt;strong>&lt;code>MatchingLabels&lt;/code> is not an index.&lt;/strong> Many people assume that since label-based lookups are
-so common, there must be an optimization for them. There is not — &lt;code>ThreadSafeStore&lt;/code> keeps
-no separate label dictionary.&lt;/p>
-&lt;p>When you call &lt;code>List(..., MatchingLabels{...})&lt;/code>, the controller honestly walks &lt;strong>every&lt;/strong>
-cached object of the given type and checks each one against the selector. That is &lt;code>O(n)&lt;/code>,
-exactly what &lt;code>IndexField&lt;/code> is supposed to save you from.&lt;/p>
-&lt;p>The API server itself supports filtering the event stream by a specific label selector. To
-make that effective in your controller, you have to optimize at the &lt;strong>cache population&lt;/strong>
-stage, via &lt;code>cache.ByObject{Label: ...}&lt;/code>, not at the &lt;strong>read&lt;/strong> stage. This is covered in the
-next section on selective caches.&lt;/p>
-&lt;p>And if you need a fast lookup by a specific label across already cached objects, register
-an &lt;code>IndexField&lt;/code> for that label by hand. That works.&lt;/p>
+so common, there must be an optimization for them. There is not: &lt;code>ThreadSafeStore&lt;/code> keeps no
+separate label dictionary. The only indexes the cache has are the namespace index and the
+field indexes you register yourself.&lt;/p>
+&lt;p>Two separate things follow, and they get conflated. The walk really is O(n): with no label
+index, &lt;code>List(..., MatchingLabels{...})&lt;/code> still visits every cached
+object of that kind, or whatever subset the namespace or a field index already narrowed it
+to. But the selector is evaluated &lt;em>before&lt;/em> the deep copy, so objects that do not match are
+skipped without ever being copied. Against 50,000 Pods with ten matches, that is 50,000
+cheap comparisons and ten expensive copies — not 50,000 copies. Which is why a
+label-filtered &lt;code>List&lt;/code> is still much better than fetching everything and filtering in your
+own code afterwards: same walk either way, and the filtered version skips the copies you
+were going to throw away.&lt;/p>
+&lt;p>So &lt;code>MatchingLabels&lt;/code> is fine to use — just do not expect it to make the traversal cheaper.
+To shrink the candidate set itself, use a namespace or a field selector backed by a
+registered &lt;code>IndexField&lt;/code>. To avoid holding the objects at all, filter at &lt;strong>cache population&lt;/strong>
+time via &lt;code>cache.ByObject{Label: ...}&lt;/code> or &lt;code>DefaultLabelSelector&lt;/code>, which pushes the selector
+down to the &lt;strong>watch&lt;/strong> itself — covered in the next section on selective caches.&lt;/p>
 &lt;/li>
 &lt;li>
-&lt;p>&lt;strong>An index costs memory.&lt;/strong> Every index is an extra dictionary keyed by every object. Do
-not index everything in sight speculatively.&lt;/p>
+&lt;p>&lt;strong>An index costs memory.&lt;/strong> An index maps each indexed value to a set of &lt;code>namespace/name&lt;/code>
+keys — not to copies of the objects. Cheap per object, not free, and still not a reason to
+index everything in sight speculatively.&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>&lt;strong>You can only index data that is in the object itself.&lt;/strong> You cannot index a Pod by &amp;quot;has a
@@ -781,8 +828,9 @@ the PVC, not the Pod.&lt;/p>
 &lt;/li>
 &lt;/ul>
 &lt;p>&lt;strong>Note:&lt;/strong> An index is built at registration time and is populated as part of the initial
-&lt;strong>list&lt;/strong>. By the time the first &lt;code>Reconcile&lt;/code> runs, both &lt;code>Get&lt;/code> and &lt;code>List&lt;/code> with &lt;code>MatchingFields&lt;/code>
-work correctly — the index is not built lazily.&lt;/p>
+snapshot. By the time the first &lt;code>Reconcile&lt;/code> runs, &lt;code>List&lt;/code> with &lt;code>MatchingFields&lt;/code> already works —
+the index is not built lazily. (&lt;code>Get&lt;/code> never consults a field index; it is a direct lookup by
+store key.)&lt;/p>
 &lt;h2 id="selective-cache-do-not-pull-the-whole-cluster-into-your-controller">Selective cache: do not pull the whole cluster into your controller&lt;a class="td-heading-self-link" href="#selective-cache-do-not-pull-the-whole-cluster-into-your-controller" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>By default, an informer pulls every object of its type from every namespace. For Pod,
 Secret, ConfigMap, and Event in a large cluster, that is a multi-gigabyte surprise
 delivered on the first &lt;strong>list&lt;/strong> at startup.&lt;/p>
@@ -853,7 +901,6 @@ exist in the local copy. Everything covered by metadata-only is &lt;code>labels&
 &lt;code>ownerReferences&lt;/code>, &lt;code>finalizers&lt;/code>, &lt;code>creationTimestamp&lt;/code>, and the rest of &lt;code>metadata&lt;/code>.&lt;/p>
 &lt;p>For this case there is &lt;code>PartialObjectMetadata&lt;/code>:&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">var&lt;/span> &lt;span class="nx">list&lt;/span> &lt;span class="nx">metav1&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">PartialObjectMetadataList&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Note: Kind is the singular (&amp;#34;Secret&amp;#34;), not &amp;#34;SecretList&amp;#34;.&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// controller-runtime infers the list shape from the variable type.&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nx">list&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">SetGroupVersionKind&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">schema&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">GroupVersionKind&lt;/span>&lt;span class="p">{&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Group&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
@@ -869,21 +916,22 @@ Secrets the memory difference can reach an order of magnitude.&lt;/p>
 &lt;h2 id="apireader-when-the-cache-is-not-enough">APIReader: when the cache is not enough&lt;a class="td-heading-self-link" href="#apireader-when-the-cache-is-not-enough" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>&lt;code>mgr.GetAPIReader()&lt;/code> returns a &lt;code>client.Reader&lt;/code> that goes straight to the API server, around
 the cache. When you actually need it:&lt;/p>
 &lt;ul>
-&lt;li>&lt;strong>Validating webhooks&lt;/strong>, where the freshness of the object is critical. The cache in
-another process may be lagging at that very moment, and you would block a legitimate
-&lt;code>Update&lt;/code>.&lt;/li>
 &lt;li>A one-off read of a resource for which you do not maintain an informer. Spinning up a watch
 for a single operation is expensive.&lt;/li>
-&lt;li>Reads &lt;strong>before &lt;code>mgr.Start()&lt;/code>&lt;/strong>, for instance during initialization. The regular
-&lt;code>mgr.GetClient()&lt;/code> returns nothing useful at that point.&lt;/li>
-&lt;li>&lt;strong>Paginated traversal of large result sets&lt;/strong> through &lt;code>client.Limit&lt;/code> / &lt;code>client.Continue&lt;/code>.
-The cache-backed client ignores those parameters and always returns the full result set
-from the in-memory store; to actually page through the API server, you need &lt;code>APIReader&lt;/code> (or
-a direct client of your own).&lt;/li>
+&lt;li>Reads &lt;strong>before &lt;code>mgr.Start()&lt;/code>&lt;/strong>, for instance during initialization. At that point the
+cache-backed client fails with &lt;code>ErrCacheNotStarted&lt;/code> rather than returning data.&lt;/li>
+&lt;li>&lt;strong>Paginated traversal of large result sets&lt;/strong> through &lt;code>client.Continue&lt;/code>. The cache-backed
+client rejects &lt;code>Continue&lt;/code> with an explicit error, and honors &lt;code>Limit&lt;/code> only as truncation — an
+arbitrary N objects, not a stable &amp;quot;first N&amp;quot;. For genuine pagination you need &lt;code>APIReader&lt;/code> or
+a direct client of your own.&lt;/li>
 &lt;/ul>
-&lt;p>The price is a real network request. One thing to avoid: do not build &amp;quot;look in the cache, and
-if missing, fall back to the API&amp;quot; logic. That is exactly the split-brain pattern the cache
-is meant to protect you from.&lt;/p>
+&lt;p>The price is a real network request, and it is easy to underestimate: on top of the round trip
+you pay to deserialize whatever comes back, which for a large collection is not cheap. So the
+trade is less obvious than it looks — reading from the API server is not automatically cheaper
+just because it avoids keeping objects in memory. Measure before you &amp;quot;optimize&amp;quot; a cached read
+into a live one. One thing to avoid outright: do not build &amp;quot;look in the cache, and if missing,
+fall back to the API&amp;quot; logic. That is exactly the split-brain pattern the cache is meant to
+protect you from.&lt;/p>
 &lt;h3 id="disabling-the-cache-for-a-type-entirely">Disabling the cache for a type entirely&lt;a class="td-heading-self-link" href="#disabling-the-cache-for-a-type-entirely" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>If you do not need a local cache for a given type at all — say, the type is &amp;quot;fat&amp;quot;, read
 rarely, and the &lt;strong>list&lt;/strong> + &lt;strong>watch&lt;/strong> overhead is not worth paying — you can tell the manager not to
 cache it. This is configured through &lt;code>client.Options.Cache.DisableFor&lt;/code>:&lt;/p>
@@ -898,11 +946,14 @@ cache it. This is configured through &lt;code>client.Options.Cache.DisableFor&lt
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>With this configuration, &lt;code>mgr.GetClient().Get(...)&lt;/code> and &lt;code>List(...)&lt;/code> for Secret go straight
 to the API server, bypassing the cache. No informer is started for that type, which means no
-&lt;strong>list&lt;/strong> at startup and no permanent memory pressure from a store. This is a more radical
+&lt;strong>list&lt;/strong> at startup and no permanent memory pressure from a store. That also means no events:
+nothing will trigger your controller when such an object changes. If you need those triggers,
+pair the direct reads with a metadata-only watch. This is a more radical
 alternative to &lt;code>APIReader&lt;/code>: where &lt;code>APIReader&lt;/code> is reached for ad hoc, individual requests,
 &lt;code>DisableFor&lt;/code> turns the cache off for the type wholesale.&lt;/p>
-&lt;p>Real-world projects use this. Several established CNCF operators disable caching on Secrets,
-both to save memory and to avoid hammering the API server with a large &lt;strong>list&lt;/strong> at startup.&lt;/p>
+&lt;p>Real-world projects use this: &lt;a href="https://github.com/external-secrets/external-secrets">external-secrets&lt;/a>,
+for instance, has flags that disable caching for Secrets and ConfigMaps, trading memory for
+API traffic.&lt;/p>
 &lt;p>&lt;strong>Aside:&lt;/strong> If you want to avoid a watch on the API server entirely, you can feed the
 controller events from a source of your own design, bypassing &lt;strong>list&lt;/strong> + &lt;strong>watch&lt;/strong>. In
 &lt;code>controller-runtime&lt;/code> this is done with &lt;code>WatchesRawSource&lt;/code> / &lt;code>source.Channel&lt;/code>: you can wire
@@ -912,29 +963,31 @@ Niche, but a perfectly valid pattern when the API server should not be touched.&
 &lt;ul>
 &lt;li>&lt;strong>Constrain cache scope&lt;/strong> (&lt;code>Namespaces&lt;/code>, &lt;code>Label&lt;/code>, &lt;code>Field&lt;/code> selectors), especially for &amp;quot;fat&amp;quot;
 types: Secret, ConfigMap, Event, Pod, Node.&lt;/li>
+&lt;li>&lt;strong>Remember that a constrained cache acts as if everything outside its scope does not
+exist.&lt;/strong> A mislabeled object &amp;quot;disappears&amp;quot; with no error anywhere.&lt;/li>
 &lt;li>&lt;strong>Add a &lt;code>Transform&lt;/code>&lt;/strong> for objects whose heavy fields you do not need —
 &lt;code>ManagedFields&lt;/code> alone consume a noticeable share of memory.&lt;/li>
-&lt;li>&lt;strong>Add an &lt;code>IndexField&lt;/code>&lt;/strong> for every &lt;code>List&lt;/code> that uses &lt;code>MatchingFields&lt;/code>. No index means a
-hidden &lt;code>O(n)&lt;/code> scan on every reconcile.&lt;/li>
+&lt;li>&lt;strong>Add an &lt;code>IndexField&lt;/code>&lt;/strong> for every &lt;code>List&lt;/code> that uses &lt;code>MatchingFields&lt;/code>. Without a matching
+index the query does not silently degrade — it fails with an error.&lt;/li>
 &lt;li>&lt;strong>Do not mutate&lt;/strong> objects you receive in an &lt;code>EventHandler&lt;/code> or a &lt;code>Predicate&lt;/code> without a prior
 &lt;code>DeepCopy&lt;/code>. Mutations to the store break neighboring controllers silently and persistently.&lt;/li>
 &lt;li>&lt;strong>Make &lt;code>Reconcile&lt;/code> idempotent.&lt;/strong> It must behave correctly even if it is invoked five times
 in a row with no real change.&lt;/li>
 &lt;li>&lt;strong>Do not expect read-after-write&lt;/strong> from the cache immediately after &lt;code>Update&lt;/code>. The cache
 lags during that window.&lt;/li>
-&lt;li>&lt;strong>When you need freshness&lt;/strong> (webhooks, initialization, one-off reads), use &lt;code>APIReader&lt;/code>,
-not the regular client.&lt;/li>
+&lt;li>&lt;strong>When the cache cannot serve a read&lt;/strong> (initialization, deliberately uncached types), use
+&lt;code>APIReader&lt;/code>, not the regular client.&lt;/li>
 &lt;li>&lt;strong>Use &lt;code>PartialObjectMetadata&lt;/code>&lt;/strong> for types where you only need metadata. It can save
 gigabytes.&lt;/li>
-&lt;li>&lt;strong>Do not call &lt;code>mgr.GetClient()&lt;/code> before &lt;code>mgr.Start()&lt;/code>.&lt;/strong> The informer is not yet warm, the
-store is empty, and you will get either &lt;code>NotFound&lt;/code> or an empty &lt;code>List&lt;/code> and then spend half
-a day investigating why an object &amp;quot;disappeared&amp;quot;.&lt;/li>
+&lt;li>&lt;strong>Do not call &lt;code>mgr.GetClient()&lt;/code> before &lt;code>mgr.Start()&lt;/code>.&lt;/strong> The cache is not running yet, so
+reads fail with &lt;code>ErrCacheNotStarted&lt;/code> instead of returning data. Use &lt;code>mgr.GetAPIReader()&lt;/code>
+when you genuinely need to read during initialization.&lt;/li>
 &lt;li>&lt;strong>For deferred actions, use &lt;code>RequeueAfter&lt;/code>,&lt;/strong> not &lt;code>time.Sleep&lt;/code> and not your own goroutines.&lt;/li>
 &lt;/ul>
 &lt;h2 id="wrapping-up">Wrapping up&lt;a class="td-heading-self-link" href="#wrapping-up" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>In one breath:&lt;/p>
 &lt;ul>
 &lt;li>The cache in &lt;code>controller-runtime&lt;/code> is not an optimization, it is the operating model. Under
-the hood it is &lt;code>Reflector&lt;/code> + &lt;code>DeltaFIFO&lt;/code> + &lt;code>Indexer&lt;/code> — exactly the same primitives that
+the hood it is &lt;code>Reflector&lt;/code> + a delta queue + &lt;code>Indexer&lt;/code> — exactly the same primitives that
 power Kubernetes itself.&lt;/li>
 &lt;li>&lt;code>r.Get&lt;/code> and &lt;code>r.List&lt;/code> go to memory; &lt;code>Create&lt;/code>, &lt;code>Update&lt;/code>, &lt;code>Patch&lt;/code>, and &lt;code>Delete&lt;/code> go straight
 to the API server. Feedback flows in through the watch.&lt;/li>
@@ -942,12 +995,14 @@ to the API server. Feedback flows in through the watch.&lt;/li>
 inverted indexes.&lt;/li>
 &lt;li>&lt;code>Namespaces&lt;/code>, selectors, &lt;code>PartialObjectMetadata&lt;/code>, and &lt;code>Transform&lt;/code> are the levers that
 control how much memory and traffic you actually consume.&lt;/li>
-&lt;li>&lt;code>APIReader&lt;/code> is the emergency exit for cases where you genuinely need the freshest version
-of an object.&lt;/li>
+&lt;li>&lt;code>APIReader&lt;/code> bypasses the cache for the rare read the cache cannot serve — but it is not a
+fix for staleness races; see the
+&lt;a href="https://github.com/kubernetes-sigs/controller-runtime/blob/820ed1a84f67c2f5c4ee4a104bc6c00faddb1384/FAQ.md#q-my-cache-might-be-stale-if-i-read-from-a-cache-how-should-i-deal-with-that">controller-runtime FAQ&lt;/a>.&lt;/li>
 &lt;/ul>
-&lt;p>And the single sentence to remember: &lt;code>r.Get&lt;/code> inside a reconciler does not call the API
-server. Ever. Not even the first time. Once that becomes a reflex, half the questions on
-controller code reviews answer themselves.&lt;/p></description></item><item><title>Building a Custom Metrics Exporter for Kubernetes</title><link>https://kubernetes.io/blog/2026/07/14/custom-metrics-exporter-kubernetes/</link><pubDate>Tue, 14 Jul 2026 10:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/07/14/custom-metrics-exporter-kubernetes/</guid><description>
+&lt;p>And the single sentence to remember: &lt;code>r.Get&lt;/code> inside a reconciler reads from memory, not from the
+API server — not even the first time. The exceptions are the ones you opt into yourself:
+&lt;code>APIReader&lt;/code>, &lt;code>Cache.DisableFor&lt;/code>, and unstructured reads. Once that becomes a reflex, half the
+questions on controller code reviews answer themselves.&lt;/p></description></item><item><title>Building a Custom Metrics Exporter for Kubernetes</title><link>https://kubernetes.io/blog/2026/07/14/custom-metrics-exporter-kubernetes/</link><pubDate>Tue, 14 Jul 2026 10:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/07/14/custom-metrics-exporter-kubernetes/</guid><description>
 &lt;p>Kubernetes ships with built-in awareness of CPU and memory, but most
 real-world scaling decisions depend on signals that live entirely outside
 that narrow window: how many messages are waiting in a queue, how long
