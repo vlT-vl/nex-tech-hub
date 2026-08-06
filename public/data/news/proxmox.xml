@@ -4,145 +4,116 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Wed, 05 Aug 2026 19:21:03 +0000</pubDate>
-    <lastBuildDate>Wed, 05 Aug 2026 19:21:03 +0000</lastBuildDate>
+    <pubDate>Thu, 06 Aug 2026 01:46:07 +0000</pubDate>
+    <lastBuildDate>Thu, 06 Aug 2026 01:46:07 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
-      <title>Testing Proxmox VE on Ampere Altra Max (Armv8)</title>
-      <pubDate>Wed, 05 Aug 2026 19:16:52 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/testing-proxmox-ve-on-ampere-altra-max-armv8.185541/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185541</guid>
-      <author>invalid@example.com (geerlingguy)</author>
+      <title>[BETA] Community Linux 7.1 kernel packages for Proxmox VE (7.1.0-1~beta1+1)</title>
+      <pubDate>Thu, 06 Aug 2026 01:35:27 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/beta-community-linux-7-1-kernel-packages-for-proxmox-ve-7-1-0-1-beta1-1.184443/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:184443</guid>
+      <author>invalid@example.com (jaminmc)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>geerlingguy</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I installed Proxmox VE 9 for Arm64 on my Ampere Altra Max Developer Platform this morning - video is up here: <a href="https://www.youtube.com/watch?v=Lg263L1W97w" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://www.youtube.com/watch?v=Lg263L1W97w</a><br />
+      <dc:creator>jaminmc</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">For all of y&#039;all that like bleeding-edge kernels, or need better support for the latest hardware, I&#039;m sharing a first beta of a community-built Proxmox-style kernel based on Linux 7.1.0.<br />
 <br />
-The install was fine, but when I tried creating my first VM, using the Ubuntu 24.04.1 live server ISO I normally install on the bare metal system, it would just &#039;poweroff&#039; during the console install wizard at a couple different points (the first one was after confirming the disk information, the second one was after entering my...<br />
+If you&#039;re the type who wants to try newer drivers, newer kernel features, and hardware enablement ahead of the official Proxmox kernel line, this may be worth a look — <b>but only on test systems</b>. -- Unless you are real daring <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f642.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":)" title="Smile    :)"  data-smilie="1"data-shortname=":)" /><br />
 <br />
-<a href="https://forum.proxmox.com/threads/testing-proxmox-ve-on-ampere-altra-max-armv8.185541/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
+This is <b>not</b> an official Proxmox release. It is an...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/beta-community-linux-7-1-kernel-packages-for-proxmox-ve-7-1-0-1-beta1-1.184443/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
     </item>
     <item>
-      <title>Failed hard drive = chaos!</title>
-      <pubDate>Wed, 05 Aug 2026 19:11:56 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/failed-hard-drive-chaos.185546/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185546</guid>
-      <author>invalid@example.com (alex591)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>alex591</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I’m currently running a single server, with 3 ZFS pools:<br />
-- rpool, mirrored, containing the OS.<br />
-- pool0, striped, containing (I thought*), only a PBS datastore.<br />
-- pool1, mirrored, containing the VMs.<br />
+      <title>PVE installed on top of an SDN VXLAN zone: terminal/Web UI stalls and "failed to set mtu to 1500"</title>
+      <pubDate>Thu, 06 Aug 2026 01:33:27 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-installed-on-top-of-an-sdn-vxlan-zone-terminal-web-ui-stalls-and-failed-to-set-mtu-to-1500.185551/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185551</guid>
+      <author>invalid@example.com (Fearless-Grape5584)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>Fearless-Grape5584</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Posting this because I could not find the same case anywhere on the forum or via search, and the symptoms are easy to misread as something else.<br />
 <br />
-A drive in pool0 failed a couple of days ago. I was away at the time, and the first I knew of it was that VMs started behaving strangely - SMB server clearly still running but refusing connections, CCTV not showing certain cameras, etc.<br />
+<b>TL;DR</b> — If you run a PVE instance whose uplink sits on a network with an MTU below 1500 (an SDN VXLAN vnet gives you 1450), you have to set the MTU manually on <i>both</i> the NIC and the bridge. Setting it on only one of them fixes only half of the symptoms.<br />
 <br />
-I managed to log on via SSH, and with no time to...<br />
+<hr /><br />
+<span style="font-size: 15px"><b>Setup</b></span><br />
 <br />
-<a href="https://forum.proxmox.com/threads/failed-hard-drive-chaos.185546/" class="link link--internal">Read more</a></div>]]></content:encoded>
+<ul>
+<li data-xf-list-type="ul">Host: PVE 9.2.6, SDN VXLAN zone, vnet MTU 1450...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/pve-installed-on-top-of-an-sdn-vxlan-zone-terminal-web-ui-stalls-and-failed-to-set-mtu-to-1500.185551/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>0</slash:comments>
     </item>
     <item>
-      <title>Backup Plan funktioniert nicht</title>
-      <pubDate>Wed, 05 Aug 2026 19:11:45 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/backup-plan-funktioniert-nicht.185539/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185539</guid>
-      <author>invalid@example.com (umsmin)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
-      <dc:creator>umsmin</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Nach verschiedenen Anleitungen und auch mit dem Backup-Planer Tool komme ich nicht dort hin wo ich möchte (für Sinnvoll erachte). <br />
-Ich verwende den PBS als vm in meinem Cluster mit drei Nodes. Die Sicherung auf meine eingebundene Synology  funktioniert auch. <br />
-Folgende Backup-Pläne bin ich momentan am testen:<br />
-<br />
-<a href="https://forum.proxmox.com/attachments/pbs-1-png.99303/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98999-7db29d79af1e4d2b817fb01b697182b2.jpg?hash=oepIwkJFk2"
-		srcset="https://forum.proxmox.com/data/attachments/98/2x/98999-7db29d79af1e4d2b817fb01b697182b2.jpg?hash=oepIwkJFk2 2x"
-		class="bbImage "
-		style=""
-		alt="pbs-1.PNG"
-		title="pbs-1.PNG"
-		width="641" height="150" loading="lazy" /></a><br />
-<br />
-Die 223 ist die vm worin PBS läuft. Nach meinem Verständnis sollten nachstehende Regeln greifen :<br />
-<br />
-1. Täglich 05:00 Uhr wird 8 Tage lang gesichert. Am neunten Tag wird der...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/backup-plan-funktioniert-nicht.185539/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>CEPH Performance</title>
-      <pubDate>Wed, 05 Aug 2026 19:09:22 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ceph-performance.185542/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185542</guid>
-      <author>invalid@example.com (it4business)</author>
+      <title>Intel pentium 8505 support</title>
+      <pubDate>Thu, 06 Aug 2026 01:21:55 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/intel-pentium-8505-support.164140/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:164140</guid>
+      <author>invalid@example.com (Singman)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>it4business</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">What can I expect on a CEPH Datastore?<br />
-- 5 DELL R740 Nodes<br />
-- 60pcs 1,92 TB SAS SSD mixed-use<br />
-- Dual 100Gbps Link exclusive for CEPH</div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
+      <dc:creator>Singman</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+Are you sure the Pentium 8505 is supported by Proxmox ?<br />
+I have a few mini PC with this processor and they are all really unstable under Proxmox (latest version, intel firmware installed).<br />
+Under Linux, I tried many stress tests and they are rock solid.<br />
+Same for memory with memtest86+.</div>]]></content:encoded>
+      <slash:comments>10</slash:comments>
     </item>
     <item>
-      <title>Update V8 auf 9 ohne Internet</title>
-      <pubDate>Wed, 05 Aug 2026 19:07:43 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/update-v8-auf-9-ohne-internet.185545/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185545</guid>
-      <author>invalid@example.com (frogger13)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>frogger13</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Moin.. <br />
-<br />
-Ich hoffe der Betreff verwirrt nicht. Ich habe folgendes Konstrukt: Ein Proxmox Server, der diverse Container und VMs hat. U.a. auch eine Opnsense Instanz, die mein Default Gateway im Netz ist. Dazu eine PiHole Instant, die mein DNS ist.<br />
-<br />
-Das ganze hängt an einer Fritzbox die nur mein Internet liefert an die Opnsense.<br />
-<br />
-Ich schiebe halt schon eine Weile das Update von 8 auf 9 vor mir her. Beim Lesen der Doku und schauen von diversen Anleitungen und Videos ist mir halt eine Sache...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/update-v8-auf-9-ohne-internet.185545/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox on aarch64 (arm64)</title>
-      <pubDate>Wed, 05 Aug 2026 19:07:07 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-on-aarch64-arm64.121925/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:121925</guid>
-      <author>invalid@example.com (keklick1337)</author>
+      <title>Dell R760 High I/O Pressure with NFS, but No Measurable VM Impact</title>
+      <pubDate>Thu, 06 Aug 2026 01:08:15 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/dell-r760-high-i-o-pressure-with-nfs-but-no-measurable-vm-impact.185518/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185518</guid>
+      <author>invalid@example.com (orkiniec)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>keklick1337</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi! I have server with ampere altra processor. <br />
-How to install proxmox on this server? <br />
-I installed debian 11 arm64 on my server.</div>]]></content:encoded>
-      <slash:comments>112</slash:comments>
-    </item>
-    <item>
-      <title>Kernel 7.0.x - Windows VMs freezing with cpu high 60-70%, newer cpus?</title>
-      <pubDate>Wed, 05 Aug 2026 18:48:57 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/kernel-7-0-x-windows-vms-freezing-with-cpu-high-60-70-newer-cpus.183461/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:183461</guid>
-      <author>invalid@example.com (glaeken2)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>glaeken2</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello!<br />
+      <dc:creator>orkiniec</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am seeing sustained I/O Pressure and I/O Delay on one Proxmox node only when its VM disks are stored on NFS. <br />
+These are standalone nodes and are not in a cluster.<br />
+Node 1: Proxmox VE 9.2.2, kernel 7.0.2-6-pve, Dell PowerEdge R760, dual Xeon Gold 6426Y, 512 GB RAM, Intel E810 25 Gb NIC, 4 VMs.<br />
+Node 2: Proxmox VE 9.2.2, kernel 7.0.2-6-pve, Fujitsu RX2540, dual Xeon Silver 4410, 256 GB RAM, Intel X722 10 Gb NIC, 13 VMs.<br />
+Storage: Both nodes use the same TrueNAS H20 Enterprise NVMe storage, the...<br />
 <br />
-I encountered a problem with kernels 7.0.x<br />
-<br />
-Windows VMs (mostly win10, but also win11) can randomly freeze, with cpu usage about 60-70%. <br />
-This happens only on newer (faster?) cpus, to be exact:<b> i7-13 gen and i9-12 gen</b><br />
-I <b>don&#039;t</b> observe this behavior on any older hardware which spans from multiple types of xeons to i5-7400, i7-6700, etc etc.<br />
-<br />
-What is troubling - there is nothing in logs, like it never happened. Only guest agent ping timeouts.<br />
-Can&#039;t strace kvm process for now...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/kernel-7-0-x-windows-vms-freezing-with-cpu-high-60-70-newer-cpus.183461/" class="link link--internal">Read more</a></div>]]></content:encoded>
+<a href="https://forum.proxmox.com/threads/dell-r760-high-i-o-pressure-with-nfs-but-no-measurable-vm-impact.185518/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>9</slash:comments>
     </item>
     <item>
+      <title>Enterprise iSCSI support in PVE</title>
+      <pubDate>Thu, 06 Aug 2026 01:06:47 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/enterprise-iscsi-support-in-pve.185547/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185547</guid>
+      <author>invalid@example.com (ogrimia)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>ogrimia</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">When will iSCSI be ready for use in PVE? Are there any plans for iSCSI and networking development in PVE?<br />
+<br />
+<br />
+I see that PVE already has a 9.x release, and ISCSI is the biggest pain to describe it gently. I am the only person in the company who understands the iSCSI SAN concept with multi-pathing over separate networks, failover logic and flow, portals/targets and initiators, the process of adding and removing paths and new LUNs, and growing existing volumes. I want to cry when I see that PVE...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/enterprise-iscsi-support-in-pve.185547/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Can't find Proxmox GUI</title>
+      <pubDate>Thu, 06 Aug 2026 00:33:08 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/cant-find-proxmox-gui.185550/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185550</guid>
+      <author>invalid@example.com (PedanticDan)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>PedanticDan</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;ve been running Home Assistant for while in a Promo VM. I decided I wanted to add another VM, but I can&#039;t find the GUI. The Proxmox machine is on Debian 13, pve-manager  is 9.2, and teh machine is only listening on ports 22, 25, 85, 111, and 3128.<br />
+<br />
+Over the last couple days. I&#039;ve searched for information on how to enable/disable the GUI, but I have not found anything.<br />
+<br />
+Can someone point to docs, or troubleshottig info to figure why there is nothing listeing on port 8006?</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
       <title>Proxmox Virtual Environment now available for 64-bit ARM (arm64)!</title>
-      <pubDate>Wed, 05 Aug 2026 18:32:59 +0000</pubDate>
+      <pubDate>Thu, 06 Aug 2026 00:25:03 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/proxmox-virtual-environment-now-available-for-64-bit-arm-arm64.185527/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185527</guid>
       <author>invalid@example.com (t.lamprecht)</author>
@@ -153,179 +124,45 @@ Can&#039;t strace kvm process for now...<br />
 Proxmox VE 9.2 for arm64 shares the code base, package repositories, and release lifecycle with its x86-64 counterpart. It is built on Debian 13.5 &quot;Trixie&quot; with Linux kernel 7.0 as the stable default, and ships the same versions of our underlying key technologies, including...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/proxmox-virtual-environment-now-available-for-64-bit-arm-arm64.185527/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>9</slash:comments>
+      <slash:comments>15</slash:comments>
     </item>
     <item>
-      <title>RDMA Requirements for Proxmox with ZFS and Third-Party iSCSI Storage</title>
-      <pubDate>Wed, 05 Aug 2026 18:32:22 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/rdma-requirements-for-proxmox-with-zfs-and-third-party-iscsi-storage.185525/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185525</guid>
-      <author>invalid@example.com (Rajan_Kumar.Jaiswal@sita.)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>Rajan_Kumar.Jaiswal@sita.</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi All,<br />
-<br />
-We are currently evaluating the network switch requirements for a new Proxmox deployment and would like to understand whether RDMA support is required from the Proxmox or storage perspective.<br />
-<br />
-Our planned environment is:<br />
-<ul>
-<li data-xf-list-type="ul">Proxmox VE</li>
-<li data-xf-list-type="ul">Local ZFS storage on some clusters</li>
-<li data-xf-list-type="ul">Third-party shared storage using iSCSI on other clusters</li>
-<li data-xf-list-type="ul">Standard Kubernetes/VM workloads</li>
-</ul>We have a few questions regarding RDMA and switch selection:<br />
-<ol>
-<li data-xf-list-type="ol">Does Proxmox VE itself make use of RDMA...</li>
-</ol><br />
-<a href="https://forum.proxmox.com/threads/rdma-requirements-for-proxmox-with-zfs-and-third-party-iscsi-storage.185525/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>What Replaces SRM and vSphere Replication on Proxmox?</title>
-      <pubDate>Wed, 05 Aug 2026 18:27:26 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/what-replaces-srm-and-vsphere-replication-on-proxmox.185521/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185521</guid>
-      <author>invalid@example.com (bbgeek17)</author>
+      <title>Noteable I/O Delay after upgrade to 9.1.14</title>
+      <pubDate>Thu, 06 Aug 2026 00:12:17 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/noteable-i-o-delay-after-upgrade-to-9-1-14.183637/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:183637</guid>
+      <author>invalid@example.com (ProxGamingMox)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>bbgeek17</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi Everyone,<br />
+      <dc:creator>ProxGamingMox</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Good morning everyone.<br />
 <br />
-Disaster recovery keeps coming up with folks moving off VMware, usually as some version of &quot;what replaces SRM?&quot; We&#039;ve answered pieces of this in threads for years, so we finally sat down and wrote the whole thing up properly.<br />
+As the title states, at midnight I did a full upgrade from version 9.0.11 over to 9.1.14 including all packages.<br />
+Since then I have noticed that I have got a somewhat stable I/O Delay of 7% and is apparently caused from 3 VMS that are running of which one is Truenas Scale, the second one being an Immich server and the third one a VM that hosts a k3s cluster for Matrix Ess Community.<br />
+As you can see from the screenshot below in the CPU Usage graph, it was basically 0%...<br />
 <br />
-Mapping VMware DR Features to Proxmox VE: SRM, vSphere Replication, and Site Recovery <a href="https://kb.blockbridge.com/technote/proxmox-vmware-disaster-recovery/" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://kb.blockbridge.com/technote/proxmox-vmware-disaster-recovery/</a><br />
-<br />
-The technote maps each VMware DR feature to its nearest native PVE equivalent: pvesr and...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/what-replaces-srm-and-vsphere-replication-on-proxmox.185521/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
+<a href="https://forum.proxmox.com/threads/noteable-i-o-delay-after-upgrade-to-9-1-14.183637/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>16</slash:comments>
     </item>
     <item>
-      <title>Meinung Disaster Recovery Konzept</title>
-      <pubDate>Wed, 05 Aug 2026 18:10:59 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/meinung-disaster-recovery-konzept.185537/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185537</guid>
-      <author>invalid@example.com (rothkraut)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>rothkraut</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen, <br />
-<br />
-ich hocke momentan an einem Konzept für ein Disaster Recovery zwischen zwei Standorten. <br />
-Mich würde mal interessieren, ob meine Idee so umgesetzt werden kann, und was eure Meinung dazu ist.<br />
-<br />
-<b>Folgendes Szenario: </b><br />
-Standort A und Standort B. Beide Cluster sind wie folgt aufgebaut: <br />
--2 Nodes + QDevice<br />
--externer Storage (ZFS) für VM-Disks (TrueNAS)<br />
-<br />
-Standort A beherbergt das produktive Cluster. Sollte dieses komplett ausfallen, sollen die VMs im Standort B wieder...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/meinung-disaster-recovery-konzept.185537/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Migration from Vmware</title>
-      <pubDate>Wed, 05 Aug 2026 18:06:10 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/migration-from-vmware.185538/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185538</guid>
-      <author>invalid@example.com (miket85)</author>
+      <title>7.0.14-7 kernel breaks NVMe link training</title>
+      <pubDate>Wed, 05 Aug 2026 23:50:26 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/7-0-14-7-kernel-breaks-nvme-link-training.185549/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185549</guid>
+      <author>invalid@example.com (aoxiangtianji)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>miket85</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">We have recently migrated 18 hosts from esxi to proxmox for our Citrix VDI estate and so far very pleased with the results. This was straightforward as everything is imaged from a single gold image, and pxe booted to a cloned disk. <br />
+      <dc:creator>aoxiangtianji</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have a SK hynix PE4010 (HFS960GD0TEG-6410A, 894G) installed on a PCIe splitter card on an ASRock B450M Pro4-F. The splitter card has no switch chip; it relies on the motherboard&#039;s PCIe bifurcation.<br />
 <br />
-We are now exploring moving our Windows server estate (250+ VM&#039;s) but a rebuild and migrate of each VM is a big undertaking. So far we have explored a few options of how we could move our existing workloads without rebuild, but results are varied<br />
+After updating from 7.0.2 to 7.0.14-8, PVE got stuck during boot because it couldn&#039;t detect my disk. The NVMe controller is simply not visible, and I couldn&#039;t confirm any error in dmesg (in that state I wasn&#039;t able to export the log).<br />
 <br />
-Migrate using...<br />
+After some testing, I found that 7.0.14-6 is the latest...<br />
 <br />
-<a href="https://forum.proxmox.com/threads/migration-from-vmware.185538/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox &amp; NVIDIA partnership - what to expect?</title>
-      <pubDate>Wed, 05 Aug 2026 18:01:43 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-nvidia-partnership-what-to-expect.185469/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185469</guid>
-      <author>invalid@example.com (cwt)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>cwt</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">The announcement about Proxmox VE becoming part of the NVIDIA Mission Control ecosystem caught my attention.<br />
-<br />
-Link: <br />
-<br />
-<a href="https://www.proxmox.com/en/about/company-details/press-releases/proxmox-ve-for-nvidia-mission-control-ai-factories" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://www.proxmox.com/en/about/co...ox-ve-for-nvidia-mission-control-ai-factories</a><br />
-<br />
-To me, this partnership also seems like another step in Proxmox’s evolution from being seen primarily as an excellent open-source virtualization platform into a recognized enterprise solution for demanding workloads.<br />
-<br />
-I also wonder whether the long-term...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-nvidia-partnership-what-to-expect.185469/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>Webzugang funktioniert nicht</title>
-      <pubDate>Wed, 05 Aug 2026 17:55:12 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/webzugang-funktioniert-nicht.185534/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185534</guid>
-      <author>invalid@example.com (puba)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>puba</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
-seit einigen Tagen funktioniert mein Web-Zungang nicht mehr, d.h. es wird kein Bild aufgebaut.<br />
-Der ssh-Zugang ist möglich. (Proxmox-Version 8.4.17)<br />
-kann mir jemand bei der Lösung helfen?<br />
-Gruß puba</div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>ZFS - Massive Pool Fragmentation</title>
-      <pubDate>Wed, 05 Aug 2026 17:18:12 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/zfs-massive-pool-fragmentation.184986/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:184986</guid>
-      <author>invalid@example.com (minorsatellite)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>minorsatellite</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have a pool made up of 4x NVMe drives, each with a capacity of 960GB, and two VDEVS each with a two-way mirror. The filesystem containing my VMs have a record size property of 64k, while the pool&#039;s ashift size is 12. Other than the massive fragmentation the pool is showing, I see a pretty startling disparity between what is showing as &quot;free&quot; capacity at the pool level, and what is &quot;free&quot; at the file system level. In this instance, I trust what the filesystem allocation stats show, because...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/zfs-massive-pool-fragmentation.184986/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>Windows template preparation</title>
-      <pubDate>Wed, 05 Aug 2026 17:16:55 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/windows-template-preparation.185544/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185544</guid>
-      <author>invalid@example.com (cyruspy)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>cyruspy</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Unlike Linux Cloud Images, there are no Windows Server VM images provided by Microsoft, so I  created pve-build-windows-template to generate PVE friendly VM templates. A non-interactive run turns a Windows Server ISO into a sysprepped, Cloudbase-Init-capable PVE template.<br />
-<br />
-<b>How to use it</b><br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Bash:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang="bash"><code>./pve-build-windows-template \
-    --iso dstore01:iso/win2022.iso \
-    --edition both --sku standard \
-    --storage dstore01 --start-id 9020</code></pre>
-	</div>
-</div><br />
-<b>What it does</b><br />
-<br />
-Produces two templates — Server...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/windows-template-preparation.185544/" class="link link--internal">Read more</a></div>]]></content:encoded>
+<a href="https://forum.proxmox.com/threads/7-0-14-7-kernel-breaks-nvme-link-training.185549/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>0</slash:comments>
     </item>
     <item>
       <title>can't access proxmox web GUI</title>
-      <pubDate>Wed, 05 Aug 2026 17:04:41 +0000</pubDate>
+      <pubDate>Wed, 05 Aug 2026 22:55:11 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/cant-access-proxmox-web-gui.185543/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185543</guid>
       <author>invalid@example.com (Melone145)</author>
@@ -343,69 +180,160 @@ i cant acces the Web GUI the Login is not loading<br />
 		alt="1785949340841.png"
 		title="1785949340841.png"
 		width="400" height="150" loading="lazy" /></a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox on aarch64 (arm64)</title>
+      <pubDate>Wed, 05 Aug 2026 22:18:41 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-on-aarch64-arm64.121925/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:121925</guid>
+      <author>invalid@example.com (keklick1337)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>keklick1337</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi! I have server with ampere altra processor. <br />
+How to install proxmox on this server? <br />
+I installed debian 11 arm64 on my server.</div>]]></content:encoded>
+      <slash:comments>113</slash:comments>
+    </item>
+    <item>
+      <title>Move disk/VM from LVM to ZFS</title>
+      <pubDate>Wed, 05 Aug 2026 21:50:26 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/move-disk-vm-from-lvm-to-zfs.162544/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:162544</guid>
+      <author>invalid@example.com (ajaxodessa)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>ajaxodessa</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I have a simple home lab setup with two nodes: <code class="bbCodeInline">node-a</code> with LVM and <code class="bbCodeInline">node-b</code> with ZFS. I am trying to find the way to move disks and VMs from the node running LVM to the second one with ZFS, so I can re-create <code class="bbCodeInline">node-a</code> with ZFS as well. I can&#039;t find any options in GUI or documentation for the command line. Am I missing something? Is this even possible?<br />
+<br />
+Thank you</div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
+    </item>
+    <item>
+      <title>Severe Upgrade Issues</title>
+      <pubDate>Wed, 05 Aug 2026 21:48:32 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/severe-upgrade-issues.185548/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185548</guid>
+      <author>invalid@example.com (pma66271)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>pma66271</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi all,<br />
+<br />
+I tried to upgrade from 7.0.6-2-pve to 7.0.14-8-pve.<br />
+<br />
+During that upgrade I faced the error messages below:<br />
+<b>Failed to copy data from &quot;/usr/lib/systemd/boot/efi/systemd-bootx64.efi&quot; to &quot;/var/tmp/espmounts/B791-118F/EFI/systemd/.#systemd-bootx64.efi01029a360a392119&quot;: No space left on device<br />
+Failed to copy data from &quot;/usr/lib/systemd/boot/efi/systemd-bootx64.efi&quot; to &quot;/var/tmp/espmounts/B791-118F/EFI/BOOT/.#BOOTX64.EFI5247c37d17910daa&quot;: No space left on device</b><br />
+<br />
+After reboot the...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/severe-upgrade-issues.185548/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>0</slash:comments>
     </item>
     <item>
-      <title>lvm resize not</title>
-      <pubDate>Wed, 05 Aug 2026 16:53:47 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/lvm-resize-not.185520/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185520</guid>
-      <author>invalid@example.com (ParasiticTwin)</author>
+      <title>Opt-in Linux 7.0 Kernel for Proxmox VE 9 available</title>
+      <pubDate>Wed, 05 Aug 2026 21:47:52 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:182328</guid>
+      <author>invalid@example.com (t.lamprecht)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>ParasiticTwin</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Howdy,<br />
+      <dc:creator>t.lamprecht</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">We recently uploaded the 7.0 (rc6) kernel to our repositories. The current default kernel for the Proxmox VE 9 series is still 6.17, but 7.0 is now an option.<br />
 <br />
-Got my proxmox server up and running.  Installed FOG and captured an image.  Well, it took up almost all of what Provomox allocated default.  So I go through finding out about my logical volume using this link:  <a href="https://packetpushers.net/blog/ubuntu-extend-your-default-lvm-space/" target="_blank" class="link link--external" rel="nofollow ugc noopener">Ubuntu logical Volume extended</a><br />
+We plan to use the 7.0 kernel as the new default for the upcoming Proxmox VE 9.2 and Proxmox Backup Server 4.2 releases planned later in Q2.<br />
+This follows our tradition of upgrading the Proxmox VE kernel to match the current Ubuntu version until we reach an Ubuntu LTS release, at which point we will only provide newer kernels as an...<br />
 <br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>lvm&gt; vgs
-  VG        #PV #LV #SN Attr   VSize   VFree
-  ubuntu-vg   1   1   0 wz--n- &lt;46.95g    0</code></pre>
-	</div>
-</div><br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>lvm&gt; lvscan
-  ACTIVE            &#039;/dev/ubuntu-vg/ubuntu-lv&#039; [&lt;46.95 GiB] inherit</code></pre>
-	</div>
-</div><br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>$ sudo pvdisplay
-  --- Physical volume...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/lvm-resize-not.185520/" class="link link--internal">Read more</a></div>]]></content:encoded>
+<a href="https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>215</slash:comments>
+    </item>
+    <item>
+      <title>Webzugang funktioniert nicht</title>
+      <pubDate>Wed, 05 Aug 2026 21:39:38 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/webzugang-funktioniert-nicht.185534/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185534</guid>
+      <author>invalid@example.com (puba)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>puba</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
+seit einigen Tagen funktioniert mein Web-Zungang nicht mehr, d.h. es wird kein Bild aufgebaut.<br />
+Der ssh-Zugang ist möglich. (Proxmox-Version 8.4.17)<br />
+kann mir jemand bei der Lösung helfen?<br />
+Gruß puba</div>]]></content:encoded>
+      <slash:comments>12</slash:comments>
+    </item>
+    <item>
+      <title>removing iscsi multipath lun</title>
+      <pubDate>Wed, 05 Aug 2026 21:00:38 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/removing-iscsi-multipath-lun.174545/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:174545</guid>
+      <author>invalid@example.com (tvtue)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>tvtue</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello all,<br />
+<br />
+either if you use the multipath lun directly in a vm or as basis for a shared lvm, what is the recommended or the correct way to remove the lun?<br />
+<br />
+What I am assuming here as a prerequisite is the setup using the <a href="https://pve.proxmox.com/wiki/Multipath" target="_blank" class="link link--external" rel="nofollow ugc noopener">Multipath guide from the proxmox wiki</a>. For using the lun directly in a vm I am deviating from the wiki guide. right before setting up the lvm with pv- and vgcreate. Instead of that, I go to the webgui and add an iscsi storage. It&#039;s not possible to add both portals to...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/removing-iscsi-multipath-lun.174545/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>8</slash:comments>
     </item>
     <item>
+      <title>PVE 9.1/9.2 installer + kernel 7.0 fail on Intel H97 SATA — 9.0-1 and kernel 6.14 work!</title>
+      <pubDate>Wed, 05 Aug 2026 20:53:52 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-9-1-9-2-installer-kernel-7-0-fail-on-intel-h97-sata-%E2%80%94-9-0-1-and-kernel-6-14-work.185155/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185155</guid>
+      <author>invalid@example.com (DerPaddy)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>DerPaddy</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><b><u>Preface</u></b>:<br />
+I just registered to share my almost week long suffering chasing imaginary hardware issues and the very simpel software bug/limitation that caused it.<br />
+A few weeks ago I used Claude.ai to cobble together a comprehensive manual to get Proxmox and Home Assistant running on a HP ProDesk 600 G2 MT Intel Core i5-6500. This went great and worked for a few hours until the PSU died and I switched to a completely new system of used hardware from ebay. (None of the ProDesk...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pve-9-1-9-2-installer-kernel-7-0-fail-on-intel-h97-sata-%E2%80%94-9-0-1-and-kernel-6-14-work.185155/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Failed hard drive = chaos!</title>
+      <pubDate>Wed, 05 Aug 2026 20:42:33 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/failed-hard-drive-chaos.185546/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185546</guid>
+      <author>invalid@example.com (alex591)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>alex591</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I’m currently running a single server, with 3 ZFS pools:<br />
+- rpool, mirrored, containing the OS.<br />
+- pool0, striped, containing (I thought*), only a PBS datastore.<br />
+- pool1, mirrored, containing the VMs.<br />
+<br />
+A drive in pool0 failed a couple of days ago. I was away at the time, and the first I knew of it was that VMs started behaving strangely - SMB server clearly still running but refusing connections, CCTV not showing certain cameras, etc.<br />
+<br />
+I managed to log on via SSH, and with no time to...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/failed-hard-drive-chaos.185546/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Intel 125U chipset unusable with proxmox or bad hardware? Constant system hangs/freezes</title>
+      <pubDate>Wed, 05 Aug 2026 20:25:46 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/intel-125u-chipset-unusable-with-proxmox-or-bad-hardware-constant-system-hangs-freezes.185314/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185314</guid>
+      <author>invalid@example.com (richardh_nz)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>richardh_nz</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I purchased a new GMKtec K15 AI Mini PC Oculink with Intel Core Ultra 5 125U Processor for use with proxmox and it has been unstable from day one. Longest uptime is 3 days, shortest is a few minutes. System hangs with no messages in any log file and requires forced reboot. Works brilliantly when it works, but obviously totally unusable as a home server.  Seems to hang faster when the GPU is used.<br />
+<br />
+Has anyone successfully used proxmox on this or similar hardware?<br />
+<br />
+I have put in the hours with...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/intel-125u-chipset-unusable-with-proxmox-or-bad-hardware-constant-system-hangs-freezes.185314/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>14</slash:comments>
+    </item>
+    <item>
       <title>Sync: local rate limit</title>
-      <pubDate>Wed, 05 Aug 2026 16:18:57 +0000</pubDate>
+      <pubDate>Wed, 05 Aug 2026 20:23:24 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/sync-local-rate-limit.185540/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185540</guid>
       <author>invalid@example.com (et1000)</author>
@@ -433,30 +361,7 @@ I am facing a performance issue with a local Sync Job that is completely overloa
 	</div>
 </div><br />
 <a href="https://forum.proxmox.com/threads/sync-local-rate-limit.185540/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>after upgrade to PVE9 one Node stuck on Loading initial ramdisk</title>
-      <pubDate>Wed, 05 Aug 2026 16:08:22 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/after-upgrade-to-pve9-one-node-stuck-on-loading-initial-ramdisk.185532/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185532</guid>
-      <author>invalid@example.com (udo)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>udo</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-this mornig I&#039;ve upgrade 3 Nodes of an Cluster to proxmox-ve: 9.2.0 (running kernel: 7.0.14-8-pve).<br />
-On a Dell R6615 with Boss-Card (NVMe Raid-1) proxmox stuck at Loading initial ramdisk - even with the 7.0.14-8 kernel also with 6.8.12-39.<br />
-The Server had installed the actual BIOS during the upgrade process.<br />
-<br />
-Rescue Boot with the pve 9.2 iso work fortunately.<br />
-<br />
-I&#039;ve tried :<br />
-update-grub<br />
-proxmox-boot-tool refresh (No /etc/kernel/proxmox-boot-uuids found, skipping ESP sync.)<br />
-grub-install...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/after-upgrade-to-pve9-one-node-stuck-on-loading-initial-ramdisk.185532/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>8</slash:comments>
+      <slash:comments>1</slash:comments>
     </item>
   </channel>
 </rss>
