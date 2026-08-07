@@ -4,61 +4,104 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Fri, 07 Aug 2026 12:44:16 +0000</pubDate>
-    <lastBuildDate>Fri, 07 Aug 2026 12:44:16 +0000</lastBuildDate>
+    <pubDate>Fri, 07 Aug 2026 18:43:16 +0000</pubDate>
+    <lastBuildDate>Fri, 07 Aug 2026 18:43:16 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
-      <title>Problem mit TPM in Windows Server 2025</title>
-      <pubDate>Fri, 07 Aug 2026 12:35:04 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/problem-mit-tpm-in-windows-server-2025.185373/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185373</guid>
-      <author>invalid@example.com (lblaesius)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>lblaesius</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
+      <title>Work Around for Deduped NTFS File Restores</title>
+      <pubDate>Fri, 07 Aug 2026 18:41:48 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/work-around-for-deduped-ntfs-file-restores.185572/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185572</guid>
+      <author>invalid@example.com (PwrBank)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>PwrBank</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">As some of you have probably ran into, if you try to run a file restore on a NTFS partition that has NTFS dedupe on, you get this error:<br />
 <br />
-wir sind bei unserem Cluster auf ein Problem gestoßen. Mit dem neusten Sicherheitsupdate von Microsoft verlieren unsere Windows 2025 RDS Server ihr TPM Modul. TPM.MSC zeigt an, dass kein Modul verbunden wäre. Vor dem Update lief alles normal.<br />
+<ol>
+<li data-xf-list-type="ol">The NTFS volume won&#039;t mount with the kernel ntfs3 driver (&quot;Failed to initialize $Secure (-2)&quot;).</li>
+<li data-xf-list-type="ol">Files deduplicated by Windows Server (reparse tag 0x80000013) mount as broken symlinks (&quot;unsupported reparse tag 0x80000013&quot;) and can&#039;t be read from a mounted backup at all.</li>
+</ol><br />
+Both have workable solutions. This tutorial covers manually mapping and...<br />
 <br />
-Ich habe mit Hilfe von Claude eine Diagnose gemacht. Diese ist im Anhang. <br />
-<br />
-Kurzgesagt:<br />
-- Wir haben 5 AMD Epyc Server die alle identisch sind. Das Problem ist auf allen Hosts.<br />
-- Installiert man das Update von Microsoft, startet die VM neu ist...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/problem-mit-tpm-in-windows-server-2025.185373/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>15</slash:comments>
+<a href="https://forum.proxmox.com/threads/work-around-for-deduped-ntfs-file-restores.185572/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
     </item>
     <item>
-      <title>VM-Backup Hornetsecurity (Altaro)</title>
-      <pubDate>Fri, 07 Aug 2026 12:34:21 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/vm-backup-hornetsecurity-altaro.185477/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185477</guid>
-      <author>invalid@example.com (Kottl)</author>
+      <title>ARM64 CT templates</title>
+      <pubDate>Fri, 07 Aug 2026 18:33:37 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/arm64-ct-templates.185562/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185562</guid>
+      <author>invalid@example.com (paradox55)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Kottl</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
+      <dc:creator>paradox55</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Please add more CT templates for Arm64.<br />
 <br />
-Since we use VM Backup for our Hyper-V servers and the software has recently started supporting PVE as well, we wanted to use it for the newer PVEs too.<br />
+Currently only alpine-3.24-default_20260803_arm64.tar.xz is available. It works, but it&#039;s not what I&#039;m familiar with.</div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Notebook fürs Studium und Kompatibilität mit Promox</title>
+      <pubDate>Fri, 07 Aug 2026 18:29:22 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/notebook-f%C3%BCrs-studium-und-kompatibilit%C3%A4t-mit-promox.185369/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185369</guid>
+      <author>invalid@example.com (MarkusMann)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>MarkusMann</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen, ich suche gerade einen Laptop fürs Studium. Gefunden habe ich diesen aufbereiteten Laptop als refurbished HP Probook (<a href="https://www.co-comp.de/Refurbished-Notebook-HP-Probook-450-G9-i5-1235U-8-GB-RAM-256-GB-SSD" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://www.co-comp.de/Refurbished-Notebook-HP-Probook-450-G9-i5-1235U-8-GB-RAM-256-GB-SSD</a>). Meint ihr, das Modell taugt fürs Studium? Sind die technischen Spezifikationen für Promox ausreichend?<br />
 <br />
-However, our experiences have varied greatly; for example:<br />
+Viele Grüße Markus</div>]]></content:encoded>
+      <slash:comments>10</slash:comments>
+    </item>
+    <item>
+      <title>Virtual Redfish BMC Support on VMs</title>
+      <pubDate>Fri, 07 Aug 2026 18:26:07 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/virtual-redfish-bmc-support-on-vms.127229/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:127229</guid>
+      <author>invalid@example.com (flightofthebumble)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>flightofthebumble</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Folks,<br />
+I am looking to see if I can get Redfish BMC support on Proxmox VMs, so I can utilize these API calls: <a href="https://docs.openstack.org/sushy-tools/latest/user/dynamic-emulator.html" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://docs.openstack.org/sushy-tools/latest/user/dynamic-emulator.html</a> <br />
 <br />
-A cluster with 4 nodes—all of which are essentially identical—2 work fine, but 2 don’t work at all.<br />
+In my current role, I need to go beyond standard IPMI calls for security and additional functionality when spinning up multiple VMs at the same time. We have a number of Dell/HPE servers and utilizing iDRAC/iLO commands in ansible plays can be a bit time consuming. We would like to use Redfish to...<br />
 <br />
-Standalone—doesn’t work at all.<br />
+<a href="https://forum.proxmox.com/threads/virtual-redfish-bmc-support-on-vms.127229/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>10</slash:comments>
+    </item>
+    <item>
+      <title>Uploading certificates caused access issues</title>
+      <pubDate>Fri, 07 Aug 2026 18:21:52 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/uploading-certificates-caused-access-issues.185570/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185570</guid>
+      <author>invalid@example.com (kentravis)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>kentravis</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I uploaded an Authentik self signed server certificate via the PVE web console as a custom cert (it wasn&#039;t a private key that I added to where it said &quot;private key&quot;). This PVE is part of a Ceph cluster. Now the web interface isn&#039;t accessible. I can connect to it from the other PVE&#039;s web console, but much of it says &quot;connection error&quot;. SSH does work.<br />
+<br />
+Can anyone tell me how to fix this issue?</div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Enterprise iSCSI support in PVE</title>
+      <pubDate>Fri, 07 Aug 2026 18:14:52 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/enterprise-iscsi-support-in-pve.185547/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185547</guid>
+      <author>invalid@example.com (ogrimia)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>ogrimia</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">When will iSCSI be ready for use in PVE? Are there any plans for iSCSI and networking development in PVE?<br />
 <br />
 <br />
+I see that PVE already has a 9.x release, and ISCSI is the biggest pain to describe it gently. I am the only person in the company who understands the iSCSI SAN concept with multi-pathing over separate networks, failover logic and flow, portals/targets and initiators, the process of adding and removing paths and new LUNs, and growing existing volumes. I want to cry when I see that PVE...<br />
 <br />
-Does anyone here in the forum use VM Backup, and how is it working for you?<br />
-<br />
-<br />
-Best, Andi</div>]]></content:encoded>
+<a href="https://forum.proxmox.com/threads/enterprise-iscsi-support-in-pve.185547/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>3</slash:comments>
     </item>
     <item>
       <title>Can NUMA node be a reason for ESXi vs Proxmox Performance differences?</title>
-      <pubDate>Fri, 07 Aug 2026 12:32:53 +0000</pubDate>
+      <pubDate>Fri, 07 Aug 2026 18:07:55 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/can-numa-node-be-a-reason-for-esxi-vs-proxmox-performance-differences.185589/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185589</guid>
       <author>invalid@example.com (grass127)</author>
@@ -79,11 +122,89 @@ One thing I noticed is that <b>inside the guest VM</b>:<br />
 </ul>This...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/can-numa-node-be-a-reason-for-esxi-vs-proxmox-performance-differences.185589/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
+      <slash:comments>5</slash:comments>
+    </item>
+    <item>
+      <title>Loadbalancing</title>
+      <pubDate>Fri, 07 Aug 2026 18:00:09 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/loadbalancing.185481/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185481</guid>
+      <author>invalid@example.com (Red56)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Red56</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">We are experiencing problems using inbound IPv6 traffic (https and mail) with FreeBSD as a VM.<br />
+Connectivity is unstable; sometimes there is no inward connection and sometimes there is.<br />
+<br />
+When we check IPv6 through <a href="https://internet.nl/mail/devrijegeest.nl/" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://internet.nl/mail/devrijegeest.nl/</a> all is fine.<br />
+When we update our certificate with Letsencrypt, IPv6 is denied.<br />
+<br />
+We are investigating the issue on three parts:<br />
+<br />
+1. FreeBSD VM (OK)<br />
+2a0a:ef40:1827:f101:6ce4:3818:306b:586e<br />
+Setup IPv6 for Postfix, Apache, sshd and Dovecot...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/loadbalancing.185481/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Multiple-CPU motherboard - Settings for Windows VMs?</title>
+      <pubDate>Fri, 07 Aug 2026 17:57:11 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/multiple-cpu-motherboard-settings-for-windows-vms.169476/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:169476</guid>
+      <author>invalid@example.com (jw8)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>jw8</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello all,<br />
+<br />
+I know this is a very basic question, but I&#039;ve read conflicting answers.  I have the following dual CPU socket motherboard with two CPUs installed:<br />
+<br />
+Motherboard: Supermicro MBD-X11DPI-N-B<br />
+CPU: (2x) Intel Xeon Silver (2nd Gen) 4214R - 12-core 2.40 GHz - 16.50 MB Cache - 24 threads <br />
+RAM: (8x) Supermicro MEM-DR-464MC-ER2 - 64 GB PC4-25600 DDR4 3200 MHz ECC Registered <br />
+<br />
+Per the motherboard&#039;s documentation, I have the RAM populated in slots designated for the first CPU and the second...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/multiple-cpu-motherboard-settings-for-windows-vms.169476/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Ideale Server-Konfig für externen Speicher</title>
+      <pubDate>Fri, 07 Aug 2026 17:28:37 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ideale-server-konfig-f%C3%BCr-externen-speicher.185115/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185115</guid>
+      <author>invalid@example.com (S3v|\|)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
+      <dc:creator>S3v|\|</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen<br />
+<br />
+meine aktuelle Proxmox Backup Server (PBS) Konfig ist wie folgt:<br />
+Auf meinem Proxmox Virtual Environment (PVE) läuft eine PBS-VM. Diese sichert täglich über SMB auf eine QNAP-NAS mit Festplatten.<br />
+Diese Konfig läuft so weit recht OK - nur bei Verify, Prune und Garbage Collect stößt sie an die Grenzen.<br />
+Die zur Verfügung gestellte (virtuelle) Hardeware wird nie voll ausgenutzt. (16 GB RAM, 4 Kerne)<br />
+Dass diese Konfig nicht ideal ist, ist mir inzwischen auch bewusst geworden.<br />
+Daher...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/ideale-server-konfig-f%C3%BCr-externen-speicher.185115/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>62</slash:comments>
+    </item>
+    <item>
+      <title>Issues with using “balance-slb” in OVS Bond</title>
+      <pubDate>Fri, 07 Aug 2026 16:40:45 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/issues-with-using-%E2%80%9Cbalance-slb%E2%80%9D-in-ovs-bond.185585/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185585</guid>
+      <author>invalid@example.com (nsofl_)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>nsofl_</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi all,<br />
+<br />
+I have a question: When using OVS Bond with balance-slb on Proxmox, <br />
+if IGMP snooping is enabled on the switch, will this cause network outages?</div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
     </item>
     <item>
       <title>alternative zu glusterfs</title>
-      <pubDate>Fri, 07 Aug 2026 11:19:51 +0000</pubDate>
+      <pubDate>Fri, 07 Aug 2026 16:08:07 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/alternative-zu-glusterfs.185587/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185587</guid>
       <author>invalid@example.com (r4a5a88)</author>
@@ -103,179 +224,125 @@ also wollen wir wechseln.<br />
 Ein Option wäre Ceph aber Ceph ist mir zu komplex zum...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/alternative-zu-glusterfs.185587/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>restore failed: detected chunk with wrong digest. / TASK ERROR: connection error: unexpected EOF</title>
-      <pubDate>Fri, 07 Aug 2026 11:13:07 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/restore-failed-detected-chunk-with-wrong-digest-task-error-connection-error-unexpected-eof.185568/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185568</guid>
-      <author>invalid@example.com (max1337)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>max1337</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
-I had to recreate a zfs pool after it went corrupt and my somewhat naive me thought that I would be able to restore all the VMs from our proxmox Backup Server 4.2.4 in no time =)<br />
-I was able to restore most of the VMs even though not all could be restored from the most recent backups (because of the issue I am going to describe here). However one of the VMs has four different backups I tried to use for restore but none of the backups worked. All of them crashed during the restore...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/restore-failed-detected-chunk-with-wrong-digest-task-error-connection-error-unexpected-eof.185568/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Are there mitigations available for CVE-2026-64561 'Zapscape'</title>
-      <pubDate>Fri, 07 Aug 2026 11:03:42 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/are-there-mitigations-available-for-cve-2026-64561-zapscape.185574/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185574</guid>
-      <author>invalid@example.com (synvara)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>synvara</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello.<br />
-<br />
-There is again a exploit called &quot;Zapscape&quot;<br />
-<br />
-Is Proxmox aware of this explot, and perhaps are aware of any possible mitigations?<br />
-<br />
-<a href="https://github.com/V4bel/Zapscape" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://github.com/V4bel/Zapscape</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>Loadbalancing</title>
-      <pubDate>Fri, 07 Aug 2026 10:47:00 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/loadbalancing.185481/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185481</guid>
-      <author>invalid@example.com (Red56)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Red56</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">We are experiencing problems using inbound IPv6 traffic (https and mail) with FreeBSD as a VM.<br />
-Connectivity is unstable; sometimes there is no inward connection and sometimes there is.<br />
-<br />
-When we check IPv6 through <a href="https://internet.nl/mail/devrijegeest.nl/" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://internet.nl/mail/devrijegeest.nl/</a> all is fine.<br />
-When we update our certificate with Letsencrypt, IPv6 is denied.<br />
-<br />
-We are investigating the issue on three parts:<br />
-<br />
-1. FreeBSD VM (OK)<br />
-2a0a:ef40:1827:f101:6ce4:3818:306b:586e<br />
-Setup IPv6 for Postfix, Apache, sshd and Dovecot...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/loadbalancing.185481/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>1</slash:comments>
     </item>
     <item>
-      <title>Possible Proxmox VE issue: ESXi storage backed by remote vCenter causes another node to become grey/unknown after a reboot</title>
-      <pubDate>Fri, 07 Aug 2026 10:35:22 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/possible-proxmox-ve-issue-esxi-storage-backed-by-remote-vcenter-causes-another-node-to-become-grey-unknown-after-a-reboot.185586/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185586</guid>
-      <author>invalid@example.com (damian.tomey)</author>
+      <title>Proxmox VE 9.2.6 - NFS storage is reported as inactive although the mount is accessible</title>
+      <pubDate>Fri, 07 Aug 2026 16:06:17 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-6-nfs-storage-is-reported-as-inactive-although-the-mount-is-accessible.185564/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185564</guid>
+      <author>invalid@example.com (Klitschko)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>damian.tomey</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><h3 class="bbHeading"><a class="u-anchorTarget" name="-hello"></a>Hello,&#8203;<a class="hoverLink" href="#-hello" title="Permanent link"></a></h3><br />
-I would like to report and discuss a behavior I have observed in a <b>Proxmox VE 9.2 cluster</b> and ask whether this could be related to the way pvestatd refreshes storage status/statistics.<br />
+      <dc:creator>Klitschko</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><div style="text-align: center"><div class="bbTable">
+<table style='width: 100%'><tr><td style='width: 653px'><b>Summary</b><br />
+Proxmox reports an NFS storage as inactive even though the export is mounted and accessible from the host. The behaviour was observed with both NFSv4.x and NFSv3. NFSv4.x showed a GETATTR hang during investigation, while NFSv3 avoids that hang, but Proxmox still marks the storage as inactive.</td></tr></table>
+</div></div><br />
 <br />
-<h3 class="bbHeading"><a class="u-anchorTarget" name="-environment"></a>Environment&#8203;<a class="hoverLink" href="#-environment" title="Permanent link"></a></h3>I have a <b>5-node Proxmox VE cluster</b>.<br />
-<br />
-All five nodes have identical hardware and are fully updated. The current software versions are:<br />
-<ul>
-<li data-xf-list-type="ul">Proxmox VE: <b>9.2.0</b></li>
-<li data-xf-list-type="ul">PVE Manager: <b>9.2.9</b></li>
-<li data-xf-list-type="ul">Kernel: <b>7.0.14-9-pve</b></li>
-<li data-xf-list-type="ul">pve-esxi-import-tools...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/possible-proxmox-ve-issue-esxi-storage-backed-by-remote-vcenter-causes-another-node-to-become-grey-unknown-after-a-reboot.185586/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>How to improve Remote Desktop MacOS &lt;-&gt; Linux Mint 22.3 latency</title>
-      <pubDate>Fri, 07 Aug 2026 10:28:13 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/how-to-improve-remote-desktop-macos-linux-mint-22-3-latency.184652/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:184652</guid>
-      <author>invalid@example.com (haux)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>haux</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I am trying to connect to VM Mint 22.3 (Cinnamon and XCFE) using SPICE Display and qemu-agent installed from a MacOS (Windows App v11.3.6) with RDP protocol over Wifi and it&#039;s really slow, the latency is 1-3 seconds.<br />
-The PVE server is very powerful and the VM has plenty of CPUs and Memory.<br />
-I read that using RDP over UDP might improve the performance, but the Windows App on mac doesn&#039;t support that.<br />
-<br />
-Any idea how I can connect to my VM desktop (Same Home network)  without loosing the...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/how-to-improve-remote-desktop-macos-linux-mint-22-3-latency.184652/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Backup Plan funktioniert nicht</title>
-      <pubDate>Fri, 07 Aug 2026 09:55:50 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/backup-plan-funktioniert-nicht.185539/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185539</guid>
-      <author>invalid@example.com (umsmin)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
-      <dc:creator>umsmin</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Nach verschiedenen Anleitungen und auch mit dem Backup-Planer Tool komme ich nicht dort hin wo ich möchte (für Sinnvoll erachte). <br />
-Ich verwende den PBS als vm in meinem Cluster mit drei Nodes. Die Sicherung auf meine eingebundene Synology  funktioniert auch. <br />
-Folgende Backup-Pläne bin ich momentan am testen:<br />
-<br />
-<a href="https://forum.proxmox.com/attachments/pbs-1-png.99303/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98999-7db29d79af1e4d2b817fb01b697182b2.jpg?hash=oepIwkJFk2"
-		srcset="https://forum.proxmox.com/data/attachments/98/2x/98999-7db29d79af1e4d2b817fb01b697182b2.jpg?hash=oepIwkJFk2 2x"
-		class="bbImage "
-		style=""
-		alt="pbs-1.PNG"
-		title="pbs-1.PNG"
-		width="641" height="150" loading="lazy" /></a><br />
-<br />
-Die 223 ist die vm worin PBS läuft. Nach meinem Verständnis sollten nachstehende Regeln greifen :<br />
-<br />
-1. Täglich 05:00 Uhr wird 8 Tage lang gesichert. Am neunten Tag wird der...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/backup-plan-funktioniert-nicht.185539/" class="link link--internal">Read more</a></div>]]></content:encoded>
+<h3 class="bbHeading"><a class="u-anchorTarget" name="-environment"></a>Environment&#8203;<a class="hoverLink" href="#-environment" title="Permanent link"></a></h3><div style="text-align: center"><div class="bbTable">
+<table style='width: 100%'><tr><td style='width: 149px'><b>Proxmox</b></td><td style='width: 504px'>Proxmox VE 9.2.6; Linux kernel 6.17.13-7-pve; host IP &lt;management-IP&gt;</td></tr><tr><td></td><td></td></tr></table>
+...</div></div><br />
+<a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-6-nfs-storage-is-reported-as-inactive-although-the-mount-is-accessible.185564/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>8</slash:comments>
     </item>
     <item>
-      <title>Issues with using “balance-slb” in OVS Bond</title>
-      <pubDate>Fri, 07 Aug 2026 09:23:45 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/issues-with-using-%E2%80%9Cbalance-slb%E2%80%9D-in-ovs-bond.185585/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185585</guid>
-      <author>invalid@example.com (nsofl_)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>nsofl_</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi all,<br />
+      <title>Problem mit TPM in Windows Server 2025</title>
+      <pubDate>Fri, 07 Aug 2026 15:46:21 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/problem-mit-tpm-in-windows-server-2025.185373/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185373</guid>
+      <author>invalid@example.com (lblaesius)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>lblaesius</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
 <br />
-I have a question: When using OVS Bond with balance-slb on Proxmox, <br />
-if IGMP snooping is enabled on the switch, will this cause network outages?</div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
+wir sind bei unserem Cluster auf ein Problem gestoßen. Mit dem neusten Sicherheitsupdate von Microsoft verlieren unsere Windows 2025 RDS Server ihr TPM Modul. TPM.MSC zeigt an, dass kein Modul verbunden wäre. Vor dem Update lief alles normal.<br />
+<br />
+Ich habe mit Hilfe von Claude eine Diagnose gemacht. Diese ist im Anhang. <br />
+<br />
+Kurzgesagt:<br />
+- Wir haben 5 AMD Epyc Server die alle identisch sind. Das Problem ist auf allen Hosts.<br />
+- Installiert man das Update von Microsoft, startet die VM neu ist...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/problem-mit-tpm-in-windows-server-2025.185373/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>16</slash:comments>
     </item>
     <item>
-      <title>PVE installed on top of an SDN VXLAN zone: terminal/Web UI stalls and "failed to set mtu to 1500"</title>
-      <pubDate>Fri, 07 Aug 2026 09:17:10 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pve-installed-on-top-of-an-sdn-vxlan-zone-terminal-web-ui-stalls-and-failed-to-set-mtu-to-1500.185551/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185551</guid>
-      <author>invalid@example.com (Fearless-Grape5584)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>Fearless-Grape5584</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Posting this because I could not find the same case anywhere on the forum or via search, and the symptoms are easy to misread as something else.<br />
-<br />
-<b>TL;DR</b> — If you run a PVE instance whose uplink sits on a network with an MTU below 1500 (an SDN VXLAN vnet gives you 1450), you have to set the MTU manually on <i>both</i> the NIC and the bridge. Setting it on only one of them fixes only half of the symptoms.<br />
-<br />
-<hr /><br />
-<span style="font-size: 15px"><b>Setup</b></span><br />
-<br />
-<ul>
-<li data-xf-list-type="ul">Host: PVE 9.2.6, SDN VXLAN zone, vnet MTU 1450...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/pve-installed-on-top-of-an-sdn-vxlan-zone-terminal-web-ui-stalls-and-failed-to-set-mtu-to-1500.185551/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <title>CEPH Performance</title>
+      <pubDate>Fri, 07 Aug 2026 15:37:00 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ceph-performance.185542/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185542</guid>
+      <author>invalid@example.com (it4business)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>it4business</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">What can I expect on a CEPH Datastore?<br />
+- 5 DELL R740 Nodes<br />
+- 60pcs 1,92 TB SAS SSD mixed-use<br />
+- Dual 100Gbps Link exclusive for CEPH</div>]]></content:encoded>
       <slash:comments>4</slash:comments>
     </item>
     <item>
-      <title>INFO: task kworker blocked for more than 122 seconds</title>
-      <pubDate>Fri, 07 Aug 2026 09:16:51 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/info-task-kworker-blocked-for-more-than-122-seconds.170021/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:170021</guid>
-      <author>invalid@example.com (RobFantini)</author>
+      <title>What Replaces SRM and vSphere Replication on Proxmox?</title>
+      <pubDate>Fri, 07 Aug 2026 15:35:06 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/what-replaces-srm-and-vsphere-replication-on-proxmox.185521/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185521</guid>
+      <author>invalid@example.com (bbgeek17)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>RobFantini</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">using pve 9.0.5 .   5 node ceph cluster.   nodes have a mix of zfs and non zfs root/boot disks along with one large nvme formatted ext4 for vzdumps.  we also use pbs .<br />
+      <dc:creator>bbgeek17</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Everyone,<br />
 <br />
-i have a cronscript which we have used for years that checks this:<br />
+Disaster recovery keeps coming up with folks moving off VMware, usually as some version of &quot;what replaces SRM?&quot; We&#039;ve answered pieces of this in threads for years, so we finally sat down and wrote the whole thing up properly.<br />
+<br />
+Mapping VMware DR Features to Proxmox VE: SRM, vSphere Replication, and Site Recovery <a href="https://kb.blockbridge.com/technote/proxmox-vmware-disaster-recovery/" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://kb.blockbridge.com/technote/proxmox-vmware-disaster-recovery/</a><br />
+<br />
+The technote maps each VMware DR feature to its nearest native PVE equivalent: pvesr and...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/what-replaces-srm-and-vsphere-replication-on-proxmox.185521/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>7</slash:comments>
+    </item>
+    <item>
+      <title>PVE ARM  support for Ampere altra max</title>
+      <pubDate>Fri, 07 Aug 2026 14:34:56 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-arm-support-for-ampere-altra-max.119284/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:119284</guid>
+      <author>invalid@example.com (kyesil)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>kyesil</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Very interesting thing : Arm based server. It can be change everything for server world.  We know apple make shock to PC world with Apple Arm cpu. Arm cpu architecture more efficiently. Debian is supporting arm. PVE is debian based.<br />
+<br />
+What you think?  There is any plan with arm support for PVE?<br />
+<br />
+<a href="https://www.phoronix.com/news/Ampere-Altra-Max-Pricing" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://www.phoronix.com/news/Ampere-Altra-Max-Pricing</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>dmesg flooded by SysV generator</title>
+      <pubDate>Fri, 07 Aug 2026 14:27:17 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/dmesg-flooded-by-sysv-generator.169699/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:169699</guid>
+      <author>invalid@example.com (Mrt12)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Mrt12</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Good day<br />
+so I just upgraded my PVE host to version 9 and it worked super nice. pve8to9 gave no warnings or errors and so I figured the update will be fine.<br />
+Which it was to 99.9% ;-)<br />
+After this upgrade, my dmesg gets flooded with the messages like below. I see it has something to do with the MPT and also IPMI driver, but there are also others that give a similar warning.<br />
+So I do to 100% not understand this warning and I wonder what it is. By googling I found similar warnings, but all of them...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/dmesg-flooded-by-sysv-generator.169699/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>nfs backup storage fails silently.</title>
+      <pubDate>Fri, 07 Aug 2026 14:10:11 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/nfs-backup-storage-fails-silently.185576/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185576</guid>
+      <author>invalid@example.com (Daxcor)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Daxcor</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am trying to setup a backup location on a remote nfs server.  When I go to setup the nfs storage via the datacenter, it goes through and sets up the storage.<br />
+<br />
+storage.cfg snippet<br />
+<br />
 
 	
 	
@@ -286,171 +353,34 @@ i have a cronscript which we have used for years that checks this:<br />
 		Code:
 	</div>
 	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>dmesg -T |  grep hung |  grep -v vethXChung ##  **URGENT** probably need to restart node.  find cause</code></pre>
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>nfs: nfs-backup
+        export /home
+        path /mnt/pve/nfs-backup
+        server 10.20.10.22
+        content backup,images
+        prune-backups keep-all=1</code></pre>
 	</div>
 </div><br />
-most or all nodes just started sending emails.  kvm&#039;s and pct&#039;s too.<br />
+when I run the backup it proceeds with no errors, however it silently fails to connect to the nfs server and saved the file on the local system at...<br />
 <br />
-i&#039;ll put an example of full dmesg hung part below.<br />
-<br />
-today I replaced a node...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/info-task-kworker-blocked-for-more-than-122-seconds.170021/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>10</slash:comments>
-    </item>
-    <item>
-      <title>kernel 7.0.14-9-pve: GPF in list_lru_isolate_move (kswapd0) leaves an orphaned spinlock, whole host locks up - dual-socket NUMA, PBS 4.2.5</title>
-      <pubDate>Fri, 07 Aug 2026 09:09:38 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/kernel-7-0-14-9-pve-gpf-in-list_lru_isolate_move-kswapd0-leaves-an-orphaned-spinlock-whole-host-locks-up-dual-socket-numa-pbs-4-2-5.185582/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185582</guid>
-      <author>invalid@example.com (ciniset)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>ciniset</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><span style="font-size: 18px"><b>Summary</b></span><br />
-<br />
-After upgrading from <code class="bbCodeInline">7.0.14-8-pve</code> to <code class="bbCodeInline">7.0.14-9-pve</code>, a Proxmox Backup Server host died after 3h20m of uptime with a general protection fault in <code class="bbCodeInline">list_lru_isolate_move()</code>, hit by <code class="bbCodeInline">kswapd0</code> while pruning the inode cache.<br />
-<br />
-The oops itself is not the interesting part. <code class="bbCodeInline">kswapd0</code> died <b>while holding locks</b> (<code class="bbCodeInline">exited with preempt_count 2</code>), so the <code class="bbCodeInline">list_lru</code> spinlock was never released. Every other CPU that subsequently entered reclaim...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/kernel-7-0-14-9-pve-gpf-in-list_lru_isolate_move-kswapd0-leaves-an-orphaned-spinlock-whole-host-locks-up-dual-socket-numa-pbs-4-2-5.185582/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Migration from Vmware</title>
-      <pubDate>Fri, 07 Aug 2026 09:01:23 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/migration-from-vmware.185538/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185538</guid>
-      <author>invalid@example.com (miket85)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>miket85</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">We have recently migrated 18 hosts from esxi to proxmox for our Citrix VDI estate and so far very pleased with the results. This was straightforward as everything is imaged from a single gold image, and pxe booted to a cloned disk. <br />
-<br />
-We are now exploring moving our Windows server estate (250+ VM&#039;s) but a rebuild and migrate of each VM is a big undertaking. So far we have explored a few options of how we could move our existing workloads without rebuild, but results are varied<br />
-<br />
-Migrate using...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/migration-from-vmware.185538/" class="link link--internal">Read more</a></div>]]></content:encoded>
+<a href="https://forum.proxmox.com/threads/nfs-backup-storage-fails-silently.185576/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>5</slash:comments>
     </item>
     <item>
-      <title>Probleme mit apcupsd</title>
-      <pubDate>Fri, 07 Aug 2026 09:01:08 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/probleme-mit-apcupsd.183211/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:183211</guid>
-      <author>invalid@example.com (jbeck66)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>jbeck66</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
-ich bin neu hier im Forum und bitte schon mal um Nachsicht von den Admins hier, falls ich nicht im richtigen Forum schreibe.<br />
-Außerdem bitte ich darum, dass sich Leute die besser englisch sprechen als ich, das Thema wenn erforderlich in der richtigen Form und Sprache aufgreifen.<br />
-<br />
-Zum Problem:<br />
-Seit Jahren habe ich Proxmox in Verbindung mit apcupsd ohne Fehler im Einsatz.<br />
-Seit den letzten zwei Proxmox Updates funktioniert es aber nicht mehr.<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>root@pve03:~# uname -a
-Linux pve03...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/probleme-mit-apcupsd.183211/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>39</slash:comments>
-    </item>
-    <item>
-      <title>Enterprise iSCSI support in PVE</title>
-      <pubDate>Fri, 07 Aug 2026 08:58:24 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/enterprise-iscsi-support-in-pve.185547/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185547</guid>
-      <author>invalid@example.com (ogrimia)</author>
+      <title>Asus NUC14 Performance</title>
+      <pubDate>Fri, 07 Aug 2026 13:21:41 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/asus-nuc14-performance.185343/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185343</guid>
+      <author>invalid@example.com (Peter Neumaier)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>ogrimia</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">When will iSCSI be ready for use in PVE? Are there any plans for iSCSI and networking development in PVE?<br />
+      <dc:creator>Peter Neumaier</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen hat jemand einen Tip für mich:<br />
+Ich wollte obengenannten NUC als Rechner meinem Cluster hinzufügen, was auch relativ Problemlos geklappt hat.<br />
+Nachdem ich lokal Ki drauf laufen lassen wollte, die eingebaute Nvidia GeForce RTX 4070 an den Container durchreichen wollte, was aber insoferne nicht funktioniert da es von Nvidia keine Unterstützung für den aktuellen Kernel gibt. Ich wollte aber keinen älteren Kernel zurückgreifen.<br />
+Hat irgendwer eine Lösung für mich? Hab schon einiges...<br />
 <br />
-<br />
-I see that PVE already has a 9.x release, and ISCSI is the biggest pain to describe it gently. I am the only person in the company who understands the iSCSI SAN concept with multi-pathing over separate networks, failover logic and flow, portals/targets and initiators, the process of adding and removing paths and new LUNs, and growing existing volumes. I want to cry when I see that PVE...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/enterprise-iscsi-support-in-pve.185547/" class="link link--internal">Read more</a></div>]]></content:encoded>
+<a href="https://forum.proxmox.com/threads/asus-nuc14-performance.185343/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>ZFS performance collapse on MegaRAID 9364 with Samsung 870 EVO SSDs (PVE 9)</title>
-      <pubDate>Fri, 07 Aug 2026 08:58:02 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/zfs-performance-collapse-on-megaraid-9364-with-samsung-870-evo-ssds-pve-9.185368/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185368</guid>
-      <author>invalid@example.com (Radik Makhmudov)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Radik Makhmudov</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-After upgrading from <b>kernel 7.0.2-6-pve</b> to <b>7.0.14-6-pve</b>, I observed a reproducible and severe storage performance regression.<br />
-<br />
-<b>System:</b><br />
-<ul>
-<li data-xf-list-type="ul">Proxmox VE 9.2.5</li>
-<li data-xf-list-type="ul">4 × Samsung 870 EVO 1TB SSD</li>
-<li data-xf-list-type="ul">ZFS pool: two mirrored vdevs</li>
-<li data-xf-list-type="ul">Pool status: ONLINE</li>
-<li data-xf-list-type="ul">No read/write/checksum errors</li>
-<li data-xf-list-type="ul">Latest scrub completed successfully</li>
-</ul><b>Test:</b><br />
-<br />
-The same fio test was executed on both kernels.<br />
-<br />
-fio \<br />
-  --name=seq-write \<br />
-  --filename=/tank/testfile \<br />
-  --rw=write \<br />
-  --bs=1M \...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/zfs-performance-collapse-on-megaraid-9364-with-samsung-870-evo-ssds-pve-9.185368/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>18</slash:comments>
-    </item>
-    <item>
-      <title>Meinung Disaster Recovery Konzept</title>
-      <pubDate>Fri, 07 Aug 2026 08:45:57 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/meinung-disaster-recovery-konzept.185537/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185537</guid>
-      <author>invalid@example.com (rothkraut)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>rothkraut</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen, <br />
-<br />
-ich hocke momentan an einem Konzept für ein Disaster Recovery zwischen zwei Standorten. <br />
-Mich würde mal interessieren, ob meine Idee so umgesetzt werden kann, und was eure Meinung dazu ist.<br />
-<br />
-<b>Folgendes Szenario: </b><br />
-Standort A und Standort B. Beide Cluster sind wie folgt aufgebaut: <br />
--2 Nodes + QDevice<br />
--externer Storage (ZFS) für VM-Disks (TrueNAS)<br />
-<br />
-Standort A beherbergt das produktive Cluster. Sollte dieses komplett ausfallen, sollen die VMs im Standort B wieder...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/meinung-disaster-recovery-konzept.185537/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>23</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox Virtual Environment now available for 64-bit ARM (arm64)!</title>
-      <pubDate>Fri, 07 Aug 2026 08:38:08 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-virtual-environment-now-available-for-64-bit-arm-arm64.185527/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185527</guid>
-      <author>invalid@example.com (t.lamprecht)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>t.lamprecht</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">We are excited to announce the first release of Proxmox Virtual Environment with official support for a second CPU architecture: 64-bit ARM (arm64/aarch64). Until now, Proxmox VE was available for x86-64 (amd64) only.<br />
-<br />
-Proxmox VE 9.2 for arm64 shares the code base, package repositories, and release lifecycle with its x86-64 counterpart. It is built on Debian 13.5 &quot;Trixie&quot; with Linux kernel 7.0 as the stable default, and ships the same versions of our underlying key technologies, including...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-virtual-environment-now-available-for-64-bit-arm-arm64.185527/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>16</slash:comments>
     </item>
   </channel>
 </rss>
