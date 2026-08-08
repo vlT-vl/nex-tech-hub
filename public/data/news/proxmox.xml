@@ -4,11 +4,78 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Sat, 08 Aug 2026 00:59:05 +0000</pubDate>
-    <lastBuildDate>Sat, 08 Aug 2026 00:59:05 +0000</lastBuildDate>
+    <pubDate>Sat, 08 Aug 2026 06:38:31 +0000</pubDate>
+    <lastBuildDate>Sat, 08 Aug 2026 06:38:31 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>7.0.14-7 kernel breaks PCI link training</title>
+      <pubDate>Sat, 08 Aug 2026 04:54:58 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/7-0-14-7-kernel-breaks-pci-link-training.185549/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185549</guid>
+      <author>invalid@example.com (aoxiangtianji)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>aoxiangtianji</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have a SK hynix PE4010 (HFS960GD0TEG-6410A, 894G) installed on a PCIe splitter card on an ASRock B450M Pro4-F. The splitter card has no switch chip; it relies on the motherboard&#039;s PCIe bifurcation.<br />
+<br />
+After updating from 7.0.2 to 7.0.14-8, PVE got stuck during boot because it couldn&#039;t detect my disk. The NVMe controller is simply not visible, and I couldn&#039;t confirm any error in dmesg (in that state I wasn&#039;t able to export the log).<br />
+<br />
+After some testing, I found that 7.0.14-6 is the latest...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/7-0-14-7-kernel-breaks-pci-link-training.185549/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox just died with: nvme nvme0: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0x10</title>
+      <pubDate>Sat, 08 Aug 2026 02:11:20 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-just-died-with-nvme-nvme0-controller-is-down-will-reset-csts-0xffffffff-pci_status-0x10.88604/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:88604</guid>
+      <author>invalid@example.com (marcosscriven)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>marcosscriven</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I was playing a game on a Windows VM, and it suddenly paused.<br />
+<br />
+I checked the Proxmox logs, and saw this:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>[268690.209099] nvme nvme0: controller is down; will reset: CSTS=0xffffffff, PCI_STATUS=0x10
+[268690.289109] nvme 0000:01:00.0: enabling device (0000 -&gt; 0002)
+[268690.289234] nvme nvme0: Removing after probe failure status: -19
+[268690.313116] nvme0n1: detected capacity change from 1953525168 to 0
+[268690.313116] blk_update_request: I/O error, dev nvme0n1, sector 119170336 op...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/proxmox-just-died-with-nvme-nvme0-controller-is-down-will-reset-csts-0xffffffff-pci_status-0x10.88604/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>27</slash:comments>
+    </item>
+    <item>
+      <title>[March 2026] Proxmox Backup Client - Unofficial ARM64 Install for Ubuntu Server 25.10?</title>
+      <pubDate>Sat, 08 Aug 2026 01:39:52 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/march-2026-proxmox-backup-client-unofficial-arm64-install-for-ubuntu-server-25-10.181502/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:181502</guid>
+      <author>invalid@example.com (SInisterPisces)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>SInisterPisces</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I&#039;ve got a couple of Pis running Ubuntu Server 25.10 (Ubuntu kernel 6.17).<br />
+Since these would otherwise be virtual machines but for Reasons® (mostly, they&#039;re running workloads that I want to stay running in the event my Proxmox cluster has some sort of catastrophic failure), I&#039;d like to use Proxmox Backup Client to back these up to my existing Proxmox Backup Server, which has plenty of room and, perhaps most importantly, is already configured and working. <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f61b.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":P" title="Stick Out Tongue    :P"  data-smilie="7"data-shortname=":P" /><br />
+<br />
+I know that there are a...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/march-2026-proxmox-backup-client-unofficial-arm64-install-for-ubuntu-server-25-10.181502/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
     <item>
       <title>Issues with using “balance-slb” in OVS Bond</title>
       <pubDate>Sat, 08 Aug 2026 00:21:57 +0000</pubDate>
@@ -307,69 +374,6 @@ Per the motherboard&#039;s documentation, I have the RAM populated in slots desi
 <br />
 <a href="https://forum.proxmox.com/threads/multiple-cpu-motherboard-settings-for-windows-vms.169476/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Ideale Server-Konfig für externen Speicher</title>
-      <pubDate>Fri, 07 Aug 2026 17:28:37 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ideale-server-konfig-f%C3%BCr-externen-speicher.185115/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185115</guid>
-      <author>invalid@example.com (S3v|\|)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
-      <dc:creator>S3v|\|</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen<br />
-<br />
-meine aktuelle Proxmox Backup Server (PBS) Konfig ist wie folgt:<br />
-Auf meinem Proxmox Virtual Environment (PVE) läuft eine PBS-VM. Diese sichert täglich über SMB auf eine QNAP-NAS mit Festplatten.<br />
-Diese Konfig läuft so weit recht OK - nur bei Verify, Prune und Garbage Collect stößt sie an die Grenzen.<br />
-Die zur Verfügung gestellte (virtuelle) Hardeware wird nie voll ausgenutzt. (16 GB RAM, 4 Kerne)<br />
-Dass diese Konfig nicht ideal ist, ist mir inzwischen auch bewusst geworden.<br />
-Daher...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/ideale-server-konfig-f%C3%BCr-externen-speicher.185115/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>62</slash:comments>
-    </item>
-    <item>
-      <title>alternative zu glusterfs</title>
-      <pubDate>Fri, 07 Aug 2026 16:08:07 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/alternative-zu-glusterfs.185587/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185587</guid>
-      <author>invalid@example.com (r4a5a88)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>r4a5a88</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo Community,<br />
-<br />
-wir haben eine Proxmox Cluster mit 5 Servern und unterschiedlichen Festplatten Situationen <br />
-3 haben große LVM Thin Storages <br />
-1 hat 2 große Storage<br />
-1 ist alt und hat ein großes und 2 kleine storages<br />
-<br />
-wir hatten das per glusterfs geamcht und darüber festplatten geteilt das ich Vms ohne probleme auch verschieben kann.<br />
-In der neuesten Version von Proxmox wird glusterfs nicht mehr supportet .<br />
-also wollen wir wechseln.<br />
-<br />
-Ein Option wäre Ceph aber Ceph ist mir zu komplex zum...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/alternative-zu-glusterfs.185587/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE 9.2.6 - NFS storage is reported as inactive although the mount is accessible</title>
-      <pubDate>Fri, 07 Aug 2026 16:06:17 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-6-nfs-storage-is-reported-as-inactive-although-the-mount-is-accessible.185564/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185564</guid>
-      <author>invalid@example.com (Klitschko)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Klitschko</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><div style="text-align: center"><div class="bbTable">
-<table style='width: 100%'><tr><td style='width: 653px'><b>Summary</b><br />
-Proxmox reports an NFS storage as inactive even though the export is mounted and accessible from the host. The behaviour was observed with both NFSv4.x and NFSv3. NFSv4.x showed a GETATTR hang during investigation, while NFSv3 avoids that hang, but Proxmox still marks the storage as inactive.</td></tr></table>
-</div></div><br />
-<br />
-<h3 class="bbHeading"><a class="u-anchorTarget" name="-environment"></a>Environment&#8203;<a class="hoverLink" href="#-environment" title="Permanent link"></a></h3><div style="text-align: center"><div class="bbTable">
-<table style='width: 100%'><tr><td style='width: 149px'><b>Proxmox</b></td><td style='width: 504px'>Proxmox VE 9.2.6; Linux kernel 6.17.13-7-pve; host IP &lt;management-IP&gt;</td></tr><tr><td></td><td></td></tr></table>
-...</div></div><br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-6-nfs-storage-is-reported-as-inactive-although-the-mount-is-accessible.185564/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>8</slash:comments>
     </item>
   </channel>
 </rss>
