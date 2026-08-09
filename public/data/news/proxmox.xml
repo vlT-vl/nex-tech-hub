@@ -4,32 +4,77 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Sun, 09 Aug 2026 01:02:11 +0000</pubDate>
-    <lastBuildDate>Sun, 09 Aug 2026 01:02:11 +0000</lastBuildDate>
+    <pubDate>Sun, 09 Aug 2026 06:42:41 +0000</pubDate>
+    <lastBuildDate>Sun, 09 Aug 2026 06:42:41 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
-      <title>[March 2026] Proxmox Backup Client - Unofficial ARM64 Install for Ubuntu Server 25.10?</title>
-      <pubDate>Sun, 09 Aug 2026 00:27:12 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/march-2026-proxmox-backup-client-unofficial-arm64-install-for-ubuntu-server-25-10.181502/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:181502</guid>
-      <author>invalid@example.com (SInisterPisces)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>SInisterPisces</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+      <title>Grundsatz für Shared Storage</title>
+      <pubDate>Sun, 09 Aug 2026 06:13:28 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/grundsatz-f%C3%BCr-shared-storage.185325/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185325</guid>
+      <author>invalid@example.com (AlexanderB)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>AlexanderB</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo liebe Community,<br />
 <br />
-I&#039;ve got a couple of Pis running Ubuntu Server 25.10 (Ubuntu kernel 6.17).<br />
-Since these would otherwise be virtual machines but for Reasons® (mostly, they&#039;re running workloads that I want to stay running in the event my Proxmox cluster has some sort of catastrophic failure), I&#039;d like to use Proxmox Backup Client to back these up to my existing Proxmox Backup Server, which has plenty of room and, perhaps most importantly, is already configured and working. <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f61b.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":P" title="Stick Out Tongue    :P"  data-smilie="7"data-shortname=":P" /><br />
+ich würde gern meine gesamten Daten aus der Cloud nach Hause holen.<br />
+Um das ganze grundsätzlich richtig aufzusetzen, habe ich noch eine Frage.<br />
+Ich möchte gern meine Daten irgendwie zentral verfügbar haben, sodass Dienste, wie Immich, Joplin, Nextcloud, etc. darauf zugreifen können.<br />
+Also meine Daten sollen nicht gekapselt in einer VM liegen, sodass nur der eine Dienst damit arbeiten kann.<br />
+Wie tut man diesen, ich nenn ihn mal &quot;shared storage&quot; in Proxmox aufsetzen? Auch...<br />
 <br />
-I know that there are a...<br />
+<a href="https://forum.proxmox.com/threads/grundsatz-f%C3%BCr-shared-storage.185325/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>51</slash:comments>
+    </item>
+    <item>
+      <title>unifi enviroment native + tagged on the server port</title>
+      <pubDate>Sun, 09 Aug 2026 05:36:49 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/unifi-enviroment-native-tagged-on-the-server-port.185605/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185605</guid>
+      <author>invalid@example.com (basstscho)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>basstscho</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello together,<br />
 <br />
-<a href="https://forum.proxmox.com/threads/march-2026-proxmox-backup-client-unofficial-arm64-install-for-ubuntu-server-25-10.181502/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
+in the past we used full tagged network ports for our proxmox servers. In this setup everything was clear:<br />
+VM with access to vlan 10: <code class="bbCodeInline">switch - nic0/nic1 - bond0 - vmbr0 (VLAN aware) - vm-nic (tag 10)</code><br />
+VM with access to vlan 20: <code class="bbCodeInline">switch - nic0/nic1 - bond0 - vmbr0 (VLAN aware) - vm-nic (tag 20)</code><br />
+VM with access to everything (vlan nics in the vm itself): <code class="bbCodeInline">switch - nic0/nic1 - bond0 - vmbr0 (VLAN aware) - vm-nic (no tag)</code><br />
+<br />
+Now we wan&#039;t to use the more unifi...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/unifi-enviroment-native-tagged-on-the-server-port.185605/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>alternative zu glusterfs</title>
+      <pubDate>Sun, 09 Aug 2026 04:26:51 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/alternative-zu-glusterfs.185587/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185587</guid>
+      <author>invalid@example.com (r4a5a88)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>r4a5a88</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo Community,<br />
+<br />
+wir haben eine Proxmox Cluster mit 5 Servern und unterschiedlichen Festplatten Situationen <br />
+3 haben große LVM Thin Storages <br />
+1 hat 2 große Storage<br />
+1 ist alt und hat ein großes und 2 kleine storages<br />
+<br />
+wir hatten das per glusterfs geamcht und darüber festplatten geteilt das ich Vms ohne probleme auch verschieben kann.<br />
+In der neuesten Version von Proxmox wird glusterfs nicht mehr supportet .<br />
+also wollen wir wechseln.<br />
+<br />
+Ein Option wäre Ceph aber Ceph ist mir zu komplex zum...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/alternative-zu-glusterfs.185587/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
     </item>
     <item>
       <title>Synology SAN Manager storage plugin for Proxmox VE (iSCSI, snapshots, multipath)</title>
-      <pubDate>Sun, 09 Aug 2026 00:15:10 +0000</pubDate>
+      <pubDate>Sun, 09 Aug 2026 04:24:25 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/synology-san-manager-storage-plugin-for-proxmox-ve-iscsi-snapshots-multipath.185604/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185604</guid>
       <author>invalid@example.com (Jason_Cheng)</author>
@@ -50,7 +95,66 @@ That works, but it also means:<br />
 <li data-xf-list-type="ul">LUNs and targets still need...</li>
 </ul><br />
 <a href="https://forum.proxmox.com/threads/synology-san-manager-storage-plugin-for-proxmox-ve-iscsi-snapshots-multipath.185604/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Testing Proxmox VE on Ampere Altra Max (Armv8)</title>
+      <pubDate>Sun, 09 Aug 2026 04:23:24 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/testing-proxmox-ve-on-ampere-altra-max-armv8.185541/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185541</guid>
+      <author>invalid@example.com (geerlingguy)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>geerlingguy</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I installed Proxmox VE 9 for Arm64 on my Ampere Altra Max Developer Platform this morning - video is up here: <a href="https://www.youtube.com/watch?v=Lg263L1W97w" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://www.youtube.com/watch?v=Lg263L1W97w</a><br />
+<br />
+The install was fine, but when I tried creating my first VM, using the Ubuntu 24.04.1 live server ISO I normally install on the bare metal system, it would just &#039;poweroff&#039; during the console install wizard at a couple different points (the first one was after confirming the disk information, the second one was after entering my...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/testing-proxmox-ve-on-ampere-altra-max-armv8.185541/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
+    <item>
+      <title>Detected Hardware Unit Hang</title>
+      <pubDate>Sun, 09 Aug 2026 03:39:22 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/detected-hardware-unit-hang.178800/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:178800</guid>
+      <author>invalid@example.com (niekniek89)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>niekniek89</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I can&#039;t find the right answer to my question right away, so I&#039;m opening a new post.<br />
+I&#039;ve had my Proxmox host suddenly become unreachable several times now.<br />
+The log shows the following message:<br />
+<br />
+<b>Dec 31 19:55:58 Proxmox01 kernel: e1000e 0000:00:1f.6 eno1: Detected Hardware Unit Hang</b><br />
+<br />
+I&#039;ve already searched the internet for some things, but I can&#039;t find the right one.<br />
+I also saw this online:<br />
+<br />
+<b>post-up /sbin/ethtool -K eno1 tso off gso off gro off</b><br />
+<br />
+But before I run that, I see...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/detected-hardware-unit-hang.178800/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>[March 2026] Proxmox Backup Client - Unofficial ARM64 Install for Ubuntu Server 25.10?</title>
+      <pubDate>Sun, 09 Aug 2026 02:30:13 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/march-2026-proxmox-backup-client-unofficial-arm64-install-for-ubuntu-server-25-10.181502/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:181502</guid>
+      <author>invalid@example.com (SInisterPisces)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>SInisterPisces</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I&#039;ve got a couple of Pis running Ubuntu Server 25.10 (Ubuntu kernel 6.17).<br />
+Since these would otherwise be virtual machines but for Reasons® (mostly, they&#039;re running workloads that I want to stay running in the event my Proxmox cluster has some sort of catastrophic failure), I&#039;d like to use Proxmox Backup Client to back these up to my existing Proxmox Backup Server, which has plenty of room and, perhaps most importantly, is already configured and working. <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f61b.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":P" title="Stick Out Tongue    :P"  data-smilie="7"data-shortname=":P" /><br />
+<br />
+I know that there are a...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/march-2026-proxmox-backup-client-unofficial-arm64-install-for-ubuntu-server-25-10.181502/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
     </item>
     <item>
       <title>Manual for PDM subscribtion handling with Offline Mirror</title>
@@ -69,49 +173,6 @@ What I would like is a step-by-step guide on how to integrate my offline subscri
 Thanks and best Regards,<br />
 Thomas</div>]]></content:encoded>
       <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>alternative zu glusterfs</title>
-      <pubDate>Sat, 08 Aug 2026 23:42:13 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/alternative-zu-glusterfs.185587/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185587</guid>
-      <author>invalid@example.com (r4a5a88)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>r4a5a88</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo Community,<br />
-<br />
-wir haben eine Proxmox Cluster mit 5 Servern und unterschiedlichen Festplatten Situationen <br />
-3 haben große LVM Thin Storages <br />
-1 hat 2 große Storage<br />
-1 ist alt und hat ein großes und 2 kleine storages<br />
-<br />
-wir hatten das per glusterfs geamcht und darüber festplatten geteilt das ich Vms ohne probleme auch verschieben kann.<br />
-In der neuesten Version von Proxmox wird glusterfs nicht mehr supportet .<br />
-also wollen wir wechseln.<br />
-<br />
-Ein Option wäre Ceph aber Ceph ist mir zu komplex zum...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/alternative-zu-glusterfs.185587/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Grundsatz für Shared Storage</title>
-      <pubDate>Sat, 08 Aug 2026 20:53:29 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/grundsatz-f%C3%BCr-shared-storage.185325/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185325</guid>
-      <author>invalid@example.com (AlexanderB)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>AlexanderB</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo liebe Community,<br />
-<br />
-ich würde gern meine gesamten Daten aus der Cloud nach Hause holen.<br />
-Um das ganze grundsätzlich richtig aufzusetzen, habe ich noch eine Frage.<br />
-Ich möchte gern meine Daten irgendwie zentral verfügbar haben, sodass Dienste, wie Immich, Joplin, Nextcloud, etc. darauf zugreifen können.<br />
-Also meine Daten sollen nicht gekapselt in einer VM liegen, sodass nur der eine Dienst damit arbeiten kann.<br />
-Wie tut man diesen, ich nenn ihn mal &quot;shared storage&quot; in Proxmox aufsetzen? Auch...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/grundsatz-f%C3%BCr-shared-storage.185325/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>50</slash:comments>
     </item>
     <item>
       <title>About Security Vulnerabilities</title>
@@ -235,21 +296,6 @@ How can I solve it?</div>]]></content:encoded>
       <slash:comments>4</slash:comments>
     </item>
     <item>
-      <title>Testing Proxmox VE on Ampere Altra Max (Armv8)</title>
-      <pubDate>Sat, 08 Aug 2026 13:19:33 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/testing-proxmox-ve-on-ampere-altra-max-armv8.185541/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185541</guid>
-      <author>invalid@example.com (geerlingguy)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>geerlingguy</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I installed Proxmox VE 9 for Arm64 on my Ampere Altra Max Developer Platform this morning - video is up here: <a href="https://www.youtube.com/watch?v=Lg263L1W97w" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://www.youtube.com/watch?v=Lg263L1W97w</a><br />
-<br />
-The install was fine, but when I tried creating my first VM, using the Ubuntu 24.04.1 live server ISO I normally install on the bare metal system, it would just &#039;poweroff&#039; during the console install wizard at a couple different points (the first one was after confirming the disk information, the second one was after entering my...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/testing-proxmox-ve-on-ampere-altra-max-armv8.185541/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
       <title>Proxmox VE arm64</title>
       <pubDate>Sat, 08 Aug 2026 12:17:26 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/proxmox-ve-arm64.183752/</link>
@@ -367,55 +413,6 @@ There&#039;s no PG imbalance; everything is fine with the old HDD drives.<br />
 <br />
 Solved - I was neglecting to type &quot;sudo&quot; before the rest of the command.</div>]]></content:encoded>
       <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>LXC migration fails with "cannot migrate local bind mount point" although bind mount is shared NFS on both cluster nodes (PVE 9.2.6)</title>
-      <pubDate>Sat, 08 Aug 2026 08:02:17 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/lxc-migration-fails-with-cannot-migrate-local-bind-mount-point-although-bind-mount-is-shared-nfs-on-both-cluster-nodes-pve-9-2-6.185478/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185478</guid>
-      <author>invalid@example.com (Steefie)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Steefie</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-<br />
-I have encountered what appears to be an issue with LXC migration on Proxmox VE 9.2.6.<br />
-<br />
-<br />
-After several hours of troubleshooting, I reduced the problem to a minimal reproducible example.<br />
-<br />
-<br />
-<h2 class="bbHeading"><a class="u-anchorTarget" name="-environment"></a>Environment&#8203;<a class="hoverLink" href="#-environment" title="Permanent link"></a></h2><br />
-<ul>
-<li data-xf-list-type="ul">Proxmox VE 9.2.6</li>
-<li data-xf-list-type="ul">pve-container 6.1.12</li>
-<li data-xf-list-type="ul">Two-node cluster</li>
-<li data-xf-list-type="ul">QDevice configured and working correctly</li>
-<li data-xf-list-type="ul">Synology NAS using NFS</li>
-<li data-xf-list-type="ul">Both nodes run identical package versions</li>
-</ul><br />
-<h2 class="bbHeading"><a class="u-anchorTarget" name="-shared-nfs-mount"></a>Shared NFS mount&#8203;<a class="hoverLink" href="#-shared-nfs-mount" title="Permanent link"></a></h2><br />
-The following NFS export is mounted on <b>both</b> nodes...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/lxc-migration-fails-with-cannot-migrate-local-bind-mount-point-although-bind-mount-is-shared-nfs-on-both-cluster-nodes-pve-9-2-6.185478/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>7.0.14-7 kernel breaks PCI link training</title>
-      <pubDate>Sat, 08 Aug 2026 04:54:58 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/7-0-14-7-kernel-breaks-pci-link-training.185549/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185549</guid>
-      <author>invalid@example.com (aoxiangtianji)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>aoxiangtianji</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have a SK hynix PE4010 (HFS960GD0TEG-6410A, 894G) installed on a PCIe splitter card on an ASRock B450M Pro4-F. The splitter card has no switch chip; it relies on the motherboard&#039;s PCIe bifurcation.<br />
-<br />
-After updating from 7.0.2 to 7.0.14-8, PVE got stuck during boot because it couldn&#039;t detect my disk. The NVMe controller is simply not visible, and I couldn&#039;t confirm any error in dmesg (in that state I wasn&#039;t able to export the log).<br />
-<br />
-After some testing, I found that 7.0.14-6 is the latest...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/7-0-14-7-kernel-breaks-pci-link-training.185549/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
     </item>
   </channel>
 </rss>
