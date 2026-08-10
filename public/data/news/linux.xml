@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Linux News</title><item>
+   <title>Linux 7.2-rc7 Released Following Another Exhausting AI-Driven Week</title>
+   <link>https://www.phoronix.com/news/Linux-7.2-rc7-Released</link>
+   <guid>https://www.phoronix.com/news/Linux-7.2-rc7-Released</guid>
+   <description>Linux 7.2-rc7 is now available for testing as we close in on the official Linux 7.2 release hopefully next weekend...</description>
+   <pubDate>Sun, 09 Aug 2026 18:14:34 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
    <title>CachyOS August 2026 Release Preps For Upcoming Server Edition</title>
    <link>https://www.phoronix.com/news/CachyOS-August-2026</link>
    <guid>https://www.phoronix.com/news/CachyOS-August-2026</guid>
@@ -200,13 +207,6 @@
    <guid>https://www.phoronix.com/news/Linux-Zapscape-Vulnerability</guid>
    <description>Made public earlier today is Zapscape as a guest-to-host escape vulnerability affecting the Linux KVM x86 code for the past six years. This 2020 kernel change to KVM x86 can also be used as a local privilege escalation (LPE) exploit too where /dev/kvm is world-writable on some Linux distributions like RHEL...</description>
    <pubDate>Thu, 06 Aug 2026 20:29:00 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>Linux 7.2-rc7 Restoring Btrfs Fixup Worker Infrastructure To Address Silent Data Loss</title>
-   <link>https://www.phoronix.com/news/Btrfs-Restores-Fixup-Worker</link>
-   <guid>https://www.phoronix.com/news/Btrfs-Restores-Fixup-Worker</guid>
-   <description>Back during the Linux 7.2 merge window the Btrfs file-system dropped its COW fixup mechanism, which was used to detect dirty pages without an ordered extent. This code was removed as it was believed the kernel's memory management layer had solved the underlying conditions but in reality it ended up leading to silent data loss. That Btrfs fixup worker infrastructure is now restored in time for Linux 7.2-rc7 this weekend and the stable v7.2 kernel later this month...</description>
-   <pubDate>Thu, 06 Aug 2026 17:09:10 -0400</pubDate>
    <dc:creator>Michael Larabel</dc:creator>
   </item><item>
    <title>The Performance Benefits To Upgrading Mesa With Intel Arc B390 On Ubuntu Linux</title>
@@ -732,6 +732,30 @@ dpkg-query -W -f '${source:Package}\t${binary:Package}\n' | awk '$1 ~ "^linux-me
 &lt;li&gt;If you have this enabled, the patches above will be automatically applied within 24 hours of being available, but a reboot is still required.&lt;/li&gt;
 &lt;/ul&gt;
 </content:encoded><author>Luci Stanescu (Luci Stanescu)</author><category>Security</category><category>Vulnerabilities</category><pubDate>Wed, 01 Jul 2026 07:57:40 +0000</pubDate></item><item>
+        <title>Kernel prepatch 7.2-rc7</title>
+        <link>https://lwn.net/Articles/1087961/</link>
+        <guid>https://lwn.net/Articles/1087961/</guid>
+        <dc:creator>corbet</dc:creator>
+        <description>The &lt;a href=&quot;https://lwn.net/Articles/1087960/&quot;&gt;7.2-rc7&lt;/a&gt; kernel prepatch is out for
+testing.  It is still bigger than Linus would like, but he said
+nonetheless: &quot;&lt;q&gt;I don't currently see any value in delaying the 7.2
+release, so I would expect that to happen next weekend unless something
+really bad pops up.&lt;/q&gt;&quot;</description>
+        <pubDate>Sun, 09 Aug 2026 22:39:56 +0000</pubDate>
+        </item><item>
+        <title>Four weekend stable kernel updates</title>
+        <link>https://lwn.net/Articles/1087949/</link>
+        <guid>https://lwn.net/Articles/1087949/</guid>
+        <dc:creator>corbet</dc:creator>
+        <description>The
+&lt;a href=&quot;https://lwn.net/Articles/1087950/&quot;&gt;7.1.8&lt;/a&gt;,
+&lt;a href=&quot;https://lwn.net/Articles/1087951/&quot;&gt;6.18.44&lt;/a&gt;,
+&lt;a href=&quot;https://lwn.net/Articles/1087952/&quot;&gt;6.12.103&lt;/a&gt;, and
+&lt;a href=&quot;https://lwn.net/Articles/1087953/&quot;&gt;6.6.151&lt;/a&gt;
+stable kernels have been released; each contains a fair number of important
+fixes.</description>
+        <pubDate>Sun, 09 Aug 2026 19:24:41 +0000</pubDate>
+        </item><item>
         <title>[$] Changes in shadow-utils password-expiration features</title>
         <link>https://lwn.net/Articles/1086949/</link>
         <guid>https://lwn.net/Articles/1086949/</guid>
@@ -988,37 +1012,4 @@ for  a new FUSE API.  There is a lot of interest and activity in the
 FUSE community these days it seems.
 </description>
         <pubDate>Wed, 05 Aug 2026 15:59:08 +0000</pubDate>
-        </item><item>
-        <title>Nelson: rust-lang/rust is adopting an LLM policy</title>
-        <link>https://lwn.net/Articles/1087326/</link>
-        <guid>https://lwn.net/Articles/1087326/</guid>
-        <dc:creator>corbet</dc:creator>
-        <description>Jynn Nelson &lt;a
-href=&quot;https://blog.rust-lang.org/inside-rust/2026/08/05/rust-langrust-is-adopting-an-llm-policy/&quot;&gt;describes
-the Rust language team's new LLM policy&lt;/a&gt; on the Inside Rust blog.
-&lt;p&gt;
-&lt;blockquote class=&quot;bq&quot;&gt;
-	No one except the author is required to read LLM output unless they
-	choose to: LLM output isn't allowed in public docs, PR
-	descriptions, or Github comments unless it's clearly marked;
-	reviewers aren't required to look at LLM PRs if they don't want to.
-&lt;p&gt;
-	No one is required to use LLMs to contribute to &lt;tt&gt;rust-lang/rust&lt;/tt&gt;:
-	policies must be written first for humans, and only summarized for
-	machines; LLM reviews cannot substitute for human review or
-	self-review.
-&lt;p&gt;
-	You are allowed to generate LLM content that only you see, without
-	disclosure, as long as you do not post it anywhere that you expect
-	us to read or review.
-&lt;/blockquote&gt;</description>
-        <pubDate>Wed, 05 Aug 2026 13:43:00 +0000</pubDate>
-        </item><item>
-        <title>Security updates for Wednesday</title>
-        <link>https://lwn.net/Articles/1087318/</link>
-        <guid>https://lwn.net/Articles/1087318/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>Security updates have been issued by &lt;b&gt;AlmaLinux&lt;/b&gt; (fence-agents, gstreamer1-plugins-good, kernel, kernel-rt, p11-kit, perl-Archive-Tar, perl-DBI, and thunderbird), &lt;b&gt;Debian&lt;/b&gt; (aom, botan3, and kernel), &lt;b&gt;Fedora&lt;/b&gt; (abrt, coreutils, doctl, kernel, open62541, perl, perl-Devel-Cover, perl-PAR-Packer, and polymake), &lt;b&gt;Mageia&lt;/b&gt; (acl and php), &lt;b&gt;Oracle&lt;/b&gt; (firefox, frr, kernel, libreswan, nodejs-nodemon, nodejs22, perl-Archive-Tar, php:7.4, php:8.2, rsync, and thunderbird), &lt;b&gt;Red Hat&lt;/b&gt; (compat-libtiff3, libpq, libtiff, postgresql, postgresql16, postgresql18, postgresql:12, postgresql:13, postgresql:15, postgresql:16, and postgresql:18), &lt;b&gt;Slackware&lt;/b&gt; (stunnel), and &lt;b&gt;SUSE&lt;/b&gt; (alloy, alsa, bind, chromedriver, corepack24, ffmpeg-4, golang-github-prometheus-prometheus, google-guest-agent, google-osconfig-agent, kubevirt, libgcrypt, libpng16, multipath-tools, netty, netty-tcnative, nodejs26, openssl-1_1, openssl-3, perl-HTTP-Tiny, perl-YAML-Syck, podman, python-sh, python-ujson, rsyslog, spice-vdagent, thrift, valkey, wpa_supplicant, and xen).
-</description>
-        <pubDate>Wed, 05 Aug 2026 13:10:40 +0000</pubDate>
         </item></channel></rss>
