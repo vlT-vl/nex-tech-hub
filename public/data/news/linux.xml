@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Linux News</title><item>
+   <title>Open-Source NVIDIA &quot;Nova&quot; Driver Sees More Functionality For Linux 7.3</title>
+   <link>https://www.phoronix.com/news/NVIDIA-Nova-Rust-Linux-7.3</link>
+   <guid>https://www.phoronix.com/news/NVIDIA-Nova-Rust-Linux-7.3</guid>
+   <description>Sent to DRM-Next this week was the DRM Rust core and driver changes targeting the upcoming Linux 7.3 merge window. There continues to be a lot of DRM core infrastructure work happening for Rust integration plus two leading Rust DRM drivers of Nova for open-source NVIDIA GPU support as the successor to Nouveau and then Tyr as the in-development Arm Mali driver...</description>
+   <pubDate>Mon, 10 Aug 2026 21:08:38 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
    <title>Fedora CoreOS To Enable systemd-oomd &amp; zRAM Swap By Default</title>
    <link>https://www.phoronix.com/news/Fedora-CoreOS-OOMD-zRAM-Swap</link>
    <guid>https://www.phoronix.com/news/Fedora-CoreOS-OOMD-zRAM-Swap</guid>
@@ -207,13 +214,6 @@
    <guid>https://www.phoronix.com/news/Intel-HDMI-2.1-FRL-Linux-2026</guid>
    <description>Following AMD making progress with HDMI Fixed Rate Link (FRL) and other HDMI 2.1 functionality for their open-source Linux kernel graphics driver, Intel is out today with a big set of 44 patches working on HDMI 2.1 FRL support for their kernel graphics driver with Meteor Lake hardware and newer...</description>
    <pubDate>Fri, 07 Aug 2026 10:00:41 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>PoCL 7.2-RC1 Brings Official OpenCL 3.0 Conformance On RISC-V &amp; x86_64 CPUs</title>
-   <link>https://www.phoronix.com/news/PoCL-7.2-RC1</link>
-   <guid>https://www.phoronix.com/news/PoCL-7.2-RC1</guid>
-   <description>The release candidate of PoCL 7.2 is now available for testing of this Portable Computing Language implementation of OpenCL that allows for CPU-based execution or via alternative LLVM back-ends allows for OpenCL on Level Zero, NVIDIA GPUs, and even remote devices/hardware...</description>
-   <pubDate>Fri, 07 Aug 2026 09:39:22 -0400</pubDate>
    <dc:creator>Michael Larabel</dc:creator>
   </item><item>
    <title>The Performance Benefits To Upgrading Mesa With Intel Arc B390 On Ubuntu Linux</title>
@@ -514,7 +514,9 @@ grep . /sys/module/kvm_{amd,intel}/parameters/nested
 &lt;p&gt;Any process or user inside a virtual machine that can cause kernel module loading – or supply a new kernel – can manipulate page tables sufficiently to crash or potentially exploit the host or exploit other guest virtual machines on the host.&lt;/p&gt;
 &lt;h2 class="wp-block-heading"&gt;How to apply mitigations for CVE-2026-53359&lt;/h2&gt;
 &lt;p&gt;You can disable virtualization nesting on your hosts:&lt;/p&gt;
-&lt;pre class="wp-block-code"&gt;&lt;code&gt;# unload modules, both are harmless
+&lt;pre class="wp-block-code"&gt;&lt;code&gt;# First, stop all VMs running in KVM-based hypervisors
+
+# Next, unload modules, both are harmless
 sudo rmmod kvm_amd ; sudo rmmod kvm_intel
 # look to see if any configuration file forces nesting on
 grep nested /etc/modprobe.d/*
