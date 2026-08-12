@@ -1,4 +1,95 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Gateway API v1.6: TCPRoute and UDPRoute Graduate to Standard</title><link>https://kubernetes.io/blog/2026/08/03/gateway-api-v1-6-release/</link><pubDate>Mon, 03 Aug 2026 08:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/08/03/gateway-api-v1-6-release/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>How to Pretty-Print Your Kubernetes YAML as KYAML and Why You'd Want To</title><link>https://kubernetes.io/blog/2026/08/11/how-to-pretty-print-kubernetes-yaml-as-kyaml/</link><pubDate>Tue, 11 Aug 2026 10:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/08/11/how-to-pretty-print-kubernetes-yaml-as-kyaml/</guid><description>
+&lt;p>YAML has been the standard way to write Kubernetes manifests for years. Every example, tutorial, and configuration file you come across is written in it. The problem isn't that YAML is a bad format. It's that YAML gives you a lot of choices, and not all of them are equally good for writing Kubernetes manifests. Some features make files harder to read, some are easy to misuse and others can lead to surprising behavior.&lt;/p>
+&lt;p>The interesting part is that Kubernetes doesn't actually need most of those features. It only relies on a small subset of YAML. This led to a simple question: if Kubernetes only needs a small part of YAML, why not &lt;em>standardize&lt;/em> on that part and avoid the rest? Instead of introducing a new configuration language, &lt;a href="https://github.com/kubernetes/community/tree/main/sig-cli">SIG CLI&lt;/a> introduced &lt;strong>KYAML&lt;/strong>, a stricter, more consistent way to write YAML.&lt;/p>
+&lt;h2 id="what-is-kyaml">What is KYAML?&lt;a class="td-heading-self-link" href="#what-is-kyaml" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>&lt;em>&lt;strong>KYAML is a strict subset (or &amp;quot;dialect&amp;quot;) of standard YAML, designed to be parseable by the existing ecosystem without any changes, as proposed in &lt;a href="https://www.kubernetes.dev/resources/keps/5295/">KEP 5295&lt;/a>.&lt;/strong>&lt;/em> It does not introduce a new format or a new parser. It just narrows the scope of choices you make when writing YAML, so everyone ends up making the same ones.&lt;/p>
+&lt;p>Think of it less like a new language and more like an agreed-upon style. &lt;em>&lt;strong>Everything valid in KYAML is valid YAML.&lt;/strong>&lt;/em>&lt;/p>
+&lt;h2 id="how-kyaml-solves-it">How KYAML solves it&lt;a class="td-heading-self-link" href="#how-kyaml-solves-it" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Standard YAML has a few well-known traps and JSON is not without its own.&lt;/p>
+&lt;p>&lt;strong>Whitespace sensitivity.&lt;/strong> Indentation defines structure in YAML, which means a wrongly indented file can remain syntactically valid while representing a different object than intended. This gets especially painful with templating tools like Helm, where you are manipulating indentation from outside the YAML context.&lt;/p>
+&lt;p>&lt;strong>Silent type coercion.&lt;/strong> String quoting is optional in YAML, which sounds convenient until it is not. Some values that look like strings get coerced into other types without warning. The classic example is the &lt;a href="https://hitchdev.com/strictyaml/why/implicit-typing-removed/">&amp;quot;Norway Bug&amp;quot;&lt;/a>.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">country&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">NO&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>In standard YAML, &lt;code>NO&lt;/code> is parsed as a boolean &lt;code>false&lt;/code>, not the string &lt;code>&amp;quot;NO&amp;quot;&lt;/code> and it has caught more than a few people off guard.&lt;/p>
+&lt;p>&lt;strong>JSON is not the answer either.&lt;/strong> It lacks comment support, is strict about trailing commas, and requires every key to be quoted, none of which makes for a good config writing experience.&lt;/p>
+&lt;p>&lt;em>&lt;strong>KYAML addresses all of these by making structure and types explicit:&lt;/strong>&lt;/em>&lt;/p>
+&lt;ul>
+&lt;li>Does not depend on whitespace for structure&lt;/li>
+&lt;li>Always quotes value strings so no silent type coercion&lt;/li>
+&lt;li>Always uses &lt;code>{}&lt;/code> for maps and structs&lt;/li>
+&lt;li>Always uses &lt;code>[]&lt;/code> for lists&lt;/li>
+&lt;li>Allows comments and trailing commas, unlike JSON&lt;/li>
+&lt;li>Includes a &lt;code>---&lt;/code> header to distinguish it from JSON at a glance, since both start with &lt;code>{&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>YAML calls this &lt;strong>flow style&lt;/strong>, as opposed to the conventional &lt;strong>block style&lt;/strong> most people use. KYAML sits halfway between JSON and YAML, more explicit than default YAML, friendlier than JSON.&lt;/p>
+&lt;p>Here is the same Pod manifest written in both formats for comparison.&lt;/p>
+&lt;h3 id="standard-yaml">Standard YAML&lt;a class="td-heading-self-link" href="#standard-yaml" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Pod&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">my-pod&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">labels&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">app&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">demo&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">containers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">nginx&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">nginx:1.20&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="kyaml">KYAML&lt;a class="td-heading-self-link" href="#kyaml" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nn">---&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>{&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;v1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Pod&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>{&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;my-pod&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">labels&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>{&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">app&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;demo&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>}&lt;span class="p">,&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>}&lt;span class="p">,&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>{&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">containers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>{&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;nginx&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;nginx:1.20&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>}&lt;span class="p">],&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>}&lt;span class="p">,&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>}&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Notice the double-quoted string values, the braces around every mapping, the brackets around the list and the trailing commas. The additional syntax makes the document structure explicit instead of relying on indentation.&lt;/p>
+&lt;h2 id="how-to-pretty-print-yaml-as-kyaml">How to pretty print YAML as KYAML&lt;a class="td-heading-self-link" href="#how-to-pretty-print-yaml-as-kyaml" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>There are different ways to get KYAML output.&lt;/p>
+&lt;h3 id="option-1-kubectl-o-kyaml">Option 1: kubectl -o kyaml&lt;a class="td-heading-self-link" href="#option-1-kubectl-o-kyaml" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Since Kubernetes 1.34, &lt;code>kubectl&lt;/code> supports KYAML as a native output format.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Kubernetes 1.35+ (beta; feature enabled by default, still requires -o kyaml CLI param)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl get deployment my-app -o kyaml
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Kubernetes 1.34 (alpha, opt-in)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">export&lt;/span> &lt;span class="nv">KUBECTL_KYAML&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="nb">true&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl get deployment my-app -o kyaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>To save the output to a file:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">kubectl get deployment my-app -o kyaml &amp;gt; my-app.yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>There are currently no plans to make KYAML the default output format. If you prefer using KYAML by default, you can configure your preferred default with &lt;code>kuberc&lt;/code>. For more details, see the &lt;a href="https://kubernetes.io/docs/reference/kubectl/kuberc/">kuberc documentation&lt;/a>.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Kubernetes 1.36+&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl kuberc &lt;span class="nb">set&lt;/span> --section defaults --command get --option &lt;span class="nv">output&lt;/span>&lt;span class="o">=&lt;/span>kyaml
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Kubernetes 1.33–1.35 (alpha prefix still required)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl alpha kuberc &lt;span class="nb">set&lt;/span> --section defaults --command get --option &lt;span class="nv">output&lt;/span>&lt;span class="o">=&lt;/span>kyaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="option-2-kubernetes-yamlfmt">Option 2: Kubernetes' yamlfmt&lt;a class="td-heading-self-link" href="#option-2-kubernetes-yamlfmt" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>&lt;a href="https://github.com/kubernetes-sigs/yaml">sigs.k8s.io/yaml&lt;/a> ships a &lt;code>yamlfmt&lt;/code> tool that can convert files to KYAML.&lt;/p>
+&lt;p>Install via Go:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">go install sigs.k8s.io/yaml/yamlfmt@latest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Running it against a file prints the KYAML version to &lt;strong>stdout&lt;/strong>. It also accepts a directory, in which case it converts and prints every file in that directory.
+&lt;em>So you'll need to redirect the output to a file (or files) if you want the conversion to stick.&lt;/em>&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">yamlfmt -o&lt;span class="o">=&lt;/span>kyaml my-deployment.yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>It can also show you a diff instead of a full conversion:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">yamlfmt -o&lt;span class="o">=&lt;/span>kyaml -d my-deployment.yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="option-3-google-s-yamlfmt">Option 3: Google's yamlfmt&lt;a class="td-heading-self-link" href="#option-3-google-s-yamlfmt" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>For converting existing files, Google's &lt;code>yamlfmt&lt;/code> added a dedicated &lt;a href="https://github.com/google/yamlfmt/blob/main/docs/config-file.md#kyaml-formatter">&lt;code>kyaml&lt;/code> formatter&lt;/a> in v0.21.0.&lt;/p>
+&lt;p>Install via Go, or grab a binary from the &lt;a href="https://github.com/google/yamlfmt/releases">releases page&lt;/a>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">go install github.com/google/yamlfmt/cmd/yamlfmt@latest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>It is also available as a &lt;a href="https://github.com/google/yamlfmt/blob/main/docs/pre-commit.md">pre-commit hook&lt;/a> and as a &lt;a href="https://github.com/google/yamlfmt#basic-usage">Docker image&lt;/a> for CI pipelines.&lt;/p>
+&lt;p>Add a &lt;code>.yamlfmt&lt;/code> config to your project root:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">formatter&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kyaml&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Preview the output without modifying your file:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">yamlfmt -dry my-deployment.yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>then apply:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">yamlfmt my-deployment.yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>To convert an entire directory:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">yamlfmt ./k8s/
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The &lt;code>kyaml&lt;/code> formatter takes no additional configuration and does not share options with the default formatter so mixing them will cause an error.&lt;/p>
+&lt;p>For more on the available modes and flags, check the &lt;a href="https://github.com/google/yamlfmt/blob/main/docs/command-usage.md">command usage docs&lt;/a>.&lt;/p>
+&lt;h2 id="is-kyaml-worth-adopting">Is KYAML worth adopting?&lt;a class="td-heading-self-link" href="#is-kyaml-worth-adopting" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Every valid KYAML file is a valid YAML file. So whatever you write in KYAML, your existing tools, your &lt;code>kubectl&lt;/code>, your CI pipelines, none of them need to change. You can even pass KYAML as input to any version of &lt;code>kubectl&lt;/code>, not just 1.34+, because at the end of the day it is just YAML.&lt;/p>
+&lt;p>KYAML is not strictly necessary. You can keep writing block-style YAML and things will work. But it is a &lt;em>deliberate choice&lt;/em> to make your configs less error-prone and more consistent especially across a team or a larger repo.&lt;/p>
+&lt;p>&lt;em>It is less of a migration and more of a better habit.&lt;/em>&lt;/p></description></item><item><title>Gateway API v1.6: TCPRoute and UDPRoute Graduate to Standard</title><link>https://kubernetes.io/blog/2026/08/03/gateway-api-v1-6-release/</link><pubDate>Mon, 03 Aug 2026 08:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/08/03/gateway-api-v1-6-release/</guid><description>
 &lt;p>&lt;img src="https://kubernetes.io/blog/2026/08/03/gateway-api-v1-6-release/gateway-api-logo.svg" alt="Gateway API logo">&lt;/p>
 &lt;p>The Kubernetes SIG Network community is thrilled to share the release of &lt;strong>Gateway API v1.6.0&lt;/strong>, which was released on June 30th of this year!&lt;/p>
 &lt;p>Gateway API has become the standard for modern, role-oriented,
@@ -8023,170 +8114,4 @@ If you are interested in getting involved, learn about
 &lt;li>&lt;a href="https://github.com/kubernetes-sigs/cluster-api/releases/tag/v1.12.0">Cluster API v1.12.0 release&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://github.com/kubernetes-sigs/cluster-api/blob/main/docs/proposals/20240807-in-place-updates.md">In-place update proposal&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://github.com/kubernetes-sigs/cluster-api/blob/main/docs/proposals/20250513-chained-and-efficient-upgrades-for-clusters-with-managed-topologies.md">Chained upgrade proposal&lt;/a>&lt;/li>
-&lt;/ul></description></item><item><title>Headlamp in 2025: Project Highlights</title><link>https://kubernetes.io/blog/2026/01/22/headlamp-in-2025-project-highlights/</link><pubDate>Thu, 22 Jan 2026 10:00:00 +0800</pubDate><guid>https://kubernetes.io/blog/2026/01/22/headlamp-in-2025-project-highlights/</guid><description>
-&lt;p>&lt;em>This announcement is a recap from a post originally &lt;a href="https://headlamp.dev/blog/2025/11/13/headlamp-in-2025">published&lt;/a> on the Headlamp blog.&lt;/em>&lt;/p>
-&lt;p>&lt;a href="https://headlamp.dev/">Headlamp&lt;/a> has come a long way in 2025. The project has continued to grow – reaching more teams across platforms, powering new workflows and integrations through plugins, and seeing increased collaboration from the broader community.&lt;/p>
-&lt;p>We wanted to take a moment to share a few updates and highlight how Headlamp has evolved over the past year.&lt;/p>
-&lt;h2 id="updates">Updates&lt;a class="td-heading-self-link" href="#updates" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;h3 id="joining-kubernetes-sig-ui">Joining Kubernetes SIG UI&lt;a class="td-heading-self-link" href="#joining-kubernetes-sig-ui" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>This year marked a big milestone for the project: Headlamp is now officially part of Kubernetes &lt;a href="https://github.com/kubernetes/community/blob/master/sig-ui/README.md">SIG UI&lt;/a>. This move brings roadmap and design discussions even closer to the core Kubernetes community and reinforces Headlamp’s role as a modern, extensible UI for the project.&lt;/p>
-&lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/Q5xkeoj6JiA?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video">&lt;/iframe>
-&lt;/div>
-&lt;p>As part of that, we’ve also been sharing more about making Kubernetes approachable for a wider audience, including an &lt;a href="https://www.youtube.com/watch?v=VFOSyKVOPxs">appearance on Enlightening with Whitney Lee&lt;/a> and a &lt;a href="https://www.youtube.com/watch?v=Q7cbT2UBfE0">talk at KCD New York 2025&lt;/a>.&lt;/p>
-&lt;h3 id="linux-foundation-mentorship">Linux Foundation mentorship&lt;a class="td-heading-self-link" href="#linux-foundation-mentorship" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>This year, we were excited to work with several students through the Linux Foundation’s Mentorship program, and our mentees have already left a visible mark on Headlamp:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://github.com/adwait-godbole">&lt;strong>Adwait Godbole&lt;/strong>&lt;/a> built the KEDA plugin, adding a UI in Headlamp to view and manage KEDA resources like ScaledObjects and ScaledJobs.&lt;/li>
-&lt;li>&lt;a href="https://github.com/DhairyaMajmudar">&lt;strong>Dhairya Majmudar&lt;/strong>&lt;/a> set up an OpenTelemetry-based observability stack for Headlamp, wiring up metrics, logs, and traces so the project is easier to monitor and debug.&lt;/li>
-&lt;li>&lt;a href="https://www.linkedin.com/in/aishwarya-ghatole-506745231/">&lt;strong>Aishwarya Ghatole&lt;/strong>&lt;/a> led a UX audit of Headlamp plugins, identifying usability issues and proposing design improvements and personas for plugin users.&lt;/li>
-&lt;li>&lt;a href="https://github.com/SinghaAnirban005">&lt;strong>Anirban Singha&lt;/strong>&lt;/a> developed the Karpenter plugin, giving Headlamp a focused view into Karpenter autoscaling resources and decisions.&lt;/li>
-&lt;li>&lt;a href="https://github.com/useradityaa">&lt;strong>Aditya Chaudhary&lt;/strong>&lt;/a> improved Gateway API support, so you can see networking relationships on the resource map, as well as improved support for many of the new Gateway API resources.&lt;/li>
-&lt;li>&lt;a href="https://github.com/Faakhir30">&lt;strong>Faakhir Zahid&lt;/strong>&lt;/a> completed a way to easily &lt;a href="https://headlamp.dev/docs/latest/installation/in-cluster/#plugin-management">manage plugin installation&lt;/a> with Headlamp deployed in clusters.&lt;/li>
-&lt;li>&lt;a href="https://github.com/upsaurav12">&lt;strong>Saurav Upadhyay&lt;/strong>&lt;/a> worked on backend caching for Kubernetes API calls, reducing load on the API server and improving performance in Headlamp.&lt;/li>
-&lt;/ul>
-&lt;h2 id="new-changes">New changes&lt;a class="td-heading-self-link" href="#new-changes" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;h3 id="multi-cluster-view">Multi-cluster view&lt;a class="td-heading-self-link" href="#multi-cluster-view" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Managing multiple clusters is challenging: teams often switch between tools and lose context when trying to see what runs where. Headlamp solves this by giving you a single view to compare clusters side-by-side. This makes it easier to understand workloads across environments and reduces the time spent hunting for resources.&lt;/p>
-&lt;figure>
-&lt;img src="https://kubernetes.io/blog/2026/01/22/headlamp-in-2025-project-highlights/multi-cluster-view.png"
-alt="Multi-cluster view"/> &lt;figcaption>
-&lt;p>View of multi-cluster workloads&lt;/p>
-&lt;/figcaption>
-&lt;/figure>
-&lt;h3 id="projects">Projects&lt;a class="td-heading-self-link" href="#projects" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Kubernetes apps often span multiple namespaces and resource types, which makes troubleshooting feel like piecing together a puzzle. We’ve added &lt;strong>Projects&lt;/strong> to give you an application-centric view that groups related resources across multiple namespaces – and even clusters. This allows you to reduce sprawl, troubleshoot faster, and collaborate without digging through YAML or cluster-wide lists.&lt;/p>
-&lt;figure>
-&lt;img src="https://kubernetes.io/blog/2026/01/22/headlamp-in-2025-project-highlights/projects-feature.png"
-alt="Projects feature"/> &lt;figcaption>
-&lt;p>View of the new Projects feature&lt;/p>
-&lt;/figcaption>
-&lt;/figure>
-&lt;p>Changes:&lt;/p>
-&lt;ul>
-&lt;li>New “Projects” feature for grouping namespaces into app- or team-centric projects&lt;/li>
-&lt;li>Extensible Projects details view that plugins can customize with their own tabs and actions&lt;/li>
-&lt;/ul>
-&lt;h3 id="navigation-and-activities">Navigation and Activities&lt;a class="td-heading-self-link" href="#navigation-and-activities" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Day-to-day ops in Kubernetes often means juggling logs, terminals, YAML, and dashboards across clusters. We redesigned Headlamp’s navigation to treat these as first-class “activities” you can keep open and come back to, instead of one-off views you lose as soon as you click away.&lt;/p>
-&lt;figure>
-&lt;img src="https://kubernetes.io/blog/2026/01/22/headlamp-in-2025-project-highlights/new-task-bar.png"
-alt="New task bar"/> &lt;figcaption>
-&lt;p>View of the new task bar&lt;/p>
-&lt;/figcaption>
-&lt;/figure>
-&lt;p>Changes:&lt;/p>
-&lt;ul>
-&lt;li>A new task bar/activities model lets you pin logs, exec sessions, and details as ongoing activities&lt;/li>
-&lt;li>An activity overview with a “Close all” action and cluster information&lt;/li>
-&lt;li>Multi-select and global filters in tables&lt;/li>
-&lt;/ul>
-&lt;p>Thanks to &lt;a href="https://github.com/farodin91">Jan Jansen&lt;/a> and &lt;a href="https://github.com/useradityaa">Aditya Chaudhary&lt;/a>.&lt;/p>
-&lt;h3 id="search-and-map">Search and map&lt;a class="td-heading-self-link" href="#search-and-map" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>When something breaks in production, the first two questions are usually “where is it?” and “what is it connected to?” We’ve upgraded both search and the map view so you can get from a high-level symptom to the right set of objects much faster.&lt;/p>
-&lt;figure>
-&lt;img src="https://kubernetes.io/blog/2026/01/22/headlamp-in-2025-project-highlights/advanced-search.png"
-alt="Advanced search"/> &lt;figcaption>
-&lt;p>View of the new Advanced Search feature&lt;/p>
-&lt;/figcaption>
-&lt;/figure>
-&lt;p>Changes:&lt;/p>
-&lt;ul>
-&lt;li>An Advanced search view that supports rich, expression-based queries over Kubernetes objects&lt;/li>
-&lt;li>Improved global search that understands labels and multiple search items, and can even update your current namespace based on what you find&lt;/li>
-&lt;li>EndpointSlice support in the Network section&lt;/li>
-&lt;li>A richer map view that now includes Custom Resources and Gateway API objects&lt;/li>
-&lt;/ul>
-&lt;p>Thanks to &lt;a href="https://github.com/faebr">Fabian&lt;/a>, &lt;a href="https://github.com/alexandernorth">Alexander North&lt;/a>, and &lt;a href="https://github.com/victormarcolino">Victor Marcolino&lt;/a> from Swisscom, and also to &lt;a href="https://github.com/useradityaa">Aditya Chaudhary&lt;/a>.&lt;/p>
-&lt;h3 id="oidc-and-authentication">OIDC and authentication&lt;a class="td-heading-self-link" href="#oidc-and-authentication" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>We’ve put real work into making OIDC setup clearer and more resilient, especially for in-cluster deployments.&lt;/p>
-&lt;figure>
-&lt;img src="https://kubernetes.io/blog/2026/01/22/headlamp-in-2025-project-highlights/user-info.png"
-alt="User info"/> &lt;figcaption>
-&lt;p>View of user information for OIDC clusters&lt;/p>
-&lt;/figcaption>
-&lt;/figure>
-&lt;p>Changes:&lt;/p>
-&lt;ul>
-&lt;li>User information displayed in the top bar for OIDC-authenticated users&lt;/li>
-&lt;li>PKCE support for more secure authentication flows, as well as hardened token refresh handling&lt;/li>
-&lt;li>Documentation for using the access token using &lt;code>-oidc-use-access-token=true&lt;/code>&lt;/li>
-&lt;li>Improved support for public OIDC clients like AKS and EKS&lt;/li>
-&lt;li>New guide for setting up Headlamp &lt;a href="https://headlamp.dev/docs/latest/installation/in-cluster/aks-cluster-oauth/">on AKS with Azure Entra-ID using OAuth2Proxy&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;p>Thanks to &lt;a href="https://github.com/daviddob">David Dobmeier&lt;/a> and &lt;a href="https://github.com/HarshSrivastava275">Harsh Srivastava&lt;/a>.&lt;/p>
-&lt;h3 id="app-catalog-and-helm">App Catalog and Helm&lt;a class="td-heading-self-link" href="#app-catalog-and-helm" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>We’ve broadened how you deploy and source apps via Headlamp, specifically supporting vanilla Helm repos.&lt;/p>
-&lt;p>Changes:&lt;/p>
-&lt;ul>
-&lt;li>A more capable Helm chart with optional backend TLS termination, PodDisruptionBudgets, custom pod labels, and more&lt;/li>
-&lt;li>Improved formatting and added missing access token arg in the Helm chart&lt;/li>
-&lt;li>New in-cluster Helm support with an &lt;code>--enable-helm&lt;/code> flag and a service proxy&lt;/li>
-&lt;/ul>
-&lt;p>Thanks to &lt;a href="https://github.com/shahvrushali22">Vrushali Shah&lt;/a> and &lt;a href="https://github.com/muraliinformal">Murali Annamneni&lt;/a> from Oracle, and also to &lt;a href="https://github.com/jcpunk">Pat Riehecky&lt;/a>, &lt;a href="https://github.com/jda258">Joshua Akers&lt;/a>, &lt;a href="https://github.com/rstribrn">Rostislav Stříbrný&lt;/a>, &lt;a href="https://github.com/rickliujh">Rick L&lt;/a>, and &lt;a href="https://github.com/vnea">Victor&lt;/a>.&lt;/p>
-&lt;h3 id="performance-accessibility-and-ux">Performance, accessibility, and UX&lt;a class="td-heading-self-link" href="#performance-accessibility-and-ux" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Finally, we’ve spent a lot of time on the things you notice every day but don’t always make headlines: startup time, list views, log viewers, accessibility, and small network UX details. A continuous accessibility self-audit has also helped us identify key issues and make Headlamp easier for everyone to use.&lt;/p>
-&lt;figure>
-&lt;img src="https://kubernetes.io/blog/2026/01/22/headlamp-in-2025-project-highlights/learn-section.png"
-alt="Learn section"/> &lt;figcaption>
-&lt;p>View of the Learn section in docs&lt;/p>
-&lt;/figcaption>
-&lt;/figure>
-&lt;p>Changes:&lt;/p>
-&lt;ul>
-&lt;li>Significant desktop improvements, with up to 60% faster app loads and much quicker dev-mode reloads for contributors&lt;/li>
-&lt;li>Numerous table and log viewer refinements: persistent sort order, consistent row actions, copy-name buttons, better tooltips, and more forgiving log inputs&lt;/li>
-&lt;li>Accessibility and localization improvements, including fixes for zoom-related layout issues, better color contrast, improved screen reader support, and expanded language coverage&lt;/li>
-&lt;li>More control over resources, with live pod CPU/memory metrics, richer pod details, and inline editing for secrets and CRD fields&lt;/li>
-&lt;li>A refreshed documentation and plugin onboarding experience, including a “Learn” section and plugin showcase&lt;/li>
-&lt;li>A more complete NetworkPolicy UI and network-related polish&lt;/li>
-&lt;li>Nightly builds available for early testing&lt;/li>
-&lt;/ul>
-&lt;p>Thanks to &lt;a href="https://github.com/jaehanbyun">Jaehan Byun&lt;/a> and &lt;a href="https://github.com/farodin91">Jan Jansen&lt;/a>.&lt;/p>
-&lt;h2 id="plugins-and-extensibility">Plugins and extensibility&lt;a class="td-heading-self-link" href="#plugins-and-extensibility" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Discovering plugins is simpler now – no more hopping between Artifact Hub and assorted GitHub repos. Browse our dedicated &lt;a href="https://headlamp.dev/plugins">Plugins page&lt;/a> for a curated catalog of Headlamp-endorsed plugins, along with a showcase of featured plugins.&lt;/p>
-&lt;figure>
-&lt;img src="https://kubernetes.io/blog/2026/01/22/headlamp-in-2025-project-highlights/plugins-page.png"
-alt="Plugins page"/> &lt;figcaption>
-&lt;p>View of the Plugins showcase&lt;/p>
-&lt;/figcaption>
-&lt;/figure>
-&lt;h3 id="headlamp-ai-assistant">Headlamp AI Assistant&lt;a class="td-heading-self-link" href="#headlamp-ai-assistant" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Managing Kubernetes often means memorizing commands and juggling tools. Headlamp’s new AI Assistant changes this by adding a natural-language interface built into the UI. Now, instead of typing &lt;code>kubectl&lt;/code> or digging through YAML you can ask, “Is my app healthy?” or “Show logs for this deployment,” and get answers in context, speeding up troubleshooting and smoothing onboarding for new users. Learn more about it &lt;a href="https://headlamp.dev/blog/2025/08/07/introducing-the-headlamp-ai-assistant/">here&lt;/a>.&lt;/p>
-&lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/GzXkUuCTcd4?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="YouTube video">&lt;/iframe>
-&lt;/div>
-&lt;h3 id="new-plugins-additions">New plugins additions&lt;a class="td-heading-self-link" href="#new-plugins-additions" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Alongside the new AI Assistant, we’ve been growing Headlamp’s plugin ecosystem so you can bring more of your workflows into a single UI, with integrations like Minikube, Karpenter, and more.&lt;/p>
-&lt;p>Highlights from the latest plugin releases:&lt;/p>
-&lt;ul>
-&lt;li>Minikube plugin, providing a locally stored single node Minikube cluster&lt;/li>
-&lt;li>Karpenter plugin, with support for Azure Node Auto-Provisioning (NAP)&lt;/li>
-&lt;li>KEDA plugin, which you can learn more about &lt;a href="https://headlamp.dev/blog/2025/07/25/enabling-event-driven-autoscaling-with-the-new-keda-plugin-for-headlamp/">here&lt;/a>&lt;/li>
-&lt;li>Community-maintained plugins for &lt;a href="https://github.com/sozercan/gatekeeper-headlamp-plugin">Gatekeeper&lt;/a> and &lt;a href="https://github.com/kaito-project/headlamp-kaito">KAITO&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;p>Thanks to &lt;a href="https://github.com/shahvrushali22">Vrushali Shah&lt;/a> and &lt;a href="https://github.com/muraliinformal">Murali Annamneni&lt;/a> from Oracle, and also to &lt;a href="https://github.com/SinghaAnirban005">Anirban Singha&lt;/a>, &lt;a href="https://github.com/adwait-godbole">Adwait Godbole&lt;/a>, &lt;a href="https://github.com/sozercan">Sertaç Özercan&lt;/a>, &lt;a href="https://github.com/chewong">Ernest Wong&lt;/a>, and &lt;a href="https://github.com/chloe608">Chloe Lim&lt;/a>.&lt;/p>
-&lt;h3 id="other-plugins-updates">Other plugins updates&lt;a class="td-heading-self-link" href="#other-plugins-updates" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Alongside new additions, we’ve also spent time refining plugins that many of you already use, focusing on smoother workflows and better integration with the core UI.&lt;/p>
-&lt;figure>
-&lt;img src="https://kubernetes.io/blog/2026/01/22/headlamp-in-2025-project-highlights/backstage-plugin.png"
-alt="Backstage plugin"/> &lt;figcaption>
-&lt;p>View of the Backstage plugin&lt;/p>
-&lt;/figcaption>
-&lt;/figure>
-&lt;p>Changes:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>Flux plugin&lt;/strong>: Updated for Flux v2.7, with support for newer CRDs, navigation fixes so it works smoothly on recent clusters&lt;/li>
-&lt;li>&lt;strong>App Catalog&lt;/strong>: Now supports Helm repos in addition to Artifact Hub, can run in-cluster via /serviceproxy, and shows both current and latest app versions&lt;/li>
-&lt;li>&lt;strong>Plugin Catalog&lt;/strong>: Improved card layout and accessibility, plus dependency and Storybook test updates&lt;/li>
-&lt;li>&lt;strong>Backstage plugin&lt;/strong>: Dependency and build updates, more info &lt;a href="https://headlamp.dev/blog/2025/11/05/strengthening-backstage-and-headlamp-integration/">here&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h3 id="plugin-development">Plugin development&lt;a class="td-heading-self-link" href="#plugin-development" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>We’ve focused on making it faster and clearer to build, test, and ship Headlamp plugins, backed by improved documentation and lighter tooling.&lt;/p>
-&lt;figure>
-&lt;img src="https://kubernetes.io/blog/2026/01/22/headlamp-in-2025-project-highlights/plugin-development.png"
-alt="Plugin development"/> &lt;figcaption>
-&lt;p>View of the Plugin Development guide&lt;/p>
-&lt;/figcaption>
-&lt;/figure>
-&lt;p>Changes:&lt;/p>
-&lt;ul>
-&lt;li>New and expanded guides for &lt;a href="https://headlamp.dev/docs/latest/development/architecture#plugins">plugin architecture&lt;/a> and &lt;a href="https://headlamp.dev/docs/latest/development/plugins/getting-started">development&lt;/a>, including how to publish and ship plugins&lt;/li>
-&lt;li>Added &lt;a href="https://headlamp.dev/docs/latest/development/plugins/i18n">i18n support documentation&lt;/a> so plugins can be translated and localized&lt;/li>
-&lt;li>Added example plugins: &lt;a href="https://github.com/kubernetes-sigs/headlamp/tree/main/plugins/examples/ui-panels">ui-panels&lt;/a>, &lt;a href="https://github.com/kubernetes-sigs/headlamp/tree/main/plugins/examples/resource-charts">resource-charts&lt;/a>, &lt;a href="https://github.com/kubernetes-sigs/headlamp/tree/main/plugins/examples/custom-theme">custom-theme&lt;/a>, and &lt;a href="https://github.com/kubernetes-sigs/headlamp/tree/main/plugins/examples/projects">projects&lt;/a>&lt;/li>
-&lt;li>Improved type checking for Headlamp APIs, restored Storybook support for component testing, and reduced dependencies for faster installs and fewer updates&lt;/li>
-&lt;li>Documented plugin install locations, UI signifiers in Plugin Settings, and labels that differentiated shipped, UI-installed, and dev-mode plugins&lt;/li>
-&lt;/ul>
-&lt;h2 id="security-upgrades">Security upgrades&lt;a class="td-heading-self-link" href="#security-upgrades" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>We've also been investing in keeping Headlamp secure – both by tightening how authentication works and by staying on top of upstream vulnerabilities and tooling.&lt;/p>
-&lt;p>Updates:&lt;/p>
-&lt;ul>
-&lt;li>We've been keeping up with security updates, regularly updating dependencies and addressing upstream security issues.&lt;/li>
-&lt;li>We tightened the Helm chart's default security context and fixed a regression that broke the plugin manager.&lt;/li>
-&lt;li>We've improved OIDC security with PKCE support, helping unblock more secure and standards-compliant OIDC setups when deploying Headlamp in-cluster.&lt;/li>
-&lt;/ul>
-&lt;h2 id="conclusion">Conclusion&lt;a class="td-heading-self-link" href="#conclusion" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Thank you to everyone who has contributed to Headlamp this year – whether through pull requests, plugins, or simply sharing how you're using the project. Seeing the different ways teams are adopting and extending the project is a big part of what keeps us moving forward. If your organization uses Headlamp, consider adding it to our &lt;a href="https://github.com/kubernetes-sigs/headlamp/blob/main/ADOPTERS.md">adopters list&lt;/a>.&lt;/p>
-&lt;p>If you haven't tried Headlamp recently, all these updates are available today. Check out the latest Headlamp release, explore the new views, plugins, and docs, and share your feedback with us on Slack or GitHub – your feedback helps shape where Headlamp goes next.&lt;/p></description></item></channel></rss>
+&lt;/ul></description></item></channel></rss>
