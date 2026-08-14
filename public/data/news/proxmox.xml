@@ -4,14 +4,320 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Fri, 14 Aug 2026 07:12:50 +0000</pubDate>
-    <lastBuildDate>Fri, 14 Aug 2026 07:12:50 +0000</lastBuildDate>
+    <pubDate>Fri, 14 Aug 2026 12:44:39 +0000</pubDate>
+    <lastBuildDate>Fri, 14 Aug 2026 12:44:39 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
+      <title>ha Bug in 9.2.10?</title>
+      <pubDate>Fri, 14 Aug 2026 12:22:34 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ha-bug-in-9-2-10.185728/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185728</guid>
+      <author>invalid@example.com (fertig)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>fertig</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
+<br />
+ich teste aktuellin einem 2-Node-Stretch-Cluster unter Proxmox VE 9.2.10 und habe Problem mit einer HA Node-Affinity Rule<br />
+<br />
+Folgende Rule ist konfiguriert:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>node-affinity: preferred-pve-clt
+        nodes pve-clt:100,pve-tci:50
+        resources vm:100,vm:4002
+        strict 0</code></pre>
+	</div>
+</div><br />
+Laut meinem Verständnis sollte strict 0 bedeuten, dass beide Nodes erlaubt sind und lediglich pve-clt bevorzugt wird.<br />
+<br />
+Die VM ist als HA-Ressource registriert:<br />
+<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>ha-manager config
+
+vm:4002...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/ha-bug-in-9-2-10.185728/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Empfehlung / Erfahrung Proxmox auf Notebook</title>
+      <pubDate>Fri, 14 Aug 2026 11:48:25 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/empfehlung-erfahrung-proxmox-auf-notebook.185714/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185714</guid>
+      <author>invalid@example.com (frogger13)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>frogger13</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Moin...<br />
+<br />
+Ich habe gerade ein paar Stunden damit verbracht, auf einem Lenovo T480 Proxmox zu installieren. Die Grundinstallation hat eigentlich ohne Probleme geklappt, aber ich habe einen USB2Lan Adapter, den ich unbedingt haben wollte. Das habe ich inzwischen mit Hilfe von Goolge und Chatgpt hinbekommen. Netzwerkkarten laufen in Bond und Ausfall Tests da klappen. Dann habe ich ein paar Energieoptionen umgesetzt, die mir Chatgpt empfohlen hat und die Einstellungen so angepasst, dass beim...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/empfehlung-erfahrung-proxmox-auf-notebook.185714/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>16</slash:comments>
+    </item>
+    <item>
+      <title>Grundsatz für Shared Storage</title>
+      <pubDate>Fri, 14 Aug 2026 11:39:10 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/grundsatz-f%C3%BCr-shared-storage.185325/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185325</guid>
+      <author>invalid@example.com (AlexanderB)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>AlexanderB</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo liebe Community,<br />
+<br />
+ich würde gern meine gesamten Daten aus der Cloud nach Hause holen.<br />
+Um das ganze grundsätzlich richtig aufzusetzen, habe ich noch eine Frage.<br />
+Ich möchte gern meine Daten irgendwie zentral verfügbar haben, sodass Dienste, wie Immich, Joplin, Nextcloud, etc. darauf zugreifen können.<br />
+Also meine Daten sollen nicht gekapselt in einer VM liegen, sodass nur der eine Dienst damit arbeiten kann.<br />
+Wie tut man diesen, ich nenn ihn mal &quot;shared storage&quot; in Proxmox aufsetzen? Auch...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/grundsatz-f%C3%BCr-shared-storage.185325/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>124</slash:comments>
+    </item>
+    <item>
+      <title>Probleme bei installation von Openmediavault</title>
+      <pubDate>Fri, 14 Aug 2026 11:20:43 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/probleme-bei-installation-von-openmediavault.181076/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:181076</guid>
+      <author>invalid@example.com (dominik1988)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>dominik1988</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
+ich bin gerade dabei meine Raspberry pi&#039;s auf größere Hardware umzuziehen.<br />
+Beim erstellen einer VM mit der omv iso komme ich aber nicht weiter, ab der Konfiguration des Netzwerks mit DHCP ipv6 bleibt es bei einem bluescreen.<br />
+Wenn ich aber vorher die Netzwerkkarte aus der Hardware entferne, läuft die Installation durch, nur habe ich dann keine Netzwerkverbindung mehr.<br />
+Ich habe mal zum testen eine andere VM installiert, hier läuft alles wie gewünscht.<br />
+<br />
+Kennt jemand diesen...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/probleme-bei-installation-von-openmediavault.181076/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>39</slash:comments>
+    </item>
+    <item>
+      <title>Advise: shared vm storage using nfs</title>
+      <pubDate>Fri, 14 Aug 2026 11:11:10 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/advise-shared-vm-storage-using-nfs.185695/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185695</guid>
+      <author>invalid@example.com (Daxcor)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Daxcor</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I have been running a 4 node cluster for a few years now.  I have changed my storage options a few times. the last change I made was from ceph rbd to local zfs raid 1.  This means that I can&#039;t use the HA features of proxmox 9.2 effectively.  This begs the question why don&#039;t  you stay with ceph.  I have borked ceph twice now. I am not skilled enough to reliably admin this kind of technology. I don&#039;t have the budget for the recommended hardware and paid consultants to make it work...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/advise-shared-vm-storage-using-nfs.185695/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>kernel 7.0 performance issue with zfs pools</title>
+      <pubDate>Fri, 14 Aug 2026 10:51:52 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/kernel-7-0-performance-issue-with-zfs-pools.183872/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:183872</guid>
+      <author>invalid@example.com (drom)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>drom</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello<br />
+<br />
+I wish to report a drastic loss of performance with the 7.0 kernel as soon as it implies operating with zfs pools.<br />
+<br />
+I run 2 of these, one is a single raidz2 array of 12 4TB sas hard disks, the other has 2 raidz2 arrays of 8 600GB sas hard drives and each is available to the backup server as a separate datastore. The server itself if grately overpowered with 16 cores, 130GB ram, 10GB ethernets and SSD mirrors for the system as well as the contents of the datastore namespaces (through...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/kernel-7-0-performance-issue-with-zfs-pools.183872/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>10</slash:comments>
+    </item>
+    <item>
+      <title>I installed a script proxmox VE and it broke my networking</title>
+      <pubDate>Fri, 14 Aug 2026 10:36:34 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/i-installed-a-script-proxmox-ve-and-it-broke-my-networking.185685/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185685</guid>
+      <author>invalid@example.com (pk0)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>pk0</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I installed the script for pbs for some backups it didn&#039;t fully install it said dns issues. I though weird so I just kinda left it, it made everything I had set up IP6 witch consisted mostly of ipv4 dockerapps and dockage installs. So I spent hours trying to fix it and its gotten to the point were I fixed the dns thing for main proxmox but its completely broken my containers and the bridge somehow. When I do a ping in the main shell it works properly but when I do a ping in the container it...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/i-installed-a-script-proxmox-ve-and-it-broke-my-networking.185685/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>13</slash:comments>
+    </item>
+    <item>
+      <title>HPE MR416i-o  &amp;  HPE MR408i-o Gen11/10</title>
+      <pubDate>Fri, 14 Aug 2026 10:23:20 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/hpe-mr416i-o-hpe-mr408i-o-gen11-10.185628/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185628</guid>
+      <author>invalid@example.com (Patrik_V)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Patrik_V</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Team,<br />
+<br />
+I’d like to ask which kernel version after 6.18 works reliably with the HPE MR416i-o and HPE MR408i-o (different firmware versions almost always behave the same way).<br />
+<br />
+I have several ProLiant DL380 Gen11 and Gen10 servers...  I use the Enterprise repository on critical infrastructure.<br />
+<br />
+I’ve observed the same behavior on multiple servers.  If Proxmox is installed directly on a disk running via RAID on an HPE MR416i-o or HPE MR408i-o using ZFS Raidz2, a critical kernel write failure...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/hpe-mr416i-o-hpe-mr408i-o-gen11-10.185628/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>18</slash:comments>
+    </item>
+    <item>
+      <title>IO Pressure Stall - Unexplained</title>
+      <pubDate>Fri, 14 Aug 2026 10:18:36 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/io-pressure-stall-unexplained.184812/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:184812</guid>
+      <author>invalid@example.com (lslamp)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>lslamp</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Dear Clever People,<br />
+<br />
+I have stumbled into a very strange issue. I have 6 VMs on my server running pve-manager/9.2.3/d0fde103346cf89a (running kernel: 6.8.12-18-pve)<br />
+4 of the VMs are running without any hassles what-so-ever. 2 of the VMs are showing a very IO Pressure Stall. like 99%.<br />
+On both of the VMs that are seeing this issue are running the following.<br />
+Distributor ID: Debian<br />
+Description:    Debian GNU/Linux 13 (trixie)<br />
+Release:        13<br />
+Codename:       trixie<br />
+I have installed node.js<br />
+npm...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/io-pressure-stall-unexplained.184812/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>38</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox 9 CPU/IO starved when doing a restore from PBS</title>
+      <pubDate>Fri, 14 Aug 2026 10:03:40 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-9-cpu-io-starved-when-doing-a-restore-from-pbs.185023/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185023</guid>
+      <author>invalid@example.com (koiji)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>koiji</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+We&#039;ve been doing some research on &quot;Proxmox / storage load&quot; and it seems that the information on the topic is somewhat scattered.<br />
+<br />
+<b>The setup</b><br />
+<ul>
+<li data-xf-list-type="ul">We have a new, rather powerful application server (48 core EPYC Zen 4, 768GB RAM, 2x 8TB NVMe PCI-e 4.0 in ZFS RAID 1 (no HW RAID)) connected to a decent backup server (16 core EPYC Zen 3, 128 GB RAM, 32 TB NVMe PCI-e 3.0 storage)</li>
+<li data-xf-list-type="ul">The application server load is about 2% and IO Pressure Stall nears 0%  without any spikes (not used for...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/proxmox-9-cpu-io-starved-when-doing-a-restore-from-pbs.185023/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
+    </item>
+    <item>
+      <title>Can't log in via GUI or connect via PDM</title>
+      <pubDate>Fri, 14 Aug 2026 09:59:35 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/cant-log-in-via-gui-or-connect-via-pdm.185652/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185652</guid>
+      <author>invalid@example.com (TrevorW)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>TrevorW</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">After my main cluster node died (3 node cluster) I&#039;ve decided to go the Datacentre Manager Route. I had TFA enabled on the main node and have been unable to login via GUI to the remaining nodes. One of them I just bit the bullet and reinstalled and I&#039;ve connected it to PDM, the other remaining alive host I can&#039;t log into via GUI, I&#039;ve got an SSH terminal active, and separated it from the cluster by running <br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>root@Proxb2:~# systemctl stop pve-cluster.service
+root@Proxb2:~# /usr/bin/pmxcfs...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/cant-log-in-via-gui-or-connect-via-pdm.185652/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>15</slash:comments>
+    </item>
+    <item>
+      <title>Upgrading to Ceph v19 on Proxmox v8</title>
+      <pubDate>Fri, 14 Aug 2026 09:56:51 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/upgrading-to-ceph-v19-on-proxmox-v8.185726/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185726</guid>
+      <author>invalid@example.com (stemid)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>stemid</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">We have 7 nodes in our prod cluster and it&#039;s time for us to upgrade to Proxmox v9. Already did it in our test and dev clusters, and we have a service window scheduled for prod on tuesday.<br />
+<br />
+But in order to make the service window work we have to upgrade ceph first, during business hours.<br />
+<br />
+So I&#039;m just wondering if it&#039;s safe to upgrade to ceph v19 on a Proxmox 8.4.19 cluster?<br />
+<br />
+We don&#039;t want to touch any pve packages, just the ceph ones.<br />
+<br />
+We estimate it to be very safe since we have 7 nodes, and...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/upgrading-to-ceph-v19-on-proxmox-v8.185726/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Wasserdichtes System für kleine Multi Teant Anwendung</title>
+      <pubDate>Fri, 14 Aug 2026 09:42:23 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/wasserdichtes-system-f%C3%BCr-kleine-multi-teant-anwendung.185556/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185556</guid>
+      <author>invalid@example.com (MarroniJohny)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>MarroniJohny</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hoi<br />
+<br />
+Im Moment wurstle ich im non-commerce Bereicht mit zwei ESXi rum. Die Server haben je einen durchgereichten HBA an napp-it (Solarish), da liegen die VMs und &quot;Backups&quot; drauf. Dazu 10 Gbit Anbindung, zwei 10 Gbit Firewalls mit je drei X540, 5 Switches, sowas. Grosssteil Uralthardware, die Firewalls sind Haswell, die ESXi Broadwell-E mit 256 GB Ram und 22 Core CPU, Backupserver Broadwell-E mit 128 GB und 16 Core CPU. Alles DC Hardware, inkl. dem Storage. Habe auch die meisten Teile auf...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/wasserdichtes-system-f%C3%BCr-kleine-multi-teant-anwendung.185556/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>12</slash:comments>
+    </item>
+    <item>
+      <title>Issue with booting kernels after 7.0.14-6</title>
+      <pubDate>Fri, 14 Aug 2026 09:25:26 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/issue-with-booting-kernels-after-7-0-14-6.185725/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185725</guid>
+      <author>invalid@example.com (ADFHogan)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>ADFHogan</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have a Qotom Q20332G9-S10 with an Intel C3758 processor running firmware QDNV0121.V11, dated 02/21/2024 (latest available).<br />
+It&#039;s a small mini PC with a heap of networking ports on it that I use as my home gateway (OPNsense, UnifiOS, HAOS etc.).<br />
+Samsung 970 EVO Plus 1TB NVMe.<br />
+<br />
+Recently it&#039;s developed an issue where if I try to boot it up with a kernel more recent than 7.0.14-6, grub will display:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Loading Linux 7.0.14-11-pve ...
+Loading initial ramdisk ...</code></pre>
+	</div>
+</div>... and just hangs.. numlock...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/issue-with-booting-kernels-after-7-0-14-6.185725/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
       <title>VLANS für VMs und Host</title>
-      <pubDate>Fri, 14 Aug 2026 07:12:49 +0000</pubDate>
+      <pubDate>Fri, 14 Aug 2026 09:11:37 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/vlans-f%C3%BCr-vms-und-host.185704/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185704</guid>
       <author>invalid@example.com (rothkraut)</author>
@@ -32,234 +338,11 @@ Diese Netzte habe ich an den Hosts mit einer IP auf der vmbr0 definiert (vmbr0.1
 Alle...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/vlans-f%C3%BCr-vms-und-host.185704/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>9</slash:comments>
-    </item>
-    <item>
-      <title>Wasserdichtes System für kleine Multi Teant Anwendung</title>
-      <pubDate>Fri, 14 Aug 2026 07:11:50 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/wasserdichtes-system-f%C3%BCr-kleine-multi-teant-anwendung.185556/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185556</guid>
-      <author>invalid@example.com (MarroniJohny)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>MarroniJohny</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hoi<br />
-<br />
-Im Moment wurstle ich im non-commerce Bereicht mit zwei ESXi rum. Die Server haben je einen durchgereichten HBA an napp-it (Solarish), da liegen die VMs und &quot;Backups&quot; drauf. Dazu 10 Gbit Anbindung, zwei 10 Gbit Firewalls mit je drei X540, 5 Switches, sowas. Grosssteil Uralthardware, die Firewalls sind Haswell, die ESXi Broadwell-E mit 256 GB Ram und 22 Core CPU, Backupserver Broadwell-E mit 128 GB und 16 Core CPU. Alles DC Hardware, inkl. dem Storage. Habe auch die meisten Teile auf...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/wasserdichtes-system-f%C3%BCr-kleine-multi-teant-anwendung.185556/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>Hard disk format issue when importing ESXI to PVE 8.2</title>
-      <pubDate>Fri, 14 Aug 2026 06:45:28 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/hard-disk-format-issue-when-importing-esxi-to-pve-8-2.185718/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185718</guid>
-      <author>invalid@example.com (jordnmao)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>jordnmao</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">When importing from ESXI to PVE 8.2, the original virtual machine centost7 had six hard disks, all of which were in scsi format. After the import, the hard disk format was changed to ide, but PVE only supports four ide devices. When booting, it gets stuck at the progress bar. Is there any solution to this?</div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Empfehlung / Erfahrung Proxmox auf Notebook</title>
-      <pubDate>Fri, 14 Aug 2026 06:31:54 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/empfehlung-erfahrung-proxmox-auf-notebook.185714/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185714</guid>
-      <author>invalid@example.com (frogger13)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>frogger13</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Moin...<br />
-<br />
-Ich habe gerade ein paar Stunden damit verbracht, auf einem Lenovo T480 Proxmox zu installieren. Die Grundinstallation hat eigentlich ohne Probleme geklappt, aber ich habe einen USB2Lan Adapter, den ich unbedingt haben wollte. Das habe ich inzwischen mit Hilfe von Goolge und Chatgpt hinbekommen. Netzwerkkarten laufen in Bond und Ausfall Tests da klappen. Dann habe ich ein paar Energieoptionen umgesetzt, die mir Chatgpt empfohlen hat und die Einstellungen so angepasst, dass beim...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/empfehlung-erfahrung-proxmox-auf-notebook.185714/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Advise: shared vm storage using nfs</title>
-      <pubDate>Fri, 14 Aug 2026 06:14:12 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/advise-shared-vm-storage-using-nfs.185695/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185695</guid>
-      <author>invalid@example.com (Daxcor)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Daxcor</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-I have been running a 4 node cluster for a few years now.  I have changed my storage options a few times. the last change I made was from ceph rbd to local zfs raid 1.  This means that I can&#039;t use the HA features of proxmox 9.2 effectively.  This begs the question why don&#039;t  you stay with ceph.  I have borked ceph twice now. I am not skilled enough to reliably admin this kind of technology. I don&#039;t have the budget for the recommended hardware and paid consultants to make it work...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/advise-shared-vm-storage-using-nfs.185695/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>Grundsatz für Shared Storage</title>
-      <pubDate>Fri, 14 Aug 2026 06:06:59 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/grundsatz-f%C3%BCr-shared-storage.185325/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185325</guid>
-      <author>invalid@example.com (AlexanderB)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>AlexanderB</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo liebe Community,<br />
-<br />
-ich würde gern meine gesamten Daten aus der Cloud nach Hause holen.<br />
-Um das ganze grundsätzlich richtig aufzusetzen, habe ich noch eine Frage.<br />
-Ich möchte gern meine Daten irgendwie zentral verfügbar haben, sodass Dienste, wie Immich, Joplin, Nextcloud, etc. darauf zugreifen können.<br />
-Also meine Daten sollen nicht gekapselt in einer VM liegen, sodass nur der eine Dienst damit arbeiten kann.<br />
-Wie tut man diesen, ich nenn ihn mal &quot;shared storage&quot; in Proxmox aufsetzen? Auch...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/grundsatz-f%C3%BCr-shared-storage.185325/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>123</slash:comments>
-    </item>
-    <item>
-      <title>Windows Server 2025 extremely slow on PVE 9.2 while Server 2022 is fully responsive on the same host</title>
-      <pubDate>Fri, 14 Aug 2026 06:00:40 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/windows-server-2025-extremely-slow-on-pve-9-2-while-server-2022-is-fully-responsive-on-the-same-host.185717/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185717</guid>
-      <author>invalid@example.com (deca)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>deca</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-I am experiencing a severe performance and responsiveness issue with a<br />
-Windows Server 2025 VM running on Proxmox VE 9.2.<br />
-<br />
-The issue is reproducible and the comparison with Windows Server 2022 is<br />
-very clear.<br />
-<br />
-I created a fresh Windows Server 2022 VM on the SAME physical Proxmox host,<br />
-using the same storage, similar virtual hardware and the same CPU/RAM<br />
-resources.<br />
-<br />
-Windows Server 2022 is extremely responsive, while Windows Server 2025 is<br />
-noticeably slow and sluggish.<br />
-<br />
-HOST<br />
-----...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/windows-server-2025-extremely-slow-on-pve-9-2-while-server-2022-is-fully-responsive-on-the-same-host.185717/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Probleme bei installation von Openmediavault</title>
-      <pubDate>Fri, 14 Aug 2026 05:34:22 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/probleme-bei-installation-von-openmediavault.181076/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:181076</guid>
-      <author>invalid@example.com (dominik1988)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>dominik1988</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
-ich bin gerade dabei meine Raspberry pi&#039;s auf größere Hardware umzuziehen.<br />
-Beim erstellen einer VM mit der omv iso komme ich aber nicht weiter, ab der Konfiguration des Netzwerks mit DHCP ipv6 bleibt es bei einem bluescreen.<br />
-Wenn ich aber vorher die Netzwerkkarte aus der Hardware entferne, läuft die Installation durch, nur habe ich dann keine Netzwerkverbindung mehr.<br />
-Ich habe mal zum testen eine andere VM installiert, hier läuft alles wie gewünscht.<br />
-<br />
-Kennt jemand diesen...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/probleme-bei-installation-von-openmediavault.181076/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>36</slash:comments>
-    </item>
-    <item>
-      <title>kernel 7.0 performance issue with zfs pools</title>
-      <pubDate>Fri, 14 Aug 2026 03:13:37 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/kernel-7-0-performance-issue-with-zfs-pools.183872/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:183872</guid>
-      <author>invalid@example.com (drom)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>drom</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello<br />
-<br />
-I wish to report a drastic loss of performance with the 7.0 kernel as soon as it implies operating with zfs pools.<br />
-<br />
-I run 2 of these, one is a single raidz2 array of 12 4TB sas hard disks, the other has 2 raidz2 arrays of 8 600GB sas hard drives and each is available to the backup server as a separate datastore. The server itself if grately overpowered with 16 cores, 130GB ram, 10GB ethernets and SSD mirrors for the system as well as the contents of the datastore namespaces (through...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/kernel-7-0-performance-issue-with-zfs-pools.183872/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>Solo business owner, can I use proxmox as an alternative to Windows 365?</title>
-      <pubDate>Thu, 13 Aug 2026 22:50:26 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/solo-business-owner-can-i-use-proxmox-as-an-alternative-to-windows-365.148087/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:148087</guid>
-      <author>invalid@example.com (galffing)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>galffing</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi all, title says it all. <br />
-<br />
-I hate having multiple devices that all have a different desktop environment. Custom settings, etc. <br />
-<br />
-I am *very* tempted to get Windows 365 so that my working &quot;desktop environment&quot; will be device agnostic. <br />
-<br />
-This also helps me keep things corralled to a single place, and hopefully makes backup and security easier.<br />
-<br />
-Is proxmox a solution I should consider in lieu of the $41/mo Windows 365? <br />
-<br />
-Is it easy enough to configure and manage myself?<br />
-<br />
-What kind of upload...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/solo-business-owner-can-i-use-proxmox-as-an-alternative-to-windows-365.148087/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>9</slash:comments>
-    </item>
-    <item>
-      <title>New PVE 9 node shows "unknown"/offline in GUI from PVE 7/8 nodes, despite cluster status/quorum being OK</title>
-      <pubDate>Thu, 13 Aug 2026 19:58:33 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/new-pve-9-node-shows-unknown-offline-in-gui-from-pve-7-8-nodes-despite-cluster-status-quorum-being-ok.185713/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185713</guid>
-      <author>invalid@example.com (iwik)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>iwik</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi all,<br />
-<br />
-I added a new node to my existing PVE cluster ( mixed versions — most nodes are 8.x, one is still 7.x, and the new node is 9.2.2).<br />
-<br />
-Context: the node name &quot;pve8&quot; was previously used by a different physical node, which I properly removed from the cluster via `pvecm delnode` some time ago. I&#039;ve now reused that name for a new node, installed fresh with PVE 9.2.2, with a new/different IP address.<br />
-<br />
-The join itself completed cleanly via `pvecm add`:<br />
-<br />
-waiting for quorum...OK<br />
-(re)generate...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/new-pve-9-node-shows-unknown-offline-in-gui-from-pve-7-8-nodes-despite-cluster-status-quorum-being-ok.185713/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox Virtual Environment now available for 64-bit ARM (arm64)!</title>
-      <pubDate>Thu, 13 Aug 2026 18:42:52 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-virtual-environment-now-available-for-64-bit-arm-arm64.185527/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185527</guid>
-      <author>invalid@example.com (t.lamprecht)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>t.lamprecht</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">We are excited to announce the first release of Proxmox Virtual Environment with official support for a second CPU architecture: 64-bit ARM (arm64/aarch64). Until now, Proxmox VE was available for x86-64 (amd64) only.<br />
-<br />
-Proxmox VE 9.2 for arm64 shares the code base, package repositories, and release lifecycle with its x86-64 counterpart. It is built on Debian 13.5 &quot;Trixie&quot; with Linux kernel 7.0 as the stable default, and ships the same versions of our underlying key technologies, including...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-virtual-environment-now-available-for-64-bit-arm-arm64.185527/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>29</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE - Support Lifecycle</title>
-      <pubDate>Thu, 13 Aug 2026 17:30:23 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-support-lifecycle.35755/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:35755</guid>
-      <author>invalid@example.com (martin)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>martin</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><b>How long will my Proxmox VE version be supported?</b><br />
-<br />
-Proxmox VE versions are supported at least as long as the corresponding Debian Version is <a href="https://wiki.debian.org/DebianOldStable" target="_blank" class="link link--external" rel="noopener">oldstable</a>. Proxmox VE uses a rolling release model and using the latest stable version is always recommended.<br />
-<br />
-<b><b>Proxmox VE 9</b></b><br />
-First Release: 2025-08, Debian Version 13 (Trixie), Debian EOL: TBA, Proxmox VE EOL: TBA<br />
-<br />
-<b><b>Proxmox VE 8</b></b><br />
-First Release: 2023-06, Debian Version 12 (Bookworm), Debian EOL: 2026-07, Proxmox VE EOL...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-support-lifecycle.35755/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>41</slash:comments>
+      <slash:comments>14</slash:comments>
     </item>
     <item>
       <title>Should i install proxmox on my 4TB SSD RAID 5 setup ?</title>
-      <pubDate>Thu, 13 Aug 2026 16:39:46 +0000</pubDate>
+      <pubDate>Fri, 14 Aug 2026 09:02:48 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/should-i-install-proxmox-on-my-4tb-ssd-raid-5-setup.185706/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185706</guid>
       <author>invalid@example.com (moda20)</author>
@@ -275,56 +358,62 @@ I want to know...<br />
       <slash:comments>7</slash:comments>
     </item>
     <item>
-      <title>HOW TO HIRE A PROFESSIONAL RECOVERING COMPANY. VISIT SALVAGE ASSET RECOVERY</title>
-      <pubDate>Thu, 13 Aug 2026 16:37:50 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/how-to-hire-a-professional-recovering-company-visit-salvage-asset-recovery.185712/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185712</guid>
-      <author>invalid@example.com (ritadavison)</author>
+      <title>Shrink disk on Ceph</title>
+      <pubDate>Fri, 14 Aug 2026 08:48:58 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/shrink-disk-on-ceph.83855/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:83855</guid>
+      <author>invalid@example.com (comfreak)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>ritadavison</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I started investing my money with a company that trades Bitcoin after looking at their website and it really made sense to me, though I did not jump in investing a whole lot at first but as time went by after I received a couple of payouts within the first month of my investment, I decided to invest more money into the platform since it was a verified company but little did I know that I knew nothing about the company, they were just luring me to invest more with the payouts and I ended up...<br />
+      <dc:creator>comfreak</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
 <br />
-<a href="https://forum.proxmox.com/threads/how-to-hire-a-professional-recovering-company-visit-salvage-asset-recovery.185712/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox 9.2.2 GPU passthrough Error 43 Windows</title>
-      <pubDate>Thu, 13 Aug 2026 16:35:11 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-9-2-2-gpu-passthrough-error-43-windows.185661/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185661</guid>
-      <author>invalid@example.com (dropbrick)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>dropbrick</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi there,<br />
-Running Proxmox 9.2.2 here with kernel 7.0.2-6-pve (straight version non-updated from the 9.2-1 ISO installer). I&#039;ve been also using 9.1.1 on other hypervisors too for a while.<br />
+how do I shrink a disk on a Ceph-Cluster (the workflow to reduce the partition beforehand is clear)?<br />
 <br />
+I tried<br />
 <br />
-My issue is with GPU passthrough(not vGPU) in Windows VMs. I have a RTX 6000, 6000 ADA or 5000 ADA and all have the same issue - I get the infamous error 43 in Windows. My hosts are DELL 7525s with AMD CPUs<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>root@server:~# qm resize 111 scsi1 40G
+shrinking disks is not supported</code></pre>
+	</div>
+</div><br />
+but failed.<br />
 <br />
-First a big premise, this just works fine for Linux VMs, meaning the pass through BIOS/GRUB/IOMMU...<br />
+Yes, the &quot;qm&quot; manual says that shrinking is not supported but <a href="https://pve.proxmox.com/wiki/Resize_disks" target="_blank" class="link link--external" rel="nofollow ugc noopener">here </a>it sounds as it is supported. Or is &quot;qm&quot; <i>the </i>PVE API mentioned over there? So what would be the <i>manual </i>way instead?<br />
 <br />
-<a href="https://forum.proxmox.com/threads/proxmox-9-2-2-gpu-passthrough-error-43-windows.185661/" class="link link--internal">Read more</a></div>]]></content:encoded>
+If it is qemu-img, I probably have to mount the Ceph pool manually to access the disk...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/shrink-disk-on-ceph.83855/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>6</slash:comments>
     </item>
     <item>
-      <title>HiveStation - Developer Workstation for Proxmox Virtual Environment</title>
-      <pubDate>Thu, 13 Aug 2026 15:38:56 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/hivestation-developer-workstation-for-proxmox-virtual-environment.181435/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:181435</guid>
-      <author>invalid@example.com (aureladmin)</author>
+      <title>7.0.14-7 kernel breaks PCI link training</title>
+      <pubDate>Fri, 14 Aug 2026 08:21:35 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/7-0-14-7-kernel-breaks-pci-link-training.185549/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185549</guid>
+      <author>invalid@example.com (aoxiangtianji)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>aureladmin</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><h2 class="bbHeading"><a class="u-anchorTarget" name="-hivestation-developer-workstation-for-proxmox-virtual-environment"></a>HiveStation - Developer Workstation for Proxmox Virtual Environment&#8203;<a class="hoverLink" href="#-hivestation-developer-workstation-for-proxmox-virtual-environment" title="Permanent link"></a></h2><br />
-HiveStation is a community project that automates the full installation of a developer workstation built on <b>Proxmox VE 9</b>, on top of <b>Debian 13 (Trixie)</b>: the hypervisor, a choice of disk layouts, bootable snapshots, an optional desktop, themes and a GNOME monitoring widget - installed in a reproducible sequence of scripts (S1 to S8) you can read and audit.<br />
+      <dc:creator>aoxiangtianji</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have a SK hynix PE4010 (HFS960GD0TEG-6410A, 894G) installed on a PCIe splitter card on an ASRock B450M Pro4-F. The splitter card has no switch chip; it relies on the motherboard&#039;s PCIe bifurcation.<br />
 <br />
-It is inspired by the Proxmox VE wiki article...<br />
+After updating from 7.0.2 to 7.0.14-8, PVE got stuck during boot because it couldn&#039;t detect my disk. The NVMe controller is simply not visible, and I couldn&#039;t confirm any error in dmesg (in that state I wasn&#039;t able to export the log).<br />
 <br />
-<a href="https://forum.proxmox.com/threads/hivestation-developer-workstation-for-proxmox-virtual-environment.181435/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>31</slash:comments>
+After some testing, I found that 7.0.14-6 is the latest...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/7-0-14-7-kernel-breaks-pci-link-training.185549/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>16</slash:comments>
     </item>
     <item>
       <title>Proxmox VE - ausgehender Traffic</title>
-      <pubDate>Thu, 13 Aug 2026 15:32:04 +0000</pubDate>
+      <pubDate>Fri, 14 Aug 2026 07:52:19 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/proxmox-ve-ausgehender-traffic.185703/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185703</guid>
       <author>invalid@example.com (mcmaster)</author>
@@ -339,45 +428,18 @@ Im Zuge der Evaluierung kam es zu einer Installation in unserer Testumgebung. Vo
 Hierbei sind uns verschiedene Verbindungsversuche zu Zielen im www aufgefallen. Im Wesentlichen die Protokolle NTP, DNS, http und https. Genaue Zieladressen kann ich bei Bedarf...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/proxmox-ve-ausgehender-traffic.185703/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
+      <slash:comments>6</slash:comments>
     </item>
     <item>
-      <title>avast for Linux now available for trixie</title>
-      <pubDate>Thu, 13 Aug 2026 14:56:18 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/avast-for-linux-now-available-for-trixie.185711/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185711</guid>
-      <author>invalid@example.com (paul477)</author>
-      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
-      <dc:creator>paul477</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi.<br />
-<br />
-I &#039;ve been missing avast for Linux for PMG 9 / debian trixie for quite some time but now I find it published on their repository server.<br />
-Took them a long time but now it&#039;s arrived<br />
-<img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f642.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":)" title="Smile    :)"  data-smilie="1"data-shortname=":)" /> <br />
-<br />
-Hth</div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Problem mit TPM in Windows Server 2025</title>
-      <pubDate>Thu, 13 Aug 2026 14:23:17 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/problem-mit-tpm-in-windows-server-2025.185373/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185373</guid>
-      <author>invalid@example.com (lblaesius)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>lblaesius</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
-<br />
-wir sind bei unserem Cluster auf ein Problem gestoßen. Mit dem neusten Sicherheitsupdate von Microsoft verlieren unsere Windows 2025 RDS Server ihr TPM Modul. TPM.MSC zeigt an, dass kein Modul verbunden wäre. Vor dem Update lief alles normal.<br />
-<br />
-Ich habe mit Hilfe von Claude eine Diagnose gemacht. Diese ist im Anhang. <br />
-<br />
-Kurzgesagt:<br />
-- Wir haben 5 AMD Epyc Server die alle identisch sind. Das Problem ist auf allen Hosts.<br />
-- Installiert man das Update von Microsoft, startet die VM neu ist...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/problem-mit-tpm-in-windows-server-2025.185373/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>18</slash:comments>
+      <title>Hard disk format issue when importing ESXI to PVE 8.2</title>
+      <pubDate>Fri, 14 Aug 2026 06:45:28 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/hard-disk-format-issue-when-importing-esxi-to-pve-8-2.185718/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185718</guid>
+      <author>invalid@example.com (jordnmao)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>jordnmao</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">When importing from ESXI to PVE 8.2, the original virtual machine centost7 had six hard disks, all of which were in scsi format. After the import, the hard disk format was changed to ide, but PVE only supports four ide devices. When booting, it gets stuck at the progress bar. Is there any solution to this?</div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
     </item>
   </channel>
 </rss>
