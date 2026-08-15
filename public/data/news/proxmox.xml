@@ -4,30 +4,35 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Sat, 15 Aug 2026 12:21:36 +0000</pubDate>
-    <lastBuildDate>Sat, 15 Aug 2026 12:21:36 +0000</lastBuildDate>
+    <pubDate>Sat, 15 Aug 2026 18:17:07 +0000</pubDate>
+    <lastBuildDate>Sat, 15 Aug 2026 18:17:07 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
-      <title>HiveStation - Developer Workstation for Proxmox Virtual Environment</title>
-      <pubDate>Sat, 15 Aug 2026 11:50:59 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/hivestation-developer-workstation-for-proxmox-virtual-environment.181435/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:181435</guid>
-      <author>invalid@example.com (aureladmin)</author>
+      <title>New 7.0.14-12-pve kernel as of August 11 2026</title>
+      <pubDate>Sat, 15 Aug 2026 17:29:04 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/new-7-0-14-12-pve-kernel-as-of-august-11-2026.185732/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185732</guid>
+      <author>invalid@example.com (mystica555)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>aureladmin</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><h2 class="bbHeading"><a class="u-anchorTarget" name="-hivestation-developer-workstation-for-proxmox-virtual-environment"></a>HiveStation - Developer Workstation for Proxmox Virtual Environment&#8203;<a class="hoverLink" href="#-hivestation-developer-workstation-for-proxmox-virtual-environment" title="Permanent link"></a></h2><br />
-HiveStation is a community project that automates the full installation of a developer workstation built on <b>Proxmox VE 9</b>, on top of <b>Debian 13 (Trixie)</b>: the hypervisor, a choice of disk layouts, bootable snapshots, an optional desktop, themes and a GNOME monitoring widget - installed in a reproducible sequence of scripts (S1 to S8) you can read and audit.<br />
+      <dc:creator>mystica555</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Greetings!<br />
 <br />
-It is inspired by the Proxmox VE wiki article...<br />
+I saw the new kernel for upgrade and looked at the most recent GIT changes and there seems like a boatload of files were modified 2 days ago.<br />
 <br />
-<a href="https://forum.proxmox.com/threads/hivestation-developer-workstation-for-proxmox-virtual-environment.181435/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>33</slash:comments>
+Is it an accurate understanding of all the patches to say that this is a massive roll-up fix release?  Considering the ovpn patches which are numerically the latest [0101-0103] appear to be from May.<br />
+<br />
+And, is also be correct to say that all of the interim releases have just been CVE hot fixes?<br />
+<br />
+Thanks for all the great work into keeping...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/new-7-0-14-12-pve-kernel-as-of-august-11-2026.185732/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
     </item>
     <item>
       <title>New PVE 9 node shows "unknown"/offline in GUI from PVE 7/8 nodes, despite cluster status/quorum being OK</title>
-      <pubDate>Sat, 15 Aug 2026 11:48:46 +0000</pubDate>
+      <pubDate>Sat, 15 Aug 2026 17:26:40 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/new-pve-9-node-shows-unknown-offline-in-gui-from-pve-7-8-nodes-despite-cluster-status-quorum-being-ok.185713/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185713</guid>
       <author>invalid@example.com (iwik)</author>
@@ -45,11 +50,120 @@ waiting for quorum...OK<br />
 (re)generate...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/new-pve-9-node-shows-unknown-offline-in-gui-from-pve-7-8-nodes-despite-cluster-status-quorum-being-ok.185713/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>TrueNAS Core to Scale Upgrade Path and HBA Installation Issues on Supermicro X11SSM/X11SSL</title>
+      <pubDate>Sat, 15 Aug 2026 16:31:55 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/truenas-core-to-scale-upgrade-path-and-hba-installation-issues-on-supermicro-x11ssm-x11ssl.185741/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185741</guid>
+      <author>invalid@example.com (raze)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>raze</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Board family: Supermicro X11SSM(-F) / X11SSL(-F), C236 chipset, LGA1151 (Xeon E3-1200 v5/v6, Core i3/Pentium/Celeron)Hypervisor: Proxmox VE 8.xGuest: TrueNAS CORE, full HBA controller passthrough (not per-disk passthrough)Card: Dell PERC H310, cross-flashed to genuine LSI IT-mode firmware (LSI SAS2008 chipset)<br />
+<br />
+Disclosure: I used an AI assistant to help research the root cause and draft this write-up. As such this might be a bit of a wordy post. The troubleshooting steps and results...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/truenas-core-to-scale-upgrade-path-and-hba-installation-issues-on-supermicro-x11ssm-x11ssl.185741/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Install SSL cert for mail server</title>
+      <pubDate>Sat, 15 Aug 2026 15:51:04 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/install-ssl-cert-for-mail-server.185731/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185731</guid>
+      <author>invalid@example.com (Keith Miller)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Keith Miller</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Using version 9.2.4 <br />
+I am hosting a mailserver on Proxmox<br />
+how do I setup anSSL cert for it</div>]]></content:encoded>
       <slash:comments>2</slash:comments>
     </item>
     <item>
+      <title>Asus NUC14 Performance</title>
+      <pubDate>Sat, 15 Aug 2026 15:19:20 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/asus-nuc14-performance.185343/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185343</guid>
+      <author>invalid@example.com (Peter Neumaier)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Peter Neumaier</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen hat jemand einen Tip für mich:<br />
+Ich wollte obengenannten NUC als Rechner meinem Cluster hinzufügen, was auch relativ Problemlos geklappt hat.<br />
+Nachdem ich lokal Ki drauf laufen lassen wollte, die eingebaute Nvidia GeForce RTX 4070 an den Container durchreichen wollte, was aber insoferne nicht funktioniert da es von Nvidia keine Unterstützung für den aktuellen Kernel gibt. Ich wollte aber keinen älteren Kernel zurückgreifen.<br />
+Hat irgendwer eine Lösung für mich? Hab schon einiges...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/asus-nuc14-performance.185343/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
+    </item>
+    <item>
+      <title>How do I move a raw disk image from LVM-thin?</title>
+      <pubDate>Sat, 15 Aug 2026 15:16:16 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-do-i-move-a-raw-disk-image-from-lvm-thin.185740/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185740</guid>
+      <author>invalid@example.com (BigBulb)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>BigBulb</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I encountered an error trying to start one of my containers; the error had something to do with space shortage on the container which I didn&#039;t understand because there should&#039;ve been enough space for that container and there weren&#039;t that much things on it, so I tried deleting that container so that I could restore it from my backup. When I restored it, I found that the data I had on a pair of separate mirrored disks were gone. On those mirrored disks, I had a disk raw file with some data...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/how-do-i-move-a-raw-disk-image-from-lvm-thin.185740/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>[pve8] kernel: EDID has corrupt header</title>
+      <pubDate>Sat, 15 Aug 2026 14:53:41 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve8-kernel-edid-has-corrupt-header.129409/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:129409</guid>
+      <author>invalid@example.com (Taylan)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Taylan</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
+<br />
+<br />
+after upgrading to proxmox 8 (to kernel <b>6.2.16-3-pve</b>) the syslog is flooded with following messages:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Bash:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang="bash"><code>...
+Jun 23 15:12:42 Proxmox kernel: EDID has corrupt header
+Jun 23 15:12:42 Proxmox kernel: EDID block 0 is all zeroes
+...</code></pre>
+	</div>
+</div><br />
+This is a headless server, no monitor is connected. This behaviour is new after the upgrade.<br />
+<br />
+I have following modules active in `/etc/modules`:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Bash:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang="bash"><code>kvmgt
+
+# Generated by sensors-detect on Mon Jan 17 13:04:59 2022
+# Chip drivers
+coretemp...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/pve8-kernel-edid-has-corrupt-header.129409/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>48</slash:comments>
+    </item>
+    <item>
       <title>Wasserdichtes System für kleine Multi Teant Anwendung</title>
-      <pubDate>Sat, 15 Aug 2026 11:39:36 +0000</pubDate>
+      <pubDate>Sat, 15 Aug 2026 13:39:46 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/wasserdichtes-system-f%C3%BCr-kleine-multi-teant-anwendung.185556/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185556</guid>
       <author>invalid@example.com (MarroniJohny)</author>
@@ -60,7 +174,23 @@ waiting for quorum...OK<br />
 Im Moment wurstle ich im non-commerce Bereicht mit zwei ESXi rum. Die Server haben je einen durchgereichten HBA an napp-it (Solarish), da liegen die VMs und &quot;Backups&quot; drauf. Dazu 10 Gbit Anbindung, zwei 10 Gbit Firewalls mit je drei X540, 5 Switches, sowas. Grosssteil Uralthardware, die Firewalls sind Haswell, die ESXi Broadwell-E mit 256 GB Ram und 22 Core CPU, Backupserver Broadwell-E mit 128 GB und 16 Core CPU. Alles DC Hardware, inkl. dem Storage. Habe auch die meisten Teile auf...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/wasserdichtes-system-f%C3%BCr-kleine-multi-teant-anwendung.185556/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>20</slash:comments>
+      <slash:comments>22</slash:comments>
+    </item>
+    <item>
+      <title>HiveStation - Developer Workstation for Proxmox Virtual Environment</title>
+      <pubDate>Sat, 15 Aug 2026 11:50:59 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/hivestation-developer-workstation-for-proxmox-virtual-environment.181435/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:181435</guid>
+      <author>invalid@example.com (aureladmin)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>aureladmin</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><h2 class="bbHeading"><a class="u-anchorTarget" name="-hivestation-developer-workstation-for-proxmox-virtual-environment"></a>HiveStation - Developer Workstation for Proxmox Virtual Environment&#8203;<a class="hoverLink" href="#-hivestation-developer-workstation-for-proxmox-virtual-environment" title="Permanent link"></a></h2><br />
+HiveStation is a community project that automates the full installation of a developer workstation built on <b>Proxmox VE 9</b>, on top of <b>Debian 13 (Trixie)</b>: the hypervisor, a choice of disk layouts, bootable snapshots, an optional desktop, themes and a GNOME monitoring widget - installed in a reproducible sequence of scripts (S1 to S8) you can read and audit.<br />
+<br />
+It is inspired by the Proxmox VE wiki article...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/hivestation-developer-workstation-for-proxmox-virtual-environment.181435/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>33</slash:comments>
     </item>
     <item>
       <title>Proxmox uefibios konfigurieren</title>
@@ -213,37 +343,6 @@ Thanks.</div>]]></content:encoded>
       <slash:comments>61</slash:comments>
     </item>
     <item>
-      <title>Very high pvestatd CPU usage</title>
-      <pubDate>Sat, 15 Aug 2026 10:07:05 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/very-high-pvestatd-cpu-usage.185739/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185739</guid>
-      <author>invalid@example.com (tachi)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>tachi</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi all, I&#039;m very new here so sorry if this is a dumb thread <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f642.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":)" title="Smile    :)"  data-smilie="1"data-shortname=":)" /><br />
-<br />
-I was looking at the CPU time used by the processes on my Proxmox host, and I noticed that over the last 90 days the `pvestatd` daemon used 5 days and a half of CPU time:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code># systemctl status pvestatd.service
-● pvestatd.service - PVE Status Daemon
-     Loaded: loaded (/usr/lib/systemd/system/pvestatd.service; enabled; preset: enabled)
-     Active: active (running) since Fri 2026-05-15 00:33:08 CEST; 3 months 1 day ago...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/very-high-pvestatd-cpu-usage.185739/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
       <title>[PROJECT] AnPreD InfraShield — Self-hosted fleet security, SSH key rotation, &amp; JIT access for Proxmox</title>
       <pubDate>Sat, 15 Aug 2026 09:39:34 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/project-anpred-infrashield-%E2%80%94-self-hosted-fleet-security-ssh-key-rotation-jit-access-for-proxmox.185738/</link>
@@ -284,118 +383,6 @@ If there is...<br />
 <br />
 Solved - I was neglecting to type &quot;sudo&quot; before the rest of the command.</div>]]></content:encoded>
       <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>New 7.0.14-12-pve kernel as of August 11 2026</title>
-      <pubDate>Sat, 15 Aug 2026 06:13:30 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/new-7-0-14-12-pve-kernel-as-of-august-11-2026.185732/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185732</guid>
-      <author>invalid@example.com (mystica555)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>mystica555</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Greetings!<br />
-<br />
-I saw the new kernel for upgrade and looked at the most recent GIT changes and there seems like a boatload of files were modified 2 days ago.<br />
-<br />
-Is it an accurate understanding of all the patches to say that this is a massive roll-up fix release?  Considering the ovpn patches which are numerically the latest [0101-0103] appear to be from May.<br />
-<br />
-And, is also be correct to say that all of the interim releases have just been CVE hot fixes?<br />
-<br />
-Thanks for all the great work into keeping...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/new-7-0-14-12-pve-kernel-as-of-august-11-2026.185732/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Strange Garbage Collection times</title>
-      <pubDate>Sat, 15 Aug 2026 05:22:30 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/strange-garbage-collection-times.155184/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:155184</guid>
-      <author>invalid@example.com (markc)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>markc</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m running a Proxmox Backup Server on my Terramaster F2-423 with 32GB of RAM. I&#039;ve got two NVMe drives in the system - one for the Proxmox VE host and the other for Ceph storage. My main storage consists of two 8TB Seagate CRM drives in a ZFS mirror configuration. I&#039;ve passed these through to a PBS installation running in an LXC container, and this storage pool isn&#039;t shared with any other VMs or containers.<br />
-<br />
-Right now, I&#039;m using about 56% of my allocated Datastore storage (2.10 TB out of...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/strange-garbage-collection-times.155184/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>11</slash:comments>
-    </item>
-    <item>
-      <title>Grundsatz für Shared Storage</title>
-      <pubDate>Sat, 15 Aug 2026 05:22:22 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/grundsatz-f%C3%BCr-shared-storage.185325/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185325</guid>
-      <author>invalid@example.com (AlexanderB)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>AlexanderB</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo liebe Community,<br />
-<br />
-ich würde gern meine gesamten Daten aus der Cloud nach Hause holen.<br />
-Um das ganze grundsätzlich richtig aufzusetzen, habe ich noch eine Frage.<br />
-Ich möchte gern meine Daten irgendwie zentral verfügbar haben, sodass Dienste, wie Immich, Joplin, Nextcloud, etc. darauf zugreifen können.<br />
-Also meine Daten sollen nicht gekapselt in einer VM liegen, sodass nur der eine Dienst damit arbeiten kann.<br />
-Wie tut man diesen, ich nenn ihn mal &quot;shared storage&quot; in Proxmox aufsetzen? Auch...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/grundsatz-f%C3%BCr-shared-storage.185325/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>125</slash:comments>
-    </item>
-    <item>
-      <title>Install SSL cert for mail server</title>
-      <pubDate>Sat, 15 Aug 2026 04:57:46 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/install-ssl-cert-for-mail-server.185731/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185731</guid>
-      <author>invalid@example.com (Keith Miller)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Keith Miller</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Using version 9.2.4 <br />
-I am hosting a mailserver on Proxmox<br />
-how do I setup anSSL cert for it</div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>How Do I Setup Jellyfin on Proxmox With Only 1 SSD for Storage?</title>
-      <pubDate>Sat, 15 Aug 2026 01:36:38 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/how-do-i-setup-jellyfin-on-proxmox-with-only-1-ssd-for-storage.185623/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185623</guid>
-      <author>invalid@example.com (kosmicUser)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>kosmicUser</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi. I have an old Lenovo Yoga, and I have decided to repurpose it into my very first homelab using Proxmox.<br />
-Here are my specs.<br />
-<br />
-CPU: Intel 17-8550U<br />
-RAM: 16GB<br />
-GPU: NVIDIA GeForce GTX 1050<br />
-Storage: 1TB SSD<br />
-<br />
-I&#039;ve finished installing Proxmox, and I&#039;ve updated everything so now I&#039;m ready to start creating containers.<br />
-The first thing I want to do is make an LXC, install docker, and use docker compose to quickly setup Jellyfin. Before that though, my biggest problem is that I don&#039;t know where to...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/how-do-i-setup-jellyfin-on-proxmox-with-only-1-ssd-for-storage.185623/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>17</slash:comments>
-    </item>
-    <item>
-      <title>SQL Server 2022 database corruption</title>
-      <pubDate>Fri, 14 Aug 2026 23:36:36 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/sql-server-2022-database-corruption.185694/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185694</guid>
-      <author>invalid@example.com (carver.it)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>carver.it</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Some background.<br />
-<br />
-PVE 9.1.7<br />
-Windows 2022 with SQL Server 2022<br />
-Have got 3 x hosts, ZFS data stores with replication of VM to another host currently hourly<br />
-PBS running daily snapshot backup to a drive on third cluster node<br />
-Not currently got support arrangement with ProMox, on the list to get signed for and done!<br />
-PBS drive became full and so backups not running properly<br />
-Cove backup within the Windows OS also multiple times daily. Currently 4 hourly<br />
-Each night getting a disk I/O error within...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/sql-server-2022-database-corruption.185694/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>17</slash:comments>
     </item>
   </channel>
 </rss>
