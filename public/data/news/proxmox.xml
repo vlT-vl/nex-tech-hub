@@ -4,14 +4,133 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Sun, 16 Aug 2026 06:26:10 +0000</pubDate>
-    <lastBuildDate>Sun, 16 Aug 2026 06:26:10 +0000</lastBuildDate>
+    <pubDate>Sun, 16 Aug 2026 12:22:13 +0000</pubDate>
+    <lastBuildDate>Sun, 16 Aug 2026 12:22:13 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
+      <title>Disk import drop-down stays empty?</title>
+      <pubDate>Sun, 16 Aug 2026 11:38:46 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/disk-import-drop-down-stays-empty.185742/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185742</guid>
+      <author>invalid@example.com (sjjh)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>sjjh</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I want to migrate a bare metal windows PC to a VM. I created a <code class="bbCodeInline">Vhdx</code> image of the running system using <a href="https://learn.microsoft.com/en-us/sysinternals/downloads/disk2vhd" target="_blank" class="link link--external" rel="nofollow ugc noopener">Disk2vhd</a>. I pushed this image file on my PVE in path being member of a storage and used following command to convert it to a raw image:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Bash:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang="bash"><code># qemu-img convert -f vhdx -O raw PC.VHDX pc.img
+# ls -l /var/lib/vz/import/
+total 85529477
+-rw-r--r-- 1 root root 500107862016 Aug 16 12:14 pc.img
+-rw-r--r-- 1 root root  72801583616 Aug 16 12:00 PC.VHDX</code></pre>
+	</div>
+</div>On the PVE I have (among other)...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/disk-import-drop-down-stays-empty.185742/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Very high pvestatd CPU usage</title>
+      <pubDate>Sun, 16 Aug 2026 10:18:31 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/very-high-pvestatd-cpu-usage.185739/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185739</guid>
+      <author>invalid@example.com (tachi)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>tachi</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi all, I&#039;m very new here so sorry if this is a dumb thread <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f642.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":)" title="Smile    :)"  data-smilie="1"data-shortname=":)" /><br />
+<br />
+I was looking at the CPU time used by the processes on my Proxmox host, and I noticed that over the last 90 days the `pvestatd` daemon used 5 days and a half of CPU time:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code># systemctl status pvestatd.service
+● pvestatd.service - PVE Status Daemon
+     Loaded: loaded (/usr/lib/systemd/system/pvestatd.service; enabled; preset: enabled)
+     Active: active (running) since Fri 2026-05-15 00:33:08 CEST; 3 months 1 day ago...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/very-high-pvestatd-cpu-usage.185739/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Single port on NIC randomly disconnecting</title>
+      <pubDate>Sun, 16 Aug 2026 10:05:10 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/single-port-on-nic-randomly-disconnecting.183888/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:183888</guid>
+      <author>invalid@example.com (Sakreton)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>Sakreton</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hey, <br />
+<br />
+i am running a 3 node PVE + Ceph Cluster on 3x Minesforum MS-A2.<br />
+The nodes are running identical hardware.<br />
+<br />
+On one of the 3 nodes <br />
+<br />
+At supposedly random times one 2.5Gbit Port on a  RTL8125 2.5GbE Controller (rev 05) NIC disconnects.<br />
+The affected port is used for the guest traffic thats probably the only reason why i even noticed it in the first place lol.<br />
+All other NICs (2x Ceph), even the other port (used for Corosync to a different switch) on this NIC are not affected.<br />
+<br />
+This also...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/single-port-on-nic-randomly-disconnecting.183888/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
+    </item>
+    <item>
+      <title>Should i install proxmox on my 4TB SSD RAID 5 setup ?</title>
+      <pubDate>Sun, 16 Aug 2026 10:02:39 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/should-i-install-proxmox-on-my-4tb-ssd-raid-5-setup.185706/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185706</guid>
+      <author>invalid@example.com (moda20)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>moda20</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am moving my homelab from docker containers to proxmox VE VMs. my motivation is to be able to backup whole folders / images more easily and not have 5 or 6 different  postgres containers at the same time. A secondary goal would be to learn mopre about virtualization (Okey knowledge). <br />
+<br />
+My goal is to have a stable drive to use. i had prior issues with bad disks failing and breaking my filesystem. i am going to get 3 2TB SSDs and put them in RAID 5 with 4Tb of usable space. <br />
+<br />
+I want to know...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/should-i-install-proxmox-on-my-4tb-ssd-raid-5-setup.185706/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>11</slash:comments>
+    </item>
+    <item>
+      <title>Adding NFS v4 Share to Proxmox Cluster Fails if NFS Server Does Not Support NFSv3 Connections: Looking to Confirm Behavior Before Reporting Bug</title>
+      <pubDate>Sun, 16 Aug 2026 09:11:33 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/adding-nfs-v4-share-to-proxmox-cluster-fails-if-nfs-server-does-not-support-nfsv3-connections-looking-to-confirm-behavior-before-reporting-bug.150552/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:150552</guid>
+      <author>invalid@example.com (SInisterPisces)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>SInisterPisces</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I have an up-to-date TrueNAS SCALE bare metal server running that I&#039;m using to, among other things, store LXC templates and ISOs for Proxmox. I initially configured TrueNAS&#039;s NFS service to disable NFS v3, as I knew Proxmox supported v4.2 and that&#039;s what I wanted to use.<br />
+<br />
+<b>However, Proxmox was only able to <i>see the server</i>, but not <i>list exported shares</i> of the NFS v4-only server. I had to re-enable the NFSv3 protocol on the server to get the share list working again so...</b><br />
+<br />
+<a href="https://forum.proxmox.com/threads/adding-nfs-v4-share-to-proxmox-cluster-fails-if-nfs-server-does-not-support-nfsv3-connections-looking-to-confirm-behavior-before-reporting-bug.150552/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>17</slash:comments>
+    </item>
+    <item>
       <title>Wasserdichtes System für kleine Multi Teant Anwendung</title>
-      <pubDate>Sun, 16 Aug 2026 05:03:23 +0000</pubDate>
+      <pubDate>Sun, 16 Aug 2026 07:50:53 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/wasserdichtes-system-f%C3%BCr-kleine-multi-teant-anwendung.185556/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185556</guid>
       <author>invalid@example.com (MarroniJohny)</author>
@@ -22,7 +141,7 @@
 Im Moment wurstle ich im non-commerce Bereicht mit zwei ESXi rum. Die Server haben je einen durchgereichten HBA an napp-it (Solarish), da liegen die VMs und &quot;Backups&quot; drauf. Dazu 10 Gbit Anbindung, zwei 10 Gbit Firewalls mit je drei X540, 5 Switches, sowas. Grosssteil Uralthardware, die Firewalls sind Haswell, die ESXi Broadwell-E mit 256 GB Ram und 22 Core CPU, Backupserver Broadwell-E mit 128 GB und 16 Core CPU. Alles DC Hardware, inkl. dem Storage. Habe auch die meisten Teile auf...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/wasserdichtes-system-f%C3%BCr-kleine-multi-teant-anwendung.185556/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>23</slash:comments>
+      <slash:comments>24</slash:comments>
     </item>
     <item>
       <title>WARNING! Do not use PBS with Kernel 7 on a Synology NAS</title>
@@ -55,30 +174,6 @@ Yesterday evening, already being in bed, my...<br />
 I am hosting a mailserver on Proxmox<br />
 how do I setup anSSL cert for it</div>]]></content:encoded>
       <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Single port on NIC randomly disconnecting</title>
-      <pubDate>Sat, 15 Aug 2026 22:07:46 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/single-port-on-nic-randomly-disconnecting.183888/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:183888</guid>
-      <author>invalid@example.com (Sakreton)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>Sakreton</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hey, <br />
-<br />
-i am running a 3 node PVE + Ceph Cluster on 3x Minesforum MS-A2.<br />
-The nodes are running identical hardware.<br />
-<br />
-On one of the 3 nodes <br />
-<br />
-At supposedly random times one 2.5Gbit Port on a  RTL8125 2.5GbE Controller (rev 05) NIC disconnects.<br />
-The affected port is used for the guest traffic thats probably the only reason why i even noticed it in the first place lol.<br />
-All other NICs (2x Ceph), even the other port (used for Corosync to a different switch) on this NIC are not affected.<br />
-<br />
-This also...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/single-port-on-nic-randomly-disconnecting.183888/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
     </item>
     <item>
       <title>mpt2sas flooding dmesg</title>
@@ -343,66 +438,6 @@ In later version, there will come an...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/unofficial-updater-script-for-proxmox-ve-host-lxc-vm.121733/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>87</slash:comments>
-    </item>
-    <item>
-      <title>PBS with WORM/Immutable Storage for Backup Chunks</title>
-      <pubDate>Sat, 15 Aug 2026 10:39:55 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pbs-with-worm-immutable-storage-for-backup-chunks.185698/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185698</guid>
-      <author>invalid@example.com (pingtrace)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>pingtrace</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
-<br />
-Can PBS work with <b>WORM/immutable storage</b> for the backup chunks?<br />
-<br />
-For example, if existing chunks are stored in an immutable/WORM folder, can PBS continue to perform regular backups by simply creating new chunk files and creating new index files that reference existing unchanged chunks?<br />
-<br />
-If existing chunks cannot be modified or deleted, can PBS still reuse/reference those chunks for subsequent backups?<br />
-<br />
-Can the metadata/index files be stored in a separate normal writable...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pbs-with-worm-immutable-storage-for-backup-chunks.185698/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Can't log in via GUI or connect via PDM</title>
-      <pubDate>Sat, 15 Aug 2026 10:38:27 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/cant-log-in-via-gui-or-connect-via-pdm.185652/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185652</guid>
-      <author>invalid@example.com (TrevorW)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>TrevorW</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">After my main cluster node died (3 node cluster) I&#039;ve decided to go the Datacentre Manager Route. I had TFA enabled on the main node and have been unable to login via GUI to the remaining nodes. One of them I just bit the bullet and reinstalled and I&#039;ve connected it to PDM, the other remaining alive host I can&#039;t log into via GUI, I&#039;ve got an SSH terminal active, and separated it from the cluster by running <br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>root@Proxb2:~# systemctl stop pve-cluster.service
-root@Proxb2:~# /usr/bin/pmxcfs...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/cant-log-in-via-gui-or-connect-via-pdm.185652/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>16</slash:comments>
-    </item>
-    <item>
-      <title>I installed a script proxmox VE and it broke my networking</title>
-      <pubDate>Sat, 15 Aug 2026 10:17:43 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/i-installed-a-script-proxmox-ve-and-it-broke-my-networking.185685/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185685</guid>
-      <author>invalid@example.com (pk0)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>pk0</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I installed the script for pbs for some backups it didn&#039;t fully install it said dns issues. I though weird so I just kinda left it, it made everything I had set up IP6 witch consisted mostly of ipv4 dockerapps and dockage installs. So I spent hours trying to fix it and its gotten to the point were I fixed the dns thing for main proxmox but its completely broken my containers and the bridge somehow. When I do a ping in the main shell it works properly but when I do a ping in the container it...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/i-installed-a-script-proxmox-ve-and-it-broke-my-networking.185685/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>17</slash:comments>
     </item>
   </channel>
 </rss>
