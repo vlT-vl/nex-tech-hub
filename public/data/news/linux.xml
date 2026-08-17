@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Linux News</title><item>
+   <title>Linux 7.2 Released With Faster I/O, New AMD &amp; Intel Driver Improvements</title>
+   <link>https://www.phoronix.com/news/Linux-7.2-Released</link>
+   <guid>https://www.phoronix.com/news/Linux-7.2-Released</guid>
+   <description>Linus Torvalds just released Linux 7.2 as stable!  After a very busy kernel cycle due to the increased patch and reporting churn due to AI/LLM ages, Linux 7.2 managed to make it out today on-schedule for this feature-packed kernel. Linux 7.2 is going on to power Ubuntu 26.10 and other upcoming Linux distribution releases...</description>
+   <pubDate>Sun, 16 Aug 2026 19:12:47 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
+   <title>GIMP Making Progress On New Project File Format After Nearly 30 Years With XCF</title>
+   <link>https://www.phoronix.com/news/GIMP-New-File-Format-2026</link>
+   <guid>https://www.phoronix.com/news/GIMP-New-File-Format-2026</guid>
+   <description>The GIMP project has published their latest development update to highlight the interesting work that's ongoing toward GIMP 3.4 and future releases...</description>
+   <pubDate>Sun, 16 Aug 2026 16:15:33 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
    <title>tlbi=  Boot Option Submitted Ahead Of Linux 7.2 Kernel Release</title>
    <link>https://www.phoronix.com/news/Linux-7.2-x86-urgent-tlbi</link>
    <guid>https://www.phoronix.com/news/Linux-7.2-x86-urgent-tlbi</guid>
@@ -207,20 +221,6 @@
    <guid>https://www.phoronix.com/news/Azure-Linux-3.0.20260809</guid>
    <description>While Microsoft continues working on Azure Linux 4.0 as its overhauled Linux distribution built atop Fedora, Azure Linux 3.0 remains the current stable production series. Released overnight was Azure Linux 3.0.20260809 and it comes with more than 233 security patches for recent CVEs in the AI era...</description>
    <pubDate>Thu, 13 Aug 2026 06:38:00 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>Intel XPU Manager 2.1 Released For Monitoring Arc Pro Graphics On Windows/Linux</title>
-   <link>https://www.phoronix.com/news/Intel-XPU-Manager-2.1</link>
-   <guid>https://www.phoronix.com/news/Intel-XPU-Manager-2.1</guid>
-   <description>Intel XPU Manager 2.1 is now available as the latest version of this open-source tool for Linux and Windows systems for the monitoring and management of Arc Pro graphics cards. The Intel XPU Manager helps in keeping an eye on device utilization and other metrics  via the xpu-smi command and other components...</description>
-   <pubDate>Thu, 13 Aug 2026 06:24:38 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>Rsync 3.5 Released As &quot;Extraordinary&quot; Update To Fix 33 Security Issues</title>
-   <link>https://www.phoronix.com/news/Rsync-3.5</link>
-   <guid>https://www.phoronix.com/news/Rsync-3.5</guid>
-   <description>Rsync as the widely-used, open-source remote sync software for synchronizing files and directories across networks is out today with a very important update...</description>
-   <pubDate>Wed, 12 Aug 2026 21:26:03 -0400</pubDate>
    <dc:creator>Michael Larabel</dc:creator>
   </item><item><title>Advantech AOM-2721 is now Ubuntu Certified</title><link>https://ubuntu.com//blog/advantech-aom-2721-ubuntu-certified</link><description>&lt;p&gt;Canonical announces that the Advantech AOM-2721 is officially joining the list of Ubuntu Certified Hardware.&lt;/p&gt;
 </description><content:encoded>
@@ -723,6 +723,39 @@ sudo modprobe kvm_amd ; sudo modprobe kvm_intel&lt;/code&gt;&lt;/pre&gt;
 &lt;li&gt;&lt;strong&gt;A guide to open source vulnerability management:&lt;/strong&gt; Discover the main challenges with open source security vulnerabilities, best practices for effective vulnerability management and how to apply cybersecurity frameworks like the NIST framework with Ubuntu Pro. &lt;a href="https://ubuntu.com/engage/vulnerability-management"&gt;Download the guide&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content:encoded><author>Canonical (Canonical)</author><category>security &amp;amp; compliance</category><category>software supply chain</category><pubDate>Mon, 06 Jul 2026 14:39:37 +0000</pubDate></item><item>
+        <title>The 7.2 kernel has been released</title>
+        <link>https://lwn.net/Articles/1088991/</link>
+        <guid>https://lwn.net/Articles/1088991/</guid>
+        <dc:creator>corbet</dc:creator>
+        <description>The &lt;a href=&quot;https://lwn.net/Articles/1089033/&quot;&gt;7.2 kernel&lt;/a&gt; has been released.
+Linus said:
+&lt;p&gt;
+&lt;blockquote class=&quot;bq&quot;&gt;
+	Well, this last week of the release was - once again - bigger than
+	I would have wished for, but hey, with the whole &quot;new normal&quot;
+	thing, if I delayed releases for that reason we'd probably never
+	have a release at all.
+&lt;/blockquote&gt;
+&lt;p&gt;
+Significant features in this release include
+&lt;a
+href=&quot;https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=6318f11d53a3&quot;&gt;common
+attributes support&lt;/a&gt; in the &lt;tt&gt;bpf()&lt;/tt&gt; system call,
+&lt;a href=&quot;https://lwn.net/Articles/1018334/&quot;&gt;cache-aware load balancing&lt;/a&gt; for the CPU
+scheduler,
+large-folio support in the Btrfs filesystem,
+further &lt;a href=&quot;https://lwn.net/Articles/1072657/&quot;&gt;swap subsystem improvements&lt;/a&gt;,
+improvements to the Landlock security module,
+support for block devices with inline encryption hardware via the &lt;a
+href=&quot;https://docs.kernel.org/next/admin-guide/device-mapper/dm-inlinecrypt.html&quot;&gt;dm-inlinecrypt&lt;/a&gt;
+device-mapper target, and much more.
+See the LWN merge window summaries
+(&lt;a href=&quot;https://lwn.net/Articles/1078068/&quot;&gt;part&amp;#160;1&lt;/a&gt;, &lt;a
+href=&quot;https://lwn.net/Articles/1078539/&quot;&gt;part&amp;#160;2&lt;/a&gt;) and &lt;a
+href=&quot;https://kernelnewbies.org/Linux_7.2&quot;&gt;the KernelNewbies 7.2 page&lt;/a&gt;
+for more information.</description>
+        <pubDate>Sun, 16 Aug 2026 23:11:28 +0000</pubDate>
+        </item><item>
         <title>[$] BPF, continuous testing, and stable kernels</title>
         <link>https://lwn.net/Articles/1087823/</link>
         <guid>https://lwn.net/Articles/1087823/</guid>
@@ -978,12 +1011,4 @@ more visibility.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
         <pubDate>Tue, 11 Aug 2026 14:03:25 +0000</pubDate>
-        </item><item>
-        <title>Security updates for Tuesday</title>
-        <link>https://lwn.net/Articles/1088226/</link>
-        <guid>https://lwn.net/Articles/1088226/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>Security updates have been issued by &lt;b&gt;AlmaLinux&lt;/b&gt; (gpsd), &lt;b&gt;Debian&lt;/b&gt; (caddy, libyaml-syck-perl, nss, and wordpress), &lt;b&gt;Fedora&lt;/b&gt; (chezmoi, chromium, emacs, kernel, knot, libcupsfilters, mingw-gstreamer1-plugins-good, mingw-libidn, mingw-python-pip, nghttp2, p11-kit, python-webob, suricata, and xen), &lt;b&gt;Mageia&lt;/b&gt; (bind, openslide, php8.4, and php8.5), &lt;b&gt;Oracle&lt;/b&gt; (gpsd-minimal, kernel, libarchive, libpng12, nodejs-nodemon, php:8.3, ruby:3.3, and ruby:4.0), &lt;b&gt;SUSE&lt;/b&gt; (agama-web-ui, bind, bouncycastle, dhcpcd, ffmpeg, ffmpeg-4, freerdp, gd, gitoxide, kak-lsp, kernel-devel, librest-1_0-0, libsdb2_5_0, libssh2_org, nodejs22, PackageKit, perl, perl-Date-Manip, python-ujson, python3-sqlparse, python311, python312, python313-pymongo, ruby2.5, runc, suseconnect-ng, thunderbird, vlang, webkit2gtk3, and weechat), and &lt;b&gt;Ubuntu&lt;/b&gt; (imagemagick and systemd).
-</description>
-        <pubDate>Tue, 11 Aug 2026 13:11:17 +0000</pubDate>
         </item></channel></rss>
