@@ -4,11 +4,298 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Mon, 17 Aug 2026 18:27:24 +0000</pubDate>
-    <lastBuildDate>Mon, 17 Aug 2026 18:27:24 +0000</lastBuildDate>
+    <pubDate>Tue, 18 Aug 2026 00:44:00 +0000</pubDate>
+    <lastBuildDate>Tue, 18 Aug 2026 00:44:00 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>online migrate failure - block job (mirror) error: Source and target image have different sizes</title>
+      <pubDate>Tue, 18 Aug 2026 00:39:29 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/online-migrate-failure-block-job-mirror-error-source-and-target-image-have-different-sizes.167014/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:167014</guid>
+      <author>invalid@example.com (Mabene)</author>
+      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
+      <dc:creator>Mabene</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I just ran into an issue trying to live migrate a VM; source and target are zfs, version is 8.4.1<br />
+<br />
+Error message: online migrate failure - block job (mirror) error: drive-scsi0: Source and target image have different sizes<br />
+<br />
+The disk was created by importing from a Hyper-V vhd image, that turns out to have a size not rounded to the zfs block size of 128k.<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Bash:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang="bash"><code>qm importdisk 103 /mnt/pve/hv1-d/vm/virtual1/Virtual\ Hard\ Disks/virtual1.vhd zfs -format raw
+zfs get volsize zfs/vm-103-disk-0 -p...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/online-migrate-failure-block-job-mirror-error-source-and-target-image-have-different-sizes.167014/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>11</slash:comments>
+    </item>
+    <item>
+      <title>Problem After Importing NIOS (Infoblox) QCOW2 to Proxmox VE</title>
+      <pubDate>Mon, 17 Aug 2026 23:37:56 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/problem-after-importing-nios-infoblox-qcow2-to-proxmox-ve.169080/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:169080</guid>
+      <author>invalid@example.com (daus2936)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>daus2936</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I have a problem after importing NIOS (infoblox) QCOW2 to a VM using :<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>qm importdisk 124 /mnt/pve/cephfs/import/nios-9.0.6-53318-82020f7ffaad-2025-03-26-05-08-05-fixed-500G.qcow2 local-lvm</code></pre>
+	</div>
+</div><br />
+when i start a VM, its always say &quot;Fatal Error During infoblox startup&quot;, Has anyone ever had experience importing NIOS (Infoblox) to Proxmox? Please help me about this.<br />
+<br />
+Thank you<br />
+<br />
+<a href="https://forum.proxmox.com/attachments/1753947918375-png.88663/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/88/88359-a6a6d99d02653ea5a2a34a958419719a.jpg?hash=gGXmvZ0jZr"
+		srcset=""
+		class="bbImage "
+		style=""
+		alt="1753947918375.png"
+		title="1753947918375.png"
+		width="194" height="150" loading="lazy" /></a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>SQL Server 2022 database corruption</title>
+      <pubDate>Mon, 17 Aug 2026 23:14:57 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/sql-server-2022-database-corruption.185694/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185694</guid>
+      <author>invalid@example.com (carver.it)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>carver.it</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Some background.<br />
+<br />
+PVE 9.1.7<br />
+Windows 2022 with SQL Server 2022<br />
+Have got 3 x hosts, ZFS data stores with replication of VM to another host currently hourly<br />
+PBS running daily snapshot backup to a drive on third cluster node<br />
+Not currently got support arrangement with ProMox, on the list to get signed for and done!<br />
+PBS drive became full and so backups not running properly<br />
+Cove backup within the Windows OS also multiple times daily. Currently 4 hourly<br />
+Each night getting a disk I/O error within...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/sql-server-2022-database-corruption.185694/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>23</slash:comments>
+    </item>
+    <item>
+      <title>How to disable Secure Boot easily for iPXE when you get NBP file downloaded successfully / failed to load Boot / Access Denied</title>
+      <pubDate>Mon, 17 Aug 2026 21:28:37 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-to-disable-secure-boot-easily-for-ipxe-when-you-get-nbp-file-downloaded-successfully-failed-to-load-boot-access-denied.185621/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185621</guid>
+      <author>invalid@example.com (shodan)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>shodan</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+It took me a while to figure out what I was doing wrong.<br />
+<br />
+I was trying to boot with iPXE, but it just wouldn&#039;t !<br />
+<br />
+And the bios firmware should be a lot clearer about the problem not just say &quot;Access Denied&quot; <br />
+On this already very difficult task !<br />
+<br />
+<a href="https://forum.proxmox.com/attachments/1786323826831-png.99364/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99060-30a0550e7cb1c8cde374461d2c3b4843.jpg?hash=pFSh1FOJ_w"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99060-30a0550e7cb1c8cde374461d2c3b4843.jpg?hash=pFSh1FOJ_w 2x"
+		class="bbImage "
+		style=""
+		alt="1786323826831.png"
+		title="1786323826831.png"
+		width="524" height="150" loading="lazy" /></a><br />
+<br />
+I can&#039;t find how to disable this easily.<br />
+<br />
+Easiest way I found is to boot the VM and immediately hit ESC<br />
+<br />
+Go to Device Manager<br />
+<a href="https://forum.proxmox.com/attachments/1786323883411-png.99365/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99061-a33d9c42e0c9b6d7d4a3cdadf6094ae4.jpg?hash=IZU9LfTPic"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99061-a33d9c42e0c9b6d7d4a3cdadf6094ae4.jpg?hash=IZU9LfTPic 2x"
+		class="bbImage "
+		style=""
+		alt="1786323883411.png"
+		title="1786323883411.png"
+		width="208" height="150" loading="lazy" /></a><br />
+Then secure boot configuration<br />
+<a href="https://forum.proxmox.com/attachments/1786323898612-png.99366/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99062-d2ffbc58a9471c3a52ab8b5a05c71677.jpg?hash=0kom0TkHTw"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99062-d2ffbc58a9471c3a52ab8b5a05c71677.jpg?hash=0kom0TkHTw 2x"
+		class="bbImage "
+		style=""
+		alt="1786323898612.png"
+		title="1786323898612.png"
+		width="231" height="150" loading="lazy" /></a><br />
+And uncheck Attempt Secure Boot<br />
+<a href="https://forum.proxmox.com/attachments/1786323952511-png.99367/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99063-db3e29bd34ea0cf15dfb1949c14a9104.jpg?hash=EidQQ7tFLk"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99063-db3e29bd34ea0cf15dfb1949c14a9104.jpg?hash=EidQQ7tFLk 2x"
+		class="bbImage "
+		style=""
+		alt="1786323952511.png"
+		title="1786323952511.png"
+		width="550" height="95" loading="lazy" /></a><br />
+Then...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/how-to-disable-secure-boot-easily-for-ipxe-when-you-get-nbp-file-downloaded-successfully-failed-to-load-boot-access-denied.185621/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Intel E810 / ICE / IRDMA HMC Error causing Corosync link loss and node reboots – Proxmox VE 7.3</title>
+      <pubDate>Mon, 17 Aug 2026 20:59:23 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/intel-e810-ice-irdma-hmc-error-causing-corosync-link-loss-and-node-reboots-%E2%80%93-proxmox-ve-7-3.185775/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185775</guid>
+      <author>invalid@example.com (pvpaulo)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>pvpaulo</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I have a <b>6-node Proxmox VE cluster</b> running <b>HA and Ceph</b>, using <b>Intel E810-XXV</b> network adapters.<br />
+<br />
+I am experiencing recurring node reboots on some of the nodes, and based on the logs, I suspect the issue may be related to the <b>Intel E810 / ICE / IRDMA stack</b>.<br />
+<br />
+The environment is currently running <b>Proxmox VE 7.3</b>, with:<br />
+<br />
+Kernel: 5.15.74-1-pve<br />
+NIC: Intel E810-XXV<br />
+Driver: ice<br />
+Firmware: 2.50 0x800077a8 1.2960.0<br />
+On the affected nodes, I repeatedly see:<br />
+<br />
+ice ...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/intel-e810-ice-irdma-hmc-error-causing-corosync-link-loss-and-node-reboots-%E2%80%93-proxmox-ve-7-3.185775/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Where’s the downtime for fun?</title>
+      <pubDate>Mon, 17 Aug 2026 20:31:01 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/where%E2%80%99s-the-downtime-for-fun.185774/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185774</guid>
+      <author>invalid@example.com (whobuki)</author>
+      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
+      <dc:creator>whobuki</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">So, after wrestling with clusters and VM migrations all day, who else here uses downtime to unwind with spontaneous plans—maybe a last-minute trip, a coworker’s BBQ, or just exploring a new spot with someone who gets the chaos of tech life?</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Snapshots cause console error: Marking clocksource 'tsc' as unstable because the skew is too large</title>
+      <pubDate>Mon, 17 Aug 2026 19:30:10 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/snapshots-cause-console-error-marking-clocksource-tsc-as-unstable-because-the-skew-is-too-large.172844/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:172844</guid>
+      <author>invalid@example.com (prmadmax)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>prmadmax</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have a VM with a basic config:<br />
+2 sockets, 4 cores each - x86-64-v3<br />
+q35  - 10.0+pve1<br />
+UEFI / TPM / Secure boot<br />
+Auto partition on system disk / guest tools installed<br />
+<br />
+OS: Alma 10.0<br />
+<br />
+Once it is installed and fully updated before I begin any configuration I use proxmox to take a snapshot and get in the console several warnings with things like &quot;Marking clocksource &#039;tsc&#039; as unstable because the skew is too large:&quot; and its usually off by 200ms.<br />
+<br />
+This is being caused and reproducible by snapshots...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/snapshots-cause-console-error-marking-clocksource-tsc-as-unstable-because-the-skew-is-too-large.172844/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Need the path for logs files for a container.</title>
+      <pubDate>Mon, 17 Aug 2026 19:21:08 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/need-the-path-for-logs-files-for-a-container.185773/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185773</guid>
+      <author>invalid@example.com (SpiceGuy)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>SpiceGuy</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m trying to update a container on my PVE 9.2.10 and it seems that the update goes perfectly when I run &quot;update&quot; from the container&#039;s console. No error are seen in the console. When I try to access the container from my browser it won&#039;t open. I get &quot;Site can&#039;t be reached.&quot; and that the IP address &quot;Refused to connect.&quot;  The previous version of the container worked fine. I want to go to the Github page for the container but they require the installation log files for the container. When...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/need-the-path-for-logs-files-for-a-container.185773/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Host bootloader documentation nitpick</title>
+      <pubDate>Mon, 17 Aug 2026 19:05:36 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/host-bootloader-documentation-nitpick.185772/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185772</guid>
+      <author>invalid@example.com (leesteken)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>leesteken</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">The <a href="https://pve.proxmox.com/pve-docs/pve-admin-guide.html#sysboot" target="_blank" class="link link--external" rel="nofollow ugc noopener">Administration Guide</a> claims:<br />
+
+
+
+
+<blockquote data-attributes="" data-quote="" data-source=""
+	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
+	
+	<div class="bbCodeBlock-content">
+		
+		<div class="bbCodeBlock-expandContent js-expandContent ">
+			For EFI Systems installed with ZFS as the root filesystem systemd-boot is used, unless Secure Boot is enabled. All other deployments use the standard GRUB bootloader
+		</div>
+		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
+	</div>
+</blockquote>However, after installing Proxmox VE (9.2 in a VM) on BTRFS, I noticed and confirmed that it also uses systemd-boot when using EFI without secure boot.  Maybe someone can please correct this? <br />
+<br />
+Are there any expectation about when BTRFS will be out of &quot;technology preview&quot;? I intend...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/host-bootloader-documentation-nitpick.185772/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Enabling VLAN Aware on  a bridge makes the untagged management interface unavailable</title>
+      <pubDate>Mon, 17 Aug 2026 18:35:51 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/enabling-vlan-aware-on-a-bridge-makes-the-untagged-management-interface-unavailable.185764/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185764</guid>
+      <author>invalid@example.com (gkuyuk)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>gkuyuk</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have a problem with enabling the vlan on the bridge on a test setup, management interface is on default vlan (vlan id 1). Switch port is configured as a trunk port with the native vlan id untagged. This is a proxmox 9.2 with all the updates applied. Proxmox 8 works just fine on the same port as expected as well as any vm with a tagged vlan. Here is the network configuration,<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>auto vmbr0
+iface vmbr0 inet static
+        address 10.1.1.10/24
+        gateway 10.1.1.1
+        bridge-ports...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/enabling-vlan-aware-on-a-bridge-makes-the-untagged-management-interface-unavailable.185764/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
+    </item>
     <item>
       <title>Proxmox VE hangs sometimes when running nvidia-smi in VM</title>
       <pubDate>Mon, 17 Aug 2026 18:17:12 +0000</pubDate>
@@ -167,68 +454,6 @@ Two things are not working:<br />
       <slash:comments>12</slash:comments>
     </item>
     <item>
-      <title>How to disable Secure Boot easily for iPXE when you get NBP file downloaded successfully / failed to load Boot / Access Denied</title>
-      <pubDate>Mon, 17 Aug 2026 15:29:39 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/how-to-disable-secure-boot-easily-for-ipxe-when-you-get-nbp-file-downloaded-successfully-failed-to-load-boot-access-denied.185621/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185621</guid>
-      <author>invalid@example.com (shodan)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>shodan</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-It took me a while to figure out what I was doing wrong.<br />
-<br />
-I was trying to boot with iPXE, but it just wouldn&#039;t !<br />
-<br />
-And the bios firmware should be a lot clearer about the problem not just say &quot;Access Denied&quot; <br />
-On this already very difficult task !<br />
-<br />
-<a href="https://forum.proxmox.com/attachments/1786323826831-png.99364/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99060-30a0550e7cb1c8cde374461d2c3b4843.jpg?hash=pFSh1FOJ_w"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99060-30a0550e7cb1c8cde374461d2c3b4843.jpg?hash=pFSh1FOJ_w 2x"
-		class="bbImage "
-		style=""
-		alt="1786323826831.png"
-		title="1786323826831.png"
-		width="524" height="150" loading="lazy" /></a><br />
-<br />
-I can&#039;t find how to disable this easily.<br />
-<br />
-Easiest way I found is to boot the VM and immediately hit ESC<br />
-<br />
-Go to Device Manager<br />
-<a href="https://forum.proxmox.com/attachments/1786323883411-png.99365/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99061-a33d9c42e0c9b6d7d4a3cdadf6094ae4.jpg?hash=IZU9LfTPic"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99061-a33d9c42e0c9b6d7d4a3cdadf6094ae4.jpg?hash=IZU9LfTPic 2x"
-		class="bbImage "
-		style=""
-		alt="1786323883411.png"
-		title="1786323883411.png"
-		width="208" height="150" loading="lazy" /></a><br />
-Then secure boot configuration<br />
-<a href="https://forum.proxmox.com/attachments/1786323898612-png.99366/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99062-d2ffbc58a9471c3a52ab8b5a05c71677.jpg?hash=0kom0TkHTw"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99062-d2ffbc58a9471c3a52ab8b5a05c71677.jpg?hash=0kom0TkHTw 2x"
-		class="bbImage "
-		style=""
-		alt="1786323898612.png"
-		title="1786323898612.png"
-		width="231" height="150" loading="lazy" /></a><br />
-And uncheck Attempt Secure Boot<br />
-<a href="https://forum.proxmox.com/attachments/1786323952511-png.99367/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99063-db3e29bd34ea0cf15dfb1949c14a9104.jpg?hash=EidQQ7tFLk"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99063-db3e29bd34ea0cf15dfb1949c14a9104.jpg?hash=EidQQ7tFLk 2x"
-		class="bbImage "
-		style=""
-		alt="1786323952511.png"
-		title="1786323952511.png"
-		width="550" height="95" loading="lazy" /></a><br />
-Then...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/how-to-disable-secure-boot-easily-for-ipxe-when-you-get-nbp-file-downloaded-successfully-failed-to-load-boot-access-denied.185621/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
       <title>PBS Tape Backup job just stops in the middle - no error</title>
       <pubDate>Mon, 17 Aug 2026 15:13:01 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/pbs-tape-backup-job-just-stops-in-the-middle-no-error.167987/</link>
@@ -245,230 +470,6 @@ Version: <br />
 proxmox-backup-server               3.4.1-1<br />
 proxmox-kernel-6.8.12-11-pve-signed 6.8.12-11</div>]]></content:encoded>
       <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>import VM from proxmox 5.1-41 to proxmox 9</title>
-      <pubDate>Mon, 17 Aug 2026 15:13:00 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/import-vm-from-proxmox-5-1-41-to-proxmox-9.185765/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185765</guid>
-      <author>invalid@example.com (marsalys)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>marsalys</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Can I migrate import/export  my virtual machines currently running on <b>Proxmox VE 5.1-41</b> to <b>Proxmox VE 9</b> without any risk?<br />
-<br />
-<br />
-What would be the <b>recommended and safest migration method</b> to ensure that the VMs do not crash, fail to boot, or encounter compatibility issues after the migration, and that they continue to operate normally?</div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>SQL Server 2022 database corruption</title>
-      <pubDate>Mon, 17 Aug 2026 15:09:42 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/sql-server-2022-database-corruption.185694/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185694</guid>
-      <author>invalid@example.com (carver.it)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>carver.it</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Some background.<br />
-<br />
-PVE 9.1.7<br />
-Windows 2022 with SQL Server 2022<br />
-Have got 3 x hosts, ZFS data stores with replication of VM to another host currently hourly<br />
-PBS running daily snapshot backup to a drive on third cluster node<br />
-Not currently got support arrangement with ProMox, on the list to get signed for and done!<br />
-PBS drive became full and so backups not running properly<br />
-Cove backup within the Windows OS also multiple times daily. Currently 4 hourly<br />
-Each night getting a disk I/O error within...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/sql-server-2022-database-corruption.185694/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>22</slash:comments>
-    </item>
-    <item>
-      <title>`pvesh get /cluster/firewall/options` fails with `unknown schema type (not an object?)`</title>
-      <pubDate>Mon, 17 Aug 2026 14:32:01 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pvesh-get-cluster-firewall-options-fails-with-unknown-schema-type-not-an-object.185763/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185763</guid>
-      <author>invalid@example.com (agross)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>agross</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I expect this call to succeed, but it does not:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>agross@pve-home ~
-$ sudo pvesh get /cluster/firewall/options
-unknown schema type (not an object?)
-Compilation failed in require at /usr/bin/pvesh line 6.
-BEGIN failed--compilation aborted at /usr/bin/pvesh line 6.</code></pre>
-	</div>
-</div><br />
-<code class="bbCodeInline">/cluster/firewall/macros</code> also fails. What works is <code class="bbCodeInline">groups</code>, <code class="bbCodeInline">aliases</code> (both empty), <code class="bbCodeInline">ipset</code> and <code class="bbCodeInline">rules</code> return their respective entries. Node firewall options work:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>$ sudo pvesh get...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/pvesh-get-cluster-firewall-options-fails-with-unknown-schema-type-not-an-object.185763/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Enabling VLAN Aware on  a bridge makes the untagged management interface unavailable</title>
-      <pubDate>Mon, 17 Aug 2026 14:29:13 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/enabling-vlan-aware-on-a-bridge-makes-the-untagged-management-interface-unavailable.185764/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185764</guid>
-      <author>invalid@example.com (gkuyuk)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>gkuyuk</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have a problem with enabling the vlan on the bridge on a test setup, management interface is on default vlan (vlan id 1). Switch port is configured as a trunk port with the native vlan id untagged. This is a proxmox 9.2 with all the updates applied. Proxmox 8 works just fine on the same port as expected as well as any vm with a tagged vlan. Here is the network configuration,<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>auto vmbr0
-iface vmbr0 inet static
-        address 10.1.1.10/24
-        gateway 10.1.1.1
-        bridge-ports...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/enabling-vlan-aware-on-a-bridge-makes-the-untagged-management-interface-unavailable.185764/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>QCOW2 LVM Migration auf Raw schlägt fehl</title>
-      <pubDate>Mon, 17 Aug 2026 14:12:56 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/qcow2-lvm-migration-auf-raw-schl%C3%A4gt-fehl.185762/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185762</guid>
-      <author>invalid@example.com (kfietz)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>kfietz</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo Proxmox Forum,<br />
-<br />
-ein Kunde von uns verwendete das snapshot-as-volume-chain feature, welches aktuell noch in der technology preview ist.<br />
-Leider sind doch einige Probleme aufgetreten, weswegen wir die Festplatten zurück auf Raw formatieren möchten und das Feature anschließend deaktivieren.<br />
-<br />
-Die Migration klappt bei den meisten VMs bzw. Laufwerken auch ohne Probleme. Bis auf bei einer VM, bei welcher das Laufwerk mal von 2TB auf 2,3TB erweitert worden ist.<br />
-Hier schlägt es direkt zu Beginn...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/qcow2-lvm-migration-auf-raw-schl%C3%A4gt-fehl.185762/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Is Pause-to-disk possible ?</title>
-      <pubDate>Mon, 17 Aug 2026 13:57:39 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/is-pause-to-disk-possible.185758/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185758</guid>
-      <author>invalid@example.com (shodan)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>shodan</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">When you pause a VM, it keeps using the ram.<br />
-<br />
-But I need to pause a VM because I temporarily need some of that RAM.<br />
-<br />
-So I&#039;d like proxmox to pause-to-disk instead of &quot;pause-to-ram&quot; <br />
-<br />
-Is that possible ?</div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Impossible to install Proxmox in a Lenovo m70q</title>
-      <pubDate>Mon, 17 Aug 2026 13:40:18 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/impossible-to-install-proxmox-in-a-lenovo-m70q.185747/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185747</guid>
-      <author>invalid@example.com (jjpd19)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>jjpd19</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone and thank you in advance for the help.<br />
-I have been trying to install PM y a lenovo m70q and it is impossible. Flashing the iso with rufus and balena in two differente usb drives did not work. The lenovo even run the os installed from the sdd. I have checked the BIOS options disabling the secure boot, enabling boot from the usb drive and nothing happens. The usb even does not appear in the boot menu. Only with Ventoy I could boot from the usb but when I select, but, when I run the...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/impossible-to-install-proxmox-in-a-lenovo-m70q.185747/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>8</slash:comments>
-    </item>
-    <item>
-      <title>Very high pvestatd CPU usage</title>
-      <pubDate>Mon, 17 Aug 2026 12:40:37 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/very-high-pvestatd-cpu-usage.185739/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185739</guid>
-      <author>invalid@example.com (tachi)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>tachi</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi all, I&#039;m very new here so sorry if this is a dumb thread <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f642.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":)" title="Smile    :)"  data-smilie="1"data-shortname=":)" /><br />
-<br />
-I was looking at the CPU time used by the processes on my Proxmox host, and I noticed that over the last 90 days the `pvestatd` daemon used 5 days and a half of CPU time:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code># systemctl status pvestatd.service
-● pvestatd.service - PVE Status Daemon
-     Loaded: loaded (/usr/lib/systemd/system/pvestatd.service; enabled; preset: enabled)
-     Active: active (running) since Fri 2026-05-15 00:33:08 CEST; 3 months 1 day ago...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/very-high-pvestatd-cpu-usage.185739/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Heads-up: newly-granted ACLs take ~1s to take effect — scripted PVE storage adds need a retry</title>
-      <pubDate>Mon, 17 Aug 2026 12:36:44 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/heads-up-newly-granted-acls-take-1s-to-take-effect-%E2%80%94-scripted-pve-storage-adds-need-a-retry.185745/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185745</guid>
-      <author>invalid@example.com (Ivan The Geek)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>Ivan The Geek</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Posting this as a note for anyone scripting PBS setup, since the symptom looks identical to several well-documented problems but has a different cause.<br />
-<br />
-<b>Setup:</b> PBS 4.2.5 in an unprivileged LXC, three standalone PVE 9.2.6 hosts, one per-host API token, <code class="bbCodeInline">Datastore.Backup</code> on the datastore path.<br />
-<br />
-I scripted adding PBS as storage on all three hosts. All three failed with:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>create storage failed: pbs1: Cannot find datastore &#039;estate&#039;, check permissions and existence!</code></pre>
-	</div>
-</div><br />
-That message...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/heads-up-newly-granted-acls-take-1s-to-take-effect-%E2%80%94-scripted-pve-storage-adds-need-a-retry.185745/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
     </item>
   </channel>
 </rss>
