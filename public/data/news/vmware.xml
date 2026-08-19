@@ -12,7 +12,7 @@
 	<atom:link href="https://blogs.vmware.com/feed" rel="self" type="application/rss+xml" />
 	<link>https://blogs.vmware.com/</link>
 	<description>VMware Blogs</description>
-	<lastBuildDate>Tue, 18 Aug 2026 13:01:02 +0000</lastBuildDate>
+	<lastBuildDate>Wed, 19 Aug 2026 11:13:06 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -20,6 +20,137 @@
 	1	</sy:updateFrequency>
 	<generator>https://wordpress.org/?v=6.8.8</generator>
 <site xmlns="com-wordpress:feed-additions:1">237817777</site>	<item>
+		<title>Putting Numbers Behind Encrypted vMotion Offload to Intel QAT in VMware Cloud Foundation 9.1</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/08/19/putting-numbers-behind-encrypted-vmotion-offload-to-intel-qat-in-vmware-cloud-foundation-9-1/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Wed, 19 Aug 2026 11:00:00 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10096446</guid>
+
+					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/08/intel-qat-vsphere-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>Encrypted vMotion has been a cornerstone of workload security in VMware environments for years. It ensures that VM data is protected in transit every time it moves between hosts, and for most production environments it is simply table stakes. With VMware Cloud Foundation (VCF) 9.1, we are making that security even more efficient by offloading &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/08/19/putting-numbers-behind-encrypted-vmotion-offload-to-intel-qat-in-vmware-cloud-foundation-9-1/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/19/putting-numbers-behind-encrypted-vmotion-offload-to-intel-qat-in-vmware-cloud-foundation-9-1/">Putting Numbers Behind Encrypted vMotion Offload to Intel QAT in VMware Cloud Foundation 9.1</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/08/intel-qat-vsphere-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/08/intel-qat-vsphere-1200x600-1.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/intel-qat-vsphere-1200x600-1.png 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/intel-qat-vsphere-1200x600-1.png?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/intel-qat-vsphere-1200x600-1.png?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/intel-qat-vsphere-1200x600-1.png?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/intel-qat-vsphere-1200x600-1.png?resize=600,300 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+<p>Encrypted vMotion has been a cornerstone of workload security in VMware environments for years. It ensures that VM data is protected in transit every time it moves between hosts, and for most production environments it is simply table stakes. With VMware Cloud Foundation (VCF) 9.1, we are making that security even more efficient by offloading the cryptographic work to Intel QuickAssist Technology (QAT), the hardware accelerator built into modern Intel Xeon processors. The feature is on by default in VCF 9.1, no configuration required. Our team wanted to understand exactly how much CPU capacity customers get back when QAT handles the encryption instead of the CPU. We ran the tests, and the results tell a clear story.</p>
+<div style="height:25px" aria-hidden="true" class="wp-block-spacer"></div>
+<h2 class="wp-block-heading" id="h-how-qat-offload-works"><strong>How QAT Offload Works</strong></h2>
+<p>When a vMotion migration starts, VM data is encrypted on the source host and decrypted on the destination. With QAT offload in VCF 9.1, that encryption and decryption work is handled by the QAT hardware accelerator rather than the CPU. The CPU on both sides is freed to focus on running workloads. The feature is transparent to operators and enabled by default on supported Intel Xeon hardware. Check out this <a href="https://blogs.vmware.com/cloud-foundation/2026/05/21/encrypted-vmotion-offload-to-intel-qat-in-vmware-cloud-foundation-9-1/">blog</a> to learn more about Encrypted vMotion offload to Intel QAT in VCF 9.1.</p>
+<div style="height:25px" aria-hidden="true" class="wp-block-spacer"></div>
+<h2 class="wp-block-heading" id="h-test-setup"><strong>Test Setup</strong></h2>
+<p>We needed a workload sensitive to CPU availability, something that would clearly show what happens to application performance when the CPU gets cycles back from encryption work. We chose Oracle Database driven by HammerDB, an OLTP workload with a disk-heavy profile. Oracle transaction throughput (ops/second) was our primary health metric throughout.</p>
+<p>For the migration methodology, we ran eight back-to-back vMotions during the steady-state measurement phase, with a 120-second pause between consecutive migrations. Eight runs gives you a statistically honest picture instead of a single data point.</p>
+<p>Three configurations were tested:</p>
+<ul class="wp-block-list">
+<li><strong>Encryption Disabled</strong>: The theoretical ceiling with no cryptographic overhead.</li>
+<li><strong>QAT Off</strong>: Encrypted vMotion handled entirely in software by the CPU.</li>
+<li><strong>QAT On</strong>: Encrypted vMotion offloaded to Intel QAT hardware.</li>
+</ul>
+<div style="height:25px" aria-hidden="true" class="wp-block-spacer"></div>
+<h2 class="wp-block-heading" id="h-results"><strong>Results</strong></h2>
+<p>Median values across all eight migrations:</p>
+<figure class="wp-block-table">
+<table>
+<tbody>
+<tr>
+<td><strong>Metric</strong></td>
+<td class="has-text-align-center" data-align="center"><strong>Encrypted Disabled</strong></td>
+<td class="has-text-align-center" data-align="center"><strong>QAT OFF</strong></td>
+<td class="has-text-align-center" data-align="center"><strong>QAT ON</strong></td>
+</tr>
+<tr>
+<td>Migration Time (seconds)</td>
+<td class="has-text-align-center" data-align="center"><span style="font-weight: 400;">57.22</span></td>
+<td class="has-text-align-center" data-align="center"><span style="font-weight: 400;">86.97</span></td>
+<td class="has-text-align-center" data-align="center"><strong>84.71</strong></td>
+</tr>
+<tr>
+<td><span style="font-weight: 400;">Precopy Throughput (MB/s)</span></td>
+<td class="has-text-align-center" data-align="center"><span style="font-weight: 400;">10,871</span></td>
+<td class="has-text-align-center" data-align="center"><span style="font-weight: 400;">7,592</span></td>
+<td class="has-text-align-center" data-align="center"><span style="font-weight: 400;"><strong>7,146</strong></span></td>
+</tr>
+<tr>
+<td><span style="font-weight: 400;">Source Host CPU (avg. concurrent cores)</span></td>
+<td class="has-text-align-center" data-align="center"><span style="font-weight: 400;">7.8*</span></td>
+<td class="has-text-align-center" data-align="center"><span style="font-weight: 400;">20.1</span></td>
+<td class="has-text-align-center" data-align="center"><strong>7.7</strong></td>
+</tr>
+<tr>
+<td><span style="font-weight: 400;">Destination Host CPU (avg. concurrent cores)</span></td>
+<td class="has-text-align-center" data-align="center"><span style="font-weight: 400;">18.8*</span></td>
+<td class="has-text-align-center" data-align="center"><span style="font-weight: 400;">13.6</span></td>
+<td class="has-text-align-center" data-align="center"><strong>10.5</strong></td>
+</tr>
+<tr>
+<td><span style="font-weight: 400;">Oracle Throughput (ops/sec)</span></td>
+<td class="has-text-align-center" data-align="center"><span style="font-weight: 400;">51,319</span></td>
+<td class="has-text-align-center" data-align="center"><span style="font-weight: 400;">44,306</span></td>
+<td class="has-text-align-center" data-align="center"><strong>50,634</strong></td>
+</tr>
+<tr>
+<td><span style="font-weight: 400;">VM Downtime (seconds)**</span></td>
+<td class="has-text-align-center" data-align="center"><span style="font-weight: 400;">0.42</span></td>
+<td class="has-text-align-center" data-align="center"><span style="font-weight: 400;">0.33</span></td>
+<td class="has-text-align-center" data-align="center"><span style="font-weight: 400;">0.78</span></td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p>* This configuration completes migrations in significantly less wall-clock time, so its average-concurrent-cores figure reflects the same background CPU work compressed into a shorter window, not a meaningful comparison point against QAT On/Off. Included for reference only.</p>
+<div class="wp-block-group is-nowrap is-layout-flex wp-container-core-group-is-layout-ad2f72ca wp-block-group-is-layout-flex">
+<p>** Downtime in both configurations stayed close to target, and the variation seen is driven by page-in transfer behavior on this specific workload, not by QAT. <strong>Encryption offload has no causal effect on downtime.</strong></p>
+<div style="height:25px;width:0px" aria-hidden="true" class="wp-block-spacer wp-container-content-c00f5982"></div>
+</div>
+<div style="height:24px" aria-hidden="true" class="wp-block-spacer"></div>
+<h3 class="wp-block-heading" id="h-source-host-cpu-savings"><strong>Source Host CPU Savings</strong></h3>
+<p>Source host CPU usage drops from ~20.1 cores with QAT Off to ~7.7 cores with QAT On — roughly a 62% reduction in CPU capacity spent on vMotion encryption on the source side. The CPU that was handling encryption can now dedicate those cycles to running Oracle. The destination host also benefits, with about a 23% reduction in decryption overhead (~13.6 cores to ~10.5 cores). The source host sees the larger gain because encryption is the more computationally intensive of the two operations.</p>
+<div style="height:15px" aria-hidden="true" class="wp-block-spacer"></div>
+<h3 class="wp-block-heading" id="h-oracle-throughput"><strong>Oracle Throughput</strong></h3>
+<p>With QAT Off, Oracle throughput during the migration window was 44,306 ops/second. With QAT On, it recovered to <strong>50,634 ops/second</strong>, a <strong>14% increase</strong> over software-only encryption. For an OLTP environment where transaction rates map directly to business output, that recovered throughput has real value.</p>
+<div style="height:15px" aria-hidden="true" class="wp-block-spacer"></div>
+<h3 class="wp-block-heading" id="h-migration-time"><strong>Migration Time</strong></h3>
+<p>QAT On and QAT Off produce nearly identical migration times, 84.71 vs. 86.97 seconds. QAT offload is not designed to speed up the migration itself. The network and memory copy operations take the same amount of time either way. What changes is how much CPU headroom remains for the running workload while that transfer is happening.</p>
+<div style="height:15px" aria-hidden="true" class="wp-block-spacer"></div>
+<h3 class="wp-block-heading" id="h-consistency-and-jitter"><strong>Consistency and Jitter</strong></h3>
+<p>QAT offload decouples encryption from CPU execution timing entirely, which shows up as measurably lower variance in both migration time and guest throughput across repeated migrations. For workloads governed by SLAs, that predictability has real operational value.</p>
+<div style="height:25px" aria-hidden="true" class="wp-block-spacer"></div>
+<h2 class="wp-block-heading" id="h-concurrent-vmotion-results"><strong>Concurrent vMotion Results</strong></h2>
+<p>Single-VM results only tell part of the story. Host evacuation scenarios involve many simultaneous migrations. We ran those tests too.</p>
+<p>At lower concurrency (4 to 6 parallel VMs over 25 to 50 GbE links), QAT delivers <strong>40 to 45% CPU reduction</strong> with no change in migration completion time. At higher concurrency representative of a full host evacuation, migrations complete at essentially the same speed as without QAT while source-host CPU consumption drops by up to <strong>~39%</strong>. Planned maintenance or emergency evacuation, either way QAT returns meaningful CPU headroom to the hosts involved.</p>
+<div style="height:25px" aria-hidden="true" class="wp-block-spacer"></div>
+<h2 class="wp-block-heading" id="h-reclaiming-cpu-for-workloads"><strong>Reclaiming CPU for Workloads</strong></h2>
+<p>The core value of QAT offload is not about migration speed. It is about what you get back. Every core of CPU capacity that QAT keeps off encryption is a core your workload reclaims for productive work. In our tests, that translated to 14% more Oracle throughput sustained through the migration window and roughly 62% less CPU capacity consumed by encryption on the source host, the equivalent of about 12 cores freed up during migration.</p>
+<p>For teams running dense OLTP environments, those recovered cycles can mean the difference between maintaining transaction throughput during maintenance windows or seeing it dip. For broader mixed-workload environments, the benefit profile is similar. The host CPU can dedicate more of its attention to running workloads while QAT handles the encryption.</p>
+<p>There&#8217;s also an operational angle. Because QAT keeps most of the CPU tax off the source host during migrations, hosts running frequent vMotion activity, active DRS clusters or evacuation-heavy maintenance schedules retain more CPU headroom for production workloads throughout those events, rather than needing to budget extra slack for encryption overhead.</p>
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6a858fbfc1dcc&quot;}" data-wp-interactive="core/image" class="wp-block-image size-large wp-lightbox-container"><img fetchpriority="high" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="537" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/08/image_ede895.png" alt="" class="wp-image-33677" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/image_ede895.png 1110w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/image_ede895.png?resize=300,157 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/image_ede895.png?resize=768,403 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/image_ede895.png?resize=1024,537 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/image_ede895.png?resize=600,315 600w" sizes="(max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+<div style="height:25px" aria-hidden="true" class="wp-block-spacer"></div>
+<h2 class="wp-block-heading" id="h-what-this-means-for-you"><strong>What This Means for You</strong></h2>
+<p>If you are running VCF 9.1 on supported Intel Xeon hardware, QAT offload is already active. Nothing to configure in your virtualization environment. The practical question is what those recovered CPU cycles unlock for your environment. For OLTP-heavy workloads like Oracle, the answer is straightforward: transaction throughput that QAT reclaims for the application. For other CPU-sensitive workloads, the benefit profile is similar.</p>
+<div style="height:25px" aria-hidden="true" class="wp-block-spacer"></div>
+<h2 class="wp-block-heading" id="h-summary"><strong>Summary</strong></h2>
+<p>QAT offload in VCF 9.1 delivers approximately 62% less CPU overhead on the source host, 14% more Oracle throughput sustained through the migration window, and lower variance in migration time and application performance across repeated runs. It happens transparently at the infrastructure layer, on hardware most Intel Xeon deployments already include. Encrypted vMotion continues to do exactly what it has always done: protect your workloads in transit. QAT offload simply lets it do that while returning CPU resources to the workloads that need them.</p>
+<p>If you are not yet on VCF 9.1, this is a concrete, quantified reason to move. If you are already there, this work is already happening in your environment. Check your Intel Xeon SKU at <a href="http://ark.intel.com">http://ark.intel.com</a> to confirm QAT support and start reclaiming those CPU cycles today. </p>
+<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
+<p><strong>Special Thanks</strong></p>
+<p>A big thank you to Sreekanth Setty, and the performance engineering team for their contributions, testing work, and feedback that made this post possible.</p>
+<div style="height:32px" aria-hidden="true" class="wp-block-spacer"></div>
+<p>If you are going to VMware Explore 2026, make sure to attend the following sessions about Intel QAT on VCF 9.1.</p>
+<ul class="wp-block-list">
+<li>Breakout Session: Accelerating Workloads and Infrastructure with Intel QuickAssist Technology [CLOB1883LVS]</li>
+<li>Quick Talk: Accelerating Workloads with Intel Built-in Accelerators [CMTYQT1745LV]</li>
+</ul>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/19/putting-numbers-behind-encrypted-vmotion-offload-to-intel-qat-in-vmware-cloud-foundation-9-1/">Putting Numbers Behind Encrypted vMotion Offload to Intel QAT in VMware Cloud Foundation 9.1</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/19/putting-numbers-behind-encrypted-vmotion-offload-to-intel-qat-in-vmware-cloud-foundation-9-1/">Putting Numbers Behind Encrypted vMotion Offload to Intel QAT in VMware Cloud Foundation 9.1</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10096446</post-id>	</item>
+		<item>
 		<title>IDC White Paper: Self-Service Private Cloud as the Engine for In-House AI and Application Innovation</title>
 		<link>https://blogs.vmware.com/cloud-foundation/2026/08/18/idc-white-paper-self-service-private-cloud-as-the-engine-for-in-house-ai-and-application-innovation/</link>
 		
@@ -28,17 +159,17 @@
 				<category><![CDATA[Cloud Infrastructure]]></category>
 		<guid isPermaLink="false">https://blogs.vmware.com/?p=10096342</guid>
 
-					<description><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-1834667704.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" fetchpriority="high" /><p>The AI Platform Imperative: Securing Executive Buy-In for Your Self-Service Private Cloud Every enterprise is racing to ship AI capabilities. In fact, 100% of organizations surveyed by IDC are currently building or planning generative AI and/or agentic AI applications1. But for platform engineers and cloud architects, a critical operational bottleneck stands in the way: ticket-driven &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/08/18/idc-white-paper-self-service-private-cloud-as-the-engine-for-in-house-ai-and-application-innovation/">Continued</a></p>
+					<description><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-1834667704.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>The AI Platform Imperative: Securing Executive Buy-In for Your Self-Service Private Cloud Every enterprise is racing to ship AI capabilities. In fact, 100% of organizations surveyed by IDC are currently building or planning generative AI and/or agentic AI applications1. But for platform engineers and cloud architects, a critical operational bottleneck stands in the way: ticket-driven &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/08/18/idc-white-paper-self-service-private-cloud-as-the-engine-for-in-house-ai-and-application-innovation/">Continued</a></p>
 <p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/18/idc-white-paper-self-service-private-cloud-as-the-engine-for-in-house-ai-and-application-innovation/">IDC White Paper: Self-Service Private Cloud as the Engine for In-House AI and Application Innovation</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
-										<content:encoded><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-1834667704.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-1834667704.jpeg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg 7680w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg?resize=1536,864 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg?resize=2048,1152 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg?resize=600,338 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+										<content:encoded><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-1834667704.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-1834667704.jpeg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg 7680w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg?resize=1536,864 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg?resize=2048,1152 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704.jpeg?resize=600,338 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
 <h2 class="wp-block-heading" id="h-the-ai-platform-imperative-securing-executive-buy-in-for-your-self-service-private-cloud">The AI Platform Imperative: Securing Executive Buy-In for Your Self-Service Private Cloud</h2>
 <p>Every enterprise is racing to ship AI capabilities. In fact, 100% of organizations surveyed by IDC are currently building or planning generative AI and/or agentic AI applications<sup>1</sup>.</p>
 <p>But for platform engineers and cloud architects, a critical operational bottleneck stands in the way: ticket-driven infrastructure provisioning. Developers demand instant access to runtime environments, databases, and AI frameworks, but manual approval queues stretch the software development life cycle (SDLC) from days into weeks.</p>
 <p>To address this friction, platform teams must build an Internal Developer Platform (IDP) <a href="https://blogs.vmware.com/cloud-foundation/2026/02/19/platform-engineering-needs-a-cloud-engine/" target="_blank" rel="noreferrer noopener">powered by a self-service private cloud</a>. The challenge is no longer just technological, it’s financial. Securing the budget for it requires a rigorous economic justification.</p>
 <p>A new Broadcom-sponsored IDC white paper, <em><a href="https://www.vmware.com/docs/SSPC-as-Engine-for-AI-and-App-Innovation" target="_blank" rel="noreferrer noopener">Self-Service Private Cloud as the Engine for In-House AI and Application Innovation</a></em>, arms you with the objective data needed to help win executive buy-in.</p>
 <p>Here’s a glimpse into why engineering teams are rethinking their cloud strategies, and how this research can help you build your business case.</p>
-<figure class="wp-block-image size-large"><img decoding="async" height="576" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-1834667704-1.jpeg" alt="" class="wp-image-33657" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg 7680w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg?resize=1536,864 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg?resize=2048,1152 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg?resize=600,338 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="576" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-1834667704-1.jpeg" alt="" class="wp-image-33657" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg 7680w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg?resize=1536,864 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg?resize=2048,1152 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1834667704-1.jpeg?resize=600,338 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
 <h2 class="wp-block-heading" id="h-the-repatriation-reality-why-ai-is-moving-on-premises">The Repatriation Reality: Why AI is Moving On-Premises</h2>
 <p>For years, public cloud was the default model for agility. But as AI initiatives move from pilot to production, data gravity, governance, and unit economics are pulling high-throughput workloads back to the enterprise datacenter.</p>
 <p>The white paper uncovers the following insights:</p>
@@ -674,80 +805,5 @@
 		
 		
 		<post-id xmlns="com-wordpress:feed-additions:1">10095720</post-id>	</item>
-		<item>
-		<title>Get Ahead of the Curve with VMware Cloud Foundation (VCF)</title>
-		<link>https://blogs.vmware.com/explore/vcf-at-explore/</link>
-		
-		<dc:creator><![CDATA[ashley woodbury]]></dc:creator>
-		<pubDate>Thu, 13 Aug 2026 12:00:00 +0000</pubDate>
-				<category><![CDATA[Company]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10095726</guid>
-
-					<description><![CDATA[<img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Hands-On-Labs-Attendee-Focus-Barcelona.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Your VCF Roadmap: Essential Reading for VMware Explore 2026 in Las Vegas REGISTER NOW Explore is rapidly approaching, and if you are looking to modernize your infrastructure, VMware Cloud Foundation (VCF) is undoubtedly at the top of your radar. Following up on our recent post regarding Hands-on Labs, we want to shift gears and focus &#8230; <a href="https://blogs.vmware.com/explore/vcf-at-explore/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/explore/vcf-at-explore/">Get Ahead of the Curve with VMware Cloud Foundation (VCF)</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Hands-On-Labs-Attendee-Focus-Barcelona.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Hands-On-Labs-Attendee-Focus-Barcelona.jpg" class="attachment-medium size-medium wp-post-image" alt="Attendees in Hands-on Labs at VMware Explore" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/11/Hands-On-Labs-Attendee-Focus-Barcelona.jpg 1000w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/11/Hands-On-Labs-Attendee-Focus-Barcelona.jpg?resize=300,200 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/11/Hands-On-Labs-Attendee-Focus-Barcelona.jpg?resize=768,512 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/11/Hands-On-Labs-Attendee-Focus-Barcelona.jpg?resize=600,400 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<h2 class="wp-block-heading has-text-align-center" id="h-your-vcf-roadmap-essential-reading-for-vmware-explore-2026-in-las-vegas"><strong><strong>Your VCF Roadmap: Essential Reading for VMware Explore 2026</strong></strong> in Las Vegas</h2>
-</p>
-<div class="wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-16018d1d wp-block-buttons-is-layout-flex">
-<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-text-color has-background has-link-color has-text-align-center wp-element-button" href="http://vmware.com/explore/us?int_cid=vmwx_exploreblog" style="background-color:#1d428a" target="_blank" rel="noreferrer noopener"><strong>REGISTER NOW</strong></a></div>
-</div>
-<div style="height:24px" aria-hidden="true" class="wp-block-spacer"></div>
-<p class="has-text-align-center"><strong>Explore is rapidly approaching, and if you are looking to modernize your infrastructure, <a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=%229.1%22" target="_blank" rel="noreferrer noopener">VMware Cloud Foundation (VCF)</a> is undoubtedly at the <a href="https://www.broadcom.com/company/news/product-releases/64326" target="_blank" rel="noreferrer noopener">top of your radar</a>. </strong></p>
-<p class="has-text-align-center">Following up on our recent post regarding <a href="https://blogs.vmware.com/explore/hands-on-labs-overview" target="_blank" rel="noreferrer noopener"><strong>Hands-on Labs</strong></a>, we want to shift gears and focus on the core technology powering the modern data center&#8230;</p>
-<div style="height:28px" aria-hidden="true" class="wp-block-spacer"></div>
-<div class="wp-block-image is-style-default">
-<figure class="aligncenter size-large is-resized"><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=%229.1%22" target="_blank" rel=" noreferrer noopener"><img loading="lazy" decoding="async" height="1024" width="819" src="https://blogs.vmware.com/wp-content/uploads/2026/07/vmx-2026-social-quotes-1080x1350-Daniel-Stadelmann.png" alt="VMware Explore isn&#039;t just an event—it&#039;s where technology comes alive. VCF 9 keeps pushing me to think bigger—production AI, containers and VMs, all on one secure private cloud. - Daniel Stadelmann, Senior Solution Architect, soulTec AG" class="wp-image-7443" style="width:550px;height:auto" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2025/05/vmx-2026-social-quotes-1080x1350-Daniel-Stadelmann.png 1080w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2025/05/vmx-2026-social-quotes-1080x1350-Daniel-Stadelmann.png?resize=240,300 240w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2025/05/vmx-2026-social-quotes-1080x1350-Daniel-Stadelmann.png?resize=768,960 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2025/05/vmx-2026-social-quotes-1080x1350-Daniel-Stadelmann.png?resize=819,1024 819w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2025/05/vmx-2026-social-quotes-1080x1350-Daniel-Stadelmann.png?resize=600,750 600w" sizes="auto, (max-width: 819px) 100vw, 819px" /></a></figure>
-</div>
-<p class="has-text-align-center">Let&#8217;s face it: keeping pace with the evolving demands of private cloud infrastructure while governing AI at scale is no small feat. It requires less time reading whitepapers in isolation and more time getting your hands on the technology alongside the architects who built it. </p>
-<p class="has-text-align-center"><strong>To help you maximize your time onsite and build a strategy you can immediately apply back at the office, we have rounded up the essential reading for all things VCF at Explore 2026:</strong></p>
-</p>
-<div class="wp-block-image">
-<figure class="aligncenter size-large"><img loading="lazy" decoding="async" width="600" height="3" src="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?w=600" alt="Divider Line - Spicy color" class="wp-image-4157" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png 600w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?resize=300,2 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?resize=576,3 576w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?resize=360,3 360w" sizes="auto, (max-width: 600px) 100vw, 600px" /></figure>
-</div>
-<p class="has-text-align-center"><span style="text-decoration: underline;"><strong>VCF at VMware Explore 2026: What to See, Do, &amp; Learn</strong> </span><br />If you want the ultimate cheat sheet for navigating the Cloud Infrastructure track, this is your starting line. This post breaks down the must-attend sessions, networking opportunities in The Hub, and where to find the experts who can help you optimize your specific VCF environment. Think of it as your field guide to building a highly resilient, automated private cloud. </p>
-<p class="has-text-align-center"><a href="https://blogs.vmware.com/cloud-foundation/2026/07/29/vcf-at-vmware-explore-2026-what-to-see-do-learn/" target="_blank" rel="noreferrer noopener"><strong><span style="text-decoration: underline;">MAP OUT YOUR VCF STRATEGY HERE</span></strong></a></p>
-</p>
-<div class="wp-block-image">
-<figure class="aligncenter size-large"><img loading="lazy" decoding="async" width="600" height="3" src="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?w=600" alt="Divider Line - Spicy color" class="wp-image-4157" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png 600w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?resize=300,2 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?resize=576,3 576w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?resize=360,3 360w" sizes="auto, (max-width: 600px) 100vw, 600px" /></figure>
-</div>
-<p class="has-text-align-center"><span style="text-decoration: underline;"><strong>New Workshops at VMware Explore 2026: Design, Architect, and Consume Private Cloud</strong> </span><br />&nbsp;Theory is great, but execution is what gets you promoted. This post details the brand-new, Expert-led Workshops designed specifically to help you architect and consume private cloud with VCF. Discover how these deep-dive sessions will address your questions and considerations for building a modern private cloud.</p>
-<p class="has-text-align-center"><strong><a href="https://blogs.vmware.com/cloud-foundation/2026/08/07/new-workshops-at-vmware-explore-2026-design-architect-and-consume-private-cloud/" target="_blank" rel="noreferrer noopener"><span style="text-decoration: underline;">VIEW THE NEW VCF WORKSHOPS HERE</span></a></strong></p>
-</p>
-<div class="wp-block-image">
-<figure class="aligncenter size-large"><img loading="lazy" decoding="async" width="600" height="3" src="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?w=600" alt="Divider Line - Spicy color" class="wp-image-4157" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png 600w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?resize=300,2 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?resize=576,3 576w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?resize=360,3 360w" sizes="auto, (max-width: 600px) 100vw, 600px" /></figure>
-</div>
-<p class="has-text-align-center">
-<p class="has-text-align-center"><span style="text-decoration: underline;"><strong>VMware Explore 2026: Learn to Build, Govern, Protect, and Optimize AI Workloads&nbsp;</strong></span><br />Governing agentic AI at scale does not have to feel like wrestling a hydra in your data center. This essential post explores how to build sovereign, governed, production-grade AI infrastructure with VCF. Discover the exact sessions to attend so you can stop merely surviving the AI boom and learn to securely run multiple agents on a unified platform, without compromising on cost efficiency, performance, resiliency, or hardware choice.</p>
-<p class="has-text-align-center"><a href="https://blogs.vmware.com/cloud-foundation/2026/08/10/vmware-explore-2026-learn-to-build-govern-protect-and-optimize-ai-workloads/"><strong><span style="text-decoration: underline;">START OPTIMIZATING YOUR AI WORKLOADS TODAY</span></strong></a></p>
-</p>
-<div class="wp-block-image">
-<figure class="aligncenter size-large"><img loading="lazy" decoding="async" width="600" height="3" src="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?w=600" alt="Divider Line - Spicy color" class="wp-image-4157" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png 600w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?resize=300,2 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?resize=576,3 576w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?resize=360,3 360w" sizes="auto, (max-width: 600px) 100vw, 600px" /></figure>
-</div>
-<div style="height:23px" aria-hidden="true" class="wp-block-spacer"></div>
-<div class="wp-block-image">
-<figure class="aligncenter size-large is-resized"><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=%229.1%22" target="_blank" rel=" noreferrer noopener"><img loading="lazy" decoding="async" height="1024" width="819" src="https://blogs.vmware.com/wp-content/uploads/2026/07/vmx-2026-social-quotes-1080x1350-Tommy-Grot.png" alt="Book your Hands-on Labs and certification slots first, before anything else—they don&#039;t scale and they fill up, while breakouts hit on demand later. If you&#039;ve got a Full Event Pass, you&#039;ve already got a complimentary VCF exam voucher waiting, so walk out of Vegas with a cert you didn&#039;t have when you arrived. --Tommy Grot, Senior Project Engineer, Cyber Security &amp; Cloud Computing Architecture, The Aerospace Corporation, VMware vExpert" class="wp-image-7633" style="width:551px;height:auto" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2025/07/vmx-2026-social-quotes-1080x1350-Tommy-Grot.png 1080w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2025/07/vmx-2026-social-quotes-1080x1350-Tommy-Grot.png?resize=240,300 240w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2025/07/vmx-2026-social-quotes-1080x1350-Tommy-Grot.png?resize=768,960 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2025/07/vmx-2026-social-quotes-1080x1350-Tommy-Grot.png?resize=819,1024 819w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2025/07/vmx-2026-social-quotes-1080x1350-Tommy-Grot.png?resize=600,750 600w" sizes="auto, (max-width: 819px) 100vw, 819px" /></a></figure>
-</div>
-<div style="height:26px" aria-hidden="true" class="wp-block-spacer"></div>
-<p class="has-text-align-center">Join us at the Venetian to deepen your technical knowledge with curated sessions and hands-on opportunities at Explore in Las Vegas. This year&#8217;s event is designed to help you master private cloud, empowering you to return to your organization with actionable strategies.</p>
-</p>
-<div class="wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-16018d1d wp-block-buttons-is-layout-flex">
-<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-text-color has-background has-link-color has-text-align-center wp-element-button" href="http://vmware.com/explore/us?int_cid=vmwx_exploreblog" style="background-color:#1d428a" target="_blank" rel="noreferrer noopener"><strong>REGISTER NOW</strong></a></div>
-</div>
-<h2 class="wp-block-heading has-text-align-center" id="h-ensure-you-are-ready-to-hit-the-ground-running-secure-your-full-event-pass-today-and-prepare-to-elevate-your-skills-and-reduce-your-it-complexity"><strong><strong>Ensure you are ready to hit the ground running. Secure your Full Event Pass today and prepare to elevate your skills and reduce your IT complexity.</strong></strong></h2>
-<hr />
-<p><em>Looking to modernize your infrastructure with VCF? Bring your toughest private cloud challenges to #VMwareExplore 2026. Check out the top reading materials to get you prepped for Las Vegas.</em><br /><a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fblogs.vmware.com%2Fexplore%2Fvcf-at-explore%2F&#038;text=Looking%20to%20modernize%20your%20infrastructure%20with%20VCF%3F%20Bring%20your%20toughest%20private%20cloud%20challenges%20to%20%23VMwareExplore%202026.%20Check%20out%20the%20top%20reading%20materials%20to%20get%20you%20prepped%20for%20Las%20Vegas.&#038;related" target="_blank" rel="noopener noreferrer">Share on X</a></p>
-<hr />
-</p>
-<div class="wp-block-image">
-<figure class="aligncenter size-large"><a href="http://vmware.com/explore/us?int_cid=vmwx_exploreblog" target="_blank" rel=" noreferrer noopener"><img loading="lazy" decoding="async" height="267" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/04/vmwx26-reg-open_1920x500.png" alt="Registration Is Open Las Vegas | Aug. 31 - Sep. 3, 2026 REGISTER NOW" class="wp-image-7361" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/04/vmwx26-reg-open_1920x500.png 1921w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/04/vmwx26-reg-open_1920x500.png?resize=300,78 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/04/vmwx26-reg-open_1920x500.png?resize=768,200 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/04/vmwx26-reg-open_1920x500.png?resize=1024,267 1024w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/04/vmwx26-reg-open_1920x500.png?resize=1536,401 1536w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/04/vmwx26-reg-open_1920x500.png?resize=600,156 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></a></figure>
-</div>
-<div style="height:22px" aria-hidden="true" class="wp-block-spacer"></div>
-<p>The post <a href="https://blogs.vmware.com/explore/vcf-at-explore/">Get Ahead of the Curve with VMware Cloud Foundation (VCF)</a> appeared first on <a href="https://blogs.vmware.com/explore">VMware Explore Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/explore/vcf-at-explore/">Get Ahead of the Curve with VMware Cloud Foundation (VCF)</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10095726</post-id>	</item>
 	</channel>
 </rss>
