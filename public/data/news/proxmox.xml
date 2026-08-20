@@ -4,11 +4,212 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Thu, 20 Aug 2026 00:43:39 +0000</pubDate>
-    <lastBuildDate>Thu, 20 Aug 2026 00:43:39 +0000</lastBuildDate>
+    <pubDate>Thu, 20 Aug 2026 06:30:52 +0000</pubDate>
+    <lastBuildDate>Thu, 20 Aug 2026 06:30:52 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>kernel 7.0 performance issue with zfs pools</title>
+      <pubDate>Thu, 20 Aug 2026 06:25:37 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/kernel-7-0-performance-issue-with-zfs-pools.183872/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:183872</guid>
+      <author>invalid@example.com (drom)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>drom</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello<br />
+<br />
+I wish to report a drastic loss of performance with the 7.0 kernel as soon as it implies operating with zfs pools.<br />
+<br />
+I run 2 of these, one is a single raidz2 array of 12 4TB sas hard disks, the other has 2 raidz2 arrays of 8 600GB sas hard drives and each is available to the backup server as a separate datastore. The server itself if grately overpowered with 16 cores, 130GB ram, 10GB ethernets and SSD mirrors for the system as well as the contents of the datastore namespaces (through...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/kernel-7-0-performance-issue-with-zfs-pools.183872/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>15</slash:comments>
+    </item>
+    <item>
+      <title>Opt-in Linux 6.14 Kernel for Proxmox VE 8 available on test &amp; no-subscription</title>
+      <pubDate>Thu, 20 Aug 2026 06:24:59 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/opt-in-linux-6-14-kernel-for-proxmox-ve-8-available-on-test-no-subscription.164497/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:164497</guid>
+      <author>invalid@example.com (t.lamprecht)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>t.lamprecht</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">We recently uploaded a 6.14 kernel into our repositories. The current 6.8 kernel will stay the default on the Proxmox VE 8 series, the newly introduced 6.14 kernel is an option.<br />
+The 6.14 based kernel may be useful for some (especially newer) setups, for example if there is improved hardware support that has not yet been backported to 6.8.<br />
+This follows our tradition of upgrading the Proxmox VE kernel to match the current Ubuntu version until we reach an (Ubuntu) LTS release, like the 6.8...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/opt-in-linux-6-14-kernel-for-proxmox-ve-8-available-on-test-no-subscription.164497/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>257</slash:comments>
+    </item>
+    <item>
+      <title>Possible bug with qemu-img zeroinit and LVM</title>
+      <pubDate>Thu, 20 Aug 2026 06:22:29 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/possible-bug-with-qemu-img-zeroinit-and-lvm.180171/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:180171</guid>
+      <author>invalid@example.com (yobert)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>yobert</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello there! After upgrading recently to PVE 9.1.4, we have started seeing an interesting import failure. We&#039;re importing from the debian 13 cloud image (stored with directory storage) into a new VM under LVM storage. I&#039;ve tracked it down to what looks like a bug in the zeroinit patch to qemu. When proxmox tries to import the image via this command:<br />
+<br />
+    /usr/bin/qemu-img convert -p -n -f raw -O raw /dev/vm-vg/vm-118-disk-0 zeroinit:/dev/vm-vg/vm-120-disk-0<br />
+<br />
+It ends up with a corrupted...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/possible-bug-with-qemu-img-zeroinit-and-lvm.180171/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>16</slash:comments>
+    </item>
+    <item>
+      <title>qcow2 auf LVM - Snapshot delete hängt sich weg</title>
+      <pubDate>Thu, 20 Aug 2026 06:07:41 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/qcow2-auf-lvm-snapshot-delete-h%C3%A4ngt-sich-weg.185827/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185827</guid>
+      <author>invalid@example.com (Falk R.)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>Falk R.</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Moin,<br />
+ht schon mal jemand das Problem gehabt, dass VMs gelockt sind und ein Snapshot löschen im Status delete steckenbleibt?<br />
+Das Setup ist qcow auf shared LVM (FC LUNs)<br />
+Bei den meisten VMs funktioniert alles korrekt, aber immer wieder bleibt nach den Backups mit Commvault eine Vm gelockt und der Snapshot steht im Status delete.<br />
+Der status bleibt auch über Tage unverändert.<br />
+<br />
+Mit der Option force kann man den Snapshot löschen (nach einem unlock der VM), aber dann bleibt immer eine Disk, in der...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/qcow2-auf-lvm-snapshot-delete-h%C3%A4ngt-sich-weg.185827/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Intel pentium 8505 support</title>
+      <pubDate>Thu, 20 Aug 2026 05:43:35 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/intel-pentium-8505-support.164140/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:164140</guid>
+      <author>invalid@example.com (Singman)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Singman</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+Are you sure the Pentium 8505 is supported by Proxmox ?<br />
+I have a few mini PC with this processor and they are all really unstable under Proxmox (latest version, intel firmware installed).<br />
+Under Linux, I tried many stress tests and they are rock solid.<br />
+Same for memory with memtest86+.</div>]]></content:encoded>
+      <slash:comments>14</slash:comments>
+    </item>
+    <item>
+      <title>Roblox VM detection - can be overcome?</title>
+      <pubDate>Thu, 20 Aug 2026 03:30:01 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/roblox-vm-detection-can-be-overcome.164635/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:164635</guid>
+      <author>invalid@example.com (proitprox)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>proitprox</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I&#039;m setting up a Win11 VM for gaming use. Unfortunately, Roblox anticheat detects the use of VM&#039;s and does not allow the game to work. I have played around with the conf, but nothing seems to be working. I also passed through a GPU which should make it work but hasn&#039;t. (I&#039;m a beginner; please tell me anything you need to help.)<br />
+<br />
+Thanks!</div>]]></content:encoded>
+      <slash:comments>10</slash:comments>
+    </item>
+    <item>
+      <title>Easiest way of migrating to new system disk?</title>
+      <pubDate>Thu, 20 Aug 2026 02:31:21 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/easiest-way-of-migrating-to-new-system-disk.185825/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185825</guid>
+      <author>invalid@example.com (Digymkus)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Digymkus</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have a proxmox host (installed as ZFS on root) that is part of a cluster and which I need to upgrade to a bigger disk.<br />
+<br />
+Is this a good way to do the migration? I’d rather not configure everything for scratch.<br />
+<br />
+1. Take out the existing drive and attach it to a different system<br />
+2. Snapshot the system ZFS dataset and send it to a file<br />
+3. Plug the new disk in the host, install proxmox as ZFS on root again - to get the right partition layout and boot partition populated<br />
+4. Take out the new...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/easiest-way-of-migrating-to-new-system-disk.185825/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Laufzeit und Neustart</title>
+      <pubDate>Thu, 20 Aug 2026 02:12:25 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/laufzeit-und-neustart.185811/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185811</guid>
+      <author>invalid@example.com (anbischo)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>anbischo</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Ich wolllte fragen, ob es eine Empfehlung gibt, wie lange die einzelnen Nodes ohne Neustart laufen sollte. Ich meine, sollte ein Node z.B. alle 30 Tage mal neugestartet werden, oder kann der Node ewig laufen?</div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>OPNSense cannot get WAN IP via DHCP from ISP on host boot</title>
+      <pubDate>Thu, 20 Aug 2026 01:31:26 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/opnsense-cannot-get-wan-ip-via-dhcp-from-isp-on-host-boot.185824/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185824</guid>
+      <author>invalid@example.com (PikachuEXE)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>PikachuEXE</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;ve read many posts and tried different solutions and I only find workarounds (e.g. cron scripts etc.)<br />
+<br />
+My setup: 4 nic mini PC for OPNSense VM (and a few other VMs like pi-hole)<br />
+Only 2 nics are used, IPv4 only, no vLAN<br />
+<br />
+Current workaround is either replug the WAN cable or run `ip link set nic3 down &amp;&amp; ip link set nic3 up`<br />
+<br />
+Relevant Proxmox `ip a`:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>2: nic0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq master vmbr0 state UP group default qlen 1000
+    link/ether 60:be:b4:12:b1:30...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/opnsense-cannot-get-wan-ip-via-dhcp-from-isp-on-host-boot.185824/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>IPAM &amp; DHCP Features - Tmanok</title>
+      <pubDate>Thu, 20 Aug 2026 01:05:16 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ipam-dhcp-features-tmanok.185823/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185823</guid>
+      <author>invalid@example.com (Tmanok)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>Tmanok</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Me again,<br />
+<br />
+As noted in another post on the Networking and Firewall forum, I am in the process of setting up EVPN and VXLAN. Recently, while preparing my documentation and the hypervisor nodes, I noticed that IPAM and DHCP may still have some feature limitations. Could someone more familiar with PVE&#039;s IPAM and DHCP implementations for SDN answer or confirm some questions here? <br />
+<ul>
+<li data-xf-list-type="ul">Automatic DHCP appears to be Simple-zone only: Does this mean that enabling DHCP in the VNet settings still...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/ipam-dhcp-features-tmanok.185823/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>IPv6 on ISCSI and Proxmox 8</title>
+      <pubDate>Thu, 20 Aug 2026 01:03:57 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ipv6-on-iscsi-and-proxmox-8.154879/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:154879</guid>
+      <author>invalid@example.com (khaled.j.hussein)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>khaled.j.hussein</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I installed new proxmox node running pve8, and I have cluster of 5 nodes of pve7. I configured ISCSI and multipath to connect to my DELL MD 3820 <br />
+I joined pve8 node to the cluster, it added and it show all disks on cluster normally<br />
+<br />
+but I see in the journal logs these erroras, I tried to disable IPv6 from interfaces  using this <br />
+    post-up echo 1 &gt; /proc/sys/net/ipv6/conf/eth0/disable_ipv6<br />
+<br />
+but it did not work <br />
+<br />
+Sep 24 09:48:46 pmx10.bisan.com iscsid[221847]: connection-1:0 cannot make a...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/ipv6-on-iscsi-and-proxmox-8.154879/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
     <item>
       <title>Trouble with node crashing</title>
       <pubDate>Wed, 19 Aug 2026 23:54:25 +0000</pubDate>
@@ -64,22 +265,6 @@ is dedup=on still a...<br />
       <slash:comments>21</slash:comments>
     </item>
     <item>
-      <title>Intel pentium 8505 support</title>
-      <pubDate>Wed, 19 Aug 2026 21:40:20 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/intel-pentium-8505-support.164140/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:164140</guid>
-      <author>invalid@example.com (Singman)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Singman</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-Are you sure the Pentium 8505 is supported by Proxmox ?<br />
-I have a few mini PC with this processor and they are all really unstable under Proxmox (latest version, intel firmware installed).<br />
-Under Linux, I tried many stress tests and they are rock solid.<br />
-Same for memory with memtest86+.</div>]]></content:encoded>
-      <slash:comments>13</slash:comments>
-    </item>
-    <item>
       <title>[Intel NUC8/8th Gen Intel iGPU] iGPU Passthrough and BIOS Video Settings: Minimum Memory and Aperture Size</title>
       <pubDate>Wed, 19 Aug 2026 20:05:38 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/intel-nuc8-8th-gen-intel-igpu-igpu-passthrough-and-bios-video-settings-minimum-memory-and-aperture-size.185798/</link>
@@ -109,21 +294,6 @@ The documentation ( <a href="https://www.intel.com/content/www/us/en/support/art
 </blockquote><br />
 <a href="https://forum.proxmox.com/threads/intel-nuc8-8th-gen-intel-igpu-igpu-passthrough-and-bios-video-settings-minimum-memory-and-aperture-size.185798/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Opt-in Linux 6.14 Kernel for Proxmox VE 8 available on test &amp; no-subscription</title>
-      <pubDate>Wed, 19 Aug 2026 20:05:29 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/opt-in-linux-6-14-kernel-for-proxmox-ve-8-available-on-test-no-subscription.164497/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:164497</guid>
-      <author>invalid@example.com (t.lamprecht)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>t.lamprecht</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">We recently uploaded a 6.14 kernel into our repositories. The current 6.8 kernel will stay the default on the Proxmox VE 8 series, the newly introduced 6.14 kernel is an option.<br />
-The 6.14 based kernel may be useful for some (especially newer) setups, for example if there is improved hardware support that has not yet been backported to 6.8.<br />
-This follows our tradition of upgrading the Proxmox VE kernel to match the current Ubuntu version until we reach an (Ubuntu) LTS release, like the 6.8...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/opt-in-linux-6-14-kernel-for-proxmox-ve-8-available-on-test-no-subscription.164497/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>255</slash:comments>
     </item>
     <item>
       <title>is it possible?</title>
@@ -230,162 +400,6 @@ I see  <br />
 </ul><br />
 <a href="https://forum.proxmox.com/threads/questions-about-otel-metrics-listing.184949/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>ZFS on SAN LUN(s)</title>
-      <pubDate>Wed, 19 Aug 2026 17:08:47 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/zfs-on-san-lun-s.185799/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185799</guid>
-      <author>invalid@example.com (alma21)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>alma21</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-what are the caveats for using a ZFS Pool with SAN LUNs  ? is this a supported setup for production use ?  are there similiar issues as with ZFS with a local HW RAID controller (in non IT mode) ? <br />
-assumption: 1 node per zpool (no shared LUNs)</div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>Laufzeit und Neustart</title>
-      <pubDate>Wed, 19 Aug 2026 16:55:23 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/laufzeit-und-neustart.185811/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185811</guid>
-      <author>invalid@example.com (anbischo)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>anbischo</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Ich wolllte fragen, ob es eine Empfehlung gibt, wie lange die einzelnen Nodes ohne Neustart laufen sollte. Ich meine, sollte ein Node z.B. alle 30 Tage mal neugestartet werden, oder kann der Node ewig laufen?</div>]]></content:encoded>
-      <slash:comments>8</slash:comments>
-    </item>
-    <item>
-      <title>Configuration changes in existing cluster</title>
-      <pubDate>Wed, 19 Aug 2026 16:48:51 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/configuration-changes-in-existing-cluster.184667/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:184667</guid>
-      <author>invalid@example.com (Yuri_AR)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Yuri_AR</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi! I have a 4 node proxmox cluster, configured as follows:<br />
-<br />
-* All nodes are connected to a switch, in the 172.16.0.0/24 IP range with one of their eth interfaces. <br />
-* One of the nodes has an additional ethernet interface acting as a VLAN trunk. This node also contains a VM with PFsense, managing the traffic on a bunch of VLANs.<br />
-* proxmox API/interface can be reached from any vlan in the .0 IP address, or in their 172.16.0.X address.<br />
-<br />
-This architecture evolved over time in a rather chaotic...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/configuration-changes-in-existing-cluster.184667/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>9</slash:comments>
-    </item>
-    <item>
-      <title>LXC can't connect to internet (semi-Noob)</title>
-      <pubDate>Wed, 19 Aug 2026 15:18:36 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/lxc-cant-connect-to-internet-semi-noob.185814/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185814</guid>
-      <author>invalid@example.com (Disinfect2025)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>Disinfect2025</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello dear people. <br />
-I have A LXC with a Zerotier-Controller set up, and also installed Zerotier on the Proxmox Host. <br />
-Proxmox Host &gt; ZT Central, which my remote machine (normal ARCH Desktop) is connected to. On ZT central I have set up a Managed Route to the LXC IP range, that goes via Proxmox&#039;s ZTC (Zerotier Central) IP.<br />
-<br />
-How I think it works:<br />
-Remote location Desktop sent request for 10.10.10.x (LXC) &gt; ZTC: &quot;ok I&#039;ll push that over to [Proxmox ZTC IP]&quot; &gt; Desktop can connect to LXC.<br />
-<br />
-Other...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/lxc-cant-connect-to-internet-semi-noob.185814/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Quick Question About Multipath</title>
-      <pubDate>Wed, 19 Aug 2026 15:18:24 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/quick-question-about-multipath.185797/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185797</guid>
-      <author>invalid@example.com (adrianovf)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>adrianovf</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi, everytime I create a LUN on my storage I need to find its WWID and then add to my multipath file,  Is there a way to automatize this process ? just create a lun on storage and proxmox will find it and then just add the storage ?</div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>Running a single guest with different OVMF Firmware</title>
-      <pubDate>Wed, 19 Aug 2026 14:41:26 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/running-a-single-guest-with-different-ovmf-firmware.68332/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:68332</guid>
-      <author>invalid@example.com (AndreasAC)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>AndreasAC</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi there,<br />
-<br />
-I want to run a guest operating system which requires slightly patched OVMF Firmware. As I don&#039;t want to use this firmware for all VMs, I&#039;m looking for a way to substitute it for just a single VM, instead of just replacing the pve-edk2-firmware package, which seems to be what other people are currently doing.<br />
-<br />
-I read the beginning of <a href="https://www.linux-kvm.org/downloads/lersek/ovmf-whitepaper-c770f8c.txt" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://www.linux-kvm.org/downloads/lersek/ovmf-whitepaper-c770f8c.txt</a> and gather from it that it would be possible in theory.<br />
-<br />
-If there is no...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/running-a-single-guest-with-different-ovmf-firmware.68332/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>14</slash:comments>
-    </item>
-    <item>
-      <title>Backup Plan funktioniert nicht. (Solved)</title>
-      <pubDate>Wed, 19 Aug 2026 14:23:57 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/backup-plan-funktioniert-nicht-solved.185539/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185539</guid>
-      <author>invalid@example.com (umsmin)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
-      <dc:creator>umsmin</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Nach verschiedenen Anleitungen und auch mit dem Backup-Planer Tool komme ich nicht dort hin wo ich möchte (für Sinnvoll erachte). <br />
-Ich verwende den PBS als vm in meinem Cluster mit drei Nodes. Die Sicherung auf meine eingebundene Synology  funktioniert auch. <br />
-Folgende Backup-Pläne bin ich momentan am testen:<br />
-<br />
-<a href="https://forum.proxmox.com/attachments/pbs-1-png.99303/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98999-7db29d79af1e4d2b817fb01b697182b2.jpg?hash=oepIwkJFk2"
-		srcset="https://forum.proxmox.com/data/attachments/98/2x/98999-7db29d79af1e4d2b817fb01b697182b2.jpg?hash=oepIwkJFk2 2x"
-		class="bbImage "
-		style=""
-		alt="pbs-1.PNG"
-		title="pbs-1.PNG"
-		width="641" height="150" loading="lazy" /></a><br />
-<br />
-Die 223 ist die vm worin PBS läuft. Nach meinem Verständnis sollten nachstehende Regeln greifen :<br />
-<br />
-1. Täglich 05:00 Uhr wird 8 Tage lang gesichert. Am neunten Tag wird der...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/backup-plan-funktioniert-nicht-solved.185539/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>9</slash:comments>
-    </item>
-    <item>
-      <title>CEPH setup</title>
-      <pubDate>Wed, 19 Aug 2026 14:11:37 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ceph-setup.185803/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185803</guid>
-      <author>invalid@example.com (PmUserZFS)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>PmUserZFS</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have 6 nodes with the following drives<br />
-<br />
-4x HP PM9A3 480GB(M.2 NVMe PCIe 4.0) slow due to 480gb, not fast as the u.2 and larger drives, benchmarks hard to find on the m.2 480gb.<br />
-5x PM1655 800GB(SAS 24 Gbps)<br />
-3x PM897(SATA 6 Gbps)<br />
-<br />
-This will be a proxmox cluster with ceph, running in a lab, so often not that bussy, but we all hate slow performance ...<br />
-I will use FastEC not replica 3, sas and sata in the same pool.<br />
-<br />
-any input/ideas  how to optimize this hardware?</div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>import VM from proxmox 5.1-41 to proxmox 9</title>
-      <pubDate>Wed, 19 Aug 2026 13:16:22 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/import-vm-from-proxmox-5-1-41-to-proxmox-9.185765/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185765</guid>
-      <author>invalid@example.com (marsalys)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>marsalys</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Can I migrate import/export  my virtual machines currently running on <b>Proxmox VE 5.1-41</b> to <b>Proxmox VE 9</b> without any risk?<br />
-<br />
-<br />
-What would be the <b>recommended and safest migration method</b> to ensure that the VMs do not crash, fail to boot, or encounter compatibility issues after the migration, and that they continue to operate normally?</div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
     </item>
   </channel>
 </rss>
