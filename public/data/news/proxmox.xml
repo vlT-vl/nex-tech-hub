@@ -4,30 +4,56 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Thu, 20 Aug 2026 18:26:47 +0000</pubDate>
-    <lastBuildDate>Thu, 20 Aug 2026 18:26:47 +0000</lastBuildDate>
+    <pubDate>Fri, 21 Aug 2026 00:46:10 +0000</pubDate>
+    <lastBuildDate>Fri, 21 Aug 2026 00:46:10 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
-      <title>Impossible to boot any VMs or container after clonezilla backup</title>
-      <pubDate>Thu, 20 Aug 2026 18:25:07 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/impossible-to-boot-any-vms-or-container-after-clonezilla-backup.185848/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185848</guid>
-      <author>invalid@example.com (totoxaraymond)</author>
+      <title>ZFS on SAN LUN(s)</title>
+      <pubDate>Thu, 20 Aug 2026 23:48:09 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/zfs-on-san-lun-s.185799/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185799</guid>
+      <author>invalid@example.com (alma21)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>totoxaraymond</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone, <br />
+      <dc:creator>alma21</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
 <br />
-I&#039;m in quite a bad situation here.<br />
+what are the caveats for using a ZFS Pool with SAN LUNs  ? is this a supported setup for production use ?  are there similiar issues as with ZFS with a local HW RAID controller (in non IT mode) ? <br />
+assumption: 1 node per zpool (no shared LUNs)</div>]]></content:encoded>
+      <slash:comments>14</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox VE 9.2 – sporadic iSCSI NOP timeouts / DID_TRANSPORT_DISRUPTED with Dell PowerVault ME5 and Intel E810</title>
+      <pubDate>Thu, 20 Aug 2026 22:08:04 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-%E2%80%93-sporadic-iscsi-nop-timeouts-did_transport_disrupted-with-dell-powervault-me5-and-intel-e810.185817/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185817</guid>
+      <author>invalid@example.com (huganega)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>huganega</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
 <br />
-I wanted to backup my proxmox installation before upgrading to proxmox 9, so i used CLoneZilla to clone my boot SSD to a spare HDD.<br />
+I am experiencing sporadic iSCSI connection interruptions on a Proxmox VE 9.2 host connected directly to a Dell PowerVault ME5224.<br />
+The issue manifests as ISCSI_ERR_NOP_TIMEDOUT, followed by DID_TRANSPORT_DISRUPTED. The affected iSCSI session usually recovers automatically after a few seconds.<br />
+The problem is intermittent. The system can run normally for a considerable amount of time before another interruption occurs.<br />
 <br />
-So far, so good but after rebooting to proxmox, i can&#039;t run ANY of my VMs or Container. <br />
-<br />
-VMs will return &quot;not a bootable disk&quot; and loop forever.<br />
-<br />
-while CTs will return:<br />
+<b>Environment</b><br />
+<ul>
+<li data-xf-list-type="ul">Proxmox VE 9.2</li>
+<li data-xf-list-type="ul">currently running kernel...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-%E2%80%93-sporadic-iscsi-nop-timeouts-did_transport_disrupted-with-dell-powervault-me5-and-intel-e810.185817/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>`pvesh get /cluster/firewall/options` fails with `unknown schema type (not an object?)`</title>
+      <pubDate>Thu, 20 Aug 2026 21:36:53 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pvesh-get-cluster-firewall-options-fails-with-unknown-schema-type-not-an-object.185763/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185763</guid>
+      <author>invalid@example.com (agross)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>agross</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I expect this call to succeed, but it does not:<br />
 <br />
 
 	
@@ -39,17 +65,64 @@ while CTs will return:<br />
 		Code:
 	</div>
 	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>run_buffer: 571 Script exited with status 32
-lxc_init: 845 Failed to run lxc.hook.pre-start for container &quot;107&quot;
-__lxc_start: 2034 Failed...</code></pre>
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>agross@pve-home ~
+$ sudo pvesh get /cluster/firewall/options
+unknown schema type (not an object?)
+Compilation failed in require at /usr/bin/pvesh line 6.
+BEGIN failed--compilation aborted at /usr/bin/pvesh line 6.</code></pre>
 	</div>
 </div><br />
-<a href="https://forum.proxmox.com/threads/impossible-to-boot-any-vms-or-container-after-clonezilla-backup.185848/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
+<code class="bbCodeInline">/cluster/firewall/macros</code> also fails. What works is <code class="bbCodeInline">groups</code>, <code class="bbCodeInline">aliases</code> (both empty), <code class="bbCodeInline">ipset</code> and <code class="bbCodeInline">rules</code> return their respective entries. Node firewall options work:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>$ sudo pvesh get...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/pvesh-get-cluster-firewall-options-fails-with-unknown-schema-type-not-an-object.185763/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Unterstützung für Proxmox VE 8 endet am 2026-08-31</title>
+      <pubDate>Thu, 20 Aug 2026 20:43:34 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/unterst%C3%BCtzung-f%C3%BCr-proxmox-ve-8-endet-am-2026-08-31.185850/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185850</guid>
+      <author>invalid@example.com (ostseereiter1)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>ostseereiter1</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Ich habe ein Wahnhinweis &quot;<br />
+&quot;<a href="https://pve.proxmox.com/wiki/FAQ#faq-support-table" target="_blank" class="link link--external" rel="nofollow ugc noopener">Unterstützung für Proxmox VE 8 endet am 2026-08-31</a>&quot; also das heißt keine Updates mehr ab September. Das ist ja doof. Kann man trotzdem das System weiter ohne Updats laufen lassen. Ich habe einfach Angst das etwas schief geht wenn ich auf 9 hochziehe VM habe ich alle gesichert sogar ein  proxmox-config-backup. Und trotzdem wenn es schief läuft wie einfach ist es proxmox neu aufzuspielen und den Stand so wiederherstellen wie es ist.<br />
+Gruß OSR</div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox Automated Installation DHCP issue</title>
+      <pubDate>Thu, 20 Aug 2026 20:42:19 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-automated-installation-dhcp-issue.151844/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:151844</guid>
+      <author>invalid@example.com (willifehler)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>willifehler</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi there,<br />
+<br />
+I&#039;m trying to use <a href="https://pve.proxmox.com/wiki/Automated_Installation" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://pve.proxmox.com/wiki/Automated_Installation</a> to deploy Proxmox on my servers.<br />
+<br />
+I have an DHCP server to assign ip addresses to my servers. During the deployment sometimes my server does not get an ip address to be able to fetch the answer.toml from my webserver. If I execute dhclient a few seconds after the installation routine has failed I do get an ip address. Is there any option include a dhcp timeout in my iso or another way to solve this issue...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-automated-installation-dhcp-issue.151844/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>14</slash:comments>
     </item>
     <item>
       <title>Datastore synced with Rclone broken?</title>
-      <pubDate>Thu, 20 Aug 2026 18:23:32 +0000</pubDate>
+      <pubDate>Thu, 20 Aug 2026 20:37:23 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/datastore-synced-with-rclone-broken.154709/</link>
       <guid isPermaLink="false">urn:xenforo:thread:154709</guid>
       <author>invalid@example.com (Zeash)</author>
@@ -82,21 +155,111 @@ _config_dir=$_datastore_dir_path/host_backup...</code></pre>
 	</div>
 </div><br />
 <a href="https://forum.proxmox.com/threads/datastore-synced-with-rclone-broken.154709/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>13</slash:comments>
+      <slash:comments>23</slash:comments>
     </item>
     <item>
-      <title>ZFS on SAN LUN(s)</title>
-      <pubDate>Thu, 20 Aug 2026 18:20:52 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/zfs-on-san-lun-s.185799/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185799</guid>
-      <author>invalid@example.com (alma21)</author>
+      <title>Impossible to boot any VMs or container after Clonezilla backup, from original drive</title>
+      <pubDate>Thu, 20 Aug 2026 19:50:48 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/impossible-to-boot-any-vms-or-container-after-clonezilla-backup-from-original-drive.185848/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185848</guid>
+      <author>invalid@example.com (totoxaraymond)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>alma21</dc:creator>
+      <dc:creator>totoxaraymond</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone, <br />
+<br />
+I&#039;m in quite a bad situation here.<br />
+<br />
+I wanted to backup my proxmox installation before upgrading to proxmox 9, so i used CLoneZilla to clone my boot SSD to a spare HDD.<br />
+<br />
+So far, so good but after rebooting to proxmox, i can&#039;t run ANY of my VMs or Container. <br />
+<br />
+VMs will return &quot;not a bootable disk&quot; and loop forever.<br />
+<br />
+while CTs will return:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>run_buffer: 571 Script exited with status 32
+lxc_init: 845 Failed to run lxc.hook.pre-start for container &quot;107&quot;
+__lxc_start: 2034 Failed...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/impossible-to-boot-any-vms-or-container-after-clonezilla-backup-from-original-drive.185848/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
+    <item>
+      <title>BCacheFS in Proxmox VE</title>
+      <pubDate>Thu, 20 Aug 2026 19:17:24 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/bcachefs-in-proxmox-ve.136809/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:136809</guid>
+      <author>invalid@example.com (martin21)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>martin21</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I know it is to early to make any plans, way to early even. However just being curious:<br />
+<br />
+Any preliminary thoughts regarding using BCacheFS in Proxmox VE? If not that is also okay of course.<br />
+<br />
+My current thought is: Once it is marked as stable in the kernel instead of experimental and found to be stable enough during testing it might be a good alternative to BTRFS <b>in case it delivers on the promises</b>. Yeah, a lot of conditions in there. <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f642.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":)" title="Smile    :)"  data-smilie="1"data-shortname=":)" /><br />
+<br />
+BTW I am using BTRFS with a test setup, an Intel...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/bcachefs-in-proxmox-ve.136809/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
+    </item>
+    <item>
+      <title>IPAM &amp; DHCP Features - Tmanok</title>
+      <pubDate>Thu, 20 Aug 2026 19:05:33 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ipam-dhcp-features-tmanok.185823/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185823</guid>
+      <author>invalid@example.com (Tmanok)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>Tmanok</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Me again,<br />
+<br />
+As noted in another post on the Networking and Firewall forum, I am in the process of setting up EVPN and VXLAN. Recently, while preparing my documentation and the hypervisor nodes, I noticed that IPAM and DHCP may still have some feature limitations. Could someone more familiar with PVE&#039;s IPAM and DHCP implementations for SDN answer or confirm some questions here? <br />
+<ul>
+<li data-xf-list-type="ul">Automatic DHCP appears to be Simple-zone only: Does this mean that enabling DHCP in the VNet settings still...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/ipam-dhcp-features-tmanok.185823/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Laufzeit und Neustart</title>
+      <pubDate>Thu, 20 Aug 2026 19:01:35 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/laufzeit-und-neustart.185811/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185811</guid>
+      <author>invalid@example.com (anbischo)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>anbischo</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Ich wolllte fragen, ob es eine Empfehlung gibt, wie lange die einzelnen Nodes ohne Neustart laufen sollte. Ich meine, sollte ein Node z.B. alle 30 Tage mal neugestartet werden, oder kann der Node ewig laufen?</div>]]></content:encoded>
+      <slash:comments>21</slash:comments>
+    </item>
+    <item>
+      <title>ZFS dedup on a Proxmox host in 2026 — has fast dedup changed the recommendation?</title>
+      <pubDate>Thu, 20 Aug 2026 18:39:17 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/zfs-dedup-on-a-proxmox-host-in-2026-%E2%80%94-has-fast-dedup-changed-the-recommendation.185320/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185320</guid>
+      <author>invalid@example.com (DeQuzzie)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>DeQuzzie</dc:creator>
       <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
 <br />
-what are the caveats for using a ZFS Pool with SAN LUNs  ? is this a supported setup for production use ?  are there similiar issues as with ZFS with a local HW RAID controller (in non IT mode) ? <br />
-assumption: 1 node per zpool (no shared LUNs)</div>]]></content:encoded>
-      <slash:comments>9</slash:comments>
+The standing advice for years has been to leave dedup=off on ZFS pools under Proxmox: the DDT lives in RAM, the write path suffers, and you can&#039;t turn it back off for data already written. OpenZFS 2.3 ships fast dedup, which is supposed to address most of that — quota&#039;d DDT, pruning, dedup logs.<br />
+<br />
+Has that changed anything on the Proxmox side? Concretely, for a pool that holds both guest disks and a large dataset of ordinary files with a lot of duplicates among them:<br />
+<br />
+is dedup=on still a...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/zfs-dedup-on-a-proxmox-host-in-2026-%E2%80%94-has-fast-dedup-changed-the-recommendation.185320/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>23</slash:comments>
     </item>
     <item>
       <title>Multiple VMs randomly give a warning during backup</title>
@@ -110,30 +273,6 @@ assumption: 1 node per zpool (no shared LUNs)</div>]]></content:encoded>
 <br />
 <a href="https://forum.proxmox.com/threads/multiple-vms-randomly-give-a-warning-during-backup.185851/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Laufzeit und Neustart</title>
-      <pubDate>Thu, 20 Aug 2026 18:06:20 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/laufzeit-und-neustart.185811/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185811</guid>
-      <author>invalid@example.com (anbischo)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>anbischo</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Ich wolllte fragen, ob es eine Empfehlung gibt, wie lange die einzelnen Nodes ohne Neustart laufen sollte. Ich meine, sollte ein Node z.B. alle 30 Tage mal neugestartet werden, oder kann der Node ewig laufen?</div>]]></content:encoded>
-      <slash:comments>18</slash:comments>
-    </item>
-    <item>
-      <title>Unterstützung für Proxmox VE 8 endet am 2026-08-31</title>
-      <pubDate>Thu, 20 Aug 2026 18:03:29 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/unterst%C3%BCtzung-f%C3%BCr-proxmox-ve-8-endet-am-2026-08-31.185850/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185850</guid>
-      <author>invalid@example.com (ostseereiter1)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>ostseereiter1</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Ich habe ein Wahnhinweis &quot;<br />
-&quot;<a href="https://pve.proxmox.com/wiki/FAQ#faq-support-table" target="_blank" class="link link--external" rel="nofollow ugc noopener">Unterstützung für Proxmox VE 8 endet am 2026-08-31</a>&quot; also das heißt keine Updates mehr ab September. Das ist ja doof. Kann man trotzdem das System weiter ohne Updats laufen lassen. Ich habe einfach Angst das etwas schief geht wenn ich auf 9 hochziehe VM habe ich alle gesichert sogar ein  proxmox-config-backup. Und trotzdem wenn es schief läuft wie einfach ist es proxmox neu aufzuspielen und den Stand so wiederherstellen wie es ist.<br />
-Gruß OSR</div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
     </item>
     <item>
       <title>CEPH setup</title>
@@ -253,25 +392,6 @@ Thanks for all the great work into keeping...<br />
       <slash:comments>2</slash:comments>
     </item>
     <item>
-      <title>BCacheFS in Proxmox VE</title>
-      <pubDate>Thu, 20 Aug 2026 15:53:41 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/bcachefs-in-proxmox-ve.136809/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:136809</guid>
-      <author>invalid@example.com (martin21)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>martin21</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I know it is to early to make any plans, way to early even. However just being curious:<br />
-<br />
-Any preliminary thoughts regarding using BCacheFS in Proxmox VE? If not that is also okay of course.<br />
-<br />
-My current thought is: Once it is marked as stable in the kernel instead of experimental and found to be stable enough during testing it might be a good alternative to BTRFS <b>in case it delivers on the promises</b>. Yeah, a lot of conditions in there. <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f642.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":)" title="Smile    :)"  data-smilie="1"data-shortname=":)" /><br />
-<br />
-BTW I am using BTRFS with a test setup, an Intel...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/bcachefs-in-proxmox-ve.136809/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
       <title>welcomelist greylisting</title>
       <pubDate>Thu, 20 Aug 2026 15:40:28 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/welcomelist-greylisting.185846/</link>
@@ -304,120 +424,6 @@ Der document_consumer nutzt die Python-Bibliothek watchdog für das Polling. Bei
 <br />
 <a href="https://forum.proxmox.com/threads/paperless-ngx-auf-proxmox-lxc-mit-cifs-nas-consume-ordner-wird-nicht-automatisch-eingelesen-%E2%80%93-l%C3%B6sung.185808/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Data Domain over NFS and Access TIme Issues</title>
-      <pubDate>Thu, 20 Aug 2026 14:54:57 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/data-domain-over-nfs-and-access-time-issues.185847/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185847</guid>
-      <author>invalid@example.com (vnick_coty)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>vnick_coty</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m trying to mount a DD9800 over NFS to a PBS server so that I can use it for backups. I&#039;m running into an issue when trying to configure this - as posted in several other places, when trying to initialize a datastore that is NFS-mounted, I get the following at the end of the process:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>2026-08-20T10:12:36-04:00: Chunkstore create: 99%
-2026-08-20T10:12:39-04:00: Chunk metadata was not correctly updated during access time safety check:
-2026-08-20T10:12:39-04:00: Timestamps before update...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/data-domain-over-nfs-and-access-time-issues.185847/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE with Pocket ID OIDC</title>
-      <pubDate>Thu, 20 Aug 2026 14:24:30 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-with-pocket-id-oidc.185832/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185832</guid>
-      <author>invalid@example.com (dimaonline)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>dimaonline</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m trying to configure Proxmox VE with Pocket ID OIDC.<br />
-Here are two guides:<br />
-<br />
-<ol>
-<li data-xf-list-type="ol"><a href="https://pocket-id.org/docs/client-examples/proxmox" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://pocket-id.org/docs/client-examples/proxmox</a></li>
-<li data-xf-list-type="ol"><a href="https://rabin.blog/how-to-configure-pocket-id-passkey-login-for-proxmox-ve-with-oidc-groups/" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://rabin.blog/how-to-configure-pocket-id-passkey-login-for-proxmox-ve-with-oidc-groups/</a></li>
-</ol><br />
-Both guides state that to correctly create a user, you must specify &quot;<i>Select username for the Username Claim dropdown. (This is a personal preference and controls how the username is shown, for example: username = username@PocketID or email =...</i><br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-with-pocket-id-oidc.185832/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Easiest way of migrating to new system disk?</title>
-      <pubDate>Thu, 20 Aug 2026 14:10:32 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/easiest-way-of-migrating-to-new-system-disk.185825/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185825</guid>
-      <author>invalid@example.com (Digymkus)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Digymkus</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have a proxmox host (installed as ZFS on root) that is part of a cluster and which I need to upgrade to a bigger disk.<br />
-<br />
-Is this a good way to do the migration? I’d rather not configure everything for scratch.<br />
-<br />
-1. Take out the existing drive and attach it to a different system<br />
-2. Snapshot the system ZFS dataset and send it to a file<br />
-3. Plug the new disk in the host, install proxmox as ZFS on root again - to get the right partition layout and boot partition populated<br />
-4. Take out the new...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/easiest-way-of-migrating-to-new-system-disk.185825/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>nächtliche Aktivitäten - "hoher" IO Pressure Stall</title>
-      <pubDate>Thu, 20 Aug 2026 14:07:36 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/n%C3%A4chtliche-aktivit%C3%A4ten-hoher-io-pressure-stall.180409/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:180409</guid>
-      <author>invalid@example.com (brazzor)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>brazzor</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
-<br />
-wie sollte es auch anders sein habe ich ein Problem mit meinem Server, da dieser in meinem &quot;Schlafzimmer&quot; steht, stören mich die nächtlichen Aktivitäten.<br />
-<br />
-Ich habe zwei VM und mehrere LXC und weiß nicht ganz genau ob eine evtl. etwas geschwätzig ist...<br />
-<br />
-Mein Server:<br />
-<br />
-Fujitsu P756<br />
-- i5 6600<br />
-- 8 GB Ram (habe es heute mal aufgerüstet auf 16 GB)<br />
-- 4 Festplatten davon 2 SSD<br />
-<br />
-Proxmox läuft auf einer älteren 64 gb SSD, alle VM und Container laufen auf einer NVMe und auf den HDD...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/n%C3%A4chtliche-aktivit%C3%A4ten-hoher-io-pressure-stall.180409/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>Duplicate Ceph Monitors / Managers / MDS in UI, one green, the other gray</title>
-      <pubDate>Thu, 20 Aug 2026 14:05:43 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/duplicate-ceph-monitors-managers-mds-in-ui-one-green-the-other-gray.185842/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185842</guid>
-      <author>invalid@example.com (Nathan Stratton)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Nathan Stratton</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">My system is working, but in the UI I show two old ceph monitors, managers, and metadata servers. I have tried deleting each and when I do the good one and gray one go away, but when I create it again I get a good one and a gray one. Any ideas?<br />
-<br />
-<a href="https://forum.proxmox.com/attachments/image-1-png.99499/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99195-3d68fc37175bd4d8ec44c569c737b5be.jpg?hash=bBN9etrAoe"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99195-3d68fc37175bd4d8ec44c569c737b5be.jpg?hash=bBN9etrAoe 2x"
-		class="bbImage "
-		style=""
-		alt="image (1).png"
-		title="image (1).png"
-		width="500" height="150" loading="lazy" /></a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
     </item>
   </channel>
 </rss>
