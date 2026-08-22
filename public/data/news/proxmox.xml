@@ -4,11 +4,136 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Sat, 22 Aug 2026 00:43:50 +0000</pubDate>
-    <lastBuildDate>Sat, 22 Aug 2026 00:43:50 +0000</lastBuildDate>
+    <pubDate>Sat, 22 Aug 2026 06:25:50 +0000</pubDate>
+    <lastBuildDate>Sat, 22 Aug 2026 06:25:50 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>[VirtIO RNG] Clarification re: Using /dev/urandom vs /dev/hwrng ?</title>
+      <pubDate>Sat, 22 Aug 2026 05:51:01 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/virtio-rng-clarification-re-using-dev-urandom-vs-dev-hwrng.185881/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185881</guid>
+      <author>invalid@example.com (SInisterPisces)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>SInisterPisces</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><b>Ref: </b><a href="https://www.kernel.org/doc/html/latest/admin-guide/hw_random.html" target="_blank" class="link link--external" rel="nofollow ugc noopener"><b>https://www.kernel.org/doc/html/latest/admin-guide/hw_random.html</b></a><br />
+<br />
+At some point (don&#039;t ask me why, or how), I seem to have convinced myself that using <b>/dev/hwrng</b> for <b>VirtIO RNG</b> in VM hardware configurations was preferred for performance and other reasons.<br />
+<br />
+And from reading the above and some other sources, it does appear that the host CPU&#039;s actual hardware RNG can provide the most randomness versus the other options, <i>under the right circumstances</i>...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/virtio-rng-clarification-re-using-dev-urandom-vs-dev-hwrng.185881/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Very specific setup, needing very specific advisory</title>
+      <pubDate>Sat, 22 Aug 2026 04:49:34 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/very-specific-setup-needing-very-specific-advisory.185864/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185864</guid>
+      <author>invalid@example.com (Twixers223)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Twixers223</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;ve got a homelab here with two servers. One server takes only 2.5&quot; drives, and the other takes 3.5&quot; (+2.5&quot; with an adapter) drives. Of course, the one with the 2.5&quot; drives is my main server with all my vms on it, which makes it very cost efficient, but the second server with 3.5&quot; drives is for a NAS. Unfortunately with this setup I believe I cannot use ceph (I tried, its a massive hassle with a lot of undersized page errors), as I cannot add drives from both servers, only one. <br />
+<br />
+That leads...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/very-specific-setup-needing-very-specific-advisory.185864/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>Impossible to boot any VMs or container after Clonezilla backup, from original drive</title>
+      <pubDate>Sat, 22 Aug 2026 04:03:03 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/impossible-to-boot-any-vms-or-container-after-clonezilla-backup-from-original-drive.185848/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185848</guid>
+      <author>invalid@example.com (totoxaraymond)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>totoxaraymond</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone, <br />
+<br />
+I&#039;m in quite a bad situation here.<br />
+<br />
+I wanted to backup my proxmox installation before upgrading to proxmox 9, so i used CLoneZilla to clone my boot SSD to a spare HDD.<br />
+<br />
+So far, so good but after rebooting to proxmox, i can&#039;t run ANY of my VMs or Container. <br />
+<br />
+VMs will return &quot;not a bootable disk&quot; and loop forever.<br />
+<br />
+while CTs will return:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>run_buffer: 571 Script exited with status 32
+lxc_init: 845 Failed to run lxc.hook.pre-start for container &quot;107&quot;
+__lxc_start: 2034 Failed...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/impossible-to-boot-any-vms-or-container-after-clonezilla-backup-from-original-drive.185848/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>ZFS dedup on a Proxmox host in 2026 — has fast dedup changed the recommendation?</title>
+      <pubDate>Sat, 22 Aug 2026 03:52:30 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/zfs-dedup-on-a-proxmox-host-in-2026-%E2%80%94-has-fast-dedup-changed-the-recommendation.185320/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185320</guid>
+      <author>invalid@example.com (DeQuzzie)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>DeQuzzie</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+The standing advice for years has been to leave dedup=off on ZFS pools under Proxmox: the DDT lives in RAM, the write path suffers, and you can&#039;t turn it back off for data already written. OpenZFS 2.3 ships fast dedup, which is supposed to address most of that — quota&#039;d DDT, pruning, dedup logs.<br />
+<br />
+Has that changed anything on the Proxmox side? Concretely, for a pool that holds both guest disks and a large dataset of ordinary files with a lot of duplicates among them:<br />
+<br />
+is dedup=on still a...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/zfs-dedup-on-a-proxmox-host-in-2026-%E2%80%94-has-fast-dedup-changed-the-recommendation.185320/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>31</slash:comments>
+    </item>
+    <item>
+      <title>[Virtualizing PDM] Host PVE Node Uses ZFS Storage. When installing PDM inside VM, EXT4 or ZFS?</title>
+      <pubDate>Sat, 22 Aug 2026 02:47:46 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/virtualizing-pdm-host-pve-node-uses-zfs-storage-when-installing-pdm-inside-vm-ext4-or-zfs.185882/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185882</guid>
+      <author>invalid@example.com (SInisterPisces)</author>
+      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
+      <dc:creator>SInisterPisces</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I&#039;ve never virtualized Proxmox VE, Proxmox Backup Server, or Proxmox Datacenter Manager. In fact, I&#039;ve never installed PDM, and I&#039;d like to test it in a VM.<br />
+<br />
+Normally, I use ext4 inside my VMs; this is a home server hobbyist/home office environment, and using ext4 in my guests has always been fine--and the VM virtual disk lives on a ZFS pool, so it&#039;s getting the benefits of ZFS on the underlying storage.<br />
+<br />
+<b>But, I&#039;m very used to using ZFS in PVE and PBS for the advantages it...</b><br />
+<br />
+<a href="https://forum.proxmox.com/threads/virtualizing-pdm-host-pve-node-uses-zfs-storage-when-installing-pdm-inside-vm-ext4-or-zfs.185882/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Horrifically slow download speeds for download.proxmox.com?</title>
+      <pubDate>Sat, 22 Aug 2026 02:17:39 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/horrifically-slow-download-speeds-for-download-proxmox-com.185880/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185880</guid>
+      <author>invalid@example.com (Tmanok)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>Tmanok</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Everyone, Hey PVE Staff,<br />
+<br />
+Is it just me, or are the web servers for download.proxmox.com unbelievably slow? I&#039;m updating a PBS instance after several months and realizing it will take hours.... This is naturally, inconveniently interfering with a maintenance window. Shame on me for not updating it sooner perhaps. But I am shocked by how slow this is. 20-40KB/s... :O <br />
+<br />
+This is from a business fiber connection on Vancouver Island. I am used to seeing &gt;10MB/s (80Mbps) on downloads even from...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/horrifically-slow-download-speeds-for-download-proxmox-com.185880/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
     <item>
       <title>Missing `ifupdown2` 3.0.0-1.3 for ARM64 in Trixie `pve-no-subscription` repo</title>
       <pubDate>Sat, 22 Aug 2026 00:36:27 +0000</pubDate>
@@ -31,21 +156,6 @@ The `pve-no-subscription` repository for Trixie lists `ifupdown2` version `3.0.0
 <br />
 <a href="https://forum.proxmox.com/threads/missing-ifupdown2-3-0-0-1-3-for-arm64-in-trixie-pve-no-subscription-repo.185879/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Very specific setup, needing very specific advisory</title>
-      <pubDate>Sat, 22 Aug 2026 00:24:56 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/very-specific-setup-needing-very-specific-advisory.185864/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185864</guid>
-      <author>invalid@example.com (Twixers223)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Twixers223</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;ve got a homelab here with two servers. One server takes only 2.5&quot; drives, and the other takes 3.5&quot; (+2.5&quot; with an adapter) drives. Of course, the one with the 2.5&quot; drives is my main server with all my vms on it, which makes it very cost efficient, but the second server with 3.5&quot; drives is for a NAS. Unfortunately with this setup I believe I cannot use ceph (I tried, its a massive hassle with a lot of undersized page errors), as I cannot add drives from both servers, only one. <br />
-<br />
-That leads...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/very-specific-setup-needing-very-specific-advisory.185864/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
     </item>
     <item>
       <title>Has anyone tried Ubiquiti's ENAS for ProxMox's storage array?</title>
@@ -131,25 +241,6 @@ Ich habe bereits wie nach Anleitung Wireguard im LXC installiert und...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/howto-proxmox-ve-8-x-x-wifi-with-routed-configuration.147714/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>77</slash:comments>
-    </item>
-    <item>
-      <title>ZFS dedup on a Proxmox host in 2026 — has fast dedup changed the recommendation?</title>
-      <pubDate>Fri, 21 Aug 2026 21:52:38 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/zfs-dedup-on-a-proxmox-host-in-2026-%E2%80%94-has-fast-dedup-changed-the-recommendation.185320/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185320</guid>
-      <author>invalid@example.com (DeQuzzie)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>DeQuzzie</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-The standing advice for years has been to leave dedup=off on ZFS pools under Proxmox: the DDT lives in RAM, the write path suffers, and you can&#039;t turn it back off for data already written. OpenZFS 2.3 ships fast dedup, which is supposed to address most of that — quota&#039;d DDT, pruning, dedup logs.<br />
-<br />
-Has that changed anything on the Proxmox side? Concretely, for a pool that holds both guest disks and a large dataset of ordinary files with a lot of duplicates among them:<br />
-<br />
-is dedup=on still a...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/zfs-dedup-on-a-proxmox-host-in-2026-%E2%80%94-has-fast-dedup-changed-the-recommendation.185320/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>30</slash:comments>
     </item>
     <item>
       <title>Trouble installing onto NVME drive</title>
@@ -329,80 +420,6 @@ Proxmox VE 9.2 for arm64 shares the code base, package repositories, and release
 <br />
 <a href="https://forum.proxmox.com/threads/proxmox-virtual-environment-now-available-for-64-bit-arm-arm64.185527/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>32</slash:comments>
-    </item>
-    <item>
-      <title>USB Passthrough issue during flashing in windows VM</title>
-      <pubDate>Fri, 21 Aug 2026 18:30:47 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/usb-passthrough-issue-during-flashing-in-windows-vm.185844/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185844</guid>
-      <author>invalid@example.com (venkat.akula)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>venkat.akula</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I am using a Windows 10 VM on Proxmox for flashing a target. Two USB devices are passed through to the VM:<br />
-<ul>
-<li data-xf-list-type="ul">One is used for the COM/serial ports</li>
-<li data-xf-list-type="ul">The other is used for DFU flashing</li>
-</ul>During flashing, the DFU usb device is expected to disconnect and reconnect with another name. However, it looks like the device is not being properly detected after reconnecting. The DFU device shows up as unknown after reconnecting, causing the flashing process to fail. <br />
-<br />
-Same results with passing...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/usb-passthrough-issue-during-flashing-in-windows-vm.185844/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>Laufzeit und Neustart</title>
-      <pubDate>Fri, 21 Aug 2026 17:57:04 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/laufzeit-und-neustart.185811/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185811</guid>
-      <author>invalid@example.com (anbischo)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>anbischo</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Ich wolllte fragen, ob es eine Empfehlung gibt, wie lange die einzelnen Nodes ohne Neustart laufen sollte. Ich meine, sollte ein Node z.B. alle 30 Tage mal neugestartet werden, oder kann der Node ewig laufen?</div>]]></content:encoded>
-      <slash:comments>22</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE: Issues with updating and upgrading.</title>
-      <pubDate>Fri, 21 Aug 2026 17:35:41 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-issues-with-updating-and-upgrading.185875/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185875</guid>
-      <author>invalid@example.com (gristle4530)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>gristle4530</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello there,<br />
-<br />
-As a novice who&#039;s only recently gotten into this I have run into an issue that I&#039;ve not been able to solve.<br />
-<br />
-<br />
-When running:<br />
-<code class="bbCodeInline">sudo apt update &amp;&amp; sudo apt upgrade</code><br />
-My SSH is not functioning either, so I&#039;m not typing over the entire standard return message.<br />
-<code class="bbCodeInline">148 upgraded, 6 newly installed, 0 to remove and 1 not upgraded.</code><br />
-<code class="bbCodeInline">Need to get 300 MB of archives.</code><br />
-<code class="bbCodeInline">After this operation, 98.6 MB of additional disk space will be used.</code><br />
-<code class="bbCodeInline">E: You don&#039;t have enough free space...</code><br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-issues-with-updating-and-upgrading.185875/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>feature request:  "LVMthin over iscsi" storage plugin</title>
-      <pubDate>Fri, 21 Aug 2026 17:11:51 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/feature-request-lvmthin-over-iscsi-storage-plugin.185867/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185867</guid>
-      <author>invalid@example.com (alma21)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>alma21</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I would like to request/suggest a new integrated PVE Storage plugin: &quot;LVMthin over iscsi&quot;. It should work similiar as the zfs over iscsi plugin but instead of zpool/zvols it should use lvm thin pools / thin LVs<br />
-<br />
-some reasons:<br />
-- zfs is superior in managing local disks where direct access is granted ... I think (meanwhile)  in combination with SANs/LUNs LVM/thin is the better approach<br />
-- LVM/thin is more HA cluster/pacemaker friendly<br />
-- although ZFS is a first class citizen in...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/feature-request-lvmthin-over-iscsi-storage-plugin.185867/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
     </item>
   </channel>
 </rss>
