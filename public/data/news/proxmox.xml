@@ -4,27 +4,107 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Fri, 21 Aug 2026 18:25:41 +0000</pubDate>
-    <lastBuildDate>Fri, 21 Aug 2026 18:25:41 +0000</lastBuildDate>
+    <pubDate>Sat, 22 Aug 2026 00:43:50 +0000</pubDate>
+    <lastBuildDate>Sat, 22 Aug 2026 00:43:50 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
-      <title>Grub hangs when loading initramfs</title>
-      <pubDate>Fri, 21 Aug 2026 18:16:16 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/grub-hangs-when-loading-initramfs.185873/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185873</guid>
-      <author>invalid@example.com (detrainnerd)</author>
+      <title>Missing `ifupdown2` 3.0.0-1.3 for ARM64 in Trixie `pve-no-subscription` repo</title>
+      <pubDate>Sat, 22 Aug 2026 00:36:27 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/missing-ifupdown2-3-0-0-1-3-for-arm64-in-trixie-pve-no-subscription-repo.185879/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185879</guid>
+      <author>invalid@example.com (cyberming)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>detrainnerd</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Had an older workstation tower that I installed Proxmox onto, but recently it stopped booting due to grub running out of memory only upon loading initramfs. I have tried older kernels but none of them seem to work. Used memtest86 and it did seven passes without failing any of them. The node was in a cluster and had a few vms and an lxc container on it. The node was also running Proxmox 8.4 I believe and unfortunately I did not make any backups, so that is out of the question. All I would...<br />
+      <dc:creator>cyberming</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
 <br />
-<a href="https://forum.proxmox.com/threads/grub-hangs-when-loading-initramfs.185873/" class="link link--internal">Read more</a></div>]]></content:encoded>
+This is my first post. I am trying to install Proxmox VE on Debian 13 (Trixie) on an ARM64 (aarch64) system. But I wanted to report a missing package that causes the update network configuration to fail.<br />
+<br />
+**Issue:**  <br />
+The `pve-no-subscription` repository for Trixie lists `ifupdown2` version `3.0.0-1.3` for ARM64, but the corresponding `.deb` file is missing. This causes `apt` to fail with a 404/500 error during installation.<br />
+<br />
+**Steps to reproduce:**<br />
+<br />
+```bash<br />
+# Add the...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/missing-ifupdown2-3-0-0-1-3-for-arm64-in-trixie-pve-no-subscription-repo.185879/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Very specific setup, needing very specific advisory</title>
+      <pubDate>Sat, 22 Aug 2026 00:24:56 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/very-specific-setup-needing-very-specific-advisory.185864/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185864</guid>
+      <author>invalid@example.com (Twixers223)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Twixers223</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;ve got a homelab here with two servers. One server takes only 2.5&quot; drives, and the other takes 3.5&quot; (+2.5&quot; with an adapter) drives. Of course, the one with the 2.5&quot; drives is my main server with all my vms on it, which makes it very cost efficient, but the second server with 3.5&quot; drives is for a NAS. Unfortunately with this setup I believe I cannot use ceph (I tried, its a massive hassle with a lot of undersized page errors), as I cannot add drives from both servers, only one. <br />
+<br />
+That leads...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/very-specific-setup-needing-very-specific-advisory.185864/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Has anyone tried Ubiquiti's ENAS for ProxMox's storage array?</title>
+      <pubDate>Sat, 22 Aug 2026 00:15:09 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/has-anyone-tried-ubiquitis-enas-for-proxmoxs-storage-array.185871/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185871</guid>
+      <author>invalid@example.com (itsnota2ma)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>itsnota2ma</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I recently installed Ubiquiti&#039;s ENAS as a replacement for my Equallogic SAN. And the price is unbeatable. Now, is it as robust as my Equallogic SAN?? I do not know, we will find out. With that said, at $4000 for the chassis, I can by a spare and still be WAY ahead of the game. With all of that said, I am not a large Enterprise. I only have about 20 VM&#039;s with about 12TB of storage, which is crazy when I could fit the whole thing on one of the new drives I purchased. I didn&#039;t do that of...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/has-anyone-tried-ubiquitis-enas-for-proxmoxs-storage-array.185871/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox VE 9.2 – sporadic iSCSI NOP timeouts / DID_TRANSPORT_DISRUPTED with Dell PowerVault ME5 and Intel E810</title>
+      <pubDate>Fri, 21 Aug 2026 23:40:58 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-%E2%80%93-sporadic-iscsi-nop-timeouts-did_transport_disrupted-with-dell-powervault-me5-and-intel-e810.185817/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185817</guid>
+      <author>invalid@example.com (huganega)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>huganega</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+I am experiencing sporadic iSCSI connection interruptions on a Proxmox VE 9.2 host connected directly to a Dell PowerVault ME5224.<br />
+The issue manifests as ISCSI_ERR_NOP_TIMEDOUT, followed by DID_TRANSPORT_DISRUPTED. The affected iSCSI session usually recovers automatically after a few seconds.<br />
+The problem is intermittent. The system can run normally for a considerable amount of time before another interruption occurs.<br />
+<br />
+<b>Environment</b><br />
+<ul>
+<li data-xf-list-type="ul">Proxmox VE 9.2</li>
+<li data-xf-list-type="ul">currently running kernel...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-%E2%80%93-sporadic-iscsi-nop-timeouts-did_transport_disrupted-with-dell-powervault-me5-and-intel-e810.185817/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>6</slash:comments>
     </item>
     <item>
+      <title>CEPH setup</title>
+      <pubDate>Fri, 21 Aug 2026 23:20:01 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ceph-setup.185803/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185803</guid>
+      <author>invalid@example.com (PmUserZFS)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>PmUserZFS</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have 6 nodes with the following drives<br />
+<br />
+4x HP PM9A3 480GB(M.2 NVMe PCIe 4.0) slow due to 480gb, not fast as the u.2 and larger drives, benchmarks hard to find on the m.2 480gb.<br />
+5x PM1655 800GB(SAS 24 Gbps)<br />
+3x PM897(SATA 6 Gbps)<br />
+<br />
+This will be a proxmox cluster with ceph, running in a lab, so often not that bussy, but we all hate slow performance ...<br />
+I will use FastEC not replica 3, sas and sata in the same pool.<br />
+<br />
+any input/ideas  how to optimize this hardware?</div>]]></content:encoded>
+      <slash:comments>14</slash:comments>
+    </item>
+    <item>
       <title>Proxmox vollständig via Wireguard</title>
-      <pubDate>Fri, 21 Aug 2026 18:15:33 +0000</pubDate>
+      <pubDate>Fri, 21 Aug 2026 23:18:39 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/proxmox-vollst%C3%A4ndig-via-wireguard.185855/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185855</guid>
       <author>invalid@example.com (LaWLi)</author>
@@ -37,7 +117,237 @@ Ich möchte daher nicht, dass proxmox und sein webserver im lokalen netz erreich
 Ich habe bereits wie nach Anleitung Wireguard im LXC installiert und...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/proxmox-vollst%C3%A4ndig-via-wireguard.185855/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
+      <slash:comments>22</slash:comments>
+    </item>
+    <item>
+      <title>HOWTO - Proxmox VE 8-x.x Wifi with routed configuration</title>
+      <pubDate>Fri, 21 Aug 2026 22:56:11 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/howto-proxmox-ve-8-x-x-wifi-with-routed-configuration.147714/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:147714</guid>
+      <author>invalid@example.com (jeenam)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>jeenam</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I previously wrote up a HOWTO for configuring <a href="https://forum.proxmox.com/threads/howto-proxmox-ve-8-1-2-wifi-w-snat.142831/" class="link link--internal">Proxmox 8-x.x Wifi with SNAT</a> and am now providing a HOWTO for Wifi with a routed configuration. The reason why I ditched the SNAT configuration is because I simply wanted full routing capabilities between VMs/containers hosted with Proxmox over Wifi and the rest of my network devices. Specifically, I wanted to use <a href="https://github.com/debauchee/barrier" target="_blank" class="link link--external" rel="nofollow ugc noopener">barrier</a> to share my mouse and keyboard with my Windows VM that runs iGPU passthrough for my Ryzen 7840HS w/ Radeon 780M...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/howto-proxmox-ve-8-x-x-wifi-with-routed-configuration.147714/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>77</slash:comments>
+    </item>
+    <item>
+      <title>ZFS dedup on a Proxmox host in 2026 — has fast dedup changed the recommendation?</title>
+      <pubDate>Fri, 21 Aug 2026 21:52:38 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/zfs-dedup-on-a-proxmox-host-in-2026-%E2%80%94-has-fast-dedup-changed-the-recommendation.185320/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185320</guid>
+      <author>invalid@example.com (DeQuzzie)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>DeQuzzie</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+The standing advice for years has been to leave dedup=off on ZFS pools under Proxmox: the DDT lives in RAM, the write path suffers, and you can&#039;t turn it back off for data already written. OpenZFS 2.3 ships fast dedup, which is supposed to address most of that — quota&#039;d DDT, pruning, dedup logs.<br />
+<br />
+Has that changed anything on the Proxmox side? Concretely, for a pool that holds both guest disks and a large dataset of ordinary files with a lot of duplicates among them:<br />
+<br />
+is dedup=on still a...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/zfs-dedup-on-a-proxmox-host-in-2026-%E2%80%94-has-fast-dedup-changed-the-recommendation.185320/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>30</slash:comments>
+    </item>
+    <item>
+      <title>Trouble installing onto NVME drive</title>
+      <pubDate>Fri, 21 Aug 2026 21:38:57 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/trouble-installing-onto-nvme-drive.185877/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185877</guid>
+      <author>invalid@example.com (vypr)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>vypr</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hoping someone can help me with this, I&#039;m having trouble installing onto my NVME drive and I&#039;m not sure if I&#039;m missing something.<br />
+My proxmox install fails as soon as it tries to partition the NVME drive and if I hit Ctrl+Alt+F2, this is the error messages I get.<br />
+I&#039;ve already tried the install in debug mode and ran fdisk and removed all partitions on the NVME drive before proceeding.<br />
+<br />
+My NVME drive is installed in a Dell DPWC300 SSD PCIE adapter card on a Dell R730 server (with slot...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/trouble-installing-onto-nvme-drive.185877/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox replaces on premise Exchange server in hybrid environment</title>
+      <pubDate>Fri, 21 Aug 2026 21:34:38 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-replaces-on-premise-exchange-server-in-hybrid-environment.185878/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185878</guid>
+      <author>invalid@example.com (DodgeCO)</author>
+      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
+      <dc:creator>DodgeCO</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Greetings all,<br />
+     I stumbled upon the Proxmox mail gateway a couple of days ago when researching a replacement for VMware.  We have a hybrid exchange setup.  This means that most of our email function is in Exchange Online while the on premise server just functions as a relay for all devices on premise.<br />
+The problem is that we do not need an Exchange server on site to do this simple relaying.  We looked at the SMTP server for windows, but that has been discontinued.  So we were on the...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-replaces-on-premise-exchange-server-in-hybrid-environment.185878/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Cannot Initiate CMAP Service (all nodes)</title>
+      <pubDate>Fri, 21 Aug 2026 20:54:06 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/cannot-initiate-cmap-service-all-nodes.49328/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:49328</guid>
+      <author>invalid@example.com (navigator)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>navigator</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello guys how are you?<br />
+<br />
+My name is Marcos and I provide support for a small family bussines company that is runing proxmox. We have 4 Nodes and Ceph to provide High Availability.<br />
+<br />
+Other day we had a energy supply failure and all the nodes went down after more then 10 hours with the No Breakes holding the load.<br />
+<br />
+I wasn`t in the company and no one notified me so probably the Nodes Shoutdown sudenly<br />
+<br />
+I have the following error<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>pvecm status
+Cannot initialize CMAP service</code></pre>
+	</div>
+</div><br />
+After that i...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/cannot-initiate-cmap-service-all-nodes.49328/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>17</slash:comments>
+    </item>
+    <item>
+      <title>iGPU passthrough with Intel UHD Graphis 600 on Intel Celeron J4115 stopped working with Kernel 7.0</title>
+      <pubDate>Fri, 21 Aug 2026 20:47:05 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/igpu-passthrough-with-intel-uhd-graphis-600-on-intel-celeron-j4115-stopped-working-with-kernel-7-0.185746/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185746</guid>
+      <author>invalid@example.com (ChristophBecker)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>ChristophBecker</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello everybody,<br />
+<br />
+i have the following problem.<br />
+<br />
+My VM with iGPU passthrough starts without problems with kernel 6.17 but stopped starting with kernel 7.0.<br />
+<br />
+dmesg:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Bash:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang="bash"><code>DMAR: DRHD: handling fault status reg 2
+DMAR: [DMA Write NO_PASID] Request device [00:02.0] fault addr 0x0 [fault reason 0x02] Present bit in context entry is clear</code></pre>
+	</div>
+</div><br />
+pveversion -v<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Bash:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang="bash"><code>proxmox-ve: 9.2.0 (running kernel: 7.0.14-8-pve)
+pve-manager: 9.2.6 (running version: 9.2.6/7f8d010005bd72cb)
+proxmox-kernel-helper: 9.2.0...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/igpu-passthrough-with-intel-uhd-graphis-600-on-intel-celeron-j4115-stopped-working-with-kernel-7-0.185746/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Unterstützung für Proxmox VE 8 endet am 2026-08-31</title>
+      <pubDate>Fri, 21 Aug 2026 20:17:45 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/unterst%C3%BCtzung-f%C3%BCr-proxmox-ve-8-endet-am-2026-08-31.185850/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185850</guid>
+      <author>invalid@example.com (ostseereiter1)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>ostseereiter1</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Ich habe ein Wahnhinweis &quot;<br />
+&quot;<a href="https://pve.proxmox.com/wiki/FAQ#faq-support-table" target="_blank" class="link link--external" rel="nofollow ugc noopener">Unterstützung für Proxmox VE 8 endet am 2026-08-31</a>&quot; also das heißt keine Updates mehr ab September. Das ist ja doof. Kann man trotzdem das System weiter ohne Updats laufen lassen. Ich habe einfach Angst das etwas schief geht wenn ich auf 9 hochziehe VM habe ich alle gesichert sogar ein  proxmox-config-backup. Und trotzdem wenn es schief läuft wie einfach ist es proxmox neu aufzuspielen und den Stand so wiederherstellen wie es ist.<br />
+Gruß OSR</div>]]></content:encoded>
+      <slash:comments>24</slash:comments>
+    </item>
+    <item>
+      <title>Grub hangs when loading initramfs</title>
+      <pubDate>Fri, 21 Aug 2026 19:03:26 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/grub-hangs-when-loading-initramfs.185873/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185873</guid>
+      <author>invalid@example.com (detrainnerd)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>detrainnerd</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Had an older workstation tower that I installed Proxmox onto, but recently it stopped booting due to grub running out of memory only upon loading initramfs. I have tried older kernels but none of them seem to work. Used memtest86 and it did seven passes without failing any of them. The node was in a cluster and had a few vms and an lxc container on it. The node was also running Proxmox 8.4 I believe and unfortunately I did not make any backups, so that is out of the question. All I would...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/grub-hangs-when-loading-initramfs.185873/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
+    <item>
+      <title>Ceph Dashboard for Proxmox VE - Native Integration of the Official Ceph Dashboard</title>
+      <pubDate>Fri, 21 Aug 2026 19:00:26 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ceph-dashboard-for-proxmox-ve-native-integration-of-the-official-ceph-dashboard.185876/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185876</guid>
+      <author>invalid@example.com (admin123)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>admin123</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
+<br />
+<br />
+I would like to share a new project with you: <b>Ceph Dashboard for Proxmox VE</b>.<br />
+<br />
+<br />
+As many of you know, Proxmox VE offers excellent integration for Ceph Storage. However, certain advanced features(S3) of the official Ceph Dashboard are not directly available within the Proxmox Web GUI. This project bridges that gap.<br />
+<br />
+<br />
+Instead of providing an alternative management UI or replacing existing Proxmox components, this project brings the official, natively developed Ceph Dashboard...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/ceph-dashboard-for-proxmox-ve-native-integration-of-the-official-ceph-dashboard.185876/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox Virtual Environment now available for 64-bit ARM (arm64)!</title>
+      <pubDate>Fri, 21 Aug 2026 18:40:49 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-virtual-environment-now-available-for-64-bit-arm-arm64.185527/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185527</guid>
+      <author>invalid@example.com (t.lamprecht)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>t.lamprecht</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">We are excited to announce the first release of Proxmox Virtual Environment with official support for a second CPU architecture: 64-bit ARM (arm64/aarch64). Until now, Proxmox VE was available for x86-64 (amd64) only.<br />
+<br />
+Proxmox VE 9.2 for arm64 shares the code base, package repositories, and release lifecycle with its x86-64 counterpart. It is built on Debian 13.5 &quot;Trixie&quot; with Linux kernel 7.0 as the stable default, and ships the same versions of our underlying key technologies, including...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-virtual-environment-now-available-for-64-bit-arm-arm64.185527/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>32</slash:comments>
+    </item>
+    <item>
+      <title>USB Passthrough issue during flashing in windows VM</title>
+      <pubDate>Fri, 21 Aug 2026 18:30:47 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/usb-passthrough-issue-during-flashing-in-windows-vm.185844/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185844</guid>
+      <author>invalid@example.com (venkat.akula)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>venkat.akula</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am using a Windows 10 VM on Proxmox for flashing a target. Two USB devices are passed through to the VM:<br />
+<ul>
+<li data-xf-list-type="ul">One is used for the COM/serial ports</li>
+<li data-xf-list-type="ul">The other is used for DFU flashing</li>
+</ul>During flashing, the DFU usb device is expected to disconnect and reconnect with another name. However, it looks like the device is not being properly detected after reconnecting. The DFU device shows up as unknown after reconnecting, causing the flashing process to fail. <br />
+<br />
+Same results with passing...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/usb-passthrough-issue-during-flashing-in-windows-vm.185844/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
     </item>
     <item>
       <title>Laufzeit und Neustart</title>
@@ -93,307 +403,6 @@ some reasons:<br />
 <br />
 <a href="https://forum.proxmox.com/threads/feature-request-lvmthin-over-iscsi-storage-plugin.185867/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>How to download LXC version of OpenWRT and run it on Proxmox</title>
-      <pubDate>Fri, 21 Aug 2026 16:47:38 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/how-to-download-lxc-version-of-openwrt-and-run-it-on-proxmox.64786/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:64786</guid>
-      <author>invalid@example.com (kavejo)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>kavejo</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I am looking to run an OpenWRT container to provide network access to my VMs.<br />
-<br />
-I have seen on <a href="https://us.images.linuxcontainers.org/" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://us.images.linuxcontainers.org/</a> that there is a template built for OpenWRT 19.07.<br />
-When I run <code class="bbCodeInline">pveam available</code>, the containers at the URL above are not listed but other ones are listed instead.<br />
-<br />
-Looking at <a href="https://bugzilla.proxmox.com/show_bug.cgi?id=2044" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://bugzilla.proxmox.com/show_bug.cgi?id=2044</a>, this seem to have been requested already.<br />
-I have just updated the bug informing about the availability of a pre-built...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/how-to-download-lxc-version-of-openwrt-and-run-it-on-proxmox.64786/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>58</slash:comments>
-    </item>
-    <item>
-      <title>iSCSI storage performance drops after firewall rule changes – anyone else?</title>
-      <pubDate>Fri, 21 Aug 2026 16:22:25 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/iscsi-storage-performance-drops-after-firewall-rule-changes-%E2%80%93-anyone-else.185869/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185869</guid>
-      <author>invalid@example.com (mohsin045)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>mohsin045</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Now we&#039;re seeing random performance drops on the iSCSI connections – latency spikes, occasional timeouts. The VMs are still running but storage performance is inconsistent.<br />
-What we&#039;ve checked:<br />
-<br />
-<ul>
-<li data-xf-list-type="ul">iSCSI network is on a separate VLAN</li>
-<li data-xf-list-type="ul">Firewall rules are allowing all traffic on that VLAN (no restrictions)</li>
-<li data-xf-list-type="ul">Jumbo frames are still enabled</li>
-<li data-xf-list-type="ul">No changes to switch config</li>
-</ul>What we&#039;re seeing:<br />
-<br />
-<ul>
-<li data-xf-list-type="ul">Latency jumps from 1ms to 100ms+ randomly</li>
-<li data-xf-list-type="ul">iSCSI session resets during high IO</li>
-<li data-xf-list-type="ul">No...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/iscsi-storage-performance-drops-after-firewall-rule-changes-%E2%80%93-anyone-else.185869/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Unterstützung für Proxmox VE 8 endet am 2026-08-31</title>
-      <pubDate>Fri, 21 Aug 2026 16:13:31 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/unterst%C3%BCtzung-f%C3%BCr-proxmox-ve-8-endet-am-2026-08-31.185850/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185850</guid>
-      <author>invalid@example.com (ostseereiter1)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>ostseereiter1</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Ich habe ein Wahnhinweis &quot;<br />
-&quot;<a href="https://pve.proxmox.com/wiki/FAQ#faq-support-table" target="_blank" class="link link--external" rel="nofollow ugc noopener">Unterstützung für Proxmox VE 8 endet am 2026-08-31</a>&quot; also das heißt keine Updates mehr ab September. Das ist ja doof. Kann man trotzdem das System weiter ohne Updats laufen lassen. Ich habe einfach Angst das etwas schief geht wenn ich auf 9 hochziehe VM habe ich alle gesichert sogar ein  proxmox-config-backup. Und trotzdem wenn es schief läuft wie einfach ist es proxmox neu aufzuspielen und den Stand so wiederherstellen wie es ist.<br />
-Gruß OSR</div>]]></content:encoded>
-      <slash:comments>21</slash:comments>
-    </item>
-    <item>
-      <title>After updgrade Network no longer available</title>
-      <pubDate>Fri, 21 Aug 2026 16:05:06 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/after-updgrade-network-no-longer-available.185874/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185874</guid>
-      <author>invalid@example.com (Schlusi)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Schlusi</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi, <br />
-<br />
-I updated my pve with the common upgrade to 9.2.11, but after rebooting the Networks seems no longer available.<br />
-It was already on version 9 before since some months and through some updates without any issues.<br />
-I can log physically on the pve, but it does not appear on the network.<br />
-<br />
-Network Interface is unchanged vmbr0 with bridge-ports enp3s0.<br />
-<br />
-Any idea how to solve this?<br />
-<br />
-Thanks<br />
-Joerg</div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>VM becomes unresponsive during Veeam backup</title>
-      <pubDate>Fri, 21 Aug 2026 15:59:22 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/vm-becomes-unresponsive-during-veeam-backup.185199/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185199</guid>
-      <author>invalid@example.com (sudomaster.ljs)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>sudomaster.ljs</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">When a Veeam backup job runs against a VM on our HDD-backed Ceph cluster, the VM becomes unresponsive partway through the backup. In some cases, it recovers automatically once the job completes. Sometimes, it requires a hard reset to come back online.<br />
-<br />
-We have reproduced this across multiple VMs, and it appears to affect only our HDD-based clusters. Backups using Proxmox Backup Server from the same cluster complete without issue. In both cases, the backup source and target storage are the...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/vm-becomes-unresponsive-during-veeam-backup.185199/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>13</slash:comments>
-    </item>
-    <item>
-      <title>Ceph security issue CVE-2025-30156</title>
-      <pubDate>Fri, 21 Aug 2026 15:23:26 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ceph-security-issue-cve-2025-30156.185861/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185861</guid>
-      <author>invalid@example.com (udo)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>udo</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-there is an critical security issue on ceph<br />
-<a href="https://notcve.org/cve/CVE-2025-30156" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://notcve.org/cve/CVE-2025-30156</a><br />
-<br />
-I assume you are working on new packages. Can you estimate when they&#039;ll be ready?<br />
-<br />
-<br />
-Best regards<br />
-<br />
-Udo</div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>ZFS dedup on a Proxmox host in 2026 — has fast dedup changed the recommendation?</title>
-      <pubDate>Fri, 21 Aug 2026 15:14:29 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/zfs-dedup-on-a-proxmox-host-in-2026-%E2%80%94-has-fast-dedup-changed-the-recommendation.185320/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185320</guid>
-      <author>invalid@example.com (DeQuzzie)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>DeQuzzie</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-The standing advice for years has been to leave dedup=off on ZFS pools under Proxmox: the DDT lives in RAM, the write path suffers, and you can&#039;t turn it back off for data already written. OpenZFS 2.3 ships fast dedup, which is supposed to address most of that — quota&#039;d DDT, pruning, dedup logs.<br />
-<br />
-Has that changed anything on the Proxmox side? Concretely, for a pool that holds both guest disks and a large dataset of ordinary files with a lot of duplicates among them:<br />
-<br />
-is dedup=on still a...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/zfs-dedup-on-a-proxmox-host-in-2026-%E2%80%94-has-fast-dedup-changed-the-recommendation.185320/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>28</slash:comments>
-    </item>
-    <item>
-      <title>free Starwind x Proxmox SAN storage plugin</title>
-      <pubDate>Fri, 21 Aug 2026 14:54:33 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/free-starwind-x-proxmox-san-storage-plugin.180377/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:180377</guid>
-      <author>invalid@example.com (alma21)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>alma21</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I have installed and tested the free / open source Starwind Proxmox SAN storage plugin on a small testcluster (PVE 8) with shared block storage and it works really good .... thin provisioning, snapshots,  thin disk auto extension, live migration , linked clones....  at the end a cluster aware (shared) LVM thin implementation (SAN vendor neutral)<br />
-<br />
-just wondering why I have not found more infos/feedback  ....  would be eventually also a good candidate/alternative  for direct PVE...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/free-starwind-x-proxmox-san-storage-plugin.180377/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>28</slash:comments>
-    </item>
-    <item>
-      <title>Unable to delete backups, No space left on device</title>
-      <pubDate>Fri, 21 Aug 2026 14:39:41 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/unable-to-delete-backups-no-space-left-on-device.141218/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:141218</guid>
-      <author>invalid@example.com (Pito2317)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>Pito2317</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi, so, i noticed that today my BPS server storage just has filled up, i was trying to do some cleaning tasks, but here are results:<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>2024-02-08T13:23:34+01:00: starting garbage collection on store HDD1
-2024-02-08T13:23:34+01:00: Start GC phase1 (mark used chunks)
-2024-02-08T13:23:34+01:00: TASK ERROR: update atime failed for chunk/file &quot;/mnt/datastore/HDD1/.chunks/cb4e/cb4ef34b3aa1a14d58b309b5466bd8759f9d6539ac2af48580eaad823b0e6188&quot; - ENOSPC: No space left on device</code></pre>
-	</div>
-</div>I want to add that...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/unable-to-delete-backups-no-space-left-on-device.141218/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>pmxcfs spamming into /var/log/syslog</title>
-      <pubDate>Fri, 21 Aug 2026 13:56:37 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pmxcfs-spamming-into-var-log-syslog.112739/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:112739</guid>
-      <author>invalid@example.com (qXt69WEV2a7fgbET)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>qXt69WEV2a7fgbET</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello Guys,<br />
-<br />
-is it normal that so much entries are logged into /var/log/syslog?;<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Jul 25 23:40:17 xxxx-xx pmxcfs[3759029]: [status] notice: received log
-Jul 25 23:40:17 xxxx-xx pmxcfs[3759029]: [status] notice: received log
-Jul 25 23:40:17 xxxx-xx pmxcfs[3759029]: [status] notice: received log
-Jul 25 23:40:17 xxxx-xx pmxcfs[3759029]: [status] notice: received log
-Jul 25 23:40:17 xxxx-xx pmxcfs[3759029]: [status] notice: received log
-Jul 25 23:40:17 xxxx-xx pmxcfs[3759029]: [status] notice: received log
-Jul 25 23:40:17 xxxx-xx pmxcfs[3759029]: [status] notice...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/pmxcfs-spamming-into-var-log-syslog.112739/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>9</slash:comments>
-    </item>
-    <item>
-      <title>Has anyone tried Ubiquiti's ENAS for ProxMox's storage array?</title>
-      <pubDate>Fri, 21 Aug 2026 13:32:58 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/has-anyone-tried-ubiquitis-enas-for-proxmoxs-storage-array.185871/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185871</guid>
-      <author>invalid@example.com (itsnota2ma)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>itsnota2ma</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I recently installed Ubiquiti&#039;s ENAS as a replacement for my Equallogic SAN. And the price is unbeatable. Now, is it as robust as my Equallogic SAN?? I do not know, we will find out. With that said, at $4000 for the chassis, I can by a spare and still be WAY ahead of the game. With all of that said, I am not a large Enterprise. I only have about 20 VM&#039;s with about 12TB of storage, which is crazy when I could fit the whole thing on one of the new drives I purchased. I didn&#039;t do that of...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/has-anyone-tried-ubiquitis-enas-for-proxmoxs-storage-array.185871/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Stuck at "loading initial ramdisk"</title>
-      <pubDate>Fri, 21 Aug 2026 13:05:34 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/stuck-at-loading-initial-ramdisk.182334/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:182334</guid>
-      <author>invalid@example.com (logiwonk)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>logiwonk</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Problem - following a power interruption my home server PVE now hangs on &quot;loading initial ramdisk&quot; step during bootup<br />
-<br />
-History - had been running this server for about 1 year without significant incident. Previously had several power interruptions without issue. Several months ago I set the bios to power on to last state (to try to get it to auto-boot on power restore) this was likely the first power interruption since that bios change.<br />
-<br />
-System info:<br />
-OS Linux 6.8.12-18-pve<br />
-<br />
-System: Lenovo...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/stuck-at-loading-initial-ramdisk.182334/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>PVE 9.2-1 | Automated Installation | ISO installer dhclient does not request DHCP option 119 (domain-search) which prevents auto install using DNS</title>
-      <pubDate>Fri, 21 Aug 2026 12:43:36 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pve-9-2-1-automated-installation-iso-installer-dhclient-does-not-request-dhcp-option-119-domain-search-which-prevents-auto-install-using-dns.185786/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185786</guid>
-      <author>invalid@example.com (MJ_UI)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>MJ_UI</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-tl;dr: @ProxmoxVE staff: Could you please add option 119 (domain-search) to the <code class="bbCodeInline">/etc/dhcp/dhclient.conf</code> in your official ISO?<br />
-<br />
-I&#039;m using <code class="bbCodeInline">proxmox-ve_9.2-1.iso</code> and followed the <a href="https://pve.proxmox.com/wiki/Automated_Installation" target="_blank" class="link link--external" rel="nofollow ugc noopener">official documentation for Automated Installation</a> to use answer files.<br />
-I&#039;ve prepared an ISO image using the <code class="bbCodeInline">proxmox-auto-install-assistant</code> and set the fetch method (--fetch-from) to http, without explicit --url, to retrieve the URL and Fingerprint via DNS txt records...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pve-9-2-1-automated-installation-iso-installer-dhclient-does-not-request-dhcp-option-119-domain-search-which-prevents-auto-install-using-dns.185786/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>PBS on RAIDZ2+HDD, no special file</title>
-      <pubDate>Fri, 21 Aug 2026 12:25:43 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pbs-on-raidz2-hdd-no-special-file.185856/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185856</guid>
-      <author>invalid@example.com (cyruspy)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>cyruspy</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello, <br />
-<br />
-I know it has been mentioned several times a special device backed by ssd is mandatory when using HDDs for data to have a bearable solution.<br />
-<br />
-If I don&#039;t have SSD but RAM is available (128GB), could ARC save me here?</div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>CEPH setup</title>
-      <pubDate>Fri, 21 Aug 2026 12:11:04 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ceph-setup.185803/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185803</guid>
-      <author>invalid@example.com (PmUserZFS)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>PmUserZFS</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have 6 nodes with the following drives<br />
-<br />
-4x HP PM9A3 480GB(M.2 NVMe PCIe 4.0) slow due to 480gb, not fast as the u.2 and larger drives, benchmarks hard to find on the m.2 480gb.<br />
-5x PM1655 800GB(SAS 24 Gbps)<br />
-3x PM897(SATA 6 Gbps)<br />
-<br />
-This will be a proxmox cluster with ceph, running in a lab, so often not that bussy, but we all hate slow performance ...<br />
-I will use FastEC not replica 3, sas and sata in the same pool.<br />
-<br />
-any input/ideas  how to optimize this hardware?</div>]]></content:encoded>
-      <slash:comments>12</slash:comments>
     </item>
   </channel>
 </rss>
