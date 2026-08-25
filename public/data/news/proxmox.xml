@@ -4,11 +4,260 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Tue, 25 Aug 2026 00:45:56 +0000</pubDate>
-    <lastBuildDate>Tue, 25 Aug 2026 00:45:56 +0000</lastBuildDate>
+    <pubDate>Tue, 25 Aug 2026 06:32:37 +0000</pubDate>
+    <lastBuildDate>Tue, 25 Aug 2026 06:32:37 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>High VM-EXIT and Host CPU usage on idle with Windows Server 2025</title>
+      <pubDate>Tue, 25 Aug 2026 06:25:51 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/high-vm-exit-and-host-cpu-usage-on-idle-with-windows-server-2025.163564/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:163564</guid>
+      <author>invalid@example.com (orange)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>orange</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Good evening, I have been pouring over an interesting problem and it seems like I need some deep insight.  Windows Server 2025 Core has much more than expected overhead.<br />
+<br />
+I am testing Windows Server 2025 Core (and Desktop) on Proxmox 8.3, with all paravirtualized features enabled and the agent installed.<br />
+<br />
+On the VM all virt-io drivers have been installed and VBS has been explicitly disabled.  The OS is newly installed, is completely idle, with no software installed, and running idle for...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/high-vm-exit-and-host-cpu-usage-on-idle-with-windows-server-2025.163564/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>131</slash:comments>
+    </item>
+    <item>
+      <title>I/O Write Errors in VM running on NetApp NFS with sparsefile support enabled (DEALLOCATE returns NFS4ERR_IO)</title>
+      <pubDate>Tue, 25 Aug 2026 05:56:14 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/i-o-write-errors-in-vm-running-on-netapp-nfs-with-sparsefile-support-enabled-deallocate-returns-nfs4err_io.185870/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185870</guid>
+      <author>invalid@example.com (CarstenGrohmann)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>CarstenGrohmann</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I run a stacked setup with Debian 13 on PVE (hostname pve150) on PVE and use an NFS v4.2 datastore backed by a NetApp ONTAP Simulator.<br />
+<br />
+I see some serious errors in my VM at 14:19 CEST:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>[ 43.534144] I/O error, dev sda, sector 812584 op 0x1:(WRITE) flags 0x0 phys_seg 1 prio class 2
+[ 43.534248] EXT4-fs (sda1): failed to convert unwritten extents to written extents -- potential data loss! (inode 2391, error -5)</code></pre>
+	</div>
+</div><br />
+Since I suspected NFS issues, I ran tcpdump, and it also reported no...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/i-o-write-errors-in-vm-running-on-netapp-nfs-with-sparsefile-support-enabled-deallocate-returns-nfs4err_io.185870/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox-WebGui and qm hang on the console</title>
+      <pubDate>Tue, 25 Aug 2026 05:53:26 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-webgui-and-qm-hang-on-the-console.143840/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:143840</guid>
+      <author>invalid@example.com (BrotherJ)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>BrotherJ</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
+<br />
+I&#039;m a bit at a loss at the moment. First of all, I have installed Proxmox Virtual Environment 8.0.2. And so far logging into the WebGui on port 8006 has not been a problem. This suddenly no longer works and I can no longer display the Vms with <br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>qm list</code></pre>
+	</div>
+</div>on the console, the command hangs.<br />
+<br />
+I tried restarting the service or starting it when it hung with this result:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>systemctl start pveproxy.service
+Job for pveproxy.service failed because a timeout was exceeded.
+See...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/proxmox-webgui-and-qm-hang-on-the-console.143840/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>PVE 9.2 + Ceph Tentacle 20.2.4: RBD operations fail because pve-storage passes removed --auth_supported option</title>
+      <pubDate>Tue, 25 Aug 2026 05:39:15 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-9-2-ceph-tentacle-20-2-4-rbd-operations-fail-because-pve-storage-passes-removed-auth_supported-option.185883/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185883</guid>
+      <author>invalid@example.com (UHL-Services)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>UHL-Services</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+I’m running into what looks like a compatibility issue between current Proxmox VE 9.2 storage code and Ceph Tentacle 20.2.4.<br />
+<br />
+Environment:<br />
+<br />
+Proxmox VE:            9.2<br />
+pve-manager:           9.2.11<br />
+libpve-storage-perl:   9.1.8<br />
+qemu-server:           9.2.6<br />
+<br />
+Ceph:                  20.2.4-pve1 (Tentacle)<br />
+ceph-common:           20.2.4-pve1<br />
+librbd1:               20.2.4-pve1<br />
+Ceph is running locally on the Proxmox cluster.<br />
+<br />
+The RBD storage configuration is very simple:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>rbd: nvme
+content...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/pve-9-2-ceph-tentacle-20-2-4-rbd-operations-fail-because-pve-storage-passes-removed-auth_supported-option.185883/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>RAID5 und XFS im Cluster mixen?</title>
+      <pubDate>Tue, 25 Aug 2026 05:22:22 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/raid5-und-xfs-im-cluster-mixen.185950/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185950</guid>
+      <author>invalid@example.com (oelk)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>oelk</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo Gemeinde,<br />
+unsere bisherigen Nodes waren Intel-Maschinen mit 500GB RAID1 zum booten und 20TB RAID5 (4xHDD) für die VMs.<br />
+Jetzt liefert der Anbieter eine Maschine mit einem Broadcom MegaRAID 9550-8i, der kann nur RAID 0,1,10 und <br />
+teilt uns auf Anfrage mit, das RAID5 outdated wäre und wir ZFS machen sollten.<br />
+Abgesehen davon, das wir keine Erfahrung mit ZFS haben, kann man das im Cluster mischen, was passiert da beim verschieben von VMs?<br />
+<br />
+MfG</div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>PVE 9.2.11 - Can't "apt update" in one machine only after "apt upgrade"</title>
+      <pubDate>Tue, 25 Aug 2026 05:03:21 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-9-2-11-cant-apt-update-in-one-machine-only-after-apt-upgrade.185941/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185941</guid>
+      <author>invalid@example.com (jamesbond07)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>jamesbond07</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Everyone,<br />
+<br />
+I&#039;m pretty new on proxmox virtual environment.<br />
+I have a small cluster (only 2 small machines - yeah I know it should be three and I&#039;m working on that).<br />
+A few weeks ago I logged in to the dash board and did an apt update/upgrade for this 2 machines in order to keep them up to date.<br />
+I didn&#039;t get any errors and the cluster is running OK.<br />
+Now I discovered one of the machines (<b>proxmox01 - 192.168.5.10</b>) is no more capable to update.<br />
+I didn&#039;t change any configurations in the...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pve-9-2-11-cant-apt-update-in-one-machine-only-after-apt-upgrade.185941/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>unseen jbod drives</title>
+      <pubDate>Tue, 25 Aug 2026 04:24:42 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/unseen-jbod-drives.185929/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185929</guid>
+      <author>invalid@example.com (ravdrak)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>ravdrak</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">hi there<br />
+<br />
+just newly installed to my old thinksystem ST250 with 530-8i raid controller card. i set to jbod on lenovo system the pbs wont seen any drives? thanks<br />
+<br />
+root@pbs:~# dmesg | grep -iE &quot;sas|sata|sd|ahci&quot;<br />
+[    0.007595] ACPI: RSDP 0x000000008DD53000 000024 (v02 LENOVO)<br />
+[    0.007599] ACPI: XSDT 0x000000008DD530D0 000124 (v01 LENOVO THINKSYS 00000100 AMI  00010013)<br />
+[    0.007609] ACPI: DSDT 0x000000008DD53288 03BAA1 (v02 LENOVO THINKSYS 00000100 INTL 20160527)<br />
+[    0.007630] ACPI: SSDT...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/unseen-jbod-drives.185929/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Storage Health Monitor — lightweight HP Smart Array/SAS health monitoring for Proxmox/Linux servers</title>
+      <pubDate>Tue, 25 Aug 2026 04:07:18 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/storage-health-monitor-%E2%80%94-lightweight-hp-smart-array-sas-health-monitoring-for-proxmox-linux-servers.185955/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185955</guid>
+      <author>invalid@example.com (VulcanInNorth)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>VulcanInNorth</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I built a small storage health monitor for HP Smart Array + SAS/SATA disks.<br />
+<br />
+Storage Health Monitor (SHM) continuously checks storage subsystems and reports only changes that require administrator attention.<br />
+It doesn&#039;t monitor everything.It monitors the things that matter.<br />
+<br />
+Not a monitoring system - Not a dashboard - Not a SMART replacement - Not a RAID management tool<br />
+Its only purpose is to detect changes in storage health and notify the administrator when action is needed.<br />
+<br />
+Get...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/storage-health-monitor-%E2%80%94-lightweight-hp-smart-array-sas-health-monitoring-for-proxmox-linux-servers.185955/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Quick HOWTO on setting up iSCSI Multipath</title>
+      <pubDate>Tue, 25 Aug 2026 02:24:01 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/quick-howto-on-setting-up-iscsi-multipath.157532/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:157532</guid>
+      <author>invalid@example.com (uptonguy75)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>uptonguy75</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Everyone,<br />
+<br />
+I originally included this HOWTO guide as a reply to someone else&#039;s post but am posting in its own thread as it may help others who struggle to get proper iSCSI MPIO working on a Promox cluster.  Coming from an enterprise VMware ESXi background, I wanted my shared storage setup the same way in Promox (albeit without LVM snapshots but Veeam fills this gap).  It should be noted that this configuration is entirely done from shell and not through the web UI.  I found that the GUI...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/quick-howto-on-setting-up-iscsi-multipath.157532/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>42</slash:comments>
+    </item>
+    <item>
+      <title>[Virtualizing PDM] Host PVE Node Uses ZFS Storage. When installing PDM inside VM, EXT4 or ZFS?</title>
+      <pubDate>Tue, 25 Aug 2026 01:59:28 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/virtualizing-pdm-host-pve-node-uses-zfs-storage-when-installing-pdm-inside-vm-ext4-or-zfs.185882/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185882</guid>
+      <author>invalid@example.com (SInisterPisces)</author>
+      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
+      <dc:creator>SInisterPisces</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I&#039;ve never virtualized Proxmox VE, Proxmox Backup Server, or Proxmox Datacenter Manager. In fact, I&#039;ve never installed PDM, and I&#039;d like to test it in a VM.<br />
+<br />
+Normally, I use ext4 inside my VMs; this is a home server hobbyist/home office environment, and using ext4 in my guests has always been fine--and the VM virtual disk lives on a ZFS pool, so it&#039;s getting the benefits of ZFS on the underlying storage.<br />
+<br />
+<b>But, I&#039;m very used to using ZFS in PVE and PBS for the advantages it...</b><br />
+<br />
+<a href="https://forum.proxmox.com/threads/virtualizing-pdm-host-pve-node-uses-zfs-storage-when-installing-pdm-inside-vm-ext4-or-zfs.185882/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>16</slash:comments>
+    </item>
     <item>
       <title>Intel pentium 8505 support</title>
       <pubDate>Tue, 25 Aug 2026 00:26:25 +0000</pubDate>
@@ -149,54 +398,6 @@ All looks good as of passthrough into VMs - laptop boots into proxmox text conso
       <slash:comments>11</slash:comments>
     </item>
     <item>
-      <title>I/O Write Errors in VM running on NetApp NFS with sparsefile support enabled (DEALLOCATE returns NFS4ERR_IO)</title>
-      <pubDate>Mon, 24 Aug 2026 22:26:57 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/i-o-write-errors-in-vm-running-on-netapp-nfs-with-sparsefile-support-enabled-deallocate-returns-nfs4err_io.185870/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185870</guid>
-      <author>invalid@example.com (CarstenGrohmann)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>CarstenGrohmann</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I run a stacked setup with Debian 13 on PVE (hostname pve150) on PVE and use an NFS v4.2 datastore backed by a NetApp ONTAP Simulator.<br />
-<br />
-I see some serious errors in my VM at 14:19 CEST:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>[ 43.534144] I/O error, dev sda, sector 812584 op 0x1:(WRITE) flags 0x0 phys_seg 1 prio class 2
-[ 43.534248] EXT4-fs (sda1): failed to convert unwritten extents to written extents -- potential data loss! (inode 2391, error -5)</code></pre>
-	</div>
-</div><br />
-Since I suspected NFS issues, I ran tcpdump, and it also reported no...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/i-o-write-errors-in-vm-running-on-netapp-nfs-with-sparsefile-support-enabled-deallocate-returns-nfs4err_io.185870/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>RAID5 und XFS im Cluster mixen?</title>
-      <pubDate>Mon, 24 Aug 2026 21:38:39 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/raid5-und-xfs-im-cluster-mixen.185950/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185950</guid>
-      <author>invalid@example.com (oelk)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>oelk</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo Gemeinde,<br />
-unsere bisherigen Nodes waren Intel-Maschinen mit 500GB RAID1 zum booten und 20TB RAID5 (4xHDD) für die VMs.<br />
-Jetzt liefert der Anbieter eine Maschine mit einem Broadcom MegaRAID 9550-8i, der kann nur RAID 0,1,10 und <br />
-teilt uns auf Anfrage mit, das RAID5 outdated wäre und wir ZFS machen sollten.<br />
-Abgesehen davon, das wir keine Erfahrung mit ZFS haben, kann man das im Cluster mischen, was passiert da beim verschieben von VMs?<br />
-<br />
-MfG</div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
       <title>non-free-firmware install tries to remove kernel</title>
       <pubDate>Mon, 24 Aug 2026 21:32:36 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/non-free-firmware-install-tries-to-remove-kernel.185908/</link>
@@ -232,160 +433,6 @@ Summary:
 </div><br />
 <a href="https://forum.proxmox.com/threads/non-free-firmware-install-tries-to-remove-kernel.185908/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>CPU Mix Intel und APMD Epyc im Cluster?</title>
-      <pubDate>Mon, 24 Aug 2026 21:30:29 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/cpu-mix-intel-und-apmd-epyc-im-cluster.185949/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185949</guid>
-      <author>invalid@example.com (oelk)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>oelk</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo Gemeinde,<br />
-sollte man das machen oder eher nicht?<br />
-Beim Verschieben von VMs hat sich das bisher als nicht vorteilhaft erwiesen.<br />
-<br />
-MfG</div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Opt-in Linux 7.0 Kernel for Proxmox VE 9 available</title>
-      <pubDate>Mon, 24 Aug 2026 20:34:02 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:182328</guid>
-      <author>invalid@example.com (t.lamprecht)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>t.lamprecht</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">We recently uploaded the 7.0 (rc6) kernel to our repositories. The current default kernel for the Proxmox VE 9 series is still 6.17, but 7.0 is now an option.<br />
-<br />
-We plan to use the 7.0 kernel as the new default for the upcoming Proxmox VE 9.2 and Proxmox Backup Server 4.2 releases planned later in Q2.<br />
-This follows our tradition of upgrading the Proxmox VE kernel to match the current Ubuntu version until we reach an Ubuntu LTS release, at which point we will only provide newer kernels as an...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>225</slash:comments>
-    </item>
-    <item>
-      <title>Absolute beginner</title>
-      <pubDate>Mon, 24 Aug 2026 20:01:42 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/absolute-beginner.185935/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185935</guid>
-      <author>invalid@example.com (Storakulix)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>Storakulix</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo ich plane von meiner bisherigen Bastellösung (verschiedene native und virtuelle Systeme auf verschiedenen Maschinen) meines Home Labs auf Proxmox umzusteigen. <br />
-<br />
-Bislang bin ich noch in der Planungsphase, als HW soll ein Minisforum EU N5 Air alsGrundlage dienen <br />
-<br />
-HW Config:<br />
-   MinisforumN5 Air<br />
-   32 GB DDR5 RAM SO DIMM<br />
-   2 x 1TM SSD NVME<br />
-   4 x 4TB Festplatte NAS<br />
-<br />
-Folgende Services sollen auf die HW:<br />
-<br />
-ProxmoxVE<br />
- - Homeassistant<br />
- - OpenCCU<br />
- - Webserver<br />
- - CloudApplication<br />
- - NAS<br />
- -...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/absolute-beginner.185935/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>[PDM 1.1.7] VM/LXC Migration - Specify Migration Network or Use Proxmox Management ?</title>
-      <pubDate>Mon, 24 Aug 2026 19:46:17 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pdm-1-1-7-vm-lxc-migration-specify-migration-network-or-use-proxmox-management.185943/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185943</guid>
-      <author>invalid@example.com (SInisterPisces)</author>
-      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
-      <dc:creator>SInisterPisces</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><b>Ref:</b> <a href="https://pdm.proxmox.com/docs/roadmap.html" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://pdm.proxmox.com/docs/roadmap.html</a><br />
-<br />
-I didn&#039;t see anything in the documentation or the roadmap regarding this, but it&#039;s Monday so my reading comprehension might not be at its best.<br />
-<br />
-I have a single interface (<b>nic0</b>) on my default PDM install that&#039;s on my PVE cluster management subnet/VLAN (1 Gbps NIC; MTU 1500). <br />
-<br />
-I see that I can add more NICs or even create a bond or bridge, but I don&#039;t see an option to specify a specific (e.g., 10 Gbps or faster) interface for...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pdm-1-1-7-vm-lxc-migration-specify-migration-network-or-use-proxmox-management.185943/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>PDM Migration Network</title>
-      <pubDate>Mon, 24 Aug 2026 19:38:39 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pdm-migration-network.174345/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:174345</guid>
-      <author>invalid@example.com (katamadone)</author>
-      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
-      <dc:creator>katamadone</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Just testd the Datacenter Manager to migrate from one cluster to another.<br />
-Actually it would work. But the problem is that we have the following network situation:<br />
-<ul>
-<li data-xf-list-type="ul">1GBit for MGMT and Corosync subnet (NET x.x.1.0/24)</li>
-<li data-xf-list-type="ul">2x LACP 25 GBit for data<ul>
-<li data-xf-list-type="ul">including migration network (which works fine in the cluster) (NET x.x.2.0/24)</li>
-<li data-xf-list-type="ul">including second corosync </li>
-</ul></li>
-<li data-xf-list-type="ul">2x LACP 25 GBit for storage</li>
-</ul>If we do migration within the cluster it works as expected and uses the migration network...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pdm-migration-network.174345/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>two disk vm can't replicate, thinks one is local</title>
-      <pubDate>Mon, 24 Aug 2026 18:43:33 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/two-disk-vm-cant-replicate-thinks-one-is-local.185946/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185946</guid>
-      <author>invalid@example.com (randyqx)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>randyqx</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">i cam not replicate a two drive vm, getting &quot;missing replicate feature on volume &#039;local:103/rcuss.raw&#039; (500)&quot;, which si the second of the two drives, which i admit to farbling<br />
-<br />
-i imported a two drive vm from ganeti to proxmox.  when importing the second drive, i made the mistake of not specifying the target storage, so it went to local instead of images, the zfs filesystem.  so i had to move it from local to zfs.  which, i assume, is why some attribute store thinks it is still on local, see...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/two-disk-vm-cant-replicate-thinks-one-is-local.185946/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>PVE 9.2.11 - Can't "apt update" in one machine only after "apt upgrade"</title>
-      <pubDate>Mon, 24 Aug 2026 18:37:07 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pve-9-2-11-cant-apt-update-in-one-machine-only-after-apt-upgrade.185941/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185941</guid>
-      <author>invalid@example.com (jamesbond07)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>jamesbond07</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi Everyone,<br />
-<br />
-I&#039;m pretty new on proxmox virtual environment.<br />
-I have a small cluster (only 2 small machines - yeah I know it should be three and I&#039;m working on that).<br />
-A few weeks ago I logged in to the dash board and did an apt update/upgrade for this 2 machines in order to keep them up to date.<br />
-I didn&#039;t get any errors and the cluster is running OK.<br />
-Now I discovered one of the machines (<b>proxmox01 - 192.168.5.10</b>) is no more capable to update.<br />
-I didn&#039;t change any configurations in the...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pve-9-2-11-cant-apt-update-in-one-machine-only-after-apt-upgrade.185941/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Cant access smb share in my proxmox</title>
-      <pubDate>Mon, 24 Aug 2026 17:56:43 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/cant-access-smb-share-in-my-proxmox.185944/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185944</guid>
-      <author>invalid@example.com (eagle275)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>eagle275</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Despite to cons and don&#039;ts ,, i created a smb share in samba .. and it worked - for like 2 years. Then 2 things happened (though independed of each other)<br />
-First I moved the zfs array tp a new enclosure - and 2nd  - suddenly my Windows 11 says 0x80070043  though drives and samba work and say its fine<br />
-So what COULD keep my Windows from finding and accessing the smb-share<br />
-and a 3rd thing - is it intentional I cant ping the proxmox server - I believe that worked some time ago and I didnt block...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/cant-access-smb-share-in-my-proxmox.185944/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
     </item>
   </channel>
 </rss>
