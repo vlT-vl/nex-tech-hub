@@ -4,11 +4,199 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Wed, 26 Aug 2026 00:45:32 +0000</pubDate>
-    <lastBuildDate>Wed, 26 Aug 2026 00:45:32 +0000</lastBuildDate>
+    <pubDate>Wed, 26 Aug 2026 06:34:11 +0000</pubDate>
+    <lastBuildDate>Wed, 26 Aug 2026 06:34:11 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>PVE-Cluster auf LACP umstellen</title>
+      <pubDate>Wed, 26 Aug 2026 06:32:55 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-cluster-auf-lacp-umstellen.185977/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185977</guid>
+      <author>invalid@example.com (ramba.zamba)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>ramba.zamba</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo. Mein Cluster hat aktuell 4 Knoten (irgendwann 5). Jede Maschine hat eine Dual 25G NIC und hängt an einem Mikrotik Switch. Über dessen VLAN 4001 läuft bspw. der PVE Cluster-Traffic. Die interfaces dazu sieht wie folgt aus:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>auto cluster
+iface cluster inet static
+address 192.168.10.1/24
+bridge-ports enp1s0f1np1
+bridge-stp off
+bridge-fd 0
+bridge-vlan-aware yes
+bridge-vids 2-4094
+mtu 9000
+
+auto cluster.4001
+iface cluster.4001 inet static
+address 10.10.10.1/24</code></pre>
+	</div>
+</div><br />
+Ich möchte jetzt den...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pve-cluster-auf-lacp-umstellen.185977/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Multiple VMs randomly give a warning during backup</title>
+      <pubDate>Wed, 26 Aug 2026 06:30:12 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/multiple-vms-randomly-give-a-warning-during-backup.185851/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185851</guid>
+      <author>invalid@example.com (crawrj)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>crawrj</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello All. Noob back with another odd issue. I get warnings like this, WARN: unable to check guest fs freeze status - VM 203 qga command &#039;guest-fsfreeze-status&#039; failed - got timeout sporadically on a daily basis but not all the time or consistently. It can be different VMs at different times on different hosts and it has happened on two different installs of PBS, One original test VM and now on the dedicated host. The backups say they successfully complete. Is this anything I should be...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/multiple-vms-randomly-give-a-warning-during-backup.185851/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>PBS on RAIDZ2+HDD, no special file</title>
+      <pubDate>Wed, 26 Aug 2026 06:29:16 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pbs-on-raidz2-hdd-no-special-file.185856/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185856</guid>
+      <author>invalid@example.com (cyruspy)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>cyruspy</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello, <br />
+<br />
+I know it has been mentioned several times a special device backed by ssd is mandatory when using HDDs for data to have a bearable solution.<br />
+<br />
+If I don&#039;t have SSD but RAM is available (128GB), could ARC save me here?</div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>Horrifically slow download speeds for download.proxmox.com?</title>
+      <pubDate>Wed, 26 Aug 2026 05:59:17 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/horrifically-slow-download-speeds-for-download-proxmox-com.185880/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185880</guid>
+      <author>invalid@example.com (Tmanok)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>Tmanok</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Everyone, Hey PVE Staff,<br />
+<br />
+Is it just me, or are the web servers for download.proxmox.com unbelievably slow? I&#039;m updating a PBS instance after several months and realizing it will take hours.... This is naturally, inconveniently interfering with a maintenance window. Shame on me for not updating it sooner perhaps. But I am shocked by how slow this is. 20-40KB/s... :O <br />
+<br />
+This is from a business fiber connection on Vancouver Island. I am used to seeing &gt;10MB/s (80Mbps) on downloads even from...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/horrifically-slow-download-speeds-for-download-proxmox-com.185880/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>SR-IOV with Intel X552/82599 vs X710 - Communication issue between VF VM and host bridge</title>
+      <pubDate>Wed, 26 Aug 2026 05:48:55 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/sr-iov-with-intel-x552-82599-vs-x710-communication-issue-between-vf-vm-and-host-bridge.184095/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:184095</guid>
+      <author>invalid@example.com (alhaddar)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>alhaddar</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I have been testing SR-IOV on two different Proxmox nodes and found a significant difference in behavior between Intel NICs. I would like to share my findings and ask if there is a solution for the X552/82599.<br />
+<br />
+---<br />
+<br />
+Hardware Setup:<br />
+<br />
+Node 1 - pve (Supermicro X10SDV-16C-TLN2F):<br />
+- Intel X552/X557-AT 10GbE (ixgbe driver)<br />
+- Intel 82599ES X520 SFP+ (ixgbe driver)<br />
+- Proxmox 9.x, Kernel 6.17.13-11-pve<br />
+<br />
+Node 2 - pve2 (Protectli VP6650):<br />
+- Intel X710 10GbE SFP+ (i40e driver)<br />
+- Proxmox 9.x...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/sr-iov-with-intel-x552-82599-vs-x710-communication-issue-between-vf-vm-and-host-bridge.184095/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Feature Request: Scheduled tasks</title>
+      <pubDate>Wed, 26 Aug 2026 05:37:30 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/feature-request-scheduled-tasks.185973/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185973</guid>
+      <author>invalid@example.com (AnthonyWebb)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>AnthonyWebb</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello, everyone.  I have successfully coerced my organization to switch over to Proxmox.  We have been running in production for about six months now.  One feature that I&#039;ve been asked about a few times is scheduled tasks.  Basically, my organization wants to be able to set a VM/CT to power down, or reboot at a specific time regardless of what the OS is doing.  Right now, I do that wil cron jobs, not everyone in my organization knows or needs to know how to operate the CLI / manage cron...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/feature-request-scheduled-tasks.185973/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>I/O Write Errors in VM running on NetApp NFS with sparsefile support enabled (DEALLOCATE returns NFS4ERR_IO)</title>
+      <pubDate>Wed, 26 Aug 2026 04:37:05 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/i-o-write-errors-in-vm-running-on-netapp-nfs-with-sparsefile-support-enabled-deallocate-returns-nfs4err_io.185870/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185870</guid>
+      <author>invalid@example.com (CarstenGrohmann)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>CarstenGrohmann</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I run a stacked setup with Debian 13 on PVE (hostname pve150) on PVE and use an NFS v4.2 datastore backed by a NetApp ONTAP Simulator.<br />
+<br />
+I see some serious errors in my VM at 14:19 CEST:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>[ 43.534144] I/O error, dev sda, sector 812584 op 0x1:(WRITE) flags 0x0 phys_seg 1 prio class 2
+[ 43.534248] EXT4-fs (sda1): failed to convert unwritten extents to written extents -- potential data loss! (inode 2391, error -5)</code></pre>
+	</div>
+</div><br />
+Since I suspected NFS issues, I ran tcpdump, and it also reported no...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/i-o-write-errors-in-vm-running-on-netapp-nfs-with-sparsefile-support-enabled-deallocate-returns-nfs4err_io.185870/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>7</slash:comments>
+    </item>
+    <item>
+      <title>Shared NFS storage showing status: unknown on 2nd pve host.</title>
+      <pubDate>Wed, 26 Aug 2026 04:17:51 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/shared-nfs-storage-showing-status-unknown-on-2nd-pve-host.168076/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:168076</guid>
+      <author>invalid@example.com (pzerkel)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>pzerkel</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am still in the testing stages of ProxMox VE as a potential VMware replacement.<br />
+<br />
+I have successfully set up a single host, and successfully connected it to an NFS share on a TrueNAS. The shared storage on the 1st host shows a &quot;status: available&quot; .<br />
+<br />
+Yesterday, I set up a 2nd host, with the goal of setting up a cluster. I am having issues getting connected to the same NFS share on this 2nd host. I have added the Shared storage but I had to uncheck the &quot;enabled&quot; box when I first attached it...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/shared-nfs-storage-showing-status-unknown-on-2nd-pve-host.168076/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Reporting enhancements in the bug tracker</title>
+      <pubDate>Wed, 26 Aug 2026 04:07:35 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/reporting-enhancements-in-the-bug-tracker.116595/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:116595</guid>
+      <author>invalid@example.com (sacarias)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>sacarias</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Is it allowed to try reporting possible enhancements as well in the bug tracker website, and not just bugs per se?<br />
+<a href="https://bugzilla.proxmox.com/" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://bugzilla.proxmox.com/</a><br />
+<br />
+Thanks.</div>]]></content:encoded>
+      <slash:comments>17</slash:comments>
+    </item>
     <item>
       <title>Is any of Intel gen 11-14 with iGPU's SR-IOV (i915-sriov-dkms or Xe driver) any good for passing laptop screen between VMs and host?</title>
       <pubDate>Wed, 26 Aug 2026 00:40:52 +0000</pubDate>
@@ -76,19 +264,6 @@ Recently I upgraded from PVE 8+ to 9.2.11. It has 4 NIC on the machine. It was w
       <slash:comments>2</slash:comments>
     </item>
     <item>
-      <title>Feature Request: Scheduled tasks</title>
-      <pubDate>Tue, 25 Aug 2026 23:14:32 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/feature-request-scheduled-tasks.185973/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185973</guid>
-      <author>invalid@example.com (AnthonyWebb)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>AnthonyWebb</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello, everyone.  I have successfully coerced my organization to switch over to Proxmox.  We have been running in production for about six months now.  One feature that I&#039;ve been asked about a few times is scheduled tasks.  Basically, my organization wants to be able to set a VM/CT to power down, or reboot at a specific time regardless of what the OS is doing.  Right now, I do that wil cron jobs, not everyone in my organization knows or needs to know how to operate the CLI / manage cron...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/feature-request-scheduled-tasks.185973/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
       <title>MTU Not being correctly set between host and LXC</title>
       <pubDate>Tue, 25 Aug 2026 23:02:17 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/mtu-not-being-correctly-set-between-host-and-lxc.185975/</link>
@@ -118,20 +293,6 @@ Environment:<br />
       <slash:comments>1</slash:comments>
     </item>
     <item>
-      <title>Reporting enhancements in the bug tracker</title>
-      <pubDate>Tue, 25 Aug 2026 22:39:51 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/reporting-enhancements-in-the-bug-tracker.116595/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:116595</guid>
-      <author>invalid@example.com (sacarias)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>sacarias</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Is it allowed to try reporting possible enhancements as well in the bug tracker website, and not just bugs per se?<br />
-<a href="https://bugzilla.proxmox.com/" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://bugzilla.proxmox.com/</a><br />
-<br />
-Thanks.</div>]]></content:encoded>
-      <slash:comments>16</slash:comments>
-    </item>
-    <item>
       <title>Quick HOWTO on setting up iSCSI Multipath</title>
       <pubDate>Tue, 25 Aug 2026 22:21:41 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/quick-howto-on-setting-up-iscsi-multipath.157532/</link>
@@ -147,21 +308,33 @@ I originally included this HOWTO guide as a reply to someone else&#039;s post bu
       <slash:comments>44</slash:comments>
     </item>
     <item>
-      <title>Horrifically slow download speeds for download.proxmox.com?</title>
-      <pubDate>Tue, 25 Aug 2026 21:20:20 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/horrifically-slow-download-speeds-for-download-proxmox-com.185880/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185880</guid>
-      <author>invalid@example.com (Tmanok)</author>
+      <title>NetBox IPAM does not request IP</title>
+      <pubDate>Tue, 25 Aug 2026 21:58:04 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/netbox-ipam-does-not-request-ip.185976/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185976</guid>
+      <author>invalid@example.com (capm)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>Tmanok</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi Everyone, Hey PVE Staff,<br />
+      <dc:creator>capm</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Core Issue: After setting up NetBox IPAM, creating a Container or adding an Interface to an existing one, does not make an API call to NetBox.<br />
 <br />
-Is it just me, or are the web servers for download.proxmox.com unbelievably slow? I&#039;m updating a PBS instance after several months and realizing it will take hours.... This is naturally, inconveniently interfering with a maintenance window. Shame on me for not updating it sooner perhaps. But I am shocked by how slow this is. 20-40KB/s... :O <br />
+PVE 9.1.1<br />
+Tested against NetBox v4.5.2 and v4.6.2<br />
 <br />
-This is from a business fiber connection on Vancouver Island. I am used to seeing &gt;10MB/s (80Mbps) on downloads even from...<br />
+Steps taken....<br />
 <br />
-<a href="https://forum.proxmox.com/threads/horrifically-slow-download-speeds-for-download-proxmox-com.185880/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
+<b>Added IPAM</b><br />
+Name, token, url. When this is added, I do see an API call to <code class="bbCodeInline">/api/ipam/aggregates/</code><br />
+<br />
+<b>Add Zone</b><br />
+Add a <code class="bbCodeInline">Simple Zone</code>, with the newly create IPAM. No other options are changed.<br />
+<br />
+<b>Add VNet</b><br />
+Add a new VNet, associated with the previous Zone<br />
+<br />
+<b>Add...</b><br />
+<br />
+<a href="https://forum.proxmox.com/threads/netbox-ipam-does-not-request-ip.185976/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
     </item>
     <item>
       <title>Not booting to Proxmox Installer</title>
@@ -242,165 +415,6 @@ sollte man das machen oder eher nicht?<br />
 Beim Verschieben von VMs hat sich das bisher als nicht vorteilhaft erwiesen.<br />
 <br />
 MfG</div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>PVE 9.2.11 - Can't "apt update" in one machine only after "apt upgrade"</title>
-      <pubDate>Tue, 25 Aug 2026 18:30:50 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pve-9-2-11-cant-apt-update-in-one-machine-only-after-apt-upgrade.185941/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185941</guid>
-      <author>invalid@example.com (jamesbond07)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>jamesbond07</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi Everyone,<br />
-<br />
-I&#039;m pretty new on proxmox virtual environment.<br />
-I have a small cluster (only 2 small machines - yeah I know it should be three and I&#039;m working on that).<br />
-A few weeks ago I logged in to the dash board and did an apt update/upgrade for this 2 machines in order to keep them up to date.<br />
-I didn&#039;t get any errors and the cluster is running OK.<br />
-Now I discovered one of the machines (<b>proxmox01 - 192.168.5.10</b>) is no more capable to update.<br />
-I didn&#039;t change any configurations in the...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pve-9-2-11-cant-apt-update-in-one-machine-only-after-apt-upgrade.185941/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>9</slash:comments>
-    </item>
-    <item>
-      <title>Opt-in Linux 7.0 Kernel for Proxmox VE 9 available</title>
-      <pubDate>Tue, 25 Aug 2026 18:18:48 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:182328</guid>
-      <author>invalid@example.com (t.lamprecht)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>t.lamprecht</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">We recently uploaded the 7.0 (rc6) kernel to our repositories. The current default kernel for the Proxmox VE 9 series is still 6.17, but 7.0 is now an option.<br />
-<br />
-We plan to use the 7.0 kernel as the new default for the upcoming Proxmox VE 9.2 and Proxmox Backup Server 4.2 releases planned later in Q2.<br />
-This follows our tradition of upgrading the Proxmox VE kernel to match the current Ubuntu version until we reach an Ubuntu LTS release, at which point we will only provide newer kernels as an...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>228</slash:comments>
-    </item>
-    <item>
-      <title>Difficulty reading Windows Disk 16/17 or SCSI14/15 ?</title>
-      <pubDate>Tue, 25 Aug 2026 18:16:25 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/difficulty-reading-windows-disk-16-17-or-scsi14-15.185971/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185971</guid>
-      <author>invalid@example.com (shodan)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>shodan</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I have difficulty reading certain disks on a VM that persist even after deleting them, re-creating them, restarting the VM.<br />
-Nothing seems to fix it, there&#039;s something about Windows Disk 16/17 or SCSI14/15 that simply will not work ?<br />
-<br />
-I initially noticed the issue as I was adding disks, Disk 16/17 were appearing as blank !<br />
-<br />
-<a href="https://forum.proxmox.com/attachments/1787681179130-png.99568/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99264-368e6e67b99623a09dac002364fd9d94.jpg?hash=50nN3vbnmw"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99264-368e6e67b99623a09dac002364fd9d94.jpg?hash=50nN3vbnmw 2x"
-		class="bbImage "
-		style=""
-		alt="1787681179130.png"
-		title="1787681179130.png"
-		width="158" height="150" loading="lazy" /></a><br />
-But according to my script &quot;list-all-vm-lvm-filesystems.sh&quot;<br />
-<br />
-These LVM contained disk filesystem, were not empty, they in fact are identical to most of...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/difficulty-reading-windows-disk-16-17-or-scsi14-15.185971/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Ceph CVEs – keyring rotation strongly advised, probably required in the future</title>
-      <pubDate>Tue, 25 Aug 2026 18:14:47 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ceph-cves-%E2%80%93-keyring-rotation-strongly-advised-probably-required-in-the-future.185863/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185863</guid>
-      <author>invalid@example.com (UweSauter)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>UweSauter</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><a href="https://www.openwall.com/lists/oss-security/2026/08/19/4" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://www.openwall.com/lists/oss-security/2026/08/19/4</a><br />
-<a href="https://www.openwall.com/lists/oss-security/2026/08/20/20" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://www.openwall.com/lists/oss-security/2026/08/20/20</a><br />
-<br />
-;tldr There are flaws in the currently used authentication mechanism for CephX. Versions 19.2.6 and 20.2.4 introduce new algorithms to CephX that require a rotation of the keyrings.<br />
-<br />
-What would be the steps to rotate the keyrings on a PVE cluster? Would this require a maintenance of the whole cluster or could it be done gradually?<br />
-<br />
-Even if the old authentication...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/ceph-cves-%E2%80%93-keyring-rotation-strongly-advised-probably-required-in-the-future.185863/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Broadcom BCM57504 (100G) bnxt_en TX timeout and NIC reset on Proxmox 8.1.5 — while BCM57414 (25G) works fine on same host</title>
-      <pubDate>Tue, 25 Aug 2026 17:39:21 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/broadcom-bcm57504-100g-bnxt_en-tx-timeout-and-nic-reset-on-proxmox-8-1-5-%E2%80%94-while-bcm57414-25g-works-fine-on-same-host.179837/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:179837</guid>
-      <author>invalid@example.com (walissongois)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>walissongois</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
-<br />
-I&#039;m experiencing a recurring network failure on a Proxmox VE host using a Broadcom NetXtreme-E 100G NIC (BCM57504).<br />
-The NIC stops transmitting, triggers a TX timeout, and then fails to reset correctly. After that, the interface is disabled and vmbr0 loses connectivity until the host is rebooted.<br />
-Interestingly, the same host also has another Broadcom NIC (BCM57414 dual 10G/25G) using the same driver and kernel, and it works perfectly without any issues. The problem only...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/broadcom-bcm57504-100g-bnxt_en-tx-timeout-and-nic-reset-on-proxmox-8-1-5-%E2%80%94-while-bcm57414-25g-works-fine-on-same-host.179837/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>15</slash:comments>
-    </item>
-    <item>
-      <title>Partition on large iscsi target failed</title>
-      <pubDate>Tue, 25 Aug 2026 17:31:15 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/partition-on-large-iscsi-target-failed.185931/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185931</guid>
-      <author>invalid@example.com (ccnet)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>ccnet</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi<br />
-<b>Setup</b><br />
-Proxmox backup server 4.2 on dedicated hardware (24 x Intel(R) Xeon(R) CPU E5-2640 0 @ 2.50GHz, Ram 72 Go, Local Storage 1,45 To)<br />
-iSCSI storage on dedicated Synology (13To)<br />
-iscsiadm -m session return :<br />
-tcp: [1] 192.168.10.113:3260,1 iqn.2000-01.com.synology:SAN-03.Pbs-00.726590134d2 (non-flash)<br />
-tcp: [2] 192.168.10.113:3260,1 iqn.2000-01.com.synology:SAN-03.default-target.726590134d2 (non-flash)<br />
-<br />
-First : 600 Go<br />
-Second : 13,7 To<br />
-<br />
-lsblk show :<br />
-sdb            8:16   0 13.7T  0...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/partition-on-large-iscsi-target-failed.185931/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>I/O Write Errors in VM running on NetApp NFS with sparsefile support enabled (DEALLOCATE returns NFS4ERR_IO)</title>
-      <pubDate>Tue, 25 Aug 2026 17:19:46 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/i-o-write-errors-in-vm-running-on-netapp-nfs-with-sparsefile-support-enabled-deallocate-returns-nfs4err_io.185870/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185870</guid>
-      <author>invalid@example.com (CarstenGrohmann)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>CarstenGrohmann</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I run a stacked setup with Debian 13 on PVE (hostname pve150) on PVE and use an NFS v4.2 datastore backed by a NetApp ONTAP Simulator.<br />
-<br />
-I see some serious errors in my VM at 14:19 CEST:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>[ 43.534144] I/O error, dev sda, sector 812584 op 0x1:(WRITE) flags 0x0 phys_seg 1 prio class 2
-[ 43.534248] EXT4-fs (sda1): failed to convert unwritten extents to written extents -- potential data loss! (inode 2391, error -5)</code></pre>
-	</div>
-</div><br />
-Since I suspected NFS issues, I ran tcpdump, and it also reported no...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/i-o-write-errors-in-vm-running-on-netapp-nfs-with-sparsefile-support-enabled-deallocate-returns-nfs4err_io.185870/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>6</slash:comments>
     </item>
   </channel>
