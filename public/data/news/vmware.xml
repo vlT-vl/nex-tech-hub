@@ -12,7 +12,7 @@
 	<atom:link href="https://blogs.vmware.com/feed" rel="self" type="application/rss+xml" />
 	<link>https://blogs.vmware.com/</link>
 	<description>VMware Blogs</description>
-	<lastBuildDate>Wed, 26 Aug 2026 21:04:39 +0000</lastBuildDate>
+	<lastBuildDate>Thu, 27 Aug 2026 15:15:40 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -20,6 +20,155 @@
 	1	</sy:updateFrequency>
 	<generator>https://wordpress.org/?v=6.8.8</generator>
 <site xmlns="com-wordpress:feed-additions:1">237817777</site>	<item>
+		<title>Securing the Memory Layer: How Broadcom and AMD Are Bringing Confidential Computing to the Enterprise</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/08/27/securing-the-memory-layer-how-broadcom-and-amd-are-bringing-confidential-computing-to-the-enterprise/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Thu, 27 Aug 2026 15:00:00 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10097813</guid>
+
+					<description><![CDATA[<img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/08/amd-broadcom-blog.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" fetchpriority="high" /><p>Security teams have spent years building strong protections around their data. Encryption on disk, encryption over the network, strict access controls, and continuous monitoring are all standard practices. But the moment a workload starts processing data, all of that protection fades away. For organizations handling regulated data, running AI models on sensitive inputs, or operating &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/08/27/securing-the-memory-layer-how-broadcom-and-amd-are-bringing-confidential-computing-to-the-enterprise/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/27/securing-the-memory-layer-how-broadcom-and-amd-are-bringing-confidential-computing-to-the-enterprise/">Securing the Memory Layer: How Broadcom and AMD Are Bringing Confidential Computing to the Enterprise</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/08/amd-broadcom-blog.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/08/amd-broadcom-blog.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/amd-broadcom-blog.png 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/amd-broadcom-blog.png?resize=300,200 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/amd-broadcom-blog.png?resize=768,512 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/amd-broadcom-blog.png?resize=1024,683 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/amd-broadcom-blog.png?resize=600,400 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+<p>Security teams have spent years building strong protections around their data. Encryption on disk, encryption over the network, strict access controls, and continuous monitoring are all standard practices. But the moment a workload starts processing data, all of that protection fades away. For organizations handling regulated data, running AI models on sensitive inputs, or operating in multi-tenant environments, that exposure is becoming harder to justify to auditors and regulators.</p>
+<p>VMware Cloud Foundation 9.1 closes that gap with confidential computing, and AMD&#8217;s hardware technology is central to that story. Broadcom and AMD have been working together to bring AMD Secure Encrypted Virtualization (SEV) with Secure Nested Paging into VCF as a production-ready capability, managed through the same operational model customers already use.</p>
+<h2 class="wp-block-heading" id="h-the-threat-landscape-has-shifted"><strong>The Threat Landscape Has Shifted</strong></h2>
+<p>The attack surface that matters most has moved. Network perimeters and disk encryption address external threats well, but the threats that are hardest to detect operate from inside the infrastructure stack. A compromised hypervisor, or even a privileged insider with host access can expose data in memory without triggering traditional security controls.</p>
+<p>The growth of AI inference and agentic AI has amplified this exposure significantly. A model running inference on patient records, financial transactions, or proprietary training data sits in memory for the full duration of the job. Multi-tenant environments compound the risk because workloads from different business units or customers share physical hosts, and software-only isolation has a larger attack surface than isolation enforced by the CPU.</p>
+<p>Regulatory frameworks like DORA, GDPTR and NIST include data-in-use protection requirements. Financial services, healthcare, and government compliance frameworks are starting to ask specific questions about how data is protected while it&#8217;s being processed, not just while it&#8217;s stored or transmitted. The answer that satisfies those questions is hardware-enforced memory isolation, which is exactly what AMD SEV provides.</p>
+<h2 class="wp-block-heading" id="h-what-broadcom-and-amd-have-built-together"><strong>What Broadcom and AMD Have Built Together</strong></h2>
+<p>AMD&#8217;s role begins at the foundation of the stack, inside the AMD EPYC<sup>TM</sup> processor architecture itself. AMD SEV with Secure Nested Paging, available on AMD EPYC<sup>TM</sup> processors, creates hardware-isolated virtual machines where each VM&#8217;s memory is encrypted with keys that the hypervisor cannot access. The host operating system, the hypervisor, and anyone with administrative access to the physical server are structurally blocked from reading that memory. The protection is enforced by the CPU itself, not by software policy.</p>
+<p>Broadcom provides the platform layer that makes SEV-SNP operationally usable inside VCF. VCF 9.0 introduced support for AMD SEV with Secure Nested Paging alongside existing AMD SEV with Encrypted State capabilities, bringing the same workload functionality to the newer technology.&nbsp; Confidential computing supporting AMD SEV-SNP with Quickboot support became generally available with VMware Cloud Foundation 9.1, delivered as part of <a href="https://blogs.vmware.com/cloud-foundation/2026/02/12/advanced-cyber-compliance-security-compliance-and-resilience-for-vcf/">VMware Advanced Cyber Compliance</a>.&nbsp;</p>
+<p>While SEV in an AMD EPYC<sup>TM</sup> processor is a silicon capability, Secure Nested Paging working correctly inside VCF&#8217;s virtualization layer, surfaced through VMware APIs without custom driver work, is a platform feature that customers can deploy to production. Broadcom and AMD did that integration and validation jointly, so customers don&#8217;t have to debug the interaction between the hardware and the hypervisor themselves.</p>
+<p>AMD designed Secure Nested Paging to address operational concerns that earlier confidential computing technologies couldn&#8217;t solve. When a hypervisor loses visibility into a workload&#8217;s memory, it also loses the ability to migrate that workload with vMotion, take snapshots of the VM’s memory, or manage it through standard lifecycle operations. SEV&#8217;s architecture reduces those limitations, and VCF&#8217;s integration preserves as much operational functionality as possible while maintaining the security boundary.</p>
+<h2 class="wp-block-heading" id="h-what-customers-get"><strong>What Customers Get</strong></h2>
+<p>Workloads protected by SEV&nbsp; are managed through VCF&#8217;s standard lifecycle, compliance, and operations workflows without requiring a parallel toolchain. No additional hardware, no dedicated staff, and no parallel management stack are required. Organizations already running VCF on AMD EPYC<sup>TM</sup> processors can enable confidential computing on hardware they already own.</p>
+<p>AI inference jobs handling sensitive data execute within hardware-isolated memory enclaves where data remains inaccessible to neighboring workloads and platform administrators alike. For security teams, hardware attestation from AMD SEV is a stronger regulatory claim than software access controls because the guarantee is structural rather than policy-based. Infrastructure teams continue using the same tools and processes they already know.</p>
+<p>In VCF 9.1, Live Patching lets TPM-equipped ESX hosts receive security updates for roughly 80% of CVEs without disrupting running virtual machines. With Continuous Compliance Enforcement, the platform maintains an always-current view of compliance status, eliminating the need to pull evidence together at audit time. On-premises Ransomware Recovery provides an air-gapped, immutable recovery layer native to the platform. Together with SEV&#8217;s memory isolation, these capabilities form a security architecture that covers data across its entire lifecycle.</p>
+<h2 class="wp-block-heading" id="h-looking-ahead-next-steps"><strong>Looking Ahead / Next Steps</strong></h2>
+<p>Confidential computing is moving from a specialist capability to a baseline expectation, following the same path disk encryption took. The engineering Broadcom and AMD have done together puts that baseline within reach for any organization running VCF on AMD EPYC<sup>TM </sup>&nbsp;processors today.</p>
+<p>For teams operating in regulated environments or running AI on sensitive data atop AMD EPYC<sup>TM </sup>processors,&nbsp; VCF 9.1 delivers confidential computing ready for production today. Contact your Broadcom representative for guidance on upgrading, selecting pilot workloads, and obtaining the AMD and Broadcom reference architecture.</p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/27/securing-the-memory-layer-how-broadcom-and-amd-are-bringing-confidential-computing-to-the-enterprise/">Securing the Memory Layer: How Broadcom and AMD Are Bringing Confidential Computing to the Enterprise</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/27/securing-the-memory-layer-how-broadcom-and-amd-are-bringing-confidential-computing-to-the-enterprise/">Securing the Memory Layer: How Broadcom and AMD Are Bringing Confidential Computing to the Enterprise</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10097813</post-id>	</item>
+		<item>
+		<title>VMware Cloud Foundation Achieves NVIDIA Certification: AI Workload Performance Validated to Operate at Near Bare Metal Performance</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/08/27/vcf-achieves-nvidia-hypervisor_certification/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Thu, 27 Aug 2026 13:30:00 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10097817</guid>
+
+					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/08/2210709-vmwx23-artificial-intelligence-1224x612-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>The rapid shift toward agentic AI has introduced critical operational, cost, and governance challenges. Unlike linearly growing inference usage by users, autonomous agents generate non-linear inference usage and can quickly overwhelm IT infrastructure. Performance is a critical aspect of today’s agentic era. Announcement Today, we are announcing VMware vSphere 9.1 (and all future vSphere 9 &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/08/27/vcf-achieves-nvidia-hypervisor_certification/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/27/vcf-achieves-nvidia-hypervisor_certification/">VMware Cloud Foundation Achieves NVIDIA Certification: AI Workload Performance Validated to Operate at Near Bare Metal Performance</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/08/2210709-vmwx23-artificial-intelligence-1224x612-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/08/2210709-vmwx23-artificial-intelligence-1224x612-1.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2024/09/2210709-vmwx23-artificial-intelligence-1224x612-1.png 1225w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2024/09/2210709-vmwx23-artificial-intelligence-1224x612-1.png?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2024/09/2210709-vmwx23-artificial-intelligence-1224x612-1.png?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2024/09/2210709-vmwx23-artificial-intelligence-1224x612-1.png?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2024/09/2210709-vmwx23-artificial-intelligence-1224x612-1.png?resize=600,300 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<p>The rapid shift toward agentic AI has introduced critical operational, cost, and governance challenges. Unlike linearly growing inference usage by users, autonomous agents generate non-linear inference usage and can quickly overwhelm IT infrastructure. Performance is a critical aspect of today’s agentic era.</p>
+<h2 class="wp-block-heading" id="h-announcement"><strong>Announcement</strong></h2>
+<p><strong><em>Today, we are announcing <a href="https://www.nvidia.com/en-us/data-center/products/hypervisors/">VMware vSphere 9.1 (and all future vSphere 9 releases) is now an NVIDIA -Certified Hypervisor</a>, with near bare metal performance for AI workloads.</em> </strong>This certification enables customers to confidently choose VMware Cloud Foundation (VCF) as the performance-optimized private cloud platform to power AI and accelerated computing applications in enterprise data centers and AI factories. By accurately exposing hardware topology and implementing key performance optimizations, VCF achieves near-bare-metal performance for AI workloads.</p>
+<h2 class="wp-block-heading" id="h-details-of-the-certification"><strong>Details of the Certification</strong></h2>
+<p><strong>Optimized Performance with Virtualization Benefits of VCF</strong></p>
+<p>NVIDIA-Certified vSphere 9.1<em> </em>delivers near bare-metal performance for representative AI and accelerated computing applications. Deploying AI and accelerated applications on vSphere in VCF makes datacenter management easy and efficient because of the virtualization benefits of VCF.</p>
+<p><strong>Workload-Based Validation</strong></p>
+<p>Certification testing is based on representative performance-critical behaviors across compute, memory, data-path efficiency, and LLM inference as defined by NVIDIA. Below listed are the various test categories vSphere 9.1 was validated against and the corresponding Use cases these tests are relevant to.&nbsp;</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td><strong>Test Category</strong></td>
+<td><strong>Use Case</strong></td>
+</tr>
+<tr>
+<td><strong>GPU Collective Communication</strong></td>
+<td>Distributed AI training and fine-tuning, multi-GPU inference,communication-intensive HPC</td>
+</tr>
+<tr>
+<td><strong>GPU, CPU, and</strong><strong>Memory</strong><strong>Bandwidth</strong></td>
+<td>Data-intensive AI training and fine-tuning; high-throughput or batch inference,preprocessing, and analytics</td>
+</tr>
+<tr>
+<td><strong>Compute</strong><strong>Performance</strong></td>
+<td>AI training and fine-tuning, HPC simulation and scientific computing, GPU-accelerated analytics.</td>
+</tr>
+<tr>
+<td><strong>AI Inference</strong></td>
+<td>Gen AI, high-throughput and batch model serving large-scale LLM andmultimodal inference, agentic AI applications</td>
+</tr>
+<tr>
+<td><strong>RDMA Data</strong><strong>Path</strong></td>
+<td>Multi-node AI training, distributed large-scale inference, MPI and network-bound HPC</td>
+</tr>
+<tr>
+<td><strong>Topology and</strong><strong>Device-Mapping</strong><strong>Evidence</strong></td>
+<td>Cross-cutting evidence for multi-GPU/multi-node training, scale-out inference, and HPC; not a workload category</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p>Note that vSphere in VCF met the performance thresholds set by NVIDIA for all the above test categories while providing the virtualization benefits of VMware Cloud Foundation. For further details, please refer to the <a href="https://docs.nvidia.com/certification-programs/certified-hypervisors/latest/nvidia-certified-hypervisors.html"><strong>NVIDIA Technical Whitepaper published here</strong></a>.</p>
+<p><strong>Enterprise-Grade</strong></p>
+<p>VCF is the industry’s first unified private cloud platform that combines the scale and agility of public cloud with the security, resilience, and performance of private cloud, delivering increased productivity and lower total cost of ownership. The NVIDIA-Certified Hypervisor program provides a clear, reliable way for enterprise customers to identify VCF as one of the platforms that satisfies the rigorous demands of production AI deployments.</p>
+<p><strong>Ecosystem Readiness</strong></p>
+<p>VCF is certified across the major NVIDIA GPU architectures—Blackwell and Hopper architectures—to support broad deployment flexibility across enterprises’ AI factories. With the<a href="https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/"> NVIDIA Blackwell series GPUs</a>, NVIDIA unlocks the potential of generative, agentic, and physical AI by delivering exceptional performance, efficiency, and scale for enterprises. The partnership between Broadcom and NVIDIA addresses the need for increased choice, flexibility, and operational efficiency for AI infrastructure, ensuring VCF customers can harness the full potential of NVIDIA&#8217;s comprehensive data center architecture.</p>
+<p><strong>Want to know more?&nbsp;</strong></p>
+<ul class="wp-block-list">
+<li><a href="https://go-vmware.broadcom.com/aiml-nvidia?_gl=1*ny9hjj*_ga*MTM2MTIzMzAxNy4xNzQ4MDQ1NjUw*_ga_8VJHMNGE3E*czE3NDg1MjEyOTUkbzE4JGcxJHQxNzQ4NTIyNDc0JGo2MCRsMCRoMA.."><strong>Complete this form</strong></a> to contact us!</li>
+<li>Visit <a href="http://www.vmware.com/products/cloud-infrastructure/vcf-private-ai-services"><strong>VMware.com/AIML</strong></a> for more information.&nbsp;</li>
+<li>Connect with us on Twitter at <a href="https://twitter.com/vmwarevcf"><strong>@VMwareVCF</strong></a> and on LinkedIn at <a href="https://www.linkedin.com/company/vmwarevcf/"><strong>VMware VCF</strong></a>.</li>
+</ul>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/27/vcf-achieves-nvidia-hypervisor_certification/">VMware Cloud Foundation Achieves NVIDIA Certification: AI Workload Performance Validated to Operate at Near Bare Metal Performance</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/27/vcf-achieves-nvidia-hypervisor_certification/">VMware Cloud Foundation Achieves NVIDIA Certification: AI Workload Performance Validated to Operate at Near Bare Metal Performance</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10097817</post-id>	</item>
+		<item>
+		<title>Unlocking Developer Velocity: The Code-to-URL Revolution</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/08/26/unlocking-developer-velocity-the-code-to-url-revolution/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Thu, 27 Aug 2026 06:18:02 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10097700</guid>
+
+					<description><![CDATA[<img width="299" height="131" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Github-Code-to-URL-Blog.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>In the modern software development lifecycle, the transition from code commitment to meaningful feedback is often where momentum stalls. Developers, tasked with shipping features at high velocity, frequently hit a wall when it comes to environment provisioning, manual deployment coordination, and the tedious administrative overhead of managing infrastructure access. These bottlenecks don&#8217;t just delay releases; &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/08/26/unlocking-developer-velocity-the-code-to-url-revolution/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/26/unlocking-developer-velocity-the-code-to-url-revolution/">Unlocking Developer Velocity: The Code-to-URL Revolution</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="299" height="131" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Github-Code-to-URL-Blog.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="131" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Github-Code-to-URL-Blog.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Github-Code-to-URL-Blog.png 2000w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Github-Code-to-URL-Blog.png?resize=300,131 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Github-Code-to-URL-Blog.png?resize=768,336 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Github-Code-to-URL-Blog.png?resize=1024,449 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Github-Code-to-URL-Blog.png?resize=1536,673 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Github-Code-to-URL-Blog.png?resize=600,263 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<p>In the modern software development lifecycle, the transition from code commitment to meaningful feedback is often where momentum stalls. Developers, tasked with shipping features at high velocity, frequently hit a wall when it comes to environment provisioning, manual deployment coordination, and the tedious administrative overhead of managing infrastructure access. These bottlenecks don&#8217;t just delay releases; they interrupt the flow of innovation, leaving QA teams and stakeholders waiting for environments that should have been ready on demand.</p>
+<p>Our &#8220;Code-to-URL&#8221; reference architecture is designed to obliterate these friction points, establishing an automated, secure, and instant feedback loop that activates as soon as a GitHub Pull Request is created.</p>
+<h2 class="wp-block-heading" id="h-the-security-first-foundation-vks-and-oidc"><strong>The Security-First Foundation: VKS and OIDC</strong></h2>
+<p>At the heart of this solution is VMware vSphere Kubernetes Service (VKS). To help ensure a robust, production-ready foundation, our VKS environment is pre-configured using a custom ClusterClass specifically architected to support OIDC authentication.</p>
+<p>By prioritizing OIDC (OpenID Connect) over traditional, static, and risky long-lived credentials (like Kubeconfigs), we ensure that GitHub Actions authenticates via short-lived, identity-verified JWTs. This approach mitigates the risk of credential leakage while simultaneously simplifying operational management. As depicted in our architecture diagram below, the system maintains strict security boundaries, keeping infrastructure shielded while enabling seamless deployment.</p>
+<p>Below is an overview of the CI/CD pipeline architecture:</p>
+<h2 class="wp-block-heading" id="h-the-code-to-url-pipeline-workflow-experience"><strong>The Code-to-URL Pipeline Workflow Experience</strong></h2>
+<figure class="wp-block-image"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Github-Code-to-URL-Blog_0d7f48.png" alt="The current image has no alternative text. The file name is: Github-Code-to-URL-Blog.png" /></figure>
+<p>The above diagram illustrates our end-to-end automated pipeline, detailing each critical stage from the initial Pull Request trigger through secure OIDC authentication and deployment, culminating in the automated generation of the live preview URL. The goal is simple: eliminate the wait. When a developer pushes code and opens a Pull Request, the CI/CD pipeline triggers an automated sequence:</p>
+<ol class="wp-block-list">
+<li><strong>Containerization:</strong> The application is built and pushed using secure OCI workflows.</li>
+<li><strong>Identity Handshake:</strong> The runner securely exchanges OIDC tokens for temporary, scoped access to VKS.</li>
+<li><strong>Deployment:</strong> A Helm release is installed directly into a dedicated, isolated namespace.</li>
+<li><strong>Instant Exposure:</strong> Istio ingress routing is configured automatically to generate a unique, live URL for that specific branch.</li>
+</ol>
+<p>Within minutes, reviewers receive a comment in their PR timeline containing a live, fully functional instance of the feature branch. This allows stakeholders to inspect, test, and approve changes without ever needing to manually provision or configure an environment.</p>
+<h2 class="wp-block-heading" id="h-looking-ahead-the-roadmap-to-phase-2"><strong>Looking Ahead: The Roadmap to Phase 2</strong></h2>
+<p>While the current architecture delivers a powerful, secure, and immediate deployment experience, we view this as the first step. Our upcoming Phase 2 roadmap focuses on introducing advanced automation for dynamic, lifecycle-managed environments. This evolution will further abstract infrastructure management, enabling teams to spin up and tear down complex, full-stack sandbox environments on-demand with zero manual overhead.</p>
+<h2 class="wp-block-heading" id="h-start-your-journey-today"><strong>Start Your Journey Today</strong></h2>
+<p>Stop waiting for environments. Start delivering features. By adopting this OIDC-based CI/CD pattern, you can reduce your QA lead time from days to minutes while simultaneously hardening your security posture.</p>
+<p>Ready to transform your development workflow? Explore the full implementation details, configuration templates, and manifest examples in our <a href="https://github.com/vmware/vks-consumption-models/blob/main/github-actions-code-to-url/README.md">reference repository</a> and documentation <a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-service-administration-and-development/9-0/modern-applications/code-to-url-with-github-actions-cicd-workflow.html">Code to URL with GitHub Actions CICD Workflow</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/26/unlocking-developer-velocity-the-code-to-url-revolution/">Unlocking Developer Velocity: The Code-to-URL Revolution</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/26/unlocking-developer-velocity-the-code-to-url-revolution/">Unlocking Developer Velocity: The Code-to-URL Revolution</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10097700</post-id>	</item>
+		<item>
 		<title>Planning to use Epic’s AI Tools? Here’s Some Good News for VCF Customers</title>
 		<link>https://blogs.vmware.com/cloud-foundation/2026/08/26/planning-to-use-epics-ai-tools-heres-some-good-news-for-vcf-customers/</link>
 		
@@ -28,10 +177,10 @@
 				<category><![CDATA[Cloud Infrastructure]]></category>
 		<guid isPermaLink="false">https://blogs.vmware.com/?p=10097548</guid>
 
-					<description><![CDATA[<img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-2211899741.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" fetchpriority="high" /><p>The 2026 Epic Users Group Meeting (UGM) just wrapped up, and we’ve seen two main sentiments pervading nearly every article, blog post, and opinion piece about the event: 1) excitement over Epic’s rapid AI automation capabilities, and 2) anxiety over how to afford and integrate those rapid changes. One notable tool is AI Charting, which &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/08/26/planning-to-use-epics-ai-tools-heres-some-good-news-for-vcf-customers/">Continued</a></p>
+					<description><![CDATA[<img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-2211899741.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>The 2026 Epic Users Group Meeting (UGM) just wrapped up, and we’ve seen two main sentiments pervading nearly every article, blog post, and opinion piece about the event: 1) excitement over Epic’s rapid AI automation capabilities, and 2) anxiety over how to afford and integrate those rapid changes. One notable tool is AI Charting, which &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/08/26/planning-to-use-epics-ai-tools-heres-some-good-news-for-vcf-customers/">Continued</a></p>
 <p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/26/planning-to-use-epics-ai-tools-heres-some-good-news-for-vcf-customers/">Planning to use Epic’s AI Tools? Here’s Some Good News for VCF Customers</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
-										<content:encoded><![CDATA[<img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-2211899741.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-2211899741.jpg" class="attachment-medium size-medium wp-post-image" alt="Doctor using AI tools and healthcare applications" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-2211899741.jpg 1170w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-2211899741.jpg?resize=300,200 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-2211899741.jpg?resize=768,512 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-2211899741.jpg?resize=1024,683 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-2211899741.jpg?resize=600,400 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+										<content:encoded><![CDATA[<img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-2211899741.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-2211899741.jpg" class="attachment-medium size-medium wp-post-image" alt="Doctor using AI tools and healthcare applications" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-2211899741.jpg 1170w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-2211899741.jpg?resize=300,200 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-2211899741.jpg?resize=768,512 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-2211899741.jpg?resize=1024,683 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-2211899741.jpg?resize=600,400 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
 <p>The 2026 Epic Users Group Meeting (UGM) just wrapped up, and we’ve seen two main sentiments pervading nearly every article, blog post, and opinion piece about the event: 1) excitement over Epic’s rapid AI automation capabilities, and 2) anxiety over how to afford and integrate those rapid changes. One notable tool is AI Charting, which drafts visit notes and suggests orders in real time, but several new features are arriving to summarize patient histories, speed up information retrieval, and take repetitive work off clinicians&#8217; plates. Early results from Epic organizations are overall encouraging: less documentation burden, less after-hours work, and higher clinician satisfaction.</p>
 <p>For healthcare IT teams, this is exciting and a little daunting. Every new AI feature brings a familiar question. Is our infrastructure secure and compliant enough to run this?</p>
 <p>If you’re a VMware Cloud Foundation (VCF) customer, the answer is yes.&nbsp;</p>
@@ -380,306 +529,5 @@
 		
 		
 		<post-id xmlns="com-wordpress:feed-additions:1">10096997</post-id>	</item>
-		<item>
-		<title>Let’s Talk Tokenomics at VMware Explore 2026</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/08/20/lets-talk-tokenomics-at-vmware-explore-2026/</link>
-		
-		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
-		<pubDate>Thu, 20 Aug 2026 17:45:57 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10096917</guid>
-
-					<description><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-1386532266.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>A new session just landed in the VMware Explore 2026 Content Catalog, and it&#8217;s worth prioritizing. J.R. Storment, Executive Director of the FinOps Foundation and Tokenomics Foundation, will join Broadcom experts for a conversation about tokenomics and connecting AI investments to business and IT value.&#160; Organizations are spending tremendous amounts of money on infrastructure to &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/08/20/lets-talk-tokenomics-at-vmware-explore-2026/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/20/lets-talk-tokenomics-at-vmware-explore-2026/">Let’s Talk Tokenomics at VMware Explore 2026</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-1386532266.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-1386532266.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1386532266.jpg 1170w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1386532266.jpg?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1386532266.jpg?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1386532266.jpg?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1386532266.jpg?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1386532266.jpg?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1386532266.jpg?resize=600,337 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<p>A new session just landed in the VMware Explore 2026 Content Catalog, and it&#8217;s worth prioritizing. J.R. Storment, Executive Director of the FinOps Foundation and <a href="https://www.tokeneconomics.com/">Tokenomics Foundation</a>, will join Broadcom experts for a conversation about tokenomics and connecting AI investments to business and IT value.&nbsp;</p>
-<p>Organizations are spending tremendous amounts of money on infrastructure to become AI-savvy. But how do you determine whether that spend is producing real value, and how do you navigate it across the complexity of the AI stack: your cloud providers, your on-prem estates, and everything in between?&nbsp;</p>
-<p>Tokenomics is often viewed as a mere cost metric for hyperscalers or frontier LLMs. This session explains how it can be a strategic tool for measuring and articulating business outcomes.&nbsp;</p>
-<p>You’ll learn how to:</p>
-<ul class="wp-block-list">
-<li><strong>Connect AI investments to value.</strong> Measure and prove return on infrastructure investment across hybrid cloud estates.</li>
-<li><strong>Align with open industry standards</strong>. Hear first-hand from the head of the Tokenomics Foundation about vendor-neutral benchmarks for AI economics. (The foundation was <a href="https://www.linuxfoundation.org/press/linux-foundation-launches-the-tokenomics-foundation-to-define-the-economics-and-roi-of-ai-value">launched in August 2026</a> by the Linux Foundation, with Broadcom as a founding member.)</li>
-<li><strong>Scale sustainably fast.</strong> Private AI brings models directly to your data, enabling you to become AI-first in a cost-effective, sustainable way.</li>
-</ul>
-<p>VI Admins are becoming AI Admins. Learn how to bridge the gap between your infrastructure team and business on AI usage.</p>
-<p><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=%5BCLOB2153LV%5D&amp;_gl=1*1are2ej*_ga*MTA2MDQ5ODM5NC4xNzg0OTI4OTY5*_ga_8VJHMNGE3E*czE3ODY0MDE5NzAkbzMkZzEkdDE3ODY0MDg0ODMkajQ3JGwwJGgw#_gl=1*wg4nx9*_gcl_au*ODc1MTIyMzQzLjE3ODQ5Mjg5Njk."><strong>View session details and register today.</strong></a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/20/lets-talk-tokenomics-at-vmware-explore-2026/">Let&#8217;s Talk Tokenomics at VMware Explore 2026</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/20/lets-talk-tokenomics-at-vmware-explore-2026/">Let’s Talk Tokenomics at VMware Explore 2026</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10096917</post-id>	</item>
-		<item>
-		<title>Take Your VCF Upgrade Further: Meet the Hyperscalers at VMware Explore 2026</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/08/20/take-your-vcf-upgrade-further-meet-the-hyperscalers-at-vmware-explore-2026/</link>
-		
-		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
-		<pubDate>Thu, 20 Aug 2026 17:27:07 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10096921</guid>
-
-					<description><![CDATA[<img width="300" height="162" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-1169660398.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>In July, AWS announced support for VMware Cloud Foundation (VCF) 9.0 and 9.1 on Amazon Elastic VMware Service (EVS), giving customers the ability to run VCF 9.x directly in their Amazon VPC on EC2 bare-metal infrastructure. At VMware Explore 2026, we&#8217;re bringing other major hyperscalers together to share the latest on their VCF 9.1 readiness &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/08/20/take-your-vcf-upgrade-further-meet-the-hyperscalers-at-vmware-explore-2026/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/20/take-your-vcf-upgrade-further-meet-the-hyperscalers-at-vmware-explore-2026/">Take Your VCF Upgrade Further: Meet the Hyperscalers at VMware Explore 2026</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="162" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-1169660398.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="162" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Getty-1169660398.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1169660398.jpg 1170w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1169660398.jpg?resize=300,162 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1169660398.jpg?resize=768,415 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1169660398.jpg?resize=1024,553 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-1169660398.jpg?resize=600,324 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<p>In July, AWS announced support for VMware Cloud Foundation (VCF) 9.0 and 9.1 on Amazon Elastic VMware Service (EVS), giving customers the ability to run VCF 9.x directly in their Amazon VPC on EC2 bare-metal infrastructure. At VMware Explore 2026, we&#8217;re bringing other major hyperscalers together to share the latest on their VCF 9.1 readiness and hybrid deployment options.</p>
-<p>The session <strong>&#8220;Accelerate VCF 9 Upgrade with Hyperscaler Solutions for Hybrid Deployments&#8221; </strong>will feature a roundtable with representatives from leading hyperscalers. You’ll get an inside look at their VCF 9.1 roadmaps, discuss hybrid deployment options, and have the opportunity to ask your specific deployment questions directly to the experts.</p>
-<h2 class="wp-block-heading" id="h-vcf-license-portability">VCF License Portability</h2>
-<p>At the heart of this discussion is the enterprise value of VCF license portability. With eligible subscription entitlements, you can move VMware workloads to hyperscalers with no refactoring. You can also transfer the remaining value of your VCF subscription to a hyperscaler and move entitlements back and forth as your business requirements evolve.</p>
-<p>That flexibility lets you choose where workloads run as your business needs change, using familiar VMware tooling and skillsets while picking up new cloud capabilities.&nbsp;</p>
-<p><strong>If you&#8217;re planning a VCF 9 upgrade, evaluating hybrid deployment options, or have questions for the hyperscalers themselves, <a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=hyperscaler">reserve your spot through the Explore Content Catalog</a>.</strong></p>
-</p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/20/take-your-vcf-upgrade-further-meet-the-hyperscalers-at-vmware-explore-2026/">Take Your VCF Upgrade Further: Meet the Hyperscalers at VMware Explore 2026</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/20/take-your-vcf-upgrade-further-meet-the-hyperscalers-at-vmware-explore-2026/">Take Your VCF Upgrade Further: Meet the Hyperscalers at VMware Explore 2026</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10096921</post-id>	</item>
-		<item>
-		<title>Frontier AI and Security: Your Guide to Top Resources at VMware Explore 2026</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/08/19/frontier-ai-and-vmware-cloud-foundation-security-top-resources-at-vmware-explore-2026/</link>
-		
-		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
-		<pubDate>Wed, 19 Aug 2026 19:09:36 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10096545</guid>
-
-					<description><![CDATA[<img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/08/modern-clean-digital-4d764e95.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>VMware Explore provides a wonderful venue for security-minded VMware Cloud Foundation (VCF) users to get direct access to VCF security experts, test-drive security capabilities in Hands-on Labs (HOLs), and master the blueprints for safeguarding enterprise workloads against AI-powered threats. Supercharge your skills and learn about the latest capabilities at VMware Explore 2026 in Las Vegas, &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/08/19/frontier-ai-and-vmware-cloud-foundation-security-top-resources-at-vmware-explore-2026/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/19/frontier-ai-and-vmware-cloud-foundation-security-top-resources-at-vmware-explore-2026/">Frontier AI and Security: Your Guide to Top Resources at VMware Explore 2026</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/08/modern-clean-digital-4d764e95.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/08/modern-clean-digital-4d764e95.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/modern-clean-digital-4d764e95.png 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/modern-clean-digital-4d764e95.png?resize=300,200 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/modern-clean-digital-4d764e95.png?resize=768,512 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/modern-clean-digital-4d764e95.png?resize=1024,683 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/modern-clean-digital-4d764e95.png?resize=600,400 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<p>VMware Explore provides a wonderful venue for security-minded VMware Cloud Foundation (VCF) users to get direct access to VCF security experts, test-drive security capabilities in Hands-on Labs (HOLs), and master the blueprints for safeguarding enterprise workloads against AI-powered threats. Supercharge your skills and learn about the latest capabilities at VMware Explore 2026 in Las Vegas, August 31 &#8211; September 3. Here are the key security and compliance sessions and activities you shouldn’t miss.</p>
-<h2 class="wp-block-heading" id="h-breakout-sessions">Breakout Sessions</h2>
-<p>These breakout sessions focus on securing VCF itself. You&#8217;ll walk away with practical, real-world perspectives on the AI threat landscape and how teams are staying ahead of it using VCF Security capabilities.</p>
-<figure class="wp-block-table">
-<table class="has-fixed-layout">
-<tbody>
-<tr>
-<td><strong>Session ID</strong></td>
-<td><strong>Title</strong></td>
-<td><strong>Day and Time</strong></td>
-</tr>
-<tr>
-<td colspan="3"><strong>VCF Platform Security</strong></td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOB1827LV">CLOB1827LV</a></td>
-<td>Defending Against AI-Powered Threats</td>
-<td>Tue, Sep 1, 3:15 &#8211; 4:00 PM&nbsp;</td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOB1187LV">CLOB1187LV</a></td>
-<td>What Is New in VMware Cloud Foundation 9.1 Security and Compliance</td>
-<td>Tue, Sep 1, 12:45 &#8211; 1:30 PM</td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOT1185LV">CLOT1185LV</a></td>
-<td>A Hardware Smörgåsbord: Practical Tips and Tricks for Server Deployments</td>
-<td>Mon, Aug 31 <br />11:30 AM &#8211; 1:00 PM</td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOT1184LV">CLOT1184LV</a></td>
-<td>Hardening and Securing VMware Cloud Foundation</td>
-<td>Wed, Sep 2, 12:45 &#8211; 2:15 PM</td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOB1154LV">CLOB1154LV</a></td>
-<td>Trust No One: Confidential Computing and Security Inside ESX</td>
-<td>Mon, Aug 31, 2:00 &#8211; 2:45 PM</td>
-</tr>
-<tr>
-<td colspan="3"><strong>Advanced Cyber Compliance</strong></td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOB1026LV">CLOB1726LV</a></td>
-<td>All-in-one Approach to Cyber Recovery: Balancing Architecture, Risk, and Cost&nbsp;</td>
-<td>Mon, Aug 31, 12:45 &#8211; 1:30 PM</td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOB1073LV">CLOB1073LV</a></td>
-<td>VMware Salt: Automating Workload Configuration and Compliance&nbsp;</td>
-<td>Mon, Aug 31, 12:45 &#8211; 1:30 PM</td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOB1214LV">CLOB1214LV</a></td>
-<td>Virtual Machine Recovery Strategies for VMware Cloud Foundation</td>
-<td>Mon, Aug 31, 2:00 &#8211; 2:45 PM</td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOB1215LV">CLOB1215LV</a></td>
-<td>Disaster Recovery Deep Dive: Going Beyond Site Recovery</td>
-<td>Mon, Aug 31, 3:15 &#8211; 4:00 PM</td>
-</tr>
-<tr>
-<td colspan="3"><strong>vDefend</strong></td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=Umesh&amp;_gl=1*t4nwfv*_ga*MTA2MDQ5ODM5NC4xNzg0OTI4OTY5*_ga_8VJHMNGE3E*czE3ODY0MDE5NzAkbzMkZzEkdDE3ODY0MDUyMjkkajMyJGwwJGgw#_gl=1*i16gf3*_gcl_au*ODc1MTIyMzQzLjE3ODQ5Mjg5Njk.">SECB1789LV</a></td>
-<td>Operationalizing Cyber Defense and App Resilience for the Agentic AI Era</td>
-<td>Tue, Sep 1, 2:00 &#8211; 2:45 PM</td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=SECB1079LV">SECB1079LV</a></td>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?_gl=1*14pm08s*_ga*NTM3MTkxMzU5LjE3MTUxMDYxNTc.*_ga_8VJHMNGE3E*czE3ODQ1Nzk2NzgkbzU3MCRnMCR0MTc4NDU3OTY3OCRqNjAkbDAkaDA.&amp;tab.sessioncatalogtabs=1747347809815001igUo&amp;search=1079#_gl=1*1f2u65c*_gcl_au*MTM5MTI4MzYxNC4xNzgwNTEwNzU2LjI4OTI5Nzk0My4xNzg0NTYzMDU2LjE3ODQ1NjMwNjMuMTU0MDY5MzE1OC4xNzg0NTYzMDU2LjE3ODQ1NjMwNjM.">Enforcing Zero Trust for Apps Across Multi-Cluster VMware vSphere Kubernetes Service</a></td>
-<td>Tue, Sep 1, 10:15 &#8211; 11:00 AM</td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?search=SECB1279LV&amp;tab.sessioncatalogtabs=1747347809815002itcH#_gl=1*bfahxf*_gcl_au*MTM5MTI4MzYxNC4xNzgwNTEwNzU2">SECB1279LV</a></td>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?search=SECB1279LV&amp;tab.sessioncatalogtabs=1747347809815002itcH#_gl=1*bfahxf*_gcl_au*MTM5MTI4MzYxNC4xNzgwNTEwNzU2">The Patching Dilemma: Do You Need Help with the Deluge of Vulnerabilities?&nbsp;</a></td>
-<td>Wed, Sep 2, 3:15 &#8211; 4:00 PM</td>
-</tr>
-</tbody>
-</table>
-</figure>
-<h2 class="wp-block-heading" id="h-hands-on-labs">Hands-on Labs</h2>
-<p>If you learn best by doing, our Expert-led Workshops are a must. Developed and led by the very subject-matter experts (SMEs) who built the labs, these interactive sessions give you access to a live environment where you can explore VCF 9.1 capabilities firsthand. Pro tip: these fill up fast, but we&#8217;ll have onsite standby seats available for drop-ins.&nbsp;</p>
-<p>Prefer to set your own pace? The same labs are available on-demand in our Self-paced Labs area, no registration required. Our product SMEs are stationed right in the room, ready to answer your deepest technical questions as you work through each scenario. It&#8217;s hands-on VCF Security learning, on your terms.</p>
-<figure class="wp-block-table">
-<table class="has-fixed-layout">
-<tbody>
-<tr>
-<td><strong>Session ID</strong></td>
-<td><strong>Title</strong></td>
-<td><strong>Day and Time</strong></td>
-</tr>
-<tr>
-<td colspan="3"><strong>VCF Platform Security</strong></td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?search=%22HOL-2772-02%22&amp;tab.sessioncatalogtabs=1747347809815001igUo&amp;search.sessiontype=1652970791111003XvhN">ELW-HOL-2772-02</a></td>
-<td>Respond to the emerging AI threat with Virtual Patching</td>
-<td>Tue, Sep 1, 9:15 &#8211; 10:45 AM</td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?search=%22HOL-2706-01%22&amp;tab.sessioncatalogtabs=1747347809815001igUo&amp;search.sessiontype=1652970791111003XvhN">ELW-HOL-2706-01</a></td>
-<td>What’s New in vSphere 9.1</td>
-<td>Tue, Sep 1, 9:45 &#8211; 11:15 AM<br />Wed, Sep 2, 11:30 AM &#8211; 1:00 PM</td>
-</tr>
-<tr>
-<td colspan="3"><strong>Advanced Cyber Compliance</strong></td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=&amp;search.product=1773115054711001xk5C&amp;search.sessiontype=1645807668426003G3gT">SPL-HOL-2734-03-VCF-L</a></td>
-<td>VMware Protection and Recovery: Disaster Recovery Use Case</td>
-<td>Self-paced labs</td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=&amp;search.product=1773115054711001xk5C&amp;search.sessiontype=1645807668426003G3gT">SPL-HOL-2734-05-VCF-L</a></td>
-<td>VMware Salt in VCF 9.1: Configuration, Compliance &amp; Vulnerability Mgmt</td>
-<td>Self-paced labs</td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?search=%22HOL-2734-05%22&amp;tab.sessioncatalogtabs=1747347809815001igUo&amp;search.sessiontype=1652970791111003XvhN">ELW-HOL-2734-05</a></td>
-<td>Drift Happens (Fix it faster with Salt)</td>
-<td>Wed, Sep 2, 9:15 &#8211; 10:45 AM</td>
-</tr>
-<tr>
-<td colspan="3"><strong>vDefend</strong></td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?search=%22HOL-2772-01%22&amp;tab.sessioncatalogtabs=1747347809815001igUo&amp;search.sessiontype=1652970791111003XvhN">ELW-HOL-2772-01</a></td>
-<td>Secure workloads with vDefend in 4 easy steps</td>
-<td>Tue, Sep 1, 3:15 &#8211; 4:45 PM</td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?search=%22HOL-2740-01%22&amp;tab.sessioncatalogtabs=1747347809815001igUo&amp;search.sessiontype=1652970791111003XvhN">ELW-HOL-2740-01</a></td>
-<td>Supercharge VCF App Delivery (Avi Load Balancer)</td>
-<td>Wed, Sep 2, 9:30 &#8211; 11:00 AM</td>
-</tr>
-</tbody>
-</table>
-</figure>
-<h2 class="wp-block-heading" id="h-meet-the-expert-roundtables">Meet the Expert Roundtables</h2>
-<p>Meet the Expert Roundtables offer small-group discussions with subject-matter experts. They are a great opportunity to ask your most pressing questions and get answers straight from the experts.</p>
-<figure class="wp-block-table">
-<table class="has-fixed-layout">
-<tbody>
-<tr>
-<td><strong>Session ID</strong></td>
-<td><strong>Title</strong></td>
-<td><strong>Day and Time</strong></td>
-</tr>
-<tr>
-<td colspan="3"><strong>VCF Platform Security</strong></td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?search=SECM1741LV&amp;tab.sessioncatalogtabs=1747347809815001igUo">SECM1741LV</a></td>
-<td>Confidential AI: Why and How?</td>
-<td>Mon, Aug 31, 9:00 &#8211; 9:30 AM&nbsp;</td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=INVM1824LV&amp;_gl=1*1are2ej*_ga*MTA2MDQ5ODM5NC4xNzg0OTI4OTY5*_ga_8VJHMNGE3E*czE3ODY0MDE5NzAkbzMkZzEkdDE3ODY0MDg0ODMkajQ3JGwwJGgw#_gl=1*wg4nx9*_gcl_au*ODc1MTIyMzQzLjE3ODQ5Mjg5Njk.">INVM1824LV</a></td>
-<td>Deploying Private AI with confidence: Secure your Private AI End to End</td>
-<td>Mon, Aug 31, 12:05 &#8211; 12:35 PM<br />Tue, Sep 1, 1:00 &#8211; 1:30 PM<br />Wed, Sep 2, 10:00 &#8211; 10:30 AM</td>
-</tr>
-<tr>
-<td colspan="3"><strong>Advanced Cyber Compliance</strong></td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=CLOM1551LV&amp;_gl=1*1are2ej*_ga*MTA2MDQ5ODM5NC4xNzg0OTI4OTY5*_ga_8VJHMNGE3E*czE3ODY0MDE5NzAkbzMkZzEkdDE3ODY0MDg0ODMkajQ3JGwwJGgw#_gl=1*wg4nx9*_gcl_au*ODc1MTIyMzQzLjE3ODQ5Mjg5Njk.">CLOM1551LV</a></td>
-<td>Protection &amp; Recovery with Advanced Cyber Compliance</td>
-<td>Wed, Sep 2, 2:30 &#8211; 3:00 PM</td>
-</tr>
-<tr>
-<td colspan="3"><strong>vDefend</strong></td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=1748&amp;_gl=1*1tg1373*_ga*MTA2MDQ5ODM5NC4xNzg0OTI4OTY5*_ga_8VJHMNGE3E*czE3ODY0MDE5NzAkbzMkZzEkdDE3ODY0MDg2NjckajYwJGwwJGgw#_gl=1*1791vn*_gcl_au*ODc1MTIyMzQzLjE3ODQ5Mjg5Njk.">SECM1748LV</a></td>
-<td>Best Practices for Tagging and Groups for VMware vDefend Distributed Firewall</td>
-<td>Mon, Aug 31, 2:00 &#8211; 2:30 PM</td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?search=1710&amp;tab.sessioncatalogtabs=1747347809815001igUo&amp;_gl=1*174jnq2*_ga*MTA2MDQ5ODM5NC4xNzg0OTI4OTY5*_ga_8VJHMNGE3E*czE3ODY0MDE5NzAkbzMkZzEkdDE3ODY0MDkwMzIkajYwJGwwJGgw#_gl=1*1yps182*_gcl_au*ODc1MTIyMzQzLjE3ODQ5Mjg5Njk.">SECM1756LV</a></td>
-<td>Blocking and Tackling Ransomware with VMware vDefend: Practical Tips and Insights</td>
-<td>Tue, Sep 1, 10:00 &#8211; 10:30 AM</td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=1509&amp;_gl=1*3ed1pz*_ga*MTA2MDQ5ODM5NC4xNzg0OTI4OTY5*_ga_8VJHMNGE3E*czE3ODY0MDE5NzAkbzMkZzEkdDE3ODY0MDk0MjMkajQ1JGwwJGgw#_gl=1*1jb3cso*_gcl_au*ODc1MTIyMzQzLjE3ODQ5Mjg5Njk.">SECM1509LV</a></td>
-<td>Code-Driven Security: Automating VMware vDefend Policy with Infrastructure as Code</td>
-<td>Tue, Sep 1, 2:00 &#8211; 2:30 PM</td>
-</tr>
-</tbody>
-</table>
-</figure>
-<h2 class="wp-block-heading" id="h-quick-talks">Quick Talks</h2>
-<figure class="wp-block-table">
-<table class="has-fixed-layout">
-<tbody>
-<tr>
-<td>Session ID</td>
-<td>Title</td>
-<td><strong>Day and Time</strong></td>
-</tr>
-<tr>
-<td><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?search=1710&amp;_gl=1*115879s*_ga*NTM3MTkxMzU5LjE3MTUxMDYxNTc.*_ga_8VJHMNGE3E*czE3ODMzNjgzNTEkbzU0OSRnMCR0MTc4MzM2ODM1MSRqNjAkbDAkaDA.&amp;tab.sessioncatalogtabs=1747347809815001igUo#_gl=1*bfahxf*_gcl_au*MTM5MTI4MzYxNC4xNzgwNTEwNzU2">CMTYQT1710LV</a></td>
-<td>The Top 10 Agentic AI Security Risks and Threats Every IT Admin Should Know&nbsp;</td>
-<td>Mon, Aug 31, 11:00 &#8211; 11:20 AM</td>
-</tr>
-</tbody>
-</table>
-</figure>
-<h2 class="wp-block-heading" id="h-demonstrations">Demonstrations</h2>
-<p>Explore all the demo booths at the Hub. In particular, visit the &#8220;Fortify Your Private Cloud against AI-Driven Threats” booth to learn about how VCF can protect customers from attacks with frontier AI, key features such as ESX Live Patching and vSAN Data Protection.&nbsp;</p>
-<h2 class="wp-block-heading" id="h-meetings">Meetings</h2>
-<p>Please contact your Broadcom sales account team to arrange in-depth, onsite meetings if you are interested in the following meeting topics!</p>
-<ul class="wp-block-list">
-<li>Defending Against AI-Powered Threats with VCF 9.1</li>
-<li>VCF Security Assessment and Recommendations for Defending Against Frontier AI Exploits</li>
-</ul>
-<h2 class="wp-block-heading" id="h-resources">Resources</h2>
-<p><a href="https://www.vmware.com/explore/us">VMware Explore 2026 in Las Vegas event site</a></p>
-<p><a href="https://blogs.vmware.com/explore/">VMware Explore 2026 in Las Vegas Blog site</a></p>
-<p><a href="https://www.vmware.com/explore/us/engage/activities">Activities at Explore</a></p>
-<p><a href="https://www.vmware.com/products/cloud-infrastructure/vmware-cloud-foundation">VMware Cloud Foundation website</a></p>
-</p>
-<h3 class="wp-block-heading" id="h-thank-you-to-devyani-pisolkar-and-nancy-cheng-for-contributing-to-this-article"><em><strong>Thank you to Devyani Pisolkar and Nancy Cheng for contributing to this article.</strong></em></h3>
-</p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/19/frontier-ai-and-vmware-cloud-foundation-security-top-resources-at-vmware-explore-2026/">Frontier AI and Security: Your Guide to Top Resources at VMware Explore 2026</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/08/19/frontier-ai-and-vmware-cloud-foundation-security-top-resources-at-vmware-explore-2026/">Frontier AI and Security: Your Guide to Top Resources at VMware Explore 2026</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10096545</post-id>	</item>
 	</channel>
 </rss>
