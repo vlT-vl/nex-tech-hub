@@ -1,4 +1,61 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: Garhwal</title><link>https://kubernetes.io/blog/2026/08/26/kubernetes-v1-37-release/</link><pubDate>Wed, 26 Aug 2026 00:00:00 +0000</pubDate><guid>https://kubernetes.io/blog/2026/08/26/kubernetes-v1-37-release/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: Metrics API graduates to stable</title><link>https://kubernetes.io/blog/2026/08/27/kubernetes-v1-37-metrics-api-ga/</link><pubDate>Thu, 27 Aug 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/08/27/kubernetes-v1-37-metrics-api-ga/</guid><description>
+&lt;p>Kubernetes v1.37 promotes the &lt;code>metrics.k8s.io&lt;/code> API to stable (&lt;code>v1&lt;/code>). This
+API provides CPU and memory usage for nodes and Pods, and is the API behind
+commands such as &lt;code>kubectl top&lt;/code> and resource-metrics-based autoscaling.&lt;/p>
+&lt;p>For cluster operators and application developers, this graduation means that
+the API now has the stability guarantees associated with a Kubernetes stable
+API. The &lt;code>v1&lt;/code> API has the same resource types and fields as &lt;code>v1beta1&lt;/code>; this is
+an API-version graduation, not a change to the metrics that are collected or
+returned.&lt;/p>
+&lt;h2 id="a-long-lived-api-reaches-stable">A long-lived API reaches stable&lt;a class="td-heading-self-link" href="#a-long-lived-api-reaches-stable" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The resource Metrics API was introduced as alpha in Kubernetes v1.6 and became
+beta in v1.8. It has remained unchanged and has been used in production for
+years by clients including the HorizontalPodAutoscaler (HPA) and &lt;code>kubectl top&lt;/code>.
+Kubernetes v1.37 formally graduates that proven API to &lt;code>metrics.k8s.io/v1&lt;/code>.&lt;/p>
+&lt;p>The API exposes two resource types:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>NodeMetrics&lt;/code>, for CPU and memory usage for a node.&lt;/li>
+&lt;li>&lt;code>PodMetrics&lt;/code>, for CPU and memory usage for a Pod, with a per-container
+breakdown in its &lt;code>containers&lt;/code> field.&lt;/li>
+&lt;/ul>
+&lt;p>The API remains intentionally small. It provides the resource metrics needed
+for autoscaling and basic inspection; it is not a replacement for a full
+monitoring pipeline or the custom metrics (&lt;code>custom.metrics.k8s.io&lt;/code>) API.&lt;/p>
+&lt;h2 id="changes">What changed with the v1.37 release?&lt;a class="td-heading-self-link" href="#changes" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The &lt;code>v1&lt;/code> API surface is identical to &lt;code>v1beta1&lt;/code>, except for the API version.
+There are no renamed fields, new fields, or changes to the meaning of the
+returned CPU and memory values.&lt;/p>
+&lt;p>For example, a client can retrieve node metrics from the stable endpoint:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kubectl get --raw /apis/metrics.k8s.io/v1/nodes
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Likewise, it can retrieve metrics for the pods in a namespace:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kubectl get --raw /apis/metrics.k8s.io/v1/namespaces/default/pods
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>kubectl top&lt;/code> supports both API versions. It prefers &lt;code>v1&lt;/code> when available and
+automatically falls back to &lt;code>v1beta1&lt;/code> on clusters that do not yet serve &lt;code>v1&lt;/code>.
+The HPA controller currently supports only &lt;code>v1beta1&lt;/code>. Support for
+discovery-based selection between &lt;code>v1&lt;/code> and &lt;code>v1beta1&lt;/code> is planned, but is not
+available in Kubernetes v1.37.&lt;/p>
+&lt;h2 id="what-you-need-to-do">What you need to do&lt;a class="td-heading-self-link" href="#what-you-need-to-do" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>You don't need to enable any feature gate. The Metrics API is served through the
+&lt;a href="https://kubernetes.io/docs/tasks/extend-kubernetes/configure-aggregation-layer/">API aggregation layer&lt;/a>,
+by an implementation such as &lt;a href="https://github.com/kubernetes-sigs/metrics-server">metrics-server&lt;/a>.
+You can choose any implementation of &lt;code>metrics.k8s.io&lt;/code>; for the v1 metrics API to be
+available in your cluster, your chosen implementation must serve the &lt;code>v1.metrics.k8s.io&lt;/code> API, and you need to &lt;a href="https://kubernetes.io/docs/tasks/extend-kubernetes/configure-aggregation-layer/">register&lt;/a> an associated &lt;a href="https://kubernetes.io/docs/reference/kubernetes-api/apiregistration/api-service-v1/">APIService&lt;/a>.&lt;/p>
+&lt;p>During the transition, implementations should serve both &lt;code>v1&lt;/code> and &lt;code>v1beta1&lt;/code>.
+Keeping both versions available maintains compatibility with older clients.
+The &lt;code>v1beta1&lt;/code> API remains available in Kubernetes v1.37.&lt;/p>
+&lt;p>You can see which versions your cluster serves with:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kubectl get --raw /apis/metrics.k8s.io/ &lt;span class="p">|&lt;/span> jq .
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Once your metrics implementation supports &lt;code>v1&lt;/code>, you can also check that its
+APIService is available:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kubectl get apiservice v1.metrics.k8s.io
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="learn-more">Learn more&lt;a class="td-heading-self-link" href="#learn-more" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;ul>
+&lt;li>Read the &lt;a href="https://kubernetes.io/docs/tasks/debug/debug-cluster/resource-metrics-pipeline/">Resource metrics pipeline&lt;/a>
+documentation.&lt;/li>
+&lt;li>Read &lt;a href="https://www.kubernetes.dev/resources/keps/5207/">KEP-5207&lt;/a>, the proposal for (graduating) this API.&lt;/li>
+&lt;li>Learn about the &lt;a href="https://github.com/kubernetes/metrics#resource-metrics-api">Metrics API&lt;/a>
+and its reference implementation, &lt;a href="https://github.com/kubernetes-sigs/metrics-server">metrics-server&lt;/a>.&lt;/li>
+&lt;/ul>
+&lt;h2 id="get-involved">Get involved&lt;a class="td-heading-self-link" href="#get-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The Metrics API is maintained by &lt;a href="https://www.kubernetes.dev/community/community-groups/sigs/instrumentation/">SIG Instrumentation&lt;/a>.
+To ask questions, share feedback, or contribute, join the
+&lt;a href="https://kubernetes.slack.com/messages/sig-instrumentation">#sig-instrumentation&lt;/a>
+channel on Kubernetes Slack or attend a SIG Instrumentation meeting.&lt;/p></description></item><item><title>Kubernetes v1.37: Garhwal</title><link>https://kubernetes.io/blog/2026/08/26/kubernetes-v1-37-release/</link><pubDate>Wed, 26 Aug 2026 00:00:00 +0000</pubDate><guid>https://kubernetes.io/blog/2026/08/26/kubernetes-v1-37-release/</guid><description>
 &lt;p>&lt;strong>Editors:&lt;/strong> Arsh Sharma, Christopher Tineo, Kirti Goyal, Sophia Ugochukwu, Swathi Rao, Troy Connor&lt;/p>
 &lt;p>Similar to previous releases, the release of &lt;a href="https://kubernetes.io/releases/1.37/">Kubernetes v1.37&lt;/a> introduces new Stable, Beta, and Alpha features. The consistent delivery of high-quality releases underscores the strength of our development cycle and the vibrant support from our community.&lt;/p>
 &lt;p>This release consists of 67 enhancements.
@@ -8313,234 +8370,4 @@ challenges.&lt;/p></description></item><item><title>Ingress NGINX: Statement fro
 &lt;p>We issue this statement together to reinforce the scale of this change and the potential for serious risk to a significant percentage of Kubernetes users if this issue is ignored. It is imperative that you check your clusters now. If you are reliant on Ingress NGINX, you must begin planning for migration.&lt;/p>
 &lt;p>Thank you,&lt;/p>
 &lt;p>Kubernetes Steering Committee&lt;/p>
-&lt;p>Kubernetes Security Response Committee&lt;/p></description></item><item><title>Experimenting with Gateway API using kind</title><link>https://kubernetes.io/blog/2026/01/28/experimenting-gateway-api-with-kind/</link><pubDate>Wed, 28 Jan 2026 00:00:00 +0000</pubDate><guid>https://kubernetes.io/blog/2026/01/28/experimenting-gateway-api-with-kind/</guid><description>
-&lt;p>This document will guide you through setting up a local experimental environment with &lt;a href="https://gateway-api.sigs.k8s.io/">Gateway API&lt;/a> on &lt;a href="https://kind.sigs.k8s.io/">kind&lt;/a>. This setup is designed for learning and testing. It helps you understand Gateway API concepts without production complexity.&lt;/p>
-&lt;div class="alert alert-caution" role="note">&lt;h4 class="alert-heading">Caution:&lt;/h4>This is an experimentation learning setup, and should not be used for production. The components used on this document are not suited for production usage.
-Once you're ready to deploy Gateway API in a production environment,
-select an &lt;a href="https://gateway-api.sigs.k8s.io/implementations/">implementation&lt;/a> that suits your needs.&lt;/div>
-&lt;h2 id="overview">Overview&lt;a class="td-heading-self-link" href="#overview" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>In this guide, you will:&lt;/p>
-&lt;ul>
-&lt;li>Set up a local Kubernetes cluster using kind (Kubernetes in Docker)&lt;/li>
-&lt;li>Deploy &lt;a href="https://github.com/kubernetes-sigs/cloud-provider-kind">cloud-provider-kind&lt;/a>, which provides both LoadBalancer Services and a Gateway API controller&lt;/li>
-&lt;li>Create a Gateway and HTTPRoute to route traffic to a demo application&lt;/li>
-&lt;li>Test your Gateway API configuration locally&lt;/li>
-&lt;/ul>
-&lt;p>This setup is ideal for learning, development, and experimentation with Gateway API concepts.&lt;/p>
-&lt;h2 id="prerequisites">Prerequisites&lt;a class="td-heading-self-link" href="#prerequisites" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Before you begin, ensure you have the following installed on your local machine:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>&lt;a href="https://docs.docker.com/get-docker/">Docker&lt;/a>&lt;/strong> - Required to run kind and cloud-provider-kind&lt;/li>
-&lt;li>&lt;strong>&lt;a href="https://kubernetes.io/docs/tasks/tools/">kubectl&lt;/a>&lt;/strong> - The Kubernetes command-line tool&lt;/li>
-&lt;li>&lt;strong>&lt;a href="https://kind.sigs.k8s.io/docs/user/quick-start/#installation">kind&lt;/a>&lt;/strong> - Kubernetes in Docker&lt;/li>
-&lt;li>&lt;strong>&lt;a href="https://curl.se/">curl&lt;/a>&lt;/strong> - Required to test the routes&lt;/li>
-&lt;/ul>
-&lt;h3 id="create-a-kind-cluster">Create a kind cluster&lt;a class="td-heading-self-link" href="#create-a-kind-cluster" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Create a new kind cluster by running:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kind create cluster
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This will create a single-node Kubernetes cluster running in a Docker container.&lt;/p>
-&lt;h3 id="install-cloud-provider-kind">Install cloud-provider-kind&lt;a class="td-heading-self-link" href="#install-cloud-provider-kind" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Next, you need &lt;a href="https://github.com/kubernetes-sigs/cloud-provider-kind/">cloud-provider-kind&lt;/a>, which provides two key components for this setup:&lt;/p>
-&lt;ul>
-&lt;li>A LoadBalancer controller that assigns addresses to LoadBalancer-type Services&lt;/li>
-&lt;li>A Gateway API controller that implements the Gateway API specification&lt;/li>
-&lt;/ul>
-&lt;p>It also automatically installs the Gateway API Custom Resource Definitions (CRDs) in your cluster.&lt;/p>
-&lt;p>Run cloud-provider-kind as a Docker container on the same host where you created the kind cluster:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">VERSION&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="k">$(&lt;/span>basename &lt;span class="k">$(&lt;/span>curl -s -L -o /dev/null -w &lt;span class="s1">&amp;#39;%{url_effective}&amp;#39;&lt;/span> https://github.com/kubernetes-sigs/cloud-provider-kind/releases/latest&lt;span class="k">))&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">docker run -d --name cloud-provider-kind --rm --network host -v /var/run/docker.sock:/var/run/docker.sock registry.k8s.io/cloud-provider-kind/cloud-controller-manager:&lt;span class="si">${&lt;/span>&lt;span class="nv">VERSION&lt;/span>&lt;span class="si">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Note:&lt;/strong> On some systems, you may need elevated privileges to access the Docker socket.&lt;/p>
-&lt;p>Verify that cloud-provider-kind is running:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">docker ps --filter &lt;span class="nv">name&lt;/span>&lt;span class="o">=&lt;/span>cloud-provider-kind
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You should see the container listed and in a running state. You can also check the logs:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">docker logs cloud-provider-kind
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="experimenting-with-gateway-api">Experimenting with Gateway API&lt;a class="td-heading-self-link" href="#experimenting-with-gateway-api" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Now that your cluster is set up, you can start experimenting with Gateway API resources.&lt;/p>
-&lt;p>cloud-provider-kind automatically provisions a GatewayClass called &lt;code>cloud-provider-kind&lt;/code>. You'll use this class to create your Gateway.&lt;/p>
-&lt;p>It is worth noticing that while kind is not a cloud provider, the project is named as &lt;code>cloud-provider-kind&lt;/code> as it provides features that simulate a cloud-enabled environment.&lt;/p>
-&lt;h3 id="deploy-a-gateway">Deploy a Gateway&lt;a class="td-heading-self-link" href="#deploy-a-gateway" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The following manifest will:&lt;/p>
-&lt;ul>
-&lt;li>Create a new namespace called &lt;code>gateway-infra&lt;/code>&lt;/li>
-&lt;li>Deploy a Gateway that listens on port 80&lt;/li>
-&lt;li>Accept HTTPRoutes with hostnames matching the &lt;code>*.exampledomain.example&lt;/code> pattern&lt;/li>
-&lt;li>Allow routes from any namespace to attach to the Gateway.
-&lt;strong>Note&lt;/strong>: In real clusters, prefer Same or Selector values on the &lt;a href="https://gateway-api.sigs.k8s.io/reference/spec/#fromnamespaces">&lt;code>allowedRoutes&lt;/code> namespace selector&lt;/a> field to limit attachments.&lt;/li>
-&lt;/ul>
-&lt;p>Apply the following manifest:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nn">---&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Namespace&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway-infra&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Gateway&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway-infra&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gatewayClassName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">cloud-provider-kind&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">listeners&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">default&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">hostname&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;*.exampledomain.example&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">80&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">HTTP&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">allowedRoutes&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespaces&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">from&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">All&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then verify that your Gateway is properly programmed and has an address assigned:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kubectl get gateway -n gateway-infra gateway
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Expected output:&lt;/p>
-&lt;pre tabindex="0">&lt;code>NAME CLASS ADDRESS PROGRAMMED AGE
-gateway cloud-provider-kind 172.18.0.3 True 5m6s
-&lt;/code>&lt;/pre>&lt;p>The PROGRAMMED column should show True, and the ADDRESS field should contain an IP address.&lt;/p>
-&lt;h3 id="deploy-a-demo-application">Deploy a demo application&lt;a class="td-heading-self-link" href="#deploy-a-demo-application" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Next, deploy a simple echo application that will help you test your Gateway configuration. This application:&lt;/p>
-&lt;ul>
-&lt;li>Listens on port 3000&lt;/li>
-&lt;li>Echoes back request details including path, headers, and environment variables&lt;/li>
-&lt;li>Runs in a namespace called &lt;code>demo&lt;/code>&lt;/li>
-&lt;/ul>
-&lt;p>Apply the following manifest:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Namespace&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">demo&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Service&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">labels&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">app.kubernetes.io/name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">echo&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">echo&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">demo&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">ports&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">http&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">3000&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TCP&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">targetPort&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">3000&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">selector&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">app.kubernetes.io/name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">echo&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ClusterIP&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">apps/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Deployment&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">labels&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">app.kubernetes.io/name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">echo&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">echo&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">demo&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">selector&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">matchLabels&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">app.kubernetes.io/name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">echo&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">template&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">labels&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">app.kubernetes.io/name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">echo&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">containers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">env&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">POD_NAME&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">valueFrom&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">fieldRef&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">fieldPath&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">metadata.name&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">NAMESPACE&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">valueFrom&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">fieldRef&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">fieldPath&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">metadata.namespace&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">registry.k8s.io/gateway-api/echo-basic:v20251204-v1.4.1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">echo-basic&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="create-an-httproute">Create an HTTPRoute&lt;a class="td-heading-self-link" href="#create-an-httproute" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Now create an HTTPRoute to route traffic from your Gateway to the echo application.
-This HTTPRoute will:&lt;/p>
-&lt;ul>
-&lt;li>Respond to requests for the hostname &lt;code>some.exampledomain.example&lt;/code>&lt;/li>
-&lt;li>Route traffic to the echo application&lt;/li>
-&lt;li>Attach to the Gateway in the &lt;code>gateway-infra&lt;/code> namespace&lt;/li>
-&lt;/ul>
-&lt;p>Apply the following manifest:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">HTTPRoute&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">echo&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">demo&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">parentRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway-infra&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">hostnames&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;some.exampledomain.example&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">rules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">matches&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">path&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">PathPrefix&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">value&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">backendRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">echo&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">3000&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="test-your-route">Test your route&lt;a class="td-heading-self-link" href="#test-your-route" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The final step is to test your route using curl. You'll make a request to the Gateway's IP address with the hostname &lt;code>some.exampledomain.example&lt;/code>. The command below is for POSIX shell only, and may need to be adjusted for your environment:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">GW_ADDR&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>kubectl get gateway -n gateway-infra gateway -o &lt;span class="nv">jsonpath&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;{.status.addresses[0].value}&amp;#39;&lt;/span>&lt;span class="k">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">curl --resolve some.exampledomain.example:80:&lt;span class="si">${&lt;/span>&lt;span class="nv">GW_ADDR&lt;/span>&lt;span class="si">}&lt;/span> http://some.exampledomain.example
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You should receive a JSON response similar to this:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;path&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;/&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;host&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;some.exampledomain.example&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;method&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;GET&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;proto&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;HTTP/1.1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;headers&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;Accept&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;*/*&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">],&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;User-Agent&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;curl/8.15.0&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">]&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;namespace&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;demo&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;ingress&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;service&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;pod&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;echo-dc48d7cf8-vs2df&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>If you see this response, congratulations! Your Gateway API setup is working correctly.&lt;/p>
-&lt;h2 id="troubleshooting">Troubleshooting&lt;a class="td-heading-self-link" href="#troubleshooting" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>If something isn't working as expected, you can troubleshoot by checking the status of your resources.&lt;/p>
-&lt;h3 id="check-the-gateway-status">Check the Gateway status&lt;a class="td-heading-self-link" href="#check-the-gateway-status" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>First, inspect your Gateway resource:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kubectl get gateway -n gateway-infra gateway -o yaml
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Look at the &lt;code>status&lt;/code> section for conditions. Your Gateway should have:&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>Accepted: True&lt;/code> - The Gateway was accepted by the controller&lt;/li>
-&lt;li>&lt;code>Programmed: True&lt;/code> - The Gateway was successfully configured&lt;/li>
-&lt;li>&lt;code>.status.addresses&lt;/code> populated with an IP address&lt;/li>
-&lt;/ul>
-&lt;h3 id="check-the-httproute-status">Check the HTTPRoute status&lt;a class="td-heading-self-link" href="#check-the-httproute-status" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Next, inspect your HTTPRoute:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kubectl get httproute -n demo &lt;span class="nb">echo&lt;/span> -o yaml
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Check the &lt;code>status.parents&lt;/code> section for conditions. Common issues include:&lt;/p>
-&lt;ul>
-&lt;li>ResolvedRefs set to False with reason &lt;code>BackendNotFound&lt;/code>; this means that the backend Service doesn't exist or has the wrong name&lt;/li>
-&lt;li>Accepted set to False; this means that the route couldn't attach to the Gateway (check namespace permissions or hostname matching)&lt;/li>
-&lt;/ul>
-&lt;p>Example error when a backend is not found:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">status&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">parents&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">conditions&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">lastTransitionTime&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;2026-01-19T17:13:35Z&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">message&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">backend not found&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">observedGeneration&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">2&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">reason&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">BackendNotFound&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">status&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;False&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ResolvedRefs&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">controllerName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kind.sigs.k8s.io/gateway-controller&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="check-controller-logs">Check controller logs&lt;a class="td-heading-self-link" href="#check-controller-logs" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>If the resource statuses don't reveal the issue, check the cloud-provider-kind logs:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">docker logs -f cloud-provider-kind
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This will show detailed logs from both the LoadBalancer and Gateway API controllers.&lt;/p>
-&lt;h2 id="cleanup">Cleanup&lt;a class="td-heading-self-link" href="#cleanup" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>When you're finished with your experiments, you can clean up the resources:&lt;/p>
-&lt;h3 id="remove-kubernetes-resources">Remove Kubernetes resources&lt;a class="td-heading-self-link" href="#remove-kubernetes-resources" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Delete the namespaces (this will remove all resources within them):&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kubectl delete namespace gateway-infra
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl delete namespace demo
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="stop-cloud-provider-kind">Stop cloud-provider-kind&lt;a class="td-heading-self-link" href="#stop-cloud-provider-kind" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Stop and remove the cloud-provider-kind container:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">docker stop cloud-provider-kind
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Because the container was started with the &lt;code>--rm&lt;/code> flag, it will be automatically removed when stopped.&lt;/p>
-&lt;h3 id="delete-the-kind-cluster">Delete the kind cluster&lt;a class="td-heading-self-link" href="#delete-the-kind-cluster" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Finally, delete the kind cluster:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kind delete cluster
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="next-steps">Next steps&lt;a class="td-heading-self-link" href="#next-steps" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Now that you've experimented with Gateway API locally, you're ready to explore production-ready implementations:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>Production Deployments&lt;/strong>: Review the &lt;a href="https://gateway-api.sigs.k8s.io/implementations/">Gateway API implementations&lt;/a> to find a controller that matches your production requirements&lt;/li>
-&lt;li>&lt;strong>Learn More&lt;/strong>: Explore the &lt;a href="https://gateway-api.sigs.k8s.io/">Gateway API documentation&lt;/a> to learn about advanced features like TLS, traffic splitting, and header manipulation&lt;/li>
-&lt;li>&lt;strong>Advanced Routing&lt;/strong>: Experiment with path-based routing, header matching, request mirroring and other features following &lt;a href="https://gateway-api.sigs.k8s.io/guides/getting-started/">Gateway API user guides&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h3 id="a-final-word-of-caution">A final word of caution&lt;a class="td-heading-self-link" href="#a-final-word-of-caution" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>This &lt;em>kind&lt;/em> setup is for development and learning only.
-Always use a production-grade Gateway API implementation for real workloads.&lt;/p></description></item></channel></rss>
+&lt;p>Kubernetes Security Response Committee&lt;/p></description></item></channel></rss>
