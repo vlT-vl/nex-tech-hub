@@ -1,4 +1,196 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: Metrics API graduates to stable</title><link>https://kubernetes.io/blog/2026/08/27/kubernetes-v1-37-metrics-api-ga/</link><pubDate>Thu, 27 Aug 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/08/27/kubernetes-v1-37-metrics-api-ga/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: Pod Certificates and Cluster Trust Bundles</title><link>https://kubernetes.io/blog/2026/08/28/kubernetes-v1-37-pod-certificates-and-cluster-trust-bundles/</link><pubDate>Fri, 28 Aug 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/08/28/kubernetes-v1-37-pod-certificates-and-cluster-trust-bundles/</guid><description>
+&lt;h2 id="pod-certificate-cluster-trust-bundles-blog-post">Pod Certificate / Cluster Trust Bundles Blog Post&lt;a class="td-heading-self-link" href="#pod-certificate-cluster-trust-bundles-blog-post" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Kubernetes brings a wealth of features that make it easy to run your production
+workloads securely and reliably. While aspects like scheduling, health checks
+and resource limits are probably at the front of your mind, one other important
+feature of Kubernetes is production identity — how your workload can
+authenticate to other systems in order to do its job.&lt;/p>
+&lt;p>Up until now, the primary production identity mechanism built into Kubernetes
+has been service account JWTs (JSON Web Tokens). These are
+cryptographically-signed tokens, issued by the control plane of your cluster,
+that let anyone in the world understand who is calling when your workload uses
+them.&lt;/p>
+&lt;p>In Kubernetes 1.37, the foundations of a new built-in production identity
+technology have gone GA. Pod Certificates (and the closely-associated Cluster
+Trust Bundles) build X.509 certificate issuance for TLS and mTLS directly into
+core Kubernetes.&lt;/p>
+&lt;p>Why?&lt;/p>
+&lt;p>Service account JWTs have a lot going for them:&lt;/p>
+&lt;ul>
+&lt;li>They are built directly into Kubelet, and work pretty magically. They are
+written to your workload container’s filesystem before your workload starts
+up, and automatically kept up to date.&lt;/li>
+&lt;li>The issuance system follows least-privilege principles; the node restriction
+admission plugin ensures that tokens can only be requested by the Kubelet that
+is actually currently running your pod.&lt;/li>
+&lt;li>They can be federated, allowing you to use them to authenticate to other
+systems outside of Kubernetes. Service account JWTs underpin the pod-to-cloud
+authentication store for all of the largest cloud providers, and have
+widespread support across many additional services and software packages. If
+it can understand JWTs, you can authenticate to it with a service account
+token.&lt;/li>
+&lt;/ul>
+&lt;p>However, service account JWTs have one big downside — they are bearer tokens.
+With bearer tokens, if you &lt;em>have&lt;/em> the token, then you &lt;em>are&lt;/em> the identity
+asserted by the token. And since you necessarily have to hand copies of the JWT
+to all your peers in order to authenticate to them, &lt;em>they&lt;/em> can be you, too.&lt;/p>
+&lt;p>There are partial mitigations for this, and service account tokens make use of
+them (time-, object-, and audience-binding), but none are complete defences.&lt;/p>
+&lt;p>A solution to this problem lies in proof-of-possession credentials, where you
+don’t send your &lt;em>entire&lt;/em> credential to your peer, but only a proof that you
+possess the credential. In practice, these schemes are always built on
+asymmetric cryptographic signatures (RSA, ECDSA, and friends).&lt;/p>
+&lt;p>There are few different standard approaches, such as request signing (AWS SigV4,
+JWT DPoP, RFC 9421), but the most widely-deployed and understood solution is
+X.509 certificates, as used in TLS. In TLS, your credential is split into two
+pieces&lt;/p>
+&lt;ul>
+&lt;li>A private key, which for maximum security should be generated within your
+workload (or within a hardware security module), and never leave.&lt;/li>
+&lt;li>A certificate, which is a description of your identity and public key, signed
+by a Certificate Authority.&lt;/li>
+&lt;/ul>
+&lt;p>The goal of Pod Certificates is to make using X.509 certificates from your
+Kubernetes workload just as easy as using service account JWTs, while
+maintaining Kubernetes’ high security bar. I think we’ve hit this target.&lt;/p>
+&lt;p>As I’ll cover in the architecture and example sections below, there are many
+similarities between the design of service account JWT issuance and Pod
+Certificates. One significant place they diverge, however, is that Pod
+Certificates is a much more flexible mechanism. Kubernetes only offers one
+flavor of service account JWTs, with standardized claims.&lt;/p>
+&lt;p>The X.509 ecosystem is significantly more varied than the JWT ecosystem, and
+X.509 certificates used for different purposes contain different extensions and
+information. For this reason, Pod Certificates has common machinery built into
+Kubelet, but offers a pluggable interface so that many different types of
+certificates can be issued within a single cluster, at the same time.&lt;/p>
+&lt;p>In the fullness of time, I expect Kubernetes to offer at least two built-in
+certificate providers:&lt;/p>
+&lt;ul>
+&lt;li>One that issues server TLS certificates for the DNS names used by Kubernetes
+services.&lt;/li>
+&lt;li>One that offers SPIFFE client certificates, filling the same role that service
+account JWTs fill today.&lt;/li>
+&lt;/ul>
+&lt;p>In the remainder of this article, I’ll take you through the overall architecture
+of a Kubernetes workload using Pod Certificates, as well as give you an example
+of installing and using a real (toy) Pod Certificates signer controller.&lt;/p>
+&lt;h2 id="architecture">Architecture&lt;a class="td-heading-self-link" href="#architecture" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>When you use Pod Certificates and Cluster Trust Bundles, there are the following
+major components:&lt;/p>
+&lt;ul>
+&lt;li>Your application, which requests certificates in its pod spec, and reads the
+keys, certificates and trust bundles from the container filesystem to use for
+(m)TLS.&lt;/li>
+&lt;li>Kubelet, which issues PodCertificateRequest objects and reads
+ClusterTrustBundle objects on behalf of your workload.&lt;/li>
+&lt;li>The signer controller, which answers PodCertificateRequests and publishes
+ClusterTrustBundles.&lt;/li>
+&lt;/ul>
+&lt;figure class="diagram-large ">
+&lt;img src="https://kubernetes.io/blog/2026/08/28/kubernetes-v1-37-pod-certificates-and-cluster-trust-bundles/pod-certificates-architecture.svg"
+alt="Block diagram of an application using Pod Certificates"/> &lt;figcaption>
+&lt;p>Architecture of an application using Pod Certificates&lt;/p>
+&lt;/figcaption>
+&lt;/figure>
+&lt;p>The best way to get a sense of what these components each do is to follow the
+issuance process chronologically:&lt;/p>
+&lt;ol>
+&lt;li>Once your application pod is scheduled to a node, Kubelet identifies all of
+the podCertificate and clusterTrustBundle projected volumes sources in its
+spec.&lt;/li>
+&lt;li>For each podCertificate source:
+&lt;ol>
+&lt;li>Kubelet generates a new private key according to the keyType field.&lt;/li>
+&lt;li>Kubelet creates a PodCertificateRequest addressed to the signer named in
+the source.&lt;/li>
+&lt;li>The signer controller sees the PodCertificateRequest and decides whether
+or not to issue the certificate.&lt;/li>
+&lt;li>The signer controller issues the certificate by filling out the
+status.certificateChain field.&lt;/li>
+&lt;li>The signer controller also fills out the status.beginRefreshAt field to
+instruct Kubelet when it should begin trying to refresh the certificate.&lt;br>
+certificate to the container filesystem.&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>For each clusterTrustBundle source:&lt;br>
+6) Kubelet retrieves the issued certificate, and writes the private key and
+&lt;ol>
+&lt;li>Kubelet collects all the ClusterTrustBundles that match the signer name&lt;/li>
+&lt;li>Kubelet unifies all of the certificates from all matching
+ClusterTrustBundles, and (stably) reorders them (to prevent applications
+from accidentally depending on a particular ordering).&lt;br>
+and label selectors in the source.&lt;/li>
+&lt;li>Kubelet writes the certificates to the file path named in the source.&lt;br>
+and trust anchors from the filesystem.&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>Your application pod starts up, and the application reads keys, certificates,&lt;/li>
+&lt;li>Kubelet periodically updates the files from clusterTrustBundle sources as the
+contents of the selected ClusterTrustBundles changes. The application must
+pick up the changes using inotify or polling.&lt;/li>
+&lt;li>As each certificate’s beginRefreshAt time passes, Kubelet repeats the process
+in step 2 to refresh the certificates, and write the update private keys and
+certificate chains to the filesystem. As in step 5, the application must
+pick up changes using inotify or polling.&lt;/li>
+&lt;/ol>
+&lt;p>Some key takeaways:&lt;/p>
+&lt;ul>
+&lt;li>Automatic rotation is built in. Applications &lt;em>must&lt;/em> properly handle it. Any
+signers eventually shipped in core Kubernetes will issue certificates with a
+max lifetime of 24 hours. The maximum lifetime allowed for other signers is
+91 days.&lt;/li>
+&lt;li>To make automatic rotation support as simple as possible, Kubelet supports
+writing the private key and certificate chain to a single file (a &lt;em>credential
+bundle&lt;/em>) This allows the application to simply subscribe to inotify events for
+(or poll) the single file, read the contents, and use them. Kubelet does
+support writing the private key and certificate chain to separate files, but
+then the application needs to carefully manage the potential race conditions
+of reading the files mid-rotation.&lt;/li>
+&lt;li>Wherever possible, security checks are built into kube-apiserver, rather than
+burdening signer or application developers. As an example, the built-in node
+restriction admission plugin enforces node isolation, ensuring that one
+compromised node cannot spread access by requesting certificates for pods that
+aren’t scheduled to it.&lt;/li>
+&lt;/ul>
+&lt;h2 id="try-it-out">Try it out&lt;a class="td-heading-self-link" href="#try-it-out" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Because the Kubernetes project does not yet ship any Pod Certificate signers in
+core, in order to try these features out, you will need to install a third-party
+signer into your cluster. To make this easier, I have written
+&lt;a href="https://github.com/ahmedtd/tinycert">Tinycert&lt;/a>, which you can install into your
+cluster (or a Kind cluster).&lt;/p>
+&lt;p>Tinycert is not a full production solution, but it’s a good starting point for
+experimenting with Pod Certificates, as well as a base for creating your own
+signers.&lt;/p>
+&lt;p>Tinycert provides:&lt;/p>
+&lt;ul>
+&lt;li>The
+&lt;a href="https://ahmedtd.github.io/tinycert-service">ahmedtd.github.io/tinycert-service&lt;/a>
+signer, which issues certificates with DNS SANs for all of the Kubernetes
+Services your Pod is part of.&lt;/li>
+&lt;li>The
+&lt;a href="https://ahmedtd.github.io/tinycert-spiffe">ahmedtd.github.io/tinycert-spiffe&lt;/a>
+signer, which issues SPIFFE-compatible certificates that identify the
+namespace and service account of your Pod. These can be used as both client
+and (with effort) server certificates.&lt;/li>
+&lt;li>A Go library,
+&lt;a href="https://github.com/ahmedtd/tinycert/lib/spiffefsd">github.com/ahmedtd/tinycert/lib/spiffefsd&lt;/a>
+to help your applications load SPIFFE certificates and trust bundles from a
+&lt;a href="https://github.com/spiffe/spiffe/pull/376">SPIFFE Filesystem Delivery (Draft
+Standard)&lt;/a> folder, as well as
+configure the Go TLS library for proper client and server authentication.&lt;/li>
+&lt;li>An example of a SPIFFE client and server application communicating using
+mutual TLS and SPIFFE certificates.&lt;/li>
+&lt;/ul>
+&lt;h2 id="what-next">What next?&lt;a class="td-heading-self-link" href="#what-next" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;ul>
+&lt;li>Take a look at the documentation for &lt;a href="https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#pod-certificate-requests">Pod
+Certificates&lt;/a>
+and &lt;a href="https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#cluster-trust-bundles">Cluster Trust
+Bundles&lt;/a>.&lt;/li>
+&lt;li>Review and offer feedback on the &lt;a href="https://github.com/spiffe/spiffe/pull/376">SPIFFE Filesystem Delivery draft
+standard&lt;/a>, which aims to make it as
+easy as possible to use SPIFFE certificates directly on native Kubernetes.&lt;/li>
+&lt;li>Participate in Kubernetes SIG Auth to help shape the future of signers that
+are built directly in to core Kubernetes.&lt;/li>
+&lt;li>Try building your own signer based on Tinycert.&lt;/li>
+&lt;/ul>
+&lt;p>Happy hacking!&lt;/p></description></item><item><title>Kubernetes v1.37: Metrics API graduates to stable</title><link>https://kubernetes.io/blog/2026/08/27/kubernetes-v1-37-metrics-api-ga/</link><pubDate>Thu, 27 Aug 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/08/27/kubernetes-v1-37-metrics-api-ga/</guid><description>
 &lt;p>Kubernetes v1.37 promotes the &lt;code>metrics.k8s.io&lt;/code> API to stable (&lt;code>v1&lt;/code>). This
 API provides CPU and memory usage for nodes and Pods, and is the API behind
 commands such as &lt;code>kubectl top&lt;/code> and resource-metrics-based autoscaling.&lt;/p>
@@ -8361,13 +8553,4 @@ Current resource management guidance.&lt;/li>
 &lt;h2 id="how-do-i-get-involved">How do I get involved?&lt;a class="td-heading-self-link" href="#how-do-i-get-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>For those interested in getting involved with Kubernetes node-level
 features, join the &lt;a href="https://github.com/kubernetes/community/tree/master/sig-node">Kubernetes Node Special Interest Group&lt;/a>.
 We always welcome new contributors and diverse perspectives on resource management
-challenges.&lt;/p></description></item><item><title>Ingress NGINX: Statement from the Kubernetes Steering and Security Response Committees</title><link>https://kubernetes.io/blog/2026/01/29/ingress-nginx-statement/</link><pubDate>Thu, 29 Jan 2026 00:00:00 +0000</pubDate><guid>https://kubernetes.io/blog/2026/01/29/ingress-nginx-statement/</guid><description>
-&lt;p>&lt;strong>In March 2026, Kubernetes will retire Ingress NGINX, a piece of critical infrastructure for about half of cloud native environments.&lt;/strong> The retirement of Ingress NGINX was &lt;a href="https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/">announced&lt;/a> for March 2026, after years of &lt;a href="https://groups.google.com/a/kubernetes.io/g/dev/c/rxtrKvT_Q8E/m/6_ej0c1ZBAAJ">public warnings&lt;/a> that the project was in dire need of contributors and maintainers. There will be no more releases for bug fixes, security patches, or any updates of any kind after the project is retired. This cannot be ignored, brushed off, or left until the last minute to address. We cannot overstate the severity of this situation or the importance of beginning migration to alternatives like &lt;a href="https://gateway-api.sigs.k8s.io/guides/getting-started/">Gateway API&lt;/a> or one of the many &lt;a href="https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/">third-party Ingress controllers&lt;/a> immediately.&lt;/p>
-&lt;p>To be abundantly clear: choosing to remain with Ingress NGINX after its retirement leaves you and your users vulnerable to attack. None of the available alternatives are direct drop-in replacements. This will require planning and engineering time. Half of you will be affected. You have two months left to prepare.&lt;/p>
-&lt;p>&lt;strong>Existing deployments will continue to work, so unless you proactively check, you may not know you are affected until you are compromised.&lt;/strong> In most cases, you can check to find out whether or not you rely on Ingress NGINX by running &lt;code>kubectl get pods --all-namespaces --selector app.kubernetes.io/name=ingress-nginx&lt;/code> with cluster administrator permissions.&lt;/p>
-&lt;p>Despite its broad appeal and widespread use by companies of all sizes, and repeated calls for help from the maintainers, the Ingress NGINX project never received the contributors it so desperately needed. According to internal Datadog research, about 50% of cloud native environments currently rely on this tool, and yet for the last several years, it has been maintained solely by one or two people working in their free time. Without sufficient staffing to maintain the tool to a standard both ourselves and our users would consider secure, the responsible choice is to wind it down and refocus efforts on modern alternatives like &lt;a href="https://gateway-api.sigs.k8s.io/guides/getting-started/">Gateway API&lt;/a>.&lt;/p>
-&lt;p>We did not make this decision lightly; as inconvenient as it is now, doing so is necessary for the safety of all users and the ecosystem as a whole. Unfortunately, the flexibility Ingress NGINX was designed with, that was once a boon, has become a burden that cannot be resolved. With the technical debt that has piled up, and fundamental design decisions that exacerbate security flaws, it is no longer reasonable or even possible to continue maintaining the tool even if resources did materialize.&lt;/p>
-&lt;p>We issue this statement together to reinforce the scale of this change and the potential for serious risk to a significant percentage of Kubernetes users if this issue is ignored. It is imperative that you check your clusters now. If you are reliant on Ingress NGINX, you must begin planning for migration.&lt;/p>
-&lt;p>Thank you,&lt;/p>
-&lt;p>Kubernetes Steering Committee&lt;/p>
-&lt;p>Kubernetes Security Response Committee&lt;/p></description></item></channel></rss>
+challenges.&lt;/p></description></item></channel></rss>
