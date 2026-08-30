@@ -4,11 +4,238 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Sun, 30 Aug 2026 10:58:07 +0000</pubDate>
-    <lastBuildDate>Sun, 30 Aug 2026 10:58:07 +0000</lastBuildDate>
+    <pubDate>Sun, 30 Aug 2026 15:45:46 +0000</pubDate>
+    <lastBuildDate>Sun, 30 Aug 2026 15:45:46 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>IP Adresse Anzeige verändern und was noch</title>
+      <pubDate>Sun, 30 Aug 2026 15:44:36 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ip-adresse-anzeige-ver%C3%A4ndern-und-was-noch.186056/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186056</guid>
+      <author>invalid@example.com (jan-t)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>jan-t</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo, wie kann ich die Anzeige ändern?<br />
+OS:Virtual Environment 9.2.10<br />
+<br />
+<br />
+Aktuelle IP Adresse: <a href="https://192.168.1.234:8006/" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://192.168.1.234:8006/</a><br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>cat /etc/network/interfaces
+auto lo
+iface lo inet loopback
+
+iface enp0s25 inet manual
+
+auto vmbr0
+iface vmbr0 inet static
+        address 192.168.1.234/24
+        gateway 192.168.1.1
+        bridge-ports enp0s25
+        bridge-stp off
+        bridge-fd 0
+
+
+source /etc/network/interfaces.d/*</code></pre>
+	</div>
+</div></div>]]></content:encoded>
+      <slash:comments>7</slash:comments>
+    </item>
+    <item>
+      <title>Backup of live pfSense VM to NAS fails</title>
+      <pubDate>Sun, 30 Aug 2026 15:30:58 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/backup-of-live-pfsense-vm-to-nas-fails.186027/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186027</guid>
+      <author>invalid@example.com (madbrain)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>madbrain</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have a NAS to which I backup my VMs and containers.<br />
+All my containers backup to this NAS fine.<br />
+Not so for my two VMs - pfSense and Home assistant OS. Here is a log from the pfSense backup :<br />
+<br />
+INFO: starting new backup job: vzdump 103 --mode snapshot --node proxmox --compress 0 --notes-template &#039;{{guestname}}&#039; --notification-mode notification-system --storage zfs_nas --remove 0<br />
+INFO: Starting Backup of VM 103 (qemu)<br />
+INFO: Backup started at 2026-08-28 06:54:48<br />
+INFO: status = running<br />
+INFO: VM...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/backup-of-live-pfsense-vm-to-nas-fails.186027/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>PBS with slow backend</title>
+      <pubDate>Sun, 30 Aug 2026 15:19:55 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pbs-with-slow-backend.186028/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186028</guid>
+      <author>invalid@example.com (andreisrr)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>andreisrr</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">We are considering a potential offsite backup via the internet using PBS, as a secondary backup. <br />
+The actual storage is mountable via SSHFS (via fuse), expected throughput would go somewhere between 1 and 5Mbps with RTT between 10 and 50ms. <br />
+Aside from an initial backup which obviously takes a huge time, for data that changes very little, like several MB to several hundred MB a day, would using PBS be viable, much better then the rsync they use today, especially from the point of view of how...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pbs-with-slow-backend.186028/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>How do I shoot the watchdog? (constant reboots)</title>
+      <pubDate>Sun, 30 Aug 2026 14:55:26 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-do-i-shoot-the-watchdog-constant-reboots.185659/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185659</guid>
+      <author>invalid@example.com (stuartbh)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>stuartbh</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">To whom it shall concern:<br />
+<br />
+After years of running Proxmox, all of a sudden my nodes are rebooting every few hours. I believe it is due to watchdog timeouts and my network has not appreciably changed. Can anyone advise me as to how I can remediate this issue so my servers stop rebooting multiple times a day? I am sure there must be some setting I can adjust or test I can do to see why out of nowhere this has become an issue.<br />
+<br />
+Thanks!<br />
+<br />
+Stuart</div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
+    </item>
+    <item>
+      <title>Update Windows 10 VM to Windows 11</title>
+      <pubDate>Sun, 30 Aug 2026 14:55:21 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/update-windows-10-vm-to-windows-11.139772/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:139772</guid>
+      <author>invalid@example.com (Afox)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Afox</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+did anyone successfully update a Windows 10 VM to Windows 11? Is it possible if you just set the OS type to Windows 11/Server 2022 and add a TPM device? Any other actions required?<br />
+<br />
+Thanks and best regards</div>]]></content:encoded>
+      <slash:comments>10</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox VE 9.2 – sporadic iSCSI NOP timeouts / DID_TRANSPORT_DISRUPTED with Dell PowerVault ME5 and Intel E810</title>
+      <pubDate>Sun, 30 Aug 2026 14:39:59 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-%E2%80%93-sporadic-iscsi-nop-timeouts-did_transport_disrupted-with-dell-powervault-me5-and-intel-e810.185817/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185817</guid>
+      <author>invalid@example.com (huganega)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>huganega</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+I am experiencing sporadic iSCSI connection interruptions on a Proxmox VE 9.2 host connected directly to a Dell PowerVault ME5224.<br />
+The issue manifests as ISCSI_ERR_NOP_TIMEDOUT, followed by DID_TRANSPORT_DISRUPTED. The affected iSCSI session usually recovers automatically after a few seconds.<br />
+The problem is intermittent. The system can run normally for a considerable amount of time before another interruption occurs.<br />
+<br />
+<b>Environment</b><br />
+<ul>
+<li data-xf-list-type="ul">Proxmox VE 9.2</li>
+<li data-xf-list-type="ul">currently running kernel...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-%E2%80%93-sporadic-iscsi-nop-timeouts-did_transport_disrupted-with-dell-powervault-me5-and-intel-e810.185817/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>13</slash:comments>
+    </item>
+    <item>
+      <title>Shared LVM on Dell ME5024 — best practice for snapshot capability alongside HA?</title>
+      <pubDate>Sun, 30 Aug 2026 13:55:19 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/shared-lvm-on-dell-me5024-%E2%80%94-best-practice-for-snapshot-capability-alongside-ha.186008/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186008</guid>
+      <author>invalid@example.com (danielt)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>danielt</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Migrating from vSphere 8 (Essentials Plus) to Proxmox VE 9.2. Looking for input on how others have handled the snapshot question on block-only SAN storage.<br />
+<br />
+<br />
+<b>Environment</b><br />
+<br />
+<br />
+<ul>
+<li data-xf-list-type="ul">5 nodes, 768 GB RAM each: 1× R650xs (Xeon 5318Y), 2× R7615 (EPYC 9174F), 2× DL360 Gen10 (Xeon 6226R)</li>
+<li data-xf-list-type="ul">Dell ME5024, SAS-attached, dual controller, 2 initiators per host</li>
+<li data-xf-list-type="ul">4 LUNs of ~4.4 TiB each across two pools</li>
+<li data-xf-list-type="ul">Local storage per node: hardware RAID 5 (HPE Smart Array / Dell PERC) + LVM-thin</li>
+<li data-xf-list-type="ul">Cluster...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/shared-lvm-on-dell-me5024-%E2%80%94-best-practice-for-snapshot-capability-alongside-ha.186008/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Installing Proxmox VE 7.2 on a Mac Mini 2018</title>
+      <pubDate>Sun, 30 Aug 2026 13:42:42 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/installing-proxmox-ve-7-2-on-a-mac-mini-2018.114218/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:114218</guid>
+      <author>invalid@example.com (Ocean_Trader)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Ocean_Trader</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Source: <a href="https://askubuntu.com/questions/1127375/install-ubuntu-18-04-on-mac-mini-2018" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://askubuntu.com/questions/1127375/install-ubuntu-18-04-on-mac-mini-2018</a><br />
+<br />
+<h4 class="bbHeading"><a class="u-anchorTarget" name="-getting-started"></a>Getting Started&#8203;<a class="hoverLink" href="#-getting-started" title="Permanent link"></a></h4><hr />The above link was instrumental in getting past the roadblocks that I was experiencing the previous day. Yesterday, I tried installing Debian on a Mac Mini 2018. During the installation process, I kept getting an error stating that GRUB could not be installed. As the AskUbuntu post mentions, there are some issues dealing with installing Linux operating systems on the 2018...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/installing-proxmox-ve-7-2-on-a-mac-mini-2018.114218/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>11</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox verliert Verbindung zu SMB-Share auf Unraid</title>
+      <pubDate>Sun, 30 Aug 2026 13:26:39 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-verliert-verbindung-zu-smb-share-auf-unraid.186046/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186046</guid>
+      <author>invalid@example.com (urs)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>urs</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
+<br />
+Wie der Titel schon sagt verlieren 2 Proxmox VE-Maschinen  immer wieder die Verbindung zu einem Unraid-Server. Es wurden 2 SMB-Shares darauf angelegt und unter Proxmox eingebunden was grundsätzlich gut funktioniert. Das bis die Verbindung zum Unraid-Server mal abbricht, z.B. wenn dieser mal neu gestartet werden muss. Danach bleiben bei beiden Proxmox-Maschinen die beiden Verbindungen auf &quot;status unknown&quot;, haben ein Fragezeichen <a href="https://forum.proxmox.com/attachments/1788045650805-png.99612/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99308-a71f5310ec7b4b4063ff3642211ac4cd.jpg?hash=9h3nf2lW5r"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99308-a71f5310ec7b4b4063ff3642211ac4cd.jpg?hash=9h3nf2lW5r 2x"
+		class="bbImage "
+		style=""
+		alt="1788045650805.png"
+		title="1788045650805.png"
+		width="287" height="138" loading="lazy" /></a> und beim Versuch darauf zuzugreifen...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-verliert-verbindung-zu-smb-share-auf-unraid.186046/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
+    </item>
+    <item>
+      <title>How do you deal with unmounted /boot/efi during backups?</title>
+      <pubDate>Sun, 30 Aug 2026 12:41:04 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-do-you-deal-with-unmounted-boot-efi-during-backups.186057/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186057</guid>
+      <author>invalid@example.com (Pickwick)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Pickwick</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
+<br />
+I have some pretty basic PVE host for doing some tests with Docker, VMs, using it as backup storage, because it simply has enough room for HDDs etc. It&#039;s more like a fun project. My backup approach is pretty basic: ZFS snapshots and RSYNC onto HDDs, implemented in a custom Bash script. When settings things up, I learned that /boo/efi is not mounted by default and therefore currently is not part of my backup. I know why things are the way they are, but am thinking about how to...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/how-do-you-deal-with-unmounted-boot-efi-during-backups.186057/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>How to make a spam rule</title>
+      <pubDate>Sun, 30 Aug 2026 11:52:25 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-to-make-a-spam-rule.185838/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185838</guid>
+      <author>invalid@example.com (ernieek)</author>
+      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
+      <dc:creator>ernieek</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+i want to create a rule that mails with  message-id=&lt;<a href="mailto:autogen-java-xxxx-xxxx-xxxx-xxxx-xxxxxx@google.com">autogen-java-xxxx-xxxx-xxxx-xxxx-xxxxxx@google.com</a>&gt; will be marked as spam.<br />
+<br />
+Any one knows how to do?<br />
+<br />
+kind regards</div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
     <item>
       <title>[BUG] LXC Console: xterm.js black overlay blocks Start button &amp; causes termproxy timeout when stopped</title>
       <pubDate>Sun, 30 Aug 2026 10:42:49 +0000</pubDate>
@@ -27,28 +254,6 @@ When an LXC container is in a <b>stopped</b> state, opening the &quot;Console&qu
 <br />
 <a href="https://forum.proxmox.com/threads/bug-lxc-console-xterm-js-black-overlay-blocks-start-button-causes-termproxy-timeout-when-stopped.186055/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox verliert Verbindung zu SMB-Share auf Unraid</title>
-      <pubDate>Sun, 30 Aug 2026 10:23:51 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-verliert-verbindung-zu-smb-share-auf-unraid.186046/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186046</guid>
-      <author>invalid@example.com (urs)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>urs</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
-<br />
-Wie der Titel schon sagt verlieren 2 Proxmox VE-Maschinen  immer wieder die Verbindung zu einem Unraid-Server. Es wurden 2 SMB-Shares darauf angelegt und unter Proxmox eingebunden was grundsätzlich gut funktioniert. Das bis die Verbindung zum Unraid-Server mal abbricht, z.B. wenn dieser mal neu gestartet werden muss. Danach bleiben bei beiden Proxmox-Maschinen die beiden Verbindungen auf &quot;status unknown&quot;, haben ein Fragezeichen <a href="https://forum.proxmox.com/attachments/1788045650805-png.99612/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99308-a71f5310ec7b4b4063ff3642211ac4cd.jpg?hash=9h3nf2lW5r"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99308-a71f5310ec7b4b4063ff3642211ac4cd.jpg?hash=9h3nf2lW5r 2x"
-		class="bbImage "
-		style=""
-		alt="1788045650805.png"
-		title="1788045650805.png"
-		width="287" height="138" loading="lazy" /></a> und beim Versuch darauf zuzugreifen...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-verliert-verbindung-zu-smb-share-auf-unraid.186046/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
     </item>
     <item>
       <title>Intel 10Gb X540 Card recognized but bridge adapter does not pull ip address</title>
@@ -195,209 +400,6 @@ Here is the process by which I assimilated the ~95 domUs into ProxMox:<br />
 <br />
 Thanks to the PM team for making an amazing product with great features.</div>]]></content:encoded>
       <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>VFS: Unable to nount root fs on unknown-block(0,0) after installing updates</title>
-      <pubDate>Sun, 30 Aug 2026 00:01:13 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/vfs-unable-to-nount-root-fs-on-unknown-block-0-0-after-installing-updates.186041/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186041</guid>
-      <author>invalid@example.com (breakaway9000)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>breakaway9000</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have a 3 node cluster. I updated the first one &amp; rebooted, went smoothly. Then I went to update and reboot the second, but it wouldn&#039;t boot up:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>VFS: Unable to mount root fs on unknown-block(0,0)</code></pre>
-	</div>
-</div><br />
-I rebooted and went into advanced options, and tried to load the kernel that was previously booted with and was working (6.17.2-2-pve). Now the system boots up, but I have no network (ethtool shows no link). Networking is via a single SFP+ cable (ixgbe driver) to a SFP+ port on my switch...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/vfs-unable-to-nount-root-fs-on-unknown-block-0-0-after-installing-updates.186041/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>PBS ZFS disk speed thoughts option</title>
-      <pubDate>Sat, 29 Aug 2026 23:29:53 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pbs-zfs-disk-speed-thoughts-option.185986/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185986</guid>
-      <author>invalid@example.com (AkUsP)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>AkUsP</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello. I&#039;m new here. After 20 years VMware addiciton I&#039;m now sober and saved by the Holy Ch... Proxmox.<br />
-<br />
-After migrating about 20 VM&#039;s from Vware my PBS ran backups @ about 200-300mb/s.<br />
-After migrating my last 5 VM&#039;, that are file servers and have very many many small files. The PBS runns @ about 10 - 20mb/s.<br />
-This is my machine:<br />
-Server: Dell Ryzen Epic Gen1<br />
-Raidcontroller: PERC 740P in mixed HBA mode.<br />
-PBS version: Latest<br />
-PBS installed on HW RAID1 240GB SATA SSD<br />
-PBS Storage 6x 5400rpm SATA...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pbs-zfs-disk-speed-thoughts-option.185986/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>30</slash:comments>
-    </item>
-    <item>
-      <title>virtiofs and running out of file handles</title>
-      <pubDate>Sat, 29 Aug 2026 21:41:43 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/virtiofs-and-running-out-of-file-handles.185981/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185981</guid>
-      <author>invalid@example.com (kegloadam)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>kegloadam</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Ran into an edge-case with a PBS virtual machine that had the chunks stored the host, backed by virtiofs. Garbage collection would consistently fail with  &quot;ENFILE: File table overflow&quot;<br />
-<br />
-Finding the limit wasn&#039;t the easiest since it isn&#039;t enforced using the process limits, rather &quot;virtiofsd&quot; has its own internal limit, set by a command line switch, that Proxmox itself <a href="https://github.com/proxmox/qemu-server/blob/0ecc6a1bafcfe6e25ff30abaf1d319b3318bc7f5/src/PVE/QemuServer/Virtiofs.pm#L180-L188" target="_blank" class="link link--external" rel="nofollow ugc noopener">doesn&#039;t allow editing</a><br />
-<br />
-My solution was to create a wrapper that replaces virtiofsd with a command line that increases...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/virtiofs-and-running-out-of-file-handles.185981/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>High Availability Functionality</title>
-      <pubDate>Sat, 29 Aug 2026 21:14:09 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/high-availability-functionality.186015/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186015</guid>
-      <author>invalid@example.com (esnmb)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>esnmb</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have recently stood up a 3-node cluster and enabled HA for my VM&#039;s upon creation.  I noticed that shutting a VM down from inside the guest OS or via the CLI or web UI, HA always restarts it.<br />
-<br />
-I guess this is by design, but coming from vSphere, I was expecting HA to just restart a VM if a host crashed and not if it was shut down.  If I push to implement Proxmox at work as a potential replacement for vmware, this is going to get a lot of push back from our Linux and Windows teams, which...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/high-availability-functionality.186015/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>13</slash:comments>
-    </item>
-    <item>
-      <title>Upgrade 8 to 9 on HP DL360 G7</title>
-      <pubDate>Sat, 29 Aug 2026 19:42:27 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/upgrade-8-to-9-on-hp-dl360-g7.186043/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186043</guid>
-      <author>invalid@example.com (stra4d)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>stra4d</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Just an FYI.  If anyone is contemplating or nervous about upgrading (in place 8 to 9) on their older HP DL360 G7 units, I have done 3 of them and they all seem to be running fine (ours have the RAID Smart Array P410i).  <br />
-<br />
-There was a warning from the pve8to9 script about intel-microcode, which I installed.  Not sure if that was required or not but I did install.  After the VMs were shut down there were zero warnings.  Everything upgrade fine, back up and running no issues.</div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Hailo 8 ai m.2 card crashes server when using passthrough.</title>
-      <pubDate>Sat, 29 Aug 2026 18:01:52 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/hailo-8-ai-m-2-card-crashes-server-when-using-passthrough.166428/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:166428</guid>
-      <author>invalid@example.com (scyto)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>scyto</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi all, I have on obscure sceanrio and i have hit a dead end with my google-fu.<br />
-<br />
-<ul>
-<li data-xf-list-type="ul">I have a Hailo 8 M.2 AI co-processor.</li>
-<li data-xf-list-type="ul">It is on an M.2 bifurcation card with 3 NVMes, the NVMEs work fine.</li>
-<li data-xf-list-type="ul">The co-processor is in its own IOMMU gtoup.</li>
-<li data-xf-list-type="ul">It works perfectly on the host (of course this is the last thing i tried, lol).</li>
-</ul><br />
-When i pass through the card to a VM and when the driver loads in the VM the whole physical server instantly resets. in the BMC i see a PCI SERR entry.<br />
-I dont seen...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/hailo-8-ai-m-2-card-crashes-server-when-using-passthrough.166428/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Beherrscht PMG v9.0.6 kein ARC-Signing?</title>
-      <pubDate>Sat, 29 Aug 2026 15:03:04 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/beherrscht-pmg-v9-0-6-kein-arc-signing.182746/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:182746</guid>
-      <author>invalid@example.com (a.woll)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-mail-gateway-deutsch-german.21/"><![CDATA[Proxmox Mail Gateway (Deutsch/German)]]></category>
-      <dc:creator>a.woll</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo Kollegen,<br />
-<br />
-ich hab zwar DKIM, DMARC und SPF optimal eingerichtet, würde aber gerne DKIM-Brüchen vorbeugen, indem PMG auch ein ARC-Signing durchführt.<br />
-<br />
-Ist das möglich oder unterstützt PMG das nicht (mehr)?<br />
-<br />
-Freundliche Grüße<br />
-Andreas</div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>ZFS packages updated by Debian repository. Is this expected?</title>
-      <pubDate>Sat, 29 Aug 2026 14:40:14 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/zfs-packages-updated-by-debian-repository-is-this-expected.185983/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185983</guid>
-      <author>invalid@example.com (Daniel-Doggy)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Daniel-Doggy</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
-<br />
-I just updated my pve node and got the following changelog after running apt-get dist-upgrade:<br />
-
-
-
-
-<blockquote data-attributes="" data-quote="" data-source=""
-	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
-	
-	<div class="bbCodeBlock-content">
-		
-		<div class="bbCodeBlock-expandContent js-expandContent ">
-			zfs-linux (2.2.4-2) unstable; urgency=medium<br />
-<br />
-  zfs-linux has now opted-in usr-merge. No behavioral changes should be noted.<br />
-<br />
-  Some tools that do not require root privilege in zfsutils-linux have been<br />
-  moved from sbin to bin: arc_summary, zvol_wait, zilstat. Links are added in<br />
-  sbin to avoid breaking existing scripts. Users calling these binraies should<br />
-  update all absolute...
-		</div>
-		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
-	</div>
-</blockquote><br />
-<a href="https://forum.proxmox.com/threads/zfs-packages-updated-by-debian-repository-is-this-expected.185983/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>communication issue between SRIOV VM VF and CT on PF bridge</title>
-      <pubDate>Sat, 29 Aug 2026 13:34:30 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/communication-issue-between-sriov-vm-vf-and-ct-on-pf-bridge.68638/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:68638</guid>
-      <author>invalid@example.com (ctr)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>ctr</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m passing through a VF using SRIOV to a VM. This VM works fine, I can reach it from Proxmox (mgmt interface on vmbr0 of the PF) and other hosts on the network.<br />
-However, a CT attached to the very same vmbr0 cannot reach the VM, but also everything else on the network. According to tcpdump packets from the CT are getting to the VF and the VF is responding, but those response packets are then not visible on the PF anymore and as result do not reach the CT.<br />
-<br />
-Does that ring any bells?</div>]]></content:encoded>
-      <slash:comments>24</slash:comments>
-    </item>
-    <item>
-      <title>e1000 driver hang</title>
-      <pubDate>Sat, 29 Aug 2026 13:01:59 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/e1000-driver-hang.58284/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:58284</guid>
-      <author>invalid@example.com (alatteri)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>alatteri</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">In the past week we are seeing random e1000e 0000:00:1f.6 eno1: Detected Hardware Unit Hang failuresacross all our nodes, even different hardware hosts.  Must do a reset of the host.<br />
-<br />
-There are lots of references to this issue going back 5+ years.  Was there a driver change with the latest updates?  We&#039;ve run years with this hardware without issue.  Now just this week its popping up all over.<br />
-<br />
-Kernel Version Linux 5.0.21-2-pve #1 SMP PVE 5.0.21-3 (Thu, 05 Sep 2019 13:56:01 +0200)<br />
-PVE Manager...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/e1000-driver-hang.58284/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>412</slash:comments>
     </item>
   </channel>
 </rss>
