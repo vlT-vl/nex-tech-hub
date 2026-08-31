@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Linux News</title><item>
+   <title>Linux 7.3-rc1 Close To 41 Million Lines, AMD Kernel Graphics Driver At 6.5 Million Lines</title>
+   <link>https://www.phoronix.com/news/Linux-7.3-rc1-Code-Stats</link>
+   <guid>https://www.phoronix.com/news/Linux-7.3-rc1-Code-Stats</guid>
+   <description>With Linus Torvalds remarking in the Linux 7.3-rc1 release announcement of the AMD kernel graphics driver changes for amounting around a third of the -rc1 changes due to the big AMD GPU register files for DCN 6.0 and other new IP additions, here are some fresh code stats at large...</description>
+   <pubDate>Sun, 30 Aug 2026 20:23:22 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
+   <title>Linux 7.3-rc1 With AMD Zen 6 Additions, Better Btrfs Performance &amp; 2026 Steam Controller</title>
+   <link>https://www.phoronix.com/news/Linux-7.3-rc1-Released</link>
+   <guid>https://www.phoronix.com/news/Linux-7.3-rc1-Released</guid>
+   <description>Like clockwork, the Linux 7.3 merge window has concluded after two weeks and the Linux 7.3-rc1 kernel now available for testing...</description>
+   <pubDate>Sun, 30 Aug 2026 17:51:00 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
    <title>OpenShot 4.0 Released In Adapting Video Editor UI To Qt6</title>
    <link>https://www.phoronix.com/news/OpenShot-4.0</link>
    <guid>https://www.phoronix.com/news/OpenShot-4.0</guid>
@@ -200,20 +214,6 @@
    <guid>https://www.phoronix.com/news/Sovereign-Tech-Agency-Flatpak</guid>
    <description>The latest beneficiary of Germany's Sovereign Tech Agency is Flatpak where more than half a million Euros will be invested over the next two years to help with app sandboxing and other functionality...</description>
    <pubDate>Thu, 27 Aug 2026 20:38:03 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>Ubuntu 26.04.1 LTS Released With Initial Collection Of Fixes</title>
-   <link>https://www.phoronix.com/news/Ubuntu-26.04.1-LTS-Released</link>
-   <guid>https://www.phoronix.com/news/Ubuntu-26.04.1-LTS-Released</guid>
-   <description>Canonical today published Ubuntu 26.04.1 LTS as their first point release in the long-term support series for the "Resolute Raccoon"...</description>
-   <pubDate>Thu, 27 Aug 2026 20:13:09 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>Intel Linux Driver Orphaned For Limiting RF Exposure To Humans</title>
-   <link>https://www.phoronix.com/news/Intel-Linux-SAR-Driver-Orphaned</link>
-   <guid>https://www.phoronix.com/news/Intel-Linux-SAR-Driver-Orphaned</guid>
-   <description>Over the past year and a half a number of open-source drivers in the Linux kernel have been orphaned as a result of departures from the company. The impact has ranged from the Intel CPU "coretemp" temperature driver being orphaned without a maintainer to other lesser known Intel drivers. Another lesser known Intel driver is now being orphaned with no longer having a maintainer at the company: the Intel Specific Absorption Rate Driver...</description>
-   <pubDate>Thu, 27 Aug 2026 17:13:01 -0400</pubDate>
    <dc:creator>Michael Larabel</dc:creator>
   </item><item>
    <title>Btrfs, EXT4, F2FS &amp; XFS On Linux 7.2 vs. Linux 7.3 Performance</title>
@@ -783,6 +783,18 @@ sudo modprobe kvm_amd ; sudo modprobe kvm_intel&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Hopefully this blog has given you a sense of what Ubuntu offers as a cohesive enterprise server platform. Rather than a layered set of tools, Ubuntu functions as an interwoven, interconnected platform. For a closer look at the specific features we released in Ubuntu 26.04 LTS, &lt;a href="https://discourse.ubuntu.com/t/ubuntu-server-gazette-issue-13-the-balance-of-innovation-and-reliability/79627"&gt;Christian’s blog is the place to go.&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;What that release represents, though, is something broader. The individual components, such as bare-metal management, virtualization, container orchestration, AI readiness, have always been strong. What Ubuntu Server 26.04 LTS marks is the point at which they fully come together. Years of platform work have brought us to a place where the conversation shifts from capability to optimization. That’s a meaningful milestone.&lt;/p&gt;
 </content:encoded><author>Rhys Knipe (Rhys Knipe)</author><category>confidential computing</category><category>LXD</category><category>MAAS</category><category>Ubuntu Server</category><pubDate>Tue, 07 Jul 2026 16:42:07 +0000</pubDate></item><item>
+        <title>Kernel prepatch 7.3-rc1</title>
+        <link>https://lwn.net/Articles/1091421/</link>
+        <guid>https://lwn.net/Articles/1091421/</guid>
+        <dc:creator>corbet</dc:creator>
+        <description>Linus has &lt;a href=&quot;https://lwn.net/Articles/1091420/&quot;&gt;released 7.3-rc1&lt;/a&gt; and closed the
+merge window for this release.  &quot;&lt;q&gt;Nothing really stands out - except for
+the fact that it's big. It's not the biggest rc1 we've ever had, but it's
+certainly up there, at least in number of commits.&lt;/q&gt;&quot;  He pulled 15,267
+commits during this merge window, making it the second busiest ever; only
+6.7 has exceeded it.</description>
+        <pubDate>Sun, 30 Aug 2026 22:52:23 +0000</pubDate>
+        </item><item>
         <title>Debian votes to allow &quot;responsible use of generative AI&quot;</title>
         <link>https://lwn.net/Articles/1091231/</link>
         <guid>https://lwn.net/Articles/1091231/</guid>
@@ -1073,29 +1085,4 @@ for a full list of changes.&lt;/p&gt;
 
 &lt;p&gt;&lt;/p&gt;</description>
         <pubDate>Wed, 26 Aug 2026 12:50:59 +0000</pubDate>
-        </item><item>
-        <title>mklinux-v7.0-mk2 released</title>
-        <link>https://lwn.net/Articles/1090582/</link>
-        <guid>https://lwn.net/Articles/1090582/</guid>
-        <dc:creator>corbet</dc:creator>
-        <description>For people who would like to experiment with &lt;a
-href=&quot;https://lwn.net/Articles/1038847/&quot;&gt;the multi-kernel Linux concept&lt;/a&gt;, Cong Wang has
-&lt;a href=&quot;https://lwn.net/ml/all/ao34RJ7aZ2BLd67S@pop-os.localdomain&quot;&gt;announced&lt;/a&gt; the
-release of mklinux v7.0-mk2.
-&lt;p&gt;
-&lt;blockquote class=&quot;bq&quot;&gt;
-	mklinux lets one machine run several independent Linux kernels at
-	the same time on bare metal, without a hypervisor. A host kernel
-	owns a pool of CPUs, memory and PCI devices, carves that pool into
-	instances, and boots a spawn kernel into each instance through
-	kexec_file_load(). Every spawn kernel runs natively on its own
-	CPUs, its own physical memory and its own devices. Nothing is
-	emulated and nothing is trapped; the only thing shared is what you
-	choose to share.
-&lt;/blockquote&gt;
-&lt;p&gt;
-Note that this is not the old &lt;a
-href=&quot;https://www.mklinux.org/&quot;&gt;MkLinux&lt;/a&gt;, which was a port to PowerPC
-Macintosh systems.</description>
-        <pubDate>Tue, 25 Aug 2026 20:34:31 +0000</pubDate>
         </item></channel></rss>
