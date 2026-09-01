@@ -1,4 +1,72 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: Pod Certificates and Cluster Trust Bundles</title><link>https://kubernetes.io/blog/2026/08/28/kubernetes-v1-37-pod-certificates-and-cluster-trust-bundles/</link><pubDate>Fri, 28 Aug 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/08/28/kubernetes-v1-37-pod-certificates-and-cluster-trust-bundles/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: Storage Version Migration Enabled by Default</title><link>https://kubernetes.io/blog/2026/08/31/kubernetes-v1-37-storage-version-migration-ga/</link><pubDate>Mon, 31 Aug 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/08/31/kubernetes-v1-37-storage-version-migration-ga/</guid><description>
+&lt;p>I am excited that &lt;em>storage version migration&lt;/em> (SVM) has graduated to General Availability (GA) in Kubernetes v1.37!&lt;/p>
+&lt;p>After a number of releases of work and testing, the built-in StorageVersionMigration API (&lt;code>storagemigration.k8s.io/v1&lt;/code>)
+and control plane controller are now fully stable and enabled by default across all v1.37 Kubernetes clusters.&lt;/p>
+&lt;h2 id="the-problem-with-stale-storage-versions">The problem with stale storage versions&lt;a class="td-heading-self-link" href="#the-problem-with-stale-storage-versions" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>In Kubernetes, stored API resources are written using a specific &lt;em>storage version&lt;/em> (schema representation). The way Kubernetes interacts with object storage fundamentally requires mutation of a resource in order to ensure that the latest storage version is used for all resources. This creates problems when you want to change the storage version of a resource.&lt;/p>
+&lt;p>One example of a scenario where you may want to change the storage version of a resource is when you are promoting a CRD to drop an older API version (such as &lt;code>v1alpha1&lt;/code>) to a newer version (leaving just &lt;code>v1beta1&lt;/code> and &lt;code>v1&lt;/code>). It's a problem to drop the older API version whilst there are still resources stored with the old alpha version.&lt;/p>
+&lt;p>To avoid problems, you designate &lt;code>v1&lt;/code> as the new storage version; but, on it's own, that's not enough. While new writes are stored as &lt;code>v1&lt;/code>, any existing resource could remain stored as &lt;code>v1alpha1&lt;/code> or &lt;code>v1beta1&lt;/code> in storage. You cannot safely remove &lt;code>v1alpha1&lt;/code> from the CRD's &lt;code>.status.storedVersions&lt;/code> or drop serving support until every single resource in storage has been re-written to not be serialized and stored with the alpha version.&lt;/p>
+&lt;p>Another relevant example is &lt;em>encryption at rest&lt;/em> and, related, &lt;em>key rotation&lt;/em>.
+When you configure encryption at rest or rotate encryption keys, existing resources in storage remain &lt;strong>unencrypted&lt;/strong> (or encrypted under old keys) until they are actively
+re-written through the Kubernetes API server.&lt;/p>
+&lt;p>Historically, cluster administrators and CRD authors had to rely on manual
+&lt;code>kubectl get&lt;/code> / &lt;code>kubectl replace&lt;/code> scripts, or to deploy the out-of-tree &lt;code>kube-storage-version-migrator&lt;/code> component to force re-writes.
+These approaches were often tedious, error-prone, and difficult to monitor.&lt;/p>
+&lt;h2 id="how-storage-version-migration-works">How storage version migration works&lt;a class="td-heading-self-link" href="#how-storage-version-migration-works" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Initiating a storage version migration is as simple as creating a declarative StorageVersionMigration object.
+The built-in StorageVersionMigrator controller in the Kubernetes control plane watches for these objects, and automatically migrates existing resources to the default storage version for that API.&lt;/p>
+&lt;h3 id="example-custom-resources">Example: Migrating a custom resource API&lt;a class="td-heading-self-link" href="#example-custom-resources" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Suppose you have updated a CustomResourceDefinition (&lt;code>crontabs.example.com&lt;/code>) to use &lt;code>v1&lt;/code> as its storage version.
+To migrate all existing stored resources off older versions, create a StorageVersionMigration:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">storagemigration.k8s.io/v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">StorageVersionMigration&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">crontabs-migration&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resource&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">group&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example.com&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resource&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">crontabs&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Apply the manifest using &lt;code>kubectl&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kubectl apply -f crontabs-migration.yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="monitoring-and-verifying-migrations">Monitoring and verifying migrations&lt;a class="td-heading-self-link" href="#monitoring-and-verifying-migrations" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The StorageVersionMigrator controller updates the &lt;code>status&lt;/code> of the StorageVersionMigration object as migration progresses.
+You can inspect the migration status using &lt;code>kubectl&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kubectl get storageversionmigration.storagemigration.k8s.io/crontabs-migration -o yaml
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>A successful migration will report a &lt;code>Succeeded&lt;/code> condition set to True:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">status&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">conditions&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Running&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">status&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;False&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">lastUpdateTime&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;2026-08-02T10:05:00Z&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">reason&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">StorageVersionMigrationInProgress&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Succeeded&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">status&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;True&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">lastUpdateTime&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;2026-08-02T10:05:00Z&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">reason&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">StorageVersionMigrationSucceeded&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Once the migration has succeeded, you can be confident that all instances of the resource in storage are stored in the current storage version. For
+CRDs, the stored version should be updated in the CRD's &lt;code>.status.storedVersions&lt;/code> to only contain the preferred version. If the
+&lt;code>.status.storedVersions&lt;/code> is not updated following a successful migration then that means that the CRD was updated during the migration. In
+that case, the migration should be retried in order to safely deprecate an older storage version.&lt;/p>
+&lt;h2 id="including-migrations-in-your-crd-manifests">Including migrations in your CRD manifests&lt;a class="td-heading-self-link" href="#including-migrations-in-your-crd-manifests" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Because StorageVersionMigration is a standard declarative Kubernetes API, CRD authors can bundle or trigger migrations directly
+alongside CRD upgrades. For example, you can include the migration in the same manifest as your updated CustomResourceDefinition:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">apiextensions.k8s.io/v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">CustomResourceDefinition&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">crontabs.example.com&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">group&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example.com&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c"># Updated versions list where v1 has storage: true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="l">...&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">storagemigration.k8s.io/v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">StorageVersionMigration&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">crontabs-migration&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resource&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">group&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example.com&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resource&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">crontabs&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="what-s-next">What's next?&lt;a class="td-heading-self-link" href="#what-s-next" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;ul>
+&lt;li>Learn more about the concepts behind &lt;a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/storage-version/">Storage Versions&lt;/a>.&lt;/li>
+&lt;li>Read the step-by-step task guide: &lt;a href="https://kubernetes.io/docs/tasks/manage-kubernetes-objects/storage-version-migration/">Migrate Kubernetes Objects Using Storage Version Migration&lt;/a>.&lt;/li>
+&lt;/ul>
+&lt;p>SIG API Machinery would love to hear your feedback as you adopt built-in Storage Version Migration in your clusters. Reach out to us on the &lt;a href="https://kubernetes.slack.com/messages/sig-api-machinery">#sig-api-machinery&lt;/a> Slack channel or participate in our community discussions!&lt;/p></description></item><item><title>Kubernetes v1.37: Pod Certificates and Cluster Trust Bundles</title><link>https://kubernetes.io/blog/2026/08/28/kubernetes-v1-37-pod-certificates-and-cluster-trust-bundles/</link><pubDate>Fri, 28 Aug 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/08/28/kubernetes-v1-37-pod-certificates-and-cluster-trust-bundles/</guid><description>
 &lt;h2 id="pod-certificate-cluster-trust-bundles-blog-post">Pod Certificate / Cluster Trust Bundles Blog Post&lt;a class="td-heading-self-link" href="#pod-certificate-cluster-trust-bundles-blog-post" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Kubernetes brings a wealth of features that make it easy to run your production
 workloads securely and reliably. While aspects like scheduling, health checks
 and resource limits are probably at the front of your mind, one other important
@@ -8418,139 +8486,4 @@ In this mode, the controller logs intended actions and updates the rule's status
 &lt;li>GitHub: &lt;a href="https://sigs.k8s.io/node-readiness-controller">https://sigs.k8s.io/node-readiness-controller&lt;/a>&lt;/li>
 &lt;li>Slack: Join the conversation in &lt;a href="https://kubernetes.slack.com/messages/sig-node-readiness-controller">#sig-node-readiness-controller&lt;/a>&lt;/li>
 &lt;li>Documentation: &lt;a href="https://node-readiness-controller.sigs.k8s.io/">Getting Started&lt;/a>&lt;/li>
-&lt;/ul></description></item><item><title>New Conversion from cgroup v1 CPU Shares to v2 CPU Weight</title><link>https://kubernetes.io/blog/2026/01/30/new-cgroup-v1-to-v2-cpu-conversion-formula/</link><pubDate>Fri, 30 Jan 2026 08:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/01/30/new-cgroup-v1-to-v2-cpu-conversion-formula/</guid><description>
-&lt;p>I'm excited to announce the implementation of an improved conversion formula
-from cgroup v1 CPU shares to cgroup v2 CPU weight. This enhancement addresses
-critical issues with CPU priority allocation for Kubernetes workloads when
-running on systems with cgroup v2.&lt;/p>
-&lt;h2 id="background">Background&lt;a class="td-heading-self-link" href="#background" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Kubernetes was originally designed with cgroup v1 in mind, where CPU shares
-were derived from a container's CPU requests using the following formula:&lt;/p>
-&lt;div class="math">$$cpu.shares = milliCPU \times \frac{1024}{1000}$$&lt;/div>&lt;p>Note that the value 1024 in this formula is the default &lt;code>cpu.shares&lt;/code> value
-in cgroup v1, and is unrelated to millicores. For example, a container
-requesting 1 CPU (1000m) would get (cpu.shares = 1000 \times 1024 / 1000 = 1024),
-and a container requesting 100m would get (cpu.shares = 100 \times 1024 / 1000 = 102).&lt;/p>
-&lt;p>After a while, cgroup v1 started being replaced by its successor,
-cgroup v2. In cgroup v2, the concept of CPU shares (which ranges from 2 to
-262144, or from 2¹ to 2¹⁸) was replaced with CPU weight (which ranges from
-[1, 10000], or 10⁰ to 10⁴).&lt;/p>
-&lt;p>With the transition to cgroup v2,
-&lt;a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/2254-cgroup-v2">KEP-2254&lt;/a>
-introduced a conversion formula to map cgroup v1 CPU shares to cgroup v2 CPU
-weight. The conversion formula was defined as: &lt;code>cpu.weight = (1 + ((cpu.shares - 2) * 9999) / 262142)&lt;/code>&lt;/p>
-&lt;p>This formula linearly maps values from [2¹, 2¹⁸] to [10⁰, 10⁴].&lt;/p>
-&lt;p>&lt;img src="https://kubernetes.io/blog/2026/01/30/new-cgroup-v1-to-v2-cpu-conversion-formula/linear-conversion.png" alt="Linear conversion formula" title="formula">&lt;/p>
-&lt;p>While this approach is simple, the linear mapping imposes a few significant
-problems and impacts both performance and configuration granularity.&lt;/p>
-&lt;h2 id="problems-with-previous-conversion-formula">Problems with previous conversion formula&lt;a class="td-heading-self-link" href="#problems-with-previous-conversion-formula" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The current conversion formula creates two major issues:&lt;/p>
-&lt;h3 id="1-reduced-priority-against-non-kubernetes-workloads">1. Reduced priority against non-Kubernetes workloads&lt;a class="td-heading-self-link" href="#1-reduced-priority-against-non-kubernetes-workloads" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>In cgroup v1, the default value for CPU shares is &lt;code>1024&lt;/code>, meaning a container
-requesting 1 CPU has equal priority with system processes that live outside
-of Kubernetes' scope.
-However, in cgroup v2, the default CPU weight is &lt;code>100&lt;/code>, but the current
-formula converts 1 CPU (1000m) to only &lt;code>≈39&lt;/code> weight - less than 40% of the
-default.&lt;/p>
-&lt;p>&lt;strong>Example:&lt;/strong>&lt;/p>
-&lt;ul>
-&lt;li>Container requesting 1 CPU (1000m)&lt;/li>
-&lt;li>cgroup v1: &lt;code>cpu.shares = 1024&lt;/code> (equal to default)&lt;/li>
-&lt;li>cgroup v2 (current): &lt;code>cpu.weight = 39&lt;/code> (much lower than default 100)&lt;/li>
-&lt;/ul>
-&lt;p>This means that after moving to cgroup v2, Kubernetes (or OCI) workloads would
-de-facto reduce their CPU priority against non-Kubernetes processes. The
-problem can be severe for setups with many system daemons that run
-outside of Kubernetes' scope and expect Kubernetes workloads to have
-priority, especially in situations of resource starvation.&lt;/p>
-&lt;h3 id="2-unmanageable-granularity">2. Unmanageable granularity&lt;a class="td-heading-self-link" href="#2-unmanageable-granularity" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The current formula produces very low values for small CPU requests,
-limiting the ability to create sub-cgroups within containers for
-fine-grained resource distribution (which will possibly be much easier moving
-forward, see &lt;a href="https://github.com/kubernetes/enhancements/issues/5474">KEP #5474&lt;/a> for more info).&lt;/p>
-&lt;p>&lt;strong>Example:&lt;/strong>&lt;/p>
-&lt;ul>
-&lt;li>Container requesting 100m CPU&lt;/li>
-&lt;li>cgroup v1: &lt;code>cpu.shares = 102&lt;/code>&lt;/li>
-&lt;li>cgroup v2 (current): &lt;code>cpu.weight = 4&lt;/code> (too low for sub-cgroup
-configuration)&lt;/li>
-&lt;/ul>
-&lt;p>With cgroup v1, requesting 100m CPU which led to 102 CPU shares was manageable
-in the sense that sub-cgroups could have been created inside the main
-container, assigning fine-grained CPU priorities for different groups of
-processes. With cgroup v2 however, having 4 shares is very hard to
-distribute between sub-cgroups since it's not granular enough.&lt;/p>
-&lt;p>With plans to allow &lt;a href="https://github.com/kubernetes/enhancements/issues/5474">writable cgroups for unprivileged containers&lt;/a>,
-this becomes even
-more relevant.&lt;/p>
-&lt;h2 id="new-conversion-formula">New conversion formula&lt;a class="td-heading-self-link" href="#new-conversion-formula" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;h3 id="description">Description&lt;a class="td-heading-self-link" href="#description" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The new formula is more complicated, but does a much better job mapping
-between cgroup v1 CPU shares and cgroup v2 CPU weight:&lt;/p>
-&lt;div class="math">$$cpu.weight = \lceil 10^{(L^{2}/612 + 125L/612 - 7/34)} \rceil, \text{ where: } L = \log_2(cpu.shares)$$&lt;/div>&lt;p>The idea is that this is a quadratic function to cross the following values:&lt;/p>
-&lt;ul>
-&lt;li>(2, 1): The minimum values for both ranges.&lt;/li>
-&lt;li>(1024, 100): The default values for both ranges.&lt;/li>
-&lt;li>(262144, 10000): The maximum values for both ranges.&lt;/li>
-&lt;/ul>
-&lt;p>Visually, the new function looks as follows:&lt;/p>
-&lt;p>&lt;img src="https://kubernetes.io/blog/2026/01/30/new-cgroup-v1-to-v2-cpu-conversion-formula/new-conversion-formula.png" alt="2025-10-25-new-cgroup-v1-to-v2-conversion-formula-new-conversion.png">&lt;/p>
-&lt;p>And if you zoom in to the important part:&lt;/p>
-&lt;p>&lt;img src="https://kubernetes.io/blog/2026/01/30/new-cgroup-v1-to-v2-cpu-conversion-formula/new-conversion-formula-zoom.png" alt="2025-10-25-new-cgroup-v1-to-v2-conversion-formula-new-conversion-zoom.png">&lt;/p>
-&lt;p>The new formula is &amp;quot;close to linear&amp;quot;, yet it is carefully designed to
-map the ranges in a clever way so the three important points above would
-cross.&lt;/p>
-&lt;h3 id="how-it-solves-the-problems">How it solves the problems&lt;a class="td-heading-self-link" href="#how-it-solves-the-problems" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;ol>
-&lt;li>
-&lt;p>&lt;strong>Better priority alignment:&lt;/strong>&lt;/p>
-&lt;ul>
-&lt;li>A container requesting 1 CPU (1000m) will now get a &lt;code>cpu.weight = 102&lt;/code>. This
-value is close to cgroup v2's default 100.
-This restores the intended priority relationship between Kubernetes
-workloads and system processes.&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;strong>Improved granularity:&lt;/strong>&lt;/p>
-&lt;ul>
-&lt;li>A container requesting 100m CPU will get &lt;code>cpu.weight = 17&lt;/code>, (see
-&lt;a href="https://go.dev/play/p/sLlAfCg54Eg">here&lt;/a>).
-Enables better fine-grained resource distribution within containers.&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ol>
-&lt;h2 id="adoption-and-integration">Adoption and integration&lt;a class="td-heading-self-link" href="#adoption-and-integration" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>This change was implemented at the OCI layer.
-In other words, this is not implemented in Kubernetes itself; therefore the
-adoption of the new conversion formula depends solely on the OCI runtime
-adoption.&lt;/p>
-&lt;p>For example:&lt;/p>
-&lt;ul>
-&lt;li>runc: The new formula is enabled from version &lt;a href="https://github.com/opencontainers/runc/releases/tag/v1.3.2">1.3.2&lt;/a>.&lt;/li>
-&lt;li>crun: The new formula is enabled from version &lt;a href="https://github.com/containers/crun/releases/tag/1.23">1.23&lt;/a>.&lt;/li>
-&lt;/ul>
-&lt;h3 id="impact-on-existing-deployments">Impact on existing deployments&lt;a class="td-heading-self-link" href="#impact-on-existing-deployments" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>&lt;strong>Important:&lt;/strong> Some consumers may be affected if they assume the older linear conversion formula.
-Applications or monitoring tools that directly calculate expected CPU weight values based on the
-previous formula may need updates to account for the new quadratic conversion.
-This is particularly relevant for:&lt;/p>
-&lt;ul>
-&lt;li>Custom resource management tools that predict CPU weight values.&lt;/li>
-&lt;li>Monitoring systems that validate or expect specific weight values.&lt;/li>
-&lt;li>Applications that programmatically set or verify CPU weight values.&lt;/li>
-&lt;/ul>
-&lt;p>Also note that reversing the conversion from &lt;code>cpu.weight&lt;/code> back to milliCPU
-will not always yield the exact original value. There are two sources of
-information loss: the milliCPU to &lt;code>cpu.shares&lt;/code> conversion involves integer
-truncation (e.g. 100m becomes 102 shares, not 102.4), and more significantly,
-the shares-to-weight mapping is many-to-one (e.g. milliCPU values 90
-through 109 all map to &lt;code>cpu.weight = 17&lt;/code>). Tools that need precise CPU
-request values should read them directly from the pod spec rather than
-deriving them from cgroup parameters.&lt;/p>
-&lt;p>The Kubernetes project recommends testing the new conversion formula in non-production
-environments before upgrading OCI runtimes to ensure compatibility with existing tooling.&lt;/p>
-&lt;h2 id="where-can-i-learn-more">Where can I learn more?&lt;a class="td-heading-self-link" href="#where-can-i-learn-more" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>For those interested in this enhancement:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://github.com/kubernetes/kubernetes/issues/131216">Kubernetes GitHub Issue #131216&lt;/a> - Detailed technical
-analysis and examples, including discussions and reasoning for choosing the
-above formula.&lt;/li>
-&lt;li>&lt;a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/2254-cgroup-v2">KEP-2254: cgroup v2&lt;/a> -
-Original cgroup v2 implementation in Kubernetes.&lt;/li>
-&lt;li>&lt;a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">Kubernetes cgroup documentation&lt;/a> -
-Current resource management guidance.&lt;/li>
-&lt;/ul>
-&lt;h2 id="how-do-i-get-involved">How do I get involved?&lt;a class="td-heading-self-link" href="#how-do-i-get-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>For those interested in getting involved with Kubernetes node-level
-features, join the &lt;a href="https://github.com/kubernetes/community/tree/master/sig-node">Kubernetes Node Special Interest Group&lt;/a>.
-We always welcome new contributors and diverse perspectives on resource management
-challenges.&lt;/p></description></item></channel></rss>
+&lt;/ul></description></item></channel></rss>
