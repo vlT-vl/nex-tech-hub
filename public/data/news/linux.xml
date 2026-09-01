@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Linux News</title><item>
+   <title>Lekuo SouthBridge Max Puts An AMD B650 Chipset Onto A PCIe Card For More I/O</title>
+   <link>https://www.phoronix.com/review/lekuo-southbridge-max</link>
+   <guid>https://www.phoronix.com/review/lekuo-southbridge-max</guid>
+   <description>For those looking at expanding the SATA, NVMe, and/or the USB/USB-C capabilities of your system, the Lekuo SouthBridge Max PB65MX3 is an interesting creation that I have been trying out. The Lekuo SouthBridge Max puts an AMD B650 chipset onto a low-profile PCIe add-in card to provide all of the above without any bifurcation required. Given that it&#039;s an AMD B650 chipset, it also &quot;just works&quot; nicely under Linux.</description>
+   <pubDate>Tue, 01 Sep 2026 09:55:50 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
+   <title>systemd 262-rc1 Released With Live Update Orchestrator Integration &amp; More</title>
+   <link>https://www.phoronix.com/news/systemd-262-rc1</link>
+   <guid>https://www.phoronix.com/news/systemd-262-rc1</guid>
+   <description>Debuting today is systemd 262-rc1 as the first test release of this next major update to this Linux init system and service manager...</description>
+   <pubDate>Tue, 01 Sep 2026 08:07:54 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
    <title>Linux Changes For CPPC On Zen 6 Clients - Hard-Coded Default Puts Low-Power Core At 0.47x</title>
    <link>https://www.phoronix.com/news/AMD-Zen-6-Client-CPPC-Changes</link>
    <guid>https://www.phoronix.com/news/AMD-Zen-6-Client-CPPC-Changes</guid>
@@ -208,21 +222,36 @@
    <description>In addition to the Union QtWidgets initial release happening this week, a number of other improvements also landed in the past few days in making Plasma 6.8 all the more exciting...</description>
    <pubDate>Sat, 29 Aug 2026 10:48:28 -0400</pubDate>
    <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>ReactOS 0.4.16 Released With New Graphical Installer, Better Hardware Support</title>
-   <link>https://www.phoronix.com/news/ReactOS-0.4.16-Released</link>
-   <guid>https://www.phoronix.com/news/ReactOS-0.4.16-Released</guid>
-   <description>ReactOS 0.4.16 released today as the newest major update to this "open-source Windows" project providing an open-source OS with Windows driver and application compatibility...</description>
-   <pubDate>Sat, 29 Aug 2026 08:56:32 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>HP Z4 G6i: A Linux-Friendly Workstation Powered By The Intel Xeon 600 Series</title>
-   <link>https://www.phoronix.com/review/hp-z4-g6i</link>
-   <guid>https://www.phoronix.com/review/hp-z4-g6i</guid>
-   <description>The past month I have been testing out the HP Z4 G6i workstation across many different workloads and grueling tasks. This HP workstation powered by the Intel Xeon 600 series &quot;Granite Rapids WS&quot; and NVIDIA RTX graphics offers a lot of compute power, but with the top-end configuration retailing for over $41k USD is quite pricey in today&#039;s environment. Windows 11 Pro is the default operating system of the HP Z4 Gi but Ubuntu LTS releases are supported and it&#039;s &quot;Linux-ready&quot; at large.</description>
-   <pubDate>Fri, 28 Aug 2026 10:25:27 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item><title>Canonical joins the Open Secure AI Alliance</title><link>https://ubuntu.com//blog/open-secure-ai-alliance</link><description>&lt;p&gt;Canonical is now part of the Open Secure AI Alliance, announced by NVIDIA with partners across cloud computing, cybersecurity, enterprise software, open source foundations, and AI research. The alliance aims to develop and share open technologies, techniques, and tools to safeguard software and agents in the age of AI. The bedrock for AI&amp;nbsp; Alongside NVIDIA [&amp;hellip;]&lt;/p&gt;
+  </item><item><title>Surviving the uncharted: when dedicated OpenStack expertise is your best ally in disaster recovery </title><link>https://ubuntu.com//blog/support-restores-openstack</link><description>&lt;p&gt;A customer&amp;#8217;s OpenStack control plane went down overnight after their only backup proved stale. Canonical support rebuilt the database cluster live, service by service, without losing a single workload.&lt;/p&gt;
+</description><content:encoded>
+&lt;p&gt;Some support cases are routine. Others take you off the documented path entirely, into territory where the only way forward is deep, hands on open source expertise. This series looks at how Canonical Support navigates the unexpected: cases where standard playbooks aren’t enough, and a support engineer helps a customer find a solution in real time.&lt;/p&gt;
+&lt;p&gt;This is one of those cases. A customer’s production OpenStack environment went, overnight, from fully operational to unable to provision, scale, or manage a single resource.&lt;/p&gt;
+&lt;h2 class="wp-block-heading"&gt;What happened&lt;/h2&gt;
+&lt;p&gt;OpenStack is not a single piece of software. It is a coordinated architecture of services that manage core infrastructure components like compute, networking, identity, storage, all of which depend on a shared database that keeps a record of the current state of the cloud: what is running, where, and how it is configured.&lt;/p&gt;
+&lt;p&gt;During routine operations, an action targeted the database cluster underpinning that control plane. Within seconds, the layer that lets operators manage the cloud, provision, migrate, scale, was gone.&lt;/p&gt;
+&lt;p&gt;The support case opened the same day.&lt;/p&gt;
+&lt;h2 class="wp-block-heading"&gt;The first problem: the backup&lt;/h2&gt;
+&lt;p&gt;The team’s first question was straightforward: when was the last backup taken, and had it ever been tested as a restore? The available backup was old enough that it no longer reflected the cloud’s current state. Virtual machines had moved, resources had been reallocated, credentials had rotated since it was captured.&lt;/p&gt;
+&lt;p&gt;Restoring it directly risked producing a control plane that described a cloud that no longer existed. That ruled out the simplest path, and left something harder: rebuild the control plane around live, running workloads, without breaking them.&lt;/p&gt;
+&lt;p&gt;This is worth pausing on, because it is a common gap even in mature operations. A backup schedule tells you data is being captured. It does not tell you the restore will work, or that the restored state will still match reality by the time you need it. The two need to be validated together, on a cadence tied to how quickly the environment actually changes.&lt;/p&gt;
+&lt;h2 class="wp-block-heading"&gt;The thing that didn’t break&lt;/h2&gt;
+&lt;p&gt;Before touching anything, the assigned support engineer checked what was still running, and found that nothing had actually gone down. No workloads were lost. The business kept running. What had been lost was the ability to manage the cloud: no new provisioning, no migration, no scaling.&lt;/p&gt;
+&lt;p&gt;This is a property of OpenStack’s architecture worth understanding on its own terms. The control plane manages the state of the cloud; the data plane does the actual work, compute, networking, storage. These layers are decoupled by design, specifically so that a failure in management infrastructure does not take down the workloads depending on it. It is one of the architectural advantages that makes OpenStack viable for large scale production environments in the first place, and it is exactly what held up here.&lt;/p&gt;
+&lt;p&gt;That guarantee only helps you if you know it exists and know how to use it to shape a recovery strategy. Recognizing it early is what turned this from an open ended crisis into a scoped, solvable engineering problem within the first hour.&lt;/p&gt;
+&lt;h2 class="wp-block-heading"&gt;The recovery&lt;/h2&gt;
+&lt;p&gt;With existing workloads confirmed safe, the team turned to rebuilding the control plane. Because the need to rebuild a database from scratch is such a rare edge case, standard recovery documentation covers only damaged or degraded states. So the engineer developed and validated a new procedure for that specific scenario: reconstructing the database cluster, restoring available data in a controlled sequence, then reconnecting every OpenStack service to the new database, one dependency at a time.&lt;/p&gt;
+&lt;p&gt;That last part was the bulk of the work. The relationships linking each service to the database had to be reestablished individually, and gaps between the backup’s state and the cloud’s actual state had to be reconciled by hand, including cases where a VM was running perfectly well but the database, working from stale information, reported it as stopped or in error.&lt;/p&gt;
+&lt;p&gt;It took several days of close, sustained collaboration between the Canonical engineer and the customer’s team. By the end, the cloud was fully operational, with zero workloads lost.&lt;/p&gt;
+&lt;h2 class="wp-block-heading"&gt;What this case actually shows&lt;/h2&gt;
+&lt;p&gt;Two things are worth taking from this.&lt;/p&gt;
+&lt;p&gt;Backup validation deserves the same rigor as backup scheduling. This is not a hypothetical gap. &lt;a href="https://www.cockroachlabs.com/guides/the-state-of-resilience-2025/"&gt;Cockroach Labs’ &lt;em&gt;State of Resilience 2025&lt;/em&gt; survey&lt;/a&gt; found that 62% of organizations do not perform regular backup restoration exercises, and 71% do no failover testing at all, despite nearly all of them running some form of resiliency testing on paper. Separately, &lt;a href="https://www.acronis.com/en/tru/posts/why-most-dr-deployments-may-not-survive-a-real-disaster/"&gt;Acronis’ Q1 2026 telemetry&lt;/a&gt; across its disaster recovery platform found that 85% of recovery servers had RPO monitoring turned off entirely, meaning no automatic check on whether backups are even recent enough to be useful, and only 18% of backup rules were configured for monthly testing.&lt;/p&gt;
+&lt;p&gt;The pattern is consistent: having a backup policy is common, but proving that policy actually works under real conditions is not. That gap tends to stay invisible until the day it matters, which is exactly why a tested, timed, end to end restore process belongs on a resilience checklist next to RTO and RPO targets, not treated as a given once the backup job shows green.&lt;/p&gt;
+&lt;p&gt;In a system this interconnected, architectural knowledge is what makes recovery possible at all. Knowing that OpenStack’s control and data planes are decoupled was not trivial here. It was the fact that determined the entire recovery strategy, because it told the engineer, within the first hour, that the business had not already lost. That is the kind of knowledge that matters exactly once, at the highest stakes moment, and it is precisely what deep, specialized support exists to provide on demand.&lt;/p&gt;
+&lt;p&gt;Large, distributed infrastructure accumulates operational complexity and interdependency by nature, at every vendor and every layer of the stack. What determines the outcome when something goes wrong is not whether an environment is complex. It is whether the team responding has the depth to move fast, diagnose correctly, and build a solution under pressure when the documented path runs out.&lt;/p&gt;
+&lt;p&gt;The procedure developed during this incident has since been documented for future cases. But the case itself is a useful reminder of what a support subscription is actually buying: not just answers to known problems, but access to the expertise to navigate the ones nobody has written down yet.&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;If your organization runs OpenStack in production, &lt;a href="https://ubuntu.com/support/contact-us?product=support-overview"&gt;talk to us about Ubuntu Pro with Support&lt;/a&gt;.&lt;/strong&gt;&lt;/p&gt;
+</content:encoded><author>Lidia Luna Puerta (Lidia Luna Puerta)</author><category>Database</category><category>OpenStack</category><category>Support</category><pubDate>Tue, 01 Sep 2026 11:10:15 +0000</pubDate></item><item><title>Canonical joins the Open Secure AI Alliance</title><link>https://ubuntu.com//blog/open-secure-ai-alliance</link><description>&lt;p&gt;Canonical is now part of the Open Secure AI Alliance, announced by NVIDIA with partners across cloud computing, cybersecurity, enterprise software, open source foundations, and AI research. The alliance aims to develop and share open technologies, techniques, and tools to safeguard software and agents in the age of AI. The bedrock for AI&amp;nbsp; Alongside NVIDIA [&amp;hellip;]&lt;/p&gt;
 </description><content:encoded>
 &lt;p&gt;Canonical is now part of the &lt;a href="https://blogs.nvidia.com/blog/open-secure-ai-alliance/"&gt;Open Secure AI Alliance&lt;/a&gt;, announced by NVIDIA with partners across cloud computing, cybersecurity, enterprise software, open source foundations, and AI research. The alliance aims to develop and share open technologies, techniques, and tools to safeguard software and agents in the age of AI.&lt;/p&gt;
 &lt;h2 class="wp-block-heading"&gt;&lt;strong&gt;The bedrock for AI &lt;/strong&gt;&lt;/h2&gt;
@@ -675,54 +704,63 @@
 &lt;p&gt;Getting started with MAAS is now simpler. The new documentation gives users a clearer path from installation to initial configuration, and from there to the first real experience of managing physical machines.&lt;/p&gt;
 &lt;p&gt;For many users, this is the right first step: the new documentation is a series of how-to articles, simple enough for a lab or proof of concept, but realistic enough to understand how MAAS works with real hardware. And when the environment needs to grow, the documentation also covers more advanced options, such as &lt;a href="https://canonical.com/maas/docs/latest/how-to-guides/get-started/configure-postgresql-for-remote-connections/"&gt;configuring PostgreSQL for remote connections&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;If you want to try MAAS, start with the new “&lt;a href="https://canonical.com/maas/docs/latest/how-to-guides/get-started/"&gt;Get started with MAAS” guide&lt;/a&gt;. Install MAAS, configure the basics, connect your machines, and begin exploring bare metal automation.&lt;/p&gt;
-</content:encoded><author>David Beamonte (David Beamonte)</author><category>installation</category><category>MAAS</category><pubDate>Tue, 14 Jul 2026 15:00:00 +0000</pubDate></item><item><title>Januscape vulnerability CVE-2026-53359 mitigations available</title><link>https://ubuntu.com//blog/januscape-linux-vulnerability-mitigations-available</link><description>&lt;p&gt;Introduction A local privilege escalation (LPE) vulnerability affecting the Linux kernel was publicly disclosed on July 6, 2026. The vulnerability was assigned CVE ID CVE-2026-53359 and is referred to as Januscape. This vulnerability affects all Ubuntu releases. Neither NVD nor Kernel.org have published their own CVSS scores for this issue; we calculated it as CVSS [&amp;hellip;]&lt;/p&gt;
-</description><content:encoded>
-&lt;h2 class="wp-block-heading"&gt;Introduction&lt;/h2&gt;
-&lt;p&gt;A local privilege escalation (LPE) vulnerability affecting the Linux kernel was publicly disclosed on July 6, 2026. The vulnerability was assigned CVE ID &lt;a href="https://ubuntu.com/security/CVE-2026-53359"&gt;CVE-2026-53359&lt;/a&gt; and is referred to as Januscape. This vulnerability affects all Ubuntu releases.&lt;/p&gt;
-&lt;p&gt;Neither NVD nor &lt;a href="http://kernel.org"&gt;Kernel.org&lt;/a&gt; have published their own CVSS scores for this issue; we calculated it as CVSS 4 8.4 and have seen others publish CVSS 3 7.8, 8.8, and CVSS 4 9.3.&lt;/p&gt;
-&lt;p&gt;The vulnerability affects nested virtualization in the KVM system on Intel and AMD x86_64 systems. Other architectures are not affected. A Proof of Concept exploit was published that demonstrates crashing a hypervisor host from a guest. Some reports claim that a full exploit exists.&lt;/p&gt;
-&lt;p&gt;The fix must be installed in the hypervisor’s kernel: if you are using a cloud service provider with a hypervisor based on Linux KVM on Intel or AMD hardware and you can use nested virtualization, your VM or host may be compromised by another tenant. If your cloud service provider does not allow nested virtualization, you are not affected by this issue.&lt;/p&gt;
-&lt;p&gt;If you run hypervisors yourself, your attack surface is from root in your guest virtual machines.&lt;/p&gt;
-&lt;p&gt;Linux kernel packages which implement the proposed patch will be released. Until security updates are available, you can disable nested virtualization to prevent abuse of this issue. This might disrupt your legitimate work and you should weigh the pros and cons before using this mitigation.&lt;/p&gt;
-&lt;p&gt;This post describes how to disable nested virtualization.&lt;/p&gt;
-&lt;h2 class="wp-block-heading"&gt;Which Ubuntu releases are affected by CVE-2026-53359?&lt;/h2&gt;
-&lt;figure class="wp-block-table"&gt;&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Release&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;Package Name&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;Remediation status&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Trusty (14.04)&lt;/td&gt;&lt;td&gt;linux&lt;/td&gt;&lt;td&gt;Fix pending&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Xenial (16.04)&lt;/td&gt;&lt;td&gt;linux&lt;/td&gt;&lt;td&gt;Fix pending&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Bionic (18.04)&lt;/td&gt;&lt;td&gt;linux&lt;/td&gt;&lt;td&gt;Fix pending&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Focal (20.04)&lt;/td&gt;&lt;td&gt;linux&lt;/td&gt;&lt;td&gt;Fix pending&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Jammy (22.04)&lt;/td&gt;&lt;td&gt;linux&lt;/td&gt;&lt;td&gt;Fix pending&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Noble (24.04)&lt;/td&gt;&lt;td&gt;linux&lt;/td&gt;&lt;td&gt;Fix pending&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Resolute (26.04)&lt;/td&gt;&lt;td&gt;linux&lt;/td&gt;&lt;td&gt;Fix pending&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;td&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h2 class="wp-block-heading"&gt;How to check if you are impacted by CVE-2026-53359&lt;/h2&gt;
-&lt;div class="wp-block-group is-layout-constrained wp-block-group-is-layout-constrained"&gt;&lt;div class="wp-block-group__inner-container"&gt;
-&lt;pre class="wp-block-code"&gt;&lt;code&gt;
-grep . /sys/module/kvm_{amd,intel}/parameters/nested
-# 1 or Y means you are impacted. 0 or N means mitigated.
-# One or two "No such file or directory" is expected.
-# Two "No such file or directory" does not itself mean
-# you are safe -- the module may still be loaded later.&lt;/code&gt;&lt;/pre&gt;
-&lt;h2 class="wp-block-heading"&gt;Impact of CVE-2026-53359&lt;/h2&gt;
-&lt;h3 class="wp-block-heading"&gt;Deployments without virtualization workloads&lt;/h3&gt;
-&lt;p&gt;Even if you do not have virtual machines running now, system services such as libvirt, lxd, multipass, incus, etc may allow users to create virtual machines in future. An attacker could use the ability provided by these services to create virtual machines and perform local privilege escalation (LPE) by exploiting this vulnerability. Device node permissions may also allow users the necessary permissions to exploit the vulnerability. Inspect the output of namei -l /dev/kvm and getfacl /dev/kvm to see the permissions on the usual device node. You should ensure that only privileged users can write to the /dev/kvm device. The default on Ubuntu is that /dev/kvm is only writable by the superuser (root) and the kvm group. Only privileged users are added to the kvm group.&lt;/p&gt;
-&lt;h3 class="wp-block-heading"&gt;Deployments with container workloads&lt;/h3&gt;
-&lt;p&gt;Unprivileged containers do not have sufficient permissions to start KVM-accelerated virtual machines and are thus not a vector for concern. Privileged containers may have sufficient permissions to start KVM-accelerated virtual machines and should not be considered safe. These should be treated as per the ‘Deployments without virtualization workloads’ section, above.&lt;/p&gt;
-&lt;h3 class="wp-block-heading"&gt;Deployments with virtualization workloads&lt;/h3&gt;
-&lt;p&gt;Any process or user inside a virtual machine that can cause kernel module loading – or supply a new kernel – can manipulate page tables sufficiently to crash or potentially exploit the host or exploit other guest virtual machines on the host.&lt;/p&gt;
-&lt;h2 class="wp-block-heading"&gt;How to apply mitigations for CVE-2026-53359&lt;/h2&gt;
-&lt;p&gt;You can disable virtualization nesting on your hosts:&lt;/p&gt;
-&lt;pre class="wp-block-code"&gt;&lt;code&gt;# First, stop all VMs running in KVM-based hypervisors
+</content:encoded><author>David Beamonte (David Beamonte)</author><category>installation</category><category>MAAS</category><pubDate>Tue, 14 Jul 2026 15:00:00 +0000</pubDate></item><item>
+        <title>[$] A pause for the Python JIT</title>
+        <link>https://lwn.net/Articles/1090385/</link>
+        <guid>https://lwn.net/Articles/1090385/</guid>
+        <dc:creator>jzb</dc:creator>
+        <description>&lt;p&gt;In 2024 the &lt;a
+href=&quot;https://www.python.org/downloads/release/python-3130/&quot;&gt;Python&amp;#160;3.13&lt;/a&gt;
+release added an &lt;a
+href=&quot;https://docs.python.org/3.13/whatsnew/3.13.html#an-experimental-just-in-time-jit-compiler&quot;&gt;experimental
+just-in-time (JIT) compiler&lt;/a&gt; to optimize the way that CPython executes Python
+code. Since then, work has proceeded on the JIT, albeit perhaps less formally
+than some might like. In June, Python's &lt;a
+href=&quot;https://peps.python.org/pep-0013/#the-steering-council&quot;&gt;steering
+council&lt;/a&gt; (SC) put out an &lt;a
+href=&quot;https://discuss.python.org/t/an-announcement-from-the-steering-council-regarding-the-jit-project/107638&quot;&gt;announcement&lt;/a&gt;
+that no new development on the JIT land (with the exception of bug and security
+fixes) in Python's main branch, until it accepts a &lt;a
+href=&quot;https://peps.python.org/pep-0001&quot;&gt;Python Enhancement Proposal&lt;/a&gt; (PEP)
+that would make the case for the JIT as a supported part of CPython. That has
+led to the creation of &lt;a
+href=&quot;https://peps.python.org/pep-0836/&quot;&gt;PEP&amp;#160;836&lt;/a&gt; (&quot;JIT Go Brrr: The
+Path to a Supported JIT Compiler for CPython&quot;), which is currently under
+discussion. As it stands, it seems likely that work on JIT will continue, but
+when that will happen is less certain.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 01 Sep 2026 14:40:09 +0000</pubDate>
+        </item><item>
+        <title>Firefox 155 released</title>
+        <link>https://lwn.net/Articles/1091926/</link>
+        <guid>https://lwn.net/Articles/1091926/</guid>
+        <dc:creator>jzb</dc:creator>
+        <description>&lt;p&gt;&lt;a href=&quot;https://www.firefox.com/en-US/firefox/155.0/releasenotes/&quot;&gt;Version
+155&lt;/a&gt; of the Firefox web browser has been released. Notable changes include a
+count in the address bar of how many ad trackers Firefox has blocked, container
+reordering, and ensuring that &lt;tt&gt;mailto:&lt;/tt&gt; links are only opened by explicit
+user actions. There is also a change of the domain used for &quot;captive portals&quot;
+(such as the ones used to sign into hotel WiFI): Firefox now uses
+&quot;firefox-portal-detection.com&quot; instead of &quot;detectportal.firefox.com&quot;, which may
+require a change in network allow lists.&lt;/p&gt;
 
-# Next, unload modules, both are harmless
-sudo rmmod kvm_amd ; sudo rmmod kvm_intel
-# look to see if any configuration file forces nesting on
-grep nested /etc/modprobe.d/*
-# disable nesting for the implementations of KVM in both AMD and Intel processors
-echo 'options kvm_amd nested=0' | sudo tee /etc/modprobe.d/nested.conf
-echo 'options kvm_intel nested=0' | sudo tee -a /etc/modprobe.d/nested.conf
+&lt;p&gt;The release also includes a number of &lt;a
+href=&quot;https://developer.mozilla.org/en-US/docs/Mozilla/Firefox/Releases/155&quot;&gt;changes
+that may impact web developers&lt;/a&gt;, as well as a number of bug fixes and &lt;a
+href=&quot;https://www.mozilla.org/en-US/security/advisories/mfsa2026-82/&quot;&gt;security
+fixes&lt;/a&gt;.&lt;/p&gt;
 
-# reload modules if necessary, both are harmless
-sudo modprobe kvm_amd ; sudo modprobe kvm_intel&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;&lt;/div&gt;
-&lt;h2 class="wp-block-heading"&gt;Further reading&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href="https://github.com/V4bel/Januscape/blob/main/assets/write-up.md"&gt;Technical writeup by exploit author Hyunwoo Kim&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href="https://ubuntu.com/security/disclosure-policy"&gt;Read Ubuntu’s disclosure policy&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</content:encoded><author>seth-arnold (seth-arnold)</author><category>Security</category><category>Vulnerabilities</category><pubDate>Sat, 11 Jul 2026 20:00:00 +0000</pubDate></item><item>
+&lt;p&gt;&lt;/p&gt;</description>
+        <pubDate>Tue, 01 Sep 2026 14:03:56 +0000</pubDate>
+        </item><item>
+        <title>Security updates for Tuesday</title>
+        <link>https://lwn.net/Articles/1091919/</link>
+        <guid>https://lwn.net/Articles/1091919/</guid>
+        <dc:creator>jzb</dc:creator>
+        <description>Security updates have been issued by &lt;b&gt;AlmaLinux&lt;/b&gt; (gzip, iperf3, libxml2, mingw-sqlite, mysql:8.4, nginx:1.26, nodejs:24, php, and tar), &lt;b&gt;Debian&lt;/b&gt; (expat and libdbd-csv-perl), &lt;b&gt;Fedora&lt;/b&gt; (apache-ivy, bind, bluez, bubblewrap, curl, emacs, epiphany, expat, freerdp, gdk-pixbuf2, GitPython, hcloud, kbd, kernel, lego, libopenmpt, mqttcli, nebula, opkssh, python-mkdocs-git-revision-date-localized-plugin, python-pip, rpki-client, rubygem-mechanize, srt, and subfinder), &lt;b&gt;Mageia&lt;/b&gt; (c-ares, clamav, expat, mingq-expat, firefox, nspr, nss, flatpak, hplip, jbig2dec, nodejs, openssl, perl-Catalyst-Plugin-Authentication, perl-Date-Manip, perl-HTML-FormHandler, perl-HTTP-Date, perl-Mojolicious, perl-Plack, postgresql15, postgresql18, python-hpack, redis, roundcubemail, thunderbird, varnish, and vim), &lt;b&gt;Oracle&lt;/b&gt; (golang and libxml2), &lt;b&gt;Red Hat&lt;/b&gt; (bind, bind9.18, dracut, glib2, golang, gzip, kernel, kernel-rt, openssl, osbuild-composer, tar, and unbound), &lt;b&gt;SUSE&lt;/b&gt; (7zip, busybox, bzip2, c-ares, chromedriver, chromium, cpio, curl, dhcpcd, dovecot24, dracut, firefox, go1.25, go1.26, go1.26-openssl, google-cloud-sap-agent, gstreamer-plugins-bad, gzip, helm, ImageMagick, istioctl, jfrog-cli, jupyter-jupyterlab, libarchive, libcares2, libheif, liboqs, librest, openssl-1_1, openssl-3, owasp-modsecurity-crs, pcp, php-composer2, postgresql14, postgresql15, postgresql17, postgresql18, python-cryptography, python-httplib2, python-pip, python313, python313-djangorestframework, python313-starlette, qemu, qt6-svg, quagga, rav1e, rmt-server, rsync, rsyslog, snphost, sssd, thunderbird, unbound, vim, wget, xmlrpc-c, yast2-auth-client, and yast2-samba-client), and &lt;b&gt;Ubuntu&lt;/b&gt; (attr, bind9, coreutils, cpio, diffutils, freerdp3, libssh, mysql-8.0, mysql-8.4, openjdk-17-crac, openjdk-21-crac, openjdk-25-crac, openssl, p11-kit, perl, pillow, udisks2, util-linux, webkit2gtk, zfs-linux, and zlib).
+</description>
+        <pubDate>Tue, 01 Sep 2026 13:17:25 +0000</pubDate>
+        </item><item>
         <title>OpenShot 4.0 released</title>
         <link>https://lwn.net/Articles/1091606/</link>
         <guid>https://lwn.net/Articles/1091606/</guid>
@@ -956,43 +994,4 @@ with a mechanism that allows virtual machines to voluntarily reduce the
 number of virtual CPUs they use when contention is high.
 </description>
         <pubDate>Thu, 27 Aug 2026 14:11:52 +0000</pubDate>
-        </item><item>
-        <title>Eight stable kernels for Thursday</title>
-        <link>https://lwn.net/Articles/1090940/</link>
-        <guid>https://lwn.net/Articles/1090940/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>&lt;p&gt;Greg Kroah-Hartman has announced the release of the &lt;a
-href=&quot;https://lwn.net/Articles/1090942/&quot;&gt;7.2.1&lt;/a&gt;, &lt;a href=&quot;https://lwn.net/Articles/1090943/&quot;&gt;7.1.11&lt;/a&gt;, &lt;a
-href=&quot;https://lwn.net/Articles/1090944/&quot;&gt;6.18.47&lt;/a&gt;, &lt;a
-href=&quot;https://lwn.net/Articles/1090945/&quot;&gt;6.12.106&lt;/a&gt;, &lt;a
-href=&quot;https://lwn.net/Articles/1090946/&quot;&gt;6.6.154&lt;/a&gt;, &lt;a href=&quot;https://lwn.net/Articles/1090947/&quot;&gt;6.1.185&lt;/a&gt;,
-&lt;a href=&quot;https://lwn.net/Articles/1090948/&quot;&gt;5.15.218&lt;/a&gt;, and &lt;a
-href=&quot;https://lwn.net/Articles/1090949/&quot;&gt;5.10.267&lt;/a&gt; stable kernels. Each of these has
-important updates throughout the tree; users are advised to upgrade.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
-        <pubDate>Thu, 27 Aug 2026 13:10:02 +0000</pubDate>
-        </item><item>
-        <title>Security updates for Thursday</title>
-        <link>https://lwn.net/Articles/1090938/</link>
-        <guid>https://lwn.net/Articles/1090938/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>Security updates have been issued by &lt;b&gt;AlmaLinux&lt;/b&gt; (assertj-core, attr, firefox, go-toolset:rhel8, golang, grafana, gstreamer1-plugins-good, httpd, kernel, mingw-openssl, mod_http2, nginx, nginx:1.24, pam, polkit, and sqlite), &lt;b&gt;Debian&lt;/b&gt; (bubblewrap, cockpit, emacs, gimp, libdbi-perl, openjdk-11, openjdk-17, wireshark, and xrdp), &lt;b&gt;Fedora&lt;/b&gt; (bluez, curl, emacs, golang, knot, libopenmpt, libsoup3, openbao, openssh, rsync, rust-anstyle-hyperlink, rust-anstyle-progress, rust-cargo, rust-cargo-c, rust-cargo-credential-libsecret, rust-cargo-util, rust-cargo-util-schemas, rust-cargo-util-terminal, rust-crates-io, and rust-rustfix), &lt;b&gt;Gentoo&lt;/b&gt; (Chromium, Google Chrome, Microsoft Edge, Opera, Chromium, Google Chrome, Microsoft Edge, Opera, Vivaldi, Chromium, Google Chrome, Microsoft Edge. Opera, and OpenRGB), &lt;b&gt;Oracle&lt;/b&gt; (abrt, assertj-core, attr, gstreamer1-plugins-base, gstreamer1-plugins-good, httpd, nginx:1.24, nginx:1.26, nodejs24, and polkit), &lt;b&gt;SUSE&lt;/b&gt; (apache2-mod_auth_openidc, buildah, curl, docker, dracut, evince, go1.25-openssl, go1.26-openssl, go1.27, gstreamer-plugins-bad, kernel, kubernetes, kubernetes-old, libarchive, LibVNCServer, libwireshark19, pcp, python310-pip, qemu, rootlesskit, rsync, snpguest, and util-linux), and &lt;b&gt;Ubuntu&lt;/b&gt; (bind9, libheif, and openssl, openssl1.0).
-</description>
-        <pubDate>Thu, 27 Aug 2026 13:00:18 +0000</pubDate>
-        </item><item>
-        <title>[$] LWN.net Weekly Edition for August 27, 2026</title>
-        <link>https://lwn.net/Articles/1089643/</link>
-        <guid>https://lwn.net/Articles/1089643/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>Inside this week's LWN.net Weekly Edition:
-        &lt;p&gt;
-        &lt;ul&gt;
-&lt;li&gt; &lt;a href=&quot;https://lwn.net/Articles/1089643/&quot;&gt;Front&lt;/a&gt;: AGPL violations; OpenMDW license; quantum computing and encryption; 7.3 merge window; Remind; Quickshell.
-            &lt;li&gt; &lt;a href=&quot;https://lwn.net/Articles/1089645/&quot;&gt;Briefs&lt;/a&gt;: arrayref; RIP Steve French; Armbian 26.8; Vanilla OS 3; Emacs 31.1; KDE Gear 26.08; LibreOffice 26.8; RPM 6.1.0; Quotes; ...
-            &lt;li&gt; &lt;a href=&quot;https://lwn.net/Articles/1089646/&quot;&gt;Announcements&lt;/a&gt;: Newsletters, conferences, security updates, patches, and more.
-            &lt;/ul&gt;
-
-        </description>
-        <pubDate>Thu, 27 Aug 2026 00:54:48 +0000</pubDate>
         </item></channel></rss>
