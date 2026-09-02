@@ -1,4 +1,55 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: Storage Version Migration Enabled by Default</title><link>https://kubernetes.io/blog/2026/08/31/kubernetes-v1-37-storage-version-migration-ga/</link><pubDate>Mon, 31 Aug 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/08/31/kubernetes-v1-37-storage-version-migration-ga/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: etcd RangeStream Cuts Memory Use on Large List Reads</title><link>https://kubernetes.io/blog/2026/09/01/kubernetes-v1-37-etcd-range-stream/</link><pubDate>Tue, 01 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/01/kubernetes-v1-37-etcd-range-stream/</guid><description>
+&lt;p>I am excited to announce that etcd RangeStream is graduating to beta in
+Kubernetes v1.37. Paired with etcd v3.7, it reduces the memory the API server and
+etcd need to read a large collection, and makes peak usage more predictable.&lt;/p>
+&lt;h2 id="the-cost-of-large-reads">The cost of large reads&lt;a class="td-heading-self-link" href="#the-cost-of-large-reads" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The API server serves most list and watch requests from its in-memory watch cache.
+Populating that cache requires reading a resource's full state from etcd, at
+startup and on every re-initialization. For a resource with many objects, or large
+ones, such as Pods, that read is expensive.&lt;/p>
+&lt;p>The API server already paginated these reads, asking etcd for a fixed number of
+keys at a time rather than the whole collection at once. But a page bounded by key
+count has no awareness of object size, so a page of large objects can still be
+very large. That makes memory usage hard to predict, and a bad combination of
+object size and concurrent reads can be enough to trigger an OOM. etcd's unary
+&lt;code>Range&lt;/code> assembles each page in full before sending it, and the API server holds it
+while decoding, so the same payload sits in memory on both sides at once. Most of
+that cost lands on etcd, which is also where streaming helps most.&lt;/p>
+&lt;h2 id="streaming-reads-with-rangestream">Streaming reads with RangeStream&lt;a class="td-heading-self-link" href="#streaming-reads-with-rangestream" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>etcd v3.7 adds a streaming version of that read, the &lt;code>RangeStream&lt;/code> RPC. It takes
+the same &lt;code>RangeRequest&lt;/code> as &lt;code>Range&lt;/code> and returns the same result set, but instead of
+building the whole response up front, etcd splits it into chunks and streams them.
+Chunk size is tuned adaptively to the values being returned, so a collection of
+large objects is bounded by bytes rather than by a key count, and memory is freed
+as the stream progresses instead of being held until a whole page is assembled.&lt;/p>
+&lt;p>When the feature is enabled, the API server uses &lt;code>RangeStream&lt;/code> wherever it reads a
+whole collection out of etcd. This includes watch cache initialization, and the
+fallback paths where a list request cannot be served from the cache and reads etcd
+directly. In either case the API server decodes each chunk as it arrives and
+releases it before pulling the next one, so neither side ever holds the whole
+collection.&lt;/p>
+&lt;h2 id="requirements">Requirements&lt;a class="td-heading-self-link" href="#requirements" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;ul>
+&lt;li>Kubernetes v1.37 or later&lt;/li>
+&lt;li>etcd v3.7 or later&lt;/li>
+&lt;/ul>
+&lt;p>RangeStream is used when the &lt;code>EtcdRangeStream&lt;/code> feature gate is enabled on the
+kube-apiserver, which is beta and on by default in v1.37, and etcd is v3.7 or
+later. The API server resolves etcd's support at startup
+and also falls back at runtime if a call returns &lt;code>Unimplemented&lt;/code>, so an API server
+paired with an older etcd keeps using the paginated &lt;code>Range&lt;/code> path on its own. To
+turn it off, disable the gate:&lt;/p>
+&lt;pre tabindex="0">&lt;code>--feature-gates=EtcdRangeStream=false
+&lt;/code>&lt;/pre>&lt;h2 id="confirming-rangestream-is-in-use">Confirming RangeStream is in use&lt;a class="td-heading-self-link" href="#confirming-rangestream-is-in-use" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The API server records streamed reads under their own operation label on its etcd
+metrics. A non-zero count here means &lt;code>RangeStream&lt;/code> is in use:&lt;/p>
+&lt;pre tabindex="0">&lt;code>etcd_request_duration_seconds_count{operation=&amp;#34;listStream&amp;#34;}
+&lt;/code>&lt;/pre>&lt;p>If it stays at zero, the API server is still using the paginated &lt;code>Range&lt;/code> path, most
+likely because etcd is older than v3.7.&lt;/p>
+&lt;h2 id="learn-more">Learn more&lt;a class="td-heading-self-link" href="#learn-more" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;ul>
+&lt;li>&lt;a href="https://github.com/kubernetes/enhancements/issues/5966">KEP-5966: etcd RangeStream&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://etcd.io/docs/v3.7/learning/api/">RangeStream in the etcd API guide&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://etcd.io/blog/2026/announcing-etcd-3.7/">Announcing etcd v3.7&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/kubernetes/community/tree/master/sig-etcd">SIG etcd&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>If you have questions or feedback, join the &lt;code>#sig-etcd&lt;/code> channel on
+&lt;a href="https://slack.k8s.io/">Kubernetes Slack&lt;/a>.&lt;/p></description></item><item><title>Kubernetes v1.37: Storage Version Migration Enabled by Default</title><link>https://kubernetes.io/blog/2026/08/31/kubernetes-v1-37-storage-version-migration-ga/</link><pubDate>Mon, 31 Aug 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/08/31/kubernetes-v1-37-storage-version-migration-ga/</guid><description>
 &lt;p>I am excited that &lt;em>storage version migration&lt;/em> (SVM) has graduated to General Availability (GA) in Kubernetes v1.37!&lt;/p>
 &lt;p>After a number of releases of work and testing, the built-in StorageVersionMigration API (&lt;code>storagemigration.k8s.io/v1&lt;/code>)
 and control plane controller are now fully stable and enabled by default across all v1.37 Kubernetes clusters.&lt;/p>
@@ -8427,63 +8478,4 @@ leave room for that.&lt;/p>
 improve while keeping compatibility promises?&lt;/p>
 &lt;p>&lt;strong>FM: Exactly. Jordan, thank you, I think we’ve covered everything. This has been an insightful view
 into the API Governance project and its role in the wider Kubernetes project.&lt;/strong>&lt;/p>
-&lt;p>&lt;strong>JL&lt;/strong>: Thank you.&lt;/p></description></item><item><title>Introducing Node Readiness Controller</title><link>https://kubernetes.io/blog/2026/02/03/introducing-node-readiness-controller/</link><pubDate>Tue, 03 Feb 2026 10:00:00 +0800</pubDate><guid>https://kubernetes.io/blog/2026/02/03/introducing-node-readiness-controller/</guid><description>
-&lt;img style="float: right; display: inline-block; margin-left: 2em; max-width: 15em;" src="./node-readiness-controller-logo.svg" alt="Logo for node readiness controller" />
-&lt;p>In the standard Kubernetes model, a node’s suitability for workloads hinges on a single binary &amp;quot;Ready&amp;quot; condition. However, in modern Kubernetes environments, nodes require complex infrastructure dependencies—such as network agents, storage drivers, GPU firmware, or custom health checks—to be fully operational before they can reliably host pods.&lt;/p>
-&lt;p>Today, on behalf of the Kubernetes project, I am announcing the &lt;a href="https://node-readiness-controller.sigs.k8s.io/">Node Readiness Controller&lt;/a>.
-This project introduces a declarative system for managing node taints, extending the readiness guardrails during node bootstrapping beyond standard conditions.
-By dynamically managing taints based on custom health signals, the controller ensures that workloads are only placed on nodes that met all infrastructure-specific requirements.&lt;/p>
-&lt;h2 id="why-the-node-readiness-controller">Why the Node Readiness Controller?&lt;a class="td-heading-self-link" href="#why-the-node-readiness-controller" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Core Kubernetes Node &amp;quot;Ready&amp;quot; status is often insufficient for clusters with sophisticated bootstrapping requirements. Operators frequently struggle to ensure that specific DaemonSets or local services are healthy before a node enters the scheduling pool.&lt;/p>
-&lt;p>The Node Readiness Controller fills this gap by allowing operators to define custom scheduling gates tailored to specific node groups. This enables you to enforce
-distinct readiness requirements across heterogeneous clusters, ensuring for example, that GPU equipped nodes only accept pods once specialized drivers are verified,
-while general purpose nodes follow a standard path.&lt;/p>
-&lt;p>It provides three primary advantages:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>Custom Readiness Definitions&lt;/strong>: Define what &lt;em>ready&lt;/em> means for your specific platform.&lt;/li>
-&lt;li>&lt;strong>Automated Taint Management&lt;/strong>: The controller automatically applies or removes node taints based on condition status, preventing pods from landing on unready infrastructure.&lt;/li>
-&lt;li>&lt;strong>Declarative Node Bootstrapping&lt;/strong>: Manage multi-step node initialization reliably, with a clear observability into the bootstrapping process.&lt;/li>
-&lt;/ul>
-&lt;h2 id="core-concepts-and-features">Core concepts and features&lt;a class="td-heading-self-link" href="#core-concepts-and-features" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The controller centers around the NodeReadinessRule (NRR) API, which allows you to define declarative &lt;em>gates&lt;/em> for your nodes.&lt;/p>
-&lt;h3 id="flexible-enforcement-modes">Flexible enforcement modes&lt;a class="td-heading-self-link" href="#flexible-enforcement-modes" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The controller supports two distinct operational modes:&lt;/p>
-&lt;dl>
-&lt;dt>Continuous enforcement&lt;/dt>
-&lt;dd>Actively maintains the readiness guarantee throughout the node’s entire lifecycle. If a critical dependency (like a device driver) fails later, the node is immediately tainted to prevent new scheduling.&lt;/dd>
-&lt;dt>Bootstrap-only enforcement&lt;/dt>
-&lt;dd>Specifically for one-time initialization steps, such as pre-pulling heavy images or hardware provisioning. Once conditions are met, the controller marks the bootstrap as complete and stops monitoring that specific rule for the node.&lt;/dd>
-&lt;/dl>
-&lt;h3 id="condition-reporting">Condition reporting&lt;a class="td-heading-self-link" href="#condition-reporting" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The controller reacts to Node Conditions rather than performing health checks itself. This decoupled design allows it to integrate seamlessly with other tools existing in the ecosystem as well as custom solutions:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>&lt;a href="https://github.com/kubernetes/node-problem-detector">Node Problem Detector&lt;/a> (NPD)&lt;/strong>: Use existing NPD setups and custom scripts to report node health.&lt;/li>
-&lt;li>&lt;strong>Readiness Condition Reporter&lt;/strong>: A lightweight agent provided by the project that can be deployed to periodically check local HTTP endpoints and patch node conditions accordingly.&lt;/li>
-&lt;/ul>
-&lt;h3 id="operational-safety-with-dry-run">Operational safety with dry run&lt;a class="td-heading-self-link" href="#operational-safety-with-dry-run" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Deploying new readiness rules across a fleet carries inherent risk. To mitigate this, &lt;em>dry run&lt;/em> mode allows operators to first simulate impact on the cluster.
-In this mode, the controller logs intended actions and updates the rule's status to show affected nodes without applying actual taints, enabling safe validation before enforcement.&lt;/p>
-&lt;h2 id="example-cni-bootstrapping">Example: CNI bootstrapping&lt;a class="td-heading-self-link" href="#example-cni-bootstrapping" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The following NodeReadinessRule ensures a node remains unschedulable until its CNI agent is functional. The controller monitors a custom &lt;code>cniplugin.example.net/NetworkReady&lt;/code> condition and only removes the &lt;code>readiness.k8s.io/acme.com/network-unavailable&lt;/code> taint once the status is True.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">readiness.node.x-k8s.io/v1alpha1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">NodeReadinessRule&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">network-readiness-rule&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">conditions&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;cniplugin.example.net/NetworkReady&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">requiredStatus&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;True&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">taint&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">key&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;readiness.k8s.io/acme.com/network-unavailable&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">effect&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;NoSchedule&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">value&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;pending&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">enforcementMode&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;bootstrap-only&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">nodeSelector&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">matchLabels&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">node-role.kubernetes.io/worker&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Demo&lt;/strong>:&lt;/p>
-&lt;div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="allowfullscreen" loading="eager" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/hohIIEXlNpo?autoplay=0&amp;amp;controls=1&amp;amp;end=0&amp;amp;loop=0&amp;amp;mute=0&amp;amp;start=0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" title="Node Readiness Controller Demo">&lt;/iframe>
-&lt;/div>
-&lt;h2 id="getting-involved">Getting involved&lt;a class="td-heading-self-link" href="#getting-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The Node Readiness Controller is just getting started, with our &lt;a href="https://github.com/kubernetes-sigs/node-readiness-controller/releases/tag/v0.1.1">initial releases&lt;/a> out, and we are seeking community feedback to refine the roadmap. Following our productive Unconference discussions at KubeCon NA 2025, we are excited to continue the conversation in person.&lt;/p>
-&lt;p>Join us at KubeCon + CloudNativeCon Europe 2026 for our maintainer track session: &lt;em>&lt;a href="https://sched.co/2EF6E">Addressing Non-Deterministic Scheduling: Introducing the Node Readiness Controller&lt;/a>&lt;/em>.&lt;/p>
-&lt;p>In the meantime, you can contribute or track our progress here:&lt;/p>
-&lt;ul>
-&lt;li>GitHub: &lt;a href="https://sigs.k8s.io/node-readiness-controller">https://sigs.k8s.io/node-readiness-controller&lt;/a>&lt;/li>
-&lt;li>Slack: Join the conversation in &lt;a href="https://kubernetes.slack.com/messages/sig-node-readiness-controller">#sig-node-readiness-controller&lt;/a>&lt;/li>
-&lt;li>Documentation: &lt;a href="https://node-readiness-controller.sigs.k8s.io/">Getting Started&lt;/a>&lt;/li>
-&lt;/ul></description></item></channel></rss>
+&lt;p>&lt;strong>JL&lt;/strong>: Thank you.&lt;/p></description></item></channel></rss>
