@@ -1,4 +1,141 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: etcd RangeStream Cuts Memory Use on Large List Reads</title><link>https://kubernetes.io/blog/2026/09/01/kubernetes-v1-37-etcd-range-stream/</link><pubDate>Tue, 01 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/01/kubernetes-v1-37-etcd-range-stream/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: Scale Workloads to Zero with HorizontalPodAutoscaler</title><link>https://kubernetes.io/blog/2026/09/02/kubernetes-v1-37-hpa-scale-to-zero-beta/</link><pubDate>Wed, 02 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/02/kubernetes-v1-37-hpa-scale-to-zero-beta/</guid><description>
+&lt;p>Kubernetes v1.37 includes API support for horizontal autoscaling of workloads down
+to zero replicas. This feature is now Beta and enabled by default. A
+&lt;a href="https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/">HorizontalPodAutoscaler&lt;/a>
+(HPA) that uses a suitable &lt;em>object metric&lt;/em> or &lt;em>external metric&lt;/em> can now scale a
+workload to zero replicas, then bring it back when the metric changes.&lt;/p>
+&lt;p>Before v1.37, you needed an add-on or external component, or you had to enable the
+Alpha feature gate, to scale from zero. It is now part of core Kubernetes.&lt;/p>
+&lt;p>Scaling to zero removes the last idle Pod from workloads such as queue consumers and
+batch processors. The savings are largest when each Pod reserves expensive resources,
+including dedicated CPUs or GPUs.&lt;/p>
+&lt;p>The trade-off is cold-start time: the HPA must observe the metric, schedule a Pod, and
+start the application. This works well when work can wait in a durable queue.&lt;/p>
+&lt;p>Kubernetes Services do not buffer requests while no Pods are ready, so HTTP and other
+request-driven workloads need a separate buffering layer.&lt;/p>
+&lt;h2 id="why-scaling-from-zero-needs-a-different-metric">Why scaling from zero needs a different metric&lt;a class="td-heading-self-link" href="#why-scaling-from-zero-needs-a-different-metric" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The HPA commonly scales on CPU or memory usage. Both metrics come from running Pods.
+Once the replica count reaches zero, there are no Pods left to measure and no signal
+that can tell the HPA to scale back up.&lt;/p>
+&lt;p>Object and external metrics do not have that limitation. A queue length, for example,
+exists independently of the workers that consume it. The HPA can continue reading the
+queue length while no workers are running.&lt;/p>
+&lt;p>The following example scales a queue consumer to and from zero using an external
+metric.&lt;/p>
+&lt;h2 id="configure-an-external-metric">Configure an external metric&lt;a class="td-heading-self-link" href="#configure-an-external-metric" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The following example uses a Prometheus metric named &lt;code>queue_consumer_lag&lt;/code>. It assumes
+that Prometheus already collects a series similar to this one:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-promql" data-lang="promql">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">queue_consumer_lag&lt;/span>&lt;span class="p">{&lt;/span>&lt;span class="nl">namespace&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">&amp;#34;&lt;/span>&lt;span class="s">default&lt;/span>&lt;span class="p">&amp;#34;,&lt;/span>&lt;span class="nl">name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="p">&amp;#34;&lt;/span>&lt;span class="s">worker_tasks&lt;/span>&lt;span class="p">&amp;#34;}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Kubernetes needs a metrics adapter to make that value available through the External
+Metrics API. One implementation is the
+&lt;a href="https://github.com/kubernetes-sigs/prometheus-adapter">Prometheus Adapter&lt;/a>, which can
+expose the series using an &lt;code>externalRules&lt;/code> entry:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">externalRules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">seriesQuery&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s1">&amp;#39;{__name__=&amp;#34;queue_consumer_lag&amp;#34;,name!=&amp;#34;&amp;#34;}&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">metricsQuery&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">sum(&amp;lt;&amp;lt;.Series&amp;gt;&amp;gt;{&amp;lt;&amp;lt;.LabelMatchers&amp;gt;&amp;gt;}) by (name)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">overrides&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resource&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">namespace&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The exact adapter installation and discovery rules depend on your monitoring setup.
+See the Prometheus Adapter guide to
+&lt;a href="https://github.com/kubernetes-sigs/prometheus-adapter/blob/v0.12.0/docs/externalmetrics.md">external metrics&lt;/a>
+for the full configuration options.&lt;/p>
+&lt;p>Before creating the HPA, you can verify that Kubernetes can read the metric:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kubectl get --raw &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> &lt;span class="s1">&amp;#39;/apis/external.metrics.k8s.io/v1beta1/namespaces/default/queue_consumer_lag?labelSelector=name%3Dworker_tasks&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The request should return the current value for &lt;code>worker_tasks&lt;/code>. If it does not, fix the
+metrics pipeline before configuring the HPA. An HPA cannot scale from zero when its
+metric is unavailable.&lt;/p>
+&lt;h2 id="configure-the-hpa">Configure the HPA&lt;a class="td-heading-self-link" href="#configure-the-hpa" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The following HPA targets a Deployment named &lt;code>queue-worker&lt;/code>. It allows between zero
+and ten replicas, with one replica requested for each 30 queued tasks:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">autoscaling/v2&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">HorizontalPodAutoscaler&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">queue-worker&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kubernetes.io/description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Scales queue-worker based on the number of queued tasks&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">scaleTargetRef&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">apps/v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Deployment&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">queue-worker&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">minReplicas&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">0&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">maxReplicas&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">10&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">metrics&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">External&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">external&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">metric&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">queue_consumer_lag&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">selector&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">matchLabels&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">worker_tasks&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">target&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Value&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">value&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;30&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>When the queue is empty, the HPA can reduce the Deployment to zero replicas. When
+tasks arrive, the external metric remains available and the HPA calculates a new
+replica count, capped at ten by &lt;code>maxReplicas&lt;/code>.&lt;/p>
+&lt;p>Start the Deployment with at least one replica. Manually setting a Deployment to zero
+has always paused autoscaling. The HPA preserves that behavior and will not wake a
+workload that it did not scale down itself.&lt;/p>
+&lt;p>Normal HPA behavior still applies. In particular, the default downscale stabilization
+window is five minutes. The window prevents a short drop in queue length from
+immediately removing all workers. You can configure the window through
+&lt;code>spec.behavior.scaleDown&lt;/code> if your workload needs different behavior.&lt;/p>
+&lt;h2 id="how-the-hpa-distinguishes-zero-from-paused">How the HPA distinguishes zero from paused&lt;a class="td-heading-self-link" href="#how-the-hpa-distinguishes-zero-from-paused" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Scaling from zero creates an ambiguity. A replica count of zero can mean that the HPA
+scaled the workload down, or that an operator manually paused it.&lt;/p>
+&lt;p>The controller resolves this with a &lt;code>ScaledToZero&lt;/code> status condition. When the HPA
+scales a workload from one or more replicas to zero, it records
+&lt;code>ScaledToZero=True&lt;/code>. The condition tells later reconciliation loops that the
+controller owns the zero state and should continue evaluating object or external
+metrics.&lt;/p>
+&lt;p>After scaling the workload back up, the controller changes the condition to
+&lt;code>ScaledToZero=False&lt;/code> with the reason &lt;code>NotScaledToZero&lt;/code>. A workload at zero without
+the &lt;code>ScaledToZero=True&lt;/code> condition remains paused.&lt;/p>
+&lt;p>You can inspect the conditions with:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kubectl describe hpa queue-worker
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>If the adapter cannot return the configured metric, the HPA reports
+&lt;code>ScalingActive=False&lt;/code> with a reason such as &lt;code>FailedGetExternalMetric&lt;/code>. Restore the
+metric or manually scale the workload to recover capacity.&lt;/p>
+&lt;h2 id="before-upgrading-or-rolling-back">Before upgrading or rolling back&lt;a class="td-heading-self-link" href="#before-upgrading-or-rolling-back" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>In Kubernetes v1.37, the &lt;code>HPAScaleToZero&lt;/code> feature gate is enabled by default on both the
+&lt;code>kube-apiserver&lt;/code> and &lt;code>kube-controller-manager&lt;/code>. The API server accepts
+&lt;code>minReplicas: 0&lt;/code>; the controller manager performs the condition-based scaling.&lt;/p>
+&lt;p>During a version-skewed control plane upgrade, wait until both components support the
+feature and have it enabled before creating HPAs with &lt;code>minReplicas: 0&lt;/code>. A controller
+manager with the feature disabled treats &lt;code>replicas: 0&lt;/code> as a manual pause and may leave
+a workload at zero.&lt;/p>
+&lt;p>Before disabling the feature gate or downgrading to a version without the
+condition-based implementation:&lt;/p>
+&lt;ul>
+&lt;li>Change affected HPAs to &lt;code>minReplicas: 1&lt;/code> or higher.&lt;/li>
+&lt;li>Scale any workload currently at zero to at least one replica.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;code>minReplicas: 0&lt;/code> also requires at least one object or external metric. The API server
+rejects an HPA that only contains resource metrics such as CPU or memory.&lt;/p>
+&lt;h2 id="from-alpha-to-beta">From Alpha to Beta&lt;a class="td-heading-self-link" href="#from-alpha-to-beta" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The first Alpha implementation shipped in Kubernetes v1.16. Kubernetes v1.36 added
+the &lt;code>ScaledToZero&lt;/code> condition and the controller behavior needed to distinguish an
+automatic scale-down from a manual pause.&lt;/p>
+&lt;p>Kubernetes v1.37 enables the feature by default after adding integration and end-to-end
+coverage for scaling down to zero and back up from an external metric. The next step is
+to gather operational feedback before considering graduation to GA.&lt;/p>
+&lt;h2 id="how-can-i-learn-more">How can I learn more?&lt;a class="td-heading-self-link" href="#how-can-i-learn-more" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;ul>
+&lt;li>Read the documentation for
+&lt;a href="https://kubernetes.io/docs/concepts/workloads/autoscaling/horizontal-pod-autoscale/#scaling-to-and-from-zero">scaling to and from zero&lt;/a>.&lt;/li>
+&lt;li>Read
+&lt;a href="https://kep.k8s.io/2021">KEP-2021: HPA supports scaling to and from zero pods for object and external metrics&lt;/a>.&lt;/li>
+&lt;li>Learn how to configure the
+&lt;a href="https://github.com/kubernetes-sigs/prometheus-adapter/blob/v0.12.0/docs/externalmetrics.md">Prometheus Adapter for external metrics&lt;/a>.&lt;/li>
+&lt;/ul>
+&lt;h2 id="how-to-get-involved">How to get involved&lt;a class="td-heading-self-link" href="#how-to-get-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>This feature is owned by
+&lt;a href="https://www.kubernetes.dev/community/community-groups/sigs/autoscaling/">SIG Autoscaling&lt;/a>.
+Join &lt;a href="https://slack.k8s.io/">Kubernetes Slack&lt;/a> and the
+&lt;a href="https://kubernetes.slack.com/archives/C09R1LV8S">&lt;code>#sig-autoscaling&lt;/code> channel&lt;/a> to share
+feedback from Beta usage.&lt;/p>
+&lt;h2 id="acknowledgements">Acknowledgements&lt;a class="td-heading-self-link" href="#acknowledgements" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Thanks to the SIG Autoscaling contributors who took this feature from the original
+v1.16 implementation to the condition-based redesign and Beta graduation. Thanks
+also to &lt;a href="https://github.com/gjtempleton">Guy Templeton&lt;/a> and
+&lt;a href="https://github.com/adrianmoisey">Adrian Moisey&lt;/a> for reviewing the KEP, and to the
+release, documentation, and production-readiness reviewers who helped prepare it for
+Kubernetes v1.37.&lt;/p></description></item><item><title>Kubernetes v1.37: etcd RangeStream Cuts Memory Use on Large List Reads</title><link>https://kubernetes.io/blog/2026/09/01/kubernetes-v1-37-etcd-range-stream/</link><pubDate>Tue, 01 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/01/kubernetes-v1-37-etcd-range-stream/</guid><description>
 &lt;p>I am excited to announce that etcd RangeStream is graduating to beta in
 Kubernetes v1.37. Paired with etcd v3.7, it reduces the memory the API server and
 etcd need to read a large collection, and makes peak usage more predictable.&lt;/p>
@@ -8345,136 +8482,4 @@ and the HTTPRoute CORS filter that allows CORS configuration.&lt;/p>
 &lt;p>You can use Istio purely as Gateway API controller with no other service mesh features.&amp;#160;&lt;a href="#fnref:1" class="footnote-backref" role="doc-backlink">&amp;#x21a9;&amp;#xfe0e;&lt;/a>&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;/div></description></item><item><title>Spotlight on SIG Architecture: API Governance</title><link>https://kubernetes.io/blog/2026/02/12/sig-architecture-api-spotlight/</link><pubDate>Thu, 12 Feb 2026 00:00:00 +0000</pubDate><guid>https://kubernetes.io/blog/2026/02/12/sig-architecture-api-spotlight/</guid><description>
-&lt;p>&lt;em>This is the fifth interview of a SIG Architecture Spotlight series that covers the different
-subprojects, and we will be covering &lt;a href="https://github.com/kubernetes/community/blob/master/sig-architecture/README.md#architecture-and-api-governance-1">SIG Architecture: API
-Governance&lt;/a>.&lt;/em>&lt;/p>
-&lt;p>In this SIG Architecture spotlight we talked with &lt;a href="https://github.com/liggitt">Jordan Liggitt&lt;/a>, lead
-of the API Governance sub-project.&lt;/p>
-&lt;h2 id="introduction">Introduction&lt;a class="td-heading-self-link" href="#introduction" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>&lt;strong>FM: Hello Jordan, thank you for your availability. Tell us a bit about yourself, your role and how
-you got involved in Kubernetes.&lt;/strong>&lt;/p>
-&lt;p>&lt;strong>JL&lt;/strong>: My name is Jordan Liggitt. I'm a Christian, husband, father of four, software engineer at
-&lt;a href="https://about.google/">Google&lt;/a> by day, and &lt;a href="https://www.youtube.com/watch?v=UDdr-VIWQwo">amateur musician&lt;/a> by stealth. I was born in Texas (and still
-like to claim it as my point of origin), but I've lived in North Carolina for most of my life.&lt;/p>
-&lt;p>I've been working on Kubernetes since 2014. At that time, I was working on authentication and
-authorization at Red Hat, and my very first pull request to Kubernetes attempted to &lt;a href="https://github.com/kubernetes/kubernetes/pull/2328">add an OAuth
-server&lt;/a> to the Kubernetes API server. It never
-exited work-in-progress status. I ended up going with a different approach that layered on top of
-the core Kubernetes API server in a different project (spoiler alert: this is foreshadowing), and I
-closed it without merging six months later.&lt;/p>
-&lt;p>Undeterred by that start, I stayed involved, helped build Kubernetes authentication and
-authorization capabilities, and got involved in the definition and evolution of the core Kubernetes
-APIs from early beta APIs, like &lt;code>v1beta3&lt;/code> to &lt;code>v1&lt;/code>. I got tagged as an API reviewer in 2016 based on
-those contributions, and was added as an API approver in 2017.&lt;/p>
-&lt;p>Today, I help lead the API Governance and code organization subprojects for SIG Architecture, and I
-am a tech lead for SIG Auth.&lt;/p>
-&lt;p>&lt;strong>FM: And when did you get specifically involved in the API Governance project?&lt;/strong>&lt;/p>
-&lt;p>&lt;strong>JL&lt;/strong>: Around 2019.&lt;/p>
-&lt;h2 id="goals-and-scope-of-api-governance">Goals and scope of API Governance&lt;a class="td-heading-self-link" href="#goals-and-scope-of-api-governance" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>&lt;strong>FM: How would you describe the main goals and areas of intervention of the subproject?&lt;/strong>&lt;/p>
-&lt;p>The surface area includes all the various APIs Kubernetes has, and there are APIs that people do not
-always realize are APIs: command-line flags, configuration files, how binaries are run, how they
-talk to back-end components like the container runtime, and how they persist data. People often
-think of &amp;quot;the API&amp;quot; as only the &lt;a href="https://kubernetes.io/docs/reference/using-api/">REST API&lt;/a>... that
-is the biggest and most obvious one, and the one with the largest audience, but all of these other
-surfaces are also APIs. Their audiences are narrower, so there is more flexibility there, but they
-still require consideration.&lt;/p>
-&lt;p>The goals are to be stable while still enabling innovation. Stability is easy if you never change
-anything, but that contradicts the goal of evolution and growth. So we balance &amp;quot;be stable&amp;quot; with
-&amp;quot;allow change&amp;quot;.&lt;/p>
-&lt;p>&lt;strong>FM: Speaking of changes, in terms of ensuring consistency and quality (which is clearly one of the
-reasons this project exists), what are the specific quality gates in the lifecycle of a Kubernetes
-change? Does API Governance get involved during the release cycle, prior to it through guidelines,
-or somewhere in between? At what points do you ensure the intended role is fulfilled?&lt;/strong>&lt;/p>
-&lt;p>&lt;strong>JL&lt;/strong>: We have &lt;a href="https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md">guidelines and
-conventions&lt;/a>,
-both for APIs in general and for how to change an API. These are living documents that we update as
-we encounter new scenarios. They are long and dense, so we also support them with involvement at
-either the design stage or the implementation stage.&lt;/p>
-&lt;p>Sometimes, due to bandwidth constraints, teams move ahead with design work without feedback from &lt;a href="https://github.com/kubernetes/community/blob/master/sig-architecture/api-review-process.md">API Review&lt;/a>. That’s fine, but it means that when implementation begins, the API review will happen then,
-and there may be substantial feedback. So we get involved when a new API is created or an existing
-API is changed, either at design or implementation.&lt;/p>
-&lt;p>&lt;strong>FM: Is this during the Kubernetes Enhancement Proposal (KEP) process? Since KEPs are mandatory for
-enhancements, I assume part of the work intersects with API Governance?&lt;/strong>&lt;/p>
-&lt;p>&lt;strong>JL&lt;/strong>: It can. &lt;a href="https://github.com/kubernetes/enhancements/blob/master/keps/README.md">KEPs&lt;/a> vary
-in how detailed they are. Some include literal API definitions. When they do, we can perform an API
-review at the design stage. Then implementation becomes a matter of checking fidelity to the design.&lt;/p>
-&lt;p>Getting involved early is ideal. But some KEPs are conceptual and leave details to the
-implementation. That’s not wrong; it just means the implementation will be more exploratory. Then
-API Review gets involved later, possibly recommending structural changes.&lt;/p>
-&lt;p>There’s a trade-off regardless: detailed design upfront versus iterative discovery during
-implementation. People and teams work differently, and we’re flexible and happy to consult early or
-at implementation time.&lt;/p>
-&lt;p>&lt;strong>FM: This reminds me of what Fred Brooks wrote in &amp;quot;The Mythical Man-Month&amp;quot; about conceptual
-integrity being central to product quality... No matter how you structure the process, there must be
-a point where someone looks at what is coming and ensures conceptual integrity. Kubernetes uses APIs
-everywhere -- externally and internally -- so API Governance is critical to maintaining that
-integrity. How is this captured?&lt;/strong>&lt;/p>
-&lt;p>&lt;strong>JL&lt;/strong>: Yes, the conventions document captures patterns we’ve learned over time: what to do in
-various situations. We also have automated linters and checks to ensure correctness around patterns
-like spec/status semantics. These automated tools help catch issues even when humans miss them.&lt;/p>
-&lt;p>As new scenarios arise -- and they do constantly -- we think through how to approach them and fold
-the results back into our documentation and tools. Sometimes it takes a few attempts before we
-settle on an approach that works well.&lt;/p>
-&lt;p>&lt;strong>FM: Exactly. Each new interaction improves the guidelines.&lt;/strong>&lt;/p>
-&lt;p>&lt;strong>JL&lt;/strong>: Right. And sometimes the first approach turns out to be wrong. It may take two or three
-iterations before we land on something robust.&lt;/p>
-&lt;h2 id="the-impact-of-custom-resource-definitions">The impact of Custom Resource Definitions&lt;a class="td-heading-self-link" href="#the-impact-of-custom-resource-definitions" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>&lt;strong>FM: Is there any particular change, episode, or domain that stands out as especially noteworthy,
-complex, or interesting in your experience?&lt;/strong>&lt;/p>
-&lt;p>&lt;strong>JL&lt;/strong>: The watershed moment was &lt;a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">Custom Resources&lt;/a>.
-Prior to that, every API was handcrafted by us and fully reviewed. There were inconsistencies, but
-we understood and controlled every type and field.&lt;/p>
-&lt;p>When Custom Resources arrived, anyone could define anything. The first version did not even require
-a schema. That made it extremely powerful -- it enabled change immediately -- but it left us playing
-catch-up on stability and consistency.&lt;/p>
-&lt;p>When Custom Resources graduated to General Availability (GA), schemas became required, but escape
-hatches still existed for backward compatibility. Since then, we’ve been working on giving CRD
-authors validation capabilities comparable to built-ins. Built-in validation rules for CRDs have
-only just reached GA in the last few releases.&lt;/p>
-&lt;p>So CRDs opened the &amp;quot;anything is possible&amp;quot; era. Built-in validation rules are the second major
-milestone: bringing consistency back.&lt;/p>
-&lt;p>The three major themes have been defining schemas, validating data, and handling pre-existing
-invalid data. With ratcheting validation (allowing data to improve without breaking existing
-objects), we can now guide CRD authors toward conventions without breaking the world.&lt;/p>
-&lt;h2 id="api-governance-in-context">API Governance in context&lt;a class="td-heading-self-link" href="#api-governance-in-context" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>&lt;strong>FM: How does API Governance relate to SIG Architecture and API Machinery?&lt;/strong>&lt;/p>
-&lt;p>&lt;strong>JL&lt;/strong>: &lt;a href="https://github.com/kubernetes/apimachinery">API Machinery&lt;/a> provides the actual code and
-tools that people build APIs on. They don’t review APIs for storage, networking, scheduling, etc.&lt;/p>
-&lt;p>SIG Architecture sets the overall system direction and works with API Machinery to ensure the system
-supports that direction. API Governance works with other SIGs building on that foundation to define
-conventions and patterns, ensuring consistent use of what API Machinery provides.&lt;/p>
-&lt;p>&lt;strong>FM: Thank you. That clarifies the flow. Going back to &lt;a href="https://kubernetes.io/releases/release/">release cycles&lt;/a>: do release phases -- enhancements freeze, code
-freeze -- change your workload? Or is API Governance mostly continuous?&lt;/strong>&lt;/p>
-&lt;p>&lt;strong>JL&lt;/strong>: We get involved in two places: design and implementation. Design involvement increases
-before enhancements freeze; implementation involvement increases before code freeze. However, many
-efforts span multiple releases, so there is always some design and implementation happening, even
-for work targeting future releases. Between those intense periods, we often have time to work on
-long-term design work.&lt;/p>
-&lt;p>An anti-pattern we see is teams thinking about a large feature for months and then presenting it
-three weeks before enhancements freeze, saying, &amp;quot;Here is the design, please review.&amp;quot; For big changes
-with API impact, it’s much better to involve API Governance early.&lt;/p>
-&lt;p>And there are good times in the cycle for this -- between freezes -- when people have bandwidth.
-That’s when long-term review work fits best.&lt;/p>
-&lt;h2 id="getting-involved">Getting involved&lt;a class="td-heading-self-link" href="#getting-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>&lt;strong>FM: Clearly. Now, regarding team dynamics and new contributors: how can someone get involved in
-API Governance? What should they focus on?&lt;/strong>&lt;/p>
-&lt;p>&lt;strong>JL&lt;/strong>: It’s usually best to follow a specific change rather than trying to learn everything at
-once. Pick a small API change, perhaps one someone else is making or one you want to make, and
-observe the full process: design, implementation, review.&lt;/p>
-&lt;p>High-bandwidth review -- live discussion over video -- is often very effective. If you’re making or
-following a change, ask whether there’s a time to go over the design or PR together. Observing those
-discussions is extremely instructive.&lt;/p>
-&lt;p>Start with a small change. Then move to a bigger one. Then maybe a new API. That builds
-understanding of conventions as they are applied in practice.&lt;/p>
-&lt;p>&lt;strong>FM: Excellent. Any final comments, or anything we missed?&lt;/strong>&lt;/p>
-&lt;p>&lt;strong>JL&lt;/strong>: Yes... the reason we care so much about compatibility and stability is for our users. It’s
-easy for contributors to see those requirements as painful obstacles preventing cleanup or requiring
-tedious work... but users integrated with our system, and we made a promise to them: we want them to
-trust that we won’t break that contract. So even when it requires more work, moves slower, or
-involves duplication, we choose stability.&lt;/p>
-&lt;p>We are not trying to be obstructive; we are trying to make life good for users.&lt;/p>
-&lt;p>A lot of our questions focus on the future: you want to do something now... how will you evolve it
-later without breaking it? We assume we will know more in the future, and we want the design to
-leave room for that.&lt;/p>
-&lt;p>We also assume we will make mistakes. The question then is: how do we leave ourselves avenues to
-improve while keeping compatibility promises?&lt;/p>
-&lt;p>&lt;strong>FM: Exactly. Jordan, thank you, I think we’ve covered everything. This has been an insightful view
-into the API Governance project and its role in the wider Kubernetes project.&lt;/strong>&lt;/p>
-&lt;p>&lt;strong>JL&lt;/strong>: Thank you.&lt;/p></description></item></channel></rss>
+&lt;/div></description></item></channel></rss>
