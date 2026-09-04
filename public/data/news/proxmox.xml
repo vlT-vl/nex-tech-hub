@@ -4,28 +4,222 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Fri, 04 Sep 2026 02:09:53 +0000</pubDate>
-    <lastBuildDate>Fri, 04 Sep 2026 02:09:53 +0000</lastBuildDate>
+    <pubDate>Fri, 04 Sep 2026 10:21:01 +0000</pubDate>
+    <lastBuildDate>Fri, 04 Sep 2026 10:21:01 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
-      <title>rhel initrd getting corrupted during import</title>
-      <pubDate>Thu, 03 Sep 2026 23:24:43 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/rhel-initrd-getting-corrupted-during-import.186174/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186174</guid>
-      <author>invalid@example.com (user11655)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>user11655</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">As I import a ESXi VM (rhel 9.5 based, 300gb single disk), from a vmfs datastore, i<b>t imports the vm, but as I boot the vm it fails to boot. I can boot from the rescue kernel and get in and rebuild the initramfs using  dracut --regenerate-all -f and then reboot and all is good.</b><br />
-This started after a 3 rebuild on the proxmox cluster due to messup on the storage volumes and other initial un-forseen changes. the esxi vmfs DS did not change at all. The import works perfectly with no error...<br />
+      <title>PVE umziehen ohne Neuinstallation</title>
+      <pubDate>Fri, 04 Sep 2026 10:17:47 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-umziehen-ohne-neuinstallation.186073/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186073</guid>
+      <author>invalid@example.com (MickyF)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>MickyF</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi! <br />
 <br />
-<a href="https://forum.proxmox.com/threads/rhel-initrd-getting-corrupted-during-import.186174/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
+Aktuell läuft Proxmox (aktuellste Version) auf einem Ugreen NAS SXP 4800 Pro, ohne das ehemalige OS (wurde entfernt), direkt installiert. <br />
+<br />
+Ich würde gerne diese Installation auf einen Minisforum MS-01 umziehen. <br />
+Beide haben einen Intel Prozessor.<br />
+<br />
+Aktuell läuft Proxmox auf einer eigenen nVME und die VMs auf zwei weiteren nVMEs im Raid-Verbund.<br />
+<br />
+Plan wäre nun, die drei nVME aus dem Ugreen auszubauen und 1:1 im MS-01 wieder in Betrieb zu nehmen. <br />
+<br />
+Das Ugreen hat eine Intel i3-1315U CPU...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pve-umziehen-ohne-neuinstallation.186073/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
+    <item>
+      <title>tailscale and lxc container</title>
+      <pubDate>Fri, 04 Sep 2026 10:09:15 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/tailscale-and-lxc-container.186188/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186188</guid>
+      <author>invalid@example.com (frankz)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>frankz</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone, did anyone succeed via the installer from the tailscale site installed the package on a container ?</div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>pct --keep-env defaults to 1 on PVE 9.2</title>
+      <pubDate>Fri, 04 Sep 2026 09:38:41 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pct-keep-env-defaults-to-1-on-pve-9-2.186186/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186186</guid>
+      <author>invalid@example.com (n0x0n)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>n0x0n</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi all,<br />
+<br />
+according to the official documentation of <a href="https://pve.proxmox.com/pve-docs/pct.1.html#cli_pct_enter" target="_blank" class="link link--external" rel="nofollow ugc noopener">pct enter</a>, the option <code class="bbCodeInline">--keep-env</code> was to be disabled with PVE 9:<br />
+
+
+
+
+<blockquote data-attributes="" data-quote="" data-source=""
+	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
+	
+	<div class="bbCodeBlock-content">
+		
+		<div class="bbCodeBlock-expandContent js-expandContent ">
+			Keep the current environment. This option will disabled by default with PVE 9. If you rely on a preserved environment, please use this option to be future-proof.
+		</div>
+		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
+	</div>
+</blockquote>I guess this comes from <a href="https://lists.proxmox.com/pipermail/pve-devel/2024-February/061692.html" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://lists.proxmox.com/pipermail/pve-devel/2024-February/061692.html</a> and understand this as &quot;--keep-env no longer defaults to 1&quot;.<br />
+But on my PVE 9.2.11 hosts, <code class="bbCodeInline">pct...</code><br />
+<br />
+<a href="https://forum.proxmox.com/threads/pct-keep-env-defaults-to-1-on-pve-9-2.186186/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox verliert Verbindung zu SMB-Share auf Unraid</title>
+      <pubDate>Fri, 04 Sep 2026 09:32:41 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-verliert-verbindung-zu-smb-share-auf-unraid.186046/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186046</guid>
+      <author>invalid@example.com (urs)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>urs</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
+<br />
+Wie der Titel schon sagt verlieren 2 Proxmox VE-Maschinen  immer wieder die Verbindung zu einem Unraid-Server. Es wurden 2 SMB-Shares darauf angelegt und unter Proxmox eingebunden was grundsätzlich gut funktioniert. Das bis die Verbindung zum Unraid-Server mal abbricht, z.B. wenn dieser mal neu gestartet werden muss. Danach bleiben bei beiden Proxmox-Maschinen die beiden Verbindungen auf &quot;status unknown&quot;, haben ein Fragezeichen <a href="https://forum.proxmox.com/attachments/1788045650805-png.99612/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99308-a71f5310ec7b4b4063ff3642211ac4cd.jpg?hash=9h3nf2lW5r"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99308-a71f5310ec7b4b4063ff3642211ac4cd.jpg?hash=9h3nf2lW5r 2x"
+		class="bbImage "
+		style=""
+		alt="1788045650805.png"
+		title="1788045650805.png"
+		width="287" height="138" loading="lazy" /></a> und beim Versuch darauf zuzugreifen...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-verliert-verbindung-zu-smb-share-auf-unraid.186046/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>7</slash:comments>
+    </item>
+    <item>
+      <title>ACME certificate renewal fails with TASK ERROR</title>
+      <pubDate>Fri, 04 Sep 2026 09:22:04 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/acme-certificate-renewal-fails-with-task-error.175809/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:175809</guid>
+      <author>invalid@example.com (thesix)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>thesix</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Since a couple of days our PBS tries to renew its x509 cert. We configured it to use our ACME-PROVIDER with the same credentials we use everywhere else. Here is what happens. We get emails stating:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Proxmox Backup Server was not able to renew a TLS certificate.
+
+Error: connection closed before message completed
+
+Please visit the web interface for further details:</code></pre>
+	</div>
+</div>When I try to generate a new certificate manually via the web ui I get this:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>2025-11-11T10:59:30+01:00: Placing ACME...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/acme-certificate-renewal-fails-with-task-error.175809/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>11</slash:comments>
+    </item>
+    <item>
+      <title>Reporting enhancements in the bug tracker</title>
+      <pubDate>Fri, 04 Sep 2026 09:17:21 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/reporting-enhancements-in-the-bug-tracker.116595/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:116595</guid>
+      <author>invalid@example.com (sacarias)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>sacarias</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Is it allowed to try reporting possible enhancements as well in the bug tracker website, and not just bugs per se?<br />
+<a href="https://bugzilla.proxmox.com/" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://bugzilla.proxmox.com/</a><br />
+<br />
+Thanks.</div>]]></content:encoded>
+      <slash:comments>20</slash:comments>
+    </item>
+    <item>
+      <title>ZFS und Plattenplatz</title>
+      <pubDate>Fri, 04 Sep 2026 09:02:23 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/zfs-und-plattenplatz.186165/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186165</guid>
+      <author>invalid@example.com (Mathias Zunterer)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>Mathias Zunterer</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi all,<br />
+<br />
+Ich hab hier ein Phänomen / Problem, welches ich mir nicht erklären kann.<br />
+Ausgangspunkt: PVE 9.2.11; Storage: ZFS raidz2;  Am Beispiel eine VM (Windows Server 2025) mit drei Disks:<br />
+<br />
+sata1: proxmox2-sas-zfs:vm-111-disk-0,aio=threads,cache=writeback,format=raw,size=120G<br />
+sata2: proxmox2-sas-zfs:vm-111-disk-1,aio=threads,cache=writeback,format=raw,size=3355444M<br />
+scsi2: proxmox2-sas-zfs:vm-111-disk-2,aio=threads,cache=writeback,format=raw,iothread=1,size=350G<br />
+<br />
+Mir ist aufgefallen, dass...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/zfs-und-plattenplatz.186165/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
+    </item>
+    <item>
+      <title>VirtIO-Installation 0.1.271 auf Windows Server 2019 schlägt fehl/geht nicht</title>
+      <pubDate>Fri, 04 Sep 2026 08:54:18 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/virtio-installation-0-1-271-auf-windows-server-2019-schl%C3%A4gt-fehl-geht-nicht.186154/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186154</guid>
+      <author>invalid@example.com (oelk)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>oelk</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
+<br />
+auf unserem Proxmox-Cluster  haben wir 3x Windows-Server 2019 verteilt für einen Failovercluster.<br />
+Bei zweien geht die installation der neuen Version 0.1.271 (virtio-win-0.1.271.iso, virtio-win-gt-x64.exe) gut.<br />
+Bei einem geht das nicht.<br />
+Da kommt dann eine &#039;Rolling Back Action&#039;.<br />
+Unter &#039;Programme und Features&#039; ist da auch garnix gelistet im Gegensatz zu den beiden anderen.<br />
+<br />
+Wird irgendwo von der Installation ein Log-File geschrieben, in dem ich einen möglichen Fehler lesen...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/virtio-installation-0-1-271-auf-windows-server-2019-schl%C3%A4gt-fehl-geht-nicht.186154/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
+    </item>
+    <item>
+      <title>PVE+ISCSI</title>
+      <pubDate>Fri, 04 Sep 2026 08:53:14 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-iscsi.185675/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185675</guid>
+      <author>invalid@example.com (Jianming)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Jianming</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello Everyone<br />
+<br />
+ I have three nodes and Dell ME storage.<br />
+ ME only use the iSCSI protocol.   <br />
+if PVE cluster mount iscsi, can not use thin-provision. <br />
+Dell ME storage unable to configure ZFS over ISCSI.<br />
+<br />
+So any suggestion ?   my cluster mount the iscsi, can use thin-provision and snapshot ?<br />
+<br />
+<br />
+thanks everyone</div>]]></content:encoded>
+      <slash:comments>11</slash:comments>
     </item>
     <item>
       <title>Unreal performance on Windows VDI on Proxmox VE</title>
-      <pubDate>Thu, 03 Sep 2026 22:52:38 +0000</pubDate>
+      <pubDate>Fri, 04 Sep 2026 08:52:53 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/unreal-performance-on-windows-vdi-on-proxmox-ve.186173/</link>
       <guid isPermaLink="false">urn:xenforo:thread:186173</guid>
       <author>invalid@example.com (ebesore)</author>
@@ -43,45 +237,112 @@ we have configured a number of VMS (Linux and Windows 11) to run on top of it<br
 we are running a specific recommended nvidia driver for the Proxmox server and the same...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/unreal-performance-on-windows-vdi-on-proxmox-ve.186173/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
+      <slash:comments>1</slash:comments>
     </item>
     <item>
-      <title>PVE+ISCSI</title>
-      <pubDate>Thu, 03 Sep 2026 22:48:22 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pve-iscsi.185675/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185675</guid>
-      <author>invalid@example.com (Jianming)</author>
+      <title>rhel initrd getting corrupted during import</title>
+      <pubDate>Fri, 04 Sep 2026 08:36:36 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/rhel-initrd-getting-corrupted-during-import.186174/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186174</guid>
+      <author>invalid@example.com (user11655)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Jianming</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello Everyone<br />
+      <dc:creator>user11655</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">As I import a ESXi VM (rhel 9.5 based, 300gb single disk), from a vmfs datastore, i<b>t imports the vm, but as I boot the vm it fails to boot. I can boot from the rescue kernel and get in and rebuild the initramfs using  dracut --regenerate-all -f and then reboot and all is good.</b><br />
+This started after a 3 rebuild on the proxmox cluster due to messup on the storage volumes and other initial un-forseen changes. the esxi vmfs DS did not change at all. The import works perfectly with no error...<br />
 <br />
- I have three nodes and Dell ME storage.<br />
- ME only use the iSCSI protocol.   <br />
-if PVE cluster mount iscsi, can not use thin-provision. <br />
-Dell ME storage unable to configure ZFS over ISCSI.<br />
-<br />
-So any suggestion ?   my cluster mount the iscsi, can use thin-provision and snapshot ?<br />
-<br />
-<br />
-thanks everyone</div>]]></content:encoded>
-      <slash:comments>10</slash:comments>
+<a href="https://forum.proxmox.com/threads/rhel-initrd-getting-corrupted-during-import.186174/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
     </item>
     <item>
-      <title>Proxmox VE 7 is vulnerable to some type of 0day/RCE non auth</title>
-      <pubDate>Thu, 03 Sep 2026 22:31:13 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-7-is-vulnerable-to-some-type-of-0day-rce-non-auth.186078/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186078</guid>
-      <author>invalid@example.com (pve7bug)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>pve7bug</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Two days ago, my Proxmox VE 7 installation, which was over four years old with the latest updates available up to EOL and only one user (root), was encrypted, and a ransom was demanded for decryption. I searched online for the ransom note and found someone complaining in Chinese about the same thing 1 day ago, which seems to be a wave of some kind of zero-day or RCE without authentication. All the logs were deleted by the attackers. There was an IP address sending requests to a specific...<br />
+      <title>qcow2 auf LVM - Snapshot delete hängt sich weg</title>
+      <pubDate>Fri, 04 Sep 2026 08:27:33 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/qcow2-auf-lvm-snapshot-delete-h%C3%A4ngt-sich-weg.185827/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185827</guid>
+      <author>invalid@example.com (Falk R.)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>Falk R.</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Moin,<br />
+ht schon mal jemand das Problem gehabt, dass VMs gelockt sind und ein Snapshot löschen im Status delete steckenbleibt?<br />
+Das Setup ist qcow auf shared LVM (FC LUNs)<br />
+Bei den meisten VMs funktioniert alles korrekt, aber immer wieder bleibt nach den Backups mit Commvault eine Vm gelockt und der Snapshot steht im Status delete.<br />
+Der status bleibt auch über Tage unverändert.<br />
 <br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-7-is-vulnerable-to-some-type-of-0day-rce-non-auth.186078/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>115</slash:comments>
+Mit der Option force kann man den Snapshot löschen (nach einem unlock der VM), aber dann bleibt immer eine Disk, in der...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/qcow2-auf-lvm-snapshot-delete-h%C3%A4ngt-sich-weg.185827/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Best Practice for moving backups to a namespace while maintaining the existing backup job chains</title>
+      <pubDate>Fri, 04 Sep 2026 08:04:38 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/best-practice-for-moving-backups-to-a-namespace-while-maintaining-the-existing-backup-job-chains.186163/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186163</guid>
+      <author>invalid@example.com (iceph03nix)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>iceph03nix</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m looking at moving our backup targets around on PBS to make better use of namespace specific pruning jobs, and I&#039;m curious before I make any changes if there&#039;s a best practice for moving the files so that when the backup jobs are retargetted they&#039;ll maintain the existing backup chains and retention can keep going on as expected.<br />
+<br />
+I&#039;m not sure if I&#039;m overthinking this or not.  I see I can move them in PBS, and I can change the target storage in the backup job, I&#039;m just not sure if they&#039;ll...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/best-practice-for-moving-backups-to-a-namespace-while-maintaining-the-existing-backup-job-chains.186163/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>vm restore slower than absolute 0</title>
+      <pubDate>Fri, 04 Sep 2026 07:52:16 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/vm-restore-slower-than-absolute-0.186176/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186176</guid>
+      <author>invalid@example.com (jwsl224)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>jwsl224</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">we have 
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>proxmox-backup-server 3.4.9-2 running version: 3.4.9</code></pre>
+	</div>
+</div> (yes i know; we&#039;ll be upgrading soon) and it&#039;s been absolutely stellar up till now. but today, when i went to restore a vm, i got 
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>restore image complete (bytes=540672, duration=0.22s, speed=2.33MB/s)</code></pre>
+	</div>
+</div> it&#039;s an r730 running all ssd&#039;s on zfs. there are no warnings in idrac, the cpu is close to 0 utilization, and io delay is not even present. as you can see in the log below, the restore process is taking hours. the...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/vm-restore-slower-than-absolute-0.186176/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Feature Request | Pool rename</title>
+      <pubDate>Fri, 04 Sep 2026 07:48:23 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/feature-request-pool-rename.186184/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186184</guid>
+      <author>invalid@example.com (Pro_xmoxer)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Pro_xmoxer</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello Guys,<br />
+<br />
+i found once created a pool can not be renamed, just comments can be edited.<br />
+Could you please add the option to rename a pool?<br />
+<br />
+Thank you in advance!</div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
     </item>
     <item>
       <title>Errors after resilver</title>
-      <pubDate>Thu, 03 Sep 2026 21:24:11 +0000</pubDate>
+      <pubDate>Fri, 04 Sep 2026 07:30:58 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/errors-after-resilver.186171/</link>
       <guid isPermaLink="false">urn:xenforo:thread:186171</guid>
       <author>invalid@example.com (koalillo)</author>
@@ -113,100 +374,37 @@ scan: resilver in...</code></pre>
 	</div>
 </div><br />
 <a href="https://forum.proxmox.com/threads/errors-after-resilver.186171/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
+      <slash:comments>3</slash:comments>
     </item>
     <item>
-      <title>Missing Disk</title>
-      <pubDate>Thu, 03 Sep 2026 21:11:01 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/missing-disk.186172/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186172</guid>
-      <author>invalid@example.com (rdmsys)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>rdmsys</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+      <title>HA architecture: 5-node Proxmox cluster vs. separate compute and storage clusters</title>
+      <pubDate>Fri, 04 Sep 2026 07:25:25 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ha-architecture-5-node-proxmox-cluster-vs-separate-compute-and-storage-clusters.186185/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186185</guid>
+      <author>invalid@example.com (TS Guru)</author>
+      <category domain="https://forum.proxmox.com/forums/mail-gateway-ha-cluster.10/"><![CDATA[Mail Gateway: HA Cluster]]></category>
+      <dc:creator>TS Guru</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
 <br />
-I have a problem in that my 2TB drive, which is visible in lsblk, dropped out of my Data02 LVM config. I&#039;m not sure when this happened. I suspect that it happened during my upgrade to 9?<br />
+we are currently designing a relativelly small HA infrastructure and would appreciate some opinions from experienced Proxmox users.<br />
 <br />
-Anyway I did the chat thing, ran a bunch of commands and altho it said it should show up in the gui it has not. Its in the storage configure file as per chat.<br />
-<br />
-It has a 0 in the group so there is something obviously not right. I tried adding Data03 and selecting it but it does not show up.<br />
-<br />
-Does...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/missing-disk.186172/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>PROXMOX 8.4 and 9 crashes during intallation.</title>
-      <pubDate>Thu, 03 Sep 2026 19:45:55 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-8-4-and-9-crashes-during-intallation.186096/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186096</guid>
-      <author>invalid@example.com (toumz)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>toumz</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone, This is my first post.<br />
-PC Specs: Lenovo M720q - i3-9100t, 16gb ram single stick, 256gb samsung 970 evo plus NVME (firmware: 2B2QEXM7), 65w power adapter.<br />
-<br />
-I am running into problems during the installation. Every time during the install process the machine reboots.<br />
-I am using an USB to install images (proxmox 8 flashed via rufus dd method, and ventoy). Reading other post suggested to install ubuntu or debian to see if anything can be installed. Those fail as well.<br />
-With the...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-8-4-and-9-crashes-during-intallation.186096/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>13</slash:comments>
-    </item>
-    <item>
-      <title>Problems with ups-nut</title>
-      <pubDate>Thu, 03 Sep 2026 19:34:29 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/problems-with-ups-nut.186170/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186170</guid>
-      <author>invalid@example.com (kermitxyz)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>kermitxyz</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have just changed by ups, and now ups-nut is giving me issues.<br />
-<br />
-nut-scanner gives the following output:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Cannot load SNMP library (libnetsnmp.so.40) : file not found. SNMP search disabled.
-Cannot load XML library (libneon.so.27) : file not found. XML search disabled.
-Cannot load IPMI library (libfreeipmi.so.17) : file not found. IPMI search disabled.
-Scanning USB bus.
-No start IP, skipping NUT bus (old connect method)
-Scanning NUT bus (avahi method).
-Failed to create Avahi client...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/problems-with-ups-nut.186170/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>PVE Cluster on UCS C220-M8S Enough?</title>
-      <pubDate>Thu, 03 Sep 2026 19:22:06 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pve-cluster-on-ucs-c220-m8s-enough.186169/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186169</guid>
-      <author>invalid@example.com (tarnerhost)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>tarnerhost</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Question folks- I am building a simple PVE cluster with 2 UCSC-C220-M8S machines and dedicated Qdevice. This is to host a handful of backend VM&#039;s including one primary and backup ISE boxes on a 2 Nexus access switches attached to a vpc L3 core. ISE aside, no production apps so to speak... It&#039;s a very basic simple network. Does UCS c220 out of the box have enough hardware?  <br />
+Our infrastructure consists of:<br />
 <br />
 <br />
-The vics would be dedicated to a active passive linux bond and a couple HA sync segments.  The handful of vm&#039;s would...<br />
+<ul>
+<li data-xf-list-type="ul"><b>C1, C2</b> – Proxmox compute servers</li>
+<li data-xf-list-type="ul"><b>S1, S2</b> – TrueNAS storage servers providing NFS, with DRBD replication</li>
+<li data-xf-list-type="ul"><b>W1</b> – separate witness/voting node</li>
+<li data-xf-list-type="ul">All servers are connected through a dedicated fibre network (internal) as well as a regular LAN.</li>
+</ul><br />
+We are currently discussing two possible...<br />
 <br />
-<a href="https://forum.proxmox.com/threads/pve-cluster-on-ucs-c220-m8s-enough.186169/" class="link link--internal">Read more</a></div>]]></content:encoded>
+<a href="https://forum.proxmox.com/threads/ha-architecture-5-node-proxmox-cluster-vs-separate-compute-and-storage-clusters.186185/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>0</slash:comments>
     </item>
     <item>
       <title>Proxmox Richtig absichern</title>
-      <pubDate>Thu, 03 Sep 2026 19:17:19 +0000</pubDate>
+      <pubDate>Fri, 04 Sep 2026 07:12:13 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/proxmox-richtig-absichern.186168/</link>
       <guid isPermaLink="false">urn:xenforo:thread:186168</guid>
       <author>invalid@example.com (Gui_)</author>
@@ -229,213 +427,47 @@ Reicht diese Kombination grundsätzlich als solide Basis aus, oder würdet ihr n
 Für den administrativen Zugriff habe ich einen separaten Benutzer eingerichtet. Der direkte...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/proxmox-richtig-absichern.186168/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>add application to turnkey</title>
-      <pubDate>Thu, 03 Sep 2026 19:11:28 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/add-application-to-turnkey.186167/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186167</guid>
-      <author>invalid@example.com (Keith Miller)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Keith Miller</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Can you look into adding Friendica a decentralized social network application to a turnkey application<br />
-<br />
-<a href="https://friendi.ca/" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://friendi.ca/</a><br />
-Thanks<br />
-<br />
-Keith</div>]]></content:encoded>
       <slash:comments>3</slash:comments>
     </item>
     <item>
-      <title>ZFS und Plattenplatz</title>
-      <pubDate>Thu, 03 Sep 2026 18:37:30 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/zfs-und-plattenplatz.186165/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186165</guid>
-      <author>invalid@example.com (Mathias Zunterer)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>Mathias Zunterer</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi all,<br />
-<br />
-Ich hab hier ein Phänomen / Problem, welches ich mir nicht erklären kann.<br />
-Ausgangspunkt: PVE 9.2.11; Storage: ZFS raidz2;  Am Beispiel eine VM (Windows Server 2025) mit drei Disks:<br />
-<br />
-sata1: proxmox2-sas-zfs:vm-111-disk-0,aio=threads,cache=writeback,format=raw,size=120G<br />
-sata2: proxmox2-sas-zfs:vm-111-disk-1,aio=threads,cache=writeback,format=raw,size=3355444M<br />
-scsi2: proxmox2-sas-zfs:vm-111-disk-2,aio=threads,cache=writeback,format=raw,iothread=1,size=350G<br />
-<br />
-Mir ist aufgefallen, dass...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/zfs-und-plattenplatz.186165/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>NFS issues rpc.mountd[2790]: v4.2 client detached (and attached)</title>
-      <pubDate>Thu, 03 Sep 2026 18:20:54 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/nfs-issues-rpc-mountd-2790-v4-2-client-detached-and-attached.186157/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186157</guid>
-      <author>invalid@example.com (r.lucassen)</author>
+      <title>Proxmox VE 9.2 – sporadic iSCSI NOP timeouts / DID_TRANSPORT_DISRUPTED with Dell PowerVault ME5 and Intel E810</title>
+      <pubDate>Fri, 04 Sep 2026 06:58:35 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-%E2%80%93-sporadic-iscsi-nop-timeouts-did_transport_disrupted-with-dell-powervault-me5-and-intel-e810.185817/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185817</guid>
+      <author>invalid@example.com (huganega)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>r.lucassen</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello list,<br />
+      <dc:creator>huganega</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
 <br />
-I have 2 clusters, one with 2 nodes, one with 3 nodes. On both clusters I set up two NFS shares to 2 servers: nfs1 and nfs2. Everything works fine. But in the logs on BOTH NFS servers I see a &quot;notice&quot; indicating that 1 node in the 2-node cluster and 1 node in the 3-node cluster attaches for a few seconds an detaches again. The other servers remain silent. As the logs are refreshed each 10 seconds I see messages like this:<br />
+I am experiencing sporadic iSCSI connection interruptions on a Proxmox VE 9.2 host connected directly to a Dell PowerVault ME5224.<br />
+The issue manifests as ISCSI_ERR_NOP_TIMEDOUT, followed by DID_TRANSPORT_DISRUPTED. The affected iSCSI session usually recovers automatically after a few seconds.<br />
+The problem is intermittent. The system can run normally for a considerable amount of time before another interruption occurs.<br />
 <br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>daemon.notice: Sep  3 13:30:33 rpc.mountd[2790]: v4.2...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/nfs-issues-rpc-mountd-2790-v4-2-client-detached-and-attached.186157/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
+<b>Environment</b><br />
+<ul>
+<li data-xf-list-type="ul">Proxmox VE 9.2</li>
+<li data-xf-list-type="ul">currently running kernel...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-%E2%80%93-sporadic-iscsi-nop-timeouts-did_transport_disrupted-with-dell-powervault-me5-and-intel-e810.185817/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>14</slash:comments>
     </item>
     <item>
-      <title>Full clone of UEFI Windows template on LVM-thin results in unbootable VM with corrupted partition table</title>
-      <pubDate>Thu, 03 Sep 2026 18:12:54 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/full-clone-of-uefi-windows-template-on-lvm-thin-results-in-unbootable-vm-with-corrupted-partition-table.184174/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:184174</guid>
-      <author>invalid@example.com (bozkalkan)</author>
+      <title>PROXMOX 8.4 and 9 crashes during intallation.</title>
+      <pubDate>Fri, 04 Sep 2026 04:36:26 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-8-4-and-9-crashes-during-intallation.186096/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186096</guid>
+      <author>invalid@example.com (toumz)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>bozkalkan</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Running into a weird one with Proxmox 9.2.3.<br />
+      <dc:creator>toumz</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone, This is my first post.<br />
+PC Specs: Lenovo M720q - i3-9100t, 16gb ram single stick, 256gb samsung 970 evo plus NVME (firmware: 2B2QEXM7), 65w power adapter.<br />
 <br />
-I have a Win Server 2025 template (UEFI, virtio-scsi-single, 90G disk on<br />
-LVM-thin, sysprepped with /generalize). Template itself is fine - if I<br />
-strip the template flag and boot it as a regular VM, it comes up at OOBE<br />
-no problem.<br />
+I am running into problems during the installation. Every time during the install process the machine reboots.<br />
+I am using an USB to install images (proxmox 8 flashed via rufus dd method, and ventoy). Reading other post suggested to install ubuntu or debian to see if anything can be installed. Those fail as well.<br />
+With the...<br />
 <br />
-But every full clone from this template fails to boot:<br />
-<br />
-  BdsDxe: failed to load Boot0004 &quot;UEFI QEMU QEMU HARDDISK&quot; : Not Found<br />
-  BdsDxe: No bootable option or device was found.<br />
-<br />
-Booted a Windows install ISO on the...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/full-clone-of-uefi-windows-template-on-lvm-thin-results-in-unbootable-vm-with-corrupted-partition-table.184174/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>PVE arm64 on ASUS GX10 (GB10): hard reset every ~20 minutes, fix is loading sbsa_gwdt</title>
-      <pubDate>Thu, 03 Sep 2026 18:08:03 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pve-arm64-on-asus-gx10-gb10-hard-reset-every-20-minutes-fix-is-loading-sbsa_gwdt.186164/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186164</guid>
-      <author>invalid@example.com (bbgeek17)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>bbgeek17</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Here’s another problem we hit bringing PVE arm64 up on the GX10. The first was the black screen after initrd (<a href="https://forum.proxmox.com/threads/pve-9-2-arm64-on-asus-gx10-gb10-black-screen-after-initrd-fix-is-console-tty0.186138/" class="link link--internal">thread here</a>). Posting this one since the symptom is a show stopper.<br />
-<br />
-<h2 class="bbHeading"><a class="u-anchorTarget" name="-hardware"></a>Hardware&#8203;<a class="hoverLink" href="#-hardware" title="Permanent link"></a></h2><ul>
-<li data-xf-list-type="ul">ASUS Ascent GX10</li>
-<li data-xf-list-type="ul">NVIDIA GB10, 20 cores, 3.9 GHz</li>
-<li data-xf-list-type="ul">128 GB LPDDR5 8533</li>
-<li data-xf-list-type="ul">UEFI GX10DGX.0105.2026.0505.1153 (AMI, 2026-05-05), EC 3.3.2</li>
-<li data-xf-list-type="ul">pve-manager 9.2.9, kernel 7.0.14-6-pve</li>
-<li data-xf-list-type="ul">ext4/LVM root, GRUB</li>
-</ul><h2 class="bbHeading"><a class="u-anchorTarget" name="-issue"></a>Issue&#8203;<a class="hoverLink" href="#-issue" title="Permanent link"></a></h2>The host hard-resets every 20 minutes 40 seconds after power-on, even...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pve-arm64-on-asus-gx10-gb10-hard-reset-every-20-minutes-fix-is-loading-sbsa_gwdt.186164/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>BSOD 0x00001a Memory</title>
-      <pubDate>Thu, 03 Sep 2026 17:41:17 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/bsod-0x00001a-memory.186166/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186166</guid>
-      <author>invalid@example.com (paolone)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>paolone</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello<br />
-<br />
-I&#039;ve a Windows Server 2022 VM that in some night at 3.00 AM BSOD 0x00001a Memory.<br />
-No backup, no snapshot no particoular schedule at that hour.<br />
-<br />
-I&#039;ve Virtio 0.1285 it can be a problem?<br />
-Strange beacause the VM is here from 4 months and only in august 2026 are started the BSOD.<br />
-Do you have any suggestions ?<br />
-<br />
-If I want to downgrade virtio 0.1285 to 0.1271 wich is the best practice ?<br />
-<br />
-My best regards</div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>VirtIO-Installation 0.1.271 auf Windows Server 2019 schlägt fehl/geht nicht</title>
-      <pubDate>Thu, 03 Sep 2026 17:11:54 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/virtio-installation-0-1-271-auf-windows-server-2019-schl%C3%A4gt-fehl-geht-nicht.186154/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186154</guid>
-      <author>invalid@example.com (oelk)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>oelk</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
-<br />
-auf unserem Proxmox-Cluster  haben wir 3x Windows-Server 2019 verteilt für einen Failovercluster.<br />
-Bei zweien geht die installation der neuen Version 0.1.271 (virtio-win-0.1.271.iso, virtio-win-gt-x64.exe) gut.<br />
-Bei einem geht das nicht.<br />
-Da kommt dann eine &#039;Rolling Back Action&#039;.<br />
-Unter &#039;Programme und Features&#039; ist da auch garnix gelistet im Gegensatz zu den beiden anderen.<br />
-<br />
-Wird irgendwo von der Installation ein Log-File geschrieben, in dem ich einen möglichen Fehler lesen...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/virtio-installation-0-1-271-auf-windows-server-2019-schl%C3%A4gt-fehl-geht-nicht.186154/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Best Practice for moving backups to a namespace while maintaining the existing backup job chains</title>
-      <pubDate>Thu, 03 Sep 2026 16:02:51 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/best-practice-for-moving-backups-to-a-namespace-while-maintaining-the-existing-backup-job-chains.186163/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186163</guid>
-      <author>invalid@example.com (iceph03nix)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>iceph03nix</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m looking at moving our backup targets around on PBS to make better use of namespace specific pruning jobs, and I&#039;m curious before I make any changes if there&#039;s a best practice for moving the files so that when the backup jobs are retargetted they&#039;ll maintain the existing backup chains and retention can keep going on as expected.<br />
-<br />
-I&#039;m not sure if I&#039;m overthinking this or not.  I see I can move them in PBS, and I can change the target storage in the backup job, I&#039;m just not sure if they&#039;ll...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/best-practice-for-moving-backups-to-a-namespace-while-maintaining-the-existing-backup-job-chains.186163/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>How to organise WAN access for RPi with proxmox so it can run of mobile hotspot?</title>
-      <pubDate>Thu, 03 Sep 2026 15:55:51 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/how-to-organise-wan-access-for-rpi-with-proxmox-so-it-can-run-of-mobile-hotspot.186161/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186161</guid>
-      <author>invalid@example.com (niall.keller)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>niall.keller</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Assume the following current state:<br />
-* 8GB RPi with proxmox<br />
-* a physical router is used to control network access (allowing access only to a whitelisted hosts, VPN killswitch, adblocking, DoT to upstream resolver, etc)<br />
-* RPi hosts lightweight LXCs from Community scripts (webdav-like for contacts/calendars, git, etc) without WAN access, LAN-only.<br />
-* RPi hosts wireguard server to provide access only to LAN clients (a requirement that came from limitations of connecting clients)<br />
-(*) a...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/how-to-organise-wan-access-for-rpi-with-proxmox-so-it-can-run-of-mobile-hotspot.186161/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>High VM-EXIT and Host CPU usage on idle with Windows Server 2025</title>
-      <pubDate>Thu, 03 Sep 2026 15:43:54 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/high-vm-exit-and-host-cpu-usage-on-idle-with-windows-server-2025.163564/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:163564</guid>
-      <author>invalid@example.com (orange)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>orange</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Good evening, I have been pouring over an interesting problem and it seems like I need some deep insight.  Windows Server 2025 Core has much more than expected overhead.<br />
-<br />
-I am testing Windows Server 2025 Core (and Desktop) on Proxmox 8.3, with all paravirtualized features enabled and the agent installed.<br />
-<br />
-On the VM all virt-io drivers have been installed and VBS has been explicitly disabled.  The OS is newly installed, is completely idle, with no software installed, and running idle for...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/high-vm-exit-and-host-cpu-usage-on-idle-with-windows-server-2025.163564/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>140</slash:comments>
+<a href="https://forum.proxmox.com/threads/proxmox-8-4-and-9-crashes-during-intallation.186096/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>15</slash:comments>
     </item>
   </channel>
 </rss>
