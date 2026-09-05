@@ -1,4 +1,144 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: DRA Updates</title><link>https://kubernetes.io/blog/2026/09/03/kubernetes-v1-37-dra-updates/</link><pubDate>Thu, 03 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/03/kubernetes-v1-37-dra-updates/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: KubeletInUserNamespace (aka Rootless mode) Graduates to Beta</title><link>https://kubernetes.io/blog/2026/09/04/kubernetes-v1-37-rootless-beta/</link><pubDate>Fri, 04 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/04/kubernetes-v1-37-rootless-beta/</guid><description>
+&lt;p>Kubernetes v1.37 promotes the &lt;code>KubeletInUserNamespace&lt;/code> feature gate to beta.
+With this feature enabled, all of the node components (kubelet, CRI and OCI runtimes,
+CNI plugins, and kube-proxy) can run as a non-root user on the host, using a
+&lt;a href="https://man7.org/linux/man-pages/man7/user_namespaces.7.html">Linux user namespace&lt;/a>.
+This technique is also known as &lt;em>rootless mode&lt;/em>.
+The work started as an experiment in 2018, and was merged into Kubernetes v1.22 (2021)
+as an alpha feature (Kubernetes Enhancement Proposal &lt;a href="https://www.kubernetes.dev/resources/keps/2033/">KEP-2033&lt;/a>).&lt;/p>
+&lt;p>This feature should not be confused with &lt;a href="https://kubernetes.io/docs/concepts/workloads/pods/user-namespaces/">user namespaces for pods&lt;/a>
+(&lt;code>hostUsers: false&lt;/code> with the &lt;code>UserNamespacesSupport&lt;/code> feature gate, GA since v1.36),
+which puts pods in user namespaces but still runs the node components as root.
+These two features do not conflict.
+Moreover, they can be combined to nest Kubernetes inside Kubernetes without resorting to
+the full &lt;code>privileged: true&lt;/code>.&lt;/p>
+&lt;h2 id="why-run-the-node-components-in-a-user-namespace">Why run the node components in a user namespace?&lt;a class="td-heading-self-link" href="#why-run-the-node-components-in-a-user-namespace" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Because the node components have historically had container-breakout vulnerabilities
+that could compromise full root privileges on the host.&lt;/p>
+&lt;p>Examples of such vulnerabilities include:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://nvd.nist.gov/vuln/detail/CVE-2022-0811">CVE-2022-0811&lt;/a>
+(&amp;quot;cr8escape&amp;quot;): CRI-O could be tricked into setting arbitrary sysctls, such as
+&lt;code>kernel.core_pattern&lt;/code>, resulting in arbitrary code execution as root on the host&lt;/li>
+&lt;li>&lt;a href="https://nvd.nist.gov/vuln/detail/CVE-2023-27561">CVE-2023-27561&lt;/a>:
+runc could be tricked into bypassing the masked paths of a container via a volume
+mount race, exposing the host's procfs files (a regression of CVE-2019-19921)&lt;/li>
+&lt;li>&lt;a href="https://nvd.nist.gov/vuln/detail/CVE-2024-10220">CVE-2024-10220&lt;/a>:
+the kubelet could be made to execute arbitrary commands as root via &lt;code>gitRepo&lt;/code> volumes
+(&lt;code>gitRepo&lt;/code> volumes had a similar vulnerability,
+&lt;a href="https://nvd.nist.gov/vuln/detail/CVE-2018-11235">CVE-2018-11235&lt;/a>, back in 2018 too)&lt;/li>
+&lt;li>&lt;a href="https://nvd.nist.gov/vuln/detail/CVE-2025-31133">CVE-2025-31133&lt;/a>:
+runc could be tricked into bind-mounting attacker-controlled paths and writing to the
+host's procfs files, such as &lt;code>/proc/sysrq-trigger&lt;/code> and
+&lt;code>/proc/sys/kernel/core_pattern&lt;/code>&lt;/li>
+&lt;li>&lt;a href="https://nvd.nist.gov/vuln/detail/CVE-2026-53488">CVE-2026-53488&lt;/a>:
+containerd could be tricked into executing arbitrary commands on the host, via
+crafted labels in a container image&lt;/li>
+&lt;/ul>
+&lt;p>By running the node components in a user namespace, the potential damage is confined to
+the non-root user's account.
+Notably, an attacker cannot conceal their intrusion by modifying the kernel, the boot
+loader, or the firmware.&lt;/p>
+&lt;p>It should still be noted that user namespaces are not effective for mitigating
+vulnerabilities in the kernel itself.
+User namespaces should be used in conjunction with traditional hardening measures such as
+&lt;a href="https://kubernetes.io/docs/tutorials/security/seccomp/">seccomp&lt;/a> to prevent containers from invoking
+unnecessary system calls.&lt;/p>
+&lt;h3 id="use-cases">Use cases&lt;a class="td-heading-self-link" href="#use-cases" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;ul>
+&lt;li>&lt;strong>Production clusters&lt;/strong>: mitigate potential container-breakout vulnerabilities.&lt;/li>
+&lt;li>&lt;strong>Shared machines (e.g., HPC)&lt;/strong>: users can deploy Kubernetes without asking the machine
+administrator for root privileges, and without the risk of accidentally breaking
+other users' environments.&lt;/li>
+&lt;li>&lt;strong>Laptops&lt;/strong>: prevent a local cluster from accidentally breaking the host system configuration,
+e.g., the host iptables rules used for VPNs.&lt;/li>
+&lt;li>&lt;strong>AI sandbox&lt;/strong>: a Kubernetes application developer may create a dedicated local user account for
+running an AI coding agent and a test Kubernetes cluster.
+This setup is useful for preventing the AI agent from breaking the host when it is deceived by
+malicious information on the Internet.&lt;/li>
+&lt;li>&lt;strong>Kubernetes-in-Kubernetes&lt;/strong>: a nested cluster can run inside a parent cluster as a user-namespaced
+pod (&lt;code>hostUsers: false&lt;/code>), isolating workloads more strictly than Kubernetes API namespaces do.&lt;/li>
+&lt;li>&lt;strong>Bootstrapping&lt;/strong>: a temporary unprivileged cluster can be used to bootstrap an actual
+cluster, e.g., with Cluster API.&lt;/li>
+&lt;/ul>
+&lt;h2 id="how-does-it-work">How does it work?&lt;a class="td-heading-self-link" href="#how-does-it-work" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>A Linux kernel &lt;em>user namespace&lt;/em> maps a host level non-root user (e.g., UID 1000) to a &lt;em>fake root&lt;/em> user inside the namespace. The UID 0
+privileges are limited to the inside of the namespace.
+The fake root is enough for most of the node components' tasks: mounting volumes,
+creating cgroups, and configuring the network namespaces of pods.
+It still comes with some &lt;a href="https://www.kubernetes.dev/resources/keps/2033/#notesconstraintscaveats-optional">caveats&lt;/a> that may break compatibility with specific CNI and CSI drivers, though.&lt;/p>
+&lt;p>The user namespace has to be created outside of Kubernetes.
+For example, &lt;a href="https://docs.docker.com/engine/security/rootless/">Rootless&lt;/a> Docker can be used to prepare the user namespace in which Kubernetes runs.&lt;/p>
+&lt;p>The &lt;code>KubeletInUserNamespace&lt;/code> feature gate itself is quite &amp;quot;boring&amp;quot;: basically it just lets the kubelet
+ignore permission errors that occur when &lt;a href="https://github.com/kubernetes/kubernetes/blob/v1.37.0-beta.0/pkg/kubelet/cm/container_manager_linux.go#L499-L517">setting some sysctl values&lt;/a>
+(e.g., &lt;code>vm.overcommit_memory&lt;/code> and &lt;code>kernel.panic&lt;/code>)
+and when &lt;a href="https://github.com/kubernetes/kubernetes/blob/v1.37.0-beta.0/pkg/kubelet/kubelet.go#L586-L601">watching kernel messages via &lt;code>/dev/kmsg&lt;/code>&lt;/a>.&lt;/p>
+&lt;p>See &lt;a href="https://kubernetes.io/docs/tasks/administer-cluster/kubelet-in-userns/">Running Kubernetes Node Components as a Non-root User&lt;/a>
+for further information.&lt;/p>
+&lt;h2 id="what-changed-from-alpha-to-beta">What changed from Alpha to Beta?&lt;a class="td-heading-self-link" href="#what-changed-from-alpha-to-beta" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;ul>
+&lt;li>The &lt;code>KubeletInUserNamespace&lt;/code> feature gate is now enabled by default.
+Enabling the gate does not put the kubelet into a user namespace automatically, so nothing
+changes for existing &amp;quot;rootful&amp;quot; clusters.&lt;/li>
+&lt;li>&lt;code>kubectl get nodes -o yaml&lt;/code> now reports whether nodes are running in a user namespace via
+the &lt;a href="https://pkg.go.dev/k8s.io/api/core/v1#NodeSystemInfo">&lt;code>runningInUserNamespace&lt;/code>&lt;/a> property.
+A cluster administrator can use this property to set node labels or taints, to avoid scheduling workloads
+that need real root privileges (e.g., some CNI plugin installers) onto rootless nodes.&lt;/li>
+&lt;li>For Kubernetes' own CI/CD testing, the node conformance end to end tests now run on a rootless cluster
+(&lt;a href="https://prow.k8s.io/job-history/gs/kubernetes-ci-logs/logs/ci-kubernetes-e2e-kind-rootless">ci-kubernetes-e2e-kind-rootless&lt;/a>).&lt;/li>
+&lt;/ul>
+&lt;p>Several related improvements have also happened outside the promotion of the feature gate itself:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Linux kernel v6.3 (2023)&lt;/strong>: added support for &lt;a href="https://kernelnewbies.org/Linux_6.3">idmapped tmpfs&lt;/a>.&lt;/li>
+&lt;li>&lt;strong>Kubernetes v1.33 (2025)&lt;/strong>: enabled the &lt;a href="https://kubernetes.io/docs/concepts/workloads/pods/user-namespaces/">&lt;code>UserNamespacesSupport&lt;/code>&lt;/a> feature gate
+by default, allowing user-namespaced pods (&lt;code>hostUsers: false&lt;/code>) to be created without extra configuration.&lt;/li>
+&lt;li>&lt;strong>containerd v2.1 (2025)&lt;/strong>: added support for &lt;a href="https://github.com/containerd/containerd/releases/tag/v2.1.0">writable cgroups&lt;/a>.&lt;/li>
+&lt;/ul>
+&lt;p>With these improvements, a Kubernetes cluster with &lt;code>KubeletInUserNamespace&lt;/code> can now also be nested
+inside Kubernetes pods with &lt;code>hostUsers: false&lt;/code> (&lt;code>UserNamespacesSupport&lt;/code>).&lt;/p>
+&lt;h2 id="how-to-use-it">How to use it&lt;a class="td-heading-self-link" href="#how-to-use-it" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;h3 id="kind">kind&lt;a class="td-heading-self-link" href="#kind" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The easiest way is to use &lt;a href="https://kind.sigs.k8s.io/">kind&lt;/a> (a Kubernetes SIG Testing project)
+to run a Kubernetes cluster in rootless Docker, rootless nerdctl, or rootless Podman:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Example using Docker&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">dockerd-rootless-setuptool.sh install
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kind create cluster
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Depending on the host configuration, you may need additional configuration for
+systemd, kernel modules, sysctl, etc.&lt;/p>
+&lt;p>See the &lt;a href="https://docs.docker.com/engine/security/rootless/">Docker documentation&lt;/a> and
+the &lt;a href="https://kind.sigs.k8s.io/docs/user/rootless/">kind documentation&lt;/a> for further information.&lt;/p>
+&lt;h3 id="minikube">minikube&lt;a class="td-heading-self-link" href="#minikube" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>&lt;a href="https://minikube.sigs.k8s.io/docs/">minikube&lt;/a> (a Kubernetes SIG Cluster Lifecycle project)
+also supports running a Kubernetes cluster in rootless Docker or rootless Podman:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">dockerd-rootless-setuptool.sh install
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">minikube start --driver&lt;span class="o">=&lt;/span>docker
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>See the &lt;a href="https://minikube.sigs.k8s.io/docs/drivers/docker/">minikube documentation&lt;/a>
+for further information.&lt;/p>
+&lt;h3 id="usernetes">Usernetes&lt;a class="td-heading-self-link" href="#usernetes" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>&lt;a href="https://github.com/rootless-containers/usernetes">Usernetes&lt;/a> (a third-party project)
+is a distribution of rootless Kubernetes, maintained by the author of this article.
+The project began in 2018, and it is where the &lt;code>KubeletInUserNamespace&lt;/code> feature gate
+originally came from.&lt;/p>
+&lt;p>Unlike kind and minikube, Usernetes supports creating a cluster with multiple rootless
+Docker / Podman / nerdctl nodes, connected using VXLAN via the Flannel CNI plugin.&lt;/p>
+&lt;p>Usernetes also experimentally supports a &lt;a href="https://github.com/rootless-containers/usernetes/tree/master/kubernetes">Kubernetes-in-Kubernetes&lt;/a> mode.&lt;/p>
+&lt;h3 id="k3s">k3s&lt;a class="td-heading-self-link" href="#k3s" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>&lt;a href="https://k3s.io">k3s&lt;/a> (a CNCF Sandbox project) also supports &lt;a href="https://docs.k3s.io/advanced#running-rootless-servers-experimental">rootless mode&lt;/a>.
+Unlike kind, minikube, and the current generation of Usernetes, rootless k3s does not rely on an external runtime such as rootless Docker.&lt;/p>
+&lt;h2 id="what-s-next">What's next?&lt;a class="td-heading-self-link" href="#what-s-next" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Depending on feedback and adoption, the Kubernetes project plans to graduate this feature to
+General Availability (GA) in a future release. If you have feedback on this feature, please
+open an issue in the &lt;a href="https://github.com/kubernetes/kubernetes">kubernetes/kubernetes&lt;/a> repository.&lt;/p>
+&lt;p>The project is also discussing several Kubernetes Enhancement Proposals that may contribute to
+simplifying Kubernetes-in-Kubernetes with this feature:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://www.kubernetes.dev/resources/keps/5474/">KEP-5474: Enable Writable cgroups for unprivileged containers&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.kubernetes.dev/resources/keps/5714">KEP-5714: Allow specifying whether to unshare cgroup namespaces&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="getting-involved">Getting involved&lt;a class="td-heading-self-link" href="#getting-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>We always welcome new contributors. If you would like to get involved, you can join the
+&lt;a href="https://www.kubernetes.dev/community/community-groups/sigs/node/">Node Special Interest Group&lt;/a>
+(SIG Node).&lt;/p>
+&lt;p>If you would like to share feedback, you can do so on our
+&lt;a href="https://kubernetes.slack.com/messages/sig-node">public Slack channel&lt;/a>
+(visit &lt;a href="https://slack.k8s.io/">https://slack.k8s.io/&lt;/a> for an invitation if you need one).&lt;/p>
+&lt;p>Special thanks to everyone who helped design and implement this feature,
+including but not limited to (in alphabetical order):&lt;/p>
+&lt;ul>
+&lt;li>Bing Hongtao (&lt;a href="https://github.com/HirazawaUi">HirazawaUi&lt;/a>)&lt;/li>
+&lt;li>Jordan Liggitt (&lt;a href="https://github.com/liggitt">liggitt&lt;/a>)&lt;/li>
+&lt;li>Sergey Kanzhelev (&lt;a href="https://github.com/SergeyKanzhelev">SergeyKanzhelev&lt;/a>)&lt;/li>
+&lt;li>Tim Hockin (&lt;a href="https://github.com/thockin">thockin&lt;/a>)&lt;/li>
+&lt;/ul></description></item><item><title>Kubernetes v1.37: DRA Updates</title><link>https://kubernetes.io/blog/2026/09/03/kubernetes-v1-37-dra-updates/</link><pubDate>Thu, 03 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/03/kubernetes-v1-37-dra-updates/</guid><description>
 &lt;p>Kubernetes 1.37 is here and &lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/">Dynamic Resource Allocation (DRA)&lt;/a> keeps pushing past where it started! This release brings DRA Extended Resource support to GA, a milestone the team has been building toward for three straight releases. Several more features graduate to Beta or GA. A fresh batch of alpha features rounds out the release.&lt;/p>
 &lt;p>I'll dive into what's new for DRA in Kubernetes 1.37!&lt;/p>
 &lt;h2 id="what-s-stable-in-1-37">What's stable in 1.37&lt;a class="td-heading-self-link" href="#what-s-stable-in-1-37" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>&lt;a href="https://www.kubernetes.dev/resources/keps/5004">DRA Extended Resource support&lt;/a> has graduated to GA. This is the mechanism that lets DRA drivers satisfy requests made through the traditional extended resource API, think &lt;code>example.com/gpu&lt;/code> in a Pod spec, without requiring a separate device plugin alongside the DRA driver. An extended resource name can be set directly on a DeviceClass, and Pods requesting it get matched to a device through DRA with no ResourceClaim needed on the workload's part.&lt;/p>
@@ -8077,74 +8217,4 @@ for a rewrite of infrastructure that every Kubernetes release depends on.&lt;/p>
 &lt;p>If you want to get involved, join us in
 &lt;a href="https://kubernetes.slack.com/archives/C2C40FMNF">&lt;code>#release-management&lt;/code>&lt;/a> on the
 Kubernetes Slack or check out the
-&lt;a href="https://github.com/kubernetes-sigs/promo-tools">repository&lt;/a>.&lt;/p></description></item><item><title>Announcing the AI Gateway Working Group</title><link>https://kubernetes.io/blog/2026/03/09/announcing-ai-gateway-wg/</link><pubDate>Mon, 09 Mar 2026 10:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/03/09/announcing-ai-gateway-wg/</guid><description>
-&lt;p>The community around Kubernetes includes a number of Special Interest Groups (SIGs) and Working Groups (WGs) facilitating discussions on important topics between interested contributors. Today, we're excited to announce the formation of the &lt;a href="https://github.com/kubernetes-sigs/wg-ai-gateway">AI Gateway Working Group&lt;/a>, a new initiative focused on developing standards and best practices for networking infrastructure that supports AI workloads in Kubernetes environments.&lt;/p>
-&lt;h2 id="what-is-an-ai-gateway">What is an AI Gateway?&lt;a class="td-heading-self-link" href="#what-is-an-ai-gateway" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>In a Kubernetes context, an &lt;em>AI Gateway&lt;/em> refers to network gateway infrastructure (including proxy servers, load-balancers, etc.) that generally implements the &lt;a href="https://gateway-api.sigs.k8s.io/">Gateway API&lt;/a> specification with enhanced capabilities for AI workloads. Rather than defining a distinct product category, AI Gateways describe infrastructure designed to enforce policy on AI traffic, including:&lt;/p>
-&lt;ul>
-&lt;li>Token-based rate limiting for AI APIs.&lt;/li>
-&lt;li>Fine-grained access controls for inference APIs.&lt;/li>
-&lt;li>Payload inspection enabling intelligent routing, caching, and guardrails.&lt;/li>
-&lt;li>Support for AI-specific protocols and routing patterns.&lt;/li>
-&lt;/ul>
-&lt;h2 id="working-group-charter-and-mission">Working group charter and mission&lt;a class="td-heading-self-link" href="#working-group-charter-and-mission" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The AI Gateway Working Group operates under a clear &lt;a href="https://github.com/kubernetes/community/blob/master/wg-ai-gateway/charter.md">charter&lt;/a> with the mission to develop proposals for Kubernetes Special Interest Groups (SIGs) and their sub-projects.
-Its primary goals include:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>Standards Development&lt;/strong>: Create declarative APIs, standards, and guidance for AI workload networking in Kubernetes.&lt;/li>
-&lt;li>&lt;strong>Community Collaboration&lt;/strong>: Foster discussions and build consensus around best practices for AI infrastructure.&lt;/li>
-&lt;li>&lt;strong>Extensible Architecture&lt;/strong>: Ensure composability, pluggability, and ordered processing for AI-specific gateway extensions.&lt;/li>
-&lt;li>&lt;strong>Standards-Based Approach&lt;/strong>: Build on established networking foundations, layering AI-specific capabilities on top of proven standards.&lt;/li>
-&lt;/ul>
-&lt;h2 id="active-proposals">Active proposals&lt;a class="td-heading-self-link" href="#active-proposals" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>WG AI Gateway currently has several &lt;a href="https://github.com/kubernetes-sigs/wg-ai-gateway/tree/main/proposals">active proposals&lt;/a> that address key challenges in
-AI workload networking:&lt;/p>
-&lt;h3 id="payload-processing">Payload Processing&lt;a class="td-heading-self-link" href="#payload-processing" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The &lt;a href="https://github.com/kubernetes-sigs/wg-ai-gateway/tree/main/proposals/7-payload-processing.md">payload processing proposal&lt;/a> addresses the critical need for AI workloads to inspect and transform full HTTP request and response payloads.
-This enables:&lt;/p>
-&lt;h4 id="ai-inference-security">AI Inference Security&lt;a class="td-heading-self-link" href="#ai-inference-security" aria-label="Heading self-link">&lt;/a>&lt;/h4>&lt;ul>
-&lt;li>Guard against malicious prompts and prompt injection attacks.&lt;/li>
-&lt;li>Content filtering for AI responses.&lt;/li>
-&lt;li>Signature-based detection and anomaly detection for AI traffic.&lt;/li>
-&lt;/ul>
-&lt;h4 id="ai-inference-optimization">AI Inference Optimization&lt;a class="td-heading-self-link" href="#ai-inference-optimization" aria-label="Heading self-link">&lt;/a>&lt;/h4>&lt;ul>
-&lt;li>Semantic routing based on request content.&lt;/li>
-&lt;li>Intelligent caching to reduce inference costs and improve response times.&lt;/li>
-&lt;li>RAG (Retrieval-Augmented Generation) system integration for context enhancement.&lt;/li>
-&lt;/ul>
-&lt;p>The proposal defines standards for declarative payload processor configuration, ordered processing pipelines, and configurable failure modes - all essential for production AI workload deployments.&lt;/p>
-&lt;h3 id="egress-gateways">Egress gateways&lt;a class="td-heading-self-link" href="#egress-gateways" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Modern AI applications increasingly depend on external inference services, whether for specialized models,
-failover scenarios, or cost optimization.
-The &lt;a href="https://github.com/kubernetes-sigs/wg-ai-gateway/tree/main/proposals/10-egress-gateways.md">egress gateways proposal&lt;/a> aims to define standards for securely routing traffic outside the cluster.
-Key features include:&lt;/p>
-&lt;h4 id="external-ai-service-integration">External AI Service Integration&lt;a class="td-heading-self-link" href="#external-ai-service-integration" aria-label="Heading self-link">&lt;/a>&lt;/h4>&lt;ul>
-&lt;li>Secure access to cloud-based AI services (OpenAI, Vertex AI, Bedrock, etc.).&lt;/li>
-&lt;li>Managed authentication and token injection for third-party AI APIs.&lt;/li>
-&lt;li>Regional compliance and failover capabilities.&lt;/li>
-&lt;/ul>
-&lt;h4 id="advanced-traffic-management">Advanced Traffic Management&lt;a class="td-heading-self-link" href="#advanced-traffic-management" aria-label="Heading self-link">&lt;/a>&lt;/h4>&lt;ul>
-&lt;li>Backend resource definitions for external FQDNs and services.&lt;/li>
-&lt;li>TLS policy management and certificate authority control.&lt;/li>
-&lt;li>Cross-cluster routing for centralized AI infrastructure.&lt;/li>
-&lt;/ul>
-&lt;h4 id="user-stories-we-re-addressing">User Stories We're Addressing&lt;a class="td-heading-self-link" href="#user-stories-we-re-addressing" aria-label="Heading self-link">&lt;/a>&lt;/h4>&lt;ul>
-&lt;li>Platform operators providing managed access to external AI services.&lt;/li>
-&lt;li>Developers requiring inference failover across multiple cloud providers.&lt;/li>
-&lt;li>Compliance engineers enforcing regional restrictions on AI traffic.&lt;/li>
-&lt;li>Organizations centralizing AI workloads on dedicated clusters.&lt;/li>
-&lt;/ul>
-&lt;h2 id="upcoming-events">Upcoming events&lt;a class="td-heading-self-link" href="#upcoming-events" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;h3 id="kubecon-cloudnativecon-europe-2026-amsterdam">KubeCon + CloudNativeCon Europe 2026, Amsterdam&lt;a class="td-heading-self-link" href="#kubecon-cloudnativecon-europe-2026-amsterdam" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>AI Gateway working group members will be presenting at &lt;a href="https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/">KubeCon + CloudNativeCon Europe&lt;/a> in Amsterdam, discussing the problems at the intersection of AI and networking, including the working group's active proposals, as well as the intersection of AI gateways with Model Context Protocol (MCP) and agent networking patterns.&lt;br>
-This session will showcase how AI Gateway working group proposals enable the infrastructure needed for next-generation AI deployments and communication patterns.&lt;br>
-The session will also include the initial designs, early prototypes, and emerging directions shaping the WG’s roadmap.&lt;br>
-For more details see our session here:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://kccnceu2026.sched.com/event/2EF5t/aim-at-the-gate-introducing-the-ai-gateway-working-group-in-kubernetes-morgan-foster-nir-rozenbaum-red-hat-shachar-tal-palo-alto-networks?iframe=yes&amp;w=100%&amp;sidebar=yes&amp;bg=no">AI'm at the Gate! Introducing the AI Gateway Working Group in Kubernetes&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h2 id="get-involved">Get involved&lt;a class="td-heading-self-link" href="#get-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The AI Gateway Working Group represents the Kubernetes community's commitment to standardizing AI workload networking. As AI becomes increasingly integral to modern applications, we need robust, standardized infrastructure that can support the unique requirements of inference workloads while maintaining the security, observability, and reliability standards that Kubernetes users expect.&lt;br>
-Our proposals are currently in active development, with implementations beginning across various gateway projects. We're working closely with SIG Network on Gateway API enhancements and collaborating with the broader cloud-native community to ensure our standards meet real-world production needs.&lt;/p>
-&lt;p>Whether you're a gateway implementer, platform operator, AI application developer, or simply interested in the intersection of Kubernetes and AI, we'd love your input. The working group follows an open contribution model - you can review our proposals, join our weekly meetings, or start discussions on our GitHub repository.
-To learn more:&lt;/p>
-&lt;ul>
-&lt;li>Visit the working group's umbrella &lt;a href="https://github.com/kubernetes-sigs/wg-ai-gateway">GitHub repository&lt;/a>.&lt;/li>
-&lt;li>Read the working group's &lt;a href="https://github.com/kubernetes/community/blob/master/wg-ai-gateway/charter.md">charter&lt;/a>.&lt;/li>
-&lt;li>Join the &lt;a href="https://docs.google.com/document/d/1nRRkRK2e82mxkT8zdLoAtuhkom2X6dEhtYOJ9UtfZKs">weekly meeting&lt;/a> on Thursdays at 2PM EST.&lt;/li>
-&lt;li>Connect with the working group on &lt;a href="https://kubernetes.slack.com/messages/wg-ai-gateway">Slack (#wg-ai-gateway)&lt;/a> (visit &lt;a href="https://slack.k8s.io/">https://slack.k8s.io/&lt;/a> for an invitation).&lt;/li>
-&lt;li>Join the AI Gateway &lt;a href="https://groups.google.com/a/kubernetes.io/g/wg-ai-gateway">mailing list&lt;/a>.&lt;/li>
-&lt;/ul>
-&lt;p>The future of AI infrastructure in Kubernetes is being built today, join up and learn how you can contribute and help shape the future of AI-aware gateway capabilities in Kubernetes.&lt;/p></description></item></channel></rss>
+&lt;a href="https://github.com/kubernetes-sigs/promo-tools">repository&lt;/a>.&lt;/p></description></item></channel></rss>
