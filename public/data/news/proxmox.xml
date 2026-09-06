@@ -4,11 +4,325 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Sun, 06 Sep 2026 14:45:22 +0000</pubDate>
-    <lastBuildDate>Sun, 06 Sep 2026 14:45:22 +0000</lastBuildDate>
+    <pubDate>Sun, 06 Sep 2026 19:49:07 +0000</pubDate>
+    <lastBuildDate>Sun, 06 Sep 2026 19:49:07 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>ZFS Datapool Error -  How to Access Data from Virtual Machine Disk from Proxmox?</title>
+      <pubDate>Sun, 06 Sep 2026 19:18:29 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/zfs-datapool-error-how-to-access-data-from-virtual-machine-disk-from-proxmox.186225/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186225</guid>
+      <author>invalid@example.com (nikhilbhalwankar)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>nikhilbhalwankar</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+I have a JBOD server with below configurationn -&gt;<br />
+<br />
+- I have two datapools. Each are under RAID-5<br />
+- Proxmox VE is installed on the server and these two RAID-5 datapools are attached to it as ZFS shares DATAPOOL-1 and DATAPOOL-2.<br />
+- TrueNAS 13 is installed as a virtual machine over Proxmox VE with three disks attached to it disk1 for OS, disk2 from DATAPOOL-1 for data, disk3 from DATAPOOL-2 for data.<br />
+- I have some issue with DATAPOOL-2. Proxmox is showing below errors <br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>zpool status -v...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/zfs-datapool-error-how-to-access-data-from-virtual-machine-disk-from-proxmox.186225/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>[LXC-Template] Ubuntu-Business-Desktop converted to LXC!</title>
+      <pubDate>Sun, 06 Sep 2026 18:29:10 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/lxc-template-ubuntu-business-desktop-converted-to-lxc.27998/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:27998</guid>
+      <author>invalid@example.com (fireon)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>fireon</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+since a long time ago i build the Ubuntu-Business-Destop (OpenVZ). So this time i converted the project to LXC.<br />
+<a href="https://sourceforge.net/projects/ubuntu-business-desktop-lxc/" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://sourceforge.net/projects/ubuntu-business-desktop-lxc/</a><br />
+It is the first version that i build with Ubuntu Mate 16.04.<br />
+And the Wiki: <a href="https://sourceforge.net/p/ubuntu-business-desktop-lxc/wiki/Home/" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://sourceforge.net/p/ubuntu-business-desktop-lxc/wiki/Home/</a><br />
+<br />
+<br />
+Features:<br />
+<ul>
+<li data-xf-list-type="ul">LXC Mate for Business</li>
+<li data-xf-list-type="ul">Autoupdate and Reboot for the System (unattended-upgrades)</li>
+<li data-xf-list-type="ul">Adminstration on <a href="https://hostname:10000" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://hostname:10000</a>...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/lxc-template-ubuntu-business-desktop-converted-to-lxc.27998/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>15</slash:comments>
+    </item>
+    <item>
+      <title>FreeBSD CTL support for ZFS-over-iSCSI to replace deprecated ISTGT?</title>
+      <pubDate>Sun, 06 Sep 2026 18:07:55 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/freebsd-ctl-support-for-zfs-over-iscsi-to-replace-deprecated-istgt.186227/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186227</guid>
+      <author>invalid@example.com (no-usernames-left)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>no-usernames-left</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+Of the several various backends PVE supports for ZFS-over-iSCSI, on FreeBSD there is only istgt, which has been largely superseded by ctld since FreeBSD 10.1 (and we&#039;re now on version 15.1) and the end is therefore in sight for istgt.<br />
+<br />
+A <a href="https://www.mail-archive.com/pve-devel@lists.proxmox.com/msg36093.html" target="_blank" class="link link--external" rel="nofollow ugc noopener">patchset</a> was sent to the pve-devel mailing list in April to add support for CTL to Proxmox, but there seems to have been little movement since then.<br />
+<br />
+FreeBSD&#039;s stability and renowned support for ZFS makes it the ideal candidate for a storage...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/freebsd-ctl-support-for-zfs-over-iscsi-to-replace-deprecated-istgt.186227/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>syslog disappeared</title>
+      <pubDate>Sun, 06 Sep 2026 18:02:02 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/syslog-disappeared.186232/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186232</guid>
+      <author>invalid@example.com (michabbs)</author>
+      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
+      <dc:creator>michabbs</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">After upgrade from 9.0.6 to 9.1.2 the webgui does not show log anymore. I open &quot;Administration -&gt; Syslog&quot; and the log window is empty.<br />
+I still can read /var/log/syslog and the log entries are there. Just the gui does not show them to me. :-(</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Help Needed: Shared iSCSI Storage for PVE Cluster (Multi-node Access)</title>
+      <pubDate>Sun, 06 Sep 2026 17:48:01 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/help-needed-shared-iscsi-storage-for-pve-cluster-multi-node-access.167382/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:167382</guid>
+      <author>invalid@example.com (jiantao)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>jiantao</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
+<br />
+I&#039;m building a Proxmox VE cluster and currently looking for a reliable **shared storage solution** that all nodes in the cluster can access concurrently.<br />
+<br />
+I&#039;m considering using **iSCSI as backend storage**, and I would like to know:<br />
+<br />
+1. Is there any recommended and **stable setup** for using iSCSI as a **shared VM storage** across the whole PVE cluster?<br />
+2. How can I properly configure **multi-node access** to an iSCSI target without risking LVM or file system corruption?<br />
+3...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/help-needed-shared-iscsi-storage-for-pve-cluster-multi-node-access.167382/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>14</slash:comments>
+    </item>
+    <item>
+      <title>Full clone of UEFI Windows template on LVM-thin results in unbootable VM with corrupted partition table</title>
+      <pubDate>Sun, 06 Sep 2026 17:21:38 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/full-clone-of-uefi-windows-template-on-lvm-thin-results-in-unbootable-vm-with-corrupted-partition-table.184174/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:184174</guid>
+      <author>invalid@example.com (bozkalkan)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>bozkalkan</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Running into a weird one with Proxmox 9.2.3.<br />
+<br />
+I have a Win Server 2025 template (UEFI, virtio-scsi-single, 90G disk on<br />
+LVM-thin, sysprepped with /generalize). Template itself is fine - if I<br />
+strip the template flag and boot it as a regular VM, it comes up at OOBE<br />
+no problem.<br />
+<br />
+But every full clone from this template fails to boot:<br />
+<br />
+  BdsDxe: failed to load Boot0004 &quot;UEFI QEMU QEMU HARDDISK&quot; : Not Found<br />
+  BdsDxe: No bootable option or device was found.<br />
+<br />
+Booted a Windows install ISO on the...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/full-clone-of-uefi-windows-template-on-lvm-thin-results-in-unbootable-vm-with-corrupted-partition-table.184174/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Q: pve8to9 sanity check "pre flight check script" for upgrade &gt; does not flag "cgroup V1 Removal" drama?</title>
+      <pubDate>Sun, 06 Sep 2026 17:19:03 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/q-pve8to9-sanity-check-pre-flight-check-script-for-upgrade-does-not-flag-cgroup-v1-removal-drama.186231/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186231</guid>
+      <author>invalid@example.com (fortechitsolutions)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>fortechitsolutions</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi, just a small sanity check question, I am part way through a bit of an adventure today, upgrading some Proxmox cluster nodes from Proxmox8 to 9<br />
+everything went great, except I forgot until too late, this breaking deal detail with Proxmox V9<br />
+<br />
+cgroup V1 Removal &gt;  means that the old workaround which was hybrid cgroup mode enabled on Prox.V8 via the kernel boot flag option = systemd.unified_cgroup_hierarchy=0<br />
+<br />
+is not a viable workaround any longer<br />
+and more to the point, there is no check for...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/q-pve8to9-sanity-check-pre-flight-check-script-for-upgrade-does-not-flag-cgroup-v1-removal-drama.186231/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>PBS ZFS disk speed thoughts option</title>
+      <pubDate>Sun, 06 Sep 2026 16:58:20 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pbs-zfs-disk-speed-thoughts-option.185986/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185986</guid>
+      <author>invalid@example.com (AkUsP)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>AkUsP</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello. I&#039;m new here. After 20 years VMware addiciton I&#039;m now sober and saved by the Holy Ch... Proxmox.<br />
+<br />
+After migrating about 20 VM&#039;s from Vware my PBS ran backups @ about 200-300mb/s.<br />
+After migrating my last 5 VM&#039;, that are file servers and have very many many small files. The PBS runns @ about 10 - 20mb/s.<br />
+This is my machine:<br />
+Server: Dell Ryzen Epic Gen1<br />
+Raidcontroller: PERC 740P in mixed HBA mode.<br />
+PBS version: Latest<br />
+PBS installed on HW RAID1 240GB SATA SSD<br />
+PBS Storage 6x 5400rpm SATA...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pbs-zfs-disk-speed-thoughts-option.185986/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>38</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox &amp; VMs nicht erreichbar - lokale Console (HDMI) aber doch</title>
+      <pubDate>Sun, 06 Sep 2026 16:47:31 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-vms-nicht-erreichbar-lokale-console-hdmi-aber-doch.186230/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186230</guid>
+      <author>invalid@example.com (od42)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>od42</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo, ich bin mit Linux &amp; Proxmox nur ein bisschen vertraut. Deshalb bitte ich Euch mir genau zu beschreiben, was ich tun kann oder soll.<br />
+Also zur Situation:<br />
+Ich habe mir eine gebrauchte Lenovo Box mit i5-9500, 32 GB RAM besorgt &amp; Proxmox 9.2.11 installiert. Dann noch 2 VMs (Home Assistant &amp; Windows 11 mit Endpoint Central) drauf gespielt und ein paar Ports für Home Assistant durchgereicht.<a href="https://forum.proxmox.com/attachments/2026-09-06_17h23_25-png.99765/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99461-2f69f978ae46fad4982a4f001808d013.jpg?hash=MG3mz-N-UE"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99461-2f69f978ae46fad4982a4f001808d013.jpg?hash=MG3mz-N-UE 2x"
+		class="bbImage "
+		style=""
+		alt="2026-09-06_17h23_25.png"
+		title="2026-09-06_17h23_25.png"
+		width="285" height="150" loading="lazy" /></a> <br />
+Doch leider nach einiger Zeit sind die Netzwerk-Verbindungen zur Proxmox Oberfläche und...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-vms-nicht-erreichbar-lokale-console-hdmi-aber-doch.186230/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>freenas-proxmox has become inoperable with libpve-storage-perl 8.3.7.</title>
+      <pubDate>Sun, 06 Sep 2026 16:38:07 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/freenas-proxmox-has-become-inoperable-with-libpve-storage-perl-8-3-7.169063/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:169063</guid>
+      <author>invalid@example.com (uzumo)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>uzumo</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">freenas-proxmox has become inoperable with libpve-storage-perl 8.3.7.<br />
+<br />
+Until now, we have been using freenas-proxmox to use zfs over iscsi.<br />
+<br />
+<a href="https://github.com/TheGrandWazoo/freenas-proxmox" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://github.com/TheGrandWazoo/freenas-proxmox</a><br />
+<br />
+The recent update included an update to libpve-storage-perl from 8.3.6 to 8.3.7. <br />
+<br />
+After applying this update, the ZFS over iSCSI environment failed to boot. <br />
+<br />
+Rolling back to libpve-storage-perl 8.3.6 restores functionality.<br />
+<br />
+
+
+
+
+<blockquote data-attributes="" data-quote="" data-source=""
+	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
+	
+	<div class="bbCodeBlock-content">
+		
+		<div class="bbCodeBlock-expandContent js-expandContent ">
+			apt list --installed | grep libpve-storage-perl<br />
+apt policy...
+		</div>
+		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
+	</div>
+</blockquote><br />
+<a href="https://forum.proxmox.com/threads/freenas-proxmox-has-become-inoperable-with-libpve-storage-perl-8-3-7.169063/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
+    <item>
+      <title>Storage Issues: ZFS over ISCSI - istgt</title>
+      <pubDate>Sun, 06 Sep 2026 16:36:48 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/storage-issues-zfs-over-iscsi-istgt.174723/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:174723</guid>
+      <author>invalid@example.com (histamineblkr)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>histamineblkr</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><h2 class="bbHeading"><a class="u-anchorTarget" name="-info"></a>Info&#8203;<a class="hoverLink" href="#-info" title="Permanent link"></a></h2><b>PVE</b>: Proxmox 8 - 6.8.12-12-pve<br />
+<b>NAS</b>: FreeBSD 14.3-RELEASE releng/14.3-n271432-8c9ce319fef7 GENERIC amd64<br />
+<b>ISCSI PKG</b>: istgt - Version: 20150713_1<br />
+<br />
+<h3 class="bbHeading"><a class="u-anchorTarget" name="-preface"></a>Preface&#8203;<a class="hoverLink" href="#-preface" title="Permanent link"></a></h3>I am setting up a new PVE. Currently it consists of the pve server and a freebsd server to be used for storage. It is possible I have setup the configs for istgt incorrectly, but the <code class="bbCodeInline">/usr/local/etc/istgt/istgt.conf</code> and <code class="bbCodeInline">/usr/local/etc/istgt/auth.conf</code> are pretty straight forward...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/storage-issues-zfs-over-iscsi-istgt.174723/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>Monitoring of backup jobs and alerting on actual issues</title>
+      <pubDate>Sun, 06 Sep 2026 15:21:39 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/monitoring-of-backup-jobs-and-alerting-on-actual-issues.186229/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186229</guid>
+      <author>invalid@example.com (sbarmen)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>sbarmen</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hey all, I have been playing with the best way of monitoring my backup jobs. The main problem is that I want to reduce the noise, not get &quot;alerts&quot; for &quot;everything is fine&quot;. I hade email reports set up, all fine and well, but it gets very noisy. I even had a local LLM running to get it to alert me when I needed to take action, works OK, but I do not trust it fully. <br />
+<br />
+After discussing and researching I ended up using Uptime Kuma to get a &quot;only notify me when something is wrong&quot; approach. More...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/monitoring-of-backup-jobs-and-alerting-on-actual-issues.186229/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Enable dark mode for virt viewer on windows</title>
+      <pubDate>Sun, 06 Sep 2026 15:03:53 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/enable-dark-mode-for-virt-viewer-on-windows.186228/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186228</guid>
+      <author>invalid@example.com (shodan)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>shodan</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+Thanks to someone on superuser<br />
+I have been able to create a script which enabled darkmode on virtviewer<br />
+<br />
+<a href="https://superuser.com/questions/1940157/how-can-i-enable-dark-mode-in-virt-viewer-on-windows-10/1940176#1940176" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://superuser.com/questions/194...-in-virt-viewer-on-windows-10/1940176#1940176</a><br />
+<br />
+<a href="https://forum.proxmox.com/attachments/1788706860025-png.99761/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99457-d2f1068d82636cccc01fe169d6230df5.jpg?hash=I5C4tNmeSV"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99457-d2f1068d82636cccc01fe169d6230df5.jpg?hash=I5C4tNmeSV 2x"
+		class="bbImage "
+		style=""
+		alt="1788706860025.png"
+		title="1788706860025.png"
+		width="329" height="150" loading="lazy" /></a><br />
+<br />
+before<br />
+<a href="https://forum.proxmox.com/attachments/1788706875054-png.99763/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99459-c81e0ecb28a72ee14ca0cc912f4e2425.jpg?hash=4ouq3P35AL"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99459-c81e0ecb28a72ee14ca0cc912f4e2425.jpg?hash=4ouq3P35AL 2x"
+		class="bbImage "
+		style=""
+		alt="1788706875054.png"
+		title="1788706875054.png"
+		width="219" height="150" loading="lazy" /></a>after<br />
+<br />
+<a href="https://forum.proxmox.com/attachments/1788706865687-png.99762/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99458-e6e14eae205c43ab5c4fa6bacf3940db.jpg?hash=fXnqA6mODi"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99458-e6e14eae205c43ab5c4fa6bacf3940db.jpg?hash=fXnqA6mODi 2x"
+		class="bbImage "
+		style=""
+		alt="1788706865687.png"
+		title="1788706865687.png"
+		width="226" height="150" loading="lazy" /></a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
     <item>
       <title>Increase Score Spam</title>
       <pubDate>Sun, 06 Sep 2026 14:31:52 +0000</pubDate>
@@ -113,25 +427,6 @@ Also tried...<br />
       <slash:comments>4</slash:comments>
     </item>
     <item>
-      <title>FreeBSD CTL support for ZFS-over-iSCSI to replace deprecated ISTGT?</title>
-      <pubDate>Sun, 06 Sep 2026 13:06:32 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/freebsd-ctl-support-for-zfs-over-iscsi-to-replace-deprecated-istgt.186227/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186227</guid>
-      <author>invalid@example.com (no-usernames-left)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>no-usernames-left</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-Of the several various backends PVE supports for ZFS-over-iSCSI, on FreeBSD there is only istgt, which has been largely superseded by ctld since FreeBSD 10.1 (and we&#039;re now on version 15.1) and the end is therefore in sight for istgt.<br />
-<br />
-A <a href="https://www.mail-archive.com/pve-devel@lists.proxmox.com/msg36093.html" target="_blank" class="link link--external" rel="nofollow ugc noopener">patchset</a> was sent to the pve-devel mailing list in April to add support for CTL to Proxmox, but there seems to have been little movement since then.<br />
-<br />
-FreeBSD&#039;s stability and renowned support for ZFS makes it the ideal candidate for a storage...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/freebsd-ctl-support-for-zfs-over-iscsi-to-replace-deprecated-istgt.186227/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
       <title>RAID5 und XFS im Cluster mixen?</title>
       <pubDate>Sun, 06 Sep 2026 12:47:26 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/raid5-und-xfs-im-cluster-mixen.185950/</link>
@@ -171,61 +466,6 @@ This should just have been a warning, not fatal.</div>]]></content:encoded>
       <slash:comments>2</slash:comments>
     </item>
     <item>
-      <title>PBS ZFS disk speed thoughts option</title>
-      <pubDate>Sun, 06 Sep 2026 12:16:56 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pbs-zfs-disk-speed-thoughts-option.185986/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185986</guid>
-      <author>invalid@example.com (AkUsP)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>AkUsP</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello. I&#039;m new here. After 20 years VMware addiciton I&#039;m now sober and saved by the Holy Ch... Proxmox.<br />
-<br />
-After migrating about 20 VM&#039;s from Vware my PBS ran backups @ about 200-300mb/s.<br />
-After migrating my last 5 VM&#039;, that are file servers and have very many many small files. The PBS runns @ about 10 - 20mb/s.<br />
-This is my machine:<br />
-Server: Dell Ryzen Epic Gen1<br />
-Raidcontroller: PERC 740P in mixed HBA mode.<br />
-PBS version: Latest<br />
-PBS installed on HW RAID1 240GB SATA SSD<br />
-PBS Storage 6x 5400rpm SATA...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pbs-zfs-disk-speed-thoughts-option.185986/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>37</slash:comments>
-    </item>
-    <item>
-      <title>ZFS Datapool Error -  How to Access Data from Virtual Machine Disk from Proxmox?</title>
-      <pubDate>Sun, 06 Sep 2026 12:03:41 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/zfs-datapool-error-how-to-access-data-from-virtual-machine-disk-from-proxmox.186225/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186225</guid>
-      <author>invalid@example.com (nikhilbhalwankar)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>nikhilbhalwankar</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I have a JBOD server with below configurationn -&gt;<br />
-<br />
-- I have two datapools. Each are under RAID-5<br />
-- Proxmox VE is installed on the server and these two RAID-5 datapools are attached to it as ZFS shares DATAPOOL-1 and DATAPOOL-2.<br />
-- TrueNAS 13 is installed as a virtual machine over Proxmox VE with three disks attached to it disk1 for OS, disk2 from DATAPOOL-1 for data, disk3 from DATAPOOL-2 for data.<br />
-- I have some issue with DATAPOOL-2. Proxmox is showing below errors <br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>zpool status -v...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/zfs-datapool-error-how-to-access-data-from-virtual-machine-disk-from-proxmox.186225/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
       <title>Unofficial updater script for Proxmox VE (HOST / LXC / VM )</title>
       <pubDate>Sun, 06 Sep 2026 11:22:01 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/unofficial-updater-script-for-proxmox-ve-host-lxc-vm.121733/</link>
@@ -248,191 +488,6 @@ In later version, there will come an...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/unofficial-updater-script-for-proxmox-ve-host-lxc-vm.121733/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>91</slash:comments>
-    </item>
-    <item>
-      <title>Dell R740XD</title>
-      <pubDate>Sun, 06 Sep 2026 11:18:09 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/dell-r740xd.184565/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:184565</guid>
-      <author>invalid@example.com (Symon81)</author>
-      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
-      <dc:creator>Symon81</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Proxmox won&#039;t install... it&#039;s <a href="https://forum.proxmox.com/attachments/%D0%91%D0%B5%D0%B7-%D0%B8%D0%BC%D0%B5%D0%BD%D0%B811-png.98583/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98279-ef73a7c0faf674e447bd62bf0cce0201.jpg?hash=5IchEJJ5hD"
-		srcset="https://forum.proxmox.com/data/attachments/98/2x/98279-ef73a7c0faf674e447bd62bf0cce0201.jpg?hash=5IchEJJ5hD 2x"
-		class="bbImage "
-		style=""
-		alt="Без имени11.png"
-		title="Без имени11.png"
-		width="305" height="150" loading="lazy" /></a>looking for a disk... it&#039;s unclear which disk it&#039;s looking for (ISO).</div>]]></content:encoded>
-      <slash:comments>9</slash:comments>
-    </item>
-    <item>
-      <title>How to make a spam rule</title>
-      <pubDate>Sun, 06 Sep 2026 10:12:30 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/how-to-make-a-spam-rule.185838/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185838</guid>
-      <author>invalid@example.com (ernieek)</author>
-      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
-      <dc:creator>ernieek</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-i want to create a rule that mails with  message-id=&lt;<a href="mailto:autogen-java-xxxx-xxxx-xxxx-xxxx-xxxxxx@google.com">autogen-java-xxxx-xxxx-xxxx-xxxx-xxxxxx@google.com</a>&gt; will be marked as spam.<br />
-<br />
-Any one knows how to do?<br />
-<br />
-kind regards</div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Guest VMs freeze PVE 9.x kernels 6.17.x and 7.0.x HP ProLiant DL380 Gen9 Haswell Chip (E5-2650 v3)</title>
-      <pubDate>Sun, 06 Sep 2026 09:31:00 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/guest-vms-freeze-pve-9-x-kernels-6-17-x-and-7-0-x-hp-proliant-dl380-gen9-haswell-chip-e5-2650-v3.186224/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186224</guid>
-      <author>invalid@example.com (icepicknz)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>icepicknz</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Guest VMs freeze 10-250 s (missed vCPU wakeup) on PVE 9.x kernels 6.17.x and 7.0.x<br />
-on HP ProLiant DL380 Gen9 (Haswell E5-2650 v3) hosts - 6.14.11-x is clean<br />
-=====================================================================================<br />
-<br />
-Summary<br />
--------<br />
-On a 3-node PVE 9.2 cluster of identical HP DL380 Gen9 hosts (2x Xeon E5-2650 v3,<br />
-Haswell, 251 GiB, BIOS P89 11/23/2021, microcode 0x49), guests running on kernel<br />
-6.17.13-x or 7.0.14-x periodically stop executing for 10 s to several...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/guest-vms-freeze-pve-9-x-kernels-6-17-x-and-7-0-x-hp-proliant-dl380-gen9-haswell-chip-e5-2650-v3.186224/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>[Custom tool] Mass VM restore from PBS to PVE - useful for DR, Restoration Assurance ...</title>
-      <pubDate>Sun, 06 Sep 2026 09:16:37 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/custom-tool-mass-vm-restore-from-pbs-to-pve-useful-for-dr-restoration-assurance.186223/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186223</guid>
-      <author>invalid@example.com (robertlukan)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>robertlukan</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I built a small tool called restore-engine for restoring VMs from PBS onto Proxmox VE. It’s got a web UI, can talk to multiple PBS servers, and supports bulk restores plus recovery plans / drills if you want something a bit more structured than clicking restore one by one. Runs as Docker Compose. It’s meant for a lab or management network, not the public internet. Repo is here if anyone wants to try it: <a href="https://github.com/RobertLukan/restore-engine" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://github.com/RobertLukan/restore-engine</a> (MIT). <br />
-<br />
-Fair warning: I wrote a lot...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/custom-tool-mass-vm-restore-from-pbs-to-pve-useful-for-dr-restoration-assurance.186223/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Another v8 to v9 "Help Me" thread - systemd-boot package</title>
-      <pubDate>Sun, 06 Sep 2026 08:46:36 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/another-v8-to-v9-help-me-thread-systemd-boot-package.186201/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186201</guid>
-      <author>invalid@example.com (qupterra)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>qupterra</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi all,<br />
-<br />
-I&#039;m not the most proficient homelabber, so bare with me.<br />
-<br />
-I have a single-node proxmox instance, set up on a single bare metal host, nightly host backups running across to a NAS, so I&#039;m relatively confident I can recover them from a catastrophic failure.<br />
-<br />
-I&#039;ve been reviewing a lot of threads about the systemd-boot error:<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>FAIL: systemd-boot meta-package installed. This will cause problems on upgrades of other boot-related packages. Remove &#039;systemd-boot&#039; See...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/another-v8-to-v9-help-me-thread-systemd-boot-package.186201/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>How to organise WAN access for RPi with proxmox so it can run of mobile hotspot?</title>
-      <pubDate>Sun, 06 Sep 2026 08:15:44 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/how-to-organise-wan-access-for-rpi-with-proxmox-so-it-can-run-of-mobile-hotspot.186161/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186161</guid>
-      <author>invalid@example.com (niall.keller)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>niall.keller</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Assume the following current state:<br />
-* 8GB RPi with proxmox<br />
-* a physical router is used to control network access (allowing access only to a whitelisted hosts, VPN killswitch, adblocking, DoT to upstream resolver, etc)<br />
-* RPi hosts lightweight LXCs from Community scripts (webdav-like for contacts/calendars, git, etc) without WAN access, LAN-only.<br />
-* RPi hosts wireguard server to provide access only to LAN clients (a requirement that came from limitations of connecting clients)<br />
-(*) a...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/how-to-organise-wan-access-for-rpi-with-proxmox-so-it-can-run-of-mobile-hotspot.186161/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>7.0.14-15-pve: amdgpu SMU stops responding on Strix Point (Radeon 890M, KFD workload in LXC) about 3 minutes after boot, GPU reset never completes</title>
-      <pubDate>Sun, 06 Sep 2026 08:12:36 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/7-0-14-15-pve-amdgpu-smu-stops-responding-on-strix-point-radeon-890m-kfd-workload-in-lxc-about-3-minutes-after-boot-gpu-reset-never-completes.186221/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186221</guid>
-      <author>invalid@example.com (vedragan)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>vedragan</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Since proxmox-kernel-7.0.14-15-pve (the 7.0.14+15 CVE cherry-pick release) a node with an AMD Ryzen AI 9 HX 370 / Radeon 890M (Strix Point, 1002:150e rev c1) hangs its GPU about three minutes after boot as soon as an inference workload runs. The workload is llama.cpp and Ollama over ROCm/KFD inside an unprivileged LXC with /dev/dri and /dev/accel bind-mounted. On 7.0.14-14-pve the same node and workload ran for weeks without a single amdgpu error.<br />
-<br />
-<br />
-Sequence on -15 (dmesg, from boot)...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/7-0-14-15-pve-amdgpu-smu-stops-responding-on-strix-point-radeon-890m-kfd-workload-in-lxc-about-3-minutes-after-boot-gpu-reset-never-completes.186221/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE 7 is vulnerable to some type of 0day/RCE non auth</title>
-      <pubDate>Sun, 06 Sep 2026 06:56:45 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-7-is-vulnerable-to-some-type-of-0day-rce-non-auth.186078/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186078</guid>
-      <author>invalid@example.com (pve7bug)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>pve7bug</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Two days ago, my Proxmox VE 7 installation, which was over four years old with the latest updates available up to EOL and only one user (root), was encrypted, and a ransom was demanded for decryption. I searched online for the ransom note and found someone complaining in Chinese about the same thing 1 day ago, which seems to be a wave of some kind of zero-day or RCE without authentication. All the logs were deleted by the attackers. There was an IP address sending requests to a specific...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-7-is-vulnerable-to-some-type-of-0day-rce-non-auth.186078/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>119</slash:comments>
-    </item>
-    <item>
-      <title>How to disable the  mouse grab and use local cursor only for VirtViewer?</title>
-      <pubDate>Sun, 06 Sep 2026 04:16:15 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/how-to-disable-the-mouse-grab-and-use-local-cursor-only-for-virtviewer.186219/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186219</guid>
-      <author>invalid@example.com (mr.hollywood)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>mr.hollywood</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I notice lag, depending on the console &amp; gpu / display type of the VM, when using virtviewer.  It is annoying.  What can I do to fix it?  I would like to use a local cursor.  I&#039;ve tried both tablet input settings, it seemed to help, but I still had notable lag. <br />
-<br />
-I have seen this, and tried implementing it, but no luck.  Maybe I&#039;m doing something wrong?<br />
-<a href="https://wiki.archlinux.org/title/QEMU#Mouse_integration" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://wiki.archlinux.org/title/QEMU#Mouse_integration</a><br />
-it&#039;s a windows 11 VM if that makes a difference!</div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Mouse acceleration bug when using SPICE ? Is there a solution ?</title>
-      <pubDate>Sun, 06 Sep 2026 03:58:34 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/mouse-acceleration-bug-when-using-spice-is-there-a-solution.186202/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186202</guid>
-      <author>invalid@example.com (shodan)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>shodan</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I&#039;m experimenting with noVNC+SPICE and <br />
-when I started using SPICE without enabling the VD agent, I noticed a bug regarding mouse movement acceleration.<br />
-Basically it seems that mouse acceleration was getting doubled.<br />
-<br />
-After I enabled VD agent, the mouse was much better behaved in the SPICE client, but in noVNC the mouse breaks as soon as you set the video driver to SPICE/QXL<br />
-<br />
-Well, I notice that the way that noVNC breaks, looks and feel a LOT like the &quot;double acceleration&quot; mouse bug...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/mouse-acceleration-bug-when-using-spice-is-there-a-solution.186202/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
     </item>
   </channel>
 </rss>
