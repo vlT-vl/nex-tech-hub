@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Linux News</title><item>
+   <title>Ubuntu 26.10 amd64v3 Daily ISOs Now Being Published</title>
+   <link>https://www.phoronix.com/news/Ubuntu-26.10-amd64v3-Daily</link>
+   <guid>https://www.phoronix.com/news/Ubuntu-26.10-amd64v3-Daily</guid>
+   <description>As an interesting development for Ubuntu 26.10, the daily ISOs of the "Stonking Stingray" now include amd64v3 images...</description>
+   <pubDate>Mon, 07 Sep 2026 09:36:20 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
+   <title>Linux Preps For New AMD Zen 6 BTB CTX Isolation Security Feature</title>
+   <link>https://www.phoronix.com/news/Linux-Preps-AMD-BTB-CTX</link>
+   <guid>https://www.phoronix.com/news/Linux-Preps-AMD-BTB-CTX</guid>
+   <description>A recently posted Linux kernel patch has revealed a new security improvement with Zen 6 processors...</description>
+   <pubDate>Mon, 07 Sep 2026 07:55:33 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
    <title>Nouveau Preparations For HDMI 2.1 DSC, AMD HDMI FreeSync Fixes For Linux 7.4</title>
    <link>https://www.phoronix.com/news/Linux-7.4-DRM-Misc-Next-1</link>
    <guid>https://www.phoronix.com/news/Linux-7.4-DRM-Misc-Next-1</guid>
@@ -200,20 +214,6 @@
    <guid>https://www.phoronix.com/news/Ubuntu-26.10-Snapshot-3</guid>
    <description>Released tonight is Ubuntu 26.10 "Stonking Stingray" Snapshot 3 as the newest monthly ISO candidates for Ubuntu Linux...</description>
    <pubDate>Thu, 03 Sep 2026 20:15:30 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>Amazon Linux 2027 Now in Preview: Powered By Linux 7.1, x86-64-v3 &amp; Built With LTO</title>
-   <link>https://www.phoronix.com/news/Amazon-Linux-2027-Preview</link>
-   <guid>https://www.phoronix.com/news/Amazon-Linux-2027-Preview</guid>
-   <description>AWS announced today the public preview of Amazon Linux 2027. Given the time since Amazon Linux 2023, Amazon Linux 2027 comes with a heavy arsenal of software updates as well as many performance optimizations and other tuning for better running workloads geared for the AWS cloud...</description>
-   <pubDate>Thu, 03 Sep 2026 17:13:55 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>Intel Improving Its Content Match Refresh Rate &quot;CMRR&quot; Feature With Linux 7.4</title>
-   <link>https://www.phoronix.com/news/Intel-Graphics-CMRR-Linux-7.4</link>
-   <guid>https://www.phoronix.com/news/Intel-Graphics-CMRR-Linux-7.4</guid>
-   <description>Introduced with the Xe2 Lunar Lake graphics hardware was support for Content Match Refresh Rate (CMRR) as an improvement over typical Variable Refresh Rate (VRR) / Adaptive-Sync to more precisely match the video or content frame rates. Particularly for video playback it aims for no stuttering or frame drops. With the upcoming Linux 7.4 kernel will be better support for CMRR with the Intel graphics driver...</description>
-   <pubDate>Thu, 03 Sep 2026 13:57:03 -0400</pubDate>
    <dc:creator>Michael Larabel</dc:creator>
   </item><item>
    <title>Early Benchmarks Of AMD EPYC On Linux 7.3 Show Some Performance Gains On The Horizon</title>
@@ -716,6 +716,86 @@
 &lt;p&gt;That chain, from production symptom to cross-layer diagnosis to mainline kernel patch, is what enterprise Linux support looks like when the problem isn’t immediately obvious and doesn’t fit a known category.&lt;/p&gt;
 &lt;p&gt;If you want to understand what support from Canonical can bring to complex infrastructure problems, &lt;a href="https://ubuntu.com/support"&gt;visit our support page&lt;/a&gt;, or, &lt;a href="https://ubuntu.com/support/contact-us"&gt;get in touch&lt;/a&gt;.&lt;/p&gt;
 </content:encoded><author>Lidia Luna Puerta (Lidia Luna Puerta)</author><category>Bug-fix support</category><category>Support</category><category>Ubuntu Pro</category><pubDate>Fri, 17 Jul 2026 08:04:51 +0000</pubDate></item><item>
+        <title>Three stable kernels for Monday</title>
+        <link>https://lwn.net/Articles/1092984/</link>
+        <guid>https://lwn.net/Articles/1092984/</guid>
+        <dc:creator>jzb</dc:creator>
+        <description>&lt;p&gt;Greg Kroah-Hartman has announced the release of the &lt;a
+href=&quot;https://lwn.net/Articles/1092985/&quot;&gt;7.2.4&lt;/a&gt;, &lt;a href=&quot;https://lwn.net/Articles/1092986/&quot;&gt;6.18.50&lt;/a&gt;,
+and &lt;a href=&quot;https://lwn.net/Articles/1092987/&quot;&gt;6.12.109&lt;/a&gt; stable kernels. Each contains
+important fixes throughout the tree. Users are advised to upgrade.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+        <pubDate>Mon, 07 Sep 2026 16:50:43 +0000</pubDate>
+        </item><item>
+        <title>[$] Fixing the TCMalloc regression with RSEQ operations</title>
+        <link>https://lwn.net/Articles/1092555/</link>
+        <guid>https://lwn.net/Articles/1092555/</guid>
+        <dc:creator>corbet</dc:creator>
+        <description>The &lt;a href=&quot;https://lwn.net/Articles/697979/&quot;&gt;restartable sequences&lt;/a&gt; feature is one of
+the stranger corners of the kernel's user-space interface; it provides a
+way for user space to carry out simple lockless operations and be informed
+if it is preempted over the course of an operation (and must, thus,
+restart).  Work merged in the 6.19 release to &lt;a
+href=&quot;https://lwn.net/Articles/1033955/&quot;&gt;improve the performance of restartable
+sequences&lt;/a&gt; broke the &lt;a
+href=&quot;https://github.com/google/tcmalloc#tcmalloc&quot;&gt;TCMalloc allocator&lt;/a&gt;,
+which was relying on an undocumented (and unintended) kernel behavior.
+Now, Olivier Dion is &lt;a
+href=&quot;https://lwn.net/ml/all/20260828153349.8061-1-odion@efficios.com&quot;&gt;proposing an
+addition&lt;/a&gt; to the restartable-sequences API that will bring TCMalloc back
+into the fold; it does not make the restartable-sequences API any less
+strange, though.
+</description>
+        <pubDate>Mon, 07 Sep 2026 14:33:43 +0000</pubDate>
+        </item><item>
+        <title>Buildroot 2026.08 released</title>
+        <link>https://lwn.net/Articles/1092913/</link>
+        <guid>https://lwn.net/Articles/1092913/</guid>
+        <dc:creator>jzb</dc:creator>
+        <description>&lt;p&gt;&lt;a
+href=&quot;https://lore.kernel.org/buildroot/878q5hf0yd.fsf@dell.be.48ers.dk/&quot;&gt;Version
+2026.08&lt;/a&gt; of the &lt;a href=&quot;https://buildroot.net/&quot;&gt;Buildroot&lt;/a&gt; embedded Linux
+system builder has been released. Buildroot 2026.08 includes nearly 1,000
+changes from 100 contributors; some of the notable changes include support for
+Linux&amp;#160;7.1.x, Binutils 2.46.1, GCC 16.2.0, glibc 2.44, as well as adding the
+M68K and IBM Power 10/11 architectures.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+        <pubDate>Mon, 07 Sep 2026 13:18:09 +0000</pubDate>
+        </item><item>
+        <title>Security updates for Monday</title>
+        <link>https://lwn.net/Articles/1092911/</link>
+        <guid>https://lwn.net/Articles/1092911/</guid>
+        <dc:creator>jzb</dc:creator>
+        <description>Security updates have been issued by &lt;b&gt;AlmaLinux&lt;/b&gt; (buildah, freerdp, gegl04, go-fdo-client, grafana, grafana-pcp, kernel, and pipewire), &lt;b&gt;Debian&lt;/b&gt; (aom, chromium, libde265, libssh2, thunderbird, and tryton-server), &lt;b&gt;Fedora&lt;/b&gt; (chromium, composer, cosmic-greeter, gegl04, greetd, ibus-table, jss, libheif, lightdm, lxdm, memcached, perl-DBD-Pg, plasma-login-manager, rust-webbrowser, sddm, selinux-policy, slitherer, and tkimg), &lt;b&gt;Mageia&lt;/b&gt; (expat, mingw-expat, mbedtls, microcode, python-linkify-it-py, and tomcat), &lt;b&gt;Oracle&lt;/b&gt; (buildah, container-tools:ol8, dbus-broker, freerdp, go-toolset:ol8, grafana-pcp, kernel, kernel-uek, nodejs24, php, and pipewire), &lt;b&gt;Slackware&lt;/b&gt; (libpcap, libxml2, mozilla-firefox, mozilla-thunderbird, and util-linux), &lt;b&gt;SUSE&lt;/b&gt; (bson-devel, busybox, bzip2, c-ares, cpio, cups-filters, dracut, ffmpeg-7, ffmpeg-8, file-roller, firefox, firefox-esr, glances-common, grafana, hauler, helm, helm3, java-17-openjdk, java-21-openjdk, lcms2, libcupsfilters, libheif, libmsgpack-c2, libsoup, libsoup2, libusb-1_0, libvirt, LibVNCServer, mcphost, ollama, opencode, openssl-1_1, openssl-3, php-composer2, podman, postgresql15, postgresql17, postgresql18, python, python-aiohttp, python-h2, python-sqlparse, python310, rpcbind, sssd, thunderbird, trivy, ucode-intel, and webkit2gtk3), and &lt;b&gt;Ubuntu&lt;/b&gt; (linux, linux-aws, linux-aws-7.0, linux-gcp, linux-gke, linux-hwe-7.0, linux-realtime, linux, linux-aws, linux-fips, linux-kvm, linux-lts-xenial, linux, linux-fips, linux-gcp, linux-gcp-fips, linux-gke, linux-gkeop, linux-nvidia, linux-nvidia-6.8, linux-nvidia-lowlatency, linux-raspi, linux-realtime, linux-realtime-6.8, linux, linux-gcp, linux-gcp-fips, linux-gke, linux-gkeop, linux-hwe-5.15, linux-ibm, linux-ibm-5.15, linux-intel-iot-realtime, linux-lowlatency, linux-lowlatency-hwe-5.15, linux-nvidia, linux-nvidia-tegra, linux-nvidia-tegra-5.15, linux-realtime, linux-aws-5.4, linux-gcp, linux-gcp-5.4, linux-gcp-7.0, linux-oem-7.0, minetest, and miniupnpd).
+</description>
+        <pubDate>Mon, 07 Sep 2026 13:07:27 +0000</pubDate>
+        </item><item>
+        <title>Asahi Linux now supports M3-series Macs</title>
+        <link>https://lwn.net/Articles/1092768/</link>
+        <guid>https://lwn.net/Articles/1092768/</guid>
+        <dc:creator>jzb</dc:creator>
+        <description>&lt;p&gt;The Asahi Linux project has &lt;a
+href=&quot;https://asahilinux.org/2026/09/m2-episode-1/&quot;&gt;announced&lt;/a&gt; that support
+for Apple's M3-series chips has been added to the Asahi installer.&lt;/p&gt;
+
+&lt;blockquote class=&quot;bq&quot;&gt;
+&lt;p&gt;Linux support for M3 series SoCs and the machines powered by them is now in a
+state where &lt;em&gt;almost&lt;/em&gt; everything supported on the M1 and M2 series
+machines just works. This includes the webcam, internal microphones, USB (up to
+the hardware limit of USB 3 10 Gb/s), hardware accelerated video decoding
+&lt;strong&gt;including support for AV1&lt;/strong&gt;, WiFi, Bluetooth, and much more! The
+only major exceptions remain full DCP support and the GPU, which we will have
+more news on in the &lt;a
+href=&quot;https://indico.freedesktop.org/event/12/contributions/532/&quot;&gt;coming
+months&lt;/a&gt;. &lt;strong&gt;Do not expect performant or power-efficient 3D acceleration
+right now.&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;See the blog post for other current limitations of M3 support.&lt;/p&gt;</description>
+        <pubDate>Mon, 07 Sep 2026 12:25:38 +0000</pubDate>
+        </item><item>
         <title>Kernel prepatch 7.3-rc2</title>
         <link>https://lwn.net/Articles/1092757/</link>
         <guid>https://lwn.net/Articles/1092757/</guid>
@@ -873,80 +953,4 @@ creating a steering committee, as well as bootstrapping a Request for Comments
 architectural, and other changes that carry a major impact on the project.&lt;/p&gt;
 </description>
         <pubDate>Wed, 02 Sep 2026 15:03:58 +0000</pubDate>
-        </item><item>
-        <title>Incus 7.4 released</title>
-        <link>https://lwn.net/Articles/1092229/</link>
-        <guid>https://lwn.net/Articles/1092229/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>&lt;p&gt;&lt;a
-href=&quot;https://discuss.linuxcontainers.org/t/incus-7-4-has-been-released/27169&quot;&gt;Version
-7.4&lt;/a&gt; of the Incus container and virtual-machine management system has been
-released. Notable changes in this release include UEFI Secure Boot key
-management, &quot;near-live&quot; migration of containers between Incus instances, as well
-as &lt;span class=&quot;nobreak&quot;&gt;burst I/O&lt;/span&gt; limits for disk and network
-devices.&lt;/p&gt;</description>
-        <pubDate>Wed, 02 Sep 2026 15:03:21 +0000</pubDate>
-        </item><item>
-        <title>Eight stable kernels for Wednesday</title>
-        <link>https://lwn.net/Articles/1092151/</link>
-        <guid>https://lwn.net/Articles/1092151/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>&lt;p&gt;Greg Kroah-Hartman has announced the &lt;a href=&quot;https://lwn.net/Articles/1092153/&quot;&gt;7.2.3&lt;/a&gt;,
-&lt;a href=&quot;https://lwn.net/Articles/1092154/&quot;&gt;7.1.13&lt;/a&gt;, &lt;a
-href=&quot;https://lwn.net/Articles/1092156/&quot;&gt;6.18.49&lt;/a&gt;, &lt;a
-href=&quot;https://lwn.net/Articles/1092157/&quot;&gt;6.12.108&lt;/a&gt;, &lt;a
-href=&quot;https://lwn.net/Articles/1092158/&quot;&gt;6.6.156&lt;/a&gt;, &lt;a href=&quot;https://lwn.net/Articles/1092159/&quot;&gt;6.1.187&lt;/a&gt;,
-&lt;a href=&quot;https://lwn.net/Articles/1092160/&quot;&gt;5.15.220&lt;/a&gt;, and &lt;a
-href=&quot;https://lwn.net/Articles/1092161/&quot;&gt;5.10.269&lt;/a&gt; stable kernels. Each contains a number of
-important fixes throughout the tree. Users are advised to upgrade.&lt;/p&gt;
-
-&lt;p&gt;Note that 7.1.13 is the last of the 7.1 updates&lt;/p&gt;</description>
-        <pubDate>Wed, 02 Sep 2026 13:28:26 +0000</pubDate>
-        </item><item>
-        <title>Security updates for Wednesday</title>
-        <link>https://lwn.net/Articles/1092149/</link>
-        <guid>https://lwn.net/Articles/1092149/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>Security updates have been issued by &lt;b&gt;AlmaLinux&lt;/b&gt; (dbus-broker, freerdp, gegl, gegl04, gimp, gimp:2.8, glib2, grafana, gzip, iperf3, libssh, nodejs22, nodejs24, nodejs:22, nodejs:24, php:7.4, php:8.2, pipewire, ruby:3.3, ruby:4.0, tar, wget, and xmlrpc-c), &lt;b&gt;Debian&lt;/b&gt; (cyrus-imapd, keystone, and lemonldap-ng), &lt;b&gt;Fedora&lt;/b&gt; (bubblewrap, cockpit, emacs, gdk-pixbuf2, openssl, openvkl, python-linkify-it-py, python-llm, and rkcommon), &lt;b&gt;Gentoo&lt;/b&gt; (Chromium, Google Chrome, Microsoft Edge, Opera, Vivaldi), &lt;b&gt;Oracle&lt;/b&gt; (glib2, gzip, mingw-sqlite, nodejs22, xorg-x11-server, and xorg-x11-server-Xwayland), &lt;b&gt;Red Hat&lt;/b&gt; (go-toolset:rhel8, golang, and grafana), &lt;b&gt;Slackware&lt;/b&gt; (pcre2), &lt;b&gt;SUSE&lt;/b&gt; (apache2-mod_auth_openidc, busybox, cups-filters, java-17-openj9, java-1_8_0-openj9, libapr-util1, libgcrypt, python-sqlparse, python3-sqlparse, python313-uv, terraform-provider-aws, terraform-provider-azurerm, terraform-provider-external, terraform-provider-google, terraform-provider-helm, terraform-provider-kubernetes, terraform-provid, ucode-intel, wicked, and yast2-auth-client), and &lt;b&gt;Ubuntu&lt;/b&gt; (libevent, libgcrypt20, ncurses, opencryptoki, pam, pyasn1, rust-sudo-rs, and ubuntu-advantage-tools).
-</description>
-        <pubDate>Wed, 02 Sep 2026 13:16:54 +0000</pubDate>
-        </item><item>
-        <title>A note on subscription prices from LWN</title>
-        <link>https://lwn.net/Articles/1090585/</link>
-        <guid>https://lwn.net/Articles/1090585/</guid>
-        <dc:creator>corbet</dc:creator>
-        <description>The online publication industry, as a whole, is struggling, with challenges
-coming from multiple directions.  Thanks to the support of all of you, our
-readers, LWN would appear to be doing better than most.  But the world has
-changed around us and, in particular, prices have changed considerably.  By
-now, you probably know where this is going: subscription prices at LWN will
-be increasing as of September&amp;#160;15.
-</description>
-        <pubDate>Tue, 01 Sep 2026 18:17:35 +0000</pubDate>
-        </item><item>
-        <title>[$] A pause for the Python JIT</title>
-        <link>https://lwn.net/Articles/1090385/</link>
-        <guid>https://lwn.net/Articles/1090385/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>&lt;p&gt;In 2024 the &lt;a
-href=&quot;https://www.python.org/downloads/release/python-3130/&quot;&gt;Python&amp;#160;3.13&lt;/a&gt;
-release added an &lt;a
-href=&quot;https://docs.python.org/3.13/whatsnew/3.13.html#an-experimental-just-in-time-jit-compiler&quot;&gt;experimental
-just-in-time (JIT) compiler&lt;/a&gt; to optimize the way that CPython executes Python
-code. Since then, work has proceeded on the JIT, albeit perhaps less formally
-than some might like. In June, Python's &lt;a
-href=&quot;https://peps.python.org/pep-0013/#the-steering-council&quot;&gt;steering
-council&lt;/a&gt; (SC) put out an &lt;a
-href=&quot;https://discuss.python.org/t/an-announcement-from-the-steering-council-regarding-the-jit-project/107638&quot;&gt;announcement&lt;/a&gt;
-that no new development on the JIT land (with the exception of bug and security
-fixes) in Python's main branch, until it accepts a &lt;a
-href=&quot;https://peps.python.org/pep-0001&quot;&gt;Python Enhancement Proposal&lt;/a&gt; (PEP)
-that would make the case for the JIT as a supported part of CPython. That has
-led to the creation of &lt;a
-href=&quot;https://peps.python.org/pep-0836/&quot;&gt;PEP&amp;#160;836&lt;/a&gt; (&quot;JIT Go Brrr: The
-Path to a Supported JIT Compiler for CPython&quot;), which is currently under
-discussion. As it stands, it seems likely that work on JIT will continue, but
-when that will happen is less certain.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 01 Sep 2026 14:40:09 +0000</pubDate>
         </item></channel></rss>

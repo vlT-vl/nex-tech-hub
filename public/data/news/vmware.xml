@@ -12,7 +12,7 @@
 	<atom:link href="https://blogs.vmware.com/feed" rel="self" type="application/rss+xml" />
 	<link>https://blogs.vmware.com/</link>
 	<description>VMware Blogs</description>
-	<lastBuildDate>Fri, 04 Sep 2026 01:13:03 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 07 Sep 2026 11:20:11 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -20,6 +20,962 @@
 	1	</sy:updateFrequency>
 	<generator>https://wordpress.org/?v=6.8.8</generator>
 <site xmlns="com-wordpress:feed-additions:1">237817777</site>	<item>
+		<title>Client-Side SDK Generation with VMware Cloud Foundation OpenAPI Specs</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/09/07/client-side-sdk-generation-with-vmware-cloud-foundation-openapi-specs/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Mon, 07 Sep 2026 09:38:44 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10099392</guid>
+
+					<description><![CDATA[<img width="298" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/09/OpenAPI-SDK-Banner.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" fetchpriority="high" /><p>Starting with VMware Cloud Foundation (VCF) 9.0, VMware officially publishes OpenAPI specifications for VCF APIs. This is a major milestone for developers, enabling you to consume VCF APIs using your programming language of choice. VMware provides first-class developer tooling such as VCF PowerCLI for PowerShell users and the VCF SDK offering Java and Python bindings. &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/09/07/client-side-sdk-generation-with-vmware-cloud-foundation-openapi-specs/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/09/07/client-side-sdk-generation-with-vmware-cloud-foundation-openapi-specs/">Client-Side SDK Generation with VMware Cloud Foundation OpenAPI Specs</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="298" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/09/OpenAPI-SDK-Banner.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/09/OpenAPI-SDK-Banner.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/OpenAPI-SDK-Banner.png 2557w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/OpenAPI-SDK-Banner.png?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/OpenAPI-SDK-Banner.png?resize=768,433 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/OpenAPI-SDK-Banner.png?resize=1024,577 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/OpenAPI-SDK-Banner.png?resize=1536,865 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/OpenAPI-SDK-Banner.png?resize=2048,1153 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/OpenAPI-SDK-Banner.png?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/OpenAPI-SDK-Banner.png?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/OpenAPI-SDK-Banner.png?resize=600,338 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+<p>Starting with VMware Cloud Foundation (VCF) 9.0, VMware officially publishes OpenAPI specifications for VCF APIs. This is a major milestone for developers, enabling you to consume VCF APIs using your programming language of choice.</p>
+<p>VMware provides first-class developer tooling such as <strong>VCF PowerCLI</strong> for PowerShell users and the <strong>VCF SDK</strong> offering Java and Python bindings. These out-of-the-box options may not cover all the developers wanting to consume VCF in their preferred programming language. In such scenarios, you can generate custom, strongly-typed API client libraries directly from the published OpenAPI specification.</p>
+<p>This guide walks through the end-to-end process of generating a custom .NET C# API client using <strong>OpenAPI Generator</strong>. Beyond basic CLI usage, we will address real-world edge cases such as handling massive spec sizes and scoping API surfaces.</p>
+<h2 class="wp-block-heading" id="h-openapi-specifications"><strong>OpenAPI Specifications</strong></h2>
+<p>The OpenAPI specification defines an open-source, machine readable, language agnostic API contract. It serves as a single source of truth, documenting API operations, components, and schema details in a machine-readable format. Because the specification is generated once by the API producer, developers can feed that same contract into various generator tools (<strong>OpenAPI Generator</strong>, <strong>Kiota</strong>, <strong>TypeSpec</strong>, or <strong>AutoRest</strong>) to produce native client bindings in their preferred programming language.</p>
+<figure class="wp-block-gallery has-nested-images columns-default is-cropped wp-block-gallery-2 is-layout-flex wp-block-gallery-is-layout-flex">
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6a9e9de8a9adc&quot;}" data-wp-interactive="core/image" class="wp-block-image size-full is-style-default wp-duotone-unset-1 wp-lightbox-container"><img decoding="async" width="2378" height="1120" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" data-id="34165" src="https://blogs.vmware.com/wp-content/uploads/2026/09/OpenAPI.png" alt="OpenAPI Generator" class="wp-image-34165" title="OpenAPI Generator" srcset="https://blogs.vmware.com/wp-content/uploads/2026/09/OpenAPI.png 2378w, https://blogs.vmware.com/wp-content/uploads/2026/09/OpenAPI.png?resize=300,141 300w, https://blogs.vmware.com/wp-content/uploads/2026/09/OpenAPI.png?resize=768,362 768w, https://blogs.vmware.com/wp-content/uploads/2026/09/OpenAPI.png?resize=1024,482 1024w, https://blogs.vmware.com/wp-content/uploads/2026/09/OpenAPI.png?resize=1536,723 1536w, https://blogs.vmware.com/wp-content/uploads/2026/09/OpenAPI.png?resize=2048,965 2048w, https://blogs.vmware.com/wp-content/uploads/2026/09/OpenAPI.png?resize=600,283 600w" sizes="(max-width: 2378px) 100vw, 2378px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button><figcaption class="wp-element-caption">Client-Side Code generation using OpenAPI Generator</figcaption></figure>
+</figure>
+<h2 class="wp-block-heading"><strong>Installing OpenAPI Generator</strong></h2>
+<p><strong>OpenAPI Generator</strong> is a widely adopted, Java-based CLI tool capable of producing client SDKs across dozens of target languages. Because it runs on Java, ensure you have <strong>JRE/JDK 11 or higher</strong> installed on your system (unless you run it via Docker).</p>
+<h3 class="wp-block-heading"><strong>Installation Methods</strong></h3>
+<h3 class="wp-block-heading" id="h-1-node-js-npm-recommended-for-ci-cd-amp-full-stack">1. <strong>Node.js / NPM (Recommended for CI/CD &amp; Full-Stack):</strong></h3>
+<div class="code-card">
+  <button class="copy-btn" type="button" aria-label="Copy code" title="Copy"><br />
+    <svg aria-hidden="true" viewbox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+      <rect x="2" y="2" width="13" height="13" rx="2"></rect>
+    </svg><br />
+    <span class="sr-only">Copy</span><br />
+  </button><br />
+  <textarea class="code-textarea" readonly wrap="off"><br />
+# Global installation<br />
+npm install -g @openapitools/openapi-generator-cli</p>
+<p># Local project dev-dependency<br />
+npm install &#8211;save-dev @openapitools/openapi-generator-cli<br />
+  </textarea>
+</div>
+<style>
+  .code-card{
+    position:relative;
+    background:#2b2b2b;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    max-width:100%;
+  }
+  .code-textarea{
+    width:100%;
+    display:block;
+    background:transparent;
+    color:#fff;
+    border:none;
+    resize:none;                 /* user can't stretch it */
+    padding:14px 48px 14px 14px; /* space for the copy btn */
+    line-height:1.45;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+    font-size:14px;
+    white-space:pre;
+    overflow:auto;               /* scrolls only if needed */
+    outline:none;
+    box-sizing:border-box;       /* include padding in height calc */
+    scrollbar-width:thin; scrollbar-color:#6b6b6b #2b2b2b;
+  }
+  .code-textarea::-webkit-scrollbar{ height:6px; width:8px; }
+  .code-textarea::-webkit-scrollbar-thumb{ background:#6b6b6b; border-radius:4px; }
+  .code-textarea::-webkit-scrollbar-track{ background:#2b2b2b; }</p>
+<p>  .copy-btn{
+    position:absolute; top:8px; right:8px;
+    width:32px; height:32px;
+    display:inline-flex; align-items:center; justify-content:center;
+    background:#3b3b3b; color:#fff;
+    border:1px solid #4a4a4a; border-radius:6px;
+    cursor:pointer; transition:background .15s ease, transform .05s ease;
+  }
+  .copy-btn:hover{ background:#4a4a4a; }
+  .copy-btn:active{ transform:translateY(1px); }
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+</style>
+<p><script>
+(function(){
+  // Auto-size all code textareas to fit content exactly
+  function autosize(ta){
+    ta.style.height = '0px';               // reset first
+    ta.style.height = ta.scrollHeight + 'px';
+  }
+  function initCard(card){
+    const ta = card.querySelector('.code-textarea');
+    autosize(ta);
+    // Recompute on resize (responsive layout/font metrics)
+    window.addEventListener('resize', function(){ autosize(ta); });
+    // Some themes load fonts late—recheck once after paint
+    setTimeout(function(){ autosize(ta); }, 0);
+  }
+  document.querySelectorAll('.code-card').forEach(initCard);</p>
+<p>  // Copy handler (icon turns to a check briefly)
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.code-card .copy-btn');
+    if(!btn) return;
+    const ta = btn.closest('.code-card').querySelector('.code-textarea');
+    const original = btn.innerHTML;
+    const tick = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';</p>
+<p>    function done(){ btn.innerHTML = tick; setTimeout(()=>btn.innerHTML = original, 1200); }
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(ta.value).then(done).catch(function(){ ta.select(); document.execCommand('copy'); done(); });
+    }else{
+      ta.select(); document.execCommand('copy'); done();
+    }
+    window.getSelection().removeAllRanges();
+  });
+})();
+</script></p>
+<h3 class="wp-block-heading" id="h-2-os-package-managers">2. OS Package Managers</h3>
+<div class="code-card">
+  <button class="copy-btn" type="button" aria-label="Copy code" title="Copy"><br />
+    <svg aria-hidden="true" viewbox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+      <rect x="2" y="2" width="13" height="13" rx="2"></rect>
+    </svg><br />
+    <span class="sr-only">Copy</span><br />
+  </button></p>
+<p>  <textarea class="code-textarea" readonly wrap="off"><br />
+# macOS / Linux via Homebrew<br />
+brew install openapi-generator</p>
+<p># Windows via Scoop<br />
+scoop install openapi-generator-cli<br />
+  </textarea>
+</div>
+<style>
+  .code-card{
+    position:relative;
+    background:#2b2b2b;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    max-width:100%;
+  }
+  .code-textarea{
+    width:100%;
+    display:block;
+    background:transparent;
+    color:#fff;
+    border:none;
+    resize:none;                 /* user can't stretch it */
+    padding:14px 48px 14px 14px; /* space for the copy btn */
+    line-height:1.45;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+    font-size:14px;
+    white-space:pre;
+    overflow:auto;               /* scrolls only if needed */
+    outline:none;
+    box-sizing:border-box;       /* include padding in height calc */
+    scrollbar-width:thin; scrollbar-color:#6b6b6b #2b2b2b;
+  }
+  .code-textarea::-webkit-scrollbar{ height:6px; width:8px; }
+  .code-textarea::-webkit-scrollbar-thumb{ background:#6b6b6b; border-radius:4px; }
+  .code-textarea::-webkit-scrollbar-track{ background:#2b2b2b; }</p>
+<p>  .copy-btn{
+    position:absolute; top:8px; right:8px;
+    width:32px; height:32px;
+    display:inline-flex; align-items:center; justify-content:center;
+    background:#3b3b3b; color:#fff;
+    border:1px solid #4a4a4a; border-radius:6px;
+    cursor:pointer; transition:background .15s ease, transform .05s ease;
+  }
+  .copy-btn:hover{ background:#4a4a4a; }
+  .copy-btn:active{ transform:translateY(1px); }
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+</style>
+<p><script>
+(function(){
+  // Auto-size all code textareas to fit content exactly
+  function autosize(ta){
+    ta.style.height = '0px';               // reset first
+    ta.style.height = ta.scrollHeight + 'px';
+  }
+  function initCard(card){
+    const ta = card.querySelector('.code-textarea');
+    autosize(ta);
+    // Recompute on resize (responsive layout/font metrics)
+    window.addEventListener('resize', function(){ autosize(ta); });
+    // Some themes load fonts late—recheck once after paint
+    setTimeout(function(){ autosize(ta); }, 0);
+  }
+  document.querySelectorAll('.code-card').forEach(initCard);</p>
+<p>  // Copy handler (icon turns to a check briefly)
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.code-card .copy-btn');
+    if(!btn) return;
+    const ta = btn.closest('.code-card').querySelector('.code-textarea');
+    const original = btn.innerHTML;
+    const tick = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';</p>
+<p>    function done(){ btn.innerHTML = tick; setTimeout(()=>btn.innerHTML = original, 1200); }
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(ta.value).then(done).catch(function(){ ta.select(); document.execCommand('copy'); done(); });
+    }else{
+      ta.select(); document.execCommand('copy'); done();
+    }
+    window.getSelection().removeAllRanges();
+  });
+})();
+</script></p>
+<h3 class="wp-block-heading" id="h-3-docker">3. Docker</h3>
+<div class="code-card">
+  <button class="copy-btn" type="button" aria-label="Copy code" title="Copy"><br />
+    <svg aria-hidden="true" viewbox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+      <rect x="2" y="2" width="13" height="13" rx="2"></rect>
+    </svg><br />
+    <span class="sr-only">Copy</span><br />
+  </button></p>
+<p>  <textarea class="code-textarea" readonly wrap="off"><br />
+docker pull openapitools/openapi-generator-cli<br />
+  </textarea>
+</div>
+<style>
+  .code-card{
+    position:relative;
+    background:#2b2b2b;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    max-width:100%;
+  }
+  .code-textarea{
+    width:100%;
+    display:block;
+    background:transparent;
+    color:#fff;
+    border:none;
+    resize:none;                 /* user can't stretch it */
+    padding:14px 48px 14px 14px; /* space for the copy btn */
+    line-height:1.45;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+    font-size:14px;
+    white-space:pre;
+    overflow:auto;               /* scrolls only if needed */
+    outline:none;
+    box-sizing:border-box;       /* include padding in height calc */
+    scrollbar-width:thin; scrollbar-color:#6b6b6b #2b2b2b;
+  }
+  .code-textarea::-webkit-scrollbar{ height:6px; width:8px; }
+  .code-textarea::-webkit-scrollbar-thumb{ background:#6b6b6b; border-radius:4px; }
+  .code-textarea::-webkit-scrollbar-track{ background:#2b2b2b; }</p>
+<p>  .copy-btn{
+    position:absolute; top:8px; right:8px;
+    width:32px; height:32px;
+    display:inline-flex; align-items:center; justify-content:center;
+    background:#3b3b3b; color:#fff;
+    border:1px solid #4a4a4a; border-radius:6px;
+    cursor:pointer; transition:background .15s ease, transform .05s ease;
+  }
+  .copy-btn:hover{ background:#4a4a4a; }
+  .copy-btn:active{ transform:translateY(1px); }
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+</style>
+<p><script>
+(function(){
+  // Auto-size all code textareas to fit content exactly
+  function autosize(ta){
+    ta.style.height = '0px';               // reset first
+    ta.style.height = ta.scrollHeight + 'px';
+  }
+  function initCard(card){
+    const ta = card.querySelector('.code-textarea');
+    autosize(ta);
+    // Recompute on resize (responsive layout/font metrics)
+    window.addEventListener('resize', function(){ autosize(ta); });
+    // Some themes load fonts late—recheck once after paint
+    setTimeout(function(){ autosize(ta); }, 0);
+  }
+  document.querySelectorAll('.code-card').forEach(initCard);</p>
+<p>  // Copy handler (icon turns to a check briefly)
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.code-card .copy-btn');
+    if(!btn) return;
+    const ta = btn.closest('.code-card').querySelector('.code-textarea');
+    const original = btn.innerHTML;
+    const tick = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';</p>
+<p>    function done(){ btn.innerHTML = tick; setTimeout(()=>btn.innerHTML = original, 1200); }
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(ta.value).then(done).catch(function(){ ta.select(); document.execCommand('copy'); done(); });
+    }else{
+      ta.select(); document.execCommand('copy'); done();
+    }
+    window.getSelection().removeAllRanges();
+  });
+})();
+</script></p>
+<h3 class="wp-block-heading" id="h-4-standalone-executable-jar">4. Standalone Executable JAR</h3>
+<div class="code-card">
+  <button class="copy-btn" type="button" aria-label="Copy code" title="Copy"><br />
+    <svg aria-hidden="true" viewbox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+      <rect x="2" y="2" width="13" height="13" rx="2"></rect>
+    </svg><br />
+    <span class="sr-only">Copy</span><br />
+  </button></p>
+<p>  <textarea class="code-textarea" readonly wrap="off"><br />
+# Download from Maven Central<br />
+wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/7.4.0/openapi-generator-cli-7.4.0.jar -O openapi-generator-cli.jar</p>
+<p># Run directly<br />
+java -jar openapi-generator-cli.jar generate -i spec.yaml -g csharp -o ./sdk<br />
+  </textarea>
+</div>
+<style>
+  .code-card{
+    position:relative;
+    background:#2b2b2b;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    max-width:100%;
+  }
+  .code-textarea{
+    width:100%;
+    display:block;
+    background:transparent;
+    color:#fff;
+    border:none;
+    resize:none;                 /* user can't stretch it */
+    padding:14px 48px 14px 14px; /* space for the copy btn */
+    line-height:1.45;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+    font-size:14px;
+    white-space:pre;
+    overflow:auto;               /* scrolls only if needed */
+    outline:none;
+    box-sizing:border-box;       /* include padding in height calc */
+    scrollbar-width:thin; scrollbar-color:#6b6b6b #2b2b2b;
+  }
+  .code-textarea::-webkit-scrollbar{ height:6px; width:8px; }
+  .code-textarea::-webkit-scrollbar-thumb{ background:#6b6b6b; border-radius:4px; }
+  .code-textarea::-webkit-scrollbar-track{ background:#2b2b2b; }</p>
+<p>  .copy-btn{
+    position:absolute; top:8px; right:8px;
+    width:32px; height:32px;
+    display:inline-flex; align-items:center; justify-content:center;
+    background:#3b3b3b; color:#fff;
+    border:1px solid #4a4a4a; border-radius:6px;
+    cursor:pointer; transition:background .15s ease, transform .05s ease;
+  }
+  .copy-btn:hover{ background:#4a4a4a; }
+  .copy-btn:active{ transform:translateY(1px); }
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+</style>
+<p><script>
+(function(){
+  // Auto-size all code textareas to fit content exactly
+  function autosize(ta){
+    ta.style.height = '0px';               // reset first
+    ta.style.height = ta.scrollHeight + 'px';
+  }
+  function initCard(card){
+    const ta = card.querySelector('.code-textarea');
+    autosize(ta);
+    // Recompute on resize (responsive layout/font metrics)
+    window.addEventListener('resize', function(){ autosize(ta); });
+    // Some themes load fonts late—recheck once after paint
+    setTimeout(function(){ autosize(ta); }, 0);
+  }
+  document.querySelectorAll('.code-card').forEach(initCard);</p>
+<p>  // Copy handler (icon turns to a check briefly)
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.code-card .copy-btn');
+    if(!btn) return;
+    const ta = btn.closest('.code-card').querySelector('.code-textarea');
+    const original = btn.innerHTML;
+    const tick = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';</p>
+<p>    function done(){ btn.innerHTML = tick; setTimeout(()=>btn.innerHTML = original, 1200); }
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(ta.value).then(done).catch(function(){ ta.select(); document.execCommand('copy'); done(); });
+    }else{
+      ta.select(); document.execCommand('copy'); done();
+    }
+    window.getSelection().removeAllRanges();
+  });
+})();
+</script></p>
+<h2 class="wp-block-heading" id="h-generating-a-net-client-for-vsphere-apis"><strong>Generating a .NET Client for vSphere</strong> APIs</h2>
+<p>To demonstrate client generation for a real vSphere environment, we will target two distinct vSphere endpoints:</p>
+<ol class="wp-block-list">
+<li><strong>vSphere Automation REST API (</strong><strong>/api</strong><strong>):</strong> A modern, resource-oriented REST API for core inventory objects such as virtual machines, datastores, folders, and resource pools.</li>
+<li><strong>Virtual Infrastructure JSON API (</strong><strong>/sdk/vim25</strong><strong>):</strong> A JSON-RPC equivalent of the classic SOAP API endpoint, offering complete API coverage across core vSphere and vSAN capabilities.</li>
+</ol>
+<p>Here is the OpenAPI generator command that will generate the .Net CSharp client SDK for both these API interfaces. </p>
+<div class="code-card">
+  <button class="copy-btn" type="button" aria-label="Copy code" title="Copy"><br />
+    <svg aria-hidden="true" viewbox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+      <rect x="2" y="2" width="13" height="13" rx="2"></rect>
+    </svg><br />
+    <span class="sr-only">Copy</span><br />
+  </button></p>
+<p>  <textarea class="code-textarea" readonly wrap="off"><br />
+_JAVA_OPTIONS=&#8221;-DmaxYamlCodePoints=99999999&#8243; openapi-generator-cli generate<br />
+    -i vsphere-automation-spec.yaml<br />
+    -g csharp<br />
+    -o ./InternalOpenApi<br />
+    -t ./templates/csharp<br />
+    &#8211;additional-properties targetFramework=net8.0,library=restsharp,nullableReferenceTypes=true<br />
+    &#8211;global-property apis=&#8221;CisSession:VcenterDatastore:VcenterFolder:VcenterResourcePool:VcenterVM&#8221;,models,supportingFiles,tests=false<br />
+  </textarea>
+</div>
+<style>
+  .code-card{
+    position:relative;
+    background:#2b2b2b;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    max-width:100%;
+  }
+  .code-textarea{
+    width:100%;
+    display:block;
+    background:transparent;
+    color:#fff;
+    border:none;
+    resize:none;                 /* user can't stretch it */
+    padding:14px 48px 14px 14px; /* space for the copy btn */
+    line-height:1.45;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+    font-size:14px;
+    white-space:pre;
+    overflow:auto;               /* scrolls only if needed */
+    outline:none;
+    box-sizing:border-box;       /* include padding in height calc */
+    scrollbar-width:thin; scrollbar-color:#6b6b6b #2b2b2b;
+  }
+  .code-textarea::-webkit-scrollbar{ height:6px; width:8px; }
+  .code-textarea::-webkit-scrollbar-thumb{ background:#6b6b6b; border-radius:4px; }
+  .code-textarea::-webkit-scrollbar-track{ background:#2b2b2b; }</p>
+<p>  .copy-btn{
+    position:absolute; top:8px; right:8px;
+    width:32px; height:32px;
+    display:inline-flex; align-items:center; justify-content:center;
+    background:#3b3b3b; color:#fff;
+    border:1px solid #4a4a4a; border-radius:6px;
+    cursor:pointer; transition:background .15s ease, transform .05s ease;
+  }
+  .copy-btn:hover{ background:#4a4a4a; }
+  .copy-btn:active{ transform:translateY(1px); }
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+</style>
+<p><script>
+(function(){
+  // Auto-size all code textareas to fit content exactly
+  function autosize(ta){
+    ta.style.height = '0px';               // reset first
+    ta.style.height = ta.scrollHeight + 'px';
+  }
+  function initCard(card){
+    const ta = card.querySelector('.code-textarea');
+    autosize(ta);
+    // Recompute on resize (responsive layout/font metrics)
+    window.addEventListener('resize', function(){ autosize(ta); });
+    // Some themes load fonts late—recheck once after paint
+    setTimeout(function(){ autosize(ta); }, 0);
+  }
+  document.querySelectorAll('.code-card').forEach(initCard);</p>
+<p>  // Copy handler (icon turns to a check briefly)
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.code-card .copy-btn');
+    if(!btn) return;
+    const ta = btn.closest('.code-card').querySelector('.code-textarea');
+    const original = btn.innerHTML;
+    const tick = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';</p>
+<p>    function done(){ btn.innerHTML = tick; setTimeout(()=>btn.innerHTML = original, 1200); }
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(ta.value).then(done).catch(function(){ ta.select(); document.execCommand('copy'); done(); });
+    }else{
+      ta.select(); document.execCommand('copy'); done();
+    }
+    window.getSelection().removeAllRanges();
+  });
+})();
+</script></p>
+<p>Let us understand the command and its provided argument in detail. </p>
+<h3 class="wp-block-heading" id="h-increase-jvm-memory-limits-for-vsphere-openapi-specifications">Increase JVM Memory Limits for vSphere OpenAPI Specifications</h3>
+<p>When parsing enterprise-scale specs, the generator&#8217;s underlying YAML parser (<strong>SnakeYAML</strong>) will crash if the document exceeds its default safety limit (~3 MB of code points).</p>
+<p>To prevent memory limit exceptions, pass the maxYamlCodePoints system property directly to the JVM before invocation:</p>
+<div class="code-card">
+  <button class="copy-btn" type="button" aria-label="Copy code" title="Copy"><br />
+    <svg aria-hidden="true" viewbox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+      <rect x="2" y="2" width="13" height="13" rx="2"></rect>
+    </svg><br />
+    <span class="sr-only">Copy</span><br />
+  </button></p>
+<p>  <textarea class="code-textarea" readonly wrap="off"><br />
+_JAVA_OPTIONS=&#8221;-DmaxYamlCodePoints=99999999&#8243;<br />
+  </textarea>
+</div>
+<style>
+  .code-card{
+    position:relative;
+    background:#2b2b2b;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    max-width:100%;
+  }
+  .code-textarea{
+    width:100%;
+    display:block;
+    background:transparent;
+    color:#fff;
+    border:none;
+    resize:none;                 /* user can't stretch it */
+    padding:14px 48px 14px 14px; /* space for the copy btn */
+    line-height:1.45;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+    font-size:14px;
+    white-space:pre;
+    overflow:auto;               /* scrolls only if needed */
+    outline:none;
+    box-sizing:border-box;       /* include padding in height calc */
+    scrollbar-width:thin; scrollbar-color:#6b6b6b #2b2b2b;
+  }
+  .code-textarea::-webkit-scrollbar{ height:6px; width:8px; }
+  .code-textarea::-webkit-scrollbar-thumb{ background:#6b6b6b; border-radius:4px; }
+  .code-textarea::-webkit-scrollbar-track{ background:#2b2b2b; }</p>
+<p>  .copy-btn{
+    position:absolute; top:8px; right:8px;
+    width:32px; height:32px;
+    display:inline-flex; align-items:center; justify-content:center;
+    background:#3b3b3b; color:#fff;
+    border:1px solid #4a4a4a; border-radius:6px;
+    cursor:pointer; transition:background .15s ease, transform .05s ease;
+  }
+  .copy-btn:hover{ background:#4a4a4a; }
+  .copy-btn:active{ transform:translateY(1px); }
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+</style>
+<p><script>
+(function(){
+  // Auto-size all code textareas to fit content exactly
+  function autosize(ta){
+    ta.style.height = '0px';               // reset first
+    ta.style.height = ta.scrollHeight + 'px';
+  }
+  function initCard(card){
+    const ta = card.querySelector('.code-textarea');
+    autosize(ta);
+    // Recompute on resize (responsive layout/font metrics)
+    window.addEventListener('resize', function(){ autosize(ta); });
+    // Some themes load fonts late—recheck once after paint
+    setTimeout(function(){ autosize(ta); }, 0);
+  }
+  document.querySelectorAll('.code-card').forEach(initCard);</p>
+<p>  // Copy handler (icon turns to a check briefly)
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.code-card .copy-btn');
+    if(!btn) return;
+    const ta = btn.closest('.code-card').querySelector('.code-textarea');
+    const original = btn.innerHTML;
+    const tick = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';</p>
+<p>    function done(){ btn.innerHTML = tick; setTimeout(()=>btn.innerHTML = original, 1200); }
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(ta.value).then(done).catch(function(){ ta.select(); document.execCommand('copy'); done(); });
+    }else{
+      ta.select(); document.execCommand('copy'); done();
+    }
+    window.getSelection().removeAllRanges();
+  });
+})();
+</script></p>
+<h3 class="wp-block-heading" id="h-specify-the-generator-and-targeted-framework">Specify the Generator and Targeted Framework</h3>
+<p>The OpenAPI C# generator supports multiple underlying HTTP clients (such as RestSharp and HttpClient). Here, we target <strong>RestSharp</strong>, pinning the build target to <strong>.NET 8.0</strong> with <strong>nullable reference types</strong> enabled:</p>
+<div class="code-card">
+  <button class="copy-btn" type="button" aria-label="Copy code" title="Copy"><br />
+    <svg aria-hidden="true" viewbox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+      <rect x="2" y="2" width="13" height="13" rx="2"></rect>
+    </svg><br />
+    <span class="sr-only">Copy</span><br />
+  </button></p>
+<p>  <textarea class="code-textarea" readonly wrap="off"><br />
+&#8211;additional-properties targetFramework=net8.0,library=restsharp,nullableReferenceTypes=true<br />
+  </textarea>
+</div>
+<style>
+  .code-card{
+    position:relative;
+    background:#2b2b2b;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    max-width:100%;
+  }
+  .code-textarea{
+    width:100%;
+    display:block;
+    background:transparent;
+    color:#fff;
+    border:none;
+    resize:none;                 /* user can't stretch it */
+    padding:14px 48px 14px 14px; /* space for the copy btn */
+    line-height:1.45;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+    font-size:14px;
+    white-space:pre;
+    overflow:auto;               /* scrolls only if needed */
+    outline:none;
+    box-sizing:border-box;       /* include padding in height calc */
+    scrollbar-width:thin; scrollbar-color:#6b6b6b #2b2b2b;
+  }
+  .code-textarea::-webkit-scrollbar{ height:6px; width:8px; }
+  .code-textarea::-webkit-scrollbar-thumb{ background:#6b6b6b; border-radius:4px; }
+  .code-textarea::-webkit-scrollbar-track{ background:#2b2b2b; }</p>
+<p>  .copy-btn{
+    position:absolute; top:8px; right:8px;
+    width:32px; height:32px;
+    display:inline-flex; align-items:center; justify-content:center;
+    background:#3b3b3b; color:#fff;
+    border:1px solid #4a4a4a; border-radius:6px;
+    cursor:pointer; transition:background .15s ease, transform .05s ease;
+  }
+  .copy-btn:hover{ background:#4a4a4a; }
+  .copy-btn:active{ transform:translateY(1px); }
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+</style>
+<p><script>
+(function(){
+  // Auto-size all code textareas to fit content exactly
+  function autosize(ta){
+    ta.style.height = '0px';               // reset first
+    ta.style.height = ta.scrollHeight + 'px';
+  }
+  function initCard(card){
+    const ta = card.querySelector('.code-textarea');
+    autosize(ta);
+    // Recompute on resize (responsive layout/font metrics)
+    window.addEventListener('resize', function(){ autosize(ta); });
+    // Some themes load fonts late—recheck once after paint
+    setTimeout(function(){ autosize(ta); }, 0);
+  }
+  document.querySelectorAll('.code-card').forEach(initCard);</p>
+<p>  // Copy handler (icon turns to a check briefly)
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.code-card .copy-btn');
+    if(!btn) return;
+    const ta = btn.closest('.code-card').querySelector('.code-textarea');
+    const original = btn.innerHTML;
+    const tick = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';</p>
+<p>    function done(){ btn.innerHTML = tick; setTimeout(()=>btn.innerHTML = original, 1200); }
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(ta.value).then(done).catch(function(){ ta.select(); document.execCommand('copy'); done(); });
+    }else{
+      ta.select(); document.execCommand('copy'); done();
+    }
+    window.getSelection().removeAllRanges();
+  });
+})();
+</script></p>
+<h3 class="wp-block-heading" id="h-trim-the-api-scope-for-sdk-generation">Trim the API Scope for SDK Generation</h3>
+<p>Full product specifications for vSphere describe hundreds of operations. Compiling a massive, monolithic client when your application only needs a fraction of those endpoints inflates build times and produces unnecessarily large binaries.</p>
+<p>Use the &#8211;global-property apis flag to filter generation down to only the specific API groups you require:</p>
+<div class="code-card">
+  <button class="copy-btn" type="button" aria-label="Copy code" title="Copy"><br />
+    <svg aria-hidden="true" viewbox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+      <rect x="2" y="2" width="13" height="13" rx="2"></rect>
+    </svg><br />
+    <span class="sr-only">Copy</span><br />
+  </button></p>
+<p>  <textarea class="code-textarea" readonly wrap="off"><br />
+&#8211;global-property apis=&#8221;CisSession:VcenterDatastore:VcenterFolder:VcenterResourcePool:VcenterVM&#8221;,<br />
+models,supportingFiles,tests=false<br />
+  </textarea>
+</div>
+<style>
+  .code-card{
+    position:relative;
+    background:#2b2b2b;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    max-width:100%;
+  }
+  .code-textarea{
+    width:100%;
+    display:block;
+    background:transparent;
+    color:#fff;
+    border:none;
+    resize:none;                 /* user can't stretch it */
+    padding:14px 48px 14px 14px; /* space for the copy btn */
+    line-height:1.45;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+    font-size:14px;
+    white-space:pre;
+    overflow:auto;               /* scrolls only if needed */
+    outline:none;
+    box-sizing:border-box;       /* include padding in height calc */
+    scrollbar-width:thin; scrollbar-color:#6b6b6b #2b2b2b;
+  }
+  .code-textarea::-webkit-scrollbar{ height:6px; width:8px; }
+  .code-textarea::-webkit-scrollbar-thumb{ background:#6b6b6b; border-radius:4px; }
+  .code-textarea::-webkit-scrollbar-track{ background:#2b2b2b; }</p>
+<p>  .copy-btn{
+    position:absolute; top:8px; right:8px;
+    width:32px; height:32px;
+    display:inline-flex; align-items:center; justify-content:center;
+    background:#3b3b3b; color:#fff;
+    border:1px solid #4a4a4a; border-radius:6px;
+    cursor:pointer; transition:background .15s ease, transform .05s ease;
+  }
+  .copy-btn:hover{ background:#4a4a4a; }
+  .copy-btn:active{ transform:translateY(1px); }
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+</style>
+<p><script>
+(function(){
+  // Auto-size all code textareas to fit content exactly
+  function autosize(ta){
+    ta.style.height = '0px';               // reset first
+    ta.style.height = ta.scrollHeight + 'px';
+  }
+  function initCard(card){
+    const ta = card.querySelector('.code-textarea');
+    autosize(ta);
+    // Recompute on resize (responsive layout/font metrics)
+    window.addEventListener('resize', function(){ autosize(ta); });
+    // Some themes load fonts late—recheck once after paint
+    setTimeout(function(){ autosize(ta); }, 0);
+  }
+  document.querySelectorAll('.code-card').forEach(initCard);</p>
+<p>  // Copy handler (icon turns to a check briefly)
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.code-card .copy-btn');
+    if(!btn) return;
+    const ta = btn.closest('.code-card').querySelector('.code-textarea');
+    const original = btn.innerHTML;
+    const tick = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';</p>
+<p>    function done(){ btn.innerHTML = tick; setTimeout(()=>btn.innerHTML = original, 1200); }
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(ta.value).then(done).catch(function(){ ta.select(); document.execCommand('copy'); done(); });
+    }else{
+      ta.select(); document.execCommand('copy'); done();
+    }
+    window.getSelection().removeAllRanges();
+  });
+})();
+</script></p>
+<h2 class="wp-block-heading"><strong>Project Structure &amp; Application Integration</strong></h2>
+<p>Generating SDKs separately for both the REST API (/api) and the VI/JSON API (/sdk/vim25) produces two clean, independent C# projects. Keeping these bindings in separate packages prevents namespace and class collisions on overlapping entities (e.g., a &#8220;VM&#8221; or &#8220;Folder&#8221; has distinct structural definitions in each spec).</p>
+<h3 class="wp-block-heading"><strong>1. Referencing Projects in </strong><strong>.csproj</strong></h3>
+<p>In your consuming solution, reference both generated output directories as standard project dependencies:</p>
+<div class="code-card">
+  <button class="copy-btn" type="button" aria-label="Copy code" title="Copy"><br />
+    <svg aria-hidden="true" viewbox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+      <rect x="2" y="2" width="13" height="13" rx="2"></rect>
+    </svg><br />
+    <span class="sr-only">Copy</span><br />
+  </button></p>
+<p>  <textarea class="code-textarea" readonly wrap="off"><br />
+<itemgroup>
+  <projectreference include="InternalViJson/src/Vcenter.ViJson.OpenApi/Vcenter.ViJson.OpenApi.csproj" />
+  <projectreference include="InternalOpenApi/src/Vcenter.Automation.OpenApi/Vcenter.Automation.OpenApi.csproj" />
+</itemgroup><br />
+  </textarea>
+</div>
+<style>
+  .code-card{
+    position:relative;
+    background:#2b2b2b;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    max-width:100%;
+  }
+  .code-textarea{
+    width:100%;
+    display:block;
+    background:transparent;
+    color:#fff;
+    border:none;
+    resize:none;                 /* user can't stretch it */
+    padding:14px 48px 14px 14px; /* space for the copy btn */
+    line-height:1.45;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+    font-size:14px;
+    white-space:pre;
+    overflow:auto;               /* scrolls only if needed */
+    outline:none;
+    box-sizing:border-box;       /* include padding in height calc */
+    scrollbar-width:thin; scrollbar-color:#6b6b6b #2b2b2b;
+  }
+  .code-textarea::-webkit-scrollbar{ height:6px; width:8px; }
+  .code-textarea::-webkit-scrollbar-thumb{ background:#6b6b6b; border-radius:4px; }
+  .code-textarea::-webkit-scrollbar-track{ background:#2b2b2b; }</p>
+<p>  .copy-btn{
+    position:absolute; top:8px; right:8px;
+    width:32px; height:32px;
+    display:inline-flex; align-items:center; justify-content:center;
+    background:#3b3b3b; color:#fff;
+    border:1px solid #4a4a4a; border-radius:6px;
+    cursor:pointer; transition:background .15s ease, transform .05s ease;
+  }
+  .copy-btn:hover{ background:#4a4a4a; }
+  .copy-btn:active{ transform:translateY(1px); }
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+</style>
+<p><script>
+(function(){
+  // Auto-size all code textareas to fit content exactly
+  function autosize(ta){
+    ta.style.height = '0px';               // reset first
+    ta.style.height = ta.scrollHeight + 'px';
+  }
+  function initCard(card){
+    const ta = card.querySelector('.code-textarea');
+    autosize(ta);
+    // Recompute on resize (responsive layout/font metrics)
+    window.addEventListener('resize', function(){ autosize(ta); });
+    // Some themes load fonts late—recheck once after paint
+    setTimeout(function(){ autosize(ta); }, 0);
+  }
+  document.querySelectorAll('.code-card').forEach(initCard);</p>
+<p>  // Copy handler (icon turns to a check briefly)
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.code-card .copy-btn');
+    if(!btn) return;
+    const ta = btn.closest('.code-card').querySelector('.code-textarea');
+    const original = btn.innerHTML;
+    const tick = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';</p>
+<p>    function done(){ btn.innerHTML = tick; setTimeout(()=>btn.innerHTML = original, 1200); }
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(ta.value).then(done).catch(function(){ ta.select(); document.execCommand('copy'); done(); });
+    }else{
+      ta.select(); document.execCommand('copy'); done();
+    }
+    window.getSelection().removeAllRanges();
+  });
+})();
+</script></p>
+<h3 class="wp-block-heading" id="h-2-calling-apis-from-generated-client-sdk">2. Calling APIs from generated Client SDK</h3>
+<p>Since you have generated SDKs offerring API bindings you can interact with the APIs in your application code with strongly-typed C# classes and methods. Here is the sample code usage from the generated SDK.</p>
+<div class="code-card">
+  <button class="copy-btn" type="button" aria-label="Copy code" title="Copy"><br />
+    <svg aria-hidden="true" viewbox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+      <rect x="2" y="2" width="13" height="13" rx="2"></rect>
+    </svg><br />
+    <span class="sr-only">Copy</span><br />
+  </button></p>
+<p>  <textarea class="code-textarea" readonly wrap="off"><br />
+using Vcenter.Automation.OpenApi.Api;<br />
+using Vcenter.Automation.OpenApi.Client;</p>
+<p>// Initialize configuration and client session<br />
+var config = new Configuration { Host = &#8220;https://vcenter.local/api&#8221; };<br />
+var sessionApi = new CisSessionApi(config);</p>
+<p>// Application logic uses clean, strongly-typed operations<br />
+var vmApi = new VcenterVMApi(config);<br />
+var vmList = await vmApi.ListAsync();<br />
+  </textarea>
+</div>
+<style>
+  .code-card{
+    position:relative;
+    background:#2b2b2b;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    max-width:100%;
+  }
+  .code-textarea{
+    width:100%;
+    display:block;
+    background:transparent;
+    color:#fff;
+    border:none;
+    resize:none;                 /* user can't stretch it */
+    padding:14px 48px 14px 14px; /* space for the copy btn */
+    line-height:1.45;
+    font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+    font-size:14px;
+    white-space:pre;
+    overflow:auto;               /* scrolls only if needed */
+    outline:none;
+    box-sizing:border-box;       /* include padding in height calc */
+    scrollbar-width:thin; scrollbar-color:#6b6b6b #2b2b2b;
+  }
+  .code-textarea::-webkit-scrollbar{ height:6px; width:8px; }
+  .code-textarea::-webkit-scrollbar-thumb{ background:#6b6b6b; border-radius:4px; }
+  .code-textarea::-webkit-scrollbar-track{ background:#2b2b2b; }</p>
+<p>  .copy-btn{
+    position:absolute; top:8px; right:8px;
+    width:32px; height:32px;
+    display:inline-flex; align-items:center; justify-content:center;
+    background:#3b3b3b; color:#fff;
+    border:1px solid #4a4a4a; border-radius:6px;
+    cursor:pointer; transition:background .15s ease, transform .05s ease;
+  }
+  .copy-btn:hover{ background:#4a4a4a; }
+  .copy-btn:active{ transform:translateY(1px); }
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+</style>
+<p><script>
+(function(){
+  // Auto-size all code textareas to fit content exactly
+  function autosize(ta){
+    ta.style.height = '0px';               // reset first
+    ta.style.height = ta.scrollHeight + 'px';
+  }
+  function initCard(card){
+    const ta = card.querySelector('.code-textarea');
+    autosize(ta);
+    // Recompute on resize (responsive layout/font metrics)
+    window.addEventListener('resize', function(){ autosize(ta); });
+    // Some themes load fonts late—recheck once after paint
+    setTimeout(function(){ autosize(ta); }, 0);
+  }
+  document.querySelectorAll('.code-card').forEach(initCard);</p>
+<p>  // Copy handler (icon turns to a check briefly)
+  document.addEventListener('click', function(e){
+    const btn = e.target.closest('.code-card .copy-btn');
+    if(!btn) return;
+    const ta = btn.closest('.code-card').querySelector('.code-textarea');
+    const original = btn.innerHTML;
+    const tick = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';</p>
+<p>    function done(){ btn.innerHTML = tick; setTimeout(()=>btn.innerHTML = original, 1200); }
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(ta.value).then(done).catch(function(){ ta.select(); document.execCommand('copy'); done(); });
+    }else{
+      ta.select(); document.execCommand('copy'); done();
+    }
+    window.getSelection().removeAllRanges();
+  });
+})();
+</script></p>
+<h2 class="wp-block-heading"><strong>Conclusion</strong></h2>
+<p>Publishing complete OpenAPI specifications marks a pivotal shift in how enterprise private clouds are managed. Rather than treating VMware Cloud Foundation as a series of isolated control panels or limiting integration to pre-selected SDK languages, VCF becomes a fully <strong>programmable infrastructure platform</strong>.</p>
+<p>By publishing OpenAPI contracts, VCF establishes an <strong>API-first paradigm</strong> where the specification itself is the single source of truth. Whether your developer teams build in <strong>C#, Go, Rust, TypeScript, or Swift</strong>, language choice is no longer a blocker. If a language compiler or HTTP stack exists, client code can be generated in seconds.</p>
+<p>The end result is an agile, friction-free developer experience. Whether you&#8217;re managing multi-tenant clouds, automating internal platforms, or building custom orchestration tools, OpenAPI specifications ensure VMware Cloud Foundation can be extended, integrated, and consumed seamlessly from <strong>any programming language interface</strong>.</p>
+<h2 class="wp-block-heading">Resources</h2>
+<ul class="wp-block-list">
+<li><a href="https://github.com/vmware/vcf-api-specs/tree/main/specifications">OpenAPI Specifications</a></li>
+<li><a href="https://github.com/jpurohit92/vcf-sdk-dotnet">Github Repository &#8211; Sample csharp project</a> </li>
+<li><a href="https://blogs.vmware.com/cloud-foundation/2026/05/25/unlocking-the-full-potential-of-programmable-infrastructure-with-vmware-cloud-foundation-9-1-new-features-and-capabilities/">Unlocking the Full Potential of Programmable Infrastructure with VMware Cloud Foundation 9.1 – New Features and Capabilities</a> </li>
+</ul>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/09/07/client-side-sdk-generation-with-vmware-cloud-foundation-openapi-specs/">Client-Side SDK Generation with VMware Cloud Foundation OpenAPI Specs</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/09/07/client-side-sdk-generation-with-vmware-cloud-foundation-openapi-specs/">Client-Side SDK Generation with VMware Cloud Foundation OpenAPI Specs</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10099392</post-id>	</item>
+		<item>
 		<title>A Unified Data Architecture For Sovereign Agentic AI With VMware Tanzu And VMware vSAN</title>
 		<link>https://blogs.vmware.com/tanzu/a-unified-data-architecture-for-sovereign-agentic-ai-with-vmware-tanzu-and-vmware-vsan/</link>
 		
@@ -31,7 +987,7 @@
 					<description><![CDATA[<p>By combining VMware Tanzu Greenplum with VMware vSAN, organizations can bring their AI compute directly to their data storage layer for improved cost and latency. The post A Unified Data Architecture For Sovereign Agentic AI With VMware Tanzu And VMware vSAN appeared first on Tanzu.</p>
 <p>The post <a href="https://blogs.vmware.com/tanzu/a-unified-data-architecture-for-sovereign-agentic-ai-with-vmware-tanzu-and-vmware-vsan/">A Unified Data Architecture For Sovereign Agentic AI With VMware Tanzu And VMware vSAN</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
-										<content:encoded><![CDATA[<div><img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/09/illus-ai-ai-ml-orchestrator-whtbg-2.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2026/08/illus-ai-ai-ml-orchestrator-whtbg-2.png 5334w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2026/08/illus-ai-ai-ml-orchestrator-whtbg-2.png?resize=300,150 300w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2026/08/illus-ai-ai-ml-orchestrator-whtbg-2.png?resize=768,384 768w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2026/08/illus-ai-ai-ml-orchestrator-whtbg-2.png?resize=1024,512 1024w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2026/08/illus-ai-ai-ml-orchestrator-whtbg-2.png?resize=1536,768 1536w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2026/08/illus-ai-ai-ml-orchestrator-whtbg-2.png?resize=2048,1024 2048w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2026/08/illus-ai-ai-ml-orchestrator-whtbg-2.png?resize=600,300 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+										<content:encoded><![CDATA[<div><img loading="lazy" width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/09/illus-ai-ai-ml-orchestrator-whtbg-2.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2026/08/illus-ai-ai-ml-orchestrator-whtbg-2.png 5334w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2026/08/illus-ai-ai-ml-orchestrator-whtbg-2.png?resize=300,150 300w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2026/08/illus-ai-ai-ml-orchestrator-whtbg-2.png?resize=768,384 768w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2026/08/illus-ai-ai-ml-orchestrator-whtbg-2.png?resize=1024,512 1024w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2026/08/illus-ai-ai-ml-orchestrator-whtbg-2.png?resize=1536,768 1536w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2026/08/illus-ai-ai-ml-orchestrator-whtbg-2.png?resize=2048,1024 2048w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2026/08/illus-ai-ai-ml-orchestrator-whtbg-2.png?resize=600,300 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
 <p>By combining VMware Tanzu Greenplum with VMware vSAN, organizations can bring their AI compute directly to their data storage layer for improved cost and latency.</p>
 <p>The post <a href="https://blogs.vmware.com/tanzu/a-unified-data-architecture-for-sovereign-agentic-ai-with-vmware-tanzu-and-vmware-vsan/">A Unified Data Architecture For Sovereign Agentic AI With VMware Tanzu And VMware vSAN</a> appeared first on <a href="https://blogs.vmware.com/tanzu">Tanzu</a>.</p><p>The post <a href="https://blogs.vmware.com/tanzu/a-unified-data-architecture-for-sovereign-agentic-ai-with-vmware-tanzu-and-vmware-vsan/">A Unified Data Architecture For Sovereign Agentic AI With VMware Tanzu And VMware vSAN</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></content:encoded>
@@ -48,10 +1004,10 @@
 				<category><![CDATA[Cloud Infrastructure]]></category>
 		<guid isPermaLink="false">https://blogs.vmware.com/?p=10098847</guid>
 
-					<description><![CDATA[<img width="300" height="164" src="https://blogs.vmware.com/wp-content/uploads/2026/09/vmw-pro-cloud-4b.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>Public clouds have upped the ante when it comes to what we expect from private cloud solutions. Our smartphones and fast access to public cloud resources have conditioned us to expect instant access to what we need when we need it.  Anything less feels antiquated and cumbersome, leaving your business users frustrated and disenchanted. To &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/09/03/get-to-vmware-cloud-foundation-faster-with-vmware-pro-cloud-services/">Continued</a></p>
+					<description><![CDATA[<img width="300" height="164" src="https://blogs.vmware.com/wp-content/uploads/2026/09/vmw-pro-cloud-4b.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Public clouds have upped the ante when it comes to what we expect from private cloud solutions. Our smartphones and fast access to public cloud resources have conditioned us to expect instant access to what we need when we need it.  Anything less feels antiquated and cumbersome, leaving your business users frustrated and disenchanted. To &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/09/03/get-to-vmware-cloud-foundation-faster-with-vmware-pro-cloud-services/">Continued</a></p>
 <p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/09/03/get-to-vmware-cloud-foundation-faster-with-vmware-pro-cloud-services/">Get to VMware Cloud Foundation Faster with VMware Pro Cloud Services</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
-										<content:encoded><![CDATA[<img width="300" height="164" src="https://blogs.vmware.com/wp-content/uploads/2026/09/vmw-pro-cloud-4b.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="165" src="https://blogs.vmware.com/wp-content/uploads/2026/09/vmw-pro-cloud-4b.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/06/vmw-pro-cloud-4b.png 640w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/06/vmw-pro-cloud-4b.png?resize=300,165 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/06/vmw-pro-cloud-4b.png?resize=600,329 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+										<content:encoded><![CDATA[<img width="300" height="164" src="https://blogs.vmware.com/wp-content/uploads/2026/09/vmw-pro-cloud-4b.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="165" src="https://blogs.vmware.com/wp-content/uploads/2026/09/vmw-pro-cloud-4b.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/06/vmw-pro-cloud-4b.png 640w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/06/vmw-pro-cloud-4b.png?resize=300,165 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/06/vmw-pro-cloud-4b.png?resize=600,329 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
 <p>Public clouds have upped the ante when it comes to what we expect from private cloud solutions. Our smartphones and fast access to public cloud resources have conditioned us to expect instant access to what we need when we need it.  Anything less feels antiquated and cumbersome, leaving your business users frustrated and disenchanted. To meet these heightened expectations, you need to get your VMware Cloud Foundation (VCF) up, running, and integrated into your ecosystem quickly to deliver a public cloud experience on-premises.</p>
 <div class="wp-block-columns is-layout-flex wp-container-core-columns-is-layout-9d6595d7 wp-block-columns-is-layout-flex">
 <div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:66.66%">
@@ -685,108 +1641,5 @@
 		
 		
 		<post-id xmlns="com-wordpress:feed-additions:1">10098641</post-id>	</item>
-		<item>
-		<title>VMware Explore 2026 in Las Vegas &#124; Day 2 Recap</title>
-		<link>https://blogs.vmware.com/explore/vmware-explore-2026-las-vegas-recap-day2/</link>
-		
-		<dc:creator><![CDATA[ashley woodbury]]></dc:creator>
-		<pubDate>Wed, 02 Sep 2026 00:03:09 +0000</pubDate>
-				<category><![CDATA[Company]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10098561</guid>
-
-					<description><![CDATA[<img width="300" height="199" src="https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0963.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>VMware Explore 2026 in Las Vegas Day 2 Recap &#124; September 1, 2026 Welcome to VMware Explore 2026, where thousands of explorers have gathered at the Venetian Convention and Expo Center to harness the power of private cloud. Reporting live from Nevada, here’s your recap of Day 2. Catch All the News of the Day &#8230; <a href="https://blogs.vmware.com/explore/vmware-explore-2026-las-vegas-recap-day2/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/explore/vmware-explore-2026-las-vegas-recap-day2/">VMware Explore 2026 in Las Vegas | Day 2 Recap</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="199" src="https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0963.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0963.jpg" class="attachment-medium size-medium wp-post-image" alt="Surprise and Delight with attendees at the Welcome Reception at VMware Explore 2026 in Las Vegas" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF0963.jpg 800w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF0963.jpg?resize=300,200 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF0963.jpg?resize=768,512 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF0963.jpg?resize=600,400 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<h1 class="wp-block-heading has-text-align-center" id="h-vmware-explore-2026-in-las-vegas" style="font-size:32px"><strong>VMware Explore 2026 in Las Vegas</strong></h1>
-<h2 class="wp-block-heading has-text-align-center" id="h-day-2-recap-september-1-2026">Day 2 Recap | <strong>September 1, 2026</strong></h2>
-<p class="has-text-align-left"><strong>Welcome to VMware Explore 2026, where thousands of explorers have gathered at the Venetian Convention and Expo Center to harness the power of private cloud. Reporting live from Nevada, here’s your recap of </strong><a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.day=20260901" target="_blank" rel="noreferrer noopener"><strong>Day 2</strong></a><strong><strong>.</strong></strong></p>
-<p class="has-text-align-left">
-<div class="wp-block-image is-style-default">
-<figure class="aligncenter size-large"><img loading="lazy" decoding="async" width="800" height="482" src="https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF1030.jpg" alt="Tuesday Sep 1 agenda at the VMware by Broadcom Booth at VMware Explore in Las Vegas" class="wp-image-8066" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF1030.jpg 800w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF1030.jpg?resize=300,181 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF1030.jpg?resize=768,463 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF1030.jpg?resize=600,362 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-</div>
-<div class="wp-block-image">
-<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="616" height="40" src="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Wavy-Line-Divider-Straight-Top.png?w=616" alt="Divider Line - Spicy color" class="wp-image-4160" style="width:840px;height:auto" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Wavy-Line-Divider-Straight-Top.png 616w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Wavy-Line-Divider-Straight-Top.png?resize=300,19 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Wavy-Line-Divider-Straight-Top.png?resize=600,39 600w" sizes="auto, (max-width: 616px) 100vw, 616px" /></figure>
-</div>
-<div style="height:27px" aria-hidden="true" class="wp-block-spacer"></div>
-<h2 class="wp-block-heading has-text-align-center"><strong>Catch All the News of the Day in the Explore 2026 Media Kit</strong></h2>
-</p>
-<div class="wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-16018d1d wp-block-buttons-is-layout-flex">
-<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-text-color has-background has-link-color wp-element-button" href="https://www.broadcom.com/company/news/resources/media-kits/vmware-explore-2026-las-vegas" style="background-color:#1d428a" target="_blank" rel="noreferrer noopener"><strong>NEWS AND ANNOUNCEMENTS</strong></a></div>
-</div>
-<div style="height:39px" aria-hidden="true" class="wp-block-spacer"></div>
-<div class="wp-block-image">
-<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="616" height="39" src="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Wavy-Line-Divider-Straight-Bottom.png?w=616" alt="Divider Line - Spicy color" class="wp-image-4159" style="width:840px;height:auto" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Wavy-Line-Divider-Straight-Bottom.png 616w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Wavy-Line-Divider-Straight-Bottom.png?resize=300,19 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Wavy-Line-Divider-Straight-Bottom.png?resize=600,38 600w" sizes="auto, (max-width: 616px) 100vw, 616px" /></figure>
-</div>
-<h2 class="wp-block-heading has-text-align-center" id="h-welcome-reception-highlight-s"><strong><strong>Welcome Reception Highlight</strong></strong>s</h2>
-<p>Last night’s Welcome Reception kept the energy high—complete with exciting giveaways, networking opportunities, and plenty of food and drinks. In fact, we served over 1,600 Fat Tire Classic Ales by New Belgium Brewing Company, who was featured in our plenary session. We’re pretty sure that’s a record!</p>
-</p>
-<figure class="wp-block-gallery aligncenter has-nested-images columns-default is-cropped wp-block-gallery-1 is-layout-flex wp-block-gallery-is-layout-flex">
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="800" height="533" data-id="8094" src="https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0924.jpg" alt="F&amp;B at the Welcome Reception at VMware Explore" class="wp-image-8094" srcset="https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0924.jpg 800w, https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0924.jpg?resize=300,200 300w, https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0924.jpg?resize=768,512 768w, https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0924.jpg?resize=600,400 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="800" height="533" data-id="8103" src="https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0954.jpg" alt="F&amp;B fat tires at the Welcome Reception at VMware Explore" class="wp-image-8103" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF0954.jpg 800w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF0954.jpg?resize=300,200 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF0954.jpg?resize=768,512 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF0954.jpg?resize=600,400 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="800" height="533" data-id="8092" src="https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0890.jpg" alt="Fun and games with attendees at the Welcome Reception at VMware Explore 2026 in Las Vegas" class="wp-image-8092" srcset="https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0890.jpg 800w, https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0890.jpg?resize=300,200 300w, https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0890.jpg?resize=768,512 768w, https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0890.jpg?resize=600,400 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="800" height="533" data-id="8096" src="https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0971.jpg" alt="Surprise and Delight with attendees at the Welcome Reception at VMware Explore 2026 in Las Vegas outside of The Hub" class="wp-image-8096" srcset="https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0971.jpg 800w, https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0971.jpg?resize=300,200 300w, https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0971.jpg?resize=768,512 768w, https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0971.jpg?resize=600,400 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="800" height="533" data-id="8090" src="https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0866.jpg" alt="Surprise and Delight at the Welcome Reception at VMware Explore 2026 in Las Vegas" class="wp-image-8090" srcset="https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0866.jpg 800w, https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0866.jpg?resize=300,200 300w, https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0866.jpg?resize=768,512 768w, https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF0866.jpg?resize=600,400 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-</figure>
-<hr class="wp-block-separator has-alpha-channel-opacity" />
-<h2 class="wp-block-heading has-text-align-center" id="h-highlights-from-the-hackathon">Highlights from the <strong>Hackathon</strong></h2>
-<p class="has-text-align-left">The <a href="https://blogs.vmware.com/code/2026/06/26/vmwarecode-hackathon-for-explore-las-vegas/" target="_blank" rel="noreferrer noopener"><strong>VMware {code} Hackathon</strong></a> challenged data-center automators to push boundaries through intense competition and strategic collaboration last night. In comparison to previous years, the event shifted focus from traditional coding contests to leveraging the collective power of people and AI. Teams rallied together, combined their unique technical skills, and engaged in spirited rivalry to solve complex problems, showcasing the true power of community-driven innovation.</p>
-<div class="wp-block-image">
-<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="800" height="374" src="https://blogs.vmware.com/wp-content/uploads/2026/09/Image_20260901_130455_270.jpeg" alt="Attendees at the Hackathon at VMware Explore in Las Vegas" class="wp-image-8108" style="width:823px;height:auto" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/Image_20260901_130455_270.jpeg 800w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/Image_20260901_130455_270.jpeg?resize=300,140 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/Image_20260901_130455_270.jpeg?resize=768,359 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/Image_20260901_130455_270.jpeg?resize=600,281 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-</div>
-<div class="wp-block-columns is-layout-flex wp-container-core-columns-is-layout-9d6595d7 wp-block-columns-is-layout-flex">
-<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:50%">
-<div class="wp-block-image">
-<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" height="1024" width="776" src="https://blogs.vmware.com/wp-content/uploads/2026/09/Image_20260901_130523_379.jpeg" alt="Robot at the Hackathon at VMware Explore in Las Vegas" class="wp-image-8109" style="width:219px;height:auto" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/Image_20260901_130523_379.jpeg 800w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/Image_20260901_130523_379.jpeg?resize=227,300 227w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/Image_20260901_130523_379.jpeg?resize=768,1013 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/Image_20260901_130523_379.jpeg?resize=776,1024 776w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/Image_20260901_130523_379.jpeg?resize=600,791 600w" sizes="auto, (max-width: 776px) 100vw, 776px" /></figure>
-</div>
-</div>
-<div class="wp-block-column is-vertically-aligned-center is-layout-flow wp-block-column-is-layout-flow" style="flex-basis:50%">
-<div class="wp-block-image">
-<figure class="aligncenter size-large"><img loading="lazy" decoding="async" width="800" height="600" src="https://blogs.vmware.com/wp-content/uploads/2026/09/Image_20260901_130454_807.jpeg" alt="Attendees at the Hackathon at VMware Explore in Las Vegas" class="wp-image-8107" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/Image_20260901_130454_807.jpeg 800w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/Image_20260901_130454_807.jpeg?resize=300,225 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/Image_20260901_130454_807.jpeg?resize=768,576 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/Image_20260901_130454_807.jpeg?resize=600,450 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-</div>
-</div>
-</div>
-<hr class="wp-block-separator has-alpha-channel-opacity" />
-<h2 class="wp-block-heading has-text-align-center" id="h-d-eep-dive-vmware-cloud-foundation-amp-career-growth"><strong>D<strong>eep Dive: VMware Cloud Foundation &amp; Career Growth</strong></strong></h2>
-<p>One of the hottest topics today was <a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.sessioncatalogtabs=1747347809815001igUo&amp;search=%229.1%22" target="_blank" rel="noreferrer noopener"><strong>VMware Cloud Foundation (VCF) 9.1</strong></a>. Explorers got expert insights into the latest features. Pair that with a strong lineup of Hands-on Labs, Expert-led Workshops, Meet the Expert Roundtables (below), and certification exams, and it’s clear that Explore isn’t just about seeing what’s new, it’s about building the skills that drive your career forward.</p>
-<div class="wp-block-image is-style-default">
-<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="800" height="533" src="https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF1050.jpg" alt="Attendees interacting at the Meet the Expert Roundtables at VMware Explore in Las Vegas" class="wp-image-8069" style="width:731px;height:auto" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF1050.jpg 800w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF1050.jpg?resize=300,200 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF1050.jpg?resize=768,512 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF1050.jpg?resize=600,400 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-</div>
-<div class="wp-block-group">
-<div class="wp-block-group__inner-container is-layout-constrained wp-block-group-is-layout-constrained"></div>
-</div>
-<hr class="wp-block-separator has-alpha-channel-opacity" />
-<h2 class="wp-block-heading has-text-align-center" id="h-partner-highlights"><strong>Partner Highlights</strong></h2>
-<p>Our partner presence made waves on Day 2, starting with the exclusive Resell, Distributor, and Professional Services Partner Keynote. Looking for more? <a href="https://event.vmware.com/flow/vmware/explore2026lv/content/page/catalog?tab.day=20260901&amp;search=&amp;search.sessiontype=partnersession" target="_blank" rel="noreferrer noopener"><strong>Partner sessions</strong></a> are lined up to happen all week. Stop by the Partner Lounge where you can network, get off your feet, meet with peers, and catch a deep dive theater session for further learning.</p>
-</p>
-<div class="wp-block-image is-style-rounded">
-<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="800" height="491" src="https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF1017.jpg" alt="" class="wp-image-8089" style="width:616px;height:auto" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF1017.jpg 800w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF1017.jpg?resize=300,184 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF1017.jpg?resize=768,471 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF1017.jpg?resize=600,368 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-</div>
-<hr class="wp-block-separator has-alpha-channel-opacity" />
-<h2 class="wp-block-heading has-text-align-center" id="h-tomorrow-odyssey-tournament-finals"><strong>Tomorrow: Odyssey Tournament Finals</strong></h2>
-<p>Tomorrow, the spotlight shifts to competition. The <a href="https://blogs.vmware.com/hol/2026/07/the-odyssey-tournament-is-back-at-vmware-explore-2026.html" target="_blank" rel="noreferrer noopener"><strong>VMware Odyssey</strong></a><sup>TM</sup> final tournament kicks off at 11:00 AM in the Hands-on Labs room on Level 3 in the Murano Ballroom.</p>
-<p>The top 8 finalists will battle it out live, climbing the leaderboard in real time. Whether you’re competing, cheering, or just curious to see pros in action, this one’s worth a front-row seat. It’s fast, fun, and always a crowd favorite.</p>
-</p>
-<div class="wp-block-image">
-<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="800" height="533" src="https://blogs.vmware.com/wp-content/uploads/2026/09/DSCF1136.jpg" alt="VMware Odyssey stage in  Hands-on Labs area at VMware Explore in Las Vegas" class="wp-image-8113" style="width:633px;height:auto" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF1136.jpg 800w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF1136.jpg?resize=300,200 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF1136.jpg?resize=768,512 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/DSCF1136.jpg?resize=600,400 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-</div>
-<p class="has-text-align-center">Odyssey isn’t the only highlight about HOLs. Be sure to check out <a href="https://blogs.vmware.com/explore/hands-on-labs-overview/" target="_blank" rel="noreferrer noopener"><strong>all of the offerings from Hands-on Labs</strong></a> at Explore this year.</p>
-</p>
-<div class="wp-block-image">
-<figure class="aligncenter size-large"><img loading="lazy" decoding="async" width="616" height="40" src="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Wavy-Line-Divider-Straight-Top.png?w=616" alt="Divider Line - Spicy color" class="wp-image-4160" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Wavy-Line-Divider-Straight-Top.png 616w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Wavy-Line-Divider-Straight-Top.png?resize=300,19 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Wavy-Line-Divider-Straight-Top.png?resize=600,39 600w" sizes="auto, (max-width: 616px) 100vw, 616px" /></figure>
-</div>
-<h2 class="wp-block-heading has-text-align-center" id="h-day-2-showed-us-what-happens-when-innovation-career-growth-and-community-connections-come-together-there-s-still-more-tomorrow-awaits-you-with-added-opportunities-to-learn-connect-and-grow-your-impact"><strong>Day 2 showed us what happens when innovation, career growth, and community connections come together. There’s still more, tomorrow awaits you with added opportunities to learn, connect, and grow your impact.</strong></h2>
-<hr />
-<p><em>From VCF 9.1 deep dives to community connections, Day 2 at #VMwareExplore 2026 in Las Vegas has delivered big Ideas and bold Innovations.</em><br /><a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fblogs.vmware.com%2Fexplore%2Fvmware-explore-2026-las-vegas-recap-day2%2F&#038;text=From%20VCF%209.1%20deep%20dives%20to%20community%20connections%2C%20Day%202%20at%20%23VMwareExplore%202026%20in%20Las%20Vegas%20has%20delivered%20big%20Ideas%20and%20bold%20Innovations.&#038;related" target="_blank" rel="noopener noreferrer">Share on X</a></p>
-<hr />
-<div class="wp-block-image">
-<figure class="aligncenter size-large"><img loading="lazy" decoding="async" height="162" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/08/Explore-2025-Hero-Banner.png" alt="Explore Banner in Block Letters" class="wp-image-5822" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2025/03/Explore-2025-Hero-Banner.png 1916w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2025/03/Explore-2025-Hero-Banner.png?resize=300,48 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2025/03/Explore-2025-Hero-Banner.png?resize=768,122 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2025/03/Explore-2025-Hero-Banner.png?resize=1024,162 1024w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2025/03/Explore-2025-Hero-Banner.png?resize=1536,244 1536w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2025/03/Explore-2025-Hero-Banner.png?resize=600,95 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
-</div>
-<p>The post <a href="https://blogs.vmware.com/explore/vmware-explore-2026-las-vegas-recap-day2/">VMware Explore 2026 in Las Vegas | Day 2 Recap</a> appeared first on <a href="https://blogs.vmware.com/explore">VMware Explore Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/explore/vmware-explore-2026-las-vegas-recap-day2/">VMware Explore 2026 in Las Vegas | Day 2 Recap</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10098561</post-id>	</item>
 	</channel>
 </rss>
