@@ -4,38 +4,66 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Mon, 07 Sep 2026 16:54:12 +0000</pubDate>
-    <lastBuildDate>Mon, 07 Sep 2026 16:54:12 +0000</lastBuildDate>
+    <pubDate>Mon, 07 Sep 2026 20:57:56 +0000</pubDate>
+    <lastBuildDate>Mon, 07 Sep 2026 20:57:56 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
-      <title>[PROJECT] SharedLvmThin for Proxmox VE 9 — shared FC/iSCSI SAN storage with LVM-thin snapshots &amp; multipath safety</title>
-      <pubDate>Mon, 07 Sep 2026 16:50:50 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/project-sharedlvmthin-for-proxmox-ve-9-%E2%80%94-shared-fc-iscsi-san-storage-with-lvm-thin-snapshots-multipath-safety.186250/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186250</guid>
-      <author>invalid@example.com (delltech1)</author>
+      <title>OSPF</title>
+      <pubDate>Mon, 07 Sep 2026 20:47:17 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ospf.186253/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186253</guid>
+      <author>invalid@example.com (thegoggel)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>thegoggel</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi<br />
+<br />
+I try to configure OSPF6 on proxmox to route a loopback address. Every time I try to do this in vtysh I get it to work. But I find nowhere to create a loopback or configure OSPF for IPv6 in SDN. And every time I try to apply the SDN config it seems to get lost.<br />
+<br />
+I have read that it previously was a frr.conf.local that you could edit but that does not seem to work in version 9. Is there a simple solution to this?</div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>VirtIO-Installation 0.1.271 auf Windows Server 2019 schlägt fehl/geht nicht</title>
+      <pubDate>Mon, 07 Sep 2026 20:13:07 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/virtio-installation-0-1-271-auf-windows-server-2019-schl%C3%A4gt-fehl-geht-nicht.186154/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186154</guid>
+      <author>invalid@example.com (oelk)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>oelk</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
+<br />
+auf unserem Proxmox-Cluster  haben wir 3x Windows-Server 2019 verteilt für einen Failovercluster.<br />
+Bei zweien geht die installation der neuen Version 0.1.271 (virtio-win-0.1.271.iso, virtio-win-gt-x64.exe) gut.<br />
+Bei einem geht das nicht.<br />
+Da kommt dann eine &#039;Rolling Back Action&#039;.<br />
+Unter &#039;Programme und Features&#039; ist da auch garnix gelistet im Gegensatz zu den beiden anderen.<br />
+<br />
+Wird irgendwo von der Installation ein Log-File geschrieben, in dem ich einen möglichen Fehler lesen...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/virtio-installation-0-1-271-auf-windows-server-2019-schl%C3%A4gt-fehl-geht-nicht.186154/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>17</slash:comments>
+    </item>
+    <item>
+      <title>Opt-in Linux 7.0 Kernel for Proxmox VE 9 available</title>
+      <pubDate>Mon, 07 Sep 2026 20:05:41 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:182328</guid>
+      <author>invalid@example.com (t.lamprecht)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>delltech1</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
+      <dc:creator>t.lamprecht</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">We recently uploaded the 7.0 (rc6) kernel to our repositories. The current default kernel for the Proxmox VE 9 series is still 6.17, but 7.0 is now an option.<br />
 <br />
-I am publishing SharedLvmThin, a free and open-source community storage<br />
-plugin for Proxmox VE 9.<br />
+We plan to use the 7.0 kernel as the new default for the upcoming Proxmox VE 9.2 and Proxmox Backup Server 4.2 releases planned later in Q2.<br />
+This follows our tradition of upgrading the Proxmox VE kernel to match the current Ubuntu version until we reach an Ubuntu LTS release, at which point we will only provide newer kernels as an...<br />
 <br />
-It provides one LVM-thin pool per VM on an existing shared block-storage<br />
-VG and supports snapshots, rollback, resize, migration, cluster locking,<br />
-guarded autogrow, storage identity checks, and read-only health diagnostics.<br />
-<br />
-RC5.2 has been tested on the Proxmox VE 9.2.x release line with Storage<br />
-API 14 and 15, including three-node cluster qualification. It is currently<br />
-a release...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/project-sharedlvmthin-for-proxmox-ve-9-%E2%80%94-shared-fc-iscsi-san-storage-with-lvm-thin-snapshots-multipath-safety.186250/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
+<a href="https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>235</slash:comments>
     </item>
     <item>
       <title>Any way to isolate VMs on same VLANs/bridge?</title>
-      <pubDate>Mon, 07 Sep 2026 16:25:37 +0000</pubDate>
+      <pubDate>Mon, 07 Sep 2026 19:38:11 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/any-way-to-isolate-vms-on-same-vlans-bridge.138864/</link>
       <guid isPermaLink="false">urn:xenforo:thread:138864</guid>
       <author>invalid@example.com (EdoFede)</author>
@@ -57,11 +85,24 @@ A very long activity (somewhere scriptable, somewhere not)...<br />
 Is there any...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/any-way-to-isolate-vms-on-same-vlans-bridge.138864/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
+      <slash:comments>7</slash:comments>
+    </item>
+    <item>
+      <title>Identifying a proxmox installation</title>
+      <pubDate>Mon, 07 Sep 2026 18:58:31 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/identifying-a-proxmox-installation.125260/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:125260</guid>
+      <author>invalid@example.com (invalidusername)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>invalidusername</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Normal linux commands like using lsb_release or looking at /etc/os-release does not identify the system as being a proxmox system.  This causes an issue when I try to identify the system using ansible.  I could easily write a facts script that identifies it as a proxmox system but I was wondering if there is a defined way to do this in Proxmox already.<br />
+<br />
+I guess I can run pveversion, but it doesn&#039;t parameterize the values and I would have to parse them.</div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
     </item>
     <item>
       <title>timeout waiting for systemd</title>
-      <pubDate>Mon, 07 Sep 2026 16:11:50 +0000</pubDate>
+      <pubDate>Mon, 07 Sep 2026 18:42:16 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/timeout-waiting-for-systemd.186255/</link>
       <guid isPermaLink="false">urn:xenforo:thread:186255</guid>
       <author>invalid@example.com (antiager)</author>
@@ -80,7 +121,77 @@ Die KI meint &quot;überlastung des ZFS?&quot; man soll in den Einstellungen der
 Habt ihr...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/timeout-waiting-for-systemd.186255/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>Error with file restore on pve with pbsbackup</title>
+      <pubDate>Mon, 07 Sep 2026 18:13:01 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/error-with-file-restore-on-pve-with-pbsbackup.186192/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186192</guid>
+      <author>invalid@example.com (Dark26)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>Dark26</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">We try to restore a file from pve with a pbs backup and, the file  downloaded is zero byte size.<br />
+<br />
+Sometimes after 3 or 4 try, the file is download and sometimes not.<br />
+<br />
+The disk is a windows ntfs ou linux <br />
+<br />
+it seems the is no linr in the log when the restore failed.<br />
+<br />
+We try windows and linux instance and we have the same beahavioer.<br />
+<br />
+We try with two differnet pbs ( one is the replica of the other), same result.<br />
+<br />
+<br />
+pveversion :<br />
+pve-manager/9.2.4/5e5ae681198514d4 (running kernel: 7.0.14-4-pve)...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/error-with-file-restore-on-pve-with-pbsbackup.186192/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>[PROJECT] SharedLvmThin for Proxmox VE 9 — shared FC/iSCSI SAN storage with LVM-thin snapshots &amp; multipath safety</title>
+      <pubDate>Mon, 07 Sep 2026 16:56:56 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/project-sharedlvmthin-for-proxmox-ve-9-%E2%80%94-shared-fc-iscsi-san-storage-with-lvm-thin-snapshots-multipath-safety.186250/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186250</guid>
+      <author>invalid@example.com (delltech1)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>delltech1</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
+<br />
+I am publishing SharedLvmThin, a free and open-source community storage<br />
+plugin for Proxmox VE 9.<br />
+<br />
+It provides one LVM-thin pool per VM on an existing shared block-storage<br />
+VG and supports snapshots, rollback, resize, migration, cluster locking,<br />
+guarded autogrow, storage identity checks, and read-only health diagnostics.<br />
+<br />
+RC5.2 has been tested on the Proxmox VE 9.2.x release line with Storage<br />
+API 14 and 15, including three-node cluster qualification. It is currently<br />
+a release...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/project-sharedlvmthin-for-proxmox-ve-9-%E2%80%94-shared-fc-iscsi-san-storage-with-lvm-thin-snapshots-multipath-safety.186250/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Q: pve8to9 sanity check "pre flight check script" for upgrade &gt; does not flag "cgroup V1 Removal" drama?</title>
+      <pubDate>Mon, 07 Sep 2026 16:54:54 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/q-pve8to9-sanity-check-pre-flight-check-script-for-upgrade-does-not-flag-cgroup-v1-removal-drama.186231/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186231</guid>
+      <author>invalid@example.com (fortechitsolutions)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>fortechitsolutions</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi, just a small sanity check question, I am part way through a bit of an adventure today, upgrading some Proxmox cluster nodes from Proxmox8 to 9<br />
+everything went great, except I forgot until too late, this breaking deal detail with Proxmox V9<br />
+<br />
+cgroup V1 Removal &gt;  means that the old workaround which was hybrid cgroup mode enabled on Prox.V8 via the kernel boot flag option = systemd.unified_cgroup_hierarchy=0<br />
+<br />
+is not a viable workaround any longer<br />
+and more to the point, there is no check for...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/q-pve8to9-sanity-check-pre-flight-check-script-for-upgrade-does-not-flag-cgroup-v1-removal-drama.186231/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
     </item>
     <item>
       <title>Kernel oops when passing through Adaptec ASR-72405 (aacraid) to VM on kernel 7.0+</title>
@@ -109,42 +220,6 @@ Sep 01 11:01:12 starbase-375 kernel: #PF: error_code(0x0002) -...</code></pre>
 </div><br />
 <a href="https://forum.proxmox.com/threads/kernel-oops-when-passing-through-adaptec-asr-72405-aacraid-to-vm-on-kernel-7-0.186134/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>9</slash:comments>
-    </item>
-    <item>
-      <title>VirtIO-Installation 0.1.271 auf Windows Server 2019 schlägt fehl/geht nicht</title>
-      <pubDate>Mon, 07 Sep 2026 16:04:47 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/virtio-installation-0-1-271-auf-windows-server-2019-schl%C3%A4gt-fehl-geht-nicht.186154/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186154</guid>
-      <author>invalid@example.com (oelk)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>oelk</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
-<br />
-auf unserem Proxmox-Cluster  haben wir 3x Windows-Server 2019 verteilt für einen Failovercluster.<br />
-Bei zweien geht die installation der neuen Version 0.1.271 (virtio-win-0.1.271.iso, virtio-win-gt-x64.exe) gut.<br />
-Bei einem geht das nicht.<br />
-Da kommt dann eine &#039;Rolling Back Action&#039;.<br />
-Unter &#039;Programme und Features&#039; ist da auch garnix gelistet im Gegensatz zu den beiden anderen.<br />
-<br />
-Wird irgendwo von der Installation ein Log-File geschrieben, in dem ich einen möglichen Fehler lesen...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/virtio-installation-0-1-271-auf-windows-server-2019-schl%C3%A4gt-fehl-geht-nicht.186154/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>16</slash:comments>
-    </item>
-    <item>
-      <title>OSPF</title>
-      <pubDate>Mon, 07 Sep 2026 16:00:05 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ospf.186253/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186253</guid>
-      <author>invalid@example.com (thegoggel)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>thegoggel</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi<br />
-<br />
-I try to configure OSPF6 on proxmox to route a loopback address. Every time I try to do this in vtysh I get it to work. But I find nowhere to create a loopback or configure OSPF for IPv6 in SDN. And every time I try to apply the SDN config it seems to get lost.<br />
-<br />
-I have read that it previously was a frr.conf.local that you could edit but that does not seem to work in version 9. Is there a simple solution to this?</div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
     </item>
     <item>
       <title>vm restore slower than absolute 0</title>
@@ -384,62 +459,6 @@ Doch leider nach einiger Zeit sind die Netzwerk-Verbindungen zur Proxmox Oberfl�
 <br />
 <a href="https://forum.proxmox.com/threads/proxmox-vms-nicht-erreichbar-lokale-console-hdmi-aber-doch.186230/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE 7 is vulnerable to some type of 0day/RCE non auth</title>
-      <pubDate>Mon, 07 Sep 2026 11:24:16 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-7-is-vulnerable-to-some-type-of-0day-rce-non-auth.186078/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186078</guid>
-      <author>invalid@example.com (pve7bug)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>pve7bug</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Two days ago, my Proxmox VE 7 installation, which was over four years old with the latest updates available up to EOL and only one user (root), was encrypted, and a ransom was demanded for decryption. I searched online for the ransom note and found someone complaining in Chinese about the same thing 1 day ago, which seems to be a wave of some kind of zero-day or RCE without authentication. All the logs were deleted by the attackers. There was an IP address sending requests to a specific...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-7-is-vulnerable-to-some-type-of-0day-rce-non-auth.186078/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>129</slash:comments>
-    </item>
-    <item>
-      <title>Why proxmox vmbr0 does have and ip config</title>
-      <pubDate>Mon, 07 Sep 2026 11:06:27 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/why-proxmox-vmbr0-does-have-and-ip-config.186248/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186248</guid>
-      <author>invalid@example.com (adam.piatek)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>adam.piatek</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello there!<br />
-<br />
-I have simple question: Why after fresh instalation my proxmox vmbr0 does have an ip address with gateway? Why only physicall device f.e. nic0 (which is also attached to vmbr0) cannot be configured like this? And basically, how bridge can have ip config? I thought it&#039;s treated as layer 2 switch<br />
-I know, that there was a thread about this, but i still don&#039;t get it after reading it. <br />
-I would appreciate any help!</div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Faster failover - possible?</title>
-      <pubDate>Mon, 07 Sep 2026 10:55:02 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/faster-failover-possible.36894/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:36894</guid>
-      <author>invalid@example.com (Razva)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Razva</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Right now it takes about 200 seconds for a VM to be restarted from a failed node. Is there any way to speedup the process? I&#039;m looking for something more like 80-120 seconds, from the point on which the node gets disconnected from the cluster &#039;til the point on which the VM is fully started on a new node. Is this possible?</div>]]></content:encoded>
-      <slash:comments>14</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE Automated DR Test Engine (v4.1)</title>
-      <pubDate>Mon, 07 Sep 2026 10:23:19 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-automated-dr-test-engine-v4-1.184845/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:184845</guid>
-      <author>invalid@example.com (lukasz.krzesinski)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>lukasz.krzesinski</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Due to backup restore testing requirements, I wrote a script for Proxmox. Hope someone finds it useful!<img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f642.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":)" title="Smile    :)"  data-smilie="1"data-shortname=":)" /><br />
-<br />
-Automated Disaster Recovery (DR) testing script for Proxmox VE clusters connected to Proxmox Backup Server (PBS)<br />
-<br />
-Automated, hands-free Disaster Recovery (DR) testing script for randomly selected Virtual Machines (VM) and Containers (LXC) stored on Proxmox Backup Server (PBS). It runs inside a 100% isolated sandbox network, performs a full service port audit via Nmap, captures console...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-automated-dr-test-engine-v4-1.184845/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
     </item>
   </channel>
 </rss>
