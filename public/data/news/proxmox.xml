@@ -4,214 +4,181 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Tue, 08 Sep 2026 02:10:33 +0000</pubDate>
-    <lastBuildDate>Tue, 08 Sep 2026 02:10:33 +0000</lastBuildDate>
+    <pubDate>Tue, 08 Sep 2026 10:21:37 +0000</pubDate>
+    <lastBuildDate>Tue, 08 Sep 2026 10:21:37 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
-      <title>High Switch CPU due to Jumbo Frames / Video Streaming - Migrating Physical pfSense/DGuard to Proxmox?</title>
-      <pubDate>Tue, 08 Sep 2026 01:17:33 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/high-switch-cpu-due-to-jumbo-frames-video-streaming-migrating-physical-pfsense-dguard-to-proxmox.186258/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186258</guid>
-      <author>invalid@example.com (uolficina)</author>
+      <title>Debian 13 LXC template: IPv4 DHCP + IPv6 SLAAC launches DHCPv6 and breaks backups</title>
+      <pubDate>Tue, 08 Sep 2026 10:10:22 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/debian-13-lxc-template-ipv4-dhcp-ipv6-slaac-launches-dhcpv6-and-breaks-backups.186269/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186269</guid>
+      <author>invalid@example.com (mutex)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>uolficina</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
+      <dc:creator>mutex</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">With IPv4 set to DHCP and IPv6 set to SLAAC in Proxmox, my Debian 13 LXC containers have:<br />
 <br />
-I am working with a client who has an interesting setup. Initially, their entire project was based on VMware ESXi 8.0u2. They run a security monitoring company that handles businesses, homes, security cameras, and related services. They previously had inadequate hardware and network design, so I helped them upgrade their equipment and implement new concepts to solve various operational problems.<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>iface eth0 inet dhcp
+iface eth0 inet6 auto</code></pre>
+	</div>
+</div>in their config.<br />
 <br />
-Now, we are facing a new challenge:<br />
+The installed ifupdown2 3.0.0-1.3 reports “unsupported address method &#039;auto&#039;”, but launches dhclient -6 anyway. My network uses SLAAC, not DHCPv6 address assignment. IPv4 works while networking.service stays stuck starting indefinitely. <br />
+From a cursory glance at the ifupdown2 code, it just doesn&#039;t seem to support SLAAC properly. It...<br />
 <br />
-<ul>
-<li data-xf-list-type="ul"><b>The Software:</b> They use DGuard...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/high-switch-cpu-due-to-jumbo-frames-video-streaming-migrating-physical-pfsense-dguard-to-proxmox.186258/" class="link link--internal">Read more</a></div>]]></content:encoded>
+<a href="https://forum.proxmox.com/threads/debian-13-lxc-template-ipv4-dhcp-ipv6-slaac-launches-dhcpv6-and-breaks-backups.186269/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>0</slash:comments>
     </item>
     <item>
-      <title>Error on backup</title>
-      <pubDate>Tue, 08 Sep 2026 01:03:19 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/error-on-backup.141698/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:141698</guid>
-      <author>invalid@example.com (Ayrton5)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>Ayrton5</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><i>ERROR: backup write data failed: command error: write_data upload error: pipelined request failed: detected chunk with wrong digest.</i><br />
+      <title>Off Topic - Community Stand bei der Kielux</title>
+      <pubDate>Tue, 08 Sep 2026 09:25:38 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/off-topic-community-stand-bei-der-kielux.165900/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:165900</guid>
+      <author>invalid@example.com (Falk R.)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>Falk R.</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo Zusammen,<br />
 <br />
-I&#039;ve just set up a new backup server and this error occured whilst it was running the first time. A quick google leads me to believe this is memory related but I couldn&#039;t find much more than that; is it the source or the target with the memory issue? And how does one go about testing memory sticks?</div>]]></content:encoded>
-      <slash:comments>9</slash:comments>
+ich möchte dieses Jahr auf der <a href="https://kielux.de/" target="_blank" class="link link--external" rel="nofollow ugc noopener">Kielux</a> (19.-20.09. in Kiel) einen Community Stand betreiben.<br />
+Da ich allein nicht alle Fragen beantworten kann und  auch mal Biopausen brauche, hätte ich gern Unterstützung dabei.<br />
+Wer hat denn Lust an den beiden Tagen in Kiel vor Ort &quot;Forumsarbeit&quot; in Real Life zu betreiben und Fragen direkt zu beantworten?<br />
+<br />
+Den Stand organisiere ich und Werbematerial wie Sticker &amp; Co. bekomme ich auch.<br />
+<br />
+Gern auch per PM anschreiben.<br />
+<br />
+Viele Grüße, Falk</div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
     </item>
     <item>
-      <title>Send Return-Path to Custom Check Interface</title>
-      <pubDate>Tue, 08 Sep 2026 00:55:40 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/send-return-path-to-custom-check-interface.147198/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:147198</guid>
-      <author>invalid@example.com (mbrother)</author>
-      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
-      <dc:creator>mbrother</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-As document <a href="https://pmg.proxmox.com/pmg-docs/pmg-admin-guide.html#pmgconfig_custom_check" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://pmg.proxmox.com/pmg-docs/pmg-admin-guide.html#pmgconfig_custom_check</a>, only <i>api-version &amp; <i>queue-file-name </i></i>send to Custom Check Interface. A very important information to analysis email is Return-Path, I can not get it with my custom script. How can I get Return-Path for my custom script?</div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>Memory ballooning doesn't reduce host RAM usage?</title>
-      <pubDate>Mon, 07 Sep 2026 22:57:26 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/memory-ballooning-doesnt-reduce-host-ram-usage.186249/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186249</guid>
-      <author>invalid@example.com (sbrocket)</author>
+      <title>After I executed the "multipath -a xxxxxx" command, an error occurred with local-lvm "no such logical volume pve/data (500)"</title>
+      <pubDate>Tue, 08 Sep 2026 09:16:20 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/after-i-executed-the-multipath-a-xxxxxx-command-an-error-occurred-with-local-lvm-no-such-logical-volume-pve-data-500.186175/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186175</guid>
+      <author>invalid@example.com (ht2630)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>sbrocket</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m attempting to understand something unexpected that I&#039;m observing about memory ballooning&#039;s behavior and what that implies about its intended usage. I understand that memory ballooning is triggered based on the hypervisor host&#039;s RAM usage reaching a set threshold, with the default set to 80%. However, the host&#039;s RAM usage which is compared to that threshold includes the <i>maximum</i> RAM allocation of all running VMs...including the <i>max</i> for VMs with ballooning enabled, rather than...<br />
+      <dc:creator>ht2630</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Everyone;<br />
+After I executed the &quot;multipath -a xxxxxx&quot; command, an error occurred with local-lvm &quot;no such logical volume pve/data (500)&quot;. <br />
+Please help me, Thanks!<br />
 <br />
-<a href="https://forum.proxmox.com/threads/memory-ballooning-doesnt-reduce-host-ram-usage.186249/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE 9 – Sustained TLS Transfers Fail With "bad record mac" / Decryption Errors</title>
-      <pubDate>Mon, 07 Sep 2026 21:54:32 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-9-%E2%80%93-sustained-tls-transfers-fail-with-bad-record-mac-decryption-errors.186257/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186257</guid>
-      <author>invalid@example.com (FrankieRankin)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>FrankieRankin</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><h3 class="bbHeading"><a class="u-anchorTarget" name="-proxmox-ve-9-%E2%80%93-sustained-tls-transfers-fail-with"></a>Proxmox VE 9 – Sustained TLS Transfers Fail With&#8203;<a class="hoverLink" href="#-proxmox-ve-9-%E2%80%93-sustained-tls-transfers-fail-with" title="Permanent link"></a></h3><h3 class="bbHeading"><a class="u-anchorTarget" name="-summary"></a>Summary&#8203;<a class="hoverLink" href="#-summary" title="Permanent link"></a></h3>After moving this machine from <b>Proxmox VE 8 to Proxmox VE 9</b>, sustained TLS/HTTPS transfers became unreliable.<br />
-<br />
-Large HTTPS transfers fail at random offsets with errors such as:<br />
-<br />
-Decryption has failed.<br />
-<br />
-and:<br />
-<br />
-OpenSSL SSL_read: OpenSSL/3.5.7:<br />
-error:0A000119:SSL routines::decryption failed or bad record mac<br />
-The problem affects:<br />
-<br />
-<ul>
-<li data-xf-list-type="ul">outbound HTTPS downloads from the PVE host;</li>
-<li data-xf-list-type="ul">inbound HTTPS ISO uploads through the...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-9-%E2%80%93-sustained-tls-transfers-fail-with-bad-record-mac-decryption-errors.186257/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>OSPF</title>
-      <pubDate>Mon, 07 Sep 2026 20:47:17 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ospf.186253/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186253</guid>
-      <author>invalid@example.com (thegoggel)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>thegoggel</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi<br />
-<br />
-I try to configure OSPF6 on proxmox to route a loopback address. Every time I try to do this in vtysh I get it to work. But I find nowhere to create a loopback or configure OSPF for IPv6 in SDN. And every time I try to apply the SDN config it seems to get lost.<br />
-<br />
-I have read that it previously was a frr.conf.local that you could edit but that does not seem to work in version 9. Is there a simple solution to this?</div>]]></content:encoded>
+<a href="https://forum.proxmox.com/attachments/1788492655668-png.99721/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99417-e37e100406faad20a575e0fe725db565.jpg?hash=UI-D7u7nqR"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99417-e37e100406faad20a575e0fe725db565.jpg?hash=UI-D7u7nqR 2x"
+		class="bbImage "
+		style=""
+		alt="1788492655668.png"
+		title="1788492655668.png"
+		width="493" height="150" loading="lazy" /></a><a href="https://forum.proxmox.com/attachments/1788492709824-png.99722/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99418-f959f5e3a751f34841d19611a88b1c11.jpg?hash=_JmsVAgAe3"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99418-f959f5e3a751f34841d19611a88b1c11.jpg?hash=_JmsVAgAe3 2x"
+		class="bbImage "
+		style=""
+		alt="1788492709824.png"
+		title="1788492709824.png"
+		width="480" height="150" loading="lazy" /></a><a href="https://forum.proxmox.com/attachments/1788492965457-png.99723/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99419-9619d856f5cd1983d25b59f7985707e1.jpg?hash=CtRBCZT80L"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99419-9619d856f5cd1983d25b59f7985707e1.jpg?hash=CtRBCZT80L 2x"
+		class="bbImage "
+		style=""
+		alt="1788492965457.png"
+		title="1788492965457.png"
+		width="219" height="94" loading="lazy" /></a></div>]]></content:encoded>
       <slash:comments>2</slash:comments>
     </item>
     <item>
-      <title>VirtIO-Installation 0.1.271 auf Windows Server 2019 schlägt fehl/geht nicht</title>
-      <pubDate>Mon, 07 Sep 2026 20:13:07 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/virtio-installation-0-1-271-auf-windows-server-2019-schl%C3%A4gt-fehl-geht-nicht.186154/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186154</guid>
-      <author>invalid@example.com (oelk)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>oelk</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
-<br />
-auf unserem Proxmox-Cluster  haben wir 3x Windows-Server 2019 verteilt für einen Failovercluster.<br />
-Bei zweien geht die installation der neuen Version 0.1.271 (virtio-win-0.1.271.iso, virtio-win-gt-x64.exe) gut.<br />
-Bei einem geht das nicht.<br />
-Da kommt dann eine &#039;Rolling Back Action&#039;.<br />
-Unter &#039;Programme und Features&#039; ist da auch garnix gelistet im Gegensatz zu den beiden anderen.<br />
-<br />
-Wird irgendwo von der Installation ein Log-File geschrieben, in dem ich einen möglichen Fehler lesen...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/virtio-installation-0-1-271-auf-windows-server-2019-schl%C3%A4gt-fehl-geht-nicht.186154/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>17</slash:comments>
-    </item>
-    <item>
-      <title>Opt-in Linux 7.0 Kernel for Proxmox VE 9 available</title>
-      <pubDate>Mon, 07 Sep 2026 20:05:41 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:182328</guid>
-      <author>invalid@example.com (t.lamprecht)</author>
+      <title>Cloned VMs from template receive the same DHCP IP address</title>
+      <pubDate>Tue, 08 Sep 2026 09:12:38 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/cloned-vms-from-template-receive-the-same-dhcp-ip-address.186267/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186267</guid>
+      <author>invalid@example.com (zikou)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>t.lamprecht</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">We recently uploaded the 7.0 (rc6) kernel to our repositories. The current default kernel for the Proxmox VE 9 series is still 6.17, but 7.0 is now an option.<br />
+      <dc:creator>zikou</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
 <br />
-We plan to use the 7.0 kernel as the new default for the upcoming Proxmox VE 9.2 and Proxmox Backup Server 4.2 releases planned later in Q2.<br />
-This follows our tradition of upgrading the Proxmox VE kernel to match the current Ubuntu version until we reach an Ubuntu LTS release, at which point we will only provide newer kernels as an...<br />
+I have a Proxmox VM that I configured as a template. I use this template to create/clone multiple VMs.<br />
 <br />
-<a href="https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>235</slash:comments>
+My network setup is:<br />
+<br />
+<ul>
+<li data-xf-list-type="ul">Proxmox</li>
+<li data-xf-list-type="ul">pfSense as the router/DHCP server</li>
+<li data-xf-list-type="ul">pfSense DHCP assigns IP addresses dynamically</li>
+<li data-xf-list-type="ul">VMs use DHCP; I do not configure static IP addresses in Terraform or Proxmox</li>
+<li data-xf-list-type="ul">I use Terraform to create the VMs from the Proxmox template</li>
+</ul>The problem is that when I clone the template, the cloned VMs receive the <b>same IP address</b> from pfSense.<br />
+What...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/cloned-vms-from-template-receive-the-same-dhcp-ip-address.186267/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
     </item>
     <item>
-      <title>Any way to isolate VMs on same VLANs/bridge?</title>
-      <pubDate>Mon, 07 Sep 2026 19:38:11 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/any-way-to-isolate-vms-on-same-vlans-bridge.138864/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:138864</guid>
-      <author>invalid@example.com (EdoFede)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>EdoFede</dc:creator>
+      <title>Ceph error: /dev/pve/data_tmeta: after upgrade 20.2.1 to 20.2.2</title>
+      <pubDate>Tue, 08 Sep 2026 08:59:37 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ceph-error-dev-pve-data_tmeta-after-upgrade-20-2-1-to-20-2-2.184731/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:184731</guid>
+      <author>invalid@example.com (chell)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>chell</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Everyone<br />
+<br />
+After upgrading ceph from 20.2.1 to 20.2.2 I&#039;m getting the following error. Ceph 20.2.1 was working fine. <br />
+The error is preventing new drives from being recognised as available. Other than that, ceph appears to be working correctly.<br />
+Proxmox 9.2.4 with all updates.<br />
+Ceph was installed separate to proxmox. With cephadm and ceph dashboard<br />
+I&#039;ve tried adding a lvm filter. global_filter = [ &quot;r|/dev/zd.*|&quot;, &quot;r|/dev/rbd.*|&quot;, &quot;r|/dev/pve/.*|&quot;, &quot;r|/dev/mapper/pve-.*|&quot;, &quot;a|.*|&quot; ]<br />
+Also tried...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/ceph-error-dev-pve-data_tmeta-after-upgrade-20-2-1-to-20-2-2.184731/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
+    </item>
+    <item>
+      <title>ZFS Datapool Error -  How to Access Data from Virtual Machine Disk from Proxmox?</title>
+      <pubDate>Tue, 08 Sep 2026 08:59:07 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/zfs-datapool-error-how-to-access-data-from-virtual-machine-disk-from-proxmox.186225/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186225</guid>
+      <author>invalid@example.com (nikhilbhalwankar)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>nikhilbhalwankar</dc:creator>
       <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
 <br />
-I&#039;m planning a migration on a new PVEs infrastructure of many VMs.<br />
+I have a JBOD server with below configurationn -&gt;<br />
 <br />
-One customer have a lot (50, growing) of tiny VMs on the same subnet that needs only internet access (in/out).<br />
-They asked if we can &quot;isolate&quot; these VMs.<br />
+- I have two datapools. Each are under RAID-5<br />
+- Proxmox VE is installed on the server and these two RAID-5 datapools are attached to it as ZFS shares DATAPOOL-1 and DATAPOOL-2.<br />
+- TrueNAS 13 is installed as a virtual machine over Proxmox VE with three disks attached to it disk1 for OS, disk2 from DATAPOOL-1 for data, disk3 from DATAPOOL-2 for data.<br />
+- I have some issue with DATAPOOL-2. Proxmox is showing below errors <br />
 <br />
-In the &quot;classic&quot; way for every VM we have to:<br />
-- create a VLAN (on PVE and switches)<br />
-- creating a subnet, rules, 3 IPs (pfsense with HA) on the firewall<br />
-- configuring the VM for the new network<br />
-A very long activity (somewhere scriptable, somewhere not)...<br />
-<br />
-Is there any...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/any-way-to-isolate-vms-on-same-vlans-bridge.138864/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>Identifying a proxmox installation</title>
-      <pubDate>Mon, 07 Sep 2026 18:58:31 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/identifying-a-proxmox-installation.125260/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:125260</guid>
-      <author>invalid@example.com (invalidusername)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>invalidusername</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Normal linux commands like using lsb_release or looking at /etc/os-release does not identify the system as being a proxmox system.  This causes an issue when I try to identify the system using ansible.  I could easily write a facts script that identifies it as a proxmox system but I was wondering if there is a defined way to do this in Proxmox already.<br />
-<br />
-I guess I can run pveversion, but it doesn&#039;t parameterize the values and I would have to parse them.</div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>timeout waiting for systemd</title>
-      <pubDate>Mon, 07 Sep 2026 18:42:16 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/timeout-waiting-for-systemd.186255/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186255</guid>
-      <author>invalid@example.com (antiager)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>antiager</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo Forum!<br />
-<br />
-Auf einem Pve 9 der die ganze Zeit unauffällig lief wurde eine VM (debian) plötzlich langsam und ließ sich nur durch sigkill beenden. <br />
-<br />
-Dann startete Sie nicht mehr - time out waiting for systemd - erst nach einem reboot des Hosts ließ sie sich wieder starten.<br />
-<br />
-Das gleiche passierte in den nächsten Tagen mit zwei anderen VMs (debian und windows).<br />
-<br />
-Die KI meint &quot;überlastung des ZFS?&quot; man soll in den Einstellungen der Festplatten &quot;Asynchrone IO&quot; auf &quot;threads&quot; stellen!?<br />
-<br />
-Habt ihr...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/timeout-waiting-for-systemd.186255/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>zpool status -v...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/zfs-datapool-error-how-to-access-data-from-virtual-machine-disk-from-proxmox.186225/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
     </item>
     <item>
       <title>Error with file restore on pve with pbsbackup</title>
-      <pubDate>Mon, 07 Sep 2026 18:13:01 +0000</pubDate>
+      <pubDate>Tue, 08 Sep 2026 08:20:38 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/error-with-file-restore-on-pve-with-pbsbackup.186192/</link>
       <guid isPermaLink="false">urn:xenforo:thread:186192</guid>
       <author>invalid@example.com (Dark26)</author>
@@ -234,119 +201,158 @@ pveversion :<br />
 pve-manager/9.2.4/5e5ae681198514d4 (running kernel: 7.0.14-4-pve)...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/error-with-file-restore-on-pve-with-pbsbackup.186192/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
+      <slash:comments>5</slash:comments>
     </item>
     <item>
-      <title>[PROJECT] SharedLvmThin for Proxmox VE 9 — shared FC/iSCSI SAN storage with LVM-thin snapshots &amp; multipath safety</title>
-      <pubDate>Mon, 07 Sep 2026 16:56:56 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/project-sharedlvmthin-for-proxmox-ve-9-%E2%80%94-shared-fc-iscsi-san-storage-with-lvm-thin-snapshots-multipath-safety.186250/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186250</guid>
-      <author>invalid@example.com (delltech1)</author>
+      <title>timeout waiting for systemd</title>
+      <pubDate>Tue, 08 Sep 2026 08:17:40 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/timeout-waiting-for-systemd.186255/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186255</guid>
+      <author>invalid@example.com (antiager)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>antiager</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo Forum!<br />
+<br />
+Auf einem Pve 9 der die ganze Zeit unauffällig lief wurde eine VM (debian) plötzlich langsam und ließ sich nur durch sigkill beenden. <br />
+<br />
+Dann startete Sie nicht mehr - time out waiting for systemd - erst nach einem reboot des Hosts ließ sie sich wieder starten.<br />
+<br />
+Das gleiche passierte in den nächsten Tagen mit zwei anderen VMs (debian und windows).<br />
+<br />
+Die KI meint &quot;überlastung des ZFS?&quot; man soll in den Einstellungen der Festplatten &quot;Asynchrone IO&quot; auf &quot;threads&quot; stellen!?<br />
+<br />
+Habt ihr...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/timeout-waiting-for-systemd.186255/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
+    </item>
+    <item>
+      <title>Send Return-Path to Custom Check Interface</title>
+      <pubDate>Tue, 08 Sep 2026 08:16:42 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/send-return-path-to-custom-check-interface.147198/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:147198</guid>
+      <author>invalid@example.com (mbrother)</author>
+      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
+      <dc:creator>mbrother</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+As document <a href="https://pmg.proxmox.com/pmg-docs/pmg-admin-guide.html#pmgconfig_custom_check" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://pmg.proxmox.com/pmg-docs/pmg-admin-guide.html#pmgconfig_custom_check</a>, only <i>api-version &amp; <i>queue-file-name </i></i>send to Custom Check Interface. A very important information to analysis email is Return-Path, I can not get it with my custom script. How can I get Return-Path for my custom script?</div>]]></content:encoded>
+      <slash:comments>7</slash:comments>
+    </item>
+    <item>
+      <title>Maas packer image for deploying proxmox on bare metal.</title>
+      <pubDate>Tue, 08 Sep 2026 08:09:20 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/maas-packer-image-for-deploying-proxmox-on-bare-metal.186266/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186266</guid>
+      <author>invalid@example.com (ilkermanap)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>delltech1</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
+      <dc:creator>ilkermanap</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
 <br />
-I am publishing SharedLvmThin, a free and open-source community storage<br />
-plugin for Proxmox VE 9.<br />
+I have built a pipeline to generate packer images of proxmox to be used in Maas. <br />
+I&#039;m an HPC system architect. My plan is to install 200+  proxmox head nodes that will be a part of same proxmox cluster.  We already had Maas in our environment and want to start playing with proxmox. To make deployment easier, I have built the pipeline for generating the packer image of proxmox for Maas.<br />
 <br />
-It provides one LVM-thin pool per VM on an existing shared block-storage<br />
-VG and supports snapshots, rollback, resize, migration, cluster locking,<br />
-guarded autogrow, storage identity checks, and read-only health diagnostics.<br />
+Here is the repo:  <a href="https://github.com/ilkermanap/maas-proxmox" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://github.com/ilkermanap/maas-proxmox</a><br />
 <br />
-RC5.2 has been tested on the Proxmox VE 9.2.x release line with Storage<br />
-API 14 and 15, including three-node cluster qualification. It is currently<br />
-a release...<br />
+and documentation...<br />
 <br />
-<a href="https://forum.proxmox.com/threads/project-sharedlvmthin-for-proxmox-ve-9-%E2%80%94-shared-fc-iscsi-san-storage-with-lvm-thin-snapshots-multipath-safety.186250/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
+<a href="https://forum.proxmox.com/threads/maas-packer-image-for-deploying-proxmox-on-bare-metal.186266/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
     </item>
     <item>
-      <title>Q: pve8to9 sanity check "pre flight check script" for upgrade &gt; does not flag "cgroup V1 Removal" drama?</title>
-      <pubDate>Mon, 07 Sep 2026 16:54:54 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/q-pve8to9-sanity-check-pre-flight-check-script-for-upgrade-does-not-flag-cgroup-v1-removal-drama.186231/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186231</guid>
-      <author>invalid@example.com (fortechitsolutions)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>fortechitsolutions</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi, just a small sanity check question, I am part way through a bit of an adventure today, upgrading some Proxmox cluster nodes from Proxmox8 to 9<br />
-everything went great, except I forgot until too late, this breaking deal detail with Proxmox V9<br />
+      <title>Trying to set IPv6 token, adding LXC options in container config file</title>
+      <pubDate>Tue, 08 Sep 2026 07:42:53 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/trying-to-set-ipv6-token-adding-lxc-options-in-container-config-file.117941/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:117941</guid>
+      <author>invalid@example.com (rsolva)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>rsolva</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><b>Context:</b> I&#039;m using an up-to-date rocky linux 9 container template on Proxmox 7.2-1.<br />
 <br />
-cgroup V1 Removal &gt;  means that the old workaround which was hybrid cgroup mode enabled on Prox.V8 via the kernel boot flag option = systemd.unified_cgroup_hierarchy=0<br />
+What I&#039;m trying to achieve is to set an IPv6 token for the container. I know this is possible, because if i add <code class="bbCodeInline">IPV6_TOKEN=::[TOKEN]</code> to <b>/etc/sysconfig/network-scripts/ifcfg-eth0</b> and do a <code class="bbCodeInline">systemctl restart NetworkManager</code>, the container does get an IPv6 address with the correct token. The only problem is that the ifcfg-eth0 file is overwritten (not persistant) between boots.<br />
 <br />
-is not a viable workaround any longer<br />
-and more to the point, there is no check for...<br />
+When I try an...<br />
 <br />
-<a href="https://forum.proxmox.com/threads/q-pve8to9-sanity-check-pre-flight-check-script-for-upgrade-does-not-flag-cgroup-v1-removal-drama.186231/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Kernel oops when passing through Adaptec ASR-72405 (aacraid) to VM on kernel 7.0+</title>
-      <pubDate>Mon, 07 Sep 2026 16:08:13 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/kernel-oops-when-passing-through-adaptec-asr-72405-aacraid-to-vm-on-kernel-7-0.186134/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186134</guid>
-      <author>invalid@example.com (exterrestris)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>exterrestris</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">There looks to be a regression from kernel 6.17 in kernel 7 relating to aacraid passthrough - when Proxmox is running on kernel 7.0.14, I&#039;m getting a kernel oops on one of my machines on VM startup when passing through an Adaptec ASR-72405 HBA:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Sep 01 11:01:12 starbase-375 kernel: BUG: unable to handle page fault for address: ffff8f4aedf8e018
-Sep 01 11:01:12 starbase-375 kernel: #PF: supervisor write access in kernel mode
-Sep 01 11:01:12 starbase-375 kernel: #PF: error_code(0x0002) -...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/kernel-oops-when-passing-through-adaptec-asr-72405-aacraid-to-vm-on-kernel-7-0.186134/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>9</slash:comments>
-    </item>
-    <item>
-      <title>vm restore slower than absolute 0</title>
-      <pubDate>Mon, 07 Sep 2026 15:00:58 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/vm-restore-slower-than-absolute-0.186176/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186176</guid>
-      <author>invalid@example.com (jwsl224)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>jwsl224</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">we have 
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>proxmox-backup-server 3.4.9-2 running version: 3.4.9</code></pre>
-	</div>
-</div> (yes i know; we&#039;ll be upgrading soon) and it&#039;s been absolutely stellar up till now. but today, when i went to restore a vm, i got 
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>restore image complete (bytes=540672, duration=0.22s, speed=2.33MB/s)</code></pre>
-	</div>
-</div> it&#039;s an r730 running all ssd&#039;s on zfs. there are no warnings in idrac, the cpu is close to 0 utilization, and io delay is not even present. as you can see in the log below, the restore process is taking hours. the...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/vm-restore-slower-than-absolute-0.186176/" class="link link--internal">Read more</a></div>]]></content:encoded>
+<a href="https://forum.proxmox.com/threads/trying-to-set-ipv6-token-adding-lxc-options-in-container-config-file.117941/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>3</slash:comments>
     </item>
     <item>
+      <title>ACME certificate renewal fails with TASK ERROR</title>
+      <pubDate>Tue, 08 Sep 2026 07:29:25 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/acme-certificate-renewal-fails-with-task-error.175809/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:175809</guid>
+      <author>invalid@example.com (thesix)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>thesix</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Since a couple of days our PBS tries to renew its x509 cert. We configured it to use our ACME-PROVIDER with the same credentials we use everywhere else. Here is what happens. We get emails stating:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Proxmox Backup Server was not able to renew a TLS certificate.
+
+Error: connection closed before message completed
+
+Please visit the web interface for further details:</code></pre>
+	</div>
+</div>When I try to generate a new certificate manually via the web ui I get this:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>2025-11-11T10:59:30+01:00: Placing ACME...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/acme-certificate-renewal-fails-with-task-error.175809/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>14</slash:comments>
+    </item>
+    <item>
+      <title>Memory ballooning doesn't reduce host RAM usage?</title>
+      <pubDate>Tue, 08 Sep 2026 07:15:47 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/memory-ballooning-doesnt-reduce-host-ram-usage.186249/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186249</guid>
+      <author>invalid@example.com (sbrocket)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>sbrocket</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m attempting to understand something unexpected that I&#039;m observing about memory ballooning&#039;s behavior and what that implies about its intended usage. I understand that memory ballooning is triggered based on the hypervisor host&#039;s RAM usage reaching a set threshold, with the default set to 80%. However, the host&#039;s RAM usage which is compared to that threshold includes the <i>maximum</i> RAM allocation of all running VMs...including the <i>max</i> for VMs with ballooning enabled, rather than...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/memory-ballooning-doesnt-reduce-host-ram-usage.186249/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>[PDM 1.1.7] Does Live Migration of a Guest between Clusters Require Shared Storage?</title>
+      <pubDate>Tue, 08 Sep 2026 07:11:46 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pdm-1-1-7-does-live-migration-of-a-guest-between-clusters-require-shared-storage.186234/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186234</guid>
+      <author>invalid@example.com (SInisterPisces)</author>
+      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
+      <dc:creator>SInisterPisces</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><b>Reference:</b> <a href="https://pdm.proxmox.com/docs/guests.html" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://pdm.proxmox.com/docs/guests.html</a><br />
+<br />
+<b>My Setup:</b><br />
+<ul>
+<li data-xf-list-type="ul">I&#039;m currently experimenting with PDM in a VM (the &quot;pdmVM&quot;) running on a single-node cluster C1. So, the pdmVM lives on C1.Node1. pdmVM lives on C1.Node1&#039;s local ZFS storage for guests.</li>
+<li data-xf-list-type="ul">I also have a production single node cluster C2, containing only Node1, so my only other node is found at C2.Node1. C2.Node1 uses its own local ZFS mirror for guest storage.</li>
+<li data-xf-list-type="ul">PDM monitors the C1 cluster and the C2...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/pdm-1-1-7-does-live-migration-of-a-guest-between-clusters-require-shared-storage.186234/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
       <title>Setting vCPU over physical maximum, should not be fatal to start, just start with physical core count and pop a warning !</title>
-      <pubDate>Mon, 07 Sep 2026 14:50:01 +0000</pubDate>
+      <pubDate>Tue, 08 Sep 2026 06:52:35 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/setting-vcpu-over-physical-maximum-should-not-be-fatal-to-start-just-start-with-physical-core-count-and-pop-a-warning.186254/</link>
       <guid isPermaLink="false">urn:xenforo:thread:186254</guid>
       <author>invalid@example.com (shodan)</author>
@@ -379,74 +385,88 @@ And if you put it over, VM won&#039;t start<br />
 		width="237" height="150" loading="lazy" /></a><br />
 <br />
 Missing one vCPU should not be a fatal error, it should just start with the max number and just display a warning !</div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
+      <slash:comments>1</slash:comments>
     </item>
     <item>
-      <title>pve-no-subscription CDN edge (de2) returns wrong TLS certificate / 401 for download.proxmox.com</title>
-      <pubDate>Mon, 07 Sep 2026 14:39:42 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pve-no-subscription-cdn-edge-de2-returns-wrong-tls-certificate-401-for-download-proxmox-com.186247/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186247</guid>
-      <author>invalid@example.com (lcerabolini)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>lcerabolini</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Since today (2026-09-07), apt update fails on the pve-no-subscription repository. I&#039;ve ruled out local network/DNS/config issues on my end — repo file, GPG keyring, and internal DNS resolution all verified correct against public DNS behavior.<br />
-<br />
-<br />
-DNS chain (via internal resolver, matches expected public CDN chain):<br />
-<br />
-<br />
-<br />
-download.proxmox.com → download.cdn.proxmox.com → it.eu.cdn.proxmox.com → de2.cdn.proxmox.com → 185.219.221.167<br />
-<br />
-Behavior observed:<br />
-<br />
-<br />
-<ul>
-<li data-xf-list-type="ul">HTTP (port 80) to that IP: connection...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/pve-no-subscription-cdn-edge-de2-returns-wrong-tls-certificate-401-for-download-proxmox-com.186247/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>8</slash:comments>
-    </item>
-    <item>
-      <title>frr.conf and frr.conf.local are not merging completely</title>
-      <pubDate>Mon, 07 Sep 2026 13:59:01 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/frr-conf-and-frr-conf-local-are-not-merging-completely.174825/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:174825</guid>
-      <author>invalid@example.com (Tekuno-Kage)</author>
+      <title>High Switch CPU due to Jumbo Frames / Video Streaming - Migrating Physical pfSense/DGuard to Proxmox?</title>
+      <pubDate>Tue, 08 Sep 2026 06:42:12 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/high-switch-cpu-due-to-jumbo-frames-video-streaming-migrating-physical-pfsense-dguard-to-proxmox.186258/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186258</guid>
+      <author>invalid@example.com (uolficina)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>Tekuno-Kage</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I need feedback on what I&#039;m experiencing:<br />
+      <dc:creator>uolficina</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
 <br />
-<span style="font-size: 15px"><b>My Goal</b></span><br />
+I am working with a client who has an interesting setup. Initially, their entire project was based on VMware ESXi 8.0u2. They run a security monitoring company that handles businesses, homes, security cameras, and related services. They previously had inadequate hardware and network design, so I helped them upgrade their equipment and implement new concepts to solve various operational problems.<br />
 <br />
-<span style="font-size: 12px">Make the FRR merge (SDN-generated /etc/frr/frr.conf + /etc/frr/frr.conf.local) produce the same active configuration I get when I manually apply the changes via vtysh. Currently, that is not the case happening</span>.<br />
+Now, we are facing a new challenge:<br />
 <br />
-<span style="font-size: 15px"><b>Environment (facts)</b></span><br />
 <ul>
-<li data-xf-list-type="ul">Proxmox VE 9.x (clean install)</li>
-<li data-xf-list-type="ul">FRRouting 10.3.1</li>
-<li data-xf-list-type="ul">Proxmox SDN (EVPN/VXLAN; OSPF underlay)</li>
-</ul><h2 class="bbHeading"><a class="u-anchorTarget" name="-inputs-to-the-merge-facts"></a><span style="font-size: 15px">Inputs to the merge (facts)</span>&#8203;<a class="hoverLink" href="#-inputs-to-the-merge-facts" title="Permanent link"></a></h2><b>A) SDN-generated...</b><br />
-<br />
-<a href="https://forum.proxmox.com/threads/frr-conf-and-frr-conf-local-are-not-merging-completely.174825/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
+<li data-xf-list-type="ul"><b>The Software:</b> They use DGuard...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/high-switch-cpu-due-to-jumbo-frames-video-streaming-migrating-physical-pfsense-dguard-to-proxmox.186258/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
     </item>
     <item>
-      <title>Which file system for 100 + 140 TB Veeam servers and repositories?</title>
-      <pubDate>Mon, 07 Sep 2026 13:01:23 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/which-file-system-for-100-140-tb-veeam-servers-and-repositories.186243/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186243</guid>
-      <author>invalid@example.com (etfz)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>etfz</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+      <title>VirtIO-Installation 0.1.271 auf Windows Server 2019 schlägt fehl/geht nicht</title>
+      <pubDate>Tue, 08 Sep 2026 05:57:52 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/virtio-installation-0-1-271-auf-windows-server-2019-schl%C3%A4gt-fehl-geht-nicht.186154/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186154</guid>
+      <author>invalid@example.com (oelk)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>oelk</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
 <br />
-I&#039;m installing Proxmox on a new host, to be used for backups, primarily. It has two RAID devices of 100 and 140 TB, respectively.<br />
+auf unserem Proxmox-Cluster  haben wir 3x Windows-Server 2019 verteilt für einen Failovercluster.<br />
+Bei zweien geht die installation der neuen Version 0.1.271 (virtio-win-0.1.271.iso, virtio-win-gt-x64.exe) gut.<br />
+Bei einem geht das nicht.<br />
+Da kommt dann eine &#039;Rolling Back Action&#039;.<br />
+Unter &#039;Programme und Features&#039; ist da auch garnix gelistet im Gegensatz zu den beiden anderen.<br />
 <br />
-Normally, I would just create LVM thin pools, because that seems to be the goto, and also supports snapshots, which I think it required for backing up using Veeam, but it is apparently limited to 127 TB. I&#039;m going to have a few backup VMs, which themselves need to be backed up, and a few repository VMs, which will have dedicated virtual disks for the data...<br />
+Wird irgendwo von der Installation ein Log-File geschrieben, in dem ich einen möglichen Fehler lesen...<br />
 <br />
-<a href="https://forum.proxmox.com/threads/which-file-system-for-100-140-tb-veeam-servers-and-repositories.186243/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
+<a href="https://forum.proxmox.com/threads/virtio-installation-0-1-271-auf-windows-server-2019-schl%C3%A4gt-fehl-geht-nicht.186154/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>18</slash:comments>
+    </item>
+    <item>
+      <title>Error on backup</title>
+      <pubDate>Tue, 08 Sep 2026 01:03:19 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/error-on-backup.141698/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:141698</guid>
+      <author>invalid@example.com (Ayrton5)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>Ayrton5</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><i>ERROR: backup write data failed: command error: write_data upload error: pipelined request failed: detected chunk with wrong digest.</i><br />
+<br />
+I&#039;ve just set up a new backup server and this error occured whilst it was running the first time. A quick google leads me to believe this is memory related but I couldn&#039;t find much more than that; is it the source or the target with the memory issue? And how does one go about testing memory sticks?</div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox VE 9 – Sustained TLS Transfers Fail With "bad record mac" / Decryption Errors</title>
+      <pubDate>Mon, 07 Sep 2026 21:54:32 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-ve-9-%E2%80%93-sustained-tls-transfers-fail-with-bad-record-mac-decryption-errors.186257/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186257</guid>
+      <author>invalid@example.com (FrankieRankin)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>FrankieRankin</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><h3 class="bbHeading"><a class="u-anchorTarget" name="-proxmox-ve-9-%E2%80%93-sustained-tls-transfers-fail-with"></a>Proxmox VE 9 – Sustained TLS Transfers Fail With&#8203;<a class="hoverLink" href="#-proxmox-ve-9-%E2%80%93-sustained-tls-transfers-fail-with" title="Permanent link"></a></h3><h3 class="bbHeading"><a class="u-anchorTarget" name="-summary"></a>Summary&#8203;<a class="hoverLink" href="#-summary" title="Permanent link"></a></h3>After moving this machine from <b>Proxmox VE 8 to Proxmox VE 9</b>, sustained TLS/HTTPS transfers became unreliable.<br />
+<br />
+Large HTTPS transfers fail at random offsets with errors such as:<br />
+<br />
+Decryption has failed.<br />
+<br />
+and:<br />
+<br />
+OpenSSL SSL_read: OpenSSL/3.5.7:<br />
+error:0A000119:SSL routines::decryption failed or bad record mac<br />
+The problem affects:<br />
+<br />
+<ul>
+<li data-xf-list-type="ul">outbound HTTPS downloads from the PVE host;</li>
+<li data-xf-list-type="ul">inbound HTTPS ISO uploads through the...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/proxmox-ve-9-%E2%80%93-sustained-tls-transfers-fail-with-bad-record-mac-decryption-errors.186257/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
     </item>
   </channel>
 </rss>
