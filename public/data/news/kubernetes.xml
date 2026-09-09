@@ -1,4 +1,395 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: KubeletInUserNamespace (aka Rootless mode) Graduates to Beta</title><link>https://kubernetes.io/blog/2026/09/04/kubernetes-v1-37-rootless-beta/</link><pubDate>Fri, 04 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/04/kubernetes-v1-37-rootless-beta/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: Advancing Workload-Aware Scheduling</title><link>https://kubernetes.io/blog/2026/09/08/kubernetes-v1-37-advancing-workload-aware-scheduling/</link><pubDate>Tue, 08 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/08/kubernetes-v1-37-advancing-workload-aware-scheduling/</guid><description>
+&lt;p>AI/ML and complex batch workloads continue to push the boundaries of Kubernetes scheduling. Following the foundational workload-centric enhancements introduced in previous releases, Kubernetes v1.37 delivers the next major milestone in the Workload-Aware Scheduling (WAS) journey. In this release, the core Workload and PodGroup APIs—enabling gang scheduling—along with Workload-Aware Preemption (WAP) and shared DRA ResourceClaims for PodGroups, all graduate to Beta, solidifying their role in the Kubernetes ecosystem.&lt;/p>
+&lt;p>To address the hierarchical scheduling requirements of modern high-performance distributed workloads, v1.37 introduces the new &lt;a href="https://kubernetes.io/docs/concepts/workloads/compositepodgroup-api/">CompositePodGroup&lt;/a> API.
+This new API allows expressing multi-level topology constraints, gang scheduling, and preemption policies for complex, heterogeneous groups of Pods. Crucially, this architectural expansion unlocks native scheduling support for advanced workload structures commonly managed by higher-order extension APIs such as JobSet and LeaderWorkerSet (LWS).&lt;/p>
+&lt;p>Alongside these API additions, v1.37 focuses on streamlining adoption by introducing a new set of &lt;em>controller integration APIs&lt;/em> and the &lt;code>workloadbuilder&lt;/code> Go library. These provide standardized building blocks that significantly simplify how out-of-tree controllers can integrate with WAS capabilities.
+Utilizing these new tools, the native Job controller integration has been upgraded to fully consume the expanded WAS APIs—enabling advanced scheduling policies, flexible disruption modes, and topology-aware scheduling for standard batch workloads.&lt;/p>
+&lt;h2 id="gang-scheduling-and-workload-podgroup-apis">Gang scheduling and Workload / PodGroup APIs&lt;a class="td-heading-self-link" href="#gang-scheduling-and-workload-podgroup-apis" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Kubernetes v1.37 delivers a major milestone: &lt;a href="https://kubernetes.io/docs/concepts/workloads/workload-api/">Workload&lt;/a> / &lt;a href="https://kubernetes.io/docs/concepts/workloads/podgroup-api/">PodGroup&lt;/a> APIs and &lt;em>gang scheduling&lt;/em>
+are officially graduating to Beta. This graduation signals that native, &amp;quot;all-or-nothing&amp;quot;
+scheduling for workloads is solidifying for wider adoption.&lt;/p>
+&lt;p>Key updates to the API and gang scheduling algorithm in this release include:&lt;/p>
+&lt;h3 id="beta-graduation-and-api-versioning-changes">Beta graduation and API versioning changes&lt;a class="td-heading-self-link" href="#beta-graduation-and-api-versioning-changes" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The core Workload and PodGroup APIs have been promoted to v1beta1, meaning they are now one step away from
+General Availability (GA). For early adopters who have been testing these features,
+take note of the alpha versioning transition: v1alpha2 has been entirely replaced by v1alpha3.
+This transition introduces breaking changes designed to clean up the API structure around &lt;code>disruptionMode&lt;/code>.&lt;/p>
+&lt;h3 id="native-podgroup-queueing">Native PodGroup queueing&lt;a class="td-heading-self-link" href="#native-podgroup-queueing" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>A significant under-the-hood improvement in v1.37 makes the PodGroup a first-class citizen in the scheduling queue.
+Previously, even if belonging to a PodGroup, all member Pods were queued individually. Now, only the top-level PodGroup
+object is queued. This ensures all Pods share the same queueing behavior and lays the groundwork
+for more advanced PodGroup queueing strategies in the future.&lt;/p>
+&lt;h3 id="dynamic-elasticity-with-mincount-mutability">Dynamic elasticity with minCount mutability&lt;a class="td-heading-self-link" href="#dynamic-elasticity-with-mincount-mutability" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>In earlier iterations, the &lt;code>minCount&lt;/code> field, which dictates the minimum number of Pods required
+to successfully schedule a PodGroup, was strictly immutable. In v1.37, &lt;code>minCount&lt;/code> is now mutable.
+This API change unlocks flexibility for elastic workloads. Controllers can now dynamically
+adjust the minimum required size of a gang on the fly, allowing workloads to gracefully degrade
+or expand without interrupting already-scheduled Pods.&lt;/p>
+&lt;h2 id="workload-aware-preemption">Workload-aware preemption&lt;a class="td-heading-self-link" href="#workload-aware-preemption" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>In Kubernetes v1.37 the separate
+&lt;code>WorkloadAwarePreemption&lt;/code> &lt;a href="https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/">feature gate&lt;/a>
+for &lt;em>workload-aware preemption&lt;/em> was merged into the &lt;code>GenericWorkload&lt;/code> feature gate,
+becoming a core part of the gang scheduling effort.&lt;/p>
+&lt;p>While the core concepts of workload-aware preemption stay the same, there are some
+differences between the v1.36 and v1.37 releases:&lt;/p>
+&lt;h3 id="performance-and-optimality">Performance and optimality&lt;a class="td-heading-self-link" href="#performance-and-optimality" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>To check whether a preemptor can fit in the cluster thanks to preemption, the scheduler
+simulates the removal of all potential victims and re-runs the scheduling algorithm. After
+that it tries to reprieve as many victims as possible. In the v1.36 release, the scheduling
+algorithm was run for each victim reprieval, verifying whether with the victim reprieved, the algorithm
+can still find a valid placement for the preemptor. In v1.37, the scheduling algorithm is run only once
+and the preemptor Pods are assumed based on its output. Later, the reprieval checks
+whether a victim can still run in its place with the preemptor assumed.&lt;/p>
+&lt;h3 id="podgroup-as-a-victim">PodGroup as a victim&lt;a class="td-heading-self-link" href="#podgroup-as-a-victim" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>One of the limitations of v1.36 was the fact that the default preemption for single Pods
+was not aware of PodGroups and was not respecting their &lt;code>disruptionMode&lt;/code> fields, allowing
+for disruption of single Pods even when the PodGroup had &lt;code>disruptionMode: {all: {}}&lt;/code> set.
+Kubernetes v1.37 removes this limitation; the default preemption now respects the PodGroup
+&lt;code>disruptionMode&lt;/code> field.&lt;/p>
+&lt;h3 id="rename-of-the-disruptionmode-fields">Rename of the &lt;code>disruptionMode&lt;/code> fields&lt;a class="td-heading-self-link" href="#rename-of-the-disruptionmode-fields" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>During the promotion of the API to Beta, the &lt;code>disruptionMode&lt;/code> field was changed to decouple
+its naming from the PodGroup object, allowing consistent naming across PodGroups and CompositePodGroups.
+The modes changed as follows: &lt;code>PodGroup&lt;/code> became &lt;code>all&lt;/code>, and &lt;code>Pod&lt;/code> became &lt;code>single&lt;/code>.&lt;/p>
+&lt;h3 id="support-for-preemptionpolicy">Support for &lt;code>preemptionPolicy&lt;/code>&lt;a class="td-heading-self-link" href="#support-for-preemptionpolicy" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>In v1.36, the PodGroup does not have a &lt;code>preemptionPolicy&lt;/code> field. The PodGroup can perform
+preemption as long as none of the Pods forming it has &lt;code>preemptionPolicy: Never&lt;/code> set. In v1.37,
+when the &lt;a href="https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#PodGroupPreemptionPolicy">&lt;code>PodGroupPreemptionPolicy&lt;/code>&lt;/a>
+feature gate is enabled, a PodGroup also has a &lt;code>preemptionPolicy&lt;/code> field. It serves as an authoritative field for whether
+a PodGroup can perform preemption.&lt;/p>
+&lt;h2 id="compositepodgroup-api">CompositePodGroup API&lt;a class="td-heading-self-link" href="#compositepodgroup-api" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>In Kubernetes v1.36, workload-aware scheduling established a clean separation between static workload templates (Workload) and runtime group state (PodGroup), but the supported scheduling policies were limited to a single, flat group. The CompositePodGroup API, introduced in Kubernetes v1.37, extends this model to support hierarchical scheduling requirements.&lt;/p>
+&lt;p>This API allows its consumers to express multi-level scheduling requirements by organizing a workload in a tree-shaped hierarchy consisting of CompositePodGroup and PodGroup objects. Each CompositePodGroup carries policies and constraints that apply to other groups (CompositePodGroups and/or PodGroups), similar to how PodGroups govern scheduling behavior for a flat group of Pods. The scheduler treats such a hierarchy as a single scheduling unit and aims to satisfy the requirements specified by every group within that hierarchy.&lt;/p>
+&lt;h3 id="defining-a-workload-hierarchy">Defining a workload hierarchy&lt;a class="td-heading-self-link" href="#defining-a-workload-hierarchy" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>To express multi-level scheduling requirements, you define a hierarchy of templates in a Workload object. Controllers then create the corresponding CompositePodGroup and PodGroup objects from that hierarchy.&lt;/p>
+&lt;p>To support this, the Workload API is extended with the &lt;code>spec.compositePodGroupTemplates&lt;/code> field. Each CompositePodGroupTemplate defines a template for a parent CompositePodGroup and directly nests the templates (&lt;code>podGroupTemplates&lt;/code> and/or &lt;code>compositePodGroupTemplates&lt;/code>) from which its child groups derive.&lt;/p>
+&lt;p>Below is a sample Workload object that defines a two-level template hierarchy:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">scheduling.k8s.io/v1beta1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Workload&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-workload&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kubernetes.io/description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Two-level workload hierarchy requiring 4 worker Pods and 1 driver Pod to schedule together.&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">compositePodGroupTemplates&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">workload-root&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gang&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">minGroupCount&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">2&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">podGroupTemplates&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">workers&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gang&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">minCount&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">4&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">driver&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gang&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">minCount&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>After creating &lt;code>example-workload&lt;/code>, a controller can stamp out the corresponding runtime group objects from these templates:&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>A root CompositePodGroup that references the &lt;code>workload-root&lt;/code> template in &lt;code>example-workload&lt;/code> and carries its group-level scheduling policy (gang scheduling with &lt;code>minGroupCount: 2&lt;/code>):&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">scheduling.k8s.io/v1alpha3&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">CompositePodGroup&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-root-group&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kubernetes.io/description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Root group coordinating gang scheduling across child worker and driver PodGroups.&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">workloadRef&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">workloadName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-workload&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">templateName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">workload-root&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gang&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">minGroupCount&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">2&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>Two child PodGroup objects (&lt;code>example-workload-workers&lt;/code> and &lt;code>example-workload-driver&lt;/code>) that reference their respective leaf templates in &lt;code>example-workload&lt;/code> and link to the root group via &lt;code>parentCompositePodGroupName&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">scheduling.k8s.io/v1beta1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">PodGroup&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-workload-workers&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kubernetes.io/description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Worker group requiring at least 4 Pods to be scheduled together.&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">parentCompositePodGroupName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-root-group&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">workloadRef&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">workloadName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-workload&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">templateName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">workers&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gang&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">minCount&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">4&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">scheduling.k8s.io/v1beta1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">PodGroup&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-workload-driver&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kubernetes.io/description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Driver group requiring 1 Pod to schedule alongside the workers.&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">parentCompositePodGroupName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-root-group&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">workloadRef&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">workloadName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-workload&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">templateName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">driver&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gang&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">minCount&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;/ol>
+&lt;h3 id="how-multi-level-gang-scheduling-works">How multi-level gang scheduling works&lt;a class="td-heading-self-link" href="#how-multi-level-gang-scheduling-works" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>To schedule a hierarchical workload, &lt;code>kube-scheduler&lt;/code> evaluates the entire group tree as a unified scheduling unit:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Recursive evaluation&lt;/strong>: The scheduler traverses the hierarchy from the root CompositePodGroup down to the leaf PodGroup objects. At each level, a parent CompositePodGroup is considered schedulable only when its child groups satisfy its scheduling policy (for example, placing at least &lt;code>minGroupCount&lt;/code> of child groups when using the gang policy), while each leaf PodGroup must satisfy its own Pod-level policy (for example, placing at least &lt;code>minCount&lt;/code> of member Pods when using the gang policy).&lt;/li>
+&lt;li>&lt;strong>All-or-nothing scheduling&lt;/strong>: Once a valid combination of child groups is found that satisfies the requirements of the root CompositePodGroup, the Pods across the entire hierarchy are scheduled and bound atomically. If the root group cannot satisfy its policy constraints, the entire hierarchy remains unschedulable and no Pods are bound, preventing partial deployments and deadlocks.&lt;/li>
+&lt;/ul>
+&lt;h3 id="workload-aware-preemption-for-the-compositepodgroup-api">Workload-aware preemption for the CompositePodGroup API&lt;a class="td-heading-self-link" href="#workload-aware-preemption-for-the-compositepodgroup-api" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Kubernetes v1.37 extends workload-aware preemption to support CompositePodGroup hierarchies as well. Specifically, if a CompositePodGroup cannot be scheduled due to insufficient capacity in the cluster, the scheduler can invoke preemption to evict lower-priority workloads in order to fit the Pods belonging to that CompositePodGroup.&lt;/p>
+&lt;p>A CompositePodGroup can be selected for preemption as well. To specify the desired behavior during preemption, workload owners can specify an appropriate &lt;code>disruptionMode&lt;/code> in the CompositePodGroup spec:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>&lt;code>single&lt;/code>&lt;/strong>: Allows individual child groups within the CompositePodGroup to be preempted and disrupted independently. This is the behavior when &lt;code>disruptionMode&lt;/code> is not set.&lt;/li>
+&lt;li>&lt;strong>&lt;code>all&lt;/code>&lt;/strong>: Enforces &amp;quot;all-or-nothing&amp;quot; disruption semantics across the entire CompositePodGroup hierarchy. If any Pod within the descendant subtree must be preempted, the scheduler evicts all Pods across the entire hierarchy together.&lt;/li>
+&lt;/ul>
+&lt;h2 id="topology-aware-scheduling">Topology-aware scheduling&lt;a class="td-heading-self-link" href="#topology-aware-scheduling" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>In Kubernetes v1.37, topology-aware scheduling expands to support complex, multi-level workload hierarchies and delivers performance improvements for existing single-level deployments.&lt;/p>
+&lt;h3 id="multi-level-topology-aware-scheduling">Multi-level topology-aware scheduling&lt;a class="td-heading-self-link" href="#multi-level-topology-aware-scheduling" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>In Kubernetes v1.36, we introduced foundational topology-aware scheduling, allowing you to define co-location constraints directly on a PodGroup. While effective for single-level groupings, complex distributed workloads—such as large-scale AI/ML training, JobSet deployments, or disaggregated inference via LeaderWorkerSet (LWS)—often require co-location across multiple levels of cluster infrastructure simultaneously.&lt;/p>
+&lt;p>For example, an entire workload may need to run within a single availability zone, while different parts of that workload (such as specific worker groups or driver processes) require strict co-location within specific server racks.&lt;/p>
+&lt;p>In Kubernetes v1.37, alongside the new CompositePodGroup API (&lt;code>scheduling.k8s.io/v1alpha3&lt;/code>), topology-aware scheduling expands to support &lt;em>multi-level topology-aware scheduling&lt;/em>. You can now express complex co-location requirements by specifying topology constraints at different levels of a group hierarchy.&lt;/p>
+&lt;h3 id="top-down-topology-constraint-resolution">Top-down topology constraint resolution&lt;a class="td-heading-self-link" href="#top-down-topology-constraint-resolution" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>During hierarchical scheduling, the &lt;code>kube-scheduler&lt;/code> resolves multi-level topology constraints in a &lt;strong>top-down&lt;/strong> manner. Specifically, topology domains that are considered during the scheduling of a child group are confined within a topology domain that corresponds to the placement assumed by the parent group.&lt;/p>
+&lt;h3 id="configuration-and-runtime-execution">Configuration and runtime execution&lt;a class="td-heading-self-link" href="#configuration-and-runtime-execution" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Using the updated Workload API (&lt;code>scheduling.k8s.io/v1beta1&lt;/code>), you can configure multi-level topology constraints directly within &lt;code>compositePodGroupTemplates&lt;/code>. In the example below, the parent template constrains the overall workload to a single availability zone (&lt;code>topology.kubernetes.io/zone&lt;/code>), while child templates for &lt;code>workers&lt;/code> and &lt;code>driver&lt;/code> constrain their respective Pods to server racks (&lt;code>topology.example.com/rack&lt;/code>) within that selected zone:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">scheduling.k8s.io/v1beta1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Workload&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">multi-level-tas-workload&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">job-ns&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kubernetes.io/description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Workload defining zone-level co-location for the root group and rack-level co-location for child groups.&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">compositePodGroupTemplates&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">root&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gang&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">minGroupCount&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">2&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingConstraints&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">topology&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">key&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">topology.kubernetes.io/zone&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">podGroupTemplates&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">workers&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gang&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">minCount&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">8&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingConstraints&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">topology&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">key&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">topology.example.com/rack&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">driver&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gang&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">minCount&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingConstraints&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">topology&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">key&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">topology.example.com/rack&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>When a controller creates an instance of this workload at runtime, it spawns the corresponding runtime objects from these templates:&lt;/p>
+&lt;ol>
+&lt;li>The root CompositePodGroup referencing the &lt;code>root&lt;/code> template, carrying the availability zone topology constraint and the hierarchical gang scheduling policy.&lt;/li>
+&lt;li>The two child PodGroup objects (&lt;code>tas-workload-workers&lt;/code> and &lt;code>tas-workload-driver&lt;/code>), each referencing the root CompositePodGroup as their parent group via the &lt;code>parentCompositePodGroupName&lt;/code> spec field:&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">scheduling.k8s.io/v1alpha3&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">CompositePodGroup&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">tas-workload-root&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">job-ns&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kubernetes.io/description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Root group constraining the entire workload to a single availability zone.&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">workloadRef&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">workloadName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">multi-level-tas-workload&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">templateName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">root&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gang&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">minGroupCount&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">2&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingConstraints&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">topology&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">key&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">topology.kubernetes.io/zone&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">scheduling.k8s.io/v1beta1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">PodGroup&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">tas-workload-workers&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">job-ns&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kubernetes.io/description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Worker group requiring 8 Pods co-located within a single rack in the selected zone.&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">parentCompositePodGroupName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">tas-workload-root&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">workloadRef&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">workloadName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">multi-level-tas-workload&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">templateName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">workers&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gang&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">minCount&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">8&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingConstraints&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">topology&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">key&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">topology.example.com/rack&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">scheduling.k8s.io/v1beta1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">PodGroup&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">tas-workload-driver&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">job-ns&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kubernetes.io/description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Driver group requiring 1 Pod placed in a rack within the selected zone.&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">parentCompositePodGroupName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">tas-workload-root&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">workloadRef&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">workloadName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">multi-level-tas-workload&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">templateName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">driver&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gang&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">minCount&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingConstraints&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">topology&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">key&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">topology.example.com/rack&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>During scheduling, the scheduler evaluates multiple candidate availability zones across the cluster for &lt;code>tas-workload-root&lt;/code>. For each candidate zone, it subdivides the nodes by rack topology to explore feasible rack placements for &lt;code>tas-workload-workers&lt;/code> and &lt;code>tas-workload-driver&lt;/code> strictly within that zone, systematically evaluating multiple combinations across available zones and racks before making a scheduling decision.&lt;/p>
+&lt;p>By allowing topology constraints to be modeled hierarchically, Kubernetes v1.37 provides a structured way to express multi-level co-location requirements across complex cluster infrastructures.&lt;/p>
+&lt;h3 id="performance-improvements-for-single-level-tas">Performance improvements for single-level TAS&lt;a class="td-heading-self-link" href="#performance-improvements-for-single-level-tas" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Alongside the Alpha introduction of multi-level hierarchies, Kubernetes v1.37 reduces the cost of placement evaluation for existing single-level topology-aware scheduling. We are continuously working to optimize the efficiency of placement evaluation algorithms in &lt;code>kube-scheduler&lt;/code> and plan to deliver further performance improvements in future releases.&lt;/p>
+&lt;h2 id="controller-integration-apis">Controller Integration APIs&lt;a class="td-heading-self-link" href="#controller-integration-apis" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Kubernetes v1.37 introduces new standard building blocks so that every controller can expose the same scheduling primitives in their own APIs, and share the same logic for translating them into scheduling objects.
+These primitives express specific scheduling behaviors — such as policies or disruption logic — while
+leaving the field naming flexible for each controller. A prime example of this is the native Job
+controller, which we detail in the next section.&lt;/p>
+&lt;p>Types prefixed with &lt;code>WorkloadPodGroup&lt;/code> describe a leaf group of Pods; types prefixed with
+&lt;code>WorkloadCompositePodGroup&lt;/code> describe a group of groups. A controller embeds them verbatim into
+its own API, under whatever field name fits its domain:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>WorkloadPodGroupSchedulingPolicy&lt;/code> — either &lt;code>basic&lt;/code>, meaning standard Pod-by-Pod scheduling, or &lt;code>gang&lt;/code> with a &lt;code>minCount&lt;/code>. The composite variant takes a &lt;code>minGroupCount&lt;/code> instead.&lt;/li>
+&lt;li>&lt;code>WorkloadPodGroupSchedulingConstraints&lt;/code> — the topology constraints (&lt;code>topology[].key&lt;/code>) the group's Pods must be co-located within.&lt;/li>
+&lt;li>&lt;code>WorkloadPodGroupDisruptionMode&lt;/code> — &lt;code>single&lt;/code> or &lt;code>all&lt;/code>, with the preemption semantics described earlier in this post.&lt;/li>
+&lt;li>&lt;code>WorkloadPodGroupResourceClaim&lt;/code> — the ResourceClaims shared across the group.&lt;/li>
+&lt;/ul>
+&lt;p>Only the shapes are shared, so controllers retain full autonomy over how they name and nest these fields in their own APIs.&lt;/p>
+&lt;p>&lt;strong>The &lt;code>workloadbuilder&lt;/code> library&lt;/strong> turns that intent into the scheduling objects. A controller describes its workload as a tree of &lt;code>WorkloadItem&lt;/code> nodes — a node with children compiles to a &lt;code>CompositePodGroupTemplate&lt;/code>, a node without children to a &lt;code>PodGroupTemplate&lt;/code> — and attaches its own defaults plus the user-supplied building blocks to each node. From there, &lt;code>Validate()&lt;/code> reports problems back at the exact field path within the controller's own API, &lt;code>BuildWorkload()&lt;/code> compiles the tree into a Workload, and &lt;code>NewPodGroup()&lt;/code> and &lt;code>NewCompositePodGroup()&lt;/code> stamp out the runtime group objects.&lt;/p>
+&lt;p>Validation is deny-by-default: a controller declares the policies and disruption modes it actually supports through &lt;code>AllowedPolicies&lt;/code> and &lt;code>AllowedDisruptionModes&lt;/code>, and anything outside those lists is rejected. Building blocks added in future releases therefore stay unavailable until a controller explicitly opts into them.&lt;/p>
+&lt;p>For hierarchical workloads where a parent controller owns the Workload and delegates group creation to its children, &lt;code>NewBuilderFromExistingWorkload&lt;/code> lets a child materialize only its own PodGroup from the parent's Workload.&lt;/p>
+&lt;p>Neither the building blocks nor the library have a feature gate of their own; they become user-visible through whichever controller adopts them. The native Job controller is the first to do so, and we detail it in the next section.&lt;/p>
+&lt;h2 id="integration-with-the-job-controller">Integration with the Job controller&lt;a class="td-heading-self-link" href="#integration-with-the-job-controller" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Building upon the new &lt;em>controller integration&lt;/em> APIs, the Job API now features an explicit &lt;code>.spec.scheduling&lt;/code> field, so you can declare how a Job should be scheduled instead of relying on the Job controller to infer it from the Job's shape. This expands support well beyond static, indexed, and fully-parallel Jobs.&lt;/p>
+&lt;p>&lt;code>.spec.scheduling&lt;/code> is composed of the building blocks described above:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>schedulingPolicy&lt;/code> — &lt;code>basic&lt;/code> for standard Pod-by-Pod scheduling, or &lt;code>gang&lt;/code> for all-or-nothing scheduling.&lt;/li>
+&lt;li>&lt;code>schedulingConstraints&lt;/code> — the topology domain the Job's Pods must be co-located within.&lt;/li>
+&lt;li>&lt;code>disruptionMode&lt;/code> — whether the Job's Pods can be preempted individually (&lt;code>single&lt;/code>) or only as a whole (&lt;code>all&lt;/code>).&lt;/li>
+&lt;li>&lt;code>resourceClaims&lt;/code> — the ResourceClaims shared by all of the Job's Pods.&lt;/li>
+&lt;/ul>
+&lt;p>For example:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">batch/v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Job&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">distributed-training-job&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kubernetes.io/description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Distributed Job using explicit WAS scheduling with gang policy and zone topology constraints.&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">parallelism&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">8&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">completions&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">8&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">scheduling&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gang&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>{}&lt;span class="w"> &lt;/span>&lt;span class="c"># minCount omitted → defaults to parallelism (8)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingConstraints&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">topology&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">key&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">topology.kubernetes.io/zone&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">disruptionMode&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">all&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>{}&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">template&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">containers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="l">...&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Omitting &lt;code>.spec.scheduling&lt;/code>, or omitting &lt;code>schedulingPolicy&lt;/code> within it, selects the &lt;code>basic&lt;/code> policy, which behaves exactly like standard Job scheduling today.&lt;/p>
+&lt;p>For every Job it manages, the controller compiles this configuration into a Workload and a PodGroup
+owned by the Job, and sets &lt;code>.spec.schedulingGroup.podGroupName&lt;/code> on each Pod it creates so the scheduler
+treats them as one group. Once created, &lt;code>.spec.scheduling&lt;/code> is immutable, with one exception:
+&lt;code>schedulingPolicy.gang.minCount&lt;/code> can be updated, which lets you resize a running gang.&lt;/p>
+&lt;h2 id="dra-resourceclaim-support-for-workloads">DRA ResourceClaim support for workloads&lt;a class="td-heading-self-link" href="#dra-resourceclaim-support-for-workloads" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>As the core WAS APIs mature, so do their integrations with &lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/">Dynamic Resource Allocation&lt;/a>
+(DRA). Kubernetes v1.36 introduced the &lt;a href="https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#DRAWorkloadResourceClaims">&lt;code>DRAWorkloadResourceClaims&lt;/code>&lt;/a>
+feature gate. The associated feature allows &lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-api/#resourceclaims-templates">ResourceClaims&lt;/a>
+to be replicated and reserved for entire PodGroups and shared by all their
+member Pods:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">scheduling.k8s.io/v1beta1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">PodGroup&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">training-job-workers-pg&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="l">...&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resourceClaims&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">pg-claim&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resourceClaimTemplateName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">my-claim-template&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Pod&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">topology-aware-workers-pg-pod&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="l">...&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">schedulingGroup&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">podGroupName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">training-job-workers-pg&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resourceClaims&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">pg-claim&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resourceClaimTemplateName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">my-claim-template&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>In Kubernetes v1.37, the &lt;code>DRAWorkloadResourceClaims&lt;/code> feature gate graduated to Beta.&lt;/p>
+&lt;p>While the API and core functionality of the feature remain unchanged, one change
+eliminates some potentially surprising behavior when disabling the feature.
+Previously when one of a Pod's &lt;code>spec.resourceClaims&lt;/code> referenced a
+ResourceClaimTemplate and matched one of its PodGroup's &lt;code>spec.resourceClaims&lt;/code>
+and the &lt;code>DRAWorkloadResourceClaims&lt;/code> feature gate was &lt;strong>disabled&lt;/strong>, a ResourceClaim was created for the Pod instead
+of the PodGroup. In that scenario in v1.37, no ResourceClaim is created at all.
+This change prevents Kubernetes from creating a flood of ResourceClaims from a
+ResourceClaimTemplate and potentially exhausting DRA resources when a
+claim intended to be shared by a whole PodGroup is replicated for each and every
+Pod in the group.&lt;/p>
+&lt;p>For more information, see the &lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-api/#workload-resource-claims">feature documentation&lt;/a>.&lt;/p>
+&lt;h2 id="what-s-next">What's next?&lt;a class="td-heading-self-link" href="#what-s-next" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The &lt;a href="https://www.kubernetes.dev/community/community-groups/wg/workload-aware-scheduling/">Workload-Aware Scheduling Working Group&lt;/a> (WG WAS) is currently finalizing its plans for the Kubernetes v1.38 release cycle. While the roadmap is still taking shape (stay tuned!), the following key initiatives are already planned:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Graduation of Workload and PodGroup APIs to GA:&lt;/strong> Solidifying the core foundation of workload-aware scheduling as a stable Kubernetes API.&lt;/li>
+&lt;li>&lt;strong>Graduation of Topology-Aware Scheduling (TAS) and CompositePodGroup (CPG) to Beta:&lt;/strong> Bringing these advanced placement and hierarchical scheduling features to Beta stability.&lt;/li>
+&lt;li>&lt;strong>Graduation of controller integration building blocks to Beta:&lt;/strong> Further refining the integration APIs to ensure a robust developer experience.&lt;/li>
+&lt;li>&lt;strong>Increased adoption and integration:&lt;/strong> Expanding the ecosystem by integrating workload-aware scheduling with other controllers, with a particular focus on hierarchical orchestrators such as &lt;a href="https://github.com/kubernetes-sigs/jobset">JobSet&lt;/a>.&lt;/li>
+&lt;li>&lt;strong>Kueue Integration:&lt;/strong> Fostering closer alignment between WAS and &lt;a href="https://kueue.sigs.k8s.io/">Kueue&lt;/a>. In the near term, we aim to ensure Kueue is fully aware of WAS features for seamless interoperability. In the long term, we envision Kueue leveraging WAS as its underlying engine for capabilities like gang-scheduling and topology-aware placement.&lt;/li>
+&lt;/ul>
+&lt;h2 id="getting-started">Getting started&lt;a class="td-heading-self-link" href="#getting-started" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Many of the workload-aware scheduling improvements are now available as Beta features in v1.37, while new advanced capabilities are introduced in Alpha. Both Beta and Alpha features here are disabled by default and require manual enablement.&lt;/p>
+&lt;p>&lt;strong>Beta features:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Workload API, gang scheduling, and preemption:&lt;/strong> The
+&lt;a href="https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#GenericWorkload">&lt;code>GenericWorkload&lt;/code>&lt;/a>
+feature gate (which now integrates gang scheduling and workload-aware preemption) is Beta and disabled by default on the &lt;code>kube-apiserver&lt;/code>, &lt;code>kube-controller-manager&lt;/code> and &lt;code>kube-scheduler&lt;/code>.
+Ensure your manifests are updated to use the &lt;code>scheduling.k8s.io/v1beta1&lt;/code>
+&lt;a class='glossary-tooltip' title='A set of related paths in the Kubernetes API.' data-bs-toggle='tooltip' data-bs-placement='top' href='https://kubernetes.io/docs/concepts/overview/kubernetes-api/#api-groups-and-versioning' target='_blank' aria-label='API group'>API group&lt;/a>.&lt;/li>
+&lt;li>&lt;strong>DRA ResourceClaim support for workloads:&lt;/strong> Enable the
+&lt;a href="https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#DRAWorkloadResourceClaims">&lt;code>DRAWorkloadResourceClaims&lt;/code>&lt;/a>
+feature gate on the &lt;code>kube-apiserver&lt;/code>, &lt;code>kube-controller-manager&lt;/code>, &lt;code>kube-scheduler&lt;/code> and &lt;code>kubelet&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Alpha features:&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;strong>Topology-aware scheduling:&lt;/strong> Enable the
+&lt;a href="https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#TopologyAwareWorkloadScheduling">&lt;code>TopologyAwareWorkloadScheduling&lt;/code>&lt;/a>
+feature gate on the &lt;code>kube-apiserver&lt;/code> and &lt;code>kube-scheduler&lt;/code>.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>CompositePodGroup API:&lt;/strong> Enable the
+&lt;a href="https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#CompositePodGroup">&lt;code>CompositePodGroup&lt;/code>&lt;/a>
+feature gate on the &lt;code>kube-apiserver&lt;/code>, &lt;code>kube-controller-manager&lt;/code> and &lt;code>kube-scheduler&lt;/code>, and ensure the &lt;code>scheduling.k8s.io/v1alpha3&lt;/code> API version is enabled.
+Note that enabling &lt;code>CompositePodGroup&lt;/code> on the &lt;code>kube-controller-manager&lt;/code> also requires the &lt;a href="https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#TopologyAwareWorkloadScheduling">&lt;code>TopologyAwareWorkloadScheduling&lt;/code>&lt;/a> feature gate to be enabled.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>Workload API integration with the Job controller:&lt;/strong> Enable the
+&lt;a href="https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#WorkloadWithJob">&lt;code>WorkloadWithJob&lt;/code>&lt;/a>
+feature gate on the &lt;code>kube-apiserver&lt;/code> and &lt;code>kube-controller-manager&lt;/code>.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;strong>PodGroup &lt;code>preemptionPolicy&lt;/code>:&lt;/strong> Enable the
+&lt;a href="https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#PodGroupPreemptionPolicy">&lt;code>PodGroupPreemptionPolicy&lt;/code>&lt;/a>
+feature gate on the &lt;code>kube-apiserver&lt;/code> and &lt;code>kube-scheduler&lt;/code>.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Controller integration APIs:&lt;/strong>&lt;/p>
+&lt;p>The new &lt;code>workloadbuilder&lt;/code> library is available to developers building both out-of-tree and in-tree controllers who want to integrate with WAS. It does not require a feature gate. You can explore the library and find usage examples directly in the &lt;a href="https://github.com/kubernetes/component-helpers/tree/master/scheduling/schedulingv1/workloadbuilder">&lt;code>kubernetes/component-helpers&lt;/code>&lt;/a> repository.&lt;/p>
+&lt;p>We encourage you to try out workload-aware scheduling in your test clusters
+and share your experiences to help shape the future of Kubernetes scheduling.
+You can send your feedback by:&lt;/p>
+&lt;ul>
+&lt;li>Reaching out via &lt;a href="https://kubernetes.slack.com/archives/C0AHLJ0EAEL">Slack (#wg-workload-aware-scheduling)&lt;/a>.&lt;/li>
+&lt;li>Joining the &lt;a href="https://www.kubernetes.dev/community/community-groups/wg/workload-aware-scheduling/">WG Workload-Aware Scheduling&lt;/a> or &lt;a href="https://www.kubernetes.dev/community/community-groups/sigs/scheduling/#meetings">SIG Scheduling&lt;/a> meetings.&lt;/li>
+&lt;li>Filing a new &lt;a href="https://github.com/kubernetes/kubernetes/issues">issue&lt;/a> in the Kubernetes repository.&lt;/li>
+&lt;/ul>
+&lt;h2 id="learn-more">Learn more&lt;a class="td-heading-self-link" href="#learn-more" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>To dive deeper into the architecture and design of these features, read the KEPs:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://www.kubernetes.dev/resources/keps/4671/">KEP-4671: Gang Scheduling Support in Kubernetes&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.kubernetes.dev/resources/keps/5710/">KEP-5710: Workload-aware preemption&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.kubernetes.dev/resources/keps/5732/">KEP-5732: Topology-aware workload scheduling&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.kubernetes.dev/resources/keps/6012/">KEP-6012: CompositePodGroup API&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.kubernetes.dev/resources/keps/6089/">KEP-6089: WAS: Controller Integration APIs&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.kubernetes.dev/resources/keps/5547/">KEP-5547: WAS: Integrate Workload APIs with Job controller&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.kubernetes.dev/resources/keps/5729/">KEP-5729: DRA: ResourceClaim Support for Workloads&lt;/a>&lt;/li>
+&lt;/ul></description></item><item><title>Kubernetes v1.37: KubeletInUserNamespace (aka Rootless mode) Graduates to Beta</title><link>https://kubernetes.io/blog/2026/09/04/kubernetes-v1-37-rootless-beta/</link><pubDate>Fri, 04 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/04/kubernetes-v1-37-rootless-beta/</guid><description>
 &lt;p>Kubernetes v1.37 promotes the &lt;code>KubeletInUserNamespace&lt;/code> feature gate to beta.
 With this feature enabled, all of the node components (kubelet, CRI and OCI runtimes,
 CNI plugins, and kube-proxy) can run as a non-root user on the host, using a
@@ -7994,227 +8385,4 @@ This separation can reduce exposure by narrowing responsibilities, scoping crede
 &lt;li>&lt;a href="https://kubernetes.io/docs/tasks/tls/certificate-issue-client-csr/">Issue a Certificate for a Kubernetes API Client Using a CertificateSigningRequest&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://kubernetes.io/docs/concepts/security/rbac-good-practices/">Role Based Access Control Good Practices&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;p>&lt;em>Disclaimer: The views expressed in this post are solely those of the author and do not reflect the views of the author’s employer or any other organization.&lt;/em>&lt;/p></description></item><item><title>The Invisible Rewrite: Modernizing the Kubernetes Image Promoter</title><link>https://kubernetes.io/blog/2026/03/17/image-promoter-rewrite/</link><pubDate>Tue, 17 Mar 2026 00:00:00 +0000</pubDate><guid>https://kubernetes.io/blog/2026/03/17/image-promoter-rewrite/</guid><description>
-&lt;p>Every container image you pull from &lt;code>registry.k8s.io&lt;/code> got there through
-&lt;a href="https://github.com/kubernetes-sigs/promo-tools">&lt;code>kpromo&lt;/code>&lt;/a>, the Kubernetes image
-promoter. It copies images from staging registries to
-production, signs them with &lt;a href="https://sigstore.dev">cosign&lt;/a>, replicates
-signatures across more than 20 regional mirrors, and generates
-&lt;a href="https://slsa.dev">SLSA&lt;/a> provenance attestations. If this tool breaks, no
-Kubernetes release ships. Over the past few weeks, we rewrote its core from
-scratch, deleted 20% of the codebase, made it dramatically faster, and
-nobody noticed. That was the whole point.&lt;/p>
-&lt;h2 id="a-bit-of-history">A bit of history&lt;a class="td-heading-self-link" href="#a-bit-of-history" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The image promoter started in late 2018 as an internal Google project by
-&lt;a href="https://github.com/listx">Linus Arver&lt;/a>. The goal was simple: replace the
-manual, Googler-gated process of copying container images into &lt;code>k8s.gcr.io&lt;/code> with
-a community-owned, GitOps-based workflow. Push to a staging registry, open a PR
-with a YAML manifest, get it reviewed and merged, and automation handles the
-rest. &lt;a href="https://github.com/kubernetes/enhancements/blob/master/keps/sig-release/1734-k8s-image-promoter/README.md">KEP-1734&lt;/a>
-formalized this proposal.&lt;/p>
-&lt;p>In early 2019, the code moved to &lt;code>kubernetes-sigs/k8s-container-image-promoter&lt;/code>
-and grew quickly. Over the next few years,
-&lt;a href="https://github.com/justaugustus">Stephen Augustus&lt;/a> consolidated multiple tools
-(&lt;code>cip&lt;/code>, &lt;code>gh2gcs&lt;/code>, &lt;code>krel promote-images&lt;/code>, &lt;code>promobot-files&lt;/code>) into a single CLI
-called &lt;code>kpromo&lt;/code>. The repository was renamed to
-&lt;a href="https://github.com/kubernetes-sigs/promo-tools">&lt;code>promo-tools&lt;/code>&lt;/a>.
-&lt;a href="https://github.com/puerco">Adolfo Garcia Veytia (Puerco)&lt;/a> added cosign signing
-and SBOM support. &lt;a href="https://github.com/tylerferrara">Tyler Ferrara&lt;/a> built
-vulnerability scanning. &lt;a href="https://github.com/cpanato">Carlos Panato&lt;/a> kept the project in a healthy and
-releasable state. 42 contributors made about 3,500 commits across more than 60 releases.&lt;/p>
-&lt;p>It worked. But by 2025 the codebase carried the weight of seven years of
-incremental additions from multiple SIGs and subprojects. The README
-&lt;a href="https://github.com/kubernetes-sigs/promo-tools/blob/7b6d515b78aadd617c8060a223786f8e57aa061f/README.md#disclaimer">said it plainly&lt;/a>:
-you will see duplicated code, multiple techniques for accomplishing the same
-thing, and several TODOs.&lt;/p>
-&lt;h2 id="the-problems-we-needed-to-solve">The problems we needed to solve&lt;a class="td-heading-self-link" href="#the-problems-we-needed-to-solve" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Production promotion jobs for Kubernetes core images regularly took over 30
-minutes and frequently failed with rate limit errors. The core promotion logic
-had grown into a monolith that was
-&lt;a href="https://github.com/kubernetes-sigs/promo-tools/issues/1177">hard to extend&lt;/a>
-and difficult to test, making new features like provenance or vulnerability
-scanning painful to add.&lt;/p>
-&lt;p>On the &lt;a href="https://github.com/kubernetes/sig-release/blob/master/roadmap.md">SIG Release roadmap&lt;/a>,
-two work items had been sitting for a while: &amp;quot;Rewrite artifact promoter&amp;quot; and
-&amp;quot;Make artifact validation more robust&amp;quot;. We had discussed these at SIG Release
-meetings and KubeCons, and the open research spikes on
-&lt;a href="https://github.com/orgs/kubernetes/projects/171">project board #171&lt;/a> captured
-eight questions that needed answers before we could move forward.&lt;/p>
-&lt;h2 id="one-issue-to-answer-them-all">One issue to answer them all&lt;a class="td-heading-self-link" href="#one-issue-to-answer-them-all" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>In February 2026, we opened &lt;a href="https://github.com/kubernetes-sigs/promo-tools/issues/1701">issue #1701&lt;/a>
-(&amp;quot;Rewrite artifact promoter pipeline&amp;quot;) and answered all eight spikes in a single
-tracking issue. The rewrite was deliberately phased so that each step could be
-reviewed, merged, and validated independently. Here is what we did:&lt;/p>
-&lt;p>&lt;strong>Phase 1: Rate Limiting&lt;/strong> (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1702">#1702&lt;/a>).
-Rewrote rate limiting to properly throttle all registry operations with adaptive
-backoff.&lt;/p>
-&lt;p>&lt;strong>Phase 2: Interfaces&lt;/strong> (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1704">#1704&lt;/a>).
-Put registry and auth operations behind clean interfaces so they can be swapped
-out and tested independently.&lt;/p>
-&lt;p>&lt;strong>Phase 3: Pipeline Engine&lt;/strong> (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1705">#1705&lt;/a>).
-Built a pipeline engine that runs promotion as a sequence of distinct phases
-instead of one large function.&lt;/p>
-&lt;p>&lt;strong>Phase 4: Provenance&lt;/strong> (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1706">#1706&lt;/a>).
-Added SLSA provenance verification for staging images.&lt;/p>
-&lt;p>&lt;strong>Phase 5: Scanner and SBOMs&lt;/strong> (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1709">#1709&lt;/a>).
-Added vulnerability scanning and SBOM support. Flipped the default to the new
-pipeline engine. At this point we cut
-&lt;a href="https://github.com/kubernetes-sigs/promo-tools/releases/tag/v4.2.0">v4.2.0&lt;/a> and let it
-soak in production before continuing.&lt;/p>
-&lt;p>&lt;strong>Phase 6: Split Signing from Replication&lt;/strong> (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1713">#1713&lt;/a>).
-Separated image signing from signature replication into their own pipeline
-phases, eliminating the rate limit contention that caused most production
-failures.&lt;/p>
-&lt;p>&lt;strong>Phase 7: Remove Legacy Pipeline&lt;/strong> (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1712">#1712&lt;/a>).
-Deleted the old code path entirely.&lt;/p>
-&lt;p>&lt;strong>Phase 8: Remove Legacy Dependencies&lt;/strong> (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1716">#1716&lt;/a>).
-Deleted the audit subsystem, deprecated tools, and e2e test infrastructure.&lt;/p>
-&lt;p>&lt;strong>Phase 9: Delete the Monolith&lt;/strong> (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1718">#1718&lt;/a>).
-Removed the old monolithic core and its supporting packages. Thousands of lines
-deleted across phases 7 through 9.&lt;/p>
-&lt;p>Each phase shipped independently.
-&lt;a href="https://github.com/kubernetes-sigs/promo-tools/releases/tag/v4.3.0">v4.3.0&lt;/a> followed
-the next day with the legacy code fully removed.&lt;/p>
-&lt;p>With the new architecture in place, a series of follow-up improvements landed:
-parallelized registry reads
-(&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1736">#1736&lt;/a>),
-retry logic for all network operations
-(&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1742">#1742&lt;/a>),
-per-request timeouts to prevent pipeline hangs
-(&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1763">#1763&lt;/a>),
-HTTP connection reuse
-(&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1759">#1759&lt;/a>),
-local registry integration tests
-(&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1746">#1746&lt;/a>),
-the removal of deprecated credential file support
-(&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1758">#1758&lt;/a>),
-a rework of attestation handling to use cosign's OCI APIs and the removal of
-deprecated SBOM support
-(&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1764">#1764&lt;/a>),
-and a dedicated promotion record predicate type registered with the
-&lt;a href="https://github.com/in-toto/attestation">in-toto attestation framework&lt;/a>
-(&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1767">#1767&lt;/a>).
-These would have been much harder to land without the clean separation the
-rewrite provided.
-&lt;a href="https://github.com/kubernetes-sigs/promo-tools/releases/tag/v4.4.0">v4.4.0&lt;/a>
-shipped all of these improvements and enabled provenance generation and
-verification by default.&lt;/p>
-&lt;h2 id="the-new-pipeline">The new pipeline&lt;a class="td-heading-self-link" href="#the-new-pipeline" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The promotion pipeline now has seven clearly separated phases:&lt;/p>
-&lt;pre class="mermaid">graph LR
-Setup --&amp;gt; Plan --&amp;gt; Provenance --&amp;gt; Validate --&amp;gt; Promote --&amp;gt; Sign --&amp;gt; Attest&lt;/pre>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>Phase&lt;/th>
-&lt;th>What it does&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>&lt;strong>Setup&lt;/strong>&lt;/td>
-&lt;td>Validate options, prewarm TUF cache.&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;strong>Plan&lt;/strong>&lt;/td>
-&lt;td>Parse manifests, read registries, compute which images need promotion.&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;strong>Provenance&lt;/strong>&lt;/td>
-&lt;td>Verify SLSA attestations on staging images.&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;strong>Validate&lt;/strong>&lt;/td>
-&lt;td>Check cosign signatures, exit here for dry runs.&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;strong>Promote&lt;/strong>&lt;/td>
-&lt;td>Copy images server-side, preserving digests.&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;strong>Sign&lt;/strong>&lt;/td>
-&lt;td>Sign promoted images with keyless cosign.&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;strong>Attest&lt;/strong>&lt;/td>
-&lt;td>Generate promotion provenance attestations using a dedicated &lt;a href="https://in-toto.io">in-toto&lt;/a> predicate type.&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;p>Phases run sequentially, so each one gets exclusive access to the full rate
-limit budget. No more contention. Signature replication to mirror registries is
-no longer part of this pipeline and runs as a
-&lt;a href="https://prow.k8s.io/?job=ci-k8sio-image-signature-replication">dedicated periodic Prow job&lt;/a>
-instead.&lt;/p>
-&lt;h2 id="making-it-fast">Making it fast&lt;a class="td-heading-self-link" href="#making-it-fast" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>With the architecture in place, we turned to performance.&lt;/p>
-&lt;p>&lt;strong>Parallel registry reads&lt;/strong> (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1736">#1736&lt;/a>):
-The plan phase reads 1,350 registries. We parallelized this and the plan phase
-dropped from about 20 minutes to about 2 minutes.&lt;/p>
-&lt;p>&lt;strong>Two-phase tag listing&lt;/strong> (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1761">#1761&lt;/a>):
-Instead of checking all 46,000 image groups across more than 20 mirrors, we first check
-only the source repositories. About 57% of images have no signatures at all
-because they were promoted before signing was enabled. We skip those entirely,
-cutting API calls roughly in half.&lt;/p>
-&lt;p>&lt;strong>Source check before replication&lt;/strong> (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1727">#1727&lt;/a>):
-Before iterating all mirrors for a given image, we check if the signature
-exists on the primary registry first. In steady state where most signatures are
-already replicated, this reduced the work from about 17 hours to about 15
-minutes.&lt;/p>
-&lt;p>&lt;strong>Per-request timeouts&lt;/strong> (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1763">#1763&lt;/a>):
-We observed intermittent hangs where a stalled connection blocked the pipeline
-for over 9 hours. Every network operation now has its own timeout and transient
-failures are retried automatically.&lt;/p>
-&lt;p>&lt;strong>Connection reuse&lt;/strong> (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1759">#1759&lt;/a>):
-We started reusing HTTP connections and auth state across operations, eliminating
-redundant token negotiations. This closed a
-&lt;a href="https://github.com/kubernetes-sigs/promo-tools/issues/842">long-standing request&lt;/a>
-from 2023.&lt;/p>
-&lt;h2 id="by-the-numbers">By the numbers&lt;a class="td-heading-self-link" href="#by-the-numbers" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Here is what the rewrite looks like in aggregate.&lt;/p>
-&lt;ul>
-&lt;li>Over 40 PRs merged, 3 releases shipped (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/releases/tag/v4.2.0">v4.2.0&lt;/a>, &lt;a href="https://github.com/kubernetes-sigs/promo-tools/releases/tag/v4.3.0">v4.3.0&lt;/a>, &lt;a href="https://github.com/kubernetes-sigs/promo-tools/releases/tag/v4.4.0">v4.4.0&lt;/a>)&lt;/li>
-&lt;li>Over 10,000 lines added and over 16,000 lines deleted, a net reduction
-of about 5,000 lines (20% smaller codebase)&lt;/li>
-&lt;li>Performance drastically improved across the board&lt;/li>
-&lt;li>Robustness improved with retry logic, per-request timeouts, and adaptive rate limiting&lt;/li>
-&lt;li>19 long-standing issues closed&lt;/li>
-&lt;/ul>
-&lt;p>The codebase shrank by a fifth while gaining provenance attestations, a pipeline
-engine, vulnerability scanning integration, parallelized operations, retry
-logic, integration tests against local registries, and a standalone signature
-replication mode.&lt;/p>
-&lt;h2 id="no-user-facing-changes">No user-facing changes&lt;a class="td-heading-self-link" href="#no-user-facing-changes" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>This was a hard requirement. The &lt;code>kpromo cip&lt;/code> command accepts the same flags and
-reads the same YAML manifests. The
-&lt;a href="https://prow.k8s.io/?job=post-k8sio-image-promo">&lt;code>post-k8sio-image-promo&lt;/code>&lt;/a>
-Prow job continued working throughout. The promotion manifests in
-&lt;a href="https://github.com/kubernetes/k8s.io">kubernetes/k8s.io&lt;/a> did not change. Nobody
-had to update their workflows or configuration.&lt;/p>
-&lt;p>We caught two regressions early in production. One (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1731">#1731&lt;/a>)
-caused a registry key mismatch that made every image appear as &amp;quot;lost&amp;quot; so that
-nothing was promoted. Another (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/pull/1733">#1733&lt;/a>)
-set the default thread count to zero, blocking all goroutines. Both were fixed
-within hours. The phased release strategy (&lt;a href="https://github.com/kubernetes-sigs/promo-tools/releases/tag/v4.2.0">v4.2.0&lt;/a> with the new engine, &lt;a href="https://github.com/kubernetes-sigs/promo-tools/releases/tag/v4.3.0">v4.3.0&lt;/a>
-with legacy code removed) gave us a clear rollback path that we fortunately
-never needed.&lt;/p>
-&lt;h2 id="what-comes-next">What comes next&lt;a class="td-heading-self-link" href="#what-comes-next" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Signature replication across all mirror registries remains the most expensive
-part of the promotion cycle. &lt;a href="https://github.com/kubernetes-sigs/promo-tools/issues/1762">Issue #1762&lt;/a>
-proposes eliminating it entirely by having
-&lt;a href="https://github.com/kubernetes/registry.k8s.io">archeio&lt;/a> (the &lt;code>registry.k8s.io&lt;/code>
-redirect service) route signature tag requests to a single canonical upstream
-instead of per-region backends. Another option would be to move signing closer
-to the registry infrastructure itself. Both approaches need further discussion
-with the SIG Release and infrastructure teams, but either one would remove
-thousands of API calls per promotion cycle and simplify the codebase even
-further.&lt;/p>
-&lt;h2 id="thank-you">Thank you&lt;a class="td-heading-self-link" href="#thank-you" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>This project has been a community effort spanning seven years. Thank you to
-&lt;a href="https://github.com/listx">Linus&lt;/a>,
-&lt;a href="https://github.com/justaugustus">Stephen&lt;/a>,
-&lt;a href="https://github.com/puerco">Adolfo&lt;/a>,
-&lt;a href="https://github.com/cpanato">Carlos&lt;/a>,
-&lt;a href="https://github.com/BenTheElder">Ben&lt;/a>,
-&lt;a href="https://github.com/xmudrii">Marko&lt;/a>,
-&lt;a href="https://github.com/lasomethingsomething">Lauri&lt;/a>,
-&lt;a href="https://github.com/tylerferrara">Tyler&lt;/a>,
-&lt;a href="https://github.com/ameukam">Arnaud&lt;/a>, and many others who contributed
-code, reviews, and planning over the years. The SIG Release and Release
-Engineering communities provided the context, the discussions, and the patience
-for a rewrite of infrastructure that every Kubernetes release depends on.&lt;/p>
-&lt;p>If you want to get involved, join us in
-&lt;a href="https://kubernetes.slack.com/archives/C2C40FMNF">&lt;code>#release-management&lt;/code>&lt;/a> on the
-Kubernetes Slack or check out the
-&lt;a href="https://github.com/kubernetes-sigs/promo-tools">repository&lt;/a>.&lt;/p></description></item></channel></rss>
+&lt;p>&lt;em>Disclaimer: The views expressed in this post are solely those of the author and do not reflect the views of the author’s employer or any other organization.&lt;/em>&lt;/p></description></item></channel></rss>
