@@ -4,84 +4,101 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Thu, 10 Sep 2026 10:19:29 +0000</pubDate>
-    <lastBuildDate>Thu, 10 Sep 2026 10:19:29 +0000</lastBuildDate>
+    <pubDate>Thu, 10 Sep 2026 15:25:56 +0000</pubDate>
+    <lastBuildDate>Thu, 10 Sep 2026 15:25:56 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
-      <title>Proxmox in enterprice environments with shared fc storage</title>
-      <pubDate>Thu, 10 Sep 2026 10:07:33 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-in-enterprice-environments-with-shared-fc-storage.186319/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186319</guid>
-      <author>invalid@example.com (TheBigOne)</author>
+      <title>Lower ZFS ARC max size</title>
+      <pubDate>Thu, 10 Sep 2026 15:17:38 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/lower-zfs-arc-max-size.186329/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186329</guid>
+      <author>invalid@example.com (CS-)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>TheBigOne</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m curious why there&#039;s no native support for traditional cluster filesystems like GFS2 or OCFS2.<br />
+      <dc:creator>CS-</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
 <br />
-I fully get why Ceph is essential in hyper-converged setups, but it&#039;s impractical for synchronously replicated FC storage. It would bring IO overhead, complexity and capacity overhead.<br />
-Shared LVM only works with complex placement logic and heavy storage overcommit at the block level. <br />
+I have PVE hosts with 125,6 GiB RAM.   We are using ZFS to run our VMs.  The workload running on these hosts are pfSense FW&#039;s.<br />
+The maximum ZFS is 10% (12,6 GiB).  Is it safe to lower this maximum size?<br />
 <br />
-On top of that, shared LVM snapshots are still in tech preview, and each snapshot reserves space equal to the...<br />
+ What maximum size do you recommend?  4GiB?<br />
 <br />
-<a href="https://forum.proxmox.com/threads/proxmox-in-enterprice-environments-with-shared-fc-storage.186319/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>Dell PowerVault ME5024 iSCSI Performance: High Latency Spikes and Low Sequential Throughput on PVE 8</title>
-      <pubDate>Thu, 10 Sep 2026 10:04:16 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/dell-powervault-me5024-iscsi-performance-high-latency-spikes-and-low-sequential-throughput-on-pve-8.186321/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186321</guid>
-      <author>invalid@example.com (infoplus)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>infoplus</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
 <br />
-I am experiencing severe latency spikes and sub-optimal bandwidth when running sequential read workloads over iSCSI from a Proxmox VE node to a <b>Dell PowerVault ME5024</b> array.<br />
+arc_summary | grep -E &#039;Current size|Target size&#039;<br />
+        Target size (adaptive):                       100.0 %   12.6 GiB<br />
+        Current size:                                 100.0 %   12.6 GiB<br />
 <br />
-During high I/O tests on Proxmox, the average throughput hovers around <b>265–300 MiB/s</b>, but the response time spikes dramatically up to <b>6 seconds</b> (99.9th percentile), causing IOPS to briefly collapse down to single digits before recovering.<br />
+arc_summary -s arc...<br />
 <br />
-For comparison, a <b>VMware ESXi</b> host...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/dell-powervault-me5024-iscsi-performance-high-latency-spikes-and-low-sequential-throughput-on-pve-8.186321/" class="link link--internal">Read more</a></div>]]></content:encoded>
+<a href="https://forum.proxmox.com/threads/lower-zfs-arc-max-size.186329/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>1</slash:comments>
     </item>
     <item>
-      <title>PowerScale OneFS 9.12 (VM) in Proxmox</title>
-      <pubDate>Thu, 10 Sep 2026 10:02:19 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/powerscale-onefs-9-12-vm-in-proxmox.186320/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186320</guid>
-      <author>invalid@example.com (Wim.kra)</author>
+      <title>Looking for best setup for rack server</title>
+      <pubDate>Thu, 10 Sep 2026 15:17:06 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/looking-for-best-setup-for-rack-server.186328/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186328</guid>
+      <author>invalid@example.com (str1de)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Wim.kra</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+      <dc:creator>str1de</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello all! New to Proxmox, so forgive my ignorance. I&#039;m looking to have my server sent for colocation and will have proxmox installed for multiple VM&#039;s. My main goal will be for small vm&#039;s for linux, small game servers, or just general usage. My issue is that I have 8 total enterprise SSD&#039;S. I have 4 (480GB) and 4 (240GB) in total. I read where ZFS might be a good idea to make them all one big array, but I also heard that it takes up a ton of ram for caching which isn&#039;t ideal at the same...<br />
 <br />
-is it possible to implement PowerScale OneFS 9.12 in Proxmox VM?</div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
+<a href="https://forum.proxmox.com/threads/looking-for-best-setup-for-rack-server.186328/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
     </item>
     <item>
-      <title>Live Migrations get slower over time</title>
-      <pubDate>Thu, 10 Sep 2026 09:49:18 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/live-migrations-get-slower-over-time.183423/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:183423</guid>
-      <author>invalid@example.com (smalchow)</author>
+      <title>Mounting directory writable in container?</title>
+      <pubDate>Thu, 10 Sep 2026 15:14:40 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/mounting-directory-writable-in-container.186307/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186307</guid>
+      <author>invalid@example.com (Lombra)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>smalchow</dc:creator>
+      <dc:creator>Lombra</dc:creator>
       <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
 <br />
-we are experiencing the problem that live migrations get slower over time - meaning the higher the uptime of a host the slower it gets. I know there are several posts already in regards to slow live migrations, however, we<br />
+I have a directory on the host that needs to be mounted as writable in an unprivileged container. I understand I can do UID mapping, but are there any other/better options? I would like it to be owned by <code class="bbCodeInline">www-data</code> inside the container.</div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Pinning vCPU causes 100% cpu pressure stall, using isolcpus</title>
+      <pubDate>Thu, 10 Sep 2026 15:07:49 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pinning-vcpu-causes-100-cpu-pressure-stall-using-isolcpus.186333/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186333</guid>
+      <author>invalid@example.com (ns33)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>ns33</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have VM which runs an app requiring low latency as close to bare metal as possible. Note it is not a game but something doing compute. Maybe putting such in a virtual environment isn&#039;t the best scenario but I&#039;m going to try <br />
 <br />
-- have dedicated 2 x 100Gbit connections for the live migrations per host<br />
-- the migrations is already set to &quot;insecure&quot;<br />
-- we are not doing storage migrations, it is ceph with 2 x 100Gbit connections (each, that global and the cluster network have that)<br />
-- and we can...<br />
+Quick system arch, each cluster node is dual socket, 2x 18c/36t intel cpu<br />
 <br />
-<a href="https://forum.proxmox.com/threads/live-migrations-get-slower-over-time.183423/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
+I config the vm as followed for the cpu:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Affinity: 0-15
+cores: 16
+cpu: host
+cpuunits: 2000
+numa: 1
+numa0: cpus=0-15,hostnodes=1,memory=24579,policy=bind</code></pre>
+	</div>
+</div><br />
+From my understanding, even...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pinning-vcpu-causes-100-cpu-pressure-stall-using-isolcpus.186333/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
     </item>
     <item>
       <title>Ceph CVEs – keyring rotation strongly advised, probably required in the future</title>
-      <pubDate>Thu, 10 Sep 2026 09:47:42 +0000</pubDate>
+      <pubDate>Thu, 10 Sep 2026 15:03:48 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/ceph-cves-%E2%80%93-keyring-rotation-strongly-advised-probably-required-in-the-future.185863/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185863</guid>
       <author>invalid@example.com (UweSauter)</author>
@@ -97,53 +114,117 @@ What would be the steps to rotate the keyrings on a PVE cluster? Would this requ
 Even if the old authentication...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/ceph-cves-%E2%80%93-keyring-rotation-strongly-advised-probably-required-in-the-future.185863/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>28</slash:comments>
+      <slash:comments>32</slash:comments>
     </item>
     <item>
-      <title>Proxmox VE 9 on Toshiba Haswell laptop: ~20 W → 4–5 W idle [Report]</title>
-      <pubDate>Thu, 10 Sep 2026 09:43:37 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-9-on-toshiba-haswell-laptop-20-w-%E2%86%92-4%E2%80%935-w-idle-report.186322/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186322</guid>
-      <author>invalid@example.com (internetnoob26)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>internetnoob26</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
+      <title>PBS meets Hetzner Storagebox</title>
+      <pubDate>Thu, 10 Sep 2026 14:54:52 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pbs-meets-hetzner-storagebox.185425/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185425</guid>
+      <author>invalid@example.com (Baconpie)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>Baconpie</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Moin,<br />
 <br />
-I wanted to document a power-consumption problem I spent quite a lot of time investigating, because some of the results were very unintuitive and may also be relevant to other people running Proxmox/Linux on older laptops or Haswell systems.<br />
+ich habe jetzt bereits eine weile eine Hetzner Storagebox via SMB in meinem PBS eingebunden und bin gerade dabei zu schauen wie ich die Geschwindigkeit optimieren kann.<br />
 <br />
-First, an important disclaimer: <b>I am not a Linux/kernel expert.</b> I started this as a home-server project and learned most of this while troubleshooting. So corrections or better technical explanations are very welcome. Also I used a...<br />
+cache=none<br />
+actimeo=60<br />
+closetimeo=5<br />
 <br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-9-on-toshiba-haswell-laptop-20-w-%E2%86%92-4%E2%80%935-w-idle-report.186322/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
+6 Threads im Lesen<br />
+6 Threads im Schreiben<br />
+<br />
+Den meisten Leistungszuwachs habe ich durch die Erhöhung der Threads bekommen. Hat jemand hier mehr Erfahrungswerte? Wie weit kann ich die Threads hoch schrauben bis ich ans maximum bei Hetzner komme?<br />
+<br />
+Angebunden bin ich mit 300<s>mb/s</s>...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pbs-meets-hetzner-storagebox.185425/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>42</slash:comments>
     </item>
     <item>
-      <title>Need to restart VM with passthrough that crash.</title>
-      <pubDate>Thu, 10 Sep 2026 09:32:03 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/need-to-restart-vm-with-passthrough-that-crash.186296/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186296</guid>
-      <author>invalid@example.com (FrancisS)</author>
+      <title>PowerScale OneFS 9.12 (VM) in Proxmox</title>
+      <pubDate>Thu, 10 Sep 2026 14:53:20 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/powerscale-onefs-9-12-vm-in-proxmox.186320/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186320</guid>
+      <author>invalid@example.com (Wim.kra)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>FrancisS</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+      <dc:creator>Wim.kra</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
 <br />
-We have a VM with USB passthough that crash with the error &quot;usb_packet_check_state&quot;.<br />
-<br />
-We need to restart automatically the VM.<br />
-<br />
-The cluster is configured with &quot;shutdown_policy=migrate&quot; (some VMs not in HA !) and the VM with HA state &quot;ignored&quot;.<br />
-<br />
-If we set the VM with the &quot;state=started&quot; (after a crash the VM restart) , the hypervisor restart loop trying to migrate the VM.<br />
-<br />
-Is there a plan to have the possibility to set a &quot;shutdown_policy&quot; for a VM (not only globally) ?<br />
-<br />
-We do not want...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/need-to-restart-vm-with-passthrough-that-crash.186296/" class="link link--internal">Read more</a></div>]]></content:encoded>
+is it possible to implement PowerScale OneFS 9.12 in Proxmox VM?</div>]]></content:encoded>
       <slash:comments>2</slash:comments>
     </item>
     <item>
+      <title>How do I list the directories/file on my local drive?</title>
+      <pubDate>Thu, 10 Sep 2026 14:51:19 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-do-i-list-the-directories-file-on-my-local-drive.186272/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186272</guid>
+      <author>invalid@example.com (SpiceGuy)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>SpiceGuy</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am running an instance of NetAlertX within my Portainer-Docker LXC and it is the only container (aside from the Portainer/Docker LXC) that I am running in the node. By default Portainer-Docker creates its files in the &#039;local&#039; drive. This drive is formatted as a &quot;directory&quot; drive.<br />
+<a href="https://forum.proxmox.com/attachments/1788874151260-png.99786/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99482-aca0ca1af27a865349e1682499eb173b.jpg?hash=9ZcfcPmCyk"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99482-aca0ca1af27a865349e1682499eb173b.jpg?hash=9ZcfcPmCyk 2x"
+		class="bbImage "
+		style=""
+		alt="1788874151260.png"
+		title="1788874151260.png"
+		width="370" height="150" loading="lazy" /></a><br />
+<br />
+Logs from NetAlertX (within Portainer/Docker) are, by default, written by Docker to 
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>journald</code></pre>
+	</div>
+</div>.<br />
+<a href="https://forum.proxmox.com/attachments/1788873132176-png.99784/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99480-c76129a37c3bddc2b4c62efee4e88635.jpg?hash=zXPEFCxL9k"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99480-c76129a37c3bddc2b4c62efee4e88635.jpg?hash=zXPEFCxL9k 2x"
+		class="bbImage "
+		style=""
+		alt="1788873132176.png"
+		title="1788873132176.png"
+		width="197" height="109" loading="lazy" /></a><br />
+The volumes set up by the NetAlertX are:<br />
+<a href="https://forum.proxmox.com/attachments/1788873290807-png.99785/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99481-bd215fcc8326d917848f16d5c2c1f479.jpg?hash=vnYQ-m9rgy"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99481-bd215fcc8326d917848f16d5c2c1f479.jpg?hash=vnYQ-m9rgy 2x"
+		class="bbImage "
+		style=""
+		alt="1788873290807.png"
+		title="1788873290807.png"
+		width="150" height="188" loading="lazy" /></a><br />
+<br />
+The problem is that my &quot;local&quot;...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/how-do-i-list-the-directories-file-on-my-local-drive.186272/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>13</slash:comments>
+    </item>
+    <item>
+      <title>Cephx Key Migration Procedure and Ceph 19.2 Squid Going EOL Soon</title>
+      <pubDate>Thu, 10 Sep 2026 14:49:18 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/cephx-key-migration-procedure-and-ceph-19-2-squid-going-eol-soon.186276/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186276</guid>
+      <author>invalid@example.com (t.lamprecht)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>t.lamprecht</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Recent security findings and fixes in Ceph make it necessary to upgrade ceph and migrate authentication keys from the <code class="bbCodeInline">aes</code> to the <code class="bbCodeInline">aes256k</code> cipher. This is to address weaknesses in the old Cephx authentication method, especially if your Ceph service networks are not isolated. Upgrading to Ceph Tentacle 20.2.4 or newer, or Ceph Squid 19.2.6 or newer, will trigger new Cephx health errors and warnings for the old <code class="bbCodeInline">aes</code> type. These do not by themselves indicate data loss, data...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/cephx-key-migration-procedure-and-ceph-19-2-squid-going-eol-soon.186276/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
       <title>Hash Sum mismatch in no-subscription repo</title>
-      <pubDate>Thu, 10 Sep 2026 09:30:19 +0000</pubDate>
+      <pubDate>Thu, 10 Sep 2026 14:34:16 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/hash-sum-mismatch-in-no-subscription-repo.186317/</link>
       <guid isPermaLink="false">urn:xenforo:thread:186317</guid>
       <author>invalid@example.com (G0ldmember)</author>
@@ -171,139 +252,132 @@ Example:<br />
 	</div>
 </div><br />
 <a href="https://forum.proxmox.com/threads/hash-sum-mismatch-in-no-subscription-repo.186317/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
+      <slash:comments>7</slash:comments>
     </item>
     <item>
-      <title>[PROJECT] SharedLvmThin for Proxmox VE 9 — shared FC/iSCSI SAN storage with LVM-thin snapshots &amp; multipath safety</title>
-      <pubDate>Thu, 10 Sep 2026 09:14:20 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/project-sharedlvmthin-for-proxmox-ve-9-%E2%80%94-shared-fc-iscsi-san-storage-with-lvm-thin-snapshots-multipath-safety.186250/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186250</guid>
-      <author>invalid@example.com (delltech1)</author>
+      <title>Proxmox in enterprice environments with shared fc storage</title>
+      <pubDate>Thu, 10 Sep 2026 14:29:19 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-in-enterprice-environments-with-shared-fc-storage.186319/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186319</guid>
+      <author>invalid@example.com (TheBigOne)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>delltech1</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
+      <dc:creator>TheBigOne</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m curious why there&#039;s no native support for traditional cluster filesystems like GFS2 or OCFS2.<br />
 <br />
-I am publishing SharedLvmThin, a free and open-source community storage<br />
-plugin for Proxmox VE 9.<br />
+I fully get why Ceph is essential in hyper-converged setups, but it&#039;s impractical for synchronously replicated FC storage. It would bring IO overhead, complexity and capacity overhead.<br />
+Shared LVM only works with complex placement logic and heavy storage overcommit at the block level. <br />
 <br />
-It provides one LVM-thin pool per VM on an existing shared block-storage<br />
-VG and supports snapshots, rollback, resize, migration, cluster locking,<br />
-guarded autogrow, storage identity checks, and read-only health diagnostics.<br />
+On top of that, shared LVM snapshots are still in tech preview, and each snapshot reserves space equal to the...<br />
 <br />
-RC5.2 has been tested on the Proxmox VE 9.2.x release line with Storage<br />
-API 14 and 15, including three-node cluster qualification. It is currently<br />
-a release...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/project-sharedlvmthin-for-proxmox-ve-9-%E2%80%94-shared-fc-iscsi-san-storage-with-lvm-thin-snapshots-multipath-safety.186250/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
+<a href="https://forum.proxmox.com/threads/proxmox-in-enterprice-environments-with-shared-fc-storage.186319/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>11</slash:comments>
     </item>
     <item>
-      <title>Bad Windows network performance - how to improve?</title>
-      <pubDate>Thu, 10 Sep 2026 09:09:03 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/bad-windows-network-performance-how-to-improve.186293/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186293</guid>
-      <author>invalid@example.com (CPO_Siemens)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>CPO_Siemens</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">We migrated some Windows 11 VMs from vSphere to Proxmox and are experiencing network bottlenecks.<br />
-I compared two similar VMs (one on vSphere with vmxnet3, one on Proxmox with virtio) and did some iperf3 runs which showed, that the vSphere NIC saturates the 10G connection that the host has to the test server while the Proxmox VM barely reaches 6G outbound and max. 2G inbound while the VM-bridge is attached to a 2x100G bond (which as <a href="https://forum.proxmox.com/threads/terrible-networking-performance-with-mlx5_core-connectx4-mellanox.142547/post-866574" class="link link--internal">it&#039;s own problems</a> but does way more than 6G).<br />
-<br />
-I also...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/bad-windows-network-performance-how-to-improve.186293/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>Problem with MegaRAID SAS3508 controller</title>
-      <pubDate>Thu, 10 Sep 2026 08:54:22 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/problem-with-megaraid-sas3508-controller.179378/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:179378</guid>
-      <author>invalid@example.com (admingsi)</author>
+      <title>[BUG] PVE 9.2 / 7.0.14-12-pve: Ryzen 9 7940HS Radeon 780M VCN/VAAPI faults followed by repeated host resets</title>
+      <pubDate>Thu, 10 Sep 2026 14:25:52 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/bug-pve-9-2-7-0-14-12-pve-ryzen-9-7940hs-radeon-780m-vcn-vaapi-faults-followed-by-repeated-host-resets.186332/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186332</guid>
+      <author>invalid@example.com (GWnerd)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>admingsi</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-I’m running Proxmox VE 9.1.4 on Debian 13 on multiple Huawei 2288H V5 nodes. The servers use an OEM Broadcom/LSI MegaRAID SAS3508 controller.<br />
+      <dc:creator>GWnerd</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am also reporting this upstream to the AMD DRM/AMDGPU developers,<br />
+because the evidence currently points toward the AMDGPU/VCN path.<br />
 <br />
-Hardware / software details:<br />
-<ul>
-<li data-xf-list-type="ul">Server: Huawei 2288H V5</li>
-<li data-xf-list-type="ul">RAID controller: Broadcom / LSI SAS3508 (OEM Huawei)</li>
-<li data-xf-list-type="ul">RAID firmware: 5.140.00-3319 (Huawei confirmed this firmware is EOL, last supported on Debian 10)</li>
-<li data-xf-list-type="ul">Proxmox VE: 9.1.4</li>
-<li data-xf-list-type="ul">OS: Debian 13</li>
-<li data-xf-list-type="ul">Kernel : 6.17.4-2-pve</li>
-<li data-xf-list-type="ul">Driver: megaraid_sas (in-kernel driver from the Linux kernel, no...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/problem-with-megaraid-sas3508-controller.179378/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>38</slash:comments>
+I am posting here as well because the affected kernel is<br />
+7.0.14-12-pve, and I would like to know whether this corresponds to a<br />
+known PVE kernel regression or whether an upstream AMDGPU fix is already<br />
+available/cherry-picked in a newer PVE kernel.<br />
+<br />
+I have not changed kernels yet because I am trying to isolate one<br />
+variable at a time.<br />
+<br />
+Summary<br />
+=======<br />
+<br />
+I am...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/bug-pve-9-2-7-0-14-12-pve-ryzen-9-7940hs-radeon-780m-vcn-vaapi-faults-followed-by-repeated-host-resets.186332/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
     </item>
     <item>
-      <title>Proxmox 9 CPU/IO starved when doing a restore from PBS</title>
-      <pubDate>Thu, 10 Sep 2026 08:52:51 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-9-cpu-io-starved-when-doing-a-restore-from-pbs.185023/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185023</guid>
-      <author>invalid@example.com (koiji)</author>
+      <title>Memory usage empty PVE hosts</title>
+      <pubDate>Thu, 10 Sep 2026 14:19:27 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/memory-usage-empty-pve-hosts.186331/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186331</guid>
+      <author>invalid@example.com (CS-)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>koiji</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+      <dc:creator>CS-</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Is it normal that empty PVE hosts take up to 11% memory usage?<br />
+My hosts have 125,57GiB and 13,55 GiB is already in use without any VMs on it.<br />
+I already found a few &quot;consumers&quot;, but I can&#039;t explain the entire 13,55 GiB<br />
 <br />
-We&#039;ve been doing some research on &quot;Proxmox / storage load&quot; and it seems that the information on the topic is somewhat scattered.<br />
+ZFS ARC: 1,3 GiB<br />
+RSS: 4,3 GiB<br />
+SLAB: 1,2GiB<br />
 <br />
-<b>The setup</b><br />
-<ul>
-<li data-xf-list-type="ul">We have a new, rather powerful application server (48 core EPYC Zen 4, 768GB RAM, 2x 8TB NVMe PCI-e 4.0 in ZFS RAID 1 (no HW RAID)) connected to a decent backup server (16 core EPYC Zen 3, 128 GB RAM, 32 TB NVMe PCI-e 3.0 storage)</li>
-<li data-xf-list-type="ul">The application server load is about 2% and IO Pressure Stall nears 0%  without any spikes (not used for...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/proxmox-9-cpu-io-starved-when-doing-a-restore-from-pbs.185023/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>13</slash:comments>
+Still ~6GiB that I can&#039;t explain.   Could it be that this is reclaimable kernel memory that doesn&#039;t show up correctly?<br />
+<br />
+Any advice is welcome.<br />
+<br />
+Thanks in advance.</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
     </item>
     <item>
-      <title>Proxmox VE 7 is vulnerable to some type of 0day/RCE non auth</title>
-      <pubDate>Thu, 10 Sep 2026 08:39:13 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-7-is-vulnerable-to-some-type-of-0day-rce-non-auth.186078/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186078</guid>
-      <author>invalid@example.com (pve7bug)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>pve7bug</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Two days ago, my Proxmox VE 7 installation, which was over four years old with the latest updates available up to EOL and only one user (root), was encrypted, and a ransom was demanded for decryption. I searched online for the ransom note and found someone complaining in Chinese about the same thing 1 day ago, which seems to be a wave of some kind of zero-day or RCE without authentication. All the logs were deleted by the attackers. There was an IP address sending requests to a specific...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-7-is-vulnerable-to-some-type-of-0day-rce-non-auth.186078/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>140</slash:comments>
-    </item>
-    <item>
-      <title>Mounting directory writable in container?</title>
-      <pubDate>Thu, 10 Sep 2026 08:29:49 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/mounting-directory-writable-in-container.186307/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186307</guid>
+      <title>Windows 11 frequent, temporary freezes with Virtual Machine platform enabled</title>
+      <pubDate>Thu, 10 Sep 2026 14:18:30 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/windows-11-frequent-temporary-freezes-with-virtual-machine-platform-enabled.186306/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186306</guid>
       <author>invalid@example.com (Lombra)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
       <dc:creator>Lombra</dc:creator>
       <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
 <br />
-I have a directory on the host that needs to be mounted as writable in an unprivileged container. I understand I can do UID mapping, but are there any other/better options? I would like it to be owned by <code class="bbCodeInline">www-data</code> inside the container.</div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
+I&#039;m having issues with a Windows 11 VM freezing when the Virtual Machine platform optional Windows feature is enabled. It&#039;s rather inconsistent, but usually occurs within a few minutes of logging in. (or booting?) It freezes for a few minutes, disconnecting the Remote Desktop session. The Proxmox console is completely frozen, including mouse cursor. Guest agent does not respond. The behaviour repeats every few minutes or so. I&#039;ve seen similar issues mentioned, but no real solution...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/windows-11-frequent-temporary-freezes-with-virtual-machine-platform-enabled.186306/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
     </item>
     <item>
-      <title>Wünschenswert: Anzeige der NIC-Geschwindigkeit</title>
-      <pubDate>Thu, 10 Sep 2026 08:04:47 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/w%C3%BCnschenswert-anzeige-der-nic-geschwindigkeit.186313/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186313</guid>
-      <author>invalid@example.com (GMBauer)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>GMBauer</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Grüeziwoll beinand,<br />
+      <title>Cluster 2 Hôtes + Baie de Stockage ME5024</title>
+      <pubDate>Thu, 10 Sep 2026 14:14:47 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/cluster-2-h%C3%B4tes-baie-de-stockage-me5024.186330/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186330</guid>
+      <author>invalid@example.com (pascals07)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>pascals07</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Bonjour, dans notre infrastructure, nous avons deux hôtes connectés à une baie de stockage DELL ME5024. <br />
 <br />
-ich habe gestern zu lange einen Fehler gesucht, weil die Performance eines vor zwei Monaten aufgesetzten aber noch im Wartezustand befindlichen Servers in den Keller gegangen ist. Zu meiner Schande habe ich das zuerst bemerkt am extrem langsamen Backup, das nur noch mit 12 MByte pro Sekunde gelaufen ist. (Eigentlich der erste Hinweis für mich...)<br />
+La connexion s’effectue via iSCSI grâce à une carte Broadcom disposant de deux ports 25 Go. <br />
 <br />
-Am Switch geschaut, aber LED leuchtete.<br />
-Alle Laufwerke geprüft, am PVE genauso wie am PBS. Okay, manche SSDs mit aktuell...<br />
+L’installation date d’un an et, jusqu’ici, nous n’avions rencontré que quelques petits soucis de performance ponctuels. <br />
 <br />
-<a href="https://forum.proxmox.com/threads/w%C3%BCnschenswert-anzeige-der-nic-geschwindigkeit.186313/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
+Cependant, depuis quelques jours, nous observons des lenteurs importantes qui semblent liées au stockage. <br />
+<br />
+Pour l’instant, nous n’arrivons pas à en déterminer la cause, ce...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/cluster-2-h%C3%B4tes-baie-de-stockage-me5024.186330/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Subscription check: connection error timeout</title>
+      <pubDate>Thu, 10 Sep 2026 13:53:21 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/subscription-check-connection-error-timeout.186324/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186324</guid>
+      <author>invalid@example.com (Hakan Evirgen)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-mail-gateway-deutsch-german.21/"><![CDATA[Proxmox Mail Gateway (Deutsch/German)]]></category>
+      <dc:creator>Hakan Evirgen</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo!<br />
+<br />
+die Überprüfung von der Lizenz schlägt fehl mit einem timeout.<br />
+<br />
+Das Problem ist, dass für shop.proxmox.com A und AAAA Einträge gibt aber der Server nicht auf IPv6 antwortet.<br />
+<br />
+Wenn ich IPv4 Adresse von shop.proxmox.com in /etc/hosts eintrage, dann geht es. Das ist aber eine temporäre Lösung, weil bei einem Wechsel der IP-Adresse wieder nichts mehr gehen wird.</div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
     </item>
     <item>
       <title>Poor user experience with Windows Server 2025 on Proxmox</title>
-      <pubDate>Thu, 10 Sep 2026 07:41:48 +0000</pubDate>
+      <pubDate>Thu, 10 Sep 2026 13:37:21 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/poor-user-experience-with-windows-server-2025-on-proxmox.182155/</link>
       <guid isPermaLink="false">urn:xenforo:thread:182155</guid>
       <author>invalid@example.com (qemu)</author>
@@ -322,67 +396,62 @@ We have been testing <b>Windows Server 2025</b> on <b>Proxmox VE 8.4 (QEMU 9)</b
 The main problem appears...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/poor-user-experience-with-windows-server-2025-on-proxmox.182155/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>37</slash:comments>
+      <slash:comments>39</slash:comments>
     </item>
     <item>
-      <title>CPU Hotplug: Is there any plan to allow dynamic expansion beyond the predefined maximum CPU topology?</title>
-      <pubDate>Thu, 10 Sep 2026 07:32:53 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/cpu-hotplug-is-there-any-plan-to-allow-dynamic-expansion-beyond-the-predefined-maximum-cpu-topology.186316/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186316</guid>
-      <author>invalid@example.com (pulipulichen)</author>
+      <title>[0x08000800]: an uncorrected error caused a data fabric sync flood event</title>
+      <pubDate>Thu, 10 Sep 2026 13:25:57 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/0x08000800-an-uncorrected-error-caused-a-data-fabric-sync-flood-event.182401/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:182401</guid>
+      <author>invalid@example.com (Jerome69)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>pulipulichen</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+      <dc:creator>Jerome69</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello everybody,<br />
 <br />
-I would like to ask about the current CPU hotplug design in Proxmox VE and whether there are any plans or possible approaches to make it more flexible in the future.<br />
+First of all, sorry for my english, I&#039;m French <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f642.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":)" title="Smile    :)"  data-smilie="1"data-shortname=":)" /><br />
 <br />
-As I understand it, when using CPU hotplug in PVE, we first need to configure the maximum CPU topology using Sockets × Cores, and then use the vCPUs setting to define how many CPUs are initially plugged into the VM.<br />
+I have a mini forum UM690 Pro (AMD Ryzen 9 6900HX, 32Gb DDR5,AMD Radeon 680M), but since 2 weeks, It reboots many times per day (sometimes 10 per hour).<br />
 <br />
-For example, if a VM initially requires only 4 vCPUs but may eventually need up to 64 vCPUs, we currently...<br />
+The first think I did was changing the CPU thermal paste (on the BIOS, the temperature was about 60°, 38° after changing).<br />
+But it didn&#039;t solved the problem.<br />
 <br />
-<a href="https://forum.proxmox.com/threads/cpu-hotplug-is-there-any-plan-to-allow-dynamic-expansion-beyond-the-predefined-maximum-cpu-topology.186316/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
+I tried to reinstall the lastest proxmox version, changed the kernel version (6.2.16-20) and today I reinstalled...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/0x08000800-an-uncorrected-error-caused-a-data-fabric-sync-flood-event.182401/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>20</slash:comments>
     </item>
     <item>
-      <title>Proxmox and Intel VROC</title>
-      <pubDate>Thu, 10 Sep 2026 07:32:17 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-and-intel-vroc.186315/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186315</guid>
-      <author>invalid@example.com (m.rossmann)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>m.rossmann</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Looking at buying in some HPE servers for Proxmox where I have the option for using Intel VROC for my RAID configuration. Is the Intel VROC functionality supported with Proxmox our should I opt in for a classic RAID controller?<br />
+      <title>Bad Windows network performance - how to improve?</title>
+      <pubDate>Thu, 10 Sep 2026 13:12:52 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/bad-windows-network-performance-how-to-improve.186293/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186293</guid>
+      <author>invalid@example.com (CPO_Siemens)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>CPO_Siemens</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">We migrated some Windows 11 VMs from vSphere to Proxmox and are experiencing network bottlenecks.<br />
+I compared two similar VMs (one on vSphere with vmxnet3, one on Proxmox with virtio) and did some iperf3 runs which showed, that the vSphere NIC saturates the 10G connection that the host has to the test server while the Proxmox VM barely reaches 6G outbound and max. 2G inbound while the VM-bridge is attached to a 2x100G bond (which as <a href="https://forum.proxmox.com/threads/terrible-networking-performance-with-mlx5_core-connectx4-mellanox.142547/post-866574" class="link link--internal">it&#039;s own problems</a> but does way more than 6G).<br />
 <br />
-For additional info from Intel: <a href="https://www.intel.com/content/www/us/en/software/virtual-raid-on-cpu-vroc.html" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://www.intel.com/content/www/us/en/software/virtual-raid-on-cpu-vroc.html</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
+I also...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/bad-windows-network-performance-how-to-improve.186293/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>7</slash:comments>
     </item>
     <item>
-      <title>Cephx Key Migration Procedure and Ceph 19.2 Squid Going EOL Soon</title>
-      <pubDate>Thu, 10 Sep 2026 07:03:19 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/cephx-key-migration-procedure-and-ceph-19-2-squid-going-eol-soon.186276/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186276</guid>
-      <author>invalid@example.com (t.lamprecht)</author>
+      <title>virtiofs and running out of file handles</title>
+      <pubDate>Thu, 10 Sep 2026 13:12:42 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/virtiofs-and-running-out-of-file-handles.185981/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185981</guid>
+      <author>invalid@example.com (kegloadam)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>t.lamprecht</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Recent security findings and fixes in Ceph make it necessary to upgrade ceph and migrate authentication keys from the <code class="bbCodeInline">aes</code> to the <code class="bbCodeInline">aes256k</code> cipher. This is to address weaknesses in the old Cephx authentication method, especially if your Ceph service networks are not isolated. Upgrading to Ceph Tentacle 20.2.4 or newer, or Ceph Squid 19.2.6 or newer, will trigger new Cephx health errors and warnings for the old <code class="bbCodeInline">aes</code> type. These do not by themselves indicate data loss, data...<br />
+      <dc:creator>kegloadam</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Ran into an edge-case with a PBS virtual machine that had the chunks stored the host, backed by virtiofs. Garbage collection would consistently fail with  &quot;ENFILE: File table overflow&quot;<br />
 <br />
-<a href="https://forum.proxmox.com/threads/cephx-key-migration-procedure-and-ceph-19-2-squid-going-eol-soon.186276/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Windows 11 frequent, temporary freezes with Virtual Machine platform enabled</title>
-      <pubDate>Thu, 10 Sep 2026 06:36:30 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/windows-11-frequent-temporary-freezes-with-virtual-machine-platform-enabled.186306/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186306</guid>
-      <author>invalid@example.com (Lombra)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Lombra</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+Finding the limit wasn&#039;t the easiest since it isn&#039;t enforced using the process limits, rather &quot;virtiofsd&quot; has its own internal limit, set by a command line switch, that Proxmox itself <a href="https://github.com/proxmox/qemu-server/blob/0ecc6a1bafcfe6e25ff30abaf1d319b3318bc7f5/src/PVE/QemuServer/Virtiofs.pm#L180-L188" target="_blank" class="link link--external" rel="nofollow ugc noopener">doesn&#039;t allow editing</a><br />
 <br />
-I&#039;m having issues with a Windows 11 VM freezing when the Virtual Machine platform optional Windows feature is enabled. It&#039;s rather inconsistent, but usually occurs within a few minutes of logging in. (or booting?) It freezes for a few minutes, disconnecting the Remote Desktop session. The Proxmox console is completely frozen, including mouse cursor. Guest agent does not respond. The behaviour repeats every few minutes or so. I&#039;ve seen similar issues mentioned, but no real solution...<br />
+My solution was to create a wrapper that replaces virtiofsd with a command line that increases...<br />
 <br />
-<a href="https://forum.proxmox.com/threads/windows-11-frequent-temporary-freezes-with-virtual-machine-platform-enabled.186306/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
+<a href="https://forum.proxmox.com/threads/virtiofs-and-running-out-of-file-handles.185981/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
     </item>
   </channel>
 </rss>
