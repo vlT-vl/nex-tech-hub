@@ -1,4 +1,163 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: Advancing Workload-Aware Scheduling</title><link>https://kubernetes.io/blog/2026/09/08/kubernetes-v1-37-advancing-workload-aware-scheduling/</link><pubDate>Tue, 08 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/08/kubernetes-v1-37-advancing-workload-aware-scheduling/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: Introducing Node Lifecycle Conditions</title><link>https://kubernetes.io/blog/2026/09/09/kubernetes-v1-37-node-lifecycle-conditions/</link><pubDate>Wed, 09 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/09/kubernetes-v1-37-node-lifecycle-conditions/</guid><description>
+&lt;p>Kubernetes has many ways to describe what is happening on a Node. Readiness,
+taints, Pod state, labels, annotations, and provider-specific APIs each expose
+part of the picture. What has been missing is a shared, Kubernetes-owned way to
+say that a Node is &lt;a href="https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/">draining&lt;/a>,
+undergoing maintenance, or undergoing &lt;a href="https://kubernetes.io/docs/concepts/cluster-administration/node-shutdown/">Graceful Node Shutdown&lt;/a>.&lt;/p>
+&lt;p>Kubernetes v1.37 introduces five well-known &lt;a href="https://kubernetes.io/docs/reference/node/node-status/#condition">Node conditions&lt;/a>
+that provide that description:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>DrainInProgress&lt;/code>&lt;/li>
+&lt;li>&lt;code>Drained&lt;/code>&lt;/li>
+&lt;li>&lt;code>MaintenancePlanned&lt;/code>&lt;/li>
+&lt;li>&lt;code>MaintenanceInProgress&lt;/code>&lt;/li>
+&lt;li>&lt;code>GracefulNodeShutdownInProgress&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="the-new-node-lifecycle-conditions">The new Node lifecycle conditions&lt;a class="td-heading-self-link" href="#the-new-node-lifecycle-conditions" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Condition&lt;/th>
+&lt;th>What it reports&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&lt;code>DrainInProgress&lt;/code>&lt;/td>
+&lt;td>The Node is actively being drained according to the administrator's chosen drain criteria.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>Drained&lt;/code>&lt;/td>
+&lt;td>The Node has reached the drain criteria selected by the administrator.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>MaintenancePlanned&lt;/code>&lt;/td>
+&lt;td>The Node is expected to undergo a change in the future.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>MaintenanceInProgress&lt;/code>&lt;/td>
+&lt;td>The Node is actively undergoing maintenance.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;code>GracefulNodeShutdownInProgress&lt;/code>&lt;/td>
+&lt;td>Graceful Node Shutdown is determined to be in progress on the Node.&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>Maintenance can include hardware or software rollout, remediation,
+decommissioning, or debugging. Whether maintenance requires a drain depends on
+its impact. A Kubernetes upgrade usually should follow a drain, while a kernel
+live patch might not need one.&lt;/p>
+&lt;p>Like other Node conditions, each lifecycle condition uses &lt;code>status&lt;/code> to report
+whether the observation is active:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>True&lt;/code>: the lifecycle state is currently observed.&lt;/li>
+&lt;li>&lt;code>False&lt;/code>: the lifecycle state is not currently observed.&lt;/li>
+&lt;li>&lt;code>Unknown&lt;/code>: Kubernetes cannot determine whether the lifecycle state is active.&lt;/li>
+&lt;/ul>
+&lt;p>The &lt;code>reason&lt;/code> provides a stable, machine-readable cause for the current status,
+and &lt;code>message&lt;/code> can provide additional human-readable detail.&lt;/p>
+&lt;p>For example, an authorized maintenance controller could publish:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Node .status excerpt&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">status&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">conditions&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">MaintenancePlanned&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">status&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;True&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">reason&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">MaintenanceWindow&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">lastTransitionTime&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;2026-12-09T12:00:00Z&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">message&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Hardware maintenance is scheduled for this Node&amp;#34;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="what-changes-in-kubernetes-v1-37">What changes in Kubernetes v1.37&lt;a class="td-heading-self-link" href="#what-changes-in-kubernetes-v1-37" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The v1.37 release reserves these names as well-known &lt;code>NodeConditionType&lt;/code>
+constants and introduces the Alpha &lt;code>NodeLifecycleConditions&lt;/code> feature gate,
+which is disabled by default. In v1.37 the gate is effectively a no-op: it does
+not restrict who can set these conditions, and no core component reads them. It
+exists so that the built-in behavior planned for future releases — controllers
+that consume these conditions — can be opted into when it arrives. You do not
+need to enable it to start publishing the conditions today.&lt;/p>
+&lt;p>For this release, an administrator or an administrator-authorized
+controller is responsible for setting and clearing the lifecycle conditions.&lt;/p>
+&lt;p>In this first release, no core workload controller changes its behavior based
+on these conditions, but an administrator can publish them to communicate
+maintenance and drains to cluster users.&lt;/p>
+&lt;h2 id="how-to-use-lifecycle-conditions-today">How to use lifecycle conditions today&lt;a class="td-heading-self-link" href="#how-to-use-lifecycle-conditions-today" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The immediate value is operational clarity. Administrators and
+lifecycle automation can use these conditions as a common status channel for
+Node lifecycle work that already happens today.&lt;/p>
+&lt;p>For example, maintenance automation can set &lt;code>MaintenancePlanned&lt;/code> when a future
+maintenance window is scheduled, then set &lt;code>MaintenanceInProgress&lt;/code> when work
+starts. Drain automation can set &lt;code>DrainInProgress&lt;/code> when it begins evicting Pods
+and &lt;code>Drained&lt;/code> when the administrator's selected drain criteria have been met.
+The &lt;code>GracefulNodeShutdownInProgress&lt;/code> condition can report that Graceful Node
+Shutdown is in progress on the Node.&lt;/p>
+&lt;p>The recommended pattern is to use lifecycle conditions to report status, while
+lifecycle operations are managed through other mechanisms. Continue to use
+existing Kubernetes mechanisms such as &lt;a href="https://kubernetes.io/docs/reference/kubectl/generated/kubectl_cordon/">&lt;code>kubectl cordon&lt;/code>&lt;/a>,
+&lt;a href="https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/">&lt;code>kubectl drain&lt;/code>&lt;/a>,
+&lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/">taints&lt;/a>, and
+workload-specific controls to change scheduling or eviction behavior. Use
+lifecycle conditions to make the state of that work visible to people,
+dashboards, alerts, and automation that choose to consume the signal.&lt;/p>
+&lt;p>When setting a condition, use &lt;code>True&lt;/code> while the lifecycle state is active. Set the
+condition to &lt;code>False&lt;/code>, or remove it, when the state is no longer active. Use a
+stable &lt;code>reason&lt;/code> value and a clear &lt;code>message&lt;/code> so that both people and automation
+can understand why the condition changed. Cluster administrators should also
+decide which component owns each lifecycle condition to avoid conflicting writes.&lt;/p>
+&lt;h2 id="why-a-shared-signal-matters">Why a shared signal matters&lt;a class="td-heading-self-link" href="#why-a-shared-signal-matters" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Node lifecycle affects components across the cluster. The &lt;code>kubelet&lt;/code>, node
+lifecycle controller, workload controllers, scheduler, autoscalers, storage
+operators, and external maintenance systems all need some understanding of what
+is happening to a Node.&lt;/p>
+&lt;p>Today, each component has to reconstruct that understanding from indirect
+signals. One controller might look at Node readiness, another at taints, and
+another at Pods that are terminating or missing. Infrastructure providers and
+operators often add their own labels or annotations.&lt;/p>
+&lt;p>Those signals remain useful for their intended purposes, but they do not answer
+the same question. A taint can influence scheduling or eviction, for example,
+but it does not attest that a drain is in progress or that an administrator's
+drain criteria have been met. A &lt;code>NotReady&lt;/code> Node does not explain whether the
+cause is an unexpected failure, a graceful shutdown, or planned maintenance.&lt;/p>
+&lt;p>Without shared lifecycle context, independently correct components can make
+conflicting decisions. A DaemonSet controller can replace a Pod that the
+&lt;code>kubelet&lt;/code> intentionally terminated during graceful shutdown. A Job controller can
+wait indefinitely for a terminal Pod phase on a Node that an administrator is
+removing. A storage operator might learn about maintenance only after drain has
+already started.&lt;/p>
+&lt;p>The new conditions provide a stable place on the Node for that missing context,
+as part of the
+&lt;a href="https://kep.k8s.io/5683">larger effort to enhance Node Lifecycle management&lt;/a>.&lt;/p>
+&lt;h2 id="the-foundation-for-lifecycle-aware-kubernetes">The foundation for lifecycle-aware Kubernetes&lt;a class="td-heading-self-link" href="#the-foundation-for-lifecycle-aware-kubernetes" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The value of a shared signal comes from what can consume it — core controllers,
+administrators, or the ecosystem of lifecycle projects. Follow-up enhancements
+can build on the conditions without every component inventing a different way to
+infer Node lifecycle state.&lt;/p>
+&lt;p>Consider a long-standing DaemonSet rollout edge case. A Node that is broken or
+undergoing maintenance can remain unavailable for reasons unrelated to the new
+DaemonSet revision. That Node still consumes the rollout's availability budget,
+which can slow or block the controller from progressing the rollout on healthy
+Nodes.&lt;/p>
+&lt;p>The DaemonSet controller knows that a Pod is unavailable, but it cannot tell
+whether the new revision failed or an administrator intentionally took the Node
+out of service. Readiness, taints, and Pod state expose pieces of the situation,
+but none provides authoritative maintenance context.&lt;/p>
+&lt;p>The &lt;code>MaintenanceInProgress&lt;/code> condition creates a Kubernetes-owned place to publish
+that context. Future work can define how the DaemonSet controller uses it for
+rollout ordering, availability accounting, and status reporting. Those behaviors
+still require careful design, but the goal is for administrators to no longer
+have to manually adjust the rollout.&lt;/p>
+&lt;h2 id="future-expansions-and-getting-involved">Future expansions and getting involved&lt;a class="td-heading-self-link" href="#future-expansions-and-getting-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Node lifecycle is a cross-cutting problem. Solving it starts with
+components sharing enough context to make compatible decisions.
+The next stage is to build on Node Lifecycle Conditions to improve scenarios
+such as Graceful Node Shutdown, drain, and maintenance. Longer-term lifecycle
+coordination may require explicit ownership, locking, and potentially a
+dedicated API.&lt;/p>
+&lt;p>The Kubernetes ecosystem already includes many solutions for Node maintenance,
+remediation, drain, autoscaling, and fleet management. The experience behind
+those projects is essential to building a foundation that works across
+different environments and operational models. The Node Lifecycle Working Group,
+SIG Node, and SIG Apps invite maintainers and users to share their use cases
+and ideas to shape the future work.&lt;/p>
+&lt;p>Follow the work through &lt;a href="https://kep.k8s.io/5683">KEP-5683: Node Lifecycle Conditions&lt;/a>.
+To participate in our discussions, join one of our groups:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://www.kubernetes.dev/community/community-groups/wg/node-lifecycle/">Node Lifecycle Working Group&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.kubernetes.dev/community/community-groups/sigs/node/">SIG Node&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.kubernetes.dev/community/community-groups/sigs/apps/">SIG Apps&lt;/a>&lt;/li>
+&lt;/ul></description></item><item><title>Kubernetes v1.37: Advancing Workload-Aware Scheduling</title><link>https://kubernetes.io/blog/2026/09/08/kubernetes-v1-37-advancing-workload-aware-scheduling/</link><pubDate>Tue, 08 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/08/kubernetes-v1-37-advancing-workload-aware-scheduling/</guid><description>
 &lt;p>AI/ML and complex batch workloads continue to push the boundaries of Kubernetes scheduling. Following the foundational workload-centric enhancements introduced in previous releases, Kubernetes v1.37 delivers the next major milestone in the Workload-Aware Scheduling (WAS) journey. In this release, the core Workload and PodGroup APIs—enabling gang scheduling—along with Workload-Aware Preemption (WAP) and shared DRA ResourceClaims for PodGroups, all graduate to Beta, solidifying their role in the Kubernetes ecosystem.&lt;/p>
 &lt;p>To address the hierarchical scheduling requirements of modern high-performance distributed workloads, v1.37 introduces the new &lt;a href="https://kubernetes.io/docs/concepts/workloads/compositepodgroup-api/">CompositePodGroup&lt;/a> API.
 This new API allows expressing multi-level topology constraints, gang scheduling, and preemption policies for complex, heterogeneous groups of Pods. Crucially, this architectural expansion unlocks native scheduling support for advanced workload structures commonly managed by higher-order extension APIs such as JobSet and LeaderWorkerSet (LWS).&lt;/p>
@@ -8207,182 +8366,4 @@ Here are some resources to help you work with Gateway API:&lt;/p>
 &lt;ul>
 &lt;li>Check out the project on GitHub: &lt;a href="https://github.com/kubernetes-sigs/agent-sandbox">kubernetes-sigs/agent-sandbox&lt;/a>&lt;/li>
 &lt;li>Join the discussion in the &lt;a href="https://kubernetes.slack.com/messages/sig-apps">#sig-apps&lt;/a> and &lt;a href="https://kubernetes.slack.com/messages/agent-sandbox">#agent-sandbox&lt;/a> channels on the Kubernetes Slack.&lt;/li>
-&lt;/ul></description></item><item><title>Securing Production Debugging in Kubernetes</title><link>https://kubernetes.io/blog/2026/03/18/securing-production-debugging-in-kubernetes/</link><pubDate>Wed, 18 Mar 2026 10:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/03/18/securing-production-debugging-in-kubernetes/</guid><description>
-&lt;p>During production debugging, the fastest route is often broad access such as &lt;code>cluster-admin&lt;/code> (a ClusterRole that grants administrator-level access), shared bastions/jump boxes, or long-lived SSH keys. It works in the moment, but it comes with two common problems: auditing becomes difficult, and temporary exceptions have a way of becoming routine.&lt;/p>
-&lt;p>This post offers my recommendations for good practices applicable to existing Kubernetes environments with minimal tooling changes:&lt;/p>
-&lt;ul>
-&lt;li>Least privilege with RBAC&lt;/li>
-&lt;li>Short-lived, identity-bound credentials&lt;/li>
-&lt;li>An SSH-style handshake model for cloud native debugging&lt;/li>
-&lt;/ul>
-&lt;p>A good architecture for securing production debugging workflows is to use a just-in-time secure shell gateway
-(often deployed as an on demand pod in the cluster).
-It acts as an SSH-style “front door” that makes temporary access actually temporary. You can
-authenticate with short-lived, identity-bound credentials, establish a session to the gateway,
-and the gateway uses the Kubernetes API and RBAC to control what they can do, such as &lt;code>pods/log&lt;/code>, &lt;code>pods/exec&lt;/code>, and &lt;code>pods/portforward&lt;/code>.
-Sessions expire automatically, and both the gateway logs and Kubernetes audit logs capture who accessed what and when without shared bastion accounts or long-lived keys.&lt;/p>
-&lt;h2 id="1-using-an-access-broker-on-top-of-kubernetes-rbac">1) Using an access broker on top of Kubernetes RBAC&lt;a class="td-heading-self-link" href="#1-using-an-access-broker-on-top-of-kubernetes-rbac" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>RBAC controls who can do what in Kubernetes. Many Kubernetes environments rely primarily on RBAC for authorization, although Kubernetes also supports other authorization modes such as Webhook authorization. You can enforce access directly with Kubernetes RBAC, or put an access broker in front of the cluster that still relies on Kubernetes permissions under the hood. In either model, Kubernetes RBAC remains the source of truth for what the Kubernetes API allows and at what scope.&lt;/p>
-&lt;p>An access broker adds controls that RBAC does not cover well. For example, it can decide whether a request is auto-approved or requires manual approval, whether a user can run a command, and which commands are allowed in a session. It can also manage group membership so that you grant permissions to groups instead of individual users. Kubernetes RBAC can allow actions such as pods/exec, but it cannot restrict which commands run inside an exec session.&lt;/p>
-&lt;p>With that model, Kubernetes RBAC defines the allowed actions for a user or group (for example, an on-call team in a single namespace).
-I recommend you only define access rules that grant rights to groups or to ServiceAccounts - never to individual users. The broker or identity provider then adds or removes users from that group as needed.&lt;/p>
-&lt;p>The broker can also enforce extra policy on top, like which commands are permitted in an interactive session and
-which requests can be auto-approved versus require manual approval.
-That policy can live in a JSON or XML file and be maintained through code review, so updates go through a formal pull request and are reviewed like any other production change.&lt;/p>
-&lt;h3 id="example-a-namespaced-on-call-debug-role">Example: a namespaced on-call debug Role&lt;a class="td-heading-self-link" href="#example-a-namespaced-on-call-debug-role" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rbac.authorization.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Role&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">oncall-debug&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">&amp;lt;namespace&amp;gt;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">rules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c"># Discover what’s running&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">apiGroups&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;pods&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;events&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">verbs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;get&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;list&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;watch&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c"># Read logs&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">apiGroups&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;pods/log&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">verbs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;get&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c"># Interactive debugging actions&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">apiGroups&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;pods/exec&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;pods/portforward&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">verbs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;create&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c"># Understand rollout/controller state&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">apiGroups&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;apps&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;deployments&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;replicasets&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">verbs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;get&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;list&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;watch&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c"># Optional: allow kubectl debug ephemeral containers&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">apiGroups&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;pods/ephemeralcontainers&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">verbs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;update&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Bind the Role to a group (rather than individual users) so membership can be managed through your identity provider:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rbac.authorization.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">RoleBinding&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">oncall-debug&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">&amp;lt;namespace&amp;gt;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">subjects&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Group&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">oncall-&amp;lt;team-name&amp;gt;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">apiGroup&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rbac.authorization.k8s.io&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">roleRef&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Role&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">oncall-debug&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">apiGroup&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rbac.authorization.k8s.io&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="2-short-lived-identity-bound-credentials">2) Short-lived, identity-bound credentials&lt;a class="td-heading-self-link" href="#2-short-lived-identity-bound-credentials" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The goal is to use short-lived, identity-bound credentials that clearly tie a session to a real person and expire quickly. These credentials can include the user’s identity and the scope of what they’re allowed to do. They’re typically signed using a private key that stays with the engineer, such as a hardware-backed key (for example, a YubiKey), so they can not be forged without access to that key.&lt;/p>
-&lt;p>You can implement this with Kubernetes-native authentication (for example, client certificates or an OIDC-based flow),
-or have the access broker from the previous section issue short-lived credentials on the user’s behalf.
-In many setups, Kubernetes still uses RBAC to enforce permissions based on the authenticated identity and groups/claims.
-If you use an access broker, it can also encode additional scope constraints in the credential and enforce them during the session, such as which cluster or namespace the session applies to and which actions
-(or approved commands) are allowed against pods or nodes.
-In either case, the credentials should be signed by a certificate authority (CA), and that CA should be rotated on a regular schedule (for example, quarterly) to limit long-term risk.&lt;/p>
-&lt;h3 id="option-a-short-lived-oidc-tokens">Option A: short-lived OIDC tokens&lt;a class="td-heading-self-link" href="#option-a-short-lived-oidc-tokens" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>A lot of managed Kubernetes clusters already give you short-lived tokens. The main thing is to make sure your kubeconfig refreshes them automatically instead of copying a long-lived token into the file.&lt;/p>
-&lt;p>For example:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">users&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">oncall&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">user&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">exec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">client.authentication.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">command&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">cred-helper&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">args&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;--cluster=prod&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;--ttl=30m&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="option-b-short-lived-client-certificates-x-509">Option B: Short-lived client certificates (X.509)&lt;a class="td-heading-self-link" href="#option-b-short-lived-client-certificates-x-509" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>If your API server (or your access broker from the previous section) is set up to trust a client CA, you can use short-lived client certificates for debugging access. The idea is:&lt;/p>
-&lt;ul>
-&lt;li>The private key is created and kept under the engineer’s machine (ideally hardware-backed, like a non-exportable key in a YubiKey/PIV token)&lt;/li>
-&lt;li>A short-lived certificate is issued (often via the
-&lt;a href="https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#certificate-signing-requests">CertificateSigningRequest&lt;/a> API, or your access broker from the previous section, with a TTL).&lt;/li>
-&lt;li>RBAC maps the authenticated identity to a minimal Role&lt;/li>
-&lt;/ul>
-&lt;p>This is straightforward to operationalize with the Kubernetes CertificateSigningRequest API.&lt;/p>
-&lt;p>Generate a key and CSR locally:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Generate a private key.&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># This could instead be generated within a hardware token;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># OpenSSL and several similar tools include support for that.&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">openssl genpkey -algorithm Ed25519 -out oncall.key
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">openssl req -new -key oncall.key -out oncall.csr &lt;span class="se">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> -subj &lt;span class="s2">&amp;#34;/CN=user/O=oncall-payments&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Create a CertificateSigningRequest with a short expiration:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">certificates.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">CertificateSigningRequest&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">oncall-&amp;lt;user&amp;gt;-20260218&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">request&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">&amp;lt;base64-encoded oncall.csr&amp;gt;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">signerName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kubernetes.io/kube-apiserver-client&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">expirationSeconds&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">1800&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># 30 minutes&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">usages&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">client auth&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>After the CSR is approved and signed, you extract the issued certificate and use it together with the private key to authenticate, for example via kubectl.&lt;/p>
-&lt;h2 id="3-use-a-just-in-time-access-gateway-to-run-debugging-commands">3) Use a just-in-time access gateway to run debugging commands&lt;a class="td-heading-self-link" href="#3-use-a-just-in-time-access-gateway-to-run-debugging-commands" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Once you have short-lived credentials, you can use them to open a secure shell session to a just-in-time access gateway, often exposed over SSH and created on demand. If the gateway is exposed over SSH, a common pattern is to issue the engineer a short-lived OpenSSH user certificate for the session. The gateway trusts your SSH user CA, authenticates the engineer at connection time, and then applies the approved session policy before making Kubernetes API calls on the user’s behalf. OpenSSH certificates are separate from Kubernetes X.509 client certificates, so these are usually treated as distinct layers.&lt;/p>
-&lt;p>The resulting session should also be scoped so it cannot be reused outside of what was approved. For example, the gateway or broker can limit it to a specific cluster and namespace, and optionally to a narrower target such as a pod or node. That way, even if someone tries to reuse the access, it will not work outside the intended scope. After the session is established, the gateway executes only the allowed actions and records what happened for auditing.&lt;/p>
-&lt;h3 id="example-namespace-scoped-role-bindings">Example: Namespace-scoped role bindings&lt;a class="td-heading-self-link" href="#example-namespace-scoped-role-bindings" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rbac.authorization.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Role&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">jit-debug&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">&amp;lt;namespace&amp;gt;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kubernetes.io/description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">&amp;gt;&lt;/span>&lt;span class="sd">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd"> Colleagues performing semi-privileged debugging, with access provided
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd"> just in time and on demand.&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">rules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">apiGroups&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;pods&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;pods/log&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">verbs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;get&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;list&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;watch&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">apiGroups&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;pods/exec&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">verbs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;create&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rbac.authorization.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">RoleBinding&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">jit-debug&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">&amp;lt;namespace&amp;gt;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">subjects&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Group&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">jit:oncall:&amp;lt;namespace&amp;gt; &lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># mapped from the short-lived credential (cert/OIDC)&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">apiGroup&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rbac.authorization.k8s.io&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">roleRef&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Role&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">jit-debug&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">apiGroup&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rbac.authorization.k8s.io&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>These RBAC objects, and the rules they define, allow debugging only within the specified namespace; attempts to access other namespaces are not allowed.&lt;/p>
-&lt;h3 id="example-cluster-scoped-role-binding">Example: Cluster-scoped role binding&lt;a class="td-heading-self-link" href="#example-cluster-scoped-role-binding" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rbac.authorization.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ClusterRole&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">jit-cluster-read&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">rules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">apiGroups&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;nodes&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;namespaces&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">verbs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;get&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;list&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;watch&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rbac.authorization.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ClusterRoleBinding&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">jit-cluster-read&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">subjects&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Group&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">jit:oncall:cluster&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">apiGroup&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rbac.authorization.k8s.io&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">roleRef&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ClusterRole&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">jit-cluster-read&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">apiGroup&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rbac.authorization.k8s.io&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>These RBAC rules grant cluster-wide read access (for example, to nodes and namespaces) and should be used only for workflows that truly require cluster-scoped resources.&lt;/p>
-&lt;p>Finer-grained restrictions like “only this pod/node” or “only these commands” are typically enforced by the access gateway/broker during the session, but Kubernetes also offers other options, such as ValidatingAdmissionPolicy for restricting writes and webhook authorization for custom authorization across verbs.&lt;/p>
-&lt;p>In environments with stricter access controls, you can add an extra, short-lived session mediation layer
-to separate session establishment from privileged actions. Both layers are ephemeral, use identity-bound expiring credentials,
-and produce independent audit trails. The mediation layer handles session setup/forwarding,
-while the execution layer performs only RBAC-authorized Kubernetes actions.
-This separation can reduce exposure by narrowing responsibilities, scoping credentials per step, and enforcing end-to-end session expiry.&lt;/p>
-&lt;h2 id="references">References&lt;a class="td-heading-self-link" href="#references" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;ul>
-&lt;li>&lt;a href="https://kubernetes.io/docs/reference/access-authn-authz/authorization/">Authorization&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">Using RBAC Authorization&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://kubernetes.io/docs/reference/access-authn-authz/authentication/">Authenticating&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/">Certificates and Certificate Signing Requests&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://kubernetes.io/docs/tasks/tls/certificate-issue-client-csr/">Issue a Certificate for a Kubernetes API Client Using a CertificateSigningRequest&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://kubernetes.io/docs/concepts/security/rbac-good-practices/">Role Based Access Control Good Practices&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;p>&lt;em>Disclaimer: The views expressed in this post are solely those of the author and do not reflect the views of the author’s employer or any other organization.&lt;/em>&lt;/p></description></item></channel></rss>
+&lt;/ul></description></item></channel></rss>
