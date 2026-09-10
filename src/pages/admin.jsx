@@ -29,7 +29,7 @@ const ADMIN_TABS = [
   { id: 'users',   Icon: LuUsers },
 ];
 
-const DEFAULT_VIEWS = { dashboard: true, techrelease: true, infra: true, githubrepo: true, about: true, infraProxmox: true, infraVmware: true, infraPmxtoolsCli: false, infraPmxtoolsDownload: true, infraRvtoolsConverter: true };
+const DEFAULT_VIEWS = { dashboard: true, techrelease: true, infra: true, githubrepo: true, about: true, infraProxmox: true, infraVmware: true, infraPmxtoolsCli: true, infraPmxtoolsDownload: true, infraRvtoolsConverter: true };
 
 const MANAGEABLE_VIEWS = [
   { id: 'dashboard',   Icon: TbLayoutDashboard },
@@ -574,13 +574,13 @@ export default function Admin({ user, language = 'it', onSettingsChange }) {
               <div className="admin-view-toggle-row">
                 <LuTerminal className="admin-view-icon" style={{ color: '#f97316' }} />
                 <span className="admin-view-label">pmxtools CLI</span>
-                <span className={`admin-view-state${views.infraPmxtoolsCli === true ? ' admin-view-state--on' : ' admin-view-state--off'}`}>
-                  {views.infraPmxtoolsCli === true ? <LuEye /> : <LuEyeOff />}
+                <span className={`admin-view-state${views.infraPmxtoolsCli !== false ? ' admin-view-state--on' : ' admin-view-state--off'}`}>
+                  {views.infraPmxtoolsCli !== false ? <LuEye /> : <LuEyeOff />}
                 </span>
                 <label className="admin-toggle-switch">
                   <input
                     type="checkbox"
-                    checked={views.infraPmxtoolsCli === true}
+                    checked={views.infraPmxtoolsCli !== false}
                     onChange={(e) => updateView({ infraPmxtoolsCli: e.target.checked })}
                   />
                   <span className="admin-toggle-slider" />

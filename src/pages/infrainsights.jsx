@@ -15,7 +15,7 @@ import VmwToolsConverter from './vmwtools';
 export default function Insights({ language = 'it', infraSettings = {} }) {
   const showProxmox = infraSettings.infraProxmox !== false;
   const showVmware  = infraSettings.infraVmware  !== false;
-  const showPmxtoolsCli = infraSettings.infraPmxtoolsCli === true;
+  const showPmxtoolsCli = infraSettings.infraPmxtoolsCli !== false;
   const showPmxtoolsDownload = infraSettings.infraPmxtoolsDownload !== false;
   const showRvtoolsConverter = infraSettings.infraRvtoolsConverter !== false;
 
@@ -50,64 +50,50 @@ export default function Insights({ language = 'it', infraSettings = {} }) {
     let ignore = false;
     (async () => {
       try {
-        const res = await fetch('https://api.github.com/repos/vlT-vl/pmxtools/releases/latest');
+        const res = await fetch('https://api.github.com/repos/vlT-vl/pmxtools/releases?per_page=100');
         if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
-        const release = await res.json();
-        const assets = Array.isArray(release.assets) ? release.assets : [];
-        const findAsset = (patterns) =>
+        const releases = await res.json();
+        const published = Array.isArray(releases) ? releases.filter((r) => !r.draft && !r.prerelease) : [];
+
+        const findAsset = (assets, patterns) =>
           assets.find((a) => {
             const n = String(a.name || '').toLowerCase();
             return patterns.every((p) => n.includes(p));
           }) || null;
+
+        const buildRelease = (release) => {
+          if (!release) return null;
+          const assets = Array.isArray(release.assets) ? release.assets : [];
+          return {
+            name: release.name || release.tag_name || 'N/D',
+            htmlUrl: release.html_url || `https://github.com/vlT-vl/pmxtools/releases/tag/${release.tag_name || ''}`,
+            macosArm64: findAsset(assets, ['darwin', 'arm64']) || findAsset(assets, ['macos', 'arm64']),
+            macosAmd64: findAsset(assets, ['darwin', 'amd64']) || findAsset(assets, ['macos', 'amd64']) || findAsset(assets, ['darwin', 'x86_64']),
+            linuxAmd64: findAsset(assets, ['linux', 'amd64']) || findAsset(assets, ['linux', 'x86_64']),
+            linuxArm64: findAsset(assets, ['linux', 'arm64']),
+            windowsAmd64: findAsset(assets, ['windows', 'amd64']) || findAsset(assets, ['windows', 'x86_64']) || findAsset(assets, ['win', 'amd64']),
+          };
+        };
+
+        const latestCli = published.find((r) => String(r.tag_name || '').startsWith('cli-'));
+        const latestUi = published.find((r) => String(r.tag_name || '').startsWith('ui-'));
+
         if (ignore) return;
-        setPmxRelease({
-          name: release.name || release.tag_name || 'N/D',
-          htmlUrl: release.html_url || 'https://github.com/vlT-vl/pmxtools/releases/latest',
-          macosArm64: findAsset(['darwin', 'arm64']) || findAsset(['macos', 'arm64']),
-          macosAmd64: findAsset(['darwin', 'amd64']) || findAsset(['macos', 'amd64']) || findAsset(['darwin', 'x86_64']),
-          linuxAmd64: findAsset(['linux', 'amd64']) || findAsset(['linux', 'x86_64']),
-          windowsAmd64: findAsset(['windows', 'amd64']) || findAsset(['windows', 'x86_64']) || findAsset(['win', 'amd64']),
-        });
+        setPmxRelease(buildRelease(latestCli));
+        setPmxUiRelease(buildRelease(latestUi));
+        setPmxReleaseError(latestCli ? null : (copy?.releaseError || 'Errore nel recupero release'));
+        setPmxUiReleaseError(latestUi ? null : (copy?.releaseError || 'Errore nel recupero release'));
       } catch (err) {
         if (ignore) return;
         setPmxRelease(null);
-        setPmxReleaseError(err.message || copy?.releaseError || 'Errore nel recupero release');
-      } finally {
-        if (!ignore) setPmxReleaseLoading(false);
-      }
-    })();
-    return () => { ignore = true; };
-  }, []);
-
-  useEffect(() => {
-    let ignore = false;
-    (async () => {
-      try {
-        const res = await fetch('https://api.github.com/repos/vlT-vl/pmxtools-ui/releases/latest');
-        if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
-        const release = await res.json();
-        const assets = Array.isArray(release.assets) ? release.assets : [];
-        const findAsset = (patterns) =>
-          assets.find((a) => {
-            const n = String(a.name || '').toLowerCase();
-            return patterns.every((p) => n.includes(p));
-          }) || null;
-        if (ignore) return;
-        setPmxUiRelease({
-          name: release.name || release.tag_name || 'N/D',
-          htmlUrl: release.html_url || 'https://github.com/vlT-vl/pmxtools-ui/releases/latest',
-          macosArm64: findAsset(['darwin', 'arm64']) || findAsset(['macos', 'arm64']),
-          macosAmd64: findAsset(['darwin', 'amd64']) || findAsset(['macos', 'amd64']) || findAsset(['darwin', 'x86_64']),
-          linuxAmd64: findAsset(['linux', 'amd64']) || findAsset(['linux', 'x86_64']),
-          linuxArm64: findAsset(['linux', 'arm64']),
-          windowsAmd64: findAsset(['windows', 'amd64']) || findAsset(['windows', 'x86_64']) || findAsset(['win', 'amd64']),
-        });
-      } catch (err) {
-        if (ignore) return;
         setPmxUiRelease(null);
+        setPmxReleaseError(err.message || copy?.releaseError || 'Errore nel recupero release');
         setPmxUiReleaseError(err.message || copy?.releaseError || 'Errore nel recupero release');
       } finally {
-        if (!ignore) setPmxUiReleaseLoading(false);
+        if (!ignore) {
+          setPmxReleaseLoading(false);
+          setPmxUiReleaseLoading(false);
+        }
       }
     })();
     return () => { ignore = true; };
