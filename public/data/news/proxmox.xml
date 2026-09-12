@@ -4,11 +4,145 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Sat, 12 Sep 2026 02:15:41 +0000</pubDate>
-    <lastBuildDate>Sat, 12 Sep 2026 02:15:41 +0000</lastBuildDate>
+    <pubDate>Sat, 12 Sep 2026 09:51:14 +0000</pubDate>
+    <lastBuildDate>Sat, 12 Sep 2026 09:51:14 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>tmpfs in debian 13</title>
+      <pubDate>Sat, 12 Sep 2026 09:01:12 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/tmpfs-in-debian-13.186361/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186361</guid>
+      <author>invalid@example.com (KrawallKurt)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>KrawallKurt</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+I recently upgraded to PVE 9 - I know, a bit late to the party, but better late than never ;-)<br />
+As written in the upgrade guide I realized that /tmp is now a tmpfs with size 50% of RAM.<br />
+<br />
+- What&#039;s a good size for the PVE host /tmp dir? Does PVE ever write there or can it also be disabled?<br />
+- Also, I saw that there is a /dev/shm which is 50% of the RAM size, too. Can this be problematic? Should it be limited? Can it even be limited?<br />
+- Is it okay to run `systemctl mask tmp.mount` to disable...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/tmpfs-in-debian-13.186361/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Are there mitigations available for CVE-2026-53359 'Januscape'</title>
+      <pubDate>Sat, 12 Sep 2026 08:20:25 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/are-there-mitigations-available-for-cve-2026-53359-januscape.184874/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:184874</guid>
+      <author>invalid@example.com (Deerom)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Deerom</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Everyone,<br />
+<br />
+I&#039;ve just read from the openwall-security mailling that there is a new Guest-to-Host KVM explot called &#039;Januscape&#039;.<br />
+It seems to impact VMs which have the &#039;nested-virtualization&#039; flag enabled, however for large multi-tenant service providers that may still be many.<br />
+<br />
+Is Proxmox aware of this explot, and perhaps are aware of any possible mitigations?<br />
+<br />
+Thank you in advance!<br />
+- Demian</div>]]></content:encoded>
+      <slash:comments>33</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox and Intel VROC</title>
+      <pubDate>Sat, 12 Sep 2026 07:53:01 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-and-intel-vroc.186315/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186315</guid>
+      <author>invalid@example.com (m.rossmann)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>m.rossmann</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Looking at buying in some HPE servers for Proxmox where I have the option for using Intel VROC for my RAID configuration. Is the Intel VROC functionality supported with Proxmox our should I opt in for a classic RAID controller?<br />
+<br />
+For additional info from Intel: <a href="https://www.intel.com/content/www/us/en/software/virtual-raid-on-cpu-vroc.html" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://www.intel.com/content/www/us/en/software/virtual-raid-on-cpu-vroc.html</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Something wrong - can't order SSL  Certificate</title>
+      <pubDate>Sat, 12 Sep 2026 05:55:09 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/something-wrong-cant-order-ssl-certificate.186368/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186368</guid>
+      <author>invalid@example.com (Udbytossen)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Udbytossen</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hej Forum.,<br />
+I&#039;ve just reinstalled my Home PVE 9.2.2, when trying to order the new certificate, and can&#039;t make the SSL DNS API to work - the error I&#039;m getting on screen is:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Loading ACME account details
+Placing ACME order
+Order URL: https://acme-v02.api.letsencrypt.org/acme/order/3705148276/556365695046
+
+Getting authorization details from &#039;https://acme-v02.api.letsencrypt.org/acme/authz/3705148276/778292338966&#039;
+The validation for pve.webmeup.dk is pending!
+[Sat Sep 12 07:29:02 CEST 2026]...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/something-wrong-cant-order-ssl-certificate.186368/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Dismantled cluster, cannot access webUI from different subnet</title>
+      <pubDate>Sat, 12 Sep 2026 05:43:10 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/dismantled-cluster-cannot-access-webui-from-different-subnet.186360/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186360</guid>
+      <author>invalid@example.com (fubacca)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>fubacca</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I had a 2 node cluster, with a quorum device running on a third standalone node.  I dismantled the cluster, all vms are running fine and I can access the web UI from systems on the same subnet as the old cluster nodes.  I have a jumphost in a different subnet that I use for remote management and I am unable to get to the web UI of the 2 hosts, but can reach the standalone node no problem.  The Sophos firewall is not blocking the traffic and I can reach the 3rd node fine.  I can SSH and ping...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/dismantled-cluster-cannot-access-webui-from-different-subnet.186360/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>PVE 9 and iDRAC service module dcism</title>
+      <pubDate>Sat, 12 Sep 2026 03:04:00 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-9-and-idrac-service-module-dcism.182131/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:182131</guid>
+      <author>invalid@example.com (prmadmax)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>prmadmax</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+Has anyone managed to get iDRAC service module setup for PVE 9? None of the old guides or threads are relevant now so i was able to get the service module running, it just crashes out immediately.<br />
+<br />
+The best guide I have seen working was for PVE 8 and it did function but a clean intstall on PVE 9 it is no longer working - <a href="https://blog.williamdes.eu/Infrastructure/tutorials/install-dell-idrac-racadm-on-proxmox-7/" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://blog.williamdes.eu/Infrastructure/tutorials/install-dell-idrac-racadm-on-proxmox-7/</a><br />
+What is odd is this does work after an upgrade from PVE8&gt;9 which I...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pve-9-and-idrac-service-module-dcism.182131/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
+    </item>
+    <item>
+      <title>[PBS 4.2.5] Datastore &gt; Content: Bulk Change Owner in GUI?</title>
+      <pubDate>Sat, 12 Sep 2026 02:33:33 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pbs-4-2-5-datastore-content-bulk-change-owner-in-gui.186200/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186200</guid>
+      <author>invalid@example.com (SInisterPisces)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>SInisterPisces</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m redoing the API tokens on my PBS server for ... reasons mostly related to ending up with multiple PVE clusters in my homelab and needing to use namespaces. Reasons that I hope I don&#039;t end up regretting. <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f61b.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":P" title="Stick Out Tongue    :P"  data-smilie="7"data-shortname=":P" /><br />
+<br />
+ <b>As part of that, I need to change the owner of every backup currently on the PBS server so things can keep going as they were before.</b><br />
+<br />
+It&#039;s easy to do this <u>per-VM/LXC Backup Group</u>, using the little human figure icon.<br />
+<b><br />
+Is there a way in the PBS GUI to do it to multiple...</b><br />
+<br />
+<a href="https://forum.proxmox.com/threads/pbs-4-2-5-datastore-content-bulk-change-owner-in-gui.186200/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
     <item>
       <title>Spamberichte  envelope-from</title>
       <pubDate>Sat, 12 Sep 2026 01:13:59 +0000</pubDate>
@@ -73,19 +207,6 @@ smtpd_sender_restrictions =<br />
       <dc:creator>Marc_de</dc:creator>
       <content:encoded><![CDATA[<div class="bbWrapper">Post can be deleted</div>]]></content:encoded>
       <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Dismantled cluster, cannot access webUI from different subnet</title>
-      <pubDate>Fri, 11 Sep 2026 23:54:47 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/dismantled-cluster-cannot-access-webui-from-different-subnet.186360/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186360</guid>
-      <author>invalid@example.com (fubacca)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>fubacca</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I had a 2 node cluster, with a quorum device running on a third standalone node.  I dismantled the cluster, all vms are running fine and I can access the web UI from systems on the same subnet as the old cluster nodes.  I have a jumphost in a different subnet that I use for remote management and I am unable to get to the web UI of the 2 hosts, but can reach the standalone node no problem.  The Sophos firewall is not blocking the traffic and I can reach the 3rd node fine.  I can SSH and ping...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/dismantled-cluster-cannot-access-webui-from-different-subnet.186360/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
     </item>
     <item>
       <title>How do I list the directories/file on my local drive?</title>
@@ -154,25 +275,6 @@ The problem is that my &quot;local&quot;...<br />
 I’ve noticed that agencies such as <a href="https://www.americandesignhub.com/" target="_blank" class="link link--external" rel="nofollow ugc noopener">American Design Hub</a> bring services like web design, branding, and digital marketing together, which can be helpful for businesses that want to manage everything under...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/what-makes-a-full-service-creative-design-agency-a-good-choice-for-small-businesses.186362/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>tmpfs in debian 13</title>
-      <pubDate>Fri, 11 Sep 2026 22:26:20 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/tmpfs-in-debian-13.186361/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186361</guid>
-      <author>invalid@example.com (KrawallKurt)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>KrawallKurt</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-I recently upgraded to PVE 9 - I know, a bit late to the party, but better late than never ;-)<br />
-As written in the upgrade guide I realized that /tmp is now a tmpfs with size 50% of RAM.<br />
-<br />
-- What&#039;s a good size for the PVE host /tmp dir? Does PVE ever write there or can it also be disabled?<br />
-- Also, I saw that there is a /dev/shm which is 50% of the RAM size, too. Can this be problematic? Should it be limited? Can it even be limited?<br />
-- Is it okay to run `systemctl mask tmp.mount` to disable...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/tmpfs-in-debian-13.186361/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>0</slash:comments>
     </item>
     <item>
@@ -320,103 +422,6 @@ My host name is &#039;proxmox&#039; ... and I have complete editing rights to my
 <br />
 <a href="https://forum.proxmox.com/threads/lets-encrypt-dns-validation-through-cname-alias.174173/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>Siimultaneous Spice Client Connections</title>
-      <pubDate>Fri, 11 Sep 2026 19:07:44 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/siimultaneous-spice-client-connections.17265/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:17265</guid>
-      <author>invalid@example.com (blackpaw)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>blackpaw</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Apparently experimental support has been in the spice server for this since spice 0.10<br />
-<br />
-  <a href="http://www.spice-space.org/page/Features/MultipleClients" target="_blank" class="link link--external" rel="nofollow ugc noopener">http://www.spice-space.org/page/Features/MultipleClients</a><br />
-<br />
-One just needs to set <br />
-  export SPICE_DEBUG_ALLOW_MC=1<br />
-<br />
-<span style="font-family: 'microsoft sans serif'">before launching the qemu vm.<br />
-<br />
-Not sure where to set this on proxmox - I tried globally via /etc/profile but that didn&#039;t work.<br />
-<br />
-Any suggestions?<br />
-</span></div>]]></content:encoded>
-      <slash:comments>10</slash:comments>
-    </item>
-    <item>
-      <title>usb wird nicht gemounted</title>
-      <pubDate>Fri, 11 Sep 2026 18:35:22 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/usb-wird-nicht-gemounted.186357/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186357</guid>
-      <author>invalid@example.com (anwin)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>anwin</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo ich habe ein synjob eingerichtet der 10 Wochen gut funktionierte und heute auf einmal nicht mehr. Der PBS ist uptodate, der Datenträger ist nich angeschlossen ich habe nur remotezugriff. Normal wird die usb platte von den Kollegen (Büro) vor Ort nur angeschlossen und nach erfolgsmeldung nach haus mitgenommen. heute kam folgende Fehlermeldung:<br />
-<br />
-Sep 11 07:07:50 pbs03 kernel: usb 2-1: new high-speed USB device number 4 using xhci_hcd<br />
-Sep 11 07:07:50 pbs03 kernel: usb 2-1: New USB device...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/usb-wird-nicht-gemounted.186357/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox upgrade from 8 to VE 9.2</title>
-      <pubDate>Fri, 11 Sep 2026 18:35:03 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-upgrade-from-8-to-ve-9-2.186355/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186355</guid>
-      <author>invalid@example.com (Jelrik)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Jelrik</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
-<br />
-A couple of weeks ago, I upgraded my Proxmox node from version 8 to version 9.2. Everything seemed to work fine initially, but after a few days, I suddenly lost all access to the Proxmox Web UI and network. Doing a hard reboot temporarily brought it back, but the issue returned after another couple of days.<br />
-<br />
-Suspecting a failing network card, I purchased a new one and tested it, but the exact same issue persisted. Thinking it might be hardware-specific degradation, I decided...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-upgrade-from-8-to-ve-9-2.186355/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Display + network drop simultaneously at boot on Dell OptiPlex 3070 suspected power issue?</title>
-      <pubDate>Fri, 11 Sep 2026 18:34:26 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/display-network-drop-simultaneously-at-boot-on-dell-optiplex-3070-suspected-power-issue.186352/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186352</guid>
-      <author>invalid@example.com (sebbie)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>sebbie</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">My Proxmox host was running fine for 18+ days uptime, then became unresponsive while I was actively using it via SSH. <br />
-<br />
-Journal logs confirm this was a clean Power key pressed short → Powering off event — I manually power-cycled it after the connection dropped, assuming a crash. Since then, it will not boot normally without both the display and the Ethernet link dying at the exact same moment.<br />
-<br />
-<b>Symptoms</b>:<br />
-<ul>
-<li data-xf-list-type="ul">Boots normally through GRUB, kernel load, filesystem check (all clean, no...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/display-network-drop-simultaneously-at-boot-on-dell-optiplex-3070-suspected-power-issue.186352/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE 9.2 – sporadic iSCSI NOP timeouts / DID_TRANSPORT_DISRUPTED with Dell PowerVault ME5 and Intel E810</title>
-      <pubDate>Fri, 11 Sep 2026 18:33:36 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-%E2%80%93-sporadic-iscsi-nop-timeouts-did_transport_disrupted-with-dell-powervault-me5-and-intel-e810.185817/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185817</guid>
-      <author>invalid@example.com (huganega)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>huganega</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I am experiencing sporadic iSCSI connection interruptions on a Proxmox VE 9.2 host connected directly to a Dell PowerVault ME5224.<br />
-The issue manifests as ISCSI_ERR_NOP_TIMEDOUT, followed by DID_TRANSPORT_DISRUPTED. The affected iSCSI session usually recovers automatically after a few seconds.<br />
-The problem is intermittent. The system can run normally for a considerable amount of time before another interruption occurs.<br />
-<br />
-<b>Environment</b><br />
-<ul>
-<li data-xf-list-type="ul">Proxmox VE 9.2</li>
-<li data-xf-list-type="ul">currently running kernel...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-%E2%80%93-sporadic-iscsi-nop-timeouts-did_transport_disrupted-with-dell-powervault-me5-and-intel-e810.185817/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>24</slash:comments>
     </item>
   </channel>
 </rss>
