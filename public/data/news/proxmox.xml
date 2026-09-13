@@ -4,11 +4,269 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Sun, 13 Sep 2026 10:50:58 +0000</pubDate>
-    <lastBuildDate>Sun, 13 Sep 2026 10:50:58 +0000</lastBuildDate>
+    <pubDate>Sun, 13 Sep 2026 15:24:33 +0000</pubDate>
+    <lastBuildDate>Sun, 13 Sep 2026 15:24:33 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>A fix for "QEMU Guest Agent is Not Running" on HA VE?</title>
+      <pubDate>Sun, 13 Sep 2026 14:56:09 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/a-fix-for-qemu-guest-agent-is-not-running-on-ha-ve.186392/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186392</guid>
+      <author>invalid@example.com (houser)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>houser</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">This morning my Home Assistant VE installed via the <a href="https://community-scripts.org/community#faq" target="_blank" class="link link--external" rel="nofollow ugc noopener">community script</a> under Proxmox 9 did not start.<br />
+After some fixing and deleting other VE.s it starts again but  I now get the dreaded “QEMU Guest Agent is Not Running”.<br />
+I assume the VE is corrupted somewhat and possibly by temporary lack of diskspace.<br />
+<br />
+Is there a fix for this, to repair the Qemu install on the HA guest VA in order to attempt to get the HA VE up and running again?<br />
+<br />
+I have checked and unchecked the qemu option in the...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/a-fix-for-qemu-guest-agent-is-not-running-on-ha-ve.186392/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>PVE 9: SCTP Corosync fails after restart with libknet1t64 1.35-pve1 (EINVAL / status 8)</title>
+      <pubDate>Sun, 13 Sep 2026 14:52:54 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-9-sctp-corosync-fails-after-restart-with-libknet1t64-1-35-pve1-einval-status-8.186395/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186395</guid>
+      <author>invalid@example.com (itNGO)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>itNGO</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">After a Corosync service restart, one node failed to rejoin our cluster. The installed libknet has no usable SCTP transport, despite SCTP being configured. The diagnosis is confirmed; production recovery after a rollback has not been verified.<br />
+<br />
+Affected node:<br />
+<br />
+<div class="bbTable">
+<table style='width: 100%'><tr><th>Component</th><th>Version</th></tr><tr><td>pve-manager</td><td>9.2.18</td></tr><tr><td>Running kernel</td><td>7.0.2-2-pve</td></tr><tr><td>corosync</td><td>3.1.10-pve3</td></tr><tr><td>libknet1t64</td><td>1.35-pve1</td></tr></table>
+</div>The...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pve-9-sctp-corosync-fails-after-restart-with-libknet1t64-1-35-pve1-einval-status-8.186395/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>PMG boot failure: can't find zpool "rpool"</title>
+      <pubDate>Sun, 13 Sep 2026 13:50:43 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pmg-boot-failure-cant-find-zpool-rpool.186383/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186383</guid>
+      <author>invalid@example.com (SomeNewUser)</author>
+      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
+      <dc:creator>SomeNewUser</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Kernel: 7.0.14-15-pve #1 SMP PREEMPT_DYNAMIC PMX 7.0.14-15 (2026-08-26T14:21Z) x86_64<br />
+pmgversion: pmg-api/9.1.2/42245585286a (running kernel: 7.0.14-15-pve)<br />
+<br />
+After recent package upgrades (today) to a PMG install, a reboot results in failure to locate zfs &quot;zroot&quot; fileystem.<br />
+<br />
+I tried booting the the previous working kernel, but the same problem appeared.<br />
+<br />
+<br />
+From console, boot gets dumped to (initramfs) prompt. Info on console around that point:<br />
+<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Begin: Importing ZFS root pool &#039;rpool&#039; ...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/pmg-boot-failure-cant-find-zpool-rpool.186383/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>How do I list the directories/file on my local drive?</title>
+      <pubDate>Sun, 13 Sep 2026 13:15:27 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-do-i-list-the-directories-file-on-my-local-drive.186272/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186272</guid>
+      <author>invalid@example.com (SpiceGuy)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>SpiceGuy</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am running an instance of NetAlertX within my Portainer-Docker LXC and it is the only container (aside from the Portainer/Docker LXC) that I am running in the node. By default Portainer-Docker creates its files in the &#039;local&#039; drive. This drive is formatted as a &quot;directory&quot; drive.<br />
+<a href="https://forum.proxmox.com/attachments/1788874151260-png.99786/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99482-aca0ca1af27a865349e1682499eb173b.jpg?hash=9ZcfcPmCyk"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99482-aca0ca1af27a865349e1682499eb173b.jpg?hash=9ZcfcPmCyk 2x"
+		class="bbImage "
+		style=""
+		alt="1788874151260.png"
+		title="1788874151260.png"
+		width="370" height="150" loading="lazy" /></a><br />
+<br />
+Logs from NetAlertX (within Portainer/Docker) are, by default, written by Docker to 
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>journald</code></pre>
+	</div>
+</div>.<br />
+<a href="https://forum.proxmox.com/attachments/1788873132176-png.99784/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99480-c76129a37c3bddc2b4c62efee4e88635.jpg?hash=zXPEFCxL9k"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99480-c76129a37c3bddc2b4c62efee4e88635.jpg?hash=zXPEFCxL9k 2x"
+		class="bbImage "
+		style=""
+		alt="1788873132176.png"
+		title="1788873132176.png"
+		width="197" height="109" loading="lazy" /></a><br />
+The volumes set up by the NetAlertX are:<br />
+<a href="https://forum.proxmox.com/attachments/1788873290807-png.99785/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99481-bd215fcc8326d917848f16d5c2c1f479.jpg?hash=vnYQ-m9rgy"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99481-bd215fcc8326d917848f16d5c2c1f479.jpg?hash=vnYQ-m9rgy 2x"
+		class="bbImage "
+		style=""
+		alt="1788873290807.png"
+		title="1788873290807.png"
+		width="150" height="188" loading="lazy" /></a><br />
+<br />
+The problem is that my &quot;local&quot;...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/how-do-i-list-the-directories-file-on-my-local-drive.186272/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>43</slash:comments>
+    </item>
+    <item>
+      <title>CEHPX Disabled, CEPH Key Migration - Removing an auth entry?</title>
+      <pubDate>Sun, 13 Sep 2026 12:44:45 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/cehpx-disabled-ceph-key-migration-removing-an-auth-entry.186359/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186359</guid>
+      <author>invalid@example.com (Mihai)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Mihai</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello, I have cephx disabled for our cluster, but I am still getting these insecure keyring errors, which I would like to migrate.<br />
+<br />
+I am running into 2 issues, one is a WARN the other is a FAIL:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>WARN: No OSD in this cluster carries the fsid of client.osd-lockbox.1f256c23-4481-4bb3-93f4-40a69ffeb296, so these lockbox keys are left alone. Remove one only after confirming the OSD was destroyed and no node carries its ceph-volume device; absence from the OSD map alone is not enough.
+FAIL...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/cehpx-disabled-ceph-key-migration-removing-an-auth-entry.186359/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Nonstop EDID block 0 is all zeroes on console</title>
+      <pubDate>Sun, 13 Sep 2026 12:13:02 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/nonstop-edid-block-0-is-all-zeroes-on-console.185034/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185034</guid>
+      <author>invalid@example.com (utkonos)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>utkonos</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">The following two lines were on the console hundreds of times:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>EDID block 0 is all zeroes
+i2c i2c-4: sendbytes: NAK bailout.</code></pre>
+	</div>
+</div><br />
+This is on a ASRockRack E3C246D4U2-2T bios version L2.44A<br />
+<br />
+i2c-4 is: <code class="bbCodeInline">/sys/bus/i2c/devices/i2c-4: i915 gmbus dpb</code><br />
+<br />
+Using this command:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Bash:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang="bash"><code>readlink -f /sys/class/drm/card[0-9]/device
+for c in /sys/class/drm/card[0-9]-*; do printf &#039;%-22s %-14s %s\n&#039; &quot;${c##*/}&quot; &quot;$(cat &quot;$c/status&quot;)&quot; &quot;edid=$(stat -c%s &quot;$c/edid&quot; 2&gt;/dev/null) bytes&quot;; done</code></pre>
+	</div>
+</div><br />
+I get this output...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/nonstop-edid-block-0-is-all-zeroes-on-console.185034/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
+    </item>
+    <item>
+      <title>PVE 8 to 9 In-place Upgrade</title>
+      <pubDate>Sun, 13 Sep 2026 11:09:43 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-8-to-9-in-place-upgrade.170013/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:170013</guid>
+      <author>invalid@example.com (gfngfn256)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>gfngfn256</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I’d like to chronicle my PVE 8to9 upgrade experience, which due to the holidays only began yesterday. Maybe others will gain insight from this, or be able to shed further insight to me on how to correct things / do better etc.<br />
+<br />
+Firstly, let me start by thanking all members of this forum, for their continuous invaluable input, but mostly I’d like to thank the absolutely awesome Proxmox team, for their great product &amp; their timely care &amp; attention to detail.<br />
+<br />
+Let me start off by saying, that I...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pve-8-to-9-in-place-upgrade.170013/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>77</slash:comments>
+    </item>
+    <item>
+      <title>Feature Request: Datacenter Manager installer option for IPv6</title>
+      <pubDate>Sun, 13 Sep 2026 10:59:04 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/feature-request-datacenter-manager-installer-option-for-ipv6.186387/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186387</guid>
+      <author>invalid@example.com (Threaded)</author>
+      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
+      <dc:creator>Threaded</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Love the new implementation improvement for the Datacenter Manager<br />
+<br />
+One thing that hasn&#039;t moved with the times is the installer. During installation the installer still only offers IPv4, and only installs with IPv4 enabled. Could the Datacenter Installer also include the option to enter an IPv6 address as well or instead of IPv4?<br />
+<br />
+Once you have installed, the admin UI lets you enter an IPv6 address and delete the IPv4 address, but would be easier if the installer supported that.<br />
+<br />
+Is this the...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/feature-request-datacenter-manager-installer-option-for-ipv6.186387/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Kubernetes CSI with shared FC luns (LVM storage, snapshot as a chain)</title>
+      <pubDate>Sun, 13 Sep 2026 10:54:02 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/kubernetes-csi-with-shared-fc-luns-lvm-storage-snapshot-as-a-chain.186390/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186390</guid>
+      <author>invalid@example.com (rbremer)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>rbremer</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Note: in order to keep the other thread clean (<a href="https://forum.proxmox.com/threads/proxmox-in-enterprice-environments-with-shared-fc-storage.186319/page-2#post-869245" class="link link--internal">https://forum.proxmox.com/threads/p...h-shared-fc-storage.186319/page-2#post-869245</a>) I have moved the conversation over here.<br />
+<br />
+<a href="https://forum.proxmox.com/members/105626/" class="username" data-xf-init="member-tooltip" data-user-id="105626" data-username="@bbgeek17">@bbgeek17</a> as a reply to your message:<br />
+<br />
+Indeed, this CSI has been built with AI as far as I can tell. It does not modify Proxmox source code, however. When I talked to the author about utilizing the experimental API to implement snap shots he came up with this approach. Not...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/kubernetes-csi-with-shared-fc-luns-lvm-storage-snapshot-as-a-chain.186390/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
     <item>
       <title>copia de VM a un disco externo</title>
       <pubDate>Sun, 13 Sep 2026 10:42:31 +0000</pubDate>
@@ -76,72 +334,6 @@ utilizes sensors, nvidia-smi and pm-power. <br />
       <slash:comments>1</slash:comments>
     </item>
     <item>
-      <title>Nonstop EDID block 0 is all zeroes on console</title>
-      <pubDate>Sun, 13 Sep 2026 09:12:17 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/nonstop-edid-block-0-is-all-zeroes-on-console.185034/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185034</guid>
-      <author>invalid@example.com (utkonos)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>utkonos</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">The following two lines were on the console hundreds of times:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>EDID block 0 is all zeroes
-i2c i2c-4: sendbytes: NAK bailout.</code></pre>
-	</div>
-</div><br />
-This is on a ASRockRack E3C246D4U2-2T bios version L2.44A<br />
-<br />
-i2c-4 is: <code class="bbCodeInline">/sys/bus/i2c/devices/i2c-4: i915 gmbus dpb</code><br />
-<br />
-Using this command:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Bash:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang="bash"><code>readlink -f /sys/class/drm/card[0-9]/device
-for c in /sys/class/drm/card[0-9]-*; do printf &#039;%-22s %-14s %s\n&#039; &quot;${c##*/}&quot; &quot;$(cat &quot;$c/status&quot;)&quot; &quot;edid=$(stat -c%s &quot;$c/edid&quot; 2&gt;/dev/null) bytes&quot;; done</code></pre>
-	</div>
-</div><br />
-I get this output...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/nonstop-edid-block-0-is-all-zeroes-on-console.185034/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>PVE 8 to 9 In-place Upgrade</title>
-      <pubDate>Sun, 13 Sep 2026 09:11:47 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pve-8-to-9-in-place-upgrade.170013/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:170013</guid>
-      <author>invalid@example.com (gfngfn256)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>gfngfn256</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I’d like to chronicle my PVE 8to9 upgrade experience, which due to the holidays only began yesterday. Maybe others will gain insight from this, or be able to shed further insight to me on how to correct things / do better etc.<br />
-<br />
-Firstly, let me start by thanking all members of this forum, for their continuous invaluable input, but mostly I’d like to thank the absolutely awesome Proxmox team, for their great product &amp; their timely care &amp; attention to detail.<br />
-<br />
-Let me start off by saying, that I...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pve-8-to-9-in-place-upgrade.170013/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>76</slash:comments>
-    </item>
-    <item>
       <title>PVE 9.0.3 firewall does not work, but same configuration work well in PVE 8.4.14 &amp; 8.2.4</title>
       <pubDate>Sun, 13 Sep 2026 08:06:15 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/pve-9-0-3-firewall-does-not-work-but-same-configuration-work-well-in-pve-8-4-14-8-2-4.186277/</link>
@@ -163,60 +355,6 @@ trouble shooting summary (Per gemini...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/pve-9-0-3-firewall-does-not-work-but-same-configuration-work-well-in-pve-8-4-14-8-2-4.186277/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>How do I list the directories/file on my local drive?</title>
-      <pubDate>Sun, 13 Sep 2026 07:09:39 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/how-do-i-list-the-directories-file-on-my-local-drive.186272/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186272</guid>
-      <author>invalid@example.com (SpiceGuy)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>SpiceGuy</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I am running an instance of NetAlertX within my Portainer-Docker LXC and it is the only container (aside from the Portainer/Docker LXC) that I am running in the node. By default Portainer-Docker creates its files in the &#039;local&#039; drive. This drive is formatted as a &quot;directory&quot; drive.<br />
-<a href="https://forum.proxmox.com/attachments/1788874151260-png.99786/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99482-aca0ca1af27a865349e1682499eb173b.jpg?hash=9ZcfcPmCyk"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99482-aca0ca1af27a865349e1682499eb173b.jpg?hash=9ZcfcPmCyk 2x"
-		class="bbImage "
-		style=""
-		alt="1788874151260.png"
-		title="1788874151260.png"
-		width="370" height="150" loading="lazy" /></a><br />
-<br />
-Logs from NetAlertX (within Portainer/Docker) are, by default, written by Docker to 
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>journald</code></pre>
-	</div>
-</div>.<br />
-<a href="https://forum.proxmox.com/attachments/1788873132176-png.99784/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99480-c76129a37c3bddc2b4c62efee4e88635.jpg?hash=zXPEFCxL9k"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99480-c76129a37c3bddc2b4c62efee4e88635.jpg?hash=zXPEFCxL9k 2x"
-		class="bbImage "
-		style=""
-		alt="1788873132176.png"
-		title="1788873132176.png"
-		width="197" height="109" loading="lazy" /></a><br />
-The volumes set up by the NetAlertX are:<br />
-<a href="https://forum.proxmox.com/attachments/1788873290807-png.99785/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99481-bd215fcc8326d917848f16d5c2c1f479.jpg?hash=vnYQ-m9rgy"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99481-bd215fcc8326d917848f16d5c2c1f479.jpg?hash=vnYQ-m9rgy 2x"
-		class="bbImage "
-		style=""
-		alt="1788873290807.png"
-		title="1788873290807.png"
-		width="150" height="188" loading="lazy" /></a><br />
-<br />
-The problem is that my &quot;local&quot;...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/how-do-i-list-the-directories-file-on-my-local-drive.186272/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>40</slash:comments>
     </item>
     <item>
       <title>Cephx Key Migration Procedure and Ceph 19.2 Squid Going EOL Soon</title>
@@ -283,25 +421,6 @@ The problem is intermittent. The system can run normally for a considerable amou
 </ul><br />
 <a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-%E2%80%93-sporadic-iscsi-nop-timeouts-did_transport_disrupted-with-dell-powervault-me5-and-intel-e810.185817/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>26</slash:comments>
-    </item>
-    <item>
-      <title>Feature Request: Datacenter Manager installer option for IPv6</title>
-      <pubDate>Sun, 13 Sep 2026 05:44:01 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/feature-request-datacenter-manager-installer-option-for-ipv6.186387/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186387</guid>
-      <author>invalid@example.com (Threaded)</author>
-      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
-      <dc:creator>Threaded</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Love the new implementation improvement for the Datacenter Manager<br />
-<br />
-One thing that hasn&#039;t moved with the times is the installer. During installation the installer still only offers IPv4, and only installs with IPv4 enabled. Could the Datacenter Installer also include the option to enter an IPv6 address as well or instead of IPv4?<br />
-<br />
-Once you have installed, the admin UI lets you enter an IPv6 address and delete the IPv4 address, but would be easier if the installer supported that.<br />
-<br />
-Is this the...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/feature-request-datacenter-manager-installer-option-for-ipv6.186387/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
     </item>
     <item>
       <title>Just can not get IP to work</title>
@@ -397,107 +516,6 @@ Not a proper rbd authentication file...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/io_uring-on-kernel-7-0-6-2-pve-pve-9-2-3-guest-disk-i-o-errors-eio-filesystem-xfs-shutdown.184360/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>42</slash:comments>
-    </item>
-    <item>
-      <title>FreeBSD CTL support for ZFS-over-iSCSI to replace deprecated ISTGT?</title>
-      <pubDate>Sun, 13 Sep 2026 00:43:53 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/freebsd-ctl-support-for-zfs-over-iscsi-to-replace-deprecated-istgt.186227/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186227</guid>
-      <author>invalid@example.com (no-usernames-left)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>no-usernames-left</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-Of the several various backends PVE supports for ZFS-over-iSCSI, on FreeBSD there is only istgt, which has been largely superseded by ctld since FreeBSD 10.1 (and we&#039;re now on version 15.1) and the end is therefore in sight for istgt.<br />
-<br />
-A <a href="https://www.mail-archive.com/pve-devel@lists.proxmox.com/msg36093.html" target="_blank" class="link link--external" rel="nofollow ugc noopener">patchset</a> was sent to the pve-devel mailing list in April to add support for CTL to Proxmox, but there seems to have been little movement since then.<br />
-<br />
-FreeBSD&#039;s stability and renowned support for ZFS makes it the ideal candidate for a storage...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/freebsd-ctl-support-for-zfs-over-iscsi-to-replace-deprecated-istgt.186227/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>Monitoring of backup jobs and alerting on actual issues</title>
-      <pubDate>Sat, 12 Sep 2026 21:48:24 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/monitoring-of-backup-jobs-and-alerting-on-actual-issues.186229/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186229</guid>
-      <author>invalid@example.com (sbarmen)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>sbarmen</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hey all, I have been playing with the best way of monitoring my backup jobs. The main problem is that I want to reduce the noise, not get &quot;alerts&quot; for &quot;everything is fine&quot;. I hade email reports set up, all fine and well, but it gets very noisy. I even had a local LLM running to get it to alert me when I needed to take action, works OK, but I do not trust it fully. <br />
-<br />
-After discussing and researching I ended up using Uptime Kuma to get a &quot;only notify me when something is wrong&quot; approach. More...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/monitoring-of-backup-jobs-and-alerting-on-actual-issues.186229/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Dismantled cluster, cannot access webUI from different subnet</title>
-      <pubDate>Sat, 12 Sep 2026 20:26:37 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/dismantled-cluster-cannot-access-webui-from-different-subnet.186360/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186360</guid>
-      <author>invalid@example.com (fubacca)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>fubacca</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I had a 2 node cluster, with a quorum device running on a third standalone node.  I dismantled the cluster, all vms are running fine and I can access the web UI from systems on the same subnet as the old cluster nodes.  I have a jumphost in a different subnet that I use for remote management and I am unable to get to the web UI of the 2 hosts, but can reach the standalone node no problem.  The Sophos firewall is not blocking the traffic and I can reach the 3rd node fine.  I can SSH and ping...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/dismantled-cluster-cannot-access-webui-from-different-subnet.186360/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>Converting a Linux Desktop PC into a Proxmox Server — Preserving Full Desktop Functionality via Native OS in LXC</title>
-      <pubDate>Sat, 12 Sep 2026 19:22:04 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/converting-a-linux-desktop-pc-into-a-proxmox-server-%E2%80%94-preserving-full-desktop-functionality-via-native-os-in-lxc.185895/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185895</guid>
-      <author>invalid@example.com (FredGrekov)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>FredGrekov</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><h2 class="bbHeading"><a class="u-anchorTarget" name="-concept"></a>Concept&#8203;<a class="hoverLink" href="#-concept" title="Permanent link"></a></h2>The goal: turn an existing Linux desktop into a Proxmox node <b>without losing the working environment</b>. No OS reinstall, no VM. The native MX-23 installation, residing on its own SSD partitions, is mounted and launched as a <b>privileged LXC container</b> inside Proxmox.<br />
-<br />
-The same physical disk partitions serve two modes:<br />
-<br />
-<ul>
-<li data-xf-list-type="ul"><div style="text-align: left"><b>Native boot:</b> GRUB entry → MX-23 loads as a regular desktop OS.&#8203;</div></li>
-<li data-xf-list-type="ul"><div style="text-align: left"><b>Proxmox mode:</b> GRUB entry → Proxmox loads → MX-23...&#8203;</div></li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/converting-a-linux-desktop-pc-into-a-proxmox-server-%E2%80%94-preserving-full-desktop-functionality-via-native-os-in-lxc.185895/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>PMG boot failure: can't find zpool "rpool"</title>
-      <pubDate>Sat, 12 Sep 2026 18:26:54 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pmg-boot-failure-cant-find-zpool-rpool.186383/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186383</guid>
-      <author>invalid@example.com (SomeNewUser)</author>
-      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
-      <dc:creator>SomeNewUser</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Kernel: 7.0.14-15-pve #1 SMP PREEMPT_DYNAMIC PMX 7.0.14-15 (2026-08-26T14:21Z) x86_64<br />
-pmgversion: pmg-api/9.1.2/42245585286a (running kernel: 7.0.14-15-pve)<br />
-<br />
-After recent package upgrades (today) to a PMG install, a reboot results in failure to locate zfs &quot;zroot&quot; fileystem.<br />
-<br />
-I tried booting the the previous working kernel, but the same problem appeared.<br />
-<br />
-<br />
-From console, boot gets dumped to (initramfs) prompt. Info on console around that point:<br />
-<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Begin: Importing ZFS root pool &#039;rpool&#039; ...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/pmg-boot-failure-cant-find-zpool-rpool.186383/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
     </item>
   </channel>
 </rss>
