@@ -4,14 +4,162 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Mon, 14 Sep 2026 17:19:47 +0000</pubDate>
-    <lastBuildDate>Mon, 14 Sep 2026 17:19:47 +0000</lastBuildDate>
+    <pubDate>Mon, 14 Sep 2026 21:15:22 +0000</pubDate>
+    <lastBuildDate>Mon, 14 Sep 2026 21:15:22 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
+      <title>Can Proxmox Sleep ? Z840 resumes from suspend by rebooting (6.17.2-1-pve, dual E5-2543 V4 06.62)</title>
+      <pubDate>Mon, 14 Sep 2026 21:13:49 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/can-proxmox-sleep-z840-resumes-from-suspend-by-rebooting-6-17-2-1-pve-dual-e5-2543-v4-06-62.185225/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185225</guid>
+      <author>invalid@example.com (marcusbrius)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>marcusbrius</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><b>Proxmox VE Suspend/Resume Bug Report - HP Z840 (works normally with 3VMs)</b><br />
+<br />
+<h3 class="bbHeading"><a class="u-anchorTarget" name="-environment"></a>Environment&#8203;<a class="hoverLink" href="#-environment" title="Permanent link"></a></h3>Hardware: HP Z840 Workstation, BIOS M60 v02.62 (01/04/2024), Dual Intel Xeon E5-2643 v4, 128 GB RAM, ZFS root, Kingston A2000 NVMe. GPUs: Quadro K2200 (host), GTX 780 Ti, Quadro P4000.<br />
+<br />
+<h3 class="bbHeading"><a class="u-anchorTarget" name="-software"></a>Software&#8203;<a class="hoverLink" href="#-software" title="Permanent link"></a></h3>Proxmox VE, kernel 6.17.2-1-pve, UEFI boot, ZFS root.<br />
+<br />
+<h3 class="bbHeading"><a class="u-anchorTarget" name="-issue-summary"></a>Issue Summary&#8203;<a class="hoverLink" href="#-issue-summary" title="Permanent link"></a></h3>System successfully enters suspend but always reboots on wake. USB wake functions correctly after enabling Runtime Power...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/can-proxmox-sleep-z840-resumes-from-suspend-by-rebooting-6-17-2-1-pve-dual-e5-2543-v4-06-62.185225/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>How to shutdown Proxmox 6 from CLI?</title>
+      <pubDate>Mon, 14 Sep 2026 20:45:38 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-to-shutdown-proxmox-6-from-cli.57245/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:57245</guid>
+      <author>invalid@example.com (vikas027)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>vikas027</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am using Proxmox Virtual Environment 6.0-4 on HP Z620 workstation server. Sometimes after clicking &quot;Shutdown&quot; the server hangs forever, I have looked at the logs but could not find anything useful. \<br />
+<br />
+What is the correct order to shutdown the systemd services? I want to try shutting down proxmox gracefully and attempt to shutdown the OS using <i>poweroff</i> command.<br />
+<br />
+
+
+
+
+<blockquote data-attributes="" data-quote="" data-source=""
+	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
+	
+	<div class="bbCodeBlock-content">
+		
+		<div class="bbCodeBlock-expandContent js-expandContent ">
+			root@proxmox:~# systemctl list-unit-files --state=enabled | grep ^pve<br />
+pve-cluster.service                    enabled...
+		</div>
+		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
+	</div>
+</blockquote><br />
+<a href="https://forum.proxmox.com/threads/how-to-shutdown-proxmox-6-from-cli.57245/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>[PVE+CEPH] creating new OSD fails :: invalid cephx secret :: ceph-volume lvm create exit code 1</title>
+      <pubDate>Mon, 14 Sep 2026 20:16:01 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-ceph-creating-new-osd-fails-invalid-cephx-secret-ceph-volume-lvm-create-exit-code-1.186410/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186410</guid>
+      <author>invalid@example.com (aljaxus)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>aljaxus</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have a 6-node [pve2 ... pve9] PVE cluster [base versions: pvemgr 9.1.4, ceph 19.2.3] and I have started updating the nodes. After pve6 node upgrade two small OSDs failed to start back up, I destroyed them [as they would have been removed soon anyway]. I then upgraded pve9 [to pve-manager/9.2.18 and ceph/19.2.6-pve4] and tried to add a new OSD - this issue starts here:<br />
+<br />
+<br />
+Creating a new OSD fails with the following output;<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>create OSD on /dev/sdf (bluestore)
+wiping block device /dev/sdf...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/pve-ceph-creating-new-osd-fails-invalid-cephx-secret-ceph-volume-lvm-create-exit-code-1.186410/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>&lt;vmid&gt;.conf comments?</title>
+      <pubDate>Mon, 14 Sep 2026 20:02:31 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/vmid-conf-comments.56243/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:56243</guid>
+      <author>invalid@example.com (tin)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>tin</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I see that the &quot;Notes&quot; section is recorded within the conf files by using a # symbol like it&#039;s a comment. Is this the only comment symbol that can be used in &lt;vmid&gt;.conf files, or is there another that is treated as not being a  &quot;note&quot;?<br />
+<br />
+I have several containers that use external hardware and custom ID mapping. I would really like to add comments to these files that don&#039;t appear in the GUI notes, but do appear in the config, so that I can have notes about specific config lines, not just...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/vmid-conf-comments.56243/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>23</slash:comments>
+    </item>
+    <item>
+      <title>Recent PVE Kernel 7.0.14-17-pve NVME drives is not availabe</title>
+      <pubDate>Mon, 14 Sep 2026 20:01:31 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/recent-pve-kernel-7-0-14-17-pve-nvme-drives-is-not-availabe.186427/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186427</guid>
+      <author>invalid@example.com (doklages)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>doklages</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Dear forum,<br />
+<br />
+I have a very strange behavior with one of my PROXMOX nodes:<br />
+When I&#039;m applying the latest 7.0 kernel I&#039;m loosing one of my four NVME drives which leads to an degraded ZFS Raid 1. When I&#039;m going back to my last working kernel version everything is fine again:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Node                  Generic               SN                   Model                                    Namespace  Usage                      Format           FW Rev
+--------------------- ---------------------...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/recent-pve-kernel-7-0-14-17-pve-nvme-drives-is-not-availabe.186427/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>survey for "got inotify poll request in wrong process - disabling inotify" log message</title>
+      <pubDate>Mon, 14 Sep 2026 19:47:51 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/survey-for-got-inotify-poll-request-in-wrong-process-disabling-inotify-log-message.129902/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:129902</guid>
+      <author>invalid@example.com (RolandK)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>RolandK</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">hello,<br />
+<br />
+i  stumbled across &quot;got inotify poll request in wrong process - disabling inotify&quot; several times in my logs, on different systems<br />
+<br />
+according to<br />
+<br />
+<a href="https://forum.proxmox.com/threads/may-06-05-00-06-proxmox-pveproxy-15128-got-inotify-poll-request-in-wrong-process.109099/#post-568251" class="link link--internal">https://forum.proxmox.com/threads/m...-request-in-wrong-process.109099/#post-568251</a><br />
+<br />
+&quot;it should not happen&quot; an would be &quot;rather elusive&quot;.<br />
+<br />
+<br />
+it&#039;s an error message in syslog and it&#039;s unnecessarily catching an admin&#039;s attention, who needs to get along with all those <b>real</b> error...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/survey-for-got-inotify-poll-request-in-wrong-process-disabling-inotify-log-message.129902/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>18</slash:comments>
+    </item>
+    <item>
       <title>usb wird nicht gemounted</title>
-      <pubDate>Mon, 14 Sep 2026 17:19:19 +0000</pubDate>
+      <pubDate>Mon, 14 Sep 2026 19:24:16 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/usb-wird-nicht-gemounted.186357/</link>
       <guid isPermaLink="false">urn:xenforo:thread:186357</guid>
       <author>invalid@example.com (anwin)</author>
@@ -23,11 +171,78 @@ Sep 11 07:07:50 pbs03 kernel: usb 2-1: new high-speed USB device number 4 using 
 Sep 11 07:07:50 pbs03 kernel: usb 2-1: New USB device...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/usb-wird-nicht-gemounted.186357/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>PMG boot failure: can't find zpool "rpool"</title>
+      <pubDate>Mon, 14 Sep 2026 19:23:20 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pmg-boot-failure-cant-find-zpool-rpool.186383/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186383</guid>
+      <author>invalid@example.com (SomeNewUser)</author>
+      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
+      <dc:creator>SomeNewUser</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Kernel: 7.0.14-15-pve #1 SMP PREEMPT_DYNAMIC PMX 7.0.14-15 (2026-08-26T14:21Z) x86_64<br />
+pmgversion: pmg-api/9.1.2/42245585286a (running kernel: 7.0.14-15-pve)<br />
+<br />
+After recent package upgrades (today) to a PMG install, a reboot results in failure to locate zfs &quot;zroot&quot; fileystem.<br />
+<br />
+I tried booting the the previous working kernel, but the same problem appeared.<br />
+<br />
+<br />
+From console, boot gets dumped to (initramfs) prompt. Info on console around that point:<br />
+<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Begin: Importing ZFS root pool &#039;rpool&#039; ...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/pmg-boot-failure-cant-find-zpool-rpool.186383/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox VE Wikipedia Article - Please Review</title>
+      <pubDate>Mon, 14 Sep 2026 19:18:52 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-ve-wikipedia-article-please-review.186426/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186426</guid>
+      <author>invalid@example.com (Tmanok)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Tmanok</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Everyone,<br />
+<br />
+As Proxmox VE has grown quite substantially since I began using it, I thought I&#039;d blend together my Wikipedia editing with my in-depth knowledge of the software and my general awareness of the company behind it. Having received the Proxmox VE Advanced Certification in the 7.2 era, I had at the time a reasonable understanding of the training and certification process three years ago, and none of that was well documented. <a href="https://en.wikipedia.org/w/index.php?title=Proxmox_Virtual_Environment&amp;oldid=1374880763" target="_blank" class="link link--external" rel="nofollow ugc noopener">My edit</a> works out to <a href="https://en.wikipedia.org/w/index.php?title=Proxmox_Virtual_Environment&amp;action=history" target="_blank" class="link link--external" rel="nofollow ugc noopener">roughly a quarter of the...</a><br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-ve-wikipedia-article-please-review.186426/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>LVM Volume Recovery</title>
+      <pubDate>Mon, 14 Sep 2026 18:34:32 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/lvm-volume-recovery.186397/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186397</guid>
+      <author>invalid@example.com (kcactc)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>kcactc</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Need some assistance recovering an LVM (thin) partition that contains my VMs. <br />
+TLDR version - An unanticipated reboot of of my PVE server, resulted in a boot to a Win11 boot partition on a drive recently installed in the server. Win11 rewrote the partition tables (uninvited)v on the LVM disk to a 16mb fat partition with the rest of the 256gb drive unallocated. <br />
+<br />
+Steps taken thus far:<br />
+1) rebooted to PVE. Drives showed up as offline in PE management portal, and deeper inspection via terminal...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/lvm-volume-recovery.186397/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
     </item>
     <item>
       <title>[PROJECT] AnPreD InfraShield — Self-hosted fleet security, SSH key rotation, &amp; JIT access for Proxmox</title>
-      <pubDate>Mon, 14 Sep 2026 17:13:30 +0000</pubDate>
+      <pubDate>Mon, 14 Sep 2026 18:31:29 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/project-anpred-infrashield-%E2%80%94-self-hosted-fleet-security-ssh-key-rotation-jit-access-for-proxmox.185738/</link>
       <guid isPermaLink="false">urn:xenforo:thread:185738</guid>
       <author>invalid@example.com (Dheeraj Kumar)</author>
@@ -35,7 +250,41 @@ Sep 11 07:07:50 pbs03 kernel: usb 2-1: New USB device...<br />
       <dc:creator>Dheeraj Kumar</dc:creator>
       <content:encoded><![CDATA[<div class="bbWrapper">Hi Proxmox Community,<br />
 I wanted to share a self-hosted project I’ve been working on that hooks right into Proxmox VE to solve a few pain points around fleet management, automation, and secure access: <b>AnPreD InfraShield</b>.</div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>Making an existing sync work two-ways -- namespaces?</title>
+      <pubDate>Mon, 14 Sep 2026 18:30:52 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/making-an-existing-sync-work-two-ways-namespaces.186421/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186421</guid>
+      <author>invalid@example.com (Colin 't Hart)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>Colin 't Hart</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+We have a PBS backup a couple of Proxmox servers in a datacenter. We have another PBS setup at our main office and I configured a sync job on it to sync all the backups off-site. It&#039;s configured to sync everything (root namespace).<br />
+<br />
+Now I want to move more of our home-grown backup solution into PBS. In particular, there&#039;s a file-server at the office that needs to be backed up, and then synced off-site.<br />
+<br />
+My idea is to backup the office file server to PBS, and then sync that back to the...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/making-an-existing-sync-work-two-ways-namespaces.186421/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>DNS-Abfragen PVE-&gt;PBS</title>
+      <pubDate>Mon, 14 Sep 2026 18:08:11 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/dns-abfragen-pve-pbs.186396/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186396</guid>
+      <author>invalid@example.com (TErxleben)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>TErxleben</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Nicht das es den Betrieb stören würde, aber ich finde es schon ein wenig happig, wenn zwei PVEs täglich 70.000 DNS-Abfragen für den jeweils dort eingebundenen PBS kreieren.<br />
+Da läuft doch was falsch...<br />
+<br />
+P.S: Der Treppenwitz ist, dass sowohl PVE als auch PBS auf eine feste IP bestehen.<br />
+P.P.S: Wie wäre es denn damit, beim Einbinden eine PBS-Storages einmalig einen DNS-Namen in eine IP umzusetzen?</div>]]></content:encoded>
+      <slash:comments>12</slash:comments>
     </item>
     <item>
       <title>Screwed up (mea culpa)</title>
@@ -172,210 +421,7 @@ The emails bypass the blocking rule and continue to land in users’ inboxes.<br
 Any suggestions on how to deal with this? Blocking the IP addresses associated with 163.com isn’t an option either, since they change...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/add-global-blacklist-163-com-not-work.186412/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>LVM Volume Recovery</title>
-      <pubDate>Mon, 14 Sep 2026 15:39:11 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/lvm-volume-recovery.186397/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186397</guid>
-      <author>invalid@example.com (kcactc)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>kcactc</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Need some assistance recovering an LVM (thin) partition that contains my VMs. <br />
-TLDR version - An unanticipated reboot of of my PVE server, resulted in a boot to a Win11 boot partition on a drive recently installed in the server. Win11 rewrote the partition tables (uninvited)v on the LVM disk to a 16mb fat partition with the rest of the 256gb drive unallocated. <br />
-<br />
-Steps taken thus far:<br />
-1) rebooted to PVE. Drives showed up as offline in PE management portal, and deeper inspection via terminal...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/lvm-volume-recovery.186397/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>Unable to add remote PVE cluster behind reverse proxy (client error Connect)</title>
-      <pubDate>Mon, 14 Sep 2026 15:38:40 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/unable-to-add-remote-pve-cluster-behind-reverse-proxy-client-error-connect.186423/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186423</guid>
-      <author>invalid@example.com (IT2enjo)</author>
-      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
-      <dc:creator>IT2enjo</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-I&#039;m currently evaluating Proxmox Datacenter Manager (PDM) and trying to add a remote PVE cluster located in a completely different network. The cluster is exposed via Nginx Proxy Manager. The PVE API itself is reachable through the proxy.<br />
-<ul>
-<li data-xf-list-type="ul">Proxmox Datacenter Manager 1.1.7</li>
-<li data-xf-list-type="ul">Installed in a separate network</li>
-<li data-xf-list-type="ul">No VPN between PDM and the remote cluster</li>
-<li data-xf-list-type="ul">Adding the remote in PDM fails with: <br />
-error (status = 400:<br />
-connection failed:<br />
-client error (Connect))<br />
-<br />
-Q: <b>Does PDM need...</b></li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/unable-to-add-remote-pve-cluster-behind-reverse-proxy-client-error-connect.186423/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>One host in cluster keeps sending incomplete emails</title>
-      <pubDate>Mon, 14 Sep 2026 15:34:52 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/one-host-in-cluster-keeps-sending-incomplete-emails.186418/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186418</guid>
-      <author>invalid@example.com (iwannabfishn)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>iwannabfishn</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have an 8 node cluster. I have configured the cluster to send notifications to my local smtp server. I also disabled the default sendmail target. I have one host that keeps sending incomplete emails to my MX record, not my local smtp server. Is there a configuration I need to check on this host somewhere? I am looking for some direction on where to look to find out why this is happening</div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE 8 to 9 on OVH bare metal servers</title>
-      <pubDate>Mon, 14 Sep 2026 15:00:20 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-8-to-9-on-ovh-bare-metal-servers.169924/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:169924</guid>
-      <author>invalid@example.com (jf2021)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>jf2021</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi. After struggling a little to upgrade from Proxmox 8 to 9 on bare metal servers hosted by OVH, I thought I&#039;d explain how I succeeded.<br />
-<br />
-<b>First of all, this is not a generic tutorial, this is just how I could solve my problem on my 2 servers (one &quot;So-yo-start SYS-LE-2&quot; and one &quot;ADVANCE-1 | AMD EPYC 4244P&quot;). It might be different depending on your config, your server model, your partition table, raid etc... So use wisely. Backup first and don&#039;t do that in production...</b><br />
-<br />
-Servers have 2...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-8-to-9-on-ovh-bare-metal-servers.169924/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>22</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox in enterprice environments with shared fc storage</title>
-      <pubDate>Mon, 14 Sep 2026 14:44:16 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-in-enterprice-environments-with-shared-fc-storage.186319/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186319</guid>
-      <author>invalid@example.com (TheBigOne)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>TheBigOne</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m curious why there&#039;s no native support for traditional cluster filesystems like GFS2 or OCFS2.<br />
-<br />
-I fully get why Ceph is essential in hyper-converged setups, but it&#039;s impractical for synchronously replicated FC storage. It would bring IO overhead, complexity and capacity overhead.<br />
-Shared LVM only works with complex placement logic and heavy storage overcommit at the block level. <br />
-<br />
-On top of that, shared LVM snapshots are still in tech preview, and each snapshot reserves space equal to the...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-in-enterprice-environments-with-shared-fc-storage.186319/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>21</slash:comments>
-    </item>
-    <item>
-      <title>free Starwind x Proxmox SAN storage plugin</title>
-      <pubDate>Mon, 14 Sep 2026 14:37:33 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/free-starwind-x-proxmox-san-storage-plugin.180377/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:180377</guid>
-      <author>invalid@example.com (alma21)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>alma21</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I have installed and tested the free / open source Starwind Proxmox SAN storage plugin on a small testcluster (PVE 8) with shared block storage and it works really good .... thin provisioning, snapshots,  thin disk auto extension, live migration , linked clones....  at the end a cluster aware (shared) LVM thin implementation (SAN vendor neutral)<br />
-<br />
-just wondering why I have not found more infos/feedback  ....  would be eventually also a good candidate/alternative  for direct PVE...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/free-starwind-x-proxmox-san-storage-plugin.180377/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>31</slash:comments>
-    </item>
-    <item>
-      <title>Couldn't find EFI system partition.</title>
-      <pubDate>Mon, 14 Sep 2026 14:28:16 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/couldnt-find-efi-system-partition.186422/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186422</guid>
-      <author>invalid@example.com (DSI_FA)</author>
-      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
-      <dc:creator>DSI_FA</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Ever since I upgraded from PMG 8 to PMG 9.1.2, I get the following message whenever I run an update:<br />
-
-
-
-
-<blockquote data-attributes="" data-quote="" data-source=""
-	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
-	
-	<div class="bbCodeBlock-content">
-		
-		<div class="bbCodeBlock-expandContent js-expandContent ">
-			Couldn&#039;t find EFI system partition. It is recommended to mount it to /boot or /efi.<br />
-Alternatively, use --esp-path= to specify path to mount point.
-		</div>
-		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
-	</div>
-</blockquote></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>proxmox-backup-manager acme account register behind proxy</title>
-      <pubDate>Mon, 14 Sep 2026 14:27:39 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-backup-manager-acme-account-register-behind-proxy.182848/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:182848</guid>
-      <author>invalid@example.com (kai.hofmann)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>kai.hofmann</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi, our Proxmox backup server needs a proxy server to access the wider internet.<br />
-We have configured the proxy in the web ui and in <i>/etc/environments</i>. <i>Echo $http(s)_proxy</i> returns the right settings. <br />
-Everything (apt, etc.) worked so far. <br />
-When we try to register a custom ACME account, however, backupmanager hangs on &quot;<i>Attempting to fetch Terms of Service from...</i>&quot; for a while after providing the directory URI, then throws an &quot;<i>Error: client error (Connect)</i>&quot;.<br />
-When I run a...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-backup-manager-acme-account-register-behind-proxy.182848/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>Making an existing sync work two-ways -- namespaces?</title>
-      <pubDate>Mon, 14 Sep 2026 14:26:37 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/making-an-existing-sync-work-two-ways-namespaces.186421/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186421</guid>
-      <author>invalid@example.com (Colin 't Hart)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>Colin 't Hart</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-We have a PBS backup a couple of Proxmox servers in a datacenter. We have another PBS setup at our main office and I configured a sync job on it to sync all the backups off-site. It&#039;s configured to sync everything (root namespace).<br />
-<br />
-Now I want to move more of our home-grown backup solution into PBS. In particular, there&#039;s a file-server at the office that needs to be backed up, and then synced off-site.<br />
-<br />
-My idea is to backup the office file server to PBS, and then sync that back to the...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/making-an-existing-sync-work-two-ways-namespaces.186421/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox random reboots</title>
-      <pubDate>Mon, 14 Sep 2026 14:09:35 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-random-reboots.186023/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186023</guid>
-      <author>invalid@example.com (Laimonas Vijūnas)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Laimonas Vijūnas</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">It all started when I updated to 9.2.11 using pve-no-subscription repositories. Proxmox reboots randomly after 10-20 minutes. Can&#039;t find anything meaningful in logs, except :<br />
-Aug 28 13:12:46 test pvestatd[1820]: storage &#039;Buffalo&#039; is not online<br />
-Aug 28 13:12:47 test pvestatd[1820]: status update time (10.049 seconds)<br />
-Aug 28 13:15:49 -- Reboot --<br />
-Aug 28 13:15:49 test kernel: Linux version 7.0.14-14-pve (build@proxmox) (gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44) #1 SMP...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-random-reboots.186023/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>10</slash:comments>
-    </item>
-    <item>
-      <title>Changelogs in WEbUI</title>
-      <pubDate>Mon, 14 Sep 2026 14:08:03 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/changelogs-in-webui.186420/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186420</guid>
-      <author>invalid@example.com (thomasb132)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>thomasb132</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-when i want to read changelogs for updates in the WebUI I get an Network Error:<br />
-<br />
-<code class="bbCodeInline">Failed to fetch [B]https://metadata.ftp-master.debian.org/changelogs/main/b/bash/bash_5.2.37-2_changelog[/B]  Changelog unavailable for bash=5.2.37-2 (Cannot initiate the connection to metadata.ftp-master.debian.org:443 (2a04:4e42:8e::644). - connect (101: Network is unreachable))</code><br />
-<code class="bbCodeInline">RC: 100</code><br />
-<br />
-I can read the changelog by opening a new browser tab py pasting the URL of the changelog to tha address bar...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/changelogs-in-webui.186420/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
+      <slash:comments>6</slash:comments>
     </item>
   </channel>
 </rss>
