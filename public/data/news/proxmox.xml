@@ -4,11 +4,173 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Sun, 13 Sep 2026 20:05:06 +0000</pubDate>
-    <lastBuildDate>Sun, 13 Sep 2026 20:05:06 +0000</lastBuildDate>
+    <pubDate>Mon, 14 Sep 2026 02:29:05 +0000</pubDate>
+    <lastBuildDate>Mon, 14 Sep 2026 02:29:05 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>Ceph Squid to Tentacle Migration</title>
+      <pubDate>Mon, 14 Sep 2026 00:54:41 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ceph-squid-to-tentacle-migration.186398/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186398</guid>
+      <author>invalid@example.com (RMaxwell72)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>RMaxwell72</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello, the guide overall was helpful, but ran into the same issue as another user where I had to increase the timeout in the helper script to be able to update the CephFS keys:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>perl -0pi -e &#039;s/(PVE::Tools::run_command\(\s*\[\x27umount\x27,\s*\$path\],\s*timeout\s*=&gt;\s*)20/$1 65/&#039; \
+/usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys</code></pre>
+	</div>
+</div><br />
+After that the storage keys and admin key was successful:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>root@pve01:/etc/pve/priv/ceph#...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/ceph-squid-to-tentacle-migration.186398/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>proxmox summary enhancement project to add cpu/dram watt, cpu/gpu temp and vgpu info</title>
+      <pubDate>Sun, 13 Sep 2026 23:30:46 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-summary-enhancement-project-to-add-cpu-dram-watt-cpu-gpu-temp-and-vgpu-info.186385/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186385</guid>
+      <author>invalid@example.com (ancientmystic)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>ancientmystic</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">just put together a project for enhancing the summary page for users with intel CPUs and Nvidia GPUs, with vGPU profile additions.<br />
+<br />
+summary changes (everything between manager version and repo status): <br />
+<br />
+<a href="https://forum.proxmox.com/attachments/proxmox-summary-dash-jpg.99880/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99576-ce014a0babfe58127c8300cb91c10f08.jpg?hash=AD5fRCwfpw"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99576-ce014a0babfe58127c8300cb91c10f08.jpg?hash=AD5fRCwfpw 2x"
+		class="bbImage "
+		style=""
+		alt="proxmox-summary-dash.JPG"
+		title="proxmox-summary-dash.JPG"
+		width="274" height="150" loading="lazy" /></a><br />
+with added graphs in line with the proxmox summary standard: <br />
+<br />
+<a href="https://forum.proxmox.com/attachments/cpu-drawm-w-graph-jpg.99881/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99577-bb544f1ca6ed328847e5de6c20d06d12.jpg?hash=HdoznfzPal"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99577-bb544f1ca6ed328847e5de6c20d06d12.jpg?hash=HdoznfzPal 2x"
+		class="bbImage "
+		style=""
+		alt="CPU-DRAWM-W-Graph.JPG"
+		title="CPU-DRAWM-W-Graph.JPG"
+		width="260" height="150" loading="lazy" /></a><br />
+<a href="https://forum.proxmox.com/attachments/gpu-graph-jpg.99882/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99578-3fcbeffbee0632c3c195e788f1b84f02.jpg?hash=BGDTUbSRLF"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99578-3fcbeffbee0632c3c195e788f1b84f02.jpg?hash=BGDTUbSRLF 2x"
+		class="bbImage "
+		style=""
+		alt="gpu-graph.JPG"
+		title="gpu-graph.JPG"
+		width="519" height="150" loading="lazy" /></a><br />
+<br />
+including vGPU profile info on VMs with a vGPU profile active:<br />
+<a href="https://forum.proxmox.com/attachments/per-vm-vgpu-jpg.99883/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99579-e9045142587740926fb5d3f90197ab54.jpg?hash=L7jU0eVC-T"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99579-e9045142587740926fb5d3f90197ab54.jpg?hash=L7jU0eVC-T 2x"
+		class="bbImage "
+		style=""
+		alt="per-vm-vgpu.JPG"
+		title="per-vm-vgpu.JPG"
+		width="304" height="150" loading="lazy" /></a><br />
+<br />
+utilizes sensors, nvidia-smi and pm-power. <br />
+<br />
+<br />
+<a href="https://github.com/AncientMystic/proxmox-summary-enhancement" target="_blank" class="link link--external" rel="nofollow ugc noopener">GitHub: proxmox-summary-enhancement</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>LVM Volume Recovery</title>
+      <pubDate>Sun, 13 Sep 2026 22:03:35 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/lvm-volume-recovery.186397/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186397</guid>
+      <author>invalid@example.com (kcactc)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>kcactc</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Need some assistance recovering an LVM (thin) partition that contains my VMs. <br />
+TLDR version - An unanticipated reboot of of my PVE server, resulted in a boot to a Win11 boot partition on a drive recently installed in the server. Win11 rewrote the partition tables (uninvited)v on the LVM disk to a 16mb fat partition with the rest of the 256gb drive unallocated. <br />
+<br />
+Steps taken thus far:<br />
+1) rebooted to PVE. Drives showed up as offline in PE management portal, and deeper inspection via terminal...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/lvm-volume-recovery.186397/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox Migration Error: Can't use an undefined value as an ARRAY reference</title>
+      <pubDate>Sun, 13 Sep 2026 21:49:09 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-migration-error-cant-use-an-undefined-value-as-an-array-reference.156521/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:156521</guid>
+      <author>invalid@example.com (muaboka)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>muaboka</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">If you encounter the below error while trying to migrate a VM from with CLI or with GUI.<br />
+<br />
+
+
+
+
+<blockquote data-attributes="" data-quote="" data-source=""
+	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
+	
+	<div class="bbCodeBlock-content">
+		
+		<div class="bbCodeBlock-expandContent js-expandContent ">
+			Error<br />
+Can&#039;t use an undefined value as an ARRAY reference at /usr/share/perl5/PVE/QemuServer.pm line 2579. (500)
+		</div>
+		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
+	</div>
+</blockquote><br />
+Do check if you have an unreferenced USB device added to the VM. This is something I encountered and solved while fiddling around. So letting you all know.<br />
+BR,<br />
+MB</div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Kubernetes CSI with shared FC luns (LVM storage, snapshot as a chain)</title>
+      <pubDate>Sun, 13 Sep 2026 21:21:07 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/kubernetes-csi-with-shared-fc-luns-lvm-storage-snapshot-as-a-chain.186390/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186390</guid>
+      <author>invalid@example.com (rbremer)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>rbremer</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Note: in order to keep the other thread clean (<a href="https://forum.proxmox.com/threads/proxmox-in-enterprice-environments-with-shared-fc-storage.186319/page-2#post-869245" class="link link--internal">https://forum.proxmox.com/threads/p...h-shared-fc-storage.186319/page-2#post-869245</a>) I have moved the conversation over here.<br />
+<br />
+<a href="https://forum.proxmox.com/members/105626/" class="username" data-xf-init="member-tooltip" data-user-id="105626" data-username="@bbgeek17">@bbgeek17</a> as a reply to your message:<br />
+<br />
+Indeed, this CSI has been built with AI as far as I can tell. It does not modify Proxmox source code, however. When I talked to the author about utilizing the experimental API to implement snap shots he came up with this approach. Not...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/kubernetes-csi-with-shared-fc-luns-lvm-storage-snapshot-as-a-chain.186390/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
     <item>
       <title>FreeBSD CTL support for ZFS-over-iSCSI to replace deprecated ISTGT?</title>
       <pubDate>Sun, 13 Sep 2026 19:42:17 +0000</pubDate>
@@ -381,125 +543,6 @@ Is this the...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/feature-request-datacenter-manager-installer-option-for-ipv6.186387/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Kubernetes CSI with shared FC luns (LVM storage, snapshot as a chain)</title>
-      <pubDate>Sun, 13 Sep 2026 10:54:02 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/kubernetes-csi-with-shared-fc-luns-lvm-storage-snapshot-as-a-chain.186390/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186390</guid>
-      <author>invalid@example.com (rbremer)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>rbremer</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Note: in order to keep the other thread clean (<a href="https://forum.proxmox.com/threads/proxmox-in-enterprice-environments-with-shared-fc-storage.186319/page-2#post-869245" class="link link--internal">https://forum.proxmox.com/threads/p...h-shared-fc-storage.186319/page-2#post-869245</a>) I have moved the conversation over here.<br />
-<br />
-<a href="https://forum.proxmox.com/members/105626/" class="username" data-xf-init="member-tooltip" data-user-id="105626" data-username="@bbgeek17">@bbgeek17</a> as a reply to your message:<br />
-<br />
-Indeed, this CSI has been built with AI as far as I can tell. It does not modify Proxmox source code, however. When I talked to the author about utilizing the experimental API to implement snap shots he came up with this approach. Not...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/kubernetes-csi-with-shared-fc-luns-lvm-storage-snapshot-as-a-chain.186390/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>copia de VM a un disco externo</title>
-      <pubDate>Sun, 13 Sep 2026 10:42:31 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/copia-de-vm-a-un-disco-externo.186382/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186382</guid>
-      <author>invalid@example.com (Notaria)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>Notaria</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">cuando copio una VM (vm-100-disk-0.qcow2) en proxmox de pesar 900GB pasa a pesar 4.5TB</div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>proxmox summary enhancement project to add cpu/dram watt, cpu/gpu temp and vgpu info</title>
-      <pubDate>Sun, 13 Sep 2026 10:09:29 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-summary-enhancement-project-to-add-cpu-dram-watt-cpu-gpu-temp-and-vgpu-info.186385/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186385</guid>
-      <author>invalid@example.com (ancientmystic)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>ancientmystic</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">just put together a project for enhancing the summary page for users with intel CPUs and Nvidia GPUs, with vGPU profile additions.<br />
-<br />
-summary changes (everything between manager version and repo status): <br />
-<br />
-<a href="https://forum.proxmox.com/attachments/proxmox-summary-dash-jpg.99880/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99576-ce014a0babfe58127c8300cb91c10f08.jpg?hash=AD5fRCwfpw"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99576-ce014a0babfe58127c8300cb91c10f08.jpg?hash=AD5fRCwfpw 2x"
-		class="bbImage "
-		style=""
-		alt="proxmox-summary-dash.JPG"
-		title="proxmox-summary-dash.JPG"
-		width="274" height="150" loading="lazy" /></a><br />
-with added graphs in line with the proxmox summary standard: <br />
-<br />
-<a href="https://forum.proxmox.com/attachments/cpu-drawm-w-graph-jpg.99881/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99577-bb544f1ca6ed328847e5de6c20d06d12.jpg?hash=HdoznfzPal"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99577-bb544f1ca6ed328847e5de6c20d06d12.jpg?hash=HdoznfzPal 2x"
-		class="bbImage "
-		style=""
-		alt="CPU-DRAWM-W-Graph.JPG"
-		title="CPU-DRAWM-W-Graph.JPG"
-		width="260" height="150" loading="lazy" /></a><br />
-<a href="https://forum.proxmox.com/attachments/gpu-graph-jpg.99882/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99578-3fcbeffbee0632c3c195e788f1b84f02.jpg?hash=BGDTUbSRLF"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99578-3fcbeffbee0632c3c195e788f1b84f02.jpg?hash=BGDTUbSRLF 2x"
-		class="bbImage "
-		style=""
-		alt="gpu-graph.JPG"
-		title="gpu-graph.JPG"
-		width="519" height="150" loading="lazy" /></a><br />
-<br />
-including vGPU profile info on VMs with a vGPU profile active:<br />
-<a href="https://forum.proxmox.com/attachments/per-vm-vgpu-jpg.99883/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99579-e9045142587740926fb5d3f90197ab54.jpg?hash=L7jU0eVC-T"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99579-e9045142587740926fb5d3f90197ab54.jpg?hash=L7jU0eVC-T 2x"
-		class="bbImage "
-		style=""
-		alt="per-vm-vgpu.JPG"
-		title="per-vm-vgpu.JPG"
-		width="304" height="150" loading="lazy" /></a><br />
-<br />
-utilizes sensors, nvidia-smi and pm-power. <br />
-<br />
-<br />
-<a href="https://github.com/AncientMystic/proxmox-summary-enhancement" target="_blank" class="link link--external" rel="nofollow ugc noopener">GitHub: proxmox-summary-enhancement</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>PVE 9.0.3 firewall does not work, but same configuration work well in PVE 8.4.14 &amp; 8.2.4</title>
-      <pubDate>Sun, 13 Sep 2026 08:06:15 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pve-9-0-3-firewall-does-not-work-but-same-configuration-work-well-in-pve-8-4-14-8-2-4.186277/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186277</guid>
-      <author>invalid@example.com (gunterwa)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>gunterwa</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I have two PVE clusters (PVE-A &amp; PVE-B) running on 8.4.14 &amp; 8.2.4 for more than 2 years (same configuration), a newly deployed PVE with PVE 9.0.3 reused the configuration of PVE-A &amp; PVE-B. BUT the firewall does not work... <br />
-<br />
-Config summary:<br />
-<br />
-1. Enable FW on DC level with security-group;<br />
-2. Enable FW on physical host level with same security-group in step_1;<br />
-3. Enable FW (in &quot;Option&quot; menu) on VM&amp;LXC level with white-list (ipset &amp; fw entries)<br />
-<br />
-trouble shooting summary (Per gemini...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pve-9-0-3-firewall-does-not-work-but-same-configuration-work-well-in-pve-8-4-14-8-2-4.186277/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Cephx Key Migration Procedure and Ceph 19.2 Squid Going EOL Soon</title>
-      <pubDate>Sun, 13 Sep 2026 06:56:00 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/cephx-key-migration-procedure-and-ceph-19-2-squid-going-eol-soon.186276/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186276</guid>
-      <author>invalid@example.com (t.lamprecht)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>t.lamprecht</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Recent security findings and fixes in Ceph make it necessary to upgrade ceph and migrate authentication keys from the <code class="bbCodeInline">aes</code> to the <code class="bbCodeInline">aes256k</code> cipher. This is to address weaknesses in the old Cephx authentication method, especially if your Ceph service networks are not isolated. Upgrading to Ceph Tentacle 20.2.4 or newer, or Ceph Squid 19.2.6 or newer, will trigger new Cephx health errors and warnings for the old <code class="bbCodeInline">aes</code> type. These do not by themselves indicate data loss, data...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/cephx-key-migration-procedure-and-ceph-19-2-squid-going-eol-soon.186276/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
     </item>
   </channel>
 </rss>
