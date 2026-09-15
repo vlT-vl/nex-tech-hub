@@ -4,14 +4,214 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Tue, 15 Sep 2026 15:58:17 +0000</pubDate>
-    <lastBuildDate>Tue, 15 Sep 2026 15:58:17 +0000</lastBuildDate>
+    <pubDate>Tue, 15 Sep 2026 20:43:25 +0000</pubDate>
+    <lastBuildDate>Tue, 15 Sep 2026 20:43:25 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
+      <title>Ceph Squid to Tentacle Migration</title>
+      <pubDate>Tue, 15 Sep 2026 20:18:23 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ceph-squid-to-tentacle-migration.186398/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186398</guid>
+      <author>invalid@example.com (RMaxwell72)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>RMaxwell72</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello, the guide overall was helpful, but ran into the same issue as another user where I had to increase the timeout in the helper script to be able to update the CephFS keys:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>perl -0pi -e &#039;s/(PVE::Tools::run_command\(\s*\[\x27umount\x27,\s*\$path\],\s*timeout\s*=&gt;\s*)20/$1 65/&#039; \
+/usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys</code></pre>
+	</div>
+</div><br />
+After that the storage keys and admin key was successful:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>root@pve01:/etc/pve/priv/ceph#...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/ceph-squid-to-tentacle-migration.186398/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>PVE UPS management / NUT integration</title>
+      <pubDate>Tue, 15 Sep 2026 20:11:05 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-ups-management-nut-integration.182059/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:182059</guid>
+      <author>invalid@example.com (nicolas studiokgb)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>nicolas studiokgb</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello everybody <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f642.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":)" title="Smile    :)"  data-smilie="1"data-shortname=":)" /><br />
+Does anyone know if there are any plan to integrate UPS management directly in Pve gui ? Nut ?<br />
+For now it require NUT cli manual installation and configuration and build a Lxc for ups monitoring. <br />
+All that should be implemented in Pve directly don&#039;t you think ?<br />
+Thanks</div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Shared LVM gewünscht: FC-SAN?</title>
+      <pubDate>Tue, 15 Sep 2026 19:47:44 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/shared-lvm-gew%C3%BCnscht-fc-san.186442/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186442</guid>
+      <author>invalid@example.com (sgw)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>sgw</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Sorry, wenn ich noch nicht das Forum durchsucht habe .. ich bin bei einem Kunden (da gibt es einen längeren Thread) recht zufrieden mit Shared LVM auf einem FC-SAN.<br />
+Dort war die Hardware schon da, und ich musste keine Hardware-Auswahl treffen.<br />
+<br />
+Jetzt darf ich bei einem anderen Kunden from scratch konzipieren, bin schon relativ weit mit meiner Skizze für 2 Nodes mit jeweils local storage. Ich wollte denen in Phase 1 den Einstieg in die Virtualisierung leichter und günstiger machen. Heute aber...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/shared-lvm-gew%C3%BCnscht-fc-san.186442/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>17</slash:comments>
+    </item>
+    <item>
+      <title>How to install Mac OS X Snow Leopard (10.6) on PVE 8-9</title>
+      <pubDate>Tue, 15 Sep 2026 19:24:56 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-to-install-mac-os-x-snow-leopard-10-6-on-pve-8-9.186450/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186450</guid>
+      <author>invalid@example.com (Tmanok)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Tmanok</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Everyone,<br />
+<br />
+After reading through <a href="https://forum.proxmox.com/threads/why-lvm-thin-cannot-be-shared-storage-in-proxmox.186446/" class="link link--internal">BBGeek&#039;s tutorial</a> earlier today about LVM-Thin, I was inspired to share an educational article I recently published on my blog. The article explores <b>Mac OS X Snow Leopard Server</b>, a remarkable operating system that made core IT infrastructure incredibly accessible to me as a teenager. Even with years of experience and an advanced Proxmox VE certificate, it took me a few days of spare time to get it running smoothly as a virtual machine on...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/how-to-install-mac-os-x-snow-leopard-10-6-on-pve-8-9.186450/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox pbs-root Partition vergrößern</title>
+      <pubDate>Tue, 15 Sep 2026 19:12:46 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-pbs-root-partition-vergr%C3%B6%C3%9Fern.186449/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186449</guid>
+      <author>invalid@example.com (anwin)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>anwin</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">hallo mein pbs meldet das die rootpartition an ihre Grenzen kommt. Muß ich hier reagieren? Oder kann ich das ignorieren? Weis auch gar nicht was die Rootpartition jetzt so voll macht<br />
+<br />
+<a href="https://forum.proxmox.com/attachments/1789495159735-png.99937/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99633-48503647f8d05646472155c5f3eae557.jpg?hash=kVY4XJg7Mq"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99633-48503647f8d05646472155c5f3eae557.jpg?hash=kVY4XJg7Mq 2x"
+		class="bbImage "
+		style=""
+		alt="1789495159735.png"
+		title="1789495159735.png"
+		width="757" height="150" loading="lazy" /></a><br />
+<br />
+<br />
+<a href="https://forum.proxmox.com/attachments/1789495185705-png.99938/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99634-24223db99490ce90e7dcdecf35382568.jpg?hash=JtKfeut5Rp"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99634-24223db99490ce90e7dcdecf35382568.jpg?hash=JtKfeut5Rp 2x"
+		class="bbImage "
+		style=""
+		alt="1789495185705.png"
+		title="1789495185705.png"
+		width="277" height="150" loading="lazy" /></a><br />
+<br />
+<br />
+wenn ja wie geht es am einfachsten ohne Probleme. Bin leider nicht so sehr bewandert mit Linux versuche aber mein möglichstes. Der PBS ist virtuell auf meinem pve<br />
+<br />
+<a href="https://forum.proxmox.com/attachments/1789495337158-png.99939/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99635-a9e6c2246818b64064e47fe9e39a782c.jpg?hash=cL0nxIRepo"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99635-a9e6c2246818b64064e47fe9e39a782c.jpg?hash=cL0nxIRepo 2x"
+		class="bbImage "
+		style=""
+		alt="1789495337158.png"
+		title="1789495337158.png"
+		width="255" height="150" loading="lazy" /></a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Monitoring the health/status of an LXC container</title>
+      <pubDate>Tue, 15 Sep 2026 19:10:48 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/monitoring-the-health-status-of-an-lxc-container.186408/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186408</guid>
+      <author>invalid@example.com (SysMik)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>SysMik</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+<br />
+Is there any feature in Proxmox VE that allows monitoring the health/status of an LXC container and automatically restarting it if it becomes unresponsive or hangs?<br />
+For virtual machines, this can be achieved using a virtual watchdog such as the i6300esb watchdog, allowing the Proxmox host to detect a problem and automatically restart the VM.<br />
+Is there an equivalent mechanism available for LXC containers?<br />
+If not, is there a recommended way to implement such a health check and...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/monitoring-the-health-status-of-an-lxc-container.186408/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Hetzner Proxmox Cluster and vswitch configuration</title>
+      <pubDate>Tue, 15 Sep 2026 18:53:06 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/hetzner-proxmox-cluster-and-vswitch-configuration.186435/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186435</guid>
+      <author>invalid@example.com (Prime_T)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>Prime_T</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi all ,<br />
+<b>Initial setup:</b><br />
+I have deployed a proxmox on a single node then turned it into a cluster by adding two nodes on dedicated servers on hetzner cloud .<br />
+In order to ensure communication between the nodes i configured a vswitch and added the 3 nodes. I have configure the ha manager and rules on few vm to test node failure.<br />
+<br />
+<b>Problem:</b><br />
+I want a private network to span all over the 3 nodes, so all resources can ommunicate with each other <b>(1) </b>and in case of node failure, auto...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/hetzner-proxmox-cluster-and-vswitch-configuration.186435/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>pve-cephx-rotate-service-keys error in restrict-ciphers phase "not every monitor answered the session query"</title>
+      <pubDate>Tue, 15 Sep 2026 18:23:23 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-cephx-rotate-service-keys-error-in-restrict-ciphers-phase-not-every-monitor-answered-the-session-query.186444/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186444</guid>
+      <author>invalid@example.com (zukka)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>zukka</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi, I&#039;m following the instructions to make the aes -&gt; aes256k ceph key migration.<br />
+I&#039;ve a 3 node cluster, with all the updates installed.<br />
+Everything went fine until I had to run the last step:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Bash:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang="bash"><code>/usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys
+INFO: This is a dry run. No Ceph key, cipher setting, or daemon will be changed. Session observations can update the migration journal.
+PASS: Every service key uses &#039;aes256k&#039;, and so do the service tickets.
+
+Remaining migration steps...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/pve-cephx-rotate-service-keys-error-in-restrict-ciphers-phase-not-every-monitor-answered-the-session-query.186444/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
       <title>Screwed up (mea culpa)</title>
-      <pubDate>Tue, 15 Sep 2026 15:37:47 +0000</pubDate>
+      <pubDate>Tue, 15 Sep 2026 18:01:09 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/screwed-up-mea-culpa.186413/</link>
       <guid isPermaLink="false">urn:xenforo:thread:186413</guid>
       <author>invalid@example.com (p-user)</author>
@@ -27,7 +227,116 @@ However now an S3 refresh gave me this error:<br />
 2026-09-14T12:40:26+02:00: TASK ERROR: failed to create target...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/screwed-up-mea-culpa.186413/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>14</slash:comments>
+      <slash:comments>15</slash:comments>
+    </item>
+    <item>
+      <title>WARNING: drivers/iommu/dma-iommu.c:1953 at dma_iova_link</title>
+      <pubDate>Tue, 15 Sep 2026 17:03:09 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/warning-drivers-iommu-dma-iommu-c-1953-at-dma_iova_link.186448/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186448</guid>
+      <author>invalid@example.com (RobertKih)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>RobertKih</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I just started a Proxmox 8 to 9 upgrade on a three node cluster.<br />
+After a seemingly successful upgrade of the first node I started live migrating VMs to it to continue with the second node.<br />
+Most VMs have VM disks stored on Ceph, but some have storage on a local NVME disk on each node for various reasons.<br />
+During the upgrade the instances with local storage are moved to Ceph during the upgrade.<br />
+<br />
+Upon changing disks back from Ceph to local storage those VMs started acting up and the following...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/warning-drivers-iommu-dma-iommu-c-1953-at-dma_iova_link.186448/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Collection of Scripts to Uninstall/Remove VMware-Tools in Windows; Post Migration</title>
+      <pubDate>Tue, 15 Sep 2026 16:53:42 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/collection-of-scripts-to-uninstall-remove-vmware-tools-in-windows-post-migration.175787/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:175787</guid>
+      <author>invalid@example.com (SuperJC710e)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>SuperJC710e</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">This is a quick post just to point to a Gist with a collection of scripts to assist with removal of `vmware-tools` post migration to pve.<br />
+<br />
+These are all just minor refinements of the scripts found in other Gists which are given attribution in the scripts and Gists.<br />
+<ul>
+<li data-xf-list-type="ul"><a href="https://gist.github.com/Jason-Clark-FG/dfd464eb121d0feb04dd8b9d8921abc7" target="_blank" class="link link--external" rel="nofollow ugc noopener">Cleanup-VMwareTools.ps1</a></li>
+<li data-xf-list-type="ul"><a href="https://gist.github.com/Jason-Clark-FG/50ed92dd46b08ccd6c06124d99c15c00" target="_blank" class="link link--external" rel="nofollow ugc noopener">Cleanup-VMwareToolsRemote.ps1</a></li>
+<li data-xf-list-type="ul"><a href="https://gist.github.com/Jason-Clark-FG/e2feca01b6d0696e4342f081fb33c8fd" target="_blank" class="link link--external" rel="nofollow ugc noopener">Remove-VMwareTools.ps1</a></li>
+<li data-xf-list-type="ul"><a href="https://gist.github.com/Jason-Clark-FG/68e23b534f5be4e3f3b43f3bd37f1d65" target="_blank" class="link link--external" rel="nofollow ugc noopener">Uninstall-VMwareTools.ps1</a></li>
+</ul>These should allow you to successfully uninstall the tools even if you did not...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/collection-of-scripts-to-uninstall-remove-vmware-tools-in-windows-post-migration.175787/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>Cannot mount CephFS filesystems on VMs or external systems after upgrading to Ceph 20.2.4</title>
+      <pubDate>Tue, 15 Sep 2026 16:32:00 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/cannot-mount-cephfs-filesystems-on-vms-or-external-systems-after-upgrading-to-ceph-20-2-4.186429/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186429</guid>
+      <author>invalid@example.com (mlazarin)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>mlazarin</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi! I&#039;m facing an issue with mounting CephFS filesystems after the upgrade to latest version of Ceph Tentacle (20.2.4). From Proxmox perspective everything seems fine (on the UI and also manually):<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code> root on vmserver01: /usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys
+INFO: This is a dry run. No Ceph key, cipher setting, or daemon will be changed. Session observations can update the migration journal.
+PASS: Every service key uses &#039;aes256k&#039;, and so do the service tickets...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/cannot-mount-cephfs-filesystems-on-vms-or-external-systems-after-upgrading-to-ceph-20-2-4.186429/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Couldn't find EFI system partition.</title>
+      <pubDate>Tue, 15 Sep 2026 16:16:26 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/couldnt-find-efi-system-partition.186422/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186422</guid>
+      <author>invalid@example.com (DSI_FA)</author>
+      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
+      <dc:creator>DSI_FA</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Ever since I upgraded from PMG 8 to PMG 9.1.2, I get the following message whenever I run an update:<br />
+
+
+
+
+<blockquote data-attributes="" data-quote="" data-source=""
+	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
+	
+	<div class="bbCodeBlock-content">
+		
+		<div class="bbCodeBlock-expandContent js-expandContent ">
+			Couldn&#039;t find EFI system partition. It is recommended to mount it to /boot or /efi.<br />
+Alternatively, use --esp-path= to specify path to mount point.
+		</div>
+		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
+	</div>
+</blockquote></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>OMV as LXC or VM</title>
+      <pubDate>Tue, 15 Sep 2026 16:06:57 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/omv-as-lxc-or-vm.186440/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186440</guid>
+      <author>invalid@example.com (chris_lucio)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>chris_lucio</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
+<br />
+ich bin neu bei Proxmox (9.2.18) und bin gerade dabei mehrere Raspberry Pi Projekte etc. in ein System zu bringen. Dazu läuft auf einem nicht zu starken PC (4GB Ram - aber Upgrade auf 8Gb wird bald gemacht) mal Home Assistant in einer VM und dazu OMV als LXC für einfaches SMB Share und FTP für Überwachungskameras. Der LXC für OMV läuft derzeit mal recht gut mit 512MB Ram, weswegen ich mich auch mal dafür statt einer VM entschieden habe. Grundsätzlich ist meine Frage aber was besser...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/omv-as-lxc-or-vm.186440/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>15</slash:comments>
     </item>
     <item>
       <title>Changelogs in WEbUI</title>
@@ -47,24 +356,6 @@ I can read the changelog by opening a new browser tab py pasting the URL of the 
 <br />
 <a href="https://forum.proxmox.com/threads/changelogs-in-webui.186420/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>WARNING: drivers/iommu/dma-iommu.c:1953 at dma_iova_link</title>
-      <pubDate>Tue, 15 Sep 2026 15:23:59 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/warning-drivers-iommu-dma-iommu-c-1953-at-dma_iova_link.186448/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186448</guid>
-      <author>invalid@example.com (RobertKih)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>RobertKih</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I just started a Proxmox 8 to 9 upgrade on a three node cluster.<br />
-After a seemingly successful upgrade of the first node I started live migrating VMs to it to continue with the second node.<br />
-Most VMs have VM disks stored on Ceph, but some have storage on a local NVME disk on each node for various reasons.<br />
-During the upgrade the instances with local storage are moved to Ceph during the upgrade.<br />
-<br />
-Upon changing disks back from Ceph to local storage those VMs started acting up and the following...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/warning-drivers-iommu-dma-iommu-c-1953-at-dma_iova_link.186448/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
     </item>
     <item>
       <title>FRRouting package configuration error after upgrade from Proxmox VE 8 to 9</title>
@@ -88,21 +379,6 @@ dpkg: error processing package...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/frrouting-package-configuration-error-after-upgrade-from-proxmox-ve-8-to-9.186424/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>OMV as LXC or VM</title>
-      <pubDate>Tue, 15 Sep 2026 15:17:20 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/omv-as-lxc-or-vm.186440/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186440</guid>
-      <author>invalid@example.com (chris_lucio)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>chris_lucio</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
-<br />
-ich bin neu bei Proxmox (9.2.18) und bin gerade dabei mehrere Raspberry Pi Projekte etc. in ein System zu bringen. Dazu läuft auf einem nicht zu starken PC (4GB Ram - aber Upgrade auf 8Gb wird bald gemacht) mal Home Assistant in einer VM und dazu OMV als LXC für einfaches SMB Share und FTP für Überwachungskameras. Der LXC für OMV läuft derzeit mal recht gut mit 512MB Ram, weswegen ich mich auch mal dafür statt einer VM entschieden habe. Grundsätzlich ist meine Frage aber was besser...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/omv-as-lxc-or-vm.186440/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>14</slash:comments>
     </item>
     <item>
       <title>The repository 'https://enterprise.proxmox.com/debian/pve bullseye InRelease' is not signed</title>
@@ -173,284 +449,6 @@ In other words, if the...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/cephx-key-migration-procedure-and-ceph-19-2-squid-going-eol-soon.186276/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>20</slash:comments>
-    </item>
-    <item>
-      <title>Recent PVE Kernel 7.0.14-17-pve NVME drives is not availabe</title>
-      <pubDate>Tue, 15 Sep 2026 14:19:02 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/recent-pve-kernel-7-0-14-17-pve-nvme-drives-is-not-availabe.186427/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186427</guid>
-      <author>invalid@example.com (doklages)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>doklages</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Dear forum,<br />
-<br />
-I have a very strange behavior with one of my PROXMOX nodes:<br />
-When I&#039;m applying the latest 7.0 kernel I&#039;m loosing one of my four NVME drives which leads to an degraded ZFS Raid 1. When I&#039;m going back to my last working kernel version everything is fine again:<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Node                  Generic               SN                   Model                                    Namespace  Usage                      Format           FW Rev
---------------------- ---------------------...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/recent-pve-kernel-7-0-14-17-pve-nvme-drives-is-not-availabe.186427/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox Freezes mit ZFS Kernel Panic bei Hetzner mit Kernel &gt; 6.8.12</title>
-      <pubDate>Tue, 15 Sep 2026 14:13:46 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-freezes-mit-zfs-kernel-panic-bei-hetzner-mit-kernel-6-8-12.186445/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186445</guid>
-      <author>invalid@example.com (UnknownNPC)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>UnknownNPC</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
-ich betreibe einen Proxmox Server bei Hetzner(AMD Ryzen 5950X, ZFS als Dateisystem) und habe seite Kernel Version 7.0 aufwärts Stabilitätsprobleme.<br />
-<br />
-Ich habe das System bereits auf Hardwarefehler geprüft, konnte dabei aber nichts finden.<br />
-Ich hatte das System nun eine lange Zeit auf Kernel 6.8.12-23-pve gepinnt und gestern testweise den neuen Kernel installiert. Heute war das System wieder freezed und ich hatte folgenden Fehler im Journal:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Sep 15 11:39:40 kernel: PANIC at...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/proxmox-freezes-mit-zfs-kernel-panic-bei-hetzner-mit-kernel-6-8-12.186445/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Problem backing up container</title>
-      <pubDate>Tue, 15 Sep 2026 14:13:40 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/problem-backing-up-container.178488/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:178488</guid>
-      <author>invalid@example.com (struppu)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>struppu</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Yesterday I updated Proxmox from 8 to 9. Last night I encauntered errors backing up one of my Containers to a Proxmox Backup Server<br />
-<br />
-Error Message:<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>NFO: starting new backup job: vzdump 101 --all 0 --prune-backups &#039;keep-daily=7,keep-monthly=12,keep-weekly=4,keep-yearly=999&#039; --mode snapshot --storage duckpbs --notes-template &#039;{{guestname}}&#039; --node duckmox --fleecing 0 --notification-mode notification-system
-INFO: Starting Backup of VM 101 (lxc)
-INFO: Backup started at 2025-12-29 12:59:10...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/problem-backing-up-container.178488/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>8</slash:comments>
-    </item>
-    <item>
-      <title>Windows Server 2025 EventLog crashes with x86-64-v4 CPU after Windows Update — 0xC000001D illegal instruction</title>
-      <pubDate>Tue, 15 Sep 2026 14:09:41 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/windows-server-2025-eventlog-crashes-with-x86-64-v4-cpu-after-windows-update-%E2%80%94-0xc000001d-illegal-instruction.186349/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186349</guid>
-      <author>invalid@example.com (dick_fiddler69)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>dick_fiddler69</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><b>Environment:</b><br />
-<br />
-<ul>
-<li data-xf-list-type="ul">Proxmox VE (latest)</li>
-<li data-xf-list-type="ul">Host CPU: Intel Xeon Platinum 8260 @ 2.40GHz (AVX-512 capable)</li>
-<li data-xf-list-type="ul">Guest: Windows Server 2025 Datacenter (build 26100.33438)</li>
-<li data-xf-list-type="ul">Machine type: pc-q35-10.1</li>
-<li data-xf-list-type="ul">QEMU Guest Agent: 110.0.2</li>
-</ul><br />
-<hr /><br />
-<b>Problem:</b><br />
-<br />
-After installing Windows Updates on a Windows Server 2025 VM configured with cpu: x86-64-v4, the Windows Event Log service crashes immediately on start with exit code 1067. QEMU Guest Agent subsequently fails because it cannot register...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/windows-server-2025-eventlog-crashes-with-x86-64-v4-cpu-after-windows-update-%E2%80%94-0xc000001d-illegal-instruction.186349/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE 9.2 – sporadic iSCSI NOP timeouts / DID_TRANSPORT_DISRUPTED with Dell PowerVault ME5 and Intel E810</title>
-      <pubDate>Tue, 15 Sep 2026 13:55:18 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-%E2%80%93-sporadic-iscsi-nop-timeouts-did_transport_disrupted-with-dell-powervault-me5-and-intel-e810.185817/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185817</guid>
-      <author>invalid@example.com (huganega)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>huganega</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I am experiencing sporadic iSCSI connection interruptions on a Proxmox VE 9.2 host connected directly to a Dell PowerVault ME5224.<br />
-The issue manifests as ISCSI_ERR_NOP_TIMEDOUT, followed by DID_TRANSPORT_DISRUPTED. The affected iSCSI session usually recovers automatically after a few seconds.<br />
-The problem is intermittent. The system can run normally for a considerable amount of time before another interruption occurs.<br />
-<br />
-<b>Environment</b><br />
-<ul>
-<li data-xf-list-type="ul">Proxmox VE 9.2</li>
-<li data-xf-list-type="ul">currently running kernel...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-%E2%80%93-sporadic-iscsi-nop-timeouts-did_transport_disrupted-with-dell-powervault-me5-and-intel-e810.185817/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>29</slash:comments>
-    </item>
-    <item>
-      <title>How to apply default lxc.cap.drop to all lxc by os</title>
-      <pubDate>Tue, 15 Sep 2026 13:54:10 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/how-to-apply-default-lxc-cap-drop-to-all-lxc-by-os.138572/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:138572</guid>
-      <author>invalid@example.com (lva)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>lva</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">We are running LXC debian 12 based containers on our Proxmox Cluster (Version 8.0.4) and had the problem that some systemd related services where shown as failed.<br />
-We could resolve this by adding  <code class="bbCodeInline">lxc.cap.drop: sys_rawio sys_module audit_read</code> to our lxc config (/etc/pve/lxc/&lt;VMID&gt;.conf) and this works just fine (We found this useful <a href="https://www.enricobassetti.it/2023/05/proxmox-lxc-systemd-and-linux-capabilities/" target="_blank" class="link link--external" rel="nofollow ugc noopener">Blog post</a>).<br />
-<br />
-But of course we don&#039;t want to add this line manually to all our containers. Instead we would like to make use of...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/how-to-apply-default-lxc-cap-drop-to-all-lxc-by-os.138572/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>Failed to initialize logical volume. LVM on top iscsi multipath</title>
-      <pubDate>Tue, 15 Sep 2026 13:30:25 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/failed-to-initialize-logical-volume-lvm-on-top-iscsi-multipath.186438/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186438</guid>
-      <author>invalid@example.com (xda3m0n)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>xda3m0n</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">the issue appear when migrating vm disk from nfs to lvm on top iscsi. then we test to manually create lv from cli<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>root@pve02:~# lvcreate -L 100G -n test_vol Storage-QSAN
-  Error reading device /dev/mapper/mpathqsan at 26388279001088 length 4.
-  Error reading device /dev/mapper/mpathqsan at 26388279058432 length 4.
-  Error reading device /dev/mapper/mpathqsan at 26388279065600 length 24.
-  Error reading device /dev/mapper/mpathqsan at 26388279066112 length 512.
-  Error writing device value...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/failed-to-initialize-logical-volume-lvm-on-top-iscsi-multipath.186438/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Why LVM-Thin Cannot Be Shared Storage in Proxmox</title>
-      <pubDate>Tue, 15 Sep 2026 13:28:48 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/why-lvm-thin-cannot-be-shared-storage-in-proxmox.186446/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186446</guid>
-      <author>invalid@example.com (bbgeek17)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>bbgeek17</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi Everyone,<br />
-<br />
-Every few months someone asks some version of &quot;<i>why can&#039;t I use LVM-thin on my shared SAN LUN?</i>&quot; Thick LVM work fine as shared storage, but has no native snapshots. LVM-thin has snapshots but is local-only... it&#039;s natural to wonder whether you can have both by putting a thin pool on the LUN and being careful about where it&#039;s active.<br />
-<br />
-We looked at this ourselves about half a decade ago and decided it wasn&#039;t the right architecture for PVE. For everyone&#039;s safety and technical...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/why-lvm-thin-cannot-be-shared-storage-in-proxmox.186446/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>PVE 9.0.3 firewall does not work, but same configuration work well in PVE 8.4.14 &amp; 8.2.4</title>
-      <pubDate>Tue, 15 Sep 2026 13:20:42 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pve-9-0-3-firewall-does-not-work-but-same-configuration-work-well-in-pve-8-4-14-8-2-4.186277/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186277</guid>
-      <author>invalid@example.com (gunterwa)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>gunterwa</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I have two PVE clusters (PVE-A &amp; PVE-B) running on 8.4.14 &amp; 8.2.4 for more than 2 years (same configuration), a newly deployed PVE with PVE 9.0.3 reused the configuration of PVE-A &amp; PVE-B. BUT the firewall does not work... <br />
-<br />
-Config summary:<br />
-<br />
-1. Enable FW on DC level with security-group;<br />
-2. Enable FW on physical host level with same security-group in step_1;<br />
-3. Enable FW (in &quot;Option&quot; menu) on VM&amp;LXC level with white-list (ipset &amp; fw entries)<br />
-<br />
-trouble shooting summary (Per gemini...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pve-9-0-3-firewall-does-not-work-but-same-configuration-work-well-in-pve-8-4-14-8-2-4.186277/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>license extension before expiration</title>
-      <pubDate>Tue, 15 Sep 2026 13:07:32 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/license-extension-before-expiration.186411/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186411</guid>
-      <author>invalid@example.com (drom)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>drom</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello<br />
-<br />
-Due to some time collisions with some of our funding partners we wish to renew some of our licenses before their expiration (including their ongoing current validity) or extend them so we wonder if there is a way to perform such an operation ?<br />
-<br />
-best regards and please keep on releasing excellent GPL software !</div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>ACME certificate renewal fails with TASK ERROR</title>
-      <pubDate>Tue, 15 Sep 2026 12:55:23 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/acme-certificate-renewal-fails-with-task-error.175809/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:175809</guid>
-      <author>invalid@example.com (thesix)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>thesix</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Since a couple of days our PBS tries to renew its x509 cert. We configured it to use our ACME-PROVIDER with the same credentials we use everywhere else. Here is what happens. We get emails stating:<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Proxmox Backup Server was not able to renew a TLS certificate.
-
-Error: connection closed before message completed
-
-Please visit the web interface for further details:</code></pre>
-	</div>
-</div>When I try to generate a new certificate manually via the web ui I get this:<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>2025-11-11T10:59:30+01:00: Placing ACME...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/acme-certificate-renewal-fails-with-task-error.175809/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>15</slash:comments>
     </item>
   </channel>
 </rss>

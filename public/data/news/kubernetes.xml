@@ -4483,7 +4483,7 @@ alt="Volcano plugin in the Headlamp Plugin Catalog"/>
 &lt;p>For development or source-level setup, see the &lt;a href="https://github.com/headlamp-k8s/plugins/tree/main/plugins/knative">Knative plugin README&lt;/a>. The current release is &lt;a href="https://github.com/headlamp-k8s/plugins/releases/tag/knative-0.3.0-beta">&lt;strong>0.3.0-beta&lt;/strong>&lt;/a>.&lt;/p>
 &lt;h2 id="share-your-feedback">Share your feedback&lt;a class="td-heading-self-link" href="#share-your-feedback" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>We'd love feedback from Knative operators and users. If you hit a bug or want support for a workflow we haven't covered, &lt;a href="https://github.com/headlamp-k8s/plugins/issues">please open an issue&lt;/a>. You can also find us in the &lt;a href="https://kubernetes.slack.com/archives/headlamp">Kubernetes Slack #headlamp channel&lt;/a>.&lt;/p></description></item><item><title>Spotlight on WG Device Management</title><link>https://kubernetes.io/blog/2026/06/24/wg-device-management-spotlight-2026/</link><pubDate>Wed, 24 Jun 2026 10:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/06/24/wg-device-management-spotlight-2026/</guid><description>
 &lt;p>The rising popularity of AI, Edge, and Telecommunications workloads on Kubernetes has led to new requirements for hardware management. We now need hardware specification beyond CPU time and memory allocations. This includes allocating GPUs, TPUs, network interfaces, and other hardware, sometimes after pod start and occasionally through time-sharing.&lt;/p>
-&lt;p>Efficiently managing this specialized hardware is the mission of the &lt;strong>&lt;a href="https://www.kubernetes.dev/community/community-groups/wg/device-management/">Device Management Working Group&lt;/a>&lt;/strong>. Their cornerstone project, &lt;strong>&lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/">Dynamic Resource Allocation (DRA)&lt;/a>&lt;/strong>, recently graduated to GA, marking a fundamental shift in how the project handles hardware-intensive workloads at scale.&lt;/p>
+&lt;p>Efficiently managing this specialized hardware is the mission of the &lt;strong>&lt;a href="https://www.kubernetes.dev/community/community-groups/wg/device-management/">Device Management Working Group&lt;/a>&lt;/strong>. Their cornerstone project, &lt;strong>&lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/">Dynamic Resource Allocation (DRA)&lt;/a>&lt;/strong>, recently graduated to GA, marking a fundamental shift in how the project handles hardware-intensive workloads at scale.&lt;/p>
 &lt;p>In this spotlight, we sit down with working group chairs &lt;strong>&lt;a href="https://github.com/klueska">Kevin Klues&lt;/a>&lt;/strong>, &lt;strong>&lt;a href="https://github.com/pohly">Patrick Ohly&lt;/a>&lt;/strong>, and
 &lt;strong>&lt;a href="https://github.com/johnbelamaric">John Belamaric&lt;/a>&lt;/strong> to discuss the limitations of the legacy device model,
 the &lt;em>NP-hard&lt;/em> challenges of scheduling, and how they’re building a more programmable, hardware-aware future for Kubernetes.&lt;/p>
@@ -5373,7 +5373,7 @@ To support this, the &lt;code>kube-scheduler&lt;/code> features a new &lt;em>Pod
 and paves the way for future enhancements. This release also debuts the first iterations of &lt;em>topology-aware scheduling&lt;/em>
 and &lt;em>workload-aware preemption&lt;/em> to advance scheduling capabilities. Additionally,
 &lt;em>ResourceClaim support for workloads&lt;/em> unlocks &lt;em>Dynamic Resource Allocation
-(&lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/">DRA&lt;/a>)&lt;/em> for PodGroups. Finally,
+(&lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/">DRA&lt;/a>)&lt;/em> for PodGroups. Finally,
 to demonstrate real-world readiness, v1.36 delivers the first phase of integration between the Job controller and the new API.&lt;/p>
 &lt;h2 id="workload-and-podgroup-api-updates">Workload and PodGroup API updates&lt;a class="td-heading-self-link" href="#workload-and-podgroup-api-updates" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The Workload API now serves as a static template, while the new PodGroup API describes the runtime object.
 Kubernetes v1.36 introduces the Workload and PodGroup APIs as part of the
@@ -5573,11 +5573,11 @@ to other disruption sources, including default preemption used in the Pod-by-Pod
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>In this example, when the scheduler evaluates &lt;code>victim-pg&lt;/code> as a potential preemption victim
 during a workload-aware preemption cycle, it will use 1000 as its priority and preempt the PodGroup
 in a strictly &lt;em>all-or-nothing&lt;/em> fashion.&lt;/p>
-&lt;h2 id="dra-resourceclaim-support-for-workloads">DRA ResourceClaim support for workloads&lt;a class="td-heading-self-link" href="#dra-resourceclaim-support-for-workloads" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Since its general availability in Kubernetes v1.34, &lt;a class='glossary-tooltip' title='A Kubernetes feature for requesting and sharing resources, like hardware accelerators, among Pods.' data-bs-toggle='tooltip' data-bs-placement='top' href='https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/' target='_blank' aria-label='DRA'>DRA&lt;/a>
+&lt;h2 id="dra-resourceclaim-support-for-workloads">DRA ResourceClaim support for workloads&lt;a class="td-heading-self-link" href="#dra-resourceclaim-support-for-workloads" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Since its general availability in Kubernetes v1.34, &lt;a class='glossary-tooltip' title='A Kubernetes feature for requesting and sharing resources, like hardware accelerators, among Pods.' data-bs-toggle='tooltip' data-bs-placement='top' href='https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/' target='_blank' aria-label='DRA'>DRA&lt;/a>
 has enabled Pods to make detailed requests for &lt;a class='glossary-tooltip' title='Any resource that&amp;#39;s directly or indirectly attached your cluster&amp;#39;s nodes, like GPUs or circuit boards.' data-bs-toggle='tooltip' data-bs-placement='top' href='https://kubernetes.io/docs/reference/glossary/?all=true#term-device' target='_blank' aria-label='devices'>devices&lt;/a>
 like GPUs, TPUs, and NICs. Requested devices can be shared by multiple Pods
-requesting the same &lt;a class='glossary-tooltip' title='Describes the resources that a workload needs, such as devices. ResourceClaims can request devices from DeviceClasses.' data-bs-toggle='tooltip' data-bs-placement='top' href='https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#resourceclaims-templates' target='_blank' aria-label='ResourceClaim'>ResourceClaim&lt;/a>
-by name. Other requests can be replicated through a &lt;a class='glossary-tooltip' title='Defines a template for Kubernetes to create ResourceClaims. Used to provide per-Pod or per-PodGroup access to separate, similar resources.' data-bs-toggle='tooltip' data-bs-placement='top' href='https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#resourceclaims-templates' target='_blank' aria-label='ResourceClaimTemplate'>ResourceClaimTemplate&lt;/a>,
+requesting the same &lt;a class='glossary-tooltip' title='Describes the resources that a workload needs, such as devices. ResourceClaims can request devices from DeviceClasses.' data-bs-toggle='tooltip' data-bs-placement='top' href='https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-api/#resourceclaims-templates' target='_blank' aria-label='ResourceClaim'>ResourceClaim&lt;/a>
+by name. Other requests can be replicated through a &lt;a class='glossary-tooltip' title='Defines a template for Kubernetes to create ResourceClaims. Used to provide per-Pod or per-PodGroup access to separate, similar resources.' data-bs-toggle='tooltip' data-bs-placement='top' href='https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-api/#resourceclaims-templates' target='_blank' aria-label='ResourceClaimTemplate'>ResourceClaimTemplate&lt;/a>,
 in which Kubernetes generates one ResourceClaim with a non-deterministic name
 for each Pod referencing the template. However, large-scale workloads that require
 certain Pods to share certain devices are currently left to manage creating
@@ -5957,7 +5957,7 @@ to DRA in 1.36 have something for you. Let's dive into the new features and grad
 &lt;h2 id="feature-graduations">Feature graduations&lt;a class="td-heading-self-link" href="#feature-graduations" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The community has been hard at work stabilizing core DRA concepts. In Kubernetes 1.36,
 several highly anticipated features have graduated to Beta and Stable.&lt;/p>
 &lt;h3 id="prioritized-list">Prioritized list (stable)&lt;a class="td-heading-self-link" href="#prioritized-list" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Hardware heterogeneity is a reality in most clusters. With the
-&lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#prioritized-list">Prioritized list&lt;/a>
+&lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-api/#prioritized-list">Prioritized list&lt;/a>
 feature, you can confidently define fallback preferences when requesting
 devices. Instead of hardcoding a request for a specific device model, you can specify an
 ordered list of preferences (e.g., &amp;quot;Give me an H100, but if none are available, fall back
@@ -5965,32 +5965,32 @@ to an A100&amp;quot;). The scheduler will evaluate these requests in order, dras
 scheduling flexibility and cluster utilization.&lt;/p>
 &lt;h3 id="extended-resource">Extended resource support (beta)&lt;a class="td-heading-self-link" href="#extended-resource" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>As DRA becomes the standard for resource allocation, bridging the gap with legacy systems
 is crucial. The DRA
-&lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#extended-resource">Extended resource&lt;/a>
+&lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-features/#extended-resource">Extended resource&lt;/a>
 feature allows users to request resources via traditional extended resources on a Pod.
 This allows for a gradual transition to DRA, meaning cluster operators can migrate clusters
 to DRA but let application developers adopt the ResourceClaim API on their own schedule.&lt;/p>
 &lt;h3 id="partitionable-devices">Partitionable devices (beta)&lt;a class="td-heading-self-link" href="#partitionable-devices" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Hardware accelerators are powerful, and sometimes a single workload doesn't need an
 entire device. The
-&lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#partitionable-devices">Partitionable devices&lt;/a>
+&lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-features/#partitionable-devices">Partitionable devices&lt;/a>
 feature, provides native DRA support for dynamically carving physical hardware into smaller,
 logical instances (such as Multi-Instance GPUs) based on workload demands. This allows
 administrators to safely and efficiently share expensive accelerators across multiple Pods.&lt;/p>
 &lt;h3 id="device-taints">Device taints (beta)&lt;a class="td-heading-self-link" href="#device-taints" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Just as you can taint a Kubernetes Node, you can apply taints directly to specific DRA
 devices.
-&lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#device-taints-and-tolerations">Device taints and tolerations&lt;/a>
+&lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/device-taints/#device-taints-and-tolerations">Device taints and tolerations&lt;/a>
 empower cluster administrators to manage hardware more effectively. You can taint faulty
 devices to prevent them from being allocated to standard claims, or reserve specific hardware
 for dedicated teams, specialized workloads, and experiments. Ultimately, only Pods with
 matching tolerations are permitted to claim these tainted devices.&lt;/p>
 &lt;h3 id="device-binding-conditions">Device binding conditions (beta)&lt;a class="td-heading-self-link" href="#device-binding-conditions" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>To improve scheduling reliability, the Kubernetes scheduler can use the
-&lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#device-binding-conditions">Binding conditions&lt;/a>
+&lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/how-dra-works/#device-binding-conditions">Binding conditions&lt;/a>
 feature to delay committing a Pod to a Node until its required external resources—such as attachable
 devices or FPGAs—are fully prepared. By explicitly modeling resource readiness, this
 prevents premature assignments that can lead to Pod failures, ensuring a much more robust
 and predictable deployment process.&lt;/p>
 &lt;h3 id="device-health-monitoring">Resource health status (beta)&lt;a class="td-heading-self-link" href="#device-health-monitoring" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Knowing when a device has failed or become unhealthy is critical for workloads running on
 specialized hardware. With
-&lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#device-health-monitoring">Resource health status&lt;/a>,
+&lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-observability/#device-health-monitoring">Resource health status&lt;/a>,
 Kubernetes expose device health information directly in the Pod status, giving users and
 controllers crucial visibility to quickly identify and react to hardware failures. The
 feature includes support for human-readable health status messages, making it
@@ -5999,7 +5999,7 @@ significantly easier to diagnose issues without the need to dive into complex dr
 that expand what DRA can do. These are alpha features, so they are behind feature gates
 that are disabled by default.&lt;/p>
 &lt;h3 id="workload-resourceclaims">ResourceClaim support for workloads&lt;a class="td-heading-self-link" href="#workload-resourceclaims" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>To optimize large-scale AI/ML workloads that rely on strict topological scheduling, the
-&lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#workload-resourceclaims">ResourceClaim support for workloads&lt;/a>
+&lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-api/#workload-resource-claims">ResourceClaim support for workloads&lt;/a>
 feature enables Kubernetes to seamlessly manage shared resources across massive sets
 of Pods. By associating ResourceClaims or ResourceClaimTemplates with PodGroups,
 this feature eliminates previous scaling bottlenecks, such as the limit on the
@@ -6008,13 +6008,13 @@ management from specialized orchestrators.&lt;/p>
 &lt;h3 id="node-allocatable-resources">Node allocatable resources&lt;a class="td-heading-self-link" href="#node-allocatable-resources" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Why should DRA only be for external accelerators? In v1.36, we are introducing the first
 iteration of using the DRA APIs to manage &lt;em>node allocatable&lt;/em> infrastructure resources (like CPU and
 memory). By bringing CPU and memory allocation under the DRA umbrella with the DRA
-&lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#node-allocatable-resources">Node allocatable resources&lt;/a>
+&lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/how-dra-works/#node-allocatable-resources">Node allocatable resources&lt;/a>
 feature, users can leverage DRA's advanced placement, NUMA-awareness, and prioritization
 semantics for standard compute resources, paving the way for incredibly fine-grained
 performance tuning.&lt;/p>
 &lt;h3 id="resource-pool-status">DRA resource availability visibility&lt;a class="td-heading-self-link" href="#resource-pool-status" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>One of the most requested features from cluster administrators has been better visibility
 into hardware capacity. The new
-&lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#resource-pool-status">Resource pool status&lt;/a>
+&lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-observability/#resource-pool-status">Resource pool status&lt;/a>
 feature allows you to query the availability of devices in DRA resource pools. By creating a
 &lt;code>ResourcePoolStatusRequest&lt;/code> object, you get a point-in-time snapshot of device counts
 — total, allocated, available, and unavailable — for each pool managed by a given
@@ -6036,7 +6036,7 @@ generates names that reflect the exact device ordering specified by the driver a
 &lt;h3 id="device-metadata">Discoverable device metadata in containers&lt;a class="td-heading-self-link" href="#device-metadata" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Workloads running on nodes with DRA devices often need to discover details about
 their allocated devices, such as PCI bus addresses or network
 interface configuration, without querying the Kubernetes API. With
-&lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#device-metadata">Device metadata&lt;/a>,
+&lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-features/#device-metadata">Device metadata&lt;/a>,
 Kubernetes defines a standard protocol for how DRA drivers expose device
 attributes to containers as versioned JSON files at well-known paths. Drivers
 built with the
@@ -7767,12 +7767,12 @@ making the transition incremental instead of a flag day. With beta in v1.36, &lt
 documented, and ready for wider adoption by platform teams that rely on impersonation for debugging, proxying,
 or node‑level controllers.&lt;/p>
 &lt;p>This work was done as a part of &lt;a href="https://kep.k8s.io/5284">KEP #5284&lt;/a> led by SIG Auth.&lt;/p>
-&lt;h3 id="dra-features-in-beta">DRA features in beta&lt;a class="td-heading-self-link" href="#dra-features-in-beta" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The &lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/">Dynamic Resource Allocation (DRA)&lt;/a> framework reaches another maturity milestone in Kubernetes v1.36 as several core features graduate to beta and are enabled by default.
-This transition moves DRA beyond basic allocation by graduating &lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#partitionable-devices">partitionable devices&lt;/a> and &lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#consumable-capacity">consumable capacity&lt;/a>, allowing for more granular sharing of hardware like GPUs,
-while &lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#device-taints-and-tolerations">device taints and tolerations&lt;/a> ensure that specialized resources are only utilized by the appropriate workloads.&lt;/p>
-&lt;p>Now, users benefit from a much more reliable and observable resource lifecycle through &lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#resourceclaim-device-status">ResourceClaim device status&lt;/a>
+&lt;h3 id="dra-features-in-beta">DRA features in beta&lt;a class="td-heading-self-link" href="#dra-features-in-beta" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The &lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/">Dynamic Resource Allocation (DRA)&lt;/a> framework reaches another maturity milestone in Kubernetes v1.36 as several core features graduate to beta and are enabled by default.
+This transition moves DRA beyond basic allocation by graduating &lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-features/#partitionable-devices">partitionable devices&lt;/a> and &lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-features/#consumable-capacity">consumable capacity&lt;/a>, allowing for more granular sharing of hardware like GPUs,
+while &lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/device-taints/#device-taints-and-tolerations">device taints and tolerations&lt;/a> ensure that specialized resources are only utilized by the appropriate workloads.&lt;/p>
+&lt;p>Now, users benefit from a much more reliable and observable resource lifecycle through &lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-observability/#resourceclaim-device-status">ResourceClaim device status&lt;/a>
 and the ability to ensure device attachment before Pod scheduling.
-By integrating these features with &lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/#extended-resource">extended resource&lt;/a> support,
+By integrating these features with &lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-features/#extended-resource">extended resource&lt;/a> support,
 Kubernetes provides a robust production-ready alternative to the legacy device plugin system,
 enabling complex AI and HPC workloads to manage hardware with unprecedented precision and operational safety.&lt;/p>
 &lt;p>This work was done across several KEPs (including &lt;a href="https://kep.k8s.io/5004">#5004&lt;/a>, &lt;a href="https://kep.k8s.io/4817">#4817&lt;/a>, &lt;a href="https://kep.k8s.io/5055">#5055&lt;/a>, &lt;a href="https://kep.k8s.io/5075">#5075&lt;/a>, &lt;a href="https://kep.k8s.io/4815">#4815&lt;/a>, and &lt;a href="https://kep.k8s.io/issues/5007">#5007&lt;/a>) led by SIG Scheduling and SIG Node.&lt;/p>
