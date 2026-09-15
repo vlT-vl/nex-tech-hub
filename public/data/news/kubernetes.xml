@@ -1,4 +1,173 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: Native Histograms Graduates to Beta</title><link>https://kubernetes.io/blog/2026/09/11/kubernetes-v1-37-native-histograms-beta/</link><pubDate>Fri, 11 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/11/kubernetes-v1-37-native-histograms-beta/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes Changed Block Tracking API - Beta Differences</title><link>https://kubernetes.io/blog/2026/09/14/csi-changed-block-tracking-beta/</link><pubDate>Mon, 14 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/14/csi-changed-block-tracking-beta/</guid><description>
+&lt;p>Changed Block Tracking (CBT) support for CSI drivers
+&lt;a href="https://kubernetes.io/blog/2025/09/25/csi-changed-block-tracking/">shipped as Alpha&lt;/a> in
+September 2025. With the March 2026 &lt;code>v1.0.0&lt;/code> release of the
+&lt;a href="https://github.com/kubernetes-csi/external-snapshot-metadata">external-snapshot-metadata&lt;/a>
+project, the feature moved to &lt;strong>Beta&lt;/strong>.&lt;/p>
+&lt;p>If you aren't yet familiar with &lt;em>changed block tracking&lt;/em> for storage in
+Kubernetes, the
+&lt;a href="https://kubernetes.io/blog/2025/09/25/csi-changed-block-tracking/">Alpha announcement&lt;/a> covers
+the motivation, the three primary components (the CSI &lt;code>SnapshotMetadata&lt;/code>
+gRPC service, the SnapshotMetadataService CRD, and the
+&lt;code>external-snapshot-metadata&lt;/code> sidecar), and a walkthrough of how to use the
+API. CBT currently applies to block volumes; file-volume and network
+file-share changed-list tracking is not covered by this feature. This post
+focuses on what is different in Beta.&lt;/p>
+&lt;h2 id="what-s-new-in-beta">What's new in Beta&lt;a class="td-heading-self-link" href="#what-s-new-in-beta" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The main change in that release was the promotion of the
+SnapshotMetadataService CRD from &lt;code>v1alpha1&lt;/code> to &lt;code>v1beta1&lt;/code>. The CRD used to
+advertise a driver's metadata service now serves
+&lt;code>cbt.storage.k8s.io/v1beta1&lt;/code>. The schema itself is unchanged, but this
+release &lt;strong>removed&lt;/strong> &lt;code>v1alpha1&lt;/code> (rather than serving it alongside the new version).
+If you are upgrading from Alpha, you need to:&lt;/p>
+&lt;ul>
+&lt;li>Re-apply the CRD definition shipped with &lt;code>v1.0.0&lt;/code>.&lt;/li>
+&lt;li>Update SnapshotMetadataService manifests to use
+&lt;code>apiVersion: cbt.storage.k8s.io/v1beta1&lt;/code>.&lt;/li>
+&lt;li>Update any client or controller code that talks to the CRD.&lt;/li>
+&lt;/ul>
+&lt;p>This is a one-time change. There is no automatic conversion between the two
+versions.&lt;/p>
+&lt;h2 id="compatibility">Compatibility&lt;a class="td-heading-self-link" href="#compatibility" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;ul>
+&lt;li>Minimum Kubernetes version: &lt;strong>1.33&lt;/strong>&lt;/li>
+&lt;li>CSI spec: &lt;strong>1.10 or newer&lt;/strong>&lt;/li>
+&lt;li>Container image: &lt;code>registry.k8s.io/sig-storage/csi-snapshot-metadata:v1.0.0&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="trying-it-out">Trying it out&lt;a class="td-heading-self-link" href="#trying-it-out" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The &lt;a href="https://kubernetes.io/blog/2025/09/25/csi-changed-block-tracking/#getting-started">Getting Started section in the Alpha
+blog&lt;/a> still
+applies. In short:&lt;/p>
+&lt;ol>
+&lt;li>Make sure your CSI driver supports volume snapshots and ships the
+&lt;code>external-snapshot-metadata&lt;/code> sidecar.&lt;/li>
+&lt;li>Install the SnapshotMetadataService CRD (the &lt;code>v1beta1&lt;/code> definition from
+the &lt;code>v1.0.0&lt;/code> release).&lt;/li>
+&lt;li>Create a SnapshotMetadataService resource for your driver.&lt;/li>
+&lt;li>Use a client — &lt;code>snapshot-metadata-lister&lt;/code>, or your own implementation —
+to call &lt;code>GetMetadataAllocated&lt;/code> and &lt;code>GetMetadataDelta&lt;/code>.&lt;/li>
+&lt;/ol>
+&lt;p>If you want to see the full flow end-to-end, the
+&lt;a href="https://github.com/kubernetes-csi/csi-driver-host-path/blob/master/docs/example-ephemeral.md">hostpath driver example&lt;/a>
+is a good starting point.&lt;/p>
+&lt;h2 id="what-s-next">What's next?&lt;a class="td-heading-self-link" href="#what-s-next" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The focus for the rest of the Beta cycle is wider CSI driver adoption and
+operational feedback before the feature moves towards GA. If you maintain a
+CSI driver, this is a good time to evaluate adding support. If you are
+building a backup application on top of the API, feedback on the streaming
+clients and the iterator package is very welcome.&lt;/p>
+&lt;h2 id="where-can-i-learn-more">Where can I learn more?&lt;a class="td-heading-self-link" href="#where-can-i-learn-more" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;ul>
+&lt;li>The &lt;a href="https://kubernetes-csi.github.io/docs/external-snapshot-metadata.html">CSI developer
+documentation&lt;/a>
+for snapshot metadata.&lt;/li>
+&lt;li>&lt;a href="https://www.kubernetes.dev/resources/keps/3314/">KEP-3314&lt;/a>.&lt;/li>
+&lt;li>The
+&lt;a href="https://github.com/kubernetes-csi/external-snapshot-metadata">external-snapshot-metadata&lt;/a>
+repository.&lt;/li>
+&lt;li>The gRPC
+&lt;a href="https://github.com/kubernetes-csi/external-snapshot-metadata/blob/main/proto/schema.proto">schema&lt;/a>.&lt;/li>
+&lt;li>The
+&lt;a href="https://github.com/kubernetes-csi/external-snapshot-metadata/tree/main/examples/snapshot-metadata-lister">snapshot-metadata-lister&lt;/a>
+example client.&lt;/li>
+&lt;/ul>
+&lt;h2 id="how-do-i-get-involved">How do I get involved?&lt;a class="td-heading-self-link" href="#how-do-i-get-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>This work is the result of contributions from many people across SIG Storage.
+A big thank you to everyone who helped review, code, and test the feature
+through Alpha and into Beta:&lt;/p>
+&lt;ul>
+&lt;li>Ben Swartzlander (&lt;a href="https://github.com/bswartz">bswartz&lt;/a>)&lt;/li>
+&lt;li>Carl Braganza (&lt;a href="https://github.com/carlbraganza">carlbraganza&lt;/a>)&lt;/li>
+&lt;li>Daniil Fedotov (&lt;a href="https://github.com/hairyhum">hairyhum&lt;/a>)&lt;/li>
+&lt;li>Ivan Sim (&lt;a href="https://github.com/ihcsim">ihcsim&lt;/a>)&lt;/li>
+&lt;li>Nikhil Ladha (&lt;a href="https://github.com/Nikhil-Ladha">Nikhil-Ladha&lt;/a>)&lt;/li>
+&lt;li>Praveen M (&lt;a href="https://github.com/iPraveenParihar">iPraveenParihar&lt;/a>)&lt;/li>
+&lt;li>Rakshith R (&lt;a href="https://github.com/Rakshith-R">Rakshith-R&lt;/a>)&lt;/li>
+&lt;li>Xing Yang (&lt;a href="https://github.com/xing-yang">xing-yang&lt;/a>)&lt;/li>
+&lt;/ul>
+&lt;p>If you would like to get involved with CSI or storage in Kubernetes,
+&lt;a href="https://github.com/kubernetes/community/tree/master/sig-storage">SIG Storage&lt;/a>
+is the place to start. The &lt;a href="https://docs.google.com/document/d/15tLCV3csvjHbKb16DVk-mfUmFry_Rlwo-2uG6KNGsfw/edit">Data Protection Working
+Group&lt;/a>
+also holds regular meetings, and new attendees are always welcome.&lt;/p></description></item><item><title>Kubernetes v1.37: Memory QoS Graduates to Beta</title><link>https://kubernetes.io/blog/2026/09/14/kubernetes-v1-37-memory-qos-graduates-to-beta/</link><pubDate>Mon, 14 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/14/kubernetes-v1-37-memory-qos-graduates-to-beta/</guid><description>
+&lt;p>Memory QoS has graduated to Beta in Kubernetes v1.37 and is now enabled by
+default. On Linux nodes running cgroup v2, the feature uses the memory controller
+to give the kernel better guidance on how to treat container memory. It was first introduced as
+Alpha in v1.22, and expanded in v1.36 with tiered memory reservation.&lt;/p>
+&lt;p>This post covers what changed in v1.37, what the Beta promotion means for
+cluster operators, and how to configure the feature.&lt;/p>
+&lt;h2 id="what-changed-in-v1-37">What changed in v1.37&lt;a class="td-heading-self-link" href="#what-changed-in-v1-37" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;h3 id="memory-qos-is-beta-and-enabled-by-default">Memory QoS is Beta and enabled by default&lt;a class="td-heading-self-link" href="#memory-qos-is-beta-and-enabled-by-default" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The &lt;code>MemoryQoS&lt;/code> feature gate is now Beta in v1.37.
+This means every v1.37 &lt;code>kubelet&lt;/code> has the feature gate turned on without any
+configuration change. Turning on the feature by default is safe because the
+default &lt;code>kubelet&lt;/code> configuration does not enable memory throttling or memory
+reservation. No &lt;code>memory.high&lt;/code>, &lt;code>memory.min&lt;/code>, or &lt;code>memory.low&lt;/code> values are
+written to cgroups unless you explicitly configure them.&lt;/p>
+&lt;p>You can opt into specific behaviors through &lt;code>kubelet&lt;/code> configuration fields:&lt;/p>
+&lt;ol>
+&lt;li>Set &lt;code>memoryThrottlingFactor&lt;/code> (for example, &lt;code>0.9&lt;/code>) to enable &lt;code>memory.high&lt;/code> throttling on Burstable and BestEffort containers. The default is &lt;code>null&lt;/code>, which means no throttling.&lt;/li>
+&lt;li>Set &lt;code>memoryReservationPolicy&lt;/code> to &lt;code>TieredReservation&lt;/code> to enable tiered memory protection via &lt;code>memory.min&lt;/code> and &lt;code>memory.low&lt;/code>. The default is &lt;code>None&lt;/code>, which means no memory reservation.&lt;/li>
+&lt;/ol>
+&lt;h3 id="default-memorythrottlingfactor-changed-to-null">Default &lt;code>memoryThrottlingFactor&lt;/code> changed to null&lt;a class="td-heading-self-link" href="#default-memorythrottlingfactor-changed-to-null" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>In earlier Alpha releases, &lt;code>memoryThrottlingFactor&lt;/code> defaulted to &lt;code>0.9&lt;/code>, which
+meant enabling the feature gate caused the &lt;code>kubelet&lt;/code> to set
+&lt;code>memory.high&lt;/code> on containers. In v1.37, the default is &lt;code>null&lt;/code>, so the &lt;code>kubelet&lt;/code>
+does not set &lt;code>memory.high&lt;/code> unless you configure a value.&lt;/p>
+&lt;p>This change was made because, with the feature gate now on by default, an
+automatic &lt;code>memory.high&lt;/code> could throttle workloads that were previously running
+without throttling. Making it &lt;code>null&lt;/code> ensures that upgrading to v1.37 does not
+change runtime behavior for existing clusters.&lt;/p>
+&lt;p>If your &lt;code>kubelet&lt;/code> configuration file already contains an explicit
+&lt;code>memoryThrottlingFactor&lt;/code> value, that value is preserved during the upgrade and
+throttling continues to work as before. If your configuration file does not
+include &lt;code>memoryThrottlingFactor&lt;/code>, the &lt;code>kubelet&lt;/code> uses the new &lt;code>null&lt;/code> default and
+stops setting &lt;code>memory.high&lt;/code>. To keep throttling in that case, add
+&lt;code>memoryThrottlingFactor&lt;/code> explicitly:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kubelet.config.k8s.io/v1beta1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">KubeletConfiguration&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">memoryThrottlingFactor&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">0.9&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="how-to-configure-memoryqos-in-v1-37">How to configure MemoryQoS in v1.37&lt;a class="td-heading-self-link" href="#how-to-configure-memoryqos-in-v1-37" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>For full details on configuring Memory QoS, see &lt;a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/#memory-qos-with-cgroup-v2">Memory QoS with cgroup v2&lt;/a>, &lt;a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/#configuring-memory-reservation">Configuring memory reservation&lt;/a>, and &lt;a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/#system-requirements">System requirements&lt;/a>&lt;/p>
+&lt;h3 id="enable-memory-throttling-only">Enable memory throttling only&lt;a class="td-heading-self-link" href="#enable-memory-throttling-only" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Set &lt;code>memoryThrottlingFactor&lt;/code> to a value between 0 and 1. The &lt;code>kubelet&lt;/code> uses this
+factor to calculate &lt;code>memory.high&lt;/code> for Burstable and BestEffort containers. See
+&lt;a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/#memory-throttling">Memory throttling&lt;/a>
+for how &lt;code>memory.high&lt;/code> is calculated for each QoS class.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kubelet.config.k8s.io/v1beta1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">KubeletConfiguration&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">memoryThrottlingFactor&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">0.9&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="enable-memory-throttling-and-tiered-reservation">Enable memory throttling and tiered reservation&lt;a class="td-heading-self-link" href="#enable-memory-throttling-and-tiered-reservation" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kubelet.config.k8s.io/v1beta1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">KubeletConfiguration&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">memoryThrottlingFactor&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">0.9&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">memoryReservationPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TieredReservation&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="enable-tiered-reservation-without-throttling">Enable tiered reservation without throttling&lt;a class="td-heading-self-link" href="#enable-tiered-reservation-without-throttling" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kubelet.config.k8s.io/v1beta1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">KubeletConfiguration&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">memoryReservationPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TieredReservation&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="disable-memory-qos-entirely">Disable Memory QoS entirely&lt;a class="td-heading-self-link" href="#disable-memory-qos-entirely" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>To disable the feature after upgrading, set the feature gate to &lt;code>false&lt;/code>
+and ensure a compatible kubelet configuration. The &lt;code>kubelet&lt;/code> rejects the configuration if
+&lt;code>memoryThrottlingFactor&lt;/code> is set to anything other than the former default of &lt;code>0.9&lt;/code>, or if
+&lt;code>memoryReservationPolicy&lt;/code> is &lt;code>TieredReservation&lt;/code>, so remove or adjust those fields if you set them.&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kubelet.config.k8s.io/v1beta1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">KubeletConfiguration&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">featureGates&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">MemoryQoS&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">false&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>When the feature gate is off, or &lt;code>memoryReservationPolicy&lt;/code> is not &lt;code>TieredReservation&lt;/code>, the
+&lt;code>kubelet&lt;/code> resets stale protection at startup on cgroup v2 nodes: &lt;code>memory.min=0&lt;/code> and &lt;code>memory.low=0&lt;/code>
+on the root kubepods cgroup, and &lt;code>memory.low=0&lt;/code> on the Burstable QoS cgroup.
+For containers, stale &lt;code>memory.high&lt;/code> values are reset to &lt;code>max&lt;/code> on reconciliation paths such as restart or resize.&lt;/p>
+&lt;h2 id="known-limitation-memory-reservation-is-node-wide">Known limitation: memory reservation is node-wide&lt;a class="td-heading-self-link" href="#known-limitation-memory-reservation-is-node-wide" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>&lt;code>memoryReservationPolicy&lt;/code> applies to every pod on the node. With &lt;code>TieredReservation&lt;/code>, every Guaranteed pod gets &lt;code>memory.min&lt;/code> and every Burstable pod gets &lt;code>memory.low&lt;/code>; there is no way to opt individual pods in or out. A node that mixes workloads needing hard reservation with workloads that should stay reclaimable has to choose one policy for all of them.&lt;/p>
+&lt;p>Hard reservation also covers everything charged to the container's cgroup, including page cache, so a pod that reads large files can hold memory the kernel would otherwise reclaim to serve its neighbors.&lt;/p>
+&lt;p>SIG Node is tracking both in &lt;a href="https://github.com/kubernetes/kubernetes/issues/140246">kubernetes/kubernetes#140246&lt;/a>. If this affects you, that issue is the best place to describe your workload.&lt;/p>
+&lt;h2 id="what-to-expect-next">What to expect next&lt;a class="td-heading-self-link" href="#what-to-expect-next" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The next milestone for Memory QoS is graduation to GA. Feedback from Beta
+users will shape any remaining adjustments before that step. If you run into
+issues, please file bugs at
+&lt;a href="https://github.com/kubernetes/kubernetes/issues">kubernetes/kubernetes&lt;/a>.&lt;/p>
+&lt;h2 id="how-can-i-learn-more">How can I learn more?&lt;a class="td-heading-self-link" href="#how-can-i-learn-more" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;ul>
+&lt;li>&lt;a href="https://www.kubernetes.dev/resources/keps/2570/">KEP-2570: Memory QoS&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/">Pod Quality of Service Classes&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/#memory-qos-with-cgroup-v2">Memory QoS with cgroup v2&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">Managing Resources for Containers&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://kubernetes.io/docs/concepts/architecture/cgroups/">Kubernetes cgroups v2 support&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://docs.kernel.org/admin-guide/cgroup-v2.html">Linux kernel cgroups v2 documentation&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="getting-involved">Getting involved&lt;a class="td-heading-self-link" href="#getting-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>This feature is driven by
+&lt;a href="https://www.kubernetes.dev/community/community-groups/sigs/node/">SIG Node&lt;/a>. If
+you are interested in contributing or have feedback, you can reach out through:&lt;/p>
+&lt;ul>
+&lt;li>Slack: &lt;a href="https://kubernetes.slack.com/messages/sig-node">#sig-node&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://groups.google.com/forum/#!forum/kubernetes-sig-node">Mailing list&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.kubernetes.dev/community/community-groups/sigs/node/#meetings">SIG Node meetings&lt;/a>&lt;/li>
+&lt;/ul></description></item><item><title>Kubernetes v1.37: Native Histograms Graduates to Beta</title><link>https://kubernetes.io/blog/2026/09/11/kubernetes-v1-37-native-histograms-beta/</link><pubDate>Fri, 11 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/11/kubernetes-v1-37-native-histograms-beta/</guid><description>
 &lt;p>I'm excited to announce that native histogram support for Kubernetes metrics is graduating to Beta and is enabled by default in Kubernetes v1.37!&lt;/p>
 &lt;p>&lt;em>Native histograms&lt;/em> (previously introduced as Alpha in Kubernetes v1.36 under &lt;a href="https://www.kubernetes.dev/resources/keps/5808/">KEP-5808&lt;/a>)
 bring high-resolution, low-cardinality observability to Kubernetes metrics.
@@ -7825,462 +7994,6 @@ and through the channels below. Thank you for your continued feedback and suppor
 &lt;li>Join the community discussion on &lt;a href="https://discuss.kubernetes.io/">Discuss&lt;/a>&lt;/li>
 &lt;li>Join the community on &lt;a href="https://slack.k8s.io/">Slack&lt;/a>&lt;/li>
 &lt;li>Post questions (or answer questions) on &lt;a href="https://stackoverflow.com/questions/tagged/kubernetes">Stack Overflow&lt;/a>&lt;/li>
-&lt;li>Share your Kubernetes &lt;a href="https://docs.google.com/a/linuxfoundation.org/forms/d/e/1FAIpQLScuI7Ye3VQHQTwBASrgkjQDSS5TP0g3AXfFhwSM9YpHgxRKFA/viewform">story&lt;/a>&lt;/li>
-&lt;li>Read more about what’s happening with Kubernetes on the &lt;a href="https://kubernetes.io/blog/">blog&lt;/a>&lt;/li>
-&lt;li>Learn more about the &lt;a href="https://github.com/kubernetes/sig-release/tree/master/release-team">Kubernetes Release Team&lt;/a>&lt;/li>
-&lt;/ul></description></item><item><title>Gateway API v1.5: Moving features to Stable</title><link>https://kubernetes.io/blog/2026/04/21/gateway-api-v1-5/</link><pubDate>Tue, 21 Apr 2026 08:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/04/21/gateway-api-v1-5/</guid><description>
-&lt;p>&lt;img src="https://kubernetes.io/blog/2026/04/21/gateway-api-v1-5/gateway-api-logo.svg" alt="Gateway API logo">&lt;/p>
-&lt;p>The Kubernetes SIG Network community presents the release of Gateway API (v1.5)!
-Released on February 27, 2026, version 1.5 is our biggest release yet, and concentrates on moving existing Experimental features to Standard (Stable).&lt;/p>
-&lt;p>The Gateway API &lt;a href="https://github.com/kubernetes-sigs/gateway-api/releases/tag/v1.5.1">v1.5.1&lt;/a> patch release is already available.&lt;/p>
-&lt;p>The Gateway API v1.5 brings six widely-requested feature promotions to the Standard channel (Gateway API's GA release channel):&lt;/p>
-&lt;ul>
-&lt;li>ListenerSet&lt;/li>
-&lt;li>TLSRoute&lt;/li>
-&lt;li>HTTPRoute CORS Filter&lt;/li>
-&lt;li>Client Certificate Validation&lt;/li>
-&lt;li>Certificate Selection for Gateway TLS Origination&lt;/li>
-&lt;li>ReferenceGrant&lt;/li>
-&lt;/ul>
-&lt;p>Special thanks for &lt;a href="https://github.com/kubernetes-sigs/gateway-api/blob/a811d174a406553006bbb9a3594b49380cb9069e/CHANGELOG/1.5-TEAM.md">Gateway API Contributors&lt;/a> for their efforts on this release.&lt;/p>
-&lt;h2 id="new-release-process">New release process&lt;a class="td-heading-self-link" href="#new-release-process" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>As of Gateway API v1.5, the project has moved to a release train model, where on a feature freeze date, any features that are ready are shipped in the release.&lt;/p>
-&lt;p>This applies to both Experimental and Standard, and also applies to documentation -- if the documentation isn't ready to ship, the feature isn't ready to ship.&lt;/p>
-&lt;p>We are aiming for this to produce a more reliable release cadence (since we are basing our work off the excellent work done by SIG Release on Kubernetes itself).
-As part of this change, we've also introduced Release Manager and Release Shadow roles to our release team. Many thanks to Flynn (Buoyant) and Beka Modebadze (Google) for all the great work coordinating and filing the rough edges of our release process. They are both going to continue in this role for the next release as well.&lt;/p>
-&lt;h2 id="new-standard-features">New standard features&lt;a class="td-heading-self-link" href="#new-standard-features" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;h3 id="listenerset">ListenerSet&lt;a class="td-heading-self-link" href="#listenerset" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Leads: &lt;a href="https://github.com/dprotaso">Dave Protasowski&lt;/a>, &lt;a href="https://github.com/davidjumani">David Jumani&lt;/a>&lt;/p>
-&lt;p>&lt;a href="https://gateway-api.sigs.k8s.io/geps/gep-1713/">GEP-1713&lt;/a>&lt;/p>
-&lt;h4 id="why-listenerset">Why ListenerSet?&lt;a class="td-heading-self-link" href="#why-listenerset" aria-label="Heading self-link">&lt;/a>&lt;/h4>&lt;p>Prior to ListenerSet, all listeners had to be specified directly on the Gateway object.
-While this worked well for simple use cases, it created challenges for more complex
-or multi-tenant environments:&lt;/p>
-&lt;ul>
-&lt;li>Platform teams and application teams often needed to coordinate changes to the same Gateway&lt;/li>
-&lt;li>Safely delegating ownership of individual listeners was difficult&lt;/li>
-&lt;li>Extending existing Gateways required direct modification of the original resource&lt;/li>
-&lt;/ul>
-&lt;p>&lt;a href="https://gateway-api.sigs.k8s.io/guides/listener-set/">ListenerSet&lt;/a> addresses these limitations by allowing listeners to be defined independently and then merged onto a target Gateway.&lt;/p>
-&lt;p>ListenerSets also enable attaching more than 64 listeners to a single, shared Gateway. This is critical for large scale deployments and scenarios with multiple hostnames per listener.&lt;/p>
-&lt;blockquote>
-&lt;p>Even though the ListenerSet feature significantly enhances scalability, the &lt;strong>listener&lt;/strong> field in Gateway &lt;strong>remains a mandatory requirement&lt;/strong> and the Gateway must have at least one valid listener.&lt;/p>&lt;/blockquote>
-&lt;h4 id="how-it-works">How it works&lt;a class="td-heading-self-link" href="#how-it-works" aria-label="Heading self-link">&lt;/a>&lt;/h4>&lt;p>A ListenerSet attaches to a Gateway and contributes one or more listeners.
-The Gateway controller is responsible for merging listeners from the Gateway resource itself and any attached ListenerSet resources.&lt;/p>
-&lt;p>In this example, a central infrastructure team defines a Gateway with a default HTTP listener,
-while two different application teams define their own ListenerSet resources in separate namespaces.
-Both ListenerSets attach to the same Gateway and contribute additional HTTPS listeners.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nn">---&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Gateway&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-gateway&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">infra&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gatewayClassName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-gateway-class&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">allowedListeners&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespaces&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">from&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">All&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># A selector lets you fine tune this&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">listeners&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">http&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">HTTP&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">80&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ListenerSet&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">team-a-listeners&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">team-a&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">parentRef&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-gateway&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">infra&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">listeners&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">https-a&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">HTTPS&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">443&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">hostname&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">a.example.com&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">tls&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">certificateRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">a-cert&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ListenerSet&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">team-b-listeners&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">team-b&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">parentRef&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-gateway&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">infra&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">listeners&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">https-b&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">HTTPS&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">443&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">hostname&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">b.example.com&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">tls&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">certificateRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">b-cert&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="tlsroute">TLSRoute&lt;a class="td-heading-self-link" href="#tlsroute" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Leads: &lt;a href="https://github.com/rostislavbobo">Rostislav Bobrovsky&lt;/a>, &lt;a href="https://github.com/rikatz">Ricardo Pchevuzinske Katz&lt;/a>&lt;/p>
-&lt;p>&lt;a href="https://gateway-api.sigs.k8s.io/geps/gep-2643/">GEP-2643&lt;/a>&lt;/p>
-&lt;p>The &lt;a href="https://gateway-api.sigs.k8s.io/api-types/tlsroute/">TLSRoute resource&lt;/a> allows you to route requests by matching the Server Name Indication (SNI) presented by the client during the TLS handshake and directing the stream to the appropriate Kubernetes backends.&lt;/p>
-&lt;p>When working with TLSRoute, a Gateway's TLS listener can be configured in one of two modes: &lt;code>Passthrough&lt;/code> or &lt;code>Terminate&lt;/code>.&lt;/p>
-&lt;p>&lt;strong>If you install Gateway API v1.5 Standard over v1.4 or earlier Experimental, your existing
-Experimental TLSRoutes will not be usable&lt;/strong>. This is because they will be stored in the &lt;code>v1alpha2&lt;/code> or &lt;code>v1alpha3&lt;/code> version, which is &lt;strong>&lt;em>not&lt;/em>&lt;/strong> included in the v1.5 Standard YAMLs.
-If this applies to you, either continue using Experimental for v1.5.1 and onward, or you'll need to download and migrate your TLSRoutes to &lt;code>v1&lt;/code>, which &lt;em>is&lt;/em> present in the Standard YAMLs.&lt;/p>
-&lt;h4 id="passthrough-mode">Passthrough mode&lt;a class="td-heading-self-link" href="#passthrough-mode" aria-label="Heading self-link">&lt;/a>&lt;/h4>&lt;p>The Passthrough mode is designed for strict security requirements. It is ideal for scenarios where traffic must remain encrypted end-to-end until it reaches the destination backend, when the external client and backend need to authenticate directly with each other, or when you can’t store certificates on the Gateway. This configuration is also applicable when an encrypted TCP stream is required instead of standard HTTP traffic.&lt;/p>
-&lt;p>In this mode, the encrypted byte stream is proxied directly to the destination backend. The Gateway has zero access to private keys or unencrypted data.&lt;/p>
-&lt;p>The following TLSRoute is attached to a listener that is configured in &lt;code>Passthrough&lt;/code> mode. It will match only TLS handshakes with the &lt;code>foo.example.com&lt;/code> SNI hostname and apply its routing rules to pass the encrypted TCP stream to the configured backend:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nn">---&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Gateway&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-gateway&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gatewayClassName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-gateway-class&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">listeners&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">tls-passthrough&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TLS&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">8443&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">tls&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">mode&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Passthrough&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TLSRoute&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">foo-route&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">parentRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-gateway&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">sectionName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">tls-passthrough&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">hostnames&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;foo.example.com&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">rules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">backendRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">foo-svc&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">8443&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="terminate-mode">Terminate mode&lt;a class="td-heading-self-link" href="#terminate-mode" aria-label="Heading self-link">&lt;/a>&lt;/h4>&lt;p>The Terminate mode provides the convenience of centralized TLS certificate management directly at the Gateway.&lt;/p>
-&lt;p>In this mode, the TLS session is fully terminated at the Gateway, which then
-routes the decrypted payload to the destination backend as a plain text TCP stream.&lt;/p>
-&lt;p>The following TLSRoute is attached to a listener that is configured in Terminate mode.
-It will match only TLS handshakes with the &lt;code>bar.example.com&lt;/code> SNI hostname and apply its routing rules to pass the decrypted TCP stream to the configured backend:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Gateway&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-gateway&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gatewayClassName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-gateway-class&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">listeners&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">tls-terminate&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TLS&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">443&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">tls&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">mode&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Terminate&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">certificateRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">tls-terminate-certificate&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TLSRoute&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">bar-route&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">parentRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-gateway&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">sectionName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">tls-terminate&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">hostnames&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;bar.example.com&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">rules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">backendRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">bar-svc&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">8080&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="httproute-cors-filter">HTTPRoute CORS filter&lt;a class="td-heading-self-link" href="#httproute-cors-filter" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Leads: &lt;a href="https://github.com/DamianSawicki">Damian Sawicki&lt;/a>, &lt;a href="https://github.com/rikatz">Ricardo Pchevuzinske Katz&lt;/a>, &lt;a href="https://github.com/snorwin">Norwin Schnyder&lt;/a>, &lt;a href="https://github.com/zhaohuabing">Huabing (Robin) Zhao&lt;/a>, &lt;a href="https://github.com/LiangLliu">LiangLliu&lt;/a>,&lt;/p>
-&lt;p>&lt;a href="https://gateway-api.sigs.k8s.io/geps/gep-1767/">GEP-1767&lt;/a>&lt;/p>
-&lt;p>Cross-origin resource sharing (CORS) is an HTTP-header based security mechanism that allows (or denies) a web page to access resources from a server on an origin different from the domain that served the web page. See our &lt;a href="https://gateway-api.sigs.k8s.io/guides/http-cors/">documentation page&lt;/a> for more information.
-The &lt;a href="https://gateway-api.sigs.k8s.io/api-types/httproute/">HTTPRoute resource&lt;/a> can be used to configure Cross-Origin Resource Sharing (CORS). The following HTTPRoute allows requests from &lt;a href="https://app.example">https://app.example&lt;/a>:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">HTTPRoute&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">cors&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">parentRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">same-namespace&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">rules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">matches&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">path&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">PathPrefix&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">value&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/cors-behavior-creds-false&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">backendRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">infra-backend-v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">8080&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">filters&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">cors&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">allowOrigins&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">https://app.example&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">CORS&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Instead of specifying a list of specific origins, you can also specify a single wildcard (&amp;quot;*&amp;quot;), which will allow any origin. It is also allowed to use semi-specified origins in the list, where the wildcard appears after the scheme and at the beginning of the hostname, e.g. https://*.bar.com:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">HTTPRoute&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">cors&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">parentRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">same-namespace&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">rules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">matches&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">path&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">PathPrefix&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">value&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/cors-behavior-creds-false&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">backendRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">infra-backend-v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">8080&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">filters&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">cors&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">allowOrigins&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">https://www.baz.com&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">https://*.bar.com&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">https://*.foo.com&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">CORS&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>HTTPRoute filters allow for the configuration of CORS settings. See a list of supported options below:&lt;/p>
-&lt;dl>
-&lt;dt>&lt;code>allowCredentials&lt;/code>&lt;/dt>
-&lt;dd>Specifies whether the browser is allowed to include credentials (such as cookies and HTTP authentication) in the CORS request.&lt;/dd>
-&lt;dt>&lt;code>allowMethods&lt;/code>&lt;/dt>
-&lt;dd>The HTTP methods that are allowed for CORS requests.&lt;/dd>
-&lt;dt>&lt;code>allowHeaders&lt;/code>&lt;/dt>
-&lt;dd>The HTTP headers that are allowed for CORS requests.&lt;/dd>
-&lt;dt>&lt;code>exposeHeaders&lt;/code>&lt;/dt>
-&lt;dd>The HTTP headers that are exposed to the client.&lt;/dd>
-&lt;dt>&lt;code>maxAge&lt;/code>&lt;/dt>
-&lt;dd>The maximum time in seconds that the browser should cache the preflight response.&lt;/dd>
-&lt;/dl>
-&lt;p>A comprehensive example:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">HTTPRoute&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">cors-allow-credentials&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">parentRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">same-namespace&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">rules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">matches&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">path&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">PathPrefix&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">value&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/cors-behavior-creds-true&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">backendRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">infra-backend-v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">8080&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">filters&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">cors&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">allowOrigins&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;https://www.foo.example.com&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;https://*.bar.example.com&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">allowMethods&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">GET&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">OPTIONS&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">allowHeaders&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;*&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">exposeHeaders&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;x-header-3&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;x-header-4&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">allowCredentials&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">maxAge&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">3600&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">CORS&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="gateway-client-certificate-validation">Gateway client certificate validation&lt;a class="td-heading-self-link" href="#gateway-client-certificate-validation" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Leads: &lt;a href="https://github.com/arkodg">Arko Dasgupta&lt;/a>, &lt;a href="https://github.com/kl52752">Katarzyna Łach&lt;/a>, &lt;a href="https://github.com/snorwin">Norwin Schnyder&lt;/a>&lt;/p>
-&lt;p>&lt;a href="https://gateway-api.sigs.k8s.io/geps/gep-91/">GEP-91&lt;/a>&lt;/p>
-&lt;p>Client certificate validation, also known as mutual TLS (mTLS), is a security mechanism where the client provides a certificate to the server to prove its identity. This is in contrast to standard TLS, where only the server presents a certificate to the client.
-In the context of the Gateway API, frontend mTLS means that the Gateway validates the client's certificate before allowing the connection to proceed to a backend service. This validation is done by checking the client certificate against a set of trusted Certificate Authorities (CAs) configured on the Gateway. The API was shaped this way to address a critical security vulnerability related to connection reuse and still provide some level of flexibility.&lt;/p>
-&lt;h4 id="configuration-overview">Configuration overview&lt;a class="td-heading-self-link" href="#configuration-overview" aria-label="Heading self-link">&lt;/a>&lt;/h4>&lt;p>Client validation is defined using the frontendValidation struct, which specifies how the Gateway should verify the client's identity.&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>caCertificateRefs&lt;/strong>: A list of references to Kubernetes objects (typically ConfigMap's) containing PEM-encoded CA certificate bundles used as trust anchors to validate the client's certificate.&lt;/li>
-&lt;li>&lt;strong>mode&lt;/strong>: Defines the validation behavior.
-&lt;ul>
-&lt;li>&lt;strong>AllowValidOnly&lt;/strong> (Default): The Gateway accepts connections only if the client presents a valid certificate that passes validation against the specified CA bundle.&lt;/li>
-&lt;li>&lt;strong>AllowInsecureFallback&lt;/strong>: The Gateway accepts connections even if the client certificate is missing or fails verification. This mode typically delegates authorization to the backend and should be used with caution.&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;p>Validation can be applied globally to the Gateway or overridden for specific ports:&lt;/p>
-&lt;ol>
-&lt;li>&lt;strong>Default Configuration&lt;/strong>: This configuration applies to all HTTPS listeners on the Gateway, unless a per-port override is defined.&lt;/li>
-&lt;li>&lt;strong>Per-Port Configuration&lt;/strong>: This allows for fine-grained control, overriding the default configuration for all listeners handling traffic on a specific port.&lt;/li>
-&lt;/ol>
-&lt;p>Example:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Gateway&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">client-validation-basic&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gatewayClassName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">acme-lb&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">tls&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">frontend&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">default&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">validation&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">caCertificateRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ConfigMap&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">group&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">foo-example-com-ca-cert&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">perPort&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">8443&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">tls&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">validation&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">caCertificateRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ConfigMap&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">group&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">foo-example-com-ca-cert&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">mode&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;AllowInsecureFallback&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">listeners&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">foo-https&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">HTTPS&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">443&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">hostname&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">foo.example.com&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">tls&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">certificateRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Secret&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">group&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">foo-example-com-cert&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">bar-https&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">HTTPS&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">8443&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">hostname&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">bar.example.com&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">tls&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">certificateRefs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Secret&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">group&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">bar-example-com-cert&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="certificate-selection-for-gateway-tls-origination">Certificate selection for Gateway TLS origination&lt;a class="td-heading-self-link" href="#certificate-selection-for-gateway-tls-origination" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Leads: &lt;a href="https://github.com/mkosieradzki">Marcin Kosieradzki&lt;/a>, &lt;a href="https://github.com/robscott">Rob Scott&lt;/a>, &lt;a href="https://github.com/snorwin">Norwin Schnyder&lt;/a>, &lt;a href="https://github.com/LiorLieberman">Lior Lieberman&lt;/a>, &lt;a href="https://github.com/kl52752">Katarzyna Lach&lt;/a>&lt;/p>
-&lt;p>&lt;a href="https://gateway-api.sigs.k8s.io/geps/gep-3155/">GEP-3155&lt;/a>&lt;/p>
-&lt;p>Mutual TLS (mTLS) for upstream connections requires the Gateway to present a client certificate to the backend, in addition to verifying the backend's certificate. This ensures that the backend only accepts connections from authorized Gateways.&lt;/p>
-&lt;h4 id="gateway-s-client-certificate-configuration">Gateway’s client certificate configuration&lt;a class="td-heading-self-link" href="#gateway-s-client-certificate-configuration" aria-label="Heading self-link">&lt;/a>&lt;/h4>&lt;p>To configure the client certificate that the Gateway uses when connecting to backends,
-use the &lt;strong>tls.backend.clientCertificateRef&lt;/strong> field in the Gateway resource.
-This configuration applies to the Gateway as a client for &lt;strong>all&lt;/strong> upstream connections managed by that Gateway.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">gateway.networking.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Gateway&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">backend-tls&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">gatewayClassName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">acme-lb&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">tls&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">backend&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">clientCertificateRef&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Secret&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">group&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># empty string means core API group&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">foo-example-cert&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">listeners&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">foo-http&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">protocol&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">HTTP&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">port&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">80&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">hostname&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">foo.example.com&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="referencegrant-promoted-to-v1">ReferenceGrant promoted to v1&lt;a class="td-heading-self-link" href="#referencegrant-promoted-to-v1" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The ReferenceGrant resource has not changed in more than a year, and we do not expect it to change further, so its version has been bumped to v1, and it is now officially in the Standard channel, and abides by the GA API contract (that is, no breaking changes).&lt;/p>
-&lt;h2 id="try-it-out">Try it out&lt;a class="td-heading-self-link" href="#try-it-out" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Unlike other Kubernetes APIs, you don't need to upgrade to the latest version of
-Kubernetes to get the latest version of Gateway API. As long as you're running
-Kubernetes 1.30 or later, you'll be able to get up and running with this version
-of Gateway API.&lt;/p>
-&lt;p>To try out the API, follow the &lt;a href="https://gateway-api.sigs.k8s.io/guides/">Getting Started Guide&lt;/a>.&lt;/p>
-&lt;p>As of this writing, seven implementations are already fully conformant with Gateway API v1.5. In alphabetical order:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://github.com/agentgateway/agentgateway/releases/tag/v1.0.0">Agentgateway&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/airlock/microgateway/releases/tag/5.0.0">Airlock Microgateway&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://docs.cloud.google.com/kubernetes-engine/docs/concepts/gateway-api">GKE Gateway&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/jcmoraisjr/haproxy-ingress/releases/tag/v0.17.0-alpha.1">HAProxy Ingress&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/kgateway-dev/kgateway/releases/tag/v2.3.0-beta.3">kgateway&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/nginx/nginx-gateway-fabric/releases/tag/v2.5.0">NGINX Gateway Fabric&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/traefik/traefik/releases/tag/v3.7.0-rc.1">Traefik Proxy&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h2 id="get-involved">Get involved&lt;a class="td-heading-self-link" href="#get-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Wondering when a feature will be added? There are lots of opportunities to get
-involved and help define the future of Kubernetes routing APIs for both ingress
-and service mesh.&lt;/p>
-&lt;ul>
-&lt;li>Check out the &lt;a href="https://gateway-api.sigs.k8s.io/guides">user guides&lt;/a> to see what use-cases can be addressed.&lt;/li>
-&lt;li>Try out one of the &lt;a href="https://gateway-api.sigs.k8s.io/implementations/">existing Gateway controllers&lt;/a>.&lt;/li>
-&lt;li>Or &lt;a href="https://gateway-api.sigs.k8s.io/contributing/">join us in the community&lt;/a> and help us build the future of Gateway API together!&lt;/li>
-&lt;/ul>
-&lt;p>The maintainers would like to thank &lt;strong>everyone&lt;/strong> who's contributed to Gateway
-API, whether in the form of commits to the repo, discussion, ideas, or general
-support. We could never have made this kind of progress without the support of
-this dedicated and active community.&lt;/p>
-&lt;p>&lt;em>This article was edited in April 2026 to correct the release date for Gateway API 1.5.0.&lt;/em>&lt;/p></description></item><item><title>Kubernetes v1.36 Sneak Peek</title><link>https://kubernetes.io/blog/2026/03/30/kubernetes-v1-36-sneak-peek/</link><pubDate>Mon, 30 Mar 2026 00:00:00 +0000</pubDate><guid>https://kubernetes.io/blog/2026/03/30/kubernetes-v1-36-sneak-peek/</guid><description>
-&lt;p>Kubernetes v1.36 is coming at the end of April 2026. This release will include removals and deprecations, and it is packed with an impressive number of
-enhancements. Here are some of the features we are most excited about in this cycle!&lt;/p>
-&lt;p>Please note that this information reflects the current state of v1.36 development and may change before release.&lt;/p>
-&lt;h2 id="the-kubernetes-api-removal-and-deprecation-process">The Kubernetes API removal and deprecation process&lt;a class="td-heading-self-link" href="#the-kubernetes-api-removal-and-deprecation-process" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The Kubernetes project has a well-documented &lt;a href="https://kubernetes.io/docs/reference/using-api/deprecation-policy/">deprecation policy&lt;/a> for features. This policy states that stable APIs
-may only be deprecated when a newer, stable version of that same API is available and that APIs have a minimum lifetime for each stability level. A deprecated API
-has been marked for removal in a future Kubernetes release. It will continue to function until removal (at least one year from the deprecation), but usage will
-result in a warning being displayed. Removed APIs are no longer available in the current version, at which point you must migrate to using the replacement.&lt;/p>
-&lt;ul>
-&lt;li>Generally available (GA) or stable API versions may be marked as deprecated but must not be removed within a major version of Kubernetes.&lt;/li>
-&lt;li>Beta or pre-release API versions must be supported for 3 releases after the deprecation.&lt;/li>
-&lt;li>Alpha or experimental API versions may be removed in any release without prior deprecation notice; this process can become a withdrawal in cases where a different implementation for the same feature is already in place.&lt;/li>
-&lt;/ul>
-&lt;p>Whether an API is removed as a result of a feature graduating from beta to stable, or because that API simply did not succeed, all removals comply with this
-deprecation policy. Whenever an API is removed, migration options are communicated in the &lt;a href="https://kubernetes.io/docs/reference/using-api/deprecation-guide/">deprecation guide&lt;/a>.&lt;/p>
-&lt;p>A recent example of this principle in action is the retirement of the ingress-nginx project, announced
-by SIG-Security on March 24, 2026. As stewardship shifts away from the project, the community has been
-encouraged to evaluate alternative ingress controllers that align with current security and maintenance
-best practices. This transition reflects the same lifecycle discipline that underpins Kubernetes itself,
-ensuring continued evolution without abrupt disruption.&lt;/p>
-&lt;h2 id="ingress-nginx-retirement">Ingress NGINX retirement&lt;a class="td-heading-self-link" href="#ingress-nginx-retirement" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>To prioritize the safety and security of the ecosystem, Kubernetes SIG Network and the Security Response Committee have retired Ingress NGINX on March 24, 2026.
-Since that date, there have been no further releases, no bugfixes, and no updates to resolve any security vulnerabilities discovered. Existing deployments of
-Ingress NGINX will continue to function, and installation artifacts like Helm charts and container images will remain available.&lt;/p>
-&lt;p>For full details, see the &lt;a href="https://kubernetes.io/blog/2025/11/11/ingress-nginx-retirement/">official retirement announcement&lt;/a>.&lt;/p>
-&lt;h2 id="deprecations-and-removals-for-kubernetes-v1-36">Deprecations and removals for Kubernetes v1.36&lt;a class="td-heading-self-link" href="#deprecations-and-removals-for-kubernetes-v1-36" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;h3 id="deprecation-of-spec-externalips-in-service">Deprecation of &lt;code>.spec.externalIPs&lt;/code> in Service&lt;a class="td-heading-self-link" href="#deprecation-of-spec-externalips-in-service" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The &lt;code>externalIPs&lt;/code> field in Service &lt;code>spec&lt;/code> is being deprecated, which means you’ll soon lose a quick way to route arbitrary externalIPs to your Services. This
-field has been a known security headache for years, enabling man-in-the-middle attacks on your cluster traffic, as documented in &lt;a href="https://github.com/kubernetes/kubernetes/issues/970760">CVE-2020-8554&lt;/a>. From Kubernetes v1.36 and onwards, you will see deprecation warnings when using it, with full removal
-planned for v1.43.&lt;/p>
-&lt;p>If your Services still lean on &lt;code>externalIPs&lt;/code>, consider using LoadBalancer services for cloud-managed ingress, NodePort for simple port exposure, or Gateway API
-for a more flexible and secure way to handle external traffic.&lt;/p>
-&lt;p>For more details on this enhancement, refer to &lt;a href="https://kep.k8s.io/5707">KEP-5707: Deprecate service.spec.externalIPs&lt;/a>&lt;/p>
-&lt;h3 id="removal-of-gitrepo-volume-driver">Removal of &lt;code>gitRepo&lt;/code> volume driver&lt;a class="td-heading-self-link" href="#removal-of-gitrepo-volume-driver" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The gitRepo volume type has been deprecated since v1.11. Starting Kubernetes v1.36, the &lt;code>gitRepo&lt;/code> volume plugin is permanently disabled and cannot be turned back
-on. This change protects clusters from a critical security issue where using &lt;code>gitRepo&lt;/code> could let an attacker run code as root on the node.&lt;/p>
-&lt;p>Although &lt;code>gitRepo&lt;/code> has been deprecated for years and better alternatives have been recommended, it was still technically possible to use it in previous releases.
-From v1.36 onward, that path is closed for good, so any existing workloads depending on &lt;code>gitRepo&lt;/code> will need to migrate to supported approaches such as init
-containers or external git-sync style tools.&lt;/p>
-&lt;p>For more details on this enhancement, refer to &lt;a href="https://kep.k8s.io/5040">KEP-5040: Remove gitRepo volume driver&lt;/a>&lt;/p>
-&lt;h2 id="featured-enhancements-of-kubernetes-v1-36">Featured enhancements of Kubernetes v1.36&lt;a class="td-heading-self-link" href="#featured-enhancements-of-kubernetes-v1-36" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The following list of enhancements is likely to be included in the upcoming v1.36 release. This is not a commitment and the release content is subject to change.&lt;/p>
-&lt;h3 id="volume-selinux-labelling">Faster SELinux labelling for volumes (GA)&lt;a class="td-heading-self-link" href="#volume-selinux-labelling" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Kubernetes v1.36 makes the SELinux volume mounting improvement generally available. This change replaced recursive file relabeling with &lt;code>mount -o context=XYZ&lt;/code> option, applying the correct SELinux label to the entire volume at mount time. It brings more consistent performance and reduces Pod startup delays on SELinux-enforcing systems.&lt;/p>
-&lt;p>This feature was introduced as beta in v1.28 for &lt;code>ReadWriteOncePod&lt;/code> volumes. In v1.32, it gained metrics and an opt-out option
-(&lt;code>securityContext.seLinuxChangePolicy: Recursive&lt;/code>) to help catch conflicts. Now in v1.36, it reaches stable and defaults to all volumes, with Pods or
-CSIDrivers opting in via &lt;code>spec.SELinuxMount&lt;/code>.&lt;/p>
-&lt;p>However, we expect this feature to create the risk of breaking changes in the future Kubernetes releases, due to the potential for mixing of privileged and unprivileged pods.
-Setting the &lt;code>seLinuxChangePolicy&lt;/code> field and
-SELinux volume labels on Pods, correctly, is the responsibility of the Pod author
-Developers have that responsibility whether they are writing a Deployment, StatefulSet, DaemonSet or even a custom resource that includes a Pod template.
-Being careless
-with these settings can lead to a range of problems when Pods share volumes.&lt;/p>
-&lt;p>For more details on this enhancement, refer to &lt;a href="https://kep.k8s.io/1710">KEP-1710: Speed up recursive SELinux label change&lt;/a>&lt;/p>
-&lt;h3 id="external-signing-of-serviceaccount-tokens">External signing of ServiceAccount tokens&lt;a class="td-heading-self-link" href="#external-signing-of-serviceaccount-tokens" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>As a beta feature, Kubernetes already supports external signing of ServiceAccount tokens. This allows clusters to integrate with external key management systems
-or signing services instead of relying only on internally managed keys.&lt;/p>
-&lt;p>With this enhancement, the &lt;code>kube-apiserver&lt;/code> can delegate token signing to external systems such as cloud key management services or hardware security modules. This
-improves security and simplifies key management services for clusters that rely on centralized signing infrastructure.
-We expect that this will graduate to stable (GA) in Kubernetes v1.36.&lt;/p>
-&lt;p>For more details on this enhancement, refer to &lt;a href="https://kep.k8s.io/740">KEP-740: Support external signing of service account tokens&lt;/a>&lt;/p>
-&lt;h3 id="dra-driver-support-for-device-taints-and-tolerations">DRA Driver support for Device taints and tolerations&lt;a class="td-heading-self-link" href="#dra-driver-support-for-device-taints-and-tolerations" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Kubernetes v1.33 introduced support for taints and tolerations for physical devices managed through &lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/">Dynamic Resource Allocation (DRA)&lt;/a>. Normally, any device can be
-used for scheduling. However, this enhancement allows DRA drivers to mark devices as tainted, which ensures that they will not be used for scheduling purposes.
-Alternatively, cluster administrators can create a &lt;code>DeviceTaintRule&lt;/code> to mark devices that match a certain selection criteria(such as all devices of a certain
-driver) as tainted. This improves scheduling control and helps ensure that specialized hardware resources are only used by workloads that explicitly request them.&lt;/p>
-&lt;p>In Kubernetes v1.36, this feature graduates to beta with more comprehensive testing complete, making it accessible by default without the need for a feature
-flag and open to user feedback.&lt;/p>
-&lt;p>To learn about taints and tolerations, see &lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/">taints and tolerations&lt;/a>.&lt;br>
-For more details on this enhancement, refer to &lt;a href="https://kep.k8s.io/5055">KEP-5055: DRA: device taints and tolerations&lt;/a>.&lt;/p>
-&lt;h3 id="dra-support-for-partitionable-devices">DRA support for partitionable devices&lt;a class="td-heading-self-link" href="#dra-support-for-partitionable-devices" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Kubernetes v1.36 expands Dynamic Resource Allocation (DRA) by introducing support for partitionable devices, allowing a single hardware accelerator to be split
-into multiple logical units that can be shared across workloads. This is especially useful for high-cost resources like GPUs, where dedicating an entire device
-to a single workload can lead to underutilization.&lt;/p>
-&lt;p>With this enhancement, platform teams can improve overall cluster efficiency by allocating only the required portion of a device to each workload, rather than
-reserving it entirely. This makes it easier to run multiple workloads on the same hardware while maintaining isolation and control, helping organizations get more
-value out of their infrastructure.&lt;/p>
-&lt;p>To learn more about this enhancement, refer to &lt;a href="https://kep.k8s.io/4815">KEP-4815: DRA Partitionable Devices&lt;/a>&lt;/p>
-&lt;h2 id="want-to-know-more">Want to know more?&lt;a class="td-heading-self-link" href="#want-to-know-more" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>New features and deprecations are also announced in the Kubernetes release notes. We will formally announce what's new in &lt;a href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.36.md">Kubernetes v1.36&lt;/a> as part of the CHANGELOG for that release.&lt;/p>
-&lt;p>Kubernetes v1.36 release is planned for Wednesday, April 22, 2026. Stay tuned for updates!&lt;/p>
-&lt;p>You can also see the announcements of changes in the release notes for:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.35.md">Kubernetes v1.35&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.34.md">Kubernetes v1.34&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.33.md">Kubernetes v1.33&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.32.md">Kubernetes v1.32&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.31.md">Kubernetes v1.31&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.30.md">Kubernetes v1.30&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h2 id="get-involved">Get involved&lt;a class="td-heading-self-link" href="#get-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The simplest way to get involved with Kubernetes is by joining one of the many &lt;a href="https://github.com/kubernetes/community/blob/master/siglist.md">Special Interest Groups&lt;/a> (SIGs) that align with your interests. Have something you’d like to broadcast to the Kubernetes community? Share your voice at our weekly
-&lt;a href="https://github.com/kubernetes/community/tree/master/communication">community meeting&lt;/a>, and through the channels below. Thank you for your continued feedback and support.&lt;/p>
-&lt;ul>
-&lt;li>Follow us on Bluesky &lt;a href="https://bsky.app/profile/kubernetes.io">@kubernetes.io&lt;/a> for the latest updates&lt;/li>
-&lt;li>Join the community discussion on &lt;a href="https://discuss.kubernetes.io/">Discuss&lt;/a>&lt;/li>
-&lt;li>Join the community on &lt;a href="http://slack.k8s.io/">Slack&lt;/a>&lt;/li>
-&lt;li>Post questions (or answer questions) on &lt;a href="https://serverfault.com/questions/tagged/kubernetes">Server Fault&lt;/a> or &lt;a href="http://stackoverflow.com/questions/tagged/kubernetes">Stack Overflow&lt;/a>&lt;/li>
 &lt;li>Share your Kubernetes &lt;a href="https://docs.google.com/a/linuxfoundation.org/forms/d/e/1FAIpQLScuI7Ye3VQHQTwBASrgkjQDSS5TP0g3AXfFhwSM9YpHgxRKFA/viewform">story&lt;/a>&lt;/li>
 &lt;li>Read more about what’s happening with Kubernetes on the &lt;a href="https://kubernetes.io/blog/">blog&lt;/a>&lt;/li>
 &lt;li>Learn more about the &lt;a href="https://github.com/kubernetes/sig-release/tree/master/release-team">Kubernetes Release Team&lt;/a>&lt;/li>
