@@ -4,38 +4,72 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Sun, 20 Sep 2026 20:05:22 +0000</pubDate>
-    <lastBuildDate>Sun, 20 Sep 2026 20:05:22 +0000</lastBuildDate>
+    <pubDate>Mon, 21 Sep 2026 02:27:41 +0000</pubDate>
+    <lastBuildDate>Mon, 21 Sep 2026 02:27:41 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
-      <title>How to make it so that a "reboot" is enough to apply pending QEMU settings changes ?</title>
-      <pubDate>Sun, 20 Sep 2026 19:40:50 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/how-to-make-it-so-that-a-reboot-is-enough-to-apply-pending-qemu-settings-changes.186553/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186553</guid>
-      <author>invalid@example.com (shodan)</author>
+      <title>PDM running in LXC and doesn't verify when all backups are verified.</title>
+      <pubDate>Mon, 21 Sep 2026 01:12:55 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pdm-running-in-lxc-and-doesnt-verify-when-all-backups-are-verified.186541/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186541</guid>
+      <author>invalid@example.com (lanepark5033)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>shodan</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+      <dc:creator>lanepark5033</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">The process starts with a backup of the lxc&#039;s and vm&#039;s listed in the single node, followed by a prune of the PVC and after a delay a verify of the node is performed.<br />
+when examining the verify the backup of the PDM LXC has not been verifyed.  I can force the verify of the &quot;failing&quot; LXC but it should have been verified along with the other LXC&#039;s and VM&#039;s in said node.<br />
+Verify log attached.</div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Downloading data files from Proxmox node</title>
+      <pubDate>Mon, 21 Sep 2026 00:04:37 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/downloading-data-files-from-proxmox-node.49564/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:49564</guid>
+      <author>invalid@example.com (kokoticek)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>kokoticek</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">In GUI, uploading files by going to &quot;Local&quot; storage, tab &quot;Contents&quot;, and clicking &quot;Upload&quot; works as expected.<br />
 <br />
-I rebooted this machine, but the settings did not apply.<br />
-<br />
-<a href="https://forum.proxmox.com/attachments/1789928853402-png.100017/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99713-b55b2652e74b48a1e49f7ffb9ce0d695.jpg?hash=516IiM9AP5"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99713-b55b2652e74b48a1e49f7ffb9ce0d695.jpg?hash=516IiM9AP5 2x"
-		class="bbImage "
-		style=""
-		alt="1789928853402.png"
-		title="1789928853402.png"
-		width="324" height="150" loading="lazy" /></a><br />
-I think during the reset itself, proxmox should reset or reload settings on the QEMU process.<br />
-The alternative is that you have to fully shutdown and go in and restart it. I would like it to be enough to reboot from the guest OS and the pending changes would apply !</div>]]></content:encoded>
+But what about downloading? There&#039;s no option in GUI nor by right-clicking a file, not even in recent 5.3 release. Is only way to download files using CLI with SCP or the like?</div>]]></content:encoded>
+      <slash:comments>14</slash:comments>
+    </item>
+    <item>
+      <title>How granular is QEMU Guest Agent's ability to report on RAM usage inside a Guest VM?</title>
+      <pubDate>Sun, 20 Sep 2026 22:48:24 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-granular-is-qemu-guest-agents-ability-to-report-on-ram-usage-inside-a-guest-vm.186356/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186356</guid>
+      <author>invalid@example.com (SInisterPisces)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>SInisterPisces</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><b>The Issue: Based on querying QEMU Guest Agent, PVE 9, shows <u>Total</u> RAM usage of a running VM (as labeled in <code class="bbCodeInline">free -h</code> ) , which is a combination of <code class="bbCodeInline">used</code> and <code class="bbCodeInline">buff/cache</code>. </b><br />
+<ul>
+<li data-xf-list-type="ul"><b>Thus, in guests with workloads that consume all available RAM for <code class="bbCodeInline">buff/cache</code>, there is effectively no visible way to distinguish <u>used RAM</u> that the workload must have versus <u>buffer/cache RAM</u> that the workload <i>will</i> use but <i>can</i> release if the guest...</b></li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/how-granular-is-qemu-guest-agents-ability-to-report-on-ram-usage-inside-a-guest-vm.186356/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>5</slash:comments>
     </item>
     <item>
+      <title>Possible bug with qemu-img zeroinit and LVM</title>
+      <pubDate>Sun, 20 Sep 2026 22:45:24 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/possible-bug-with-qemu-img-zeroinit-and-lvm.180171/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:180171</guid>
+      <author>invalid@example.com (yobert)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>yobert</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello there! After upgrading recently to PVE 9.1.4, we have started seeing an interesting import failure. We&#039;re importing from the debian 13 cloud image (stored with directory storage) into a new VM under LVM storage. I&#039;ve tracked it down to what looks like a bug in the zeroinit patch to qemu. When proxmox tries to import the image via this command:<br />
+<br />
+    /usr/bin/qemu-img convert -p -n -f raw -O raw /dev/vm-vg/vm-118-disk-0 zeroinit:/dev/vm-vg/vm-120-disk-0<br />
+<br />
+It ends up with a corrupted...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/possible-bug-with-qemu-img-zeroinit-and-lvm.180171/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>17</slash:comments>
+    </item>
+    <item>
       <title>CEPHx key rotation unfinished</title>
-      <pubDate>Sun, 20 Sep 2026 19:34:25 +0000</pubDate>
+      <pubDate>Sun, 20 Sep 2026 21:31:19 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/cephx-key-rotation-unfinished.186551/</link>
       <guid isPermaLink="false">urn:xenforo:thread:186551</guid>
       <author>invalid@example.com (Zabrolak)</author>
@@ -62,11 +96,11 @@ I&#039;ve recently been prompted do rotate the cephx keys, which, with a bit of 
 	</div>
 </div><br />
 <a href="https://forum.proxmox.com/threads/cephx-key-rotation-unfinished.186551/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
+      <slash:comments>6</slash:comments>
     </item>
     <item>
       <title>LXC Console Login Blank Screen</title>
-      <pubDate>Sun, 20 Sep 2026 19:16:38 +0000</pubDate>
+      <pubDate>Sun, 20 Sep 2026 21:09:45 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/lxc-console-login-blank-screen.186554/</link>
       <guid isPermaLink="false">urn:xenforo:thread:186554</guid>
       <author>invalid@example.com (t-nician)</author>
@@ -79,7 +113,73 @@ It happens in Debian, Fedora &amp; Ubuntu LXCs.<br />
 I&#039;ve disabled my adblockers, tested it on Microsoft Edge and it still has the same issue.<br />
 <br />
 Is there a way to fix this so it consistently shows the login display?</div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>Couldn't find any package by glob error while installing Linux hearers</title>
+      <pubDate>Sun, 20 Sep 2026 20:30:39 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/couldnt-find-any-package-by-glob-error-while-installing-linux-hearers.125129/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:125129</guid>
+      <author>invalid@example.com (kumarullal)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>kumarullal</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am trying to install Synology activebackup for business client on proxmox. <br />
+This is the error I am getting.<br />
+<br />
+<br />
+<code class="bbCodeInline">
+E: Unable to locate package linux-headers-5.15.102-1-pve
+E: Couldn&#039;t find any package by glob &#039;linux-headers-5.15.102-1-pve&#039;
+</code><br />
+Don&#039;t know what happened?<br />
+How do I resolve this?</div>]]></content:encoded>
+      <slash:comments>19</slash:comments>
+    </item>
+    <item>
+      <title>PBS ZFS disk speed thoughts option</title>
+      <pubDate>Sun, 20 Sep 2026 20:27:32 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pbs-zfs-disk-speed-thoughts-option.185986/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185986</guid>
+      <author>invalid@example.com (AkUsP)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>AkUsP</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello. I&#039;m new here. After 20 years VMware addiciton I&#039;m now sober and saved by the Holy Ch... Proxmox.<br />
+<br />
+After migrating about 20 VM&#039;s from Vware my PBS ran backups @ about 200-300mb/s.<br />
+After migrating my last 5 VM&#039;, that are file servers and have very many many small files. The PBS runns @ about 10 - 20mb/s.<br />
+This is my machine:<br />
+Server: Dell Ryzen Epic Gen1<br />
+Raidcontroller: PERC 740P in mixed HBA mode.<br />
+PBS version: Latest<br />
+PBS installed on HW RAID1 240GB SATA SSD<br />
+PBS Storage 6x 5400rpm SATA...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pbs-zfs-disk-speed-thoughts-option.185986/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>46</slash:comments>
+    </item>
+    <item>
+      <title>How to make it so that a "reboot" is enough to apply pending QEMU settings changes ?</title>
+      <pubDate>Sun, 20 Sep 2026 19:40:50 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-to-make-it-so-that-a-reboot-is-enough-to-apply-pending-qemu-settings-changes.186553/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186553</guid>
+      <author>invalid@example.com (shodan)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>shodan</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+I rebooted this machine, but the settings did not apply.<br />
+<br />
+<a href="https://forum.proxmox.com/attachments/1789928853402-png.100017/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99713-b55b2652e74b48a1e49f7ffb9ce0d695.jpg?hash=516IiM9AP5"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99713-b55b2652e74b48a1e49f7ffb9ce0d695.jpg?hash=516IiM9AP5 2x"
+		class="bbImage "
+		style=""
+		alt="1789928853402.png"
+		title="1789928853402.png"
+		width="324" height="150" loading="lazy" /></a><br />
+I think during the reset itself, proxmox should reset or reload settings on the QEMU process.<br />
+The alternative is that you have to fully shutdown and go in and restart it. I would like it to be enough to reboot from the guest OS and the pending changes would apply !</div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
     </item>
     <item>
       <title>Is there a fix for the cursor disappearing in virt-viewer ?</title>
@@ -353,128 +453,6 @@ My problem (at the moment) is NOT to &quot;provide&quot; the /dev/snd stuff to t
 <br />
 <a href="https://forum.proxmox.com/threads/audio-on-proxmox-ve-9-2.186416/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>Seit Update auf Proxmox 9.2 Backup und Replication sehr träge</title>
-      <pubDate>Sun, 20 Sep 2026 08:42:19 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/seit-update-auf-proxmox-9-2-backup-und-replication-sehr-tr%C3%A4ge.186483/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186483</guid>
-      <author>invalid@example.com (Adi M)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>Adi M</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Ich habe mehrere HP Gen8 Server mit mehreren 1G-Netzwerkanschlüsse.<br />
-<br />
-Nach längerem habe ich wieder ein Update gemacht und ist jetzt auf 9.2.20<br />
-Seither habe ich massiv Netzwerkprobleme, was sich auch schon in Pulk-Start geäussert hat.<br />
-<br />
-Ausgangslage:<br />
-<ul>
-<li data-xf-list-type="ul">nic0, nic1, nic3 sind <b>UP</b> → drei physische Ports aktiv.</li>
-<li data-xf-list-type="ul">nic2 ist <b>DOWN</b>.</li>
-<li data-xf-list-type="ul">vmbr0 hat 10.16.50.10/24</li>
-<li data-xf-list-type="ul">vmbr4 hat 10.16.100.10/24</li>
-<li data-xf-list-type="ul">vmbr1 hat <b>keine IPv4-Adresse -&gt; VM/CT-Netzwerk</b>.</li>
-<li data-xf-list-type="ul">alle drei Leitungen haben getrennte...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/seit-update-auf-proxmox-9-2-backup-und-replication-sehr-tr%C3%A4ge.186483/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>12</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE 9.2 – kompletter Host-Freeze / Hardreset nötig</title>
-      <pubDate>Sun, 20 Sep 2026 06:57:21 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-%E2%80%93-kompletter-host-freeze-hardreset-n%C3%B6tig.185967/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185967</guid>
-      <author>invalid@example.com (xBeaTz)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>xBeaTz</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
-<br />
-ich versuche derzeit einen sporadischen, aber vollständigen Freeze meines Proxmox-Hosts zu finden und wollte fragen, ob jemand ein ähnliches Problem mit einer vergleichbaren Hardware-/PCIe-Konfiguration kennt.<br />
-<br />
-<h3 class="bbHeading"><a class="u-anchorTarget" name="-fehlerbild"></a>Fehlerbild&#8203;<a class="hoverLink" href="#-fehlerbild" title="Permanent link"></a></h3>Der Proxmox-Host friert sporadisch <b>komplett ein</b>.<br />
-<br />
-<ul>
-<li data-xf-list-type="ul">Web-GUI nicht mehr erreichbar</li>
-<li data-xf-list-type="ul">SSH nicht mehr erreichbar</li>
-<li data-xf-list-type="ul">Netzwerk reagiert nicht mehr</li>
-<li data-xf-list-type="ul">Host-Konsole reagiert nicht mehr</li>
-<li data-xf-list-type="ul">es hilft nur ein <b>Hardreset</b></li>
-</ul>Bisher konnte ich...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-%E2%80%93-kompletter-host-freeze-hardreset-n%C3%B6tig.185967/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>34</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE 9.2 – sporadic iSCSI NOP timeouts / DID_TRANSPORT_DISRUPTED with Dell PowerVault ME5 and Intel E810</title>
-      <pubDate>Sun, 20 Sep 2026 05:10:39 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-%E2%80%93-sporadic-iscsi-nop-timeouts-did_transport_disrupted-with-dell-powervault-me5-and-intel-e810.185817/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185817</guid>
-      <author>invalid@example.com (huganega)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>huganega</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I am experiencing sporadic iSCSI connection interruptions on a Proxmox VE 9.2 host connected directly to a Dell PowerVault ME5224.<br />
-The issue manifests as ISCSI_ERR_NOP_TIMEDOUT, followed by DID_TRANSPORT_DISRUPTED. The affected iSCSI session usually recovers automatically after a few seconds.<br />
-The problem is intermittent. The system can run normally for a considerable amount of time before another interruption occurs.<br />
-<br />
-<b>Environment</b><br />
-<ul>
-<li data-xf-list-type="ul">Proxmox VE 9.2</li>
-<li data-xf-list-type="ul">currently running kernel...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-%E2%80%93-sporadic-iscsi-nop-timeouts-did_transport_disrupted-with-dell-powervault-me5-and-intel-e810.185817/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>37</slash:comments>
-    </item>
-    <item>
-      <title>Guide for Persistent Storage over NFS/SMB for OCI-based LXCs?</title>
-      <pubDate>Sun, 20 Sep 2026 04:37:48 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/guide-for-persistent-storage-over-nfs-smb-for-oci-based-lxcs.186338/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186338</guid>
-      <author>invalid@example.com (SInisterPisces)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>SInisterPisces</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-I&#039;d like to experiment with the new OCI container-in-LXC support in PVE 9. I&#039;ve got a relatively simple container picked out to try (basically, an internet uptime monitor to detect WAN disconnects), but it&#039;s going to need a bit of external storage.<br />
-<br />
-<b>I know I can do this with bind-mounts, but I&#039;m not sure how to configure everything. Usually, I&#039;d set up a container&#039;s bind mount in Docker compose if I&#039;m using a Docker image. I know I can add a bind mount  to an NFS or SMB share on...</b><br />
-<br />
-<a href="https://forum.proxmox.com/threads/guide-for-persistent-storage-over-nfs-smb-for-oci-based-lxcs.186338/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>[PBS 4.2.5] Handling backup ownership on a PBS node that uses per-cluster namespaces when restoring a backup from Cluster A to Cluster B?</title>
-      <pubDate>Sun, 20 Sep 2026 04:35:53 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pbs-4-2-5-handling-backup-ownership-on-a-pbs-node-that-uses-per-cluster-namespaces-when-restoring-a-backup-from-cluster-a-to-cluster-b.186235/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186235</guid>
-      <author>invalid@example.com (SInisterPisces)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>SInisterPisces</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-I have a single PBS that handles backups from PVE1, PVE2, and PVE3 (all single node clusters).<br />
-My PBS has a single user with full admin privileges (this is a Tuxis PBS server, so I can only have one user). I&#039;m using API tokens and permission scoping to make sure backup clients only have enough permissions to do backups. All other maintenance operations are performed server-side.<br />
- <br />
-<b>Each single node cluster has a separate namespace, and the single Backup User uses a separate API...</b><br />
-<br />
-<a href="https://forum.proxmox.com/threads/pbs-4-2-5-handling-backup-ownership-on-a-pbs-node-that-uses-per-cluster-namespaces-when-restoring-a-backup-from-cluster-a-to-cluster-b.186235/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>How granular is QEMU Guest Agent's ability to report on RAM usage inside a Guest VM?</title>
-      <pubDate>Sun, 20 Sep 2026 04:32:57 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/how-granular-is-qemu-guest-agents-ability-to-report-on-ram-usage-inside-a-guest-vm.186356/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186356</guid>
-      <author>invalid@example.com (SInisterPisces)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>SInisterPisces</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><b>The Issue: Based on querying QEMU Guest Agent, PVE 9, shows <u>Total</u> RAM usage of a running VM (as labeled in <code class="bbCodeInline">free -h</code> ) , which is a combination of <code class="bbCodeInline">used</code> and <code class="bbCodeInline">buff/cache</code>. </b><br />
-<ul>
-<li data-xf-list-type="ul"><b>Thus, in guests with workloads that consume all available RAM for <code class="bbCodeInline">buff/cache</code>, there is effectively no visible way to distinguish <u>used RAM</u> that the workload must have versus <u>buffer/cache RAM</u> that the workload <i>will</i> use but <i>can</i> release if the guest...</b></li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/how-granular-is-qemu-guest-agents-ability-to-report-on-ram-usage-inside-a-guest-vm.186356/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
     </item>
   </channel>
 </rss>
