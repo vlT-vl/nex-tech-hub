@@ -1,4 +1,163 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: Hardening Container Storage with Bind Mount Options and EmptyDir Permissions</title><link>https://kubernetes.io/blog/2026/09/16/kubernetes-v1-37-hardening-container-storage/</link><pubDate>Wed, 16 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/16/kubernetes-v1-37-hardening-container-storage/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: Tracking When a PersistentVolumeClaim Was Last Used (Beta)</title><link>https://kubernetes.io/blog/2026/09/21/kubernetes-v1-37-pvc-last-used-time/</link><pubDate>Mon, 21 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/21/kubernetes-v1-37-pvc-last-used-time/</guid><description>
+&lt;p>Kubernetes v1.37 promotes the &lt;code>PersistentVolumeClaimUnusedSinceTime&lt;/code> feature gate to Beta (enabled by
+default). With this feature, the PersistentVolumeClaim (PVC) protection controller adds an &lt;code>Unused&lt;/code>
+condition to each PVC, telling you whether any running pod currently references it — no custom
+tooling or cross-referencing required.&lt;/p>
+&lt;p>For the API definition of PVC conditions, see the
+&lt;a href="https://kubernetes.io/docs/reference/kubernetes-api/core/persistent-volume-claim-v1/#PersistentVolumeClaimCondition">PersistentVolumeClaim API reference&lt;/a>.
+Read on to learn how the &lt;code>Unused&lt;/code> condition works and how to use it.&lt;/p>
+&lt;h2 id="why-track-pvc-usage">Why track PVC usage?&lt;a class="td-heading-self-link" href="#why-track-pvc-usage" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>In large-scale Kubernetes clusters, it is common for users to create PVCs and then delete the
+associated pods without cleaning up the storage, because Kubernetes does not automatically delete
+PVCs when their pods are removed (to protect against accidental data loss). Over time, these
+&lt;em>orphaned&lt;/em> PVCs may accumulate, silently consuming storage capacity and driving up cloud costs.&lt;/p>
+&lt;p>Before Kubernetes v1.37, it was easy to identify an unused PersistentVolume, but much harder to
+determine whether a PVC was still being used. Doing so required cross-referencing pods,
+PersistentVolumes, and PVCs over a potentially large window of time. Administrators often resorted
+to custom monitoring pipelines or scripts to answer a seemingly simple question:
+&lt;em>&amp;quot;Is anything actually using this volume?&amp;quot;&lt;/em>&lt;/p>
+&lt;p>The &lt;code>PersistentVolumeClaimUnusedSinceTime&lt;/code> feature solves this by making the answer available
+natively in the PVC status. Once the feature is enabled, every PVC gets an &lt;code>Unused&lt;/code> condition managed
+by the PVC protection controller.&lt;/p>
+&lt;h3 id="user-stories">User stories&lt;a class="td-heading-self-link" href="#user-stories" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;ul>
+&lt;li>&lt;strong>Storage administrator&lt;/strong>: &amp;quot;I want to know which PVCs in my cluster are not being used by any pod
+so I can safely identify orphaned volumes and schedule them for deletion.&amp;quot;&lt;/li>
+&lt;li>&lt;strong>DevOps engineer&lt;/strong>: &amp;quot;I want to list PVCs that have the &lt;code>Unused&lt;/code> condition set to &lt;code>True&lt;/code> so I
+can automate cleanup in development environments.&amp;quot;&lt;/li>
+&lt;/ul>
+&lt;h2 id="how-does-it-work">How does it work?&lt;a class="td-heading-self-link" href="#how-does-it-work" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The PVC protection controller — which already watches pods to enforce the
+&lt;a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/#storage-object-in-use-protection">storage object in use protection&lt;/a>
+— now also manages a new &lt;code>Unused&lt;/code> condition on PVCs.&lt;/p>
+&lt;p>The condition works as follows:&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Scenario&lt;/th>
+&lt;th>Condition status&lt;/th>
+&lt;th>Reason&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>No non-terminal pods reference the PVC&lt;/td>
+&lt;td>&lt;code>Unused=True&lt;/code>&lt;/td>
+&lt;td>&lt;code>NoPodsUsingPVC&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>At least one running or pending pod references the PVC&lt;/td>
+&lt;td>&lt;code>Unused=False&lt;/code>&lt;/td>
+&lt;td>&lt;code>PodUsingPVC&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>A few details worth noting:&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Terminated pods don't count&lt;/strong>: A pod that has completed (phase &lt;code>Succeeded&lt;/code> or &lt;code>Failed&lt;/code>) does not
+keep the PVC marked as in use. This means batch jobs with &lt;code>restartPolicy: Never&lt;/code> won't prevent
+the PVC from becoming &lt;code>Unused=True&lt;/code> after they finish.&lt;/li>
+&lt;li>&lt;strong>Pending pods do count&lt;/strong>: Even an unschedulable pod (for example, one with an impossible node
+selector) still counts as using the PVC. The intent to use the volume is enough.&lt;/li>
+&lt;li>&lt;strong>Multiple pods&lt;/strong>: If several pods reference the same PVC, the condition transitions to
+&lt;code>Unused=True&lt;/code> only after the *&lt;em>last&lt;/em>&amp;quot; non-terminated pod is removed or terminates.&lt;/li>
+&lt;/ul>
+&lt;h3 id="using-lasttransitiontime-to-find-when-a-pvc-became-idle">Using &lt;code>lastTransitionTime&lt;/code> to find when a PVC became idle&lt;a class="td-heading-self-link" href="#using-lasttransitiontime-to-find-when-a-pvc-became-idle" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Like every Kubernetes condition, the &lt;code>Unused&lt;/code> condition carries a standard &lt;code>lastTransitionTime&lt;/code>
+field. This means you get a useful bonus for free: when the condition transitions from &lt;code>False&lt;/code> to
+&lt;code>True&lt;/code>, the &lt;code>lastTransitionTime&lt;/code> records exactly when the PVC became idle. You can use this
+timestamp to answer questions like &lt;em>&amp;quot;how long has this PVC been sitting unused?&amp;quot;&lt;/em> — for example,
+to find PVCs that have been idle for more than 30 days (see the
+&lt;a href="#finding-unused-pvcs-across-the-cluster">example query&lt;/a> below).&lt;/p>
+&lt;h2 id="what-changed-from-alpha-to-beta">What changed from Alpha to Beta?&lt;a class="td-heading-self-link" href="#what-changed-from-alpha-to-beta" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Kubernetes v1.36 introduced this feature as Alpha, where you had to enable the
+&lt;code>PersistentVolumeClaimUnusedSinceTime&lt;/code> feature gate explicitly. For Beta in v1.37, the feature gate
+is enabled by default, and the feature has full end-to-end test coverage.&lt;/p>
+&lt;h2 id="how-to-use-it">How to use it&lt;a class="td-heading-self-link" href="#how-to-use-it" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Since the feature is Beta and enabled by default in Kubernetes v1.37, the &lt;code>Unused&lt;/code> condition will
+appear on PVCs automatically. Here is a walkthrough to see it in action:&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>Create a PVC:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">PersistentVolumeClaim&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">my-data&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">accessModes&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">ReadWriteOnce&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">requests&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">storage&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">1Gi&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>After a short time, inspect the PVC conditions:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kubectl get pvc my-data -o &lt;span class="nv">jsonpath&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;{.status.conditions[*]}&amp;#39;&lt;/span> &lt;span class="p">|&lt;/span> jq .
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>You should see an &lt;code>Unused&lt;/code> condition with status &lt;code>True&lt;/code> and reason &lt;code>NoPodsUsingPVC&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-json" data-lang="json">&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;lastProbeTime&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="kc">null&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;lastTransitionTime&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;2026-09-14T12:03:11Z&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;message&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;No pods are currently referencing this PVC&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;reason&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;NoPodsUsingPVC&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;status&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;True&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">&amp;#34;type&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Unused&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>Create a pod that uses the PVC:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Pod&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">my-app&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">containers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">app&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">busybox&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">command&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;sleep&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;3600&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">volumeMounts&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">data&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">mountPath&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">/data&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">volumes&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">data&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">persistentVolumeClaim&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">claimName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">my-data&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
+&lt;li>
+&lt;p>Check the condition again — it should now show &lt;code>Unused=False&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kubectl get pvc my-data -o &lt;span class="nv">jsonpath&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;{.status.conditions[?(@.type==&amp;#34;Unused&amp;#34;)].status}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Output:&lt;/p>
+&lt;pre tabindex="0">&lt;code>False
+&lt;/code>&lt;/pre>&lt;/li>
+&lt;li>
+&lt;p>Delete the pod and wait for the condition to transition back to &lt;code>Unused=True&lt;/code>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kubectl delete pod my-app
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl get pvc my-data -o &lt;span class="nv">jsonpath&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;{.status.conditions[?(@.type==&amp;#34;Unused&amp;#34;)]}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The condition should show &lt;code>Unused=True&lt;/code> with reason &lt;code>NoPodsUsingPVC&lt;/code> again.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h3 id="finding-unused-pvcs-across-the-cluster">Finding unused PVCs across the cluster&lt;a class="td-heading-self-link" href="#finding-unused-pvcs-across-the-cluster" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>To list all PVCs that have been unused for more than 30 days, you can use a command like:&lt;/p>
+&lt;div class="alert alert-info" role="note">&lt;h4 class="alert-heading">Note:&lt;/h4>This command uses &lt;a href="https://jqlang.org/">&lt;code>jq&lt;/code>&lt;/a>, a command-line JSON processor.&lt;/div>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">kubectl get pvc -A -o json &lt;span class="p">|&lt;/span> jq -r &lt;span class="s1">&amp;#39;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s1"> .items[]
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s1"> | select(.status.conditions[]? | select(.type==&amp;#34;Unused&amp;#34; and .status==&amp;#34;True&amp;#34;))
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s1"> | select(
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s1"> (.status.conditions[] | select(.type==&amp;#34;Unused&amp;#34;) | .lastTransitionTime) as $t
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s1"> | (now - ($t | fromdateiso8601)) &amp;gt; (30 * 86400)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s1"> )
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s1"> | &amp;#34;\(.metadata.namespace)/\(.metadata.name) unused since \(.status.conditions[] | select(.type==&amp;#34;Unused&amp;#34;) | .lastTransitionTime)&amp;#34;
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="s1">&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="what-s-next">What's next?&lt;a class="td-heading-self-link" href="#what-s-next" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Depending on feedback and adoption, the Kubernetes project intends to graduate this feature to
+General Availability (GA) in a future release. If you have feedback on this feature, please open an issue
+in the &lt;a href="https://github.com/kubernetes/kubernetes">kubernetes/kubernetes&lt;/a> repository.&lt;/p>
+&lt;p>To learn more about this enhancement, refer to
+&lt;a href="https://www.kubernetes.dev/resources/keps/5541/">KEP-5541: PersistentVolumeClaim last used time&lt;/a>.&lt;/p>
+&lt;h2 id="getting-involved">Getting involved&lt;a class="td-heading-self-link" href="#getting-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The Kubernetes project always welcomes new contributors. If you would like to get involved, you can
+join us at &lt;a href="https://www.kubernetes.dev/community/community-groups/sigs/storage/">SIG Storage&lt;/a>.&lt;/p>
+&lt;p>If you would like to share feedback, you can do so on our
+&lt;a href="https://kubernetes.slack.com/messages/sig-storage">public Slack channel&lt;/a>
+(visit &lt;a href="https://slack.k8s.io/">https://slack.k8s.io/&lt;/a> for an invitation if you need one).&lt;/p>
+&lt;p>Special thanks to the contributors who helped design and implement this feature (alphabetical order):&lt;/p>
+&lt;ul>
+&lt;li>Arvind Parekh (&lt;a href="https://github.com/ArvindParekh">ArvindParekh&lt;/a>)&lt;/li>
+&lt;li>Hemant Kumar (&lt;a href="https://github.com/gnufied">gnufied&lt;/a>)&lt;/li>
+&lt;li>Jan Šafránek (&lt;a href="https://github.com/jsafrane">jsafrane&lt;/a>)&lt;/li>
+&lt;li>Kevin Hannon (&lt;a href="https://github.com/kannon92">kannon92&lt;/a>)&lt;/li>
+&lt;li>Roman Bednář (&lt;a href="https://github.com/RomanBednar">RomanBednar&lt;/a>)&lt;/li>
+&lt;/ul></description></item><item><title>Kubernetes v1.37: Hardening Container Storage with Bind Mount Options and EmptyDir Permissions</title><link>https://kubernetes.io/blog/2026/09/16/kubernetes-v1-37-hardening-container-storage/</link><pubDate>Wed, 16 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/16/kubernetes-v1-37-hardening-container-storage/</guid><description>
 &lt;p>Kubernetes v1.37 brings important storage security features: &lt;code>emptyDir&lt;/code> permission modes and bind mount options. They help application programmers and security professionals implement rigorous security policies, for example, prohibiting deletion of files across containers or execution of arbitrary binaries from writable volumes, directly in Kubernetes without any complicated circumvention.&lt;/p>
 &lt;h2 id="linux-storage-and-permission-fundamentals">Linux storage and permission fundamentals&lt;a class="td-heading-self-link" href="#linux-storage-and-permission-fundamentals" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Before diving into the new Kubernetes features, let us briefly review the low-level Linux security mechanisms that make them possible.&lt;/p>
 &lt;h3 id="bind-mount-flags">Bind mount flags&lt;a class="td-heading-self-link" href="#bind-mount-flags" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>When Linux mounts or remounts a directory, Virtual File System (VFS) flags control what actions are permitted on that filesystem:&lt;/p>
@@ -7509,75 +7668,4 @@ join us:&lt;/p>
 &lt;li>Slack: &lt;code>#sig-auth&lt;/code> and &lt;code>#sig-node&lt;/code>&lt;/li>
 &lt;li>&lt;a href="https://github.com/kubernetes/enhancements/issues/2862">KEP-2862: Fine-Grained Kubelet API Authorization&lt;/a>&lt;/li>
 &lt;/ul>
-&lt;p>We look forward to hearing your feedback and experiences with this feature!&lt;/p></description></item><item><title>Kubernetes v1.36: User Namespaces in Kubernetes are finally GA</title><link>https://kubernetes.io/blog/2026/04/23/kubernetes-v1-36-userns-ga/</link><pubDate>Thu, 23 Apr 2026 10:35:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/04/23/kubernetes-v1-36-userns-ga/</guid><description>
-&lt;p>After several years of development, User Namespaces support in
-Kubernetes reached General Availability (GA) with the v1.36 release.
-This is a Linux-only feature.&lt;/p>
-&lt;p>For those of us working on low level container runtimes and rootless
-technologies, this has been a long awaited milestone. We finally
-reached the point where &amp;quot;rootless&amp;quot; security isolation can be used for
-Kubernetes workloads.&lt;/p>
-&lt;p>This feature also enables a critical pattern: running workloads with
-privileges and still being confined in the user namespace. When
-&lt;code>hostUsers: false&lt;/code> is set, capabilities like &lt;code>CAP_NET_ADMIN&lt;/code> become
-&lt;strong>namespaced&lt;/strong>, meaning they grant administrative power over container
-local resources without affecting the host. This effectively enables
-new use cases that were not possible before without running a fully
-privileged container.&lt;/p>
-&lt;h2 id="the-problem-with-uid-0">The Problem with UID 0&lt;a class="td-heading-self-link" href="#the-problem-with-uid-0" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>A process running as root inside a container is also seen from the
-kernel as root on the host. If an attacker manages to break out of
-the container, whether through a kernel vulnerability or a
-misconfigured mount, they are root on the host.&lt;/p>
-&lt;p>While there are many security measures in place for running
-containers, these measures don't change the underlying identity of the
-process, it still has some &amp;quot;parts&amp;quot; of root.&lt;/p>
-&lt;h2 id="the-engine-id-mapped-mounts">The engine: ID-mapped mounts&lt;a class="td-heading-self-link" href="#the-engine-id-mapped-mounts" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The road to GA wasn't just about the Kubernetes API; it was about
-making the kernel work for us. In the early stages, one of the
-biggest blockers was volume ownership. If you mapped a container to a
-high UID range, the Kubelet had to recursively &lt;code>chown&lt;/code> every file in
-the attached volume so the container could read/write them. For large
-volumes, this was such an expensive operation that destroyed startup
-performance.&lt;/p>
-&lt;p>The key enabler was &lt;em>ID-mapped mounts&lt;/em> (introduced in Linux
-5.12 and refined in later versions). Instead of rewriting file
-ownership on disk, the kernel remaps it at mount time.&lt;/p>
-&lt;p>When a volume is mounted into a Pod with User Namespaces enabled, the
-kernel performs a transparent translation of the UIDs (user ids) and
-GIDs (group ids). To the container, the files appear owned by
-UID 0. On disk, file ownership is unchanged — no &lt;code>chown&lt;/code> is needed.
-This is an &lt;code>O(1)&lt;/code> operation, instant and efficient.&lt;/p>
-&lt;h2 id="using-it-in-kubernetes-v1-36">Using it in Kubernetes v1.36&lt;a class="td-heading-self-link" href="#using-it-in-kubernetes-v1-36" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Using user namespaces is straightforward: all you need to do is set
-&lt;code>hostUsers: false&lt;/code> in your Pod spec. No changes to your container
-images, no complex configuration. The interface remains the same one
-introduced during the Alpha phase. In the &lt;code>spec&lt;/code> for a Pod (or PodTemplate), you explicitly
-opt-out of the host user namespace:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Pod&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">isolated-workload&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">hostUsers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">false&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">containers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">app&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">fedora:42&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">securityContext&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">runAsUser&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">0&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>For more details on how user namespaces work in practice and demos of
-CVEs rated HIGH mitigated, see the previous blog posts:
-&lt;a href="https://kubernetes.io/blog/2022/10/03/userns-alpha/">User Namespaces alpha&lt;/a>,
-&lt;a href="https://kubernetes.io/blog/2023/09/13/userns-alpha/">User Namespaces stateful pods in alpha&lt;/a>,
-&lt;a href="https://kubernetes.io/blog/2024/04/22/userns-beta/">User Namespaces beta&lt;/a>, and
-&lt;a href="https://kubernetes.io/blog/2025/04/25/userns-enabled-by-default/">User Namespaces enabled by default&lt;/a>.&lt;/p>
-&lt;h2 id="getting-involved">Getting involved&lt;a class="td-heading-self-link" href="#getting-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>If you're interested in user namespaces or want to contribute, here
-are some useful links:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://kubernetes.io/docs/concepts/workloads/pods/user-namespaces/">User Namespaces documentation&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://kep.k8s.io/127">KEP-127: Support User Namespaces&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/kubernetes/community/tree/master/sig-node">SIG Node&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h2 id="acknowledgments">Acknowledgments&lt;a class="td-heading-self-link" href="#acknowledgments" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>This feature has been years in the making: the first KEP was opened
-10 years ago by other contributors, and we have been actively working
-on it for the last 6 years. We'd like to thank everyone who
-contributed across SIG Node, the container runtimes, and the Linux
-kernel. Special thanks to the reviewers and early adopters who helped
-shape the design through multiple alpha and beta cycles.&lt;/p></description></item></channel></rss>
+&lt;p>We look forward to hearing your feedback and experiences with this feature!&lt;/p></description></item></channel></rss>
