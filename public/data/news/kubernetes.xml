@@ -1,4 +1,42 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.37: Tracking When a PersistentVolumeClaim Was Last Used (Beta)</title><link>https://kubernetes.io/blog/2026/09/21/kubernetes-v1-37-pvc-last-used-time/</link><pubDate>Mon, 21 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/21/kubernetes-v1-37-pvc-last-used-time/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Spotlight on SIG Apps</title><link>https://kubernetes.io/blog/2026/09/22/sig-apps-spotlight/</link><pubDate>Tue, 22 Sep 2026 10:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/22/sig-apps-spotlight/</guid><description>
+&lt;p>As Kubernetes adoption has grown, the conversation has shifted beyond running containers to managing increasingly complex application lifecycles. Modern platforms support stateless web services, stateful databases, batch processing, AI workloads, and platform services. At the same time, they must remain reliable during upgrades, scaling events, and infrastructure failures.&lt;/p>
+&lt;p>Every Kubernetes user relies on SIG Apps, whether they realize it or not. Deployments, StatefulSets, DaemonSets, Jobs, and CronJobs form the foundation of how applications are deployed, updated, scaled, and operated across the Kubernetes ecosystem.&lt;/p>
+&lt;p>SIG Apps is focused on improving workload resilience, refining application lifecycle management, and addressing the operational challenges that emerge when applications encounter node failures, rollout disruptions, and increasingly complex infrastructure environments.&lt;/p>
+&lt;p>In this spotlight, we sit down with two of the three SIG Apps chairs &lt;a href="https://github.com/janetkuo">&lt;strong>Janet Kuo&lt;/strong>&lt;/a> and &lt;a href="https://github.com/soltysh">&lt;strong>Maciej Szulik&lt;/strong>&lt;/a> to discuss the evolution of Kubernetes workload management, the challenges of balancing application reliability with operational simplicity, and the future of application lifecycle management within one of Kubernetes’ most influential Special Interest Groups.&lt;/p>
+&lt;h2 id="introducing-sig-apps">Introducing SIG Apps&lt;a class="td-heading-self-link" href="#introducing-sig-apps" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>&lt;strong>Natalie Fisher: Can you introduce yourself, your role, and how you got involved in SIG Apps?&lt;/strong>&lt;/p>
+&lt;p>Janet Kuo: I'm a Senior Staff Software Engineer at Google and have been a Kubernetes maintainer since 2015, joining the community just as we were racing toward the 1.0 launch. In those early days, my focus was on building the core Workloads API, specifically developing controllers like Deployment, ReplicaSet, StatefulSet, and DaemonSet, defining their rollout behaviors, and bringing them from initial designs to GA. That hands-on work was my entry point into SIG Apps.&lt;/p>
+&lt;p>Since then, I've stayed deeply involved in both the technical and community sides of Kubernetes. I have led SIG Apps as Co-Chair and Tech Lead since 2019. Currently, in addition to maintaining the workloads API, I am driving new subprojects like the &lt;a href="https://github.com/kubernetes-sigs/agent-sandbox">Agent Sandbox&lt;/a> to ensure Kubernetes is ready for next-generation agentic and AI workloads.&lt;/p>
+&lt;p>Maciej Szulik: I started contributing to Kubernetes all the way &lt;a href="https://github.com/kubernetes/kubernetes/pull/3065">back in 2014&lt;/a>. Since then, I've worked across various areas of the project: controllers, kubectl, and apimachinery, which eventually led me to become one of the Chairs and Tech Leads for SIG Apps. My current focus is reliability of the workload controllers under the SIG Apps umbrella and stability and ease of use of kubectl as part of my SIG CLI Tech Lead role. I also care about overall community health and growth as part of my Steering Committee role. Outside of Kubernetes, I work as a Staff Platform Engineer at Defense Unicorns, where I'm helping make Kubernetes more airgap-native with a project called &lt;a href="https://zarf.dev/">zarf&lt;/a>.&lt;/p>
+&lt;h2 id="the-problem-and-the-solution">The problem and the solution&lt;a class="td-heading-self-link" href="#the-problem-and-the-solution" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>SIG Apps is responsible for the core workload APIs that power how applications run on Kubernetes. From Deployments and StatefulSets to Jobs and CronJobs, these controllers determine how workloads are created, updated, scaled, and recovered when things go wrong.&lt;/p>
+&lt;p>As Kubernetes expands to support increasingly diverse workloads – including AI, batch processing, and large-scale distributed applications – SIG Apps continues to evolve these APIs while balancing reliability, backward compatibility, and operational simplicity.&lt;/p>
+&lt;p>&lt;strong>NF: For readers who may not be familiar, what is SIG Apps, and what role does it play within the broader Kubernetes ecosystem?&lt;/strong>&lt;/p>
+&lt;p>MS: SIG Apps is the Kubernetes Special Interest Group responsible for the workloads APIs. CronJob and Job help running batch workloads, whereas DaemonSet, Deployment, ReplicaSet, and StatefulSet serve the majority of other applications. More broadly, SIG Apps owns the layer most developers actually touch day-to-day: the controllers that turn a workload specification into running, self-healing pods. It's the group deciding how Deployments roll out, how Jobs retry, how DaemonSets place a pod per node.&lt;/p>
+&lt;p>JK: Adding to what Maciej described, as the industry shifts, we are seeing a massive demand to run complex, non-traditional workloads like distributed AI training, batch computing, and dynamic agent environments. Our role is expanding: we aren't just maintaining the classic workloads API, but we are actively evolving it and establishing new patterns (like the &lt;a href="https://github.com/kubernetes-sigs/agent-sandbox">Agent Sandbox&lt;/a>) to make sure Kubernetes remains the best platform for the next generation of workloads, such as AI.&lt;/p>
+&lt;p>&lt;strong>NF: Looking at the workload APIs owned by SIG Apps (Deployments, StatefulSets, DaemonSets, Jobs, and CronJobs), which areas are receiving the most attention from maintainers and contributors?&lt;/strong>&lt;/p>
+&lt;p>MS: After a long stretch focused on making batch workloads run smoothly on Kubernetes, we’ve shifted attention to make sure serving workloads (DaemonSets, StatefulSets, etc) aren’t left behind. This means performance and high-scale improvements to rollout and scaling behavior, plus working through our backlog of user-reported issues, prioritizing the ones with the strongest support from the user base.&lt;/p>
+&lt;h2 id="current-focus-areas">Current focus areas&lt;a class="td-heading-self-link" href="#current-focus-areas" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>As Kubernetes workloads grow in scale and complexity, the challenges facing workload controllers evolve as well. We asked the SIG Apps chairs where contributors are focusing their efforts today and which resilience problems they believe are the highest priorities.&lt;/p>
+&lt;p>&lt;strong>NF: From your perspective, what are the most important workload resilience problems SIG Apps is trying to solve today?&lt;/strong>&lt;/p>
+&lt;p>MS: Node lifecycle challenges have come up repeatedly across SIG Apps, SIG Node, and SIG Autoscaling discussions. DaemonSets and Jobs are just where the pain is most visible, since they're the workloads most directly bound to node state. Rather than solve it piecemeal within one SIG, we've settled on spinning up a dedicated &lt;a href="https://github.com/kubernetes/community/blob/main/wg-node-lifecycle/README.md">Node Lifecycle Working Group&lt;/a> to focus on this properly and hopefully land long-term solutions instead of one-off patches.&lt;/p>
+&lt;p>JK: From an AI perspective, resilience is critical. When you are running a massive distributed LLM training job that spans hundreds of GPUs, a single node failure can halt the entire pipeline. Similarly, if a DaemonSet that runs your logging or GPU monitoring agent gets stuck on a bad node, it impacts the entire cluster's health.&lt;/p>
+&lt;p>In addition to the work in the Node Lifecycle WG to handle infrastructure-level degradation, SIG Apps is addressing this at the orchestration layer through subprojects like &lt;a href="https://github.com/kubernetes-sigs/jobset/">JobSet&lt;/a> (for distributed training) and &lt;a href="https://github.com/kubernetes-sigs/lws/">LeaderWorkerSet (LWS)&lt;/a> (for sharded LLM inference). These APIs introduce patterns like &amp;quot;all-or-nothing&amp;quot; failure handling, where a single pod or job failure triggers a coordinated group-level restart to resume from the last clean checkpoint, rather than letting stuck workloads hang in an inconsistent state.&lt;/p>
+&lt;h2 id="real-world-impact">Real-world impact&lt;a class="td-heading-self-link" href="#real-world-impact" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The work happening within SIG Apps extends far beyond controller implementations and API design. We wanted to understand what these improvements mean in practice for platform teams operating Kubernetes clusters in production.&lt;/p>
+&lt;p>&lt;strong>NF: For platform teams operating Kubernetes in production, what practical improvements would they notice if the node lifecycle and workload resilience work currently under discussion is successfully delivered?&lt;/strong>&lt;/p>
+&lt;p>MS: I’m mostly looking from the sidelines, the folks actually in the &lt;a href="https://github.com/kubernetes/community/blob/main/wg-node-lifecycle/README.md">Node Lifecycle Working Group&lt;/a> would give you a sharper answer. But from where I sit, I’m hoping their work translates into fewer 3am pages that turn out to be “a DaemonSet rollout got stuck because node X was flaky, and someone had to manually cordon/delete/restart to unstick it.”&lt;/p>
+&lt;p>JK: +1 to what Maciej said, and beyond reducing manual intervention, platform teams will also see much better resource predictability and cost efficiency. For example, in AI workloads where GPU idle time is extremely expensive, having Kubernetes automatically detect a degraded node and reschedule the training coordinator or agent before the job crashes means less wasted compute and more stable job execution.&lt;/p>
+&lt;h2 id="challenges-and-trade-offs">Challenges and trade-offs&lt;a class="td-heading-self-link" href="#challenges-and-trade-offs" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Evolving APIs that millions of workloads rely on requires careful engineering and even more careful decision-making. We asked the SIG Apps chairs about the technical and operational trade-offs they weigh when introducing changes to Kubernetes’ core workload controllers.&lt;/p>
+&lt;p>&lt;strong>NF: What are some of the hardest technical or operational trade-offs SIG Apps encounters when evolving core workload controllers?&lt;/strong>&lt;/p>
+&lt;p>MS: Honestly, a few tensions keep coming up: how aggressively a controller should give up on stuck pods, and what signals it actually needs to make that call correctly. At the same time, we always have to think about backward compatibility. Deployment, DaemonSet, and Job behavior has been depended on for a decade [by Kubernetes users, tooling, automation, and higher-level controllers], so even a change that’s clearly “more correct” can break automation people built around the old behavior without meaning to.&lt;/p>
+&lt;p>JK: One of our hardest trade-offs is resisting the urge to make &amp;quot;elegant&amp;quot; design changes that break backward compatibility. Instead, we have to design opt-in features that let users adopt new behaviors without forcing them on legacy workloads. When we need to support completely new paradigms, we prefer introducing them as CRDs first rather than bloating the core APIs, like we are doing with Agent Sandbox, JobSet, and LWS.&lt;/p>
+&lt;h2 id="looking-ahead">Looking ahead&lt;a class="td-heading-self-link" href="#looking-ahead" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>While much of SIG Apps’ work focuses on maintaining the stability of existing workload APIs, the group is also shaping the future of Kubernetes through new enhancements and proposals. We concluded by asking about one proposal that recently returned to active development and what it represents for the future of workload management.&lt;/p>
+&lt;p>&lt;strong>NF: The SIG recently discussed reviving KEP-4443 with a target release of Kubernetes 1.38. What opportunities or challenges does this proposal aim to address, and why is now the right time to revisit it?&lt;/strong>&lt;/p>
+&lt;p>&lt;a href="https://www.kubernetes.dev/resources/keps/4443/">KEP-4443&lt;/a> addresses a small but real gap in the Job API: a &lt;a href="https://kubernetes.io/docs/concepts/workloads/controllers/job/#pod-failure-policy">PodFailurePolicy&lt;/a> can be configured to add a condition reason to the JobFailed condition, but different pod failure policy rules targeting different container exit codes all produce that same generic reason. The proposal is simple: an optional Name field on each PodFailurePolicyRule, which gets appended to the JobFailed condition reason, so higher-level tools like JobSet can finally react differently depending on which rule triggered the failure.&lt;/p>
+&lt;p>As for timing, the answer is as simple as it always is in open source: we lost the original contributor who was driving this. Now we’ve got someone new interested in picking it up, that’s why we’re targeting the next release.&lt;/p>
+&lt;h2 id="getting-involved">Getting Involved&lt;a class="td-heading-self-link" href="#getting-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>&lt;strong>NF: For someone interested in contributing to SIG Apps, where would you recommend they start, especially if they are not yet a Kubernetes maintainer?&lt;/strong>&lt;/p>
+&lt;p>MS: The best place to start is the &lt;a href="https://www.kubernetes.dev/community/community-groups/sigs/apps/">#sig-apps&lt;/a> slack channel and our regular &lt;a href="https://github.com/kubernetes/community/blob/main/sig-apps/README.md#meetings">SIG Apps meetings&lt;/a>. We’ve all started there, and if it feels intimidating, or nobody replies right away, that’s completely normal. Everyone's busy. It's not personal.&lt;/p>
+&lt;p>JK: In addition to what Maciej answered, I'd suggest looking at our newer subprojects and initiatives. Contributing to stable APIs like Deployment or StatefulSet can be daunting because the barrier for making changes is very high due to backward compatibility, and there is much less low-hanging fruit.&lt;/p>
+&lt;p>If you are new to the community, projects like the &lt;a href="https://github.com/kubernetes-sigs/agent-sandbox">Agent Sandbox&lt;/a> are fantastic entry points. They are actively evolving, have a friendly group of maintainers, and offer plenty of greenfield development opportunities where you can make a significant impact quickly.&lt;/p>
+&lt;h2 id="summary">Summary&lt;a class="td-heading-self-link" href="#summary" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>SIG Apps has shaped how Kubernetes applications are deployed and operated since the project’s earliest days. While users often interact with Deployments, StatefulSets, Jobs, and DaemonSets without thinking about the controllers behind them, the work within SIG Apps continues to shape the reliability and scalability of workloads across the Kubernetes ecosystem.&lt;/p>
+&lt;p>From improving workload resilience and node lifecycle behavior to enabling new patterns for AI and distributed computing, the SIG is evolving Kubernetes while remaining committed to one of the project’s core principles: preserving the stability and backward compatibility that users depend on. Whether you’re interested in core workload APIs, emerging projects like Agent Sandbox, or helping improve the operational experience of Kubernetes users everywhere, SIG Apps offers many opportunities to get involved.&lt;/p></description></item><item><title>Kubernetes v1.37: Tracking When a PersistentVolumeClaim Was Last Used (Beta)</title><link>https://kubernetes.io/blog/2026/09/21/kubernetes-v1-37-pvc-last-used-time/</link><pubDate>Mon, 21 Sep 2026 10:30:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/21/kubernetes-v1-37-pvc-last-used-time/</guid><description>
 &lt;p>Kubernetes v1.37 promotes the &lt;code>PersistentVolumeClaimUnusedSinceTime&lt;/code> feature gate to Beta (enabled by
 default). With this feature, the PersistentVolumeClaim (PVC) protection controller adds an &lt;code>Unused&lt;/code>
 condition to each PVC, telling you whether any running pod currently references it — no custom
@@ -7381,291 +7419,4 @@ as the feature progresses toward stable.&lt;/p>
 &lt;li>Slack channel &lt;a href="https://kubernetes.slack.com/archives/C18NZM5K9">#sig-apps&lt;/a>.&lt;/li>
 &lt;li>Slack channel &lt;a href="https://kubernetes.slack.com/archives/C032ZE66A2X">#wg-batch&lt;/a>.&lt;/li>
 &lt;li>The &lt;a href="https://kep.k8s.io/5440">KEP-5440&lt;/a> tracking issue.&lt;/li>
-&lt;/ul></description></item><item><title>Kubernetes v1.36: Fine-Grained Kubelet API Authorization Graduates to GA</title><link>https://kubernetes.io/blog/2026/04/24/kubernetes-v1-36-fine-grained-kubelet-authorization-ga/</link><pubDate>Fri, 24 Apr 2026 10:35:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/04/24/kubernetes-v1-36-fine-grained-kubelet-authorization-ga/</guid><description>
-&lt;p>On behalf of Kubernetes SIG Auth and SIG Node, we are pleased to announce the
-graduation of fine-grained &lt;code>kubelet&lt;/code> API authorization to General Availability
-(GA) in Kubernetes v1.36!&lt;/p>
-&lt;p>The &lt;code>KubeletFineGrainedAuthz&lt;/code> feature gate was introduced as an opt-in alpha
-feature in Kubernetes v1.32, then graduated to beta (enabled by default) in
-v1.33. Now, the feature is generally available and the feature gate is locked
-to enabled. This feature enables more precise, least-privilege access control
-over the &lt;code>kubelet&lt;/code>'s HTTPS API, replacing the need to grant the overly broad
-&lt;code>nodes/proxy&lt;/code> permission for common monitoring and observability use cases.&lt;/p>
-&lt;h2 id="motivation-the-nodes-proxy-problem">Motivation: the &lt;code>nodes/proxy&lt;/code> problem&lt;a class="td-heading-self-link" href="#motivation-the-nodes-proxy-problem" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The &lt;code>kubelet&lt;/code> exposes an HTTPS endpoint with several APIs that give access to data
-of varying sensitivity, including pod listings, node metrics, container logs,
-and, critically, the ability to execute commands inside running containers.&lt;/p>
-&lt;p>Prior to this feature, &lt;code>kubelet&lt;/code> authorization used a coarse-grained model. When
-webhook authorization was enabled, almost all &lt;code>kubelet&lt;/code> API paths were mapped to a
-single &lt;code>nodes/proxy&lt;/code> subresource. This meant that any workload needing to read
-metrics or health status from the &lt;code>kubelet&lt;/code> required &lt;code>nodes/proxy&lt;/code> permission,
-the same permission that also grants the ability to execute arbitrary commands
-in any container running on the node.&lt;/p>
-&lt;h3 id="what-s-wrong-with-that">What's wrong with that?&lt;a class="td-heading-self-link" href="#what-s-wrong-with-that" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Granting &lt;code>nodes/proxy&lt;/code> to monitoring agents, log collectors, or health-checking
-tools violates the principle of least privilege. If any of those workloads were
-compromised, an attacker would gain the ability to run commands in every
-container on the node. The &lt;code>nodes/proxy&lt;/code> permission is effectively a node-level
-superuser capability, and granting it broadly dramatically increases the blast
-radius of a security incident.&lt;/p>
-&lt;p>This problem has been well understood in the community for years (see
-&lt;a href="https://github.com/kubernetes/kubernetes/issues/83465">kubernetes/kubernetes#83465&lt;/a>),
-and was the driving motivation behind this enhancement &lt;a href="https://kep.k8s.io/2862">KEP-2862&lt;/a>.&lt;/p>
-&lt;h3 id="the-nodes-proxy-get-websocket-rce-risk">The &lt;code>nodes/proxy GET&lt;/code> WebSocket RCE risk&lt;a class="td-heading-self-link" href="#the-nodes-proxy-get-websocket-rce-risk" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The situation is more severe than it might appear at first glance. Security
-researchers &lt;a href="https://grahamhelton.com/blog/nodes-proxy-rce">demonstrated in early 2026&lt;/a>
-that &lt;code>nodes/proxy GET&lt;/code> alone, which is the minimal read-only permission routinely
-granted to monitoring tools, can be abused to execute commands in any pod on
-reachable nodes.&lt;/p>
-&lt;p>The root cause is a mismatch between how WebSocket connections work and how the
-&lt;code>kubelet&lt;/code> maps HTTP methods to RBAC verbs. The
-&lt;a href="https://datatracker.ietf.org/doc/html/rfc6455#section-1.2">WebSocket protocol (RFC 6455)&lt;/a>
-requires an HTTP &lt;code>GET&lt;/code> request for the initial connection handshake. The &lt;code>kubelet&lt;/code>
-maps this &lt;code>GET&lt;/code> to the RBAC &lt;code>get&lt;/code> verb and authorizes the request without
-performing a secondary check to confirm that &lt;code>CREATE&lt;/code> permission is also present
-for the write operation that follows. Using a WebSocket client like &lt;code>websocat&lt;/code>,
-an attacker can reach the &lt;code>kubelet&lt;/code>'s &lt;code>/exec&lt;/code> endpoint directly on port 10250 and
-execute arbitrary commands:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">websocat --insecure &lt;span class="se">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --header &lt;span class="s2">&amp;#34;Authorization: Bearer &lt;/span>&lt;span class="nv">$TOKEN&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --protocol v4.channel.k8s.io &lt;span class="se">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> &lt;span class="s2">&amp;#34;wss://&lt;/span>&lt;span class="nv">$NODE_IP&lt;/span>&lt;span class="s2">:10250/exec/default/nginx/nginx?output=1&amp;amp;error=1&amp;amp;command=id&amp;#34;&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">uid&lt;/span>&lt;span class="o">=&lt;/span>0&lt;span class="o">(&lt;/span>root&lt;span class="o">)&lt;/span> &lt;span class="nv">gid&lt;/span>&lt;span class="o">=&lt;/span>0&lt;span class="o">(&lt;/span>root&lt;span class="o">)&lt;/span> &lt;span class="nv">groups&lt;/span>&lt;span class="o">=&lt;/span>0&lt;span class="o">(&lt;/span>root&lt;span class="o">)&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="fine-grained-kubelet-authorization-how-it-works">Fine-grained &lt;code>kubelet&lt;/code> authorization: how it works&lt;a class="td-heading-self-link" href="#fine-grained-kubelet-authorization-how-it-works" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>With &lt;code>KubeletFineGrainedAuthz&lt;/code>, the &lt;code>kubelet&lt;/code> now performs an additional, more
-specific authorization check before falling back to the &lt;code>nodes/proxy&lt;/code>
-subresource. Several commonly used &lt;code>kubelet&lt;/code> API paths are mapped to their own
-dedicated subresources:&lt;/p>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>&lt;code>kubelet&lt;/code> API&lt;/th>
-&lt;th>Resource&lt;/th>
-&lt;th>Subresource&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>&lt;code>/stats/*&lt;/code>&lt;/td>
-&lt;td>nodes&lt;/td>
-&lt;td>stats&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;code>/metrics/*&lt;/code>&lt;/td>
-&lt;td>nodes&lt;/td>
-&lt;td>metrics&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;code>/logs/*&lt;/code>&lt;/td>
-&lt;td>nodes&lt;/td>
-&lt;td>log&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;code>/pods&lt;/code>&lt;/td>
-&lt;td>nodes&lt;/td>
-&lt;td>pods, proxy&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;code>/runningPods/&lt;/code>&lt;/td>
-&lt;td>nodes&lt;/td>
-&lt;td>pods, proxy&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;code>/healthz&lt;/code>&lt;/td>
-&lt;td>nodes&lt;/td>
-&lt;td>healthz, proxy&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;code>/configz&lt;/code>&lt;/td>
-&lt;td>nodes&lt;/td>
-&lt;td>configz, proxy&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;code>/spec/*&lt;/code>&lt;/td>
-&lt;td>nodes&lt;/td>
-&lt;td>spec&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;code>/checkpoint/*&lt;/code>&lt;/td>
-&lt;td>nodes&lt;/td>
-&lt;td>checkpoint&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>all others&lt;/td>
-&lt;td>nodes&lt;/td>
-&lt;td>proxy&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;p>For the endpoints that now have fine-grained subresources (&lt;code>/pods&lt;/code>,
-&lt;code>/runningPods/&lt;/code>, &lt;code>/healthz&lt;/code>, &lt;code>/configz&lt;/code>), the &lt;code>kubelet&lt;/code> first sends a
-&lt;code>SubjectAccessReview&lt;/code> for the specific subresource. If that check succeeds, the
-request is authorized. If it fails, the &lt;code>kubelet&lt;/code> retries with the coarse-grained
-&lt;code>nodes/proxy&lt;/code> subresource for backward compatibility.&lt;/p>
-&lt;p>This dual-check approach ensures a smooth migration path. Existing workloads
-with &lt;code>nodes/proxy&lt;/code> permissions continue to work, while new deployments can adopt
-least-privilege access from day one.&lt;/p>
-&lt;h2 id="what-this-means-in-practice">What this means in practice&lt;a class="td-heading-self-link" href="#what-this-means-in-practice" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Consider a Prometheus node exporter or a monitoring &lt;code>DaemonSet&lt;/code> that needs to
-scrape &lt;code>/metrics&lt;/code> from the &lt;code>kubelet&lt;/code>. Previously, you would need an RBAC
-&lt;code>ClusterRole&lt;/code> like this:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># Old approach: overly broad&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rbac.authorization.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ClusterRole&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">monitoring-agent&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">rules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">apiGroups&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;nodes/proxy&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">verbs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;get&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>This grants the monitoring agent far more access than it needs. With
-fine-grained authorization, you can now scope the permissions precisely:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># New approach: least privilege&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rbac.authorization.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ClusterRole&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">monitoring-agent&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">rules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">apiGroups&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;nodes/metrics&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;nodes/stats&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">verbs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;get&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The monitoring agent can now read metrics and stats from the &lt;code>kubelet&lt;/code> without
-ever being able to execute commands in containers.&lt;/p>
-&lt;h2 id="updated-system-kubelet-api-admin-clusterrole">Updated &lt;code>system:kubelet-api-admin&lt;/code> &lt;code>ClusterRole&lt;/code>&lt;a class="td-heading-self-link" href="#updated-system-kubelet-api-admin-clusterrole" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>When RBAC authorization is enabled, the built-in &lt;code>system:kubelet-api-admin&lt;/code>
-&lt;code>ClusterRole&lt;/code> is automatically updated to include permissions for all the new
-fine-grained subresources. This ensures that cluster administrators who already
-use this role, including the API server's &lt;code>kubelet&lt;/code> client, continue to have
-full access without any manual configuration changes.&lt;/p>
-&lt;p>The role now includes permissions for:&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>nodes/proxy&lt;/code>&lt;/li>
-&lt;li>&lt;code>nodes/stats&lt;/code>&lt;/li>
-&lt;li>&lt;code>nodes/metrics&lt;/code>&lt;/li>
-&lt;li>&lt;code>nodes/log&lt;/code>&lt;/li>
-&lt;li>&lt;code>nodes/spec&lt;/code>&lt;/li>
-&lt;li>&lt;code>nodes/checkpoint&lt;/code>&lt;/li>
-&lt;li>&lt;code>nodes/configz&lt;/code>&lt;/li>
-&lt;li>&lt;code>nodes/healthz&lt;/code>&lt;/li>
-&lt;li>&lt;code>nodes/pods&lt;/code>&lt;/li>
-&lt;/ul>
-&lt;h2 id="upgrade-considerations">Upgrade considerations&lt;a class="td-heading-self-link" href="#upgrade-considerations" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Because the &lt;code>kubelet&lt;/code> performs a dual authorization check (fine-grained first,
-then falling back to &lt;code>nodes/proxy&lt;/code>), upgrading to v1.36 should be seamless for
-most clusters:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>Existing workloads&lt;/strong> with &lt;code>nodes/proxy&lt;/code> permissions continue to work without
-changes. The fallback to &lt;code>nodes/proxy&lt;/code> ensures backward compatibility.&lt;/li>
-&lt;li>&lt;strong>The API server&lt;/strong> always has &lt;code>nodes/proxy&lt;/code> permissions via
-&lt;code>system:kubelet-api-admin&lt;/code>, so &lt;code>kube-apiserver&lt;/code>-to-&lt;code>kubelet&lt;/code> communication is
-unaffected regardless of feature gate state.&lt;/li>
-&lt;li>&lt;strong>Mixed-version clusters&lt;/strong> are handled gracefully. If a &lt;code>kubelet&lt;/code> supports
-fine-grained authorization but the API server does not (or vice versa),
-&lt;code>nodes/proxy&lt;/code> permissions serve as the fallback.&lt;/li>
-&lt;/ul>
-&lt;h2 id="verifying-the-feature-is-enabled">Verifying the feature is enabled&lt;a class="td-heading-self-link" href="#verifying-the-feature-is-enabled" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>You can confirm that the feature is active on a given node by checking the
-&lt;code>kubelet&lt;/code> metrics endpoint. Since the metrics endpoint on port 10250 requires
-authorization, you'll first need to create appropriate RBAC bindings for the pod
-or &lt;code>ServiceAccount&lt;/code> making the request.&lt;/p>
-&lt;p>&lt;strong>Step 1: Create a &lt;code>ServiceAccount&lt;/code> and &lt;code>ClusterRole&lt;/code>&lt;/strong>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ServiceAccount&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kubelet-metrics-checker&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">default&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rbac.authorization.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ClusterRole&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kubelet-metrics-reader&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">rules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">apiGroups&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;nodes/metrics&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">verbs&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;get&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Step 2: Bind the &lt;code>ClusterRole&lt;/code> to the &lt;code>ServiceAccount&lt;/code>&lt;/strong>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rbac.authorization.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ClusterRoleBinding&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kubelet-metrics-checker&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">subjects&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ServiceAccount&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kubelet-metrics-checker&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespace&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">default&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">roleRef&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ClusterRole&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kubelet-metrics-reader&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">apiGroup&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">rbac.authorization.k8s.io&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Apply both manifests:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">kubectl apply -f serviceaccount.yaml
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl apply -f clusterrole.yaml
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl apply -f clusterrolebinding.yaml
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Step 3: Run a pod with the &lt;code>ServiceAccount&lt;/code> and check the feature flag&lt;/strong>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">kubectl run kubelet-check &lt;span class="se">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --image&lt;span class="o">=&lt;/span>curlimages/curl &lt;span class="se">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --serviceaccount&lt;span class="o">=&lt;/span>kubelet-metrics-checker &lt;span class="se">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --restart&lt;span class="o">=&lt;/span>Never &lt;span class="se">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --rm -it &lt;span class="se">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> -- sh
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Then from within the pod, retrieve the node IP and query the metrics endpoint:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Get the token&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">TOKEN&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>cat /var/run/secrets/kubernetes.io/serviceaccount/token&lt;span class="k">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Query the kubelet metrics and filter for the feature gate&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">curl -sk &lt;span class="se">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --header &lt;span class="s2">&amp;#34;Authorization: Bearer &lt;/span>&lt;span class="nv">$TOKEN&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="se">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> https://&lt;span class="nv">$NODE_IP&lt;/span>:10250/metrics &lt;span class="se">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> &lt;span class="p">|&lt;/span> grep kubernetes_feature_enabled &lt;span class="se">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> &lt;span class="p">|&lt;/span> grep KubeletFineGrainedAuthz
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>If the feature is enabled, you should see output like:&lt;/p>
-&lt;pre tabindex="0">&lt;code>kubernetes_feature_enabled{name=&amp;#34;KubeletFineGrainedAuthz&amp;#34;,stage=&amp;#34;GA&amp;#34;} 1
-&lt;/code>&lt;/pre>&lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> Replace &lt;code>$NODE_IP&lt;/code> with the IP address of the node you want to check.
-You can retrieve node IPs with &lt;code>kubectl get nodes -o wide&lt;/code>.&lt;/p>&lt;/blockquote>
-&lt;h2 id="the-journey-from-alpha-to-ga">The journey from alpha to GA&lt;a class="td-heading-self-link" href="#the-journey-from-alpha-to-ga" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>Release&lt;/th>
-&lt;th>Stage&lt;/th>
-&lt;th>Details&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>v1.32&lt;/td>
-&lt;td>Alpha&lt;/td>
-&lt;td>Feature gate &lt;code>KubeletFineGrainedAuthz&lt;/code> introduced, disabled by default&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>v1.33&lt;/td>
-&lt;td>Beta&lt;/td>
-&lt;td>Enabled by default; fine-grained checks for &lt;code>/pods&lt;/code>, &lt;code>/runningPods/&lt;/code>, &lt;code>/healthz&lt;/code>, &lt;code>/configz&lt;/code>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>v1.36&lt;/td>
-&lt;td>GA&lt;/td>
-&lt;td>Feature gate locked to enabled; fine-grained &lt;code>kubelet&lt;/code> authorization is always active&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;h2 id="what-s-next">What's next?&lt;a class="td-heading-self-link" href="#what-s-next" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>With fine-grained &lt;code>kubelet&lt;/code> authorization now GA, the Kubernetes community can
-begin recommending and eventually enforcing the use of specific subresources
-instead of &lt;code>nodes/proxy&lt;/code> for monitoring and observability workloads. The urgency
-of this migration is underscored by
-&lt;a href="https://grahamhelton.com/blog/nodes-proxy-rce">research showing that &lt;code>nodes/proxy GET&lt;/code> can be abused for unlogged remote code execution&lt;/a> via the WebSocket protocol. This risk is present in the default RBAC
-configurations of dozens of widely deployed Helm charts. Over time, we expect:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>Ecosystem adoption:&lt;/strong> Monitoring tools like Prometheus, Datadog agents, and
-other &lt;code>DaemonSets&lt;/code> can update their default RBAC configurations to use
-&lt;code>nodes/metrics&lt;/code>, &lt;code>nodes/stats&lt;/code>, and &lt;code>nodes/pods&lt;/code> instead of &lt;code>nodes/proxy&lt;/code>. This
-directly eliminates the WebSocket RCE attack surface for those workloads.&lt;/li>
-&lt;li>&lt;strong>Policy enforcement:&lt;/strong> Admission controllers and policy engines can flag or
-reject RBAC bindings that grant &lt;code>nodes/proxy&lt;/code> when fine-grained alternatives
-exist, helping organizations adopt least-privilege access at scale.&lt;/li>
-&lt;li>&lt;strong>Deprecation path:&lt;/strong> As adoption grows, &lt;code>nodes/proxy&lt;/code> may eventually be
-deprecated for monitoring use cases, further reducing the attack surface of
-Kubernetes clusters.&lt;/li>
-&lt;/ul>
-&lt;h2 id="getting-involved">Getting involved&lt;a class="td-heading-self-link" href="#getting-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>This enhancement was driven by SIG Auth and SIG Node. If you are interested in
-contributing to the security and authorization features of Kubernetes, please
-join us:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://github.com/kubernetes/community/tree/master/sig-auth">SIG Auth&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/kubernetes/community/tree/master/sig-node">SIG Node&lt;/a>&lt;/li>
-&lt;li>Slack: &lt;code>#sig-auth&lt;/code> and &lt;code>#sig-node&lt;/code>&lt;/li>
-&lt;li>&lt;a href="https://github.com/kubernetes/enhancements/issues/2862">KEP-2862: Fine-Grained Kubelet API Authorization&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;p>We look forward to hearing your feedback and experiences with this feature!&lt;/p></description></item></channel></rss>
+&lt;/ul></description></item></channel></rss>

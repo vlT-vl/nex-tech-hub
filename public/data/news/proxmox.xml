@@ -4,14 +4,161 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Tue, 22 Sep 2026 20:43:56 +0000</pubDate>
-    <lastBuildDate>Tue, 22 Sep 2026 20:43:56 +0000</lastBuildDate>
+    <pubDate>Wed, 23 Sep 2026 02:31:40 +0000</pubDate>
+    <lastBuildDate>Wed, 23 Sep 2026 02:31:40 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
+      <title>Proxmox Virtual Environment now available for 64-bit ARM (arm64)!</title>
+      <pubDate>Wed, 23 Sep 2026 02:18:19 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-virtual-environment-now-available-for-64-bit-arm-arm64.185527/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185527</guid>
+      <author>invalid@example.com (t.lamprecht)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>t.lamprecht</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">We are excited to announce the first release of Proxmox Virtual Environment with official support for a second CPU architecture: 64-bit ARM (arm64/aarch64). Until now, Proxmox VE was available for x86-64 (amd64) only.<br />
+<br />
+Proxmox VE 9.2 for arm64 shares the code base, package repositories, and release lifecycle with its x86-64 counterpart. It is built on Debian 13.5 &quot;Trixie&quot; with Linux kernel 7.0 as the stable default, and ships the same versions of our underlying key technologies, including...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-virtual-environment-now-available-for-64-bit-arm-arm64.185527/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>47</slash:comments>
+    </item>
+    <item>
+      <title>Metasploitable2</title>
+      <pubDate>Wed, 23 Sep 2026 01:52:28 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/metasploitable2.126195/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:126195</guid>
+      <author>invalid@example.com (coyo)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>coyo</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi all,<br />
+I&#039;ve been toying getting Metasploitable to run on Proxmox.<br />
+The below steps result in a working VM. I installed some packages on the proxmox server (unzip), if that is not desired, perform image manipulation on another host.<br />
+<br />
+<br />
+<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>wget https://sourceforge.net/projects/metasploitable/files/Metasploitable2/metasploitable-linux-2.0.0.zip
+
+
+unzip metasploitable-linux-2.0.0.zip
+
+
+cd Metasploitable2-Linux/
+
+
+qemu-img convert -O qcow2 Metasploitable.vmdk metasploitable.qcow2
+
+
+qm create 300...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/metasploitable2.126195/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>pve-cephx-rotate-service-keys error in restrict-ciphers phase "not every monitor answered the session query"</title>
+      <pubDate>Wed, 23 Sep 2026 00:48:55 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-cephx-rotate-service-keys-error-in-restrict-ciphers-phase-not-every-monitor-answered-the-session-query.186444/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186444</guid>
+      <author>invalid@example.com (zukka)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>zukka</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi, I&#039;m following the instructions to make the aes -&gt; aes256k ceph key migration.<br />
+I&#039;ve a 3 node cluster, with all the updates installed.<br />
+Everything went fine until I had to run the last step:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Bash:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang="bash"><code>/usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys
+INFO: This is a dry run. No Ceph key, cipher setting, or daemon will be changed. Session observations can update the migration journal.
+PASS: Every service key uses &#039;aes256k&#039;, and so do the service tickets.
+
+Remaining migration steps...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/pve-cephx-rotate-service-keys-error-in-restrict-ciphers-phase-not-every-monitor-answered-the-session-query.186444/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
+    </item>
+    <item>
+      <title>Issues with New Install, loosing access to VMs</title>
+      <pubDate>Tue, 22 Sep 2026 23:56:48 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/issues-with-new-install-loosing-access-to-vms.186607/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186607</guid>
+      <author>invalid@example.com (neil2048)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>neil2048</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi All<br />
+<br />
+Brand new to Proxmox and mid first install, have used VMware for many years with out issues, so having a few teething issues with Proxmox, assume born from stupidity and trying to implement beyond my current level of understanding... So here goes<br />
+<br />
+We have a 6 node Proxmox cluster, 32 Core/256GB ram each.  Each host has 5 x 3.2tb NVMe&#039;s.  Now here was my first attempt to do something funky in regards to resilience within Ceph.  So using crush maps (Device Classes) with the &quot;Host&quot;...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/issues-with-new-install-loosing-access-to-vms.186607/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
+    <item>
+      <title>Live Migrations get slower over time</title>
+      <pubDate>Tue, 22 Sep 2026 23:49:24 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/live-migrations-get-slower-over-time.183423/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:183423</guid>
+      <author>invalid@example.com (smalchow)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>smalchow</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+we are experiencing the problem that live migrations get slower over time - meaning the higher the uptime of a host the slower it gets. I know there are several posts already in regards to slow live migrations, however, we<br />
+<br />
+- have dedicated 2 x 100Gbit connections for the live migrations per host<br />
+- the migrations is already set to &quot;insecure&quot;<br />
+- we are not doing storage migrations, it is ceph with 2 x 100Gbit connections (each, that global and the cluster network have that)<br />
+- and we can...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/live-migrations-get-slower-over-time.183423/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>11</slash:comments>
+    </item>
+    <item>
+      <title>Realtek 8157 driver installation (Wavlink WL-NWU340G)</title>
+      <pubDate>Tue, 22 Sep 2026 23:48:23 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/realtek-8157-driver-installation-wavlink-wl-nwu340g.164621/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:164621</guid>
+      <author>invalid@example.com (sunseeker2k5)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>sunseeker2k5</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Good day Everyone.<br />
+<br />
+I have been using Proxmox over 3 years and very happy with it in my homelab.<br />
+<br />
+I am on the latest 8.3.5 with kernel 6.8.12-9-pve. My proxmox test server is a Minisforum UN100L<br />
+I bought this adapter to get 5 Gbps network on Proxmox : <a href="https://www.amazon.com/dp/B0DBY23BL9/ref=sspa_dk_hqp_detail_aax_0?sp_csd=d2lkZ2V0TmFtZT1zcF9ocXBfc2hhcmVk&amp;th=1" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://www.amazon.com/dp/B0DBY23BL...?sp_csd=d2lkZ2V0TmFtZT1zcF9ocXBfc2hhcmVk&amp;th=1</a><br />
+<br />
+When I connect it to proxmox and do lsusb and lsusb -t, i see it&#039;s not using a Realtek driver but the plain USB driver, hence...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/realtek-8157-driver-installation-wavlink-wl-nwu340g.164621/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>40</slash:comments>
+    </item>
+    <item>
       <title>No Disk Space Available (Very Confused)</title>
-      <pubDate>Tue, 22 Sep 2026 20:39:24 +0000</pubDate>
+      <pubDate>Tue, 22 Sep 2026 22:27:55 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/no-disk-space-available-very-confused.186610/</link>
       <guid isPermaLink="false">urn:xenforo:thread:186610</guid>
       <author>invalid@example.com (ITCowboy)</author>
@@ -22,7 +169,73 @@
 Can someone explain?<br />
 <br />
 See Enclosed Images</div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
+      <slash:comments>5</slash:comments>
+    </item>
+    <item>
+      <title>Is there a solution to VirtViewer 0.11 (SPICE client) occasionally capturing keyboard without focus ?</title>
+      <pubDate>Tue, 22 Sep 2026 22:23:17 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/is-there-a-solution-to-virtviewer-0-11-spice-client-occasionally-capturing-keyboard-without-focus.186612/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186612</guid>
+      <author>invalid@example.com (shodan)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>shodan</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+I&#039;m trying to work out the kinks related to using VirtViewer/SPICE<br />
+<br />
+One of the annoyances is that sometimes it captures keyboard events when not focused ?<br />
+I think this might be from just passing the cursor over it <br />
+Even though not focused, sometimes it captures keyboard anyway.<br />
+<br />
+And then the solution is to intentionally focus VirtViewer and then defocus it so it will let go.<br />
+<br />
+But I&#039;d like it would only capture keyboard events when I click on it and focus it.<br />
+<br />
+I&#039;m just curious, before I...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/is-there-a-solution-to-virtviewer-0-11-spice-client-occasionally-capturing-keyboard-without-focus.186612/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Dutch Proxmox Day 2026</title>
+      <pubDate>Tue, 22 Sep 2026 21:05:58 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/dutch-proxmox-day-2026.183546/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:183546</guid>
+      <author>invalid@example.com (tuxis)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>tuxis</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi guys!<br />
+<br />
+As some of you might know we are organizing the Dutch Proxmox Day again.<br />
+Last year we decided to reach beyond our borders and have all presentations in English.<br />
+Which was a great success since almost half of the audience consisted of international visitors.<br />
+So this year will be no different!<br />
+The event is free, you only have to register: <a href="https://tools.tuxis.cloud/en/event/dutch-proxmox-tag-14" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://tools.tuxis.cloud/en/event/dutch-proxmox-tag-14</a><br />
+More information about, for example, the speakers will be published in the coming...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/dutch-proxmox-day-2026.183546/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>7</slash:comments>
+    </item>
+    <item>
+      <title>PVE 9.2.2 Secure Boot failure after full-upgrade: proxmox-secure-boot-support removed, Debian shim replaces PMX shim, 0x1A Security Violation</title>
+      <pubDate>Tue, 22 Sep 2026 20:55:56 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-9-2-2-secure-boot-failure-after-full-upgrade-proxmox-secure-boot-support-removed-debian-shim-replaces-pmx-shim-0x1a-security-violation.185251/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185251</guid>
+      <author>invalid@example.com (MacKender)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>MacKender</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><b>Summary</b><br />
+<br />
+After <code class="bbCodeInline">apt full-upgrade</code> on 2026-07-21, my Proxmox VE 9.2.2 host no longer boots with Secure Boot enabled in ASUS BIOS <code class="bbCodeInline">Windows UEFI Mode</code>.<br />
+<br />
+The upgrade removed <code class="bbCodeInline">proxmox-secure-boot-support</code> and replaced the Proxmox <code class="bbCodeInline">pmx</code> shim packages with Debian/Trixie shim packages.<br />
+<br />
+The system still boots if ASUS BIOS <code class="bbCodeInline">OS Type</code> is changed to <code class="bbCodeInline">Other OS</code>, but then Linux reports <code class="bbCodeInline">SecureBoot disabled</code>.<br />
+<br />
+I am trying to understand whether this is expected, a...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pve-9-2-2-secure-boot-failure-after-full-upgrade-proxmox-secure-boot-support-removed-debian-shim-replaces-pmx-shim-0x1a-security-violation.185251/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
     </item>
     <item>
       <title>VFIO: Firmware has requested this device have a 1:1 IOMMU mapping</title>
@@ -247,176 +460,6 @@ When this...</span><br />
 <br />
 <a href="https://forum.proxmox.com/threads/kvm-desc-next-is-2.186496/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>Cannot login with 2FA enabled</title>
-      <pubDate>Tue, 22 Sep 2026 17:16:26 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/cannot-login-with-2fa-enabled.186585/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186585</guid>
-      <author>invalid@example.com (eilko)</author>
-      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
-      <dc:creator>eilko</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi <br />
-<br />
-anyone have the same issue? I need to login to my PMG server (pmg-api/stable,now 9.1.2) and after entering username/password I get an option to enter 2FA. After I enter the code I get the &quot;license popup&quot;. Clicking on OK I get the 2FA popup again. I can ignore it and click around but several screens don&#039;t load. Until I am returned to the login screen again.</div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>installation failure</title>
-      <pubDate>Tue, 22 Sep 2026 17:04:34 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/installation-failure.186608/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186608</guid>
-      <author>invalid@example.com (bellaireroad)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>bellaireroad</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><a href="https://forum.proxmox.com/attachments/screenshot-2026-09-22-111555-png.100071/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99767-a9c31d025835f8768847f636aaf5ecfa.jpg?hash=Cdnv7k-eaP"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99767-a9c31d025835f8768847f636aaf5ecfa.jpg?hash=Cdnv7k-eaP 2x"
-		class="bbImage "
-		style=""
-		alt="Screenshot 2026-09-22 111555.png"
-		title="Screenshot 2026-09-22 111555.png"
-		width="1062" height="117" loading="lazy" /></a><br />
-getting this error on installation, where would you proceed?  thanks</div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Issues with New Install, loosing access to VMs</title>
-      <pubDate>Tue, 22 Sep 2026 16:30:03 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/issues-with-new-install-loosing-access-to-vms.186607/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186607</guid>
-      <author>invalid@example.com (neil2048)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>neil2048</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi All<br />
-<br />
-Brand new to Proxmox and mid first install, have used VMware for many years with out issues, so having a few teething issues with Proxmox, assume born from stupidity and trying to implement beyond my current level of understanding... So here goes<br />
-<br />
-We have a 6 node Proxmox cluster, 32 Core/256GB ram each.  Each host has 5 x 3.2tb NVMe&#039;s.  Now here was my first attempt to do something funky in regards to resilience within Ceph.  So using crush maps (Device Classes) with the &quot;Host&quot;...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/issues-with-new-install-loosing-access-to-vms.186607/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>GEAK OS in a test VM: looking for 10 Proxmox users to try basic NAS sharing</title>
-      <pubDate>Tue, 22 Sep 2026 15:13:58 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/geak-os-in-a-test-vm-looking-for-10-proxmox-users-to-try-basic-nas-sharing.186597/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186597</guid>
-      <author>invalid@example.com (wujunjie)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>wujunjie</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone — I&#039;m Jay from GEAK OS, so I’m posting as part of the team behind the software.<br />
-<br />
-I&#039;d like to work with an initial group of up to 10 Proxmox users who have room for a separate test VM. The idea is a small NAS experiment: install GEAK OS, create a shared folder, and check whether another computer can read and write files with the permissions you intended. Your feedback would help us improve the first installation and setup experience.<br />
-<br />
-GEAK OS is closed-source NAS software with a...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/geak-os-in-a-test-vm-looking-for-10-proxmox-users-to-try-basic-nas-sharing.186597/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>Win11 ewige Baustelle</title>
-      <pubDate>Tue, 22 Sep 2026 14:57:50 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/win11-ewige-baustelle.186135/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186135</guid>
-      <author>invalid@example.com (TErxleben)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>TErxleben</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Windows Probleme kommen und gehen. So z.B. das keine Verbindungen zu Freigaben ständig nicht verfügbar sind kam irgendwann mit Win10 (oder gar Win7) und verschwanden mit Win11. Das in der Pipeline hängende Updates bis zum Neustart zu Zickereien führen, Schwamm drüber.<br />
-<br />
-Nun quaken aber Win11-Kisten gerne über angeblichen Arbeitsspeichermangel(?).<br />
-Hat das jemand schon beobachtet und das Problem gelöst?<br />
-Oder verträgt dieses Möchtegern-OS die üblichen langen Laufzeiten einer VM tatsächlich...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/win11-ewige-baustelle.186135/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>28</slash:comments>
-    </item>
-    <item>
-      <title>failed to query local AF_VSOCK CID</title>
-      <pubDate>Tue, 22 Sep 2026 14:48:34 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/failed-to-query-local-af_vsock-cid.185221/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185221</guid>
-      <author>invalid@example.com (informant)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>informant</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi i have since last proxmox update in one vm following error:<br />
-<a href="https://forum.proxmox.com/attachments/1784644708330-png.99050/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98746-4e7c72704280f8df52480c878db55d42.jpg?hash=W6jrzXDVeG"
-		srcset="https://forum.proxmox.com/data/attachments/98/2x/98746-4e7c72704280f8df52480c878db55d42.jpg?hash=W6jrzXDVeG 2x"
-		class="bbImage "
-		style=""
-		alt="1784644708330.png"
-		title="1784644708330.png"
-		width="655" height="92" loading="lazy" /></a><br />
-what is it, it dont comes before. i have solve as workarround it with<br />
-nano /etc/default/grub<br />
-systemd.ssh_auto=no<br />
-update-grub<br />
-reboot<br />
-<br />
-any ideas?</div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>Root on encrypted ZFS boot issue suddenly</title>
-      <pubDate>Tue, 22 Sep 2026 14:47:29 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/root-on-encrypted-zfs-boot-issue-suddenly.186593/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186593</guid>
-      <author>invalid@example.com (DAVe3283)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>DAVe3283</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I rebooted one of my nodes to get a new kernel, and on startup I was dropped into initramfs busybox. It is similar to this: <a href="https://pve.proxmox.com/wiki/ZFS:_Tips_and_Tricks#Boot_fails_and_goes_into_busybox" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://pve.proxmox.com/wiki/ZFS:_Tips_and_Tricks#Boot_fails_and_goes_into_busybox</a><br />
-<br />
-I am running (unsupported, I know) an encrypted ZFS rpool:<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>root@ThreadReaper:~# zfs get encryption,encryptionroot,keylocation,keyformat,keystatus rpool/ROOT rpool/ROOT/pve-1
-NAME              PROPERTY        VALUE        SOURCE
-rpool/ROOT        encryption      aes-256-gcm  -...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/root-on-encrypted-zfs-boot-issue-suddenly.186593/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox Virtual Environment now available for 64-bit ARM (arm64)!</title>
-      <pubDate>Tue, 22 Sep 2026 13:55:41 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-virtual-environment-now-available-for-64-bit-arm-arm64.185527/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185527</guid>
-      <author>invalid@example.com (t.lamprecht)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>t.lamprecht</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">We are excited to announce the first release of Proxmox Virtual Environment with official support for a second CPU architecture: 64-bit ARM (arm64/aarch64). Until now, Proxmox VE was available for x86-64 (amd64) only.<br />
-<br />
-Proxmox VE 9.2 for arm64 shares the code base, package repositories, and release lifecycle with its x86-64 counterpart. It is built on Debian 13.5 &quot;Trixie&quot; with Linux kernel 7.0 as the stable default, and ships the same versions of our underlying key technologies, including...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-virtual-environment-now-available-for-64-bit-arm-arm64.185527/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>45</slash:comments>
-    </item>
-    <item>
-      <title>Remote tape connection</title>
-      <pubDate>Tue, 22 Sep 2026 13:31:40 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/remote-tape-connection.186480/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186480</guid>
-      <author>invalid@example.com (philippms)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>philippms</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone. I&#039;m currently testing the Proxmox Backup Server to back up around 100TB of VM data. It&#039;s working quite well. I&#039;d like to write the latest backup versions to tape once a week.<br />
-<br />
-The tape drive is located in a separate room. Our current solution involves a small workstation there that mirrors the data from a datastore on a network share once a week and then writes it to tape.<br />
-<br />
-This solution has several obvious drawbacks, not least because we would need two PBS licenses, but also...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/remote-tape-connection.186480/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
     </item>
   </channel>
 </rss>
