@@ -4,11 +4,383 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Fri, 25 Sep 2026 10:55:05 +0000</pubDate>
-    <lastBuildDate>Fri, 25 Sep 2026 10:55:05 +0000</lastBuildDate>
+    <pubDate>Fri, 25 Sep 2026 16:12:49 +0000</pubDate>
+    <lastBuildDate>Fri, 25 Sep 2026 16:12:49 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>Configure PBS datastore to use zfs dataset created in PVE</title>
+      <pubDate>Fri, 25 Sep 2026 16:03:12 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/configure-pbs-datastore-to-use-zfs-dataset-created-in-pve.186672/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186672</guid>
+      <author>invalid@example.com (whostolemyname)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>whostolemyname</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
+I have set up a Proxmox Virtual Environment on a NUC with the rootfs on a NVMe inside the NUC and 4 USB-attached HDDs. On the 4 HHDs I have created two zfs pools, each zfs pool resides on 2 mirrored HDDs.  <br />
+On the PVE a couple of unprivileged containers are running, amongst them a Nextcloud instance with the user data in one of the two zfs-pools. The zfs dataset is mounted to the Nextcloud-LXC by a mountpoint, users are mapped and everything works fine.<br />
+I have also set up an...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/configure-pbs-datastore-to-use-zfs-dataset-created-in-pve.186672/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Debug first boot hook</title>
+      <pubDate>Fri, 25 Sep 2026 15:58:53 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/debug-first-boot-hook.160434/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:160434</guid>
+      <author>invalid@example.com (rtkern9k)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>rtkern9k</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am excited to use the new &quot;First Boot Hook&quot; feature added in PVE 8.3 for automated installation.  Following the docs, I added a section to my automated answer file as follows:<br />
+[first-boot]<br />
+source = &quot;from-iso&quot;<br />
+ordering = &quot;fully-up&quot;<br />
+<br />
+I then added the answer file and a simple &quot;post_install.sh&quot; script to the proxmox 8.3 ISO as follows:<br />
+proxmox-auto-install-assistant prepare-iso proxmox-ve_8.3-1.iso --on-first-boot post_install.sh --fetch-from iso --answer-file answer.toml<br />
+<br />
+The answer file...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/debug-first-boot-hook.160434/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>[Community project] Proxion: an alternative web console for Proxmox VE</title>
+      <pubDate>Fri, 25 Sep 2026 15:26:00 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/community-project-proxion-an-alternative-web-console-for-proxmox-ve.186679/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186679</guid>
+      <author>invalid@example.com (Sedude)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Sedude</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello all. I&#039;d like to share a community project, in case it&#039;s useful to anyone here. Proxion is an independent, open-source web console that runs alongside Proxmox VE. It is not affiliated with Proxmox Server Solutions and it does not modify the host in any way; it talks to the standard REST API and the standard console websockets.<br />
+<br />
+Scope: a live dashboard, per-object pages for guests and nodes, embedded console and terminal, guest power actions, and per-user preferences. Everything is...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/community-project-proxion-an-alternative-web-console-for-proxmox-ve.186679/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Offtopic-Frage: Wie backupt ihr eure VMs und Files?</title>
+      <pubDate>Fri, 25 Sep 2026 15:25:54 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/offtopic-frage-wie-backupt-ihr-eure-vms-und-files.174054/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:174054</guid>
+      <author>invalid@example.com (maze-m)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>maze-m</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen!<br />
+<br />
+Ich habe mein Proxmox VE mittlerweile mit einer VM (Nextcloud) und drei LXC-Containern (Jellyfin, Photoprism und NFS-Server als Alma Linux 9 Container) am laufen und bin soweit zufrieden.<br />
+<br />
+Da ich mein Setup noch nicht wirklich &quot;Produktiv&quot; laufen haben, bin ich bezüglich eines Backup-Konzepts am überlegen.<br />
+<br />
+Ich habe auf dem NFS-Server drei Mounts (Musik, Videos und Fotos) erstellt, wo die Files alles auf meinem ZFS-Pool &quot;Datengrab&quot; liegen.<br />
+Ich würde gerne die Fotos extern...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/offtopic-frage-wie-backupt-ihr-eure-vms-und-files.174054/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>15</slash:comments>
+    </item>
+    <item>
+      <title>Windows Server 2025 + FSLogix Fileserver: sporadic vioscsi Event ID 129 ("Reset to device \Device\RaidPortX") causing inaccessible volume</title>
+      <pubDate>Fri, 25 Sep 2026 15:03:26 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/windows-server-2025-fslogix-fileserver-sporadic-vioscsi-event-id-129-reset-to-device-device-raidportx-causing-inaccessible-volume.186645/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186645</guid>
+      <author>invalid@example.com (bzr)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>bzr</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+we have observed a very rare but serious issue on two different Windows Server 2025 VMs running on Proxmox VE with Ceph RBD storage.<br />
+Both VMs are FSLogix profile container file servers with a nearly identical workload.<br />
+<br />
+Windows log shows:<br />
+Source: vioscsi<br />
+Event ID: 129<br />
+Reset to device, \Device\RaidPort5, was issued.<br />
+<br />
+After the first event appears, additional Event 129 warnings continue to occur.<br />
+<br />
+The affected volume:<br />
+<br />
+<ul>
+<li data-xf-list-type="ul">remains visible in Windows Explorer</li>
+<li data-xf-list-type="ul">drive letter remains...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/windows-server-2025-fslogix-fileserver-sporadic-vioscsi-event-id-129-reset-to-device-device-raidportx-causing-inaccessible-volume.186645/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>12</slash:comments>
+    </item>
+    <item>
+      <title>proxmox-tape barcode-label got timeout</title>
+      <pubDate>Fri, 25 Sep 2026 14:51:34 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-tape-barcode-label-got-timeout.186548/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186548</guid>
+      <author>invalid@example.com (gothbert)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>gothbert</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I run PBS 4.2.6. A Quantum Superloader 3 is connected via iSCSI. The iSCSI target is a Debian 13.7. PBS web interface shows the library slots and drives. I have a LTO-8 cartridge in the drive which is labeled <code class="bbCodeInline">BN0001L8</code>.<br />
+<br />
+<a href="https://forum.proxmox.com/attachments/bildschirmfoto_20260920_115218-png.100016/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99712-b136dd9c22ed24b0d36842fca06cb633.jpg?hash=HKjFf2aks8"
+		srcset="https://forum.proxmox.com/data/attachments/99/2x/99712-b136dd9c22ed24b0d36842fca06cb633.jpg?hash=HKjFf2aks8 2x"
+		class="bbImage "
+		style=""
+		alt="Bildschirmfoto_20260920_115218.png"
+		title="Bildschirmfoto_20260920_115218.png"
+		width="897" height="137" loading="lazy" /></a><br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Bash:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang="bash"><code>proxmox-tape barcode-label  -pool bn-continue --drive drive</code></pre>
+	</div>
+</div> gives <br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>checking/loading media &#039;BN0001L8&#039;
+TASK ERROR: open drive &#039;drive&#039; (/dev/tape/by-id/scsi-XXXXXXXXXX-sg) failed - wait_until_ready failed - got timeout
+Error: task failed (status open...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/proxmox-tape-barcode-label-got-timeout.186548/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
+    <item>
+      <title>Backup  to NAS Synology</title>
+      <pubDate>Fri, 25 Sep 2026 14:04:29 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/backup-to-nas-synology.149630/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:149630</guid>
+      <author>invalid@example.com (simrsta)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>simrsta</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">hi everyone<br />
+I want to ask the best way to backup to a Synology Nas<br />
+<br />
+Is there a way to back up to a Synology Nas but only back up the latest data, not back up from the beginning?<br />
+<br />
+because backing up data from the start takes a long time<br />
+<br />
+and why sometimes the latest data from new backups is smaller than the previous day<br />
+<br />
+<a href="https://forum.proxmox.com/attachments/1719285709470-png.70330/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/70/70026-664c9e93f33f72318df870617c71ed89.jpg?hash=Zkyek_M_cj"
+		srcset=""
+		class="bbImage "
+		style=""
+		alt="1719285709470.png"
+		title="1719285709470.png"
+		width="1431" height="150" loading="lazy" /></a></div>]]></content:encoded>
+      <slash:comments>21</slash:comments>
+    </item>
+    <item>
+      <title>Outgoing Emails Delivered to Spam</title>
+      <pubDate>Fri, 25 Sep 2026 14:03:27 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/outgoing-emails-delivered-to-spam.186658/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186658</guid>
+      <author>invalid@example.com (Dinesh)</author>
+      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
+      <dc:creator>Dinesh</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi All,<br />
+<br />
+I have installed and configured <b>Proxmox Mail Gateway (PMG)</b> for both incoming and outgoing email traffic.<br />
+<br />
+Incoming emails are working fine. However, all outgoing emails sent to <b>Gmail and Yahoo</b> are being delivered to the <b>Spam/Junk folder</b>, even though:<br />
+<br />
+<ul>
+<li data-xf-list-type="ul"><b>SPF:</b> Pass</li>
+<li data-xf-list-type="ul"><b>DKIM:</b> Pass</li>
+<li data-xf-list-type="ul"><b>DMARC:</b> Pass</li>
+<li data-xf-list-type="ul"><b>Mail Tester:</b> 10/10 score</li>
+</ul>Could you please guide me on what additional configurations or checks should be performed on the <b>PMG...</b><br />
+<br />
+<a href="https://forum.proxmox.com/threads/outgoing-emails-delivered-to-spam.186658/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Backup LXC to NAS NFS share Fails</title>
+      <pubDate>Fri, 25 Sep 2026 13:11:09 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/backup-lxc-to-nas-nfs-share-fails.186535/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186535</guid>
+      <author>invalid@example.com (cliver)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>cliver</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have an NFS share setup on my Asustor NAS which I want to hold my backups.<br />
+I am having trouble getting them all to work.<br />
+I have 2 LXC&#039;s currently, Lyrion Music Server and Nginx proxy manager plus one VM, HAOS.<br />
+Backing up the Lyrion container works without error but backing up the Nginx container gives the following:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>INFO: starting new backup job: vzdump 100 --notification-mode notification-system --node proxmoxve --notes-template &#039;{{guestname}}&#039; --remove 0 --mode snapshot --storage...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/backup-lxc-to-nas-nfs-share-fails.186535/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>VM VPN Client network traffic not working when Firewall enabled on Datacenter</title>
+      <pubDate>Fri, 25 Sep 2026 12:50:55 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/vm-vpn-client-network-traffic-not-working-when-firewall-enabled-on-datacenter.186676/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186676</guid>
+      <author>invalid@example.com (bfkmnemonic)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>bfkmnemonic</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+I have an issue where when I enable the Firewall on the Datacenter some VM traffic is blocked even when firewall is not enabled on the VM.<br />
+<br />
+Just to clearify. This is how I reproduce the problem.<br />
+<br />
+1. Connect to a specific VM using the console<br />
+2. Connect to a customer site using Cisco VPN client<br />
+<br />
+Result:<br />
+The VPN connection is established after valid login.<br />
+<br />
+3. Enable Firewall on the Datacenter in the tree inside Proxmox VE.<br />
+4. Check that Firewall is NOT enabled on the given VM (Also...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/vm-vpn-client-network-traffic-not-working-when-firewall-enabled-on-datacenter.186676/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>queued mail ... host 127.0.0.1[127.0.0.1] said: 451 4.4.0 detected undelivered mail to &lt;user@domain.com&gt; (in reply to end of DATA command)</title>
+      <pubDate>Fri, 25 Sep 2026 12:07:12 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/queued-mail-host-127-0-0-1-127-0-0-1-said-451-4-4-0-detected-undelivered-mail-to-user-domain-com-in-reply-to-end-of-data-command.186623/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186623</guid>
+      <author>invalid@example.com (Gambix)</author>
+      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
+      <dc:creator>Gambix</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am on PMG 9.12 (fully updated), on enterprise repo.<br />
+<br />
+I have an email that does not get transferred to internal server. I can see in the queue as deferred.<br />
+<br />
+In the deferred tab, it says reason:<br />
+host 127.0.0.1[127.0.0.1] said: 451 4.4.0 detected undelivered mail to &lt;<a href="mailto:USER@DOMAIN.com">USER@DOMAIN.com</a>&gt; (in reply to end of DATA command)<br />
+<br />
+<a href="mailto:USER@DOMAIN.com">USER@DOMAIN.com</a> is our internal domain that I replaced for privacy. Other mails to same internal domain get in with no issues. This one seems to be stuck.<br />
+<br />
+Please...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/queued-mail-host-127-0-0-1-127-0-0-1-said-451-4-4-0-detected-undelivered-mail-to-user-domain-com-in-reply-to-end-of-data-command.186623/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>How to change the number of cores (and memory) allocated to Ceph OSDs?</title>
+      <pubDate>Fri, 25 Sep 2026 11:57:00 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-to-change-the-number-of-cores-and-memory-allocated-to-ceph-osds.186519/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186519</guid>
+      <author>invalid@example.com (J-Rod)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>J-Rod</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m experimenting with Ceph compression and am happy with the reduction in space usage, but the OSDs seem to be CPU bottlenecked with what appears to be only two cores allocated per OSD.  I can&#039;t seem to find the information in the PVE or Ceph documentation on changing this, and some online resources that mention specific commands in this area don&#039;t seem to apply to Ceph 20.<br />
+<br />
+Also, I&#039;ve seen it reported various times that PVE makes some tweaks to the default Ceph CPU &amp; memory allocations...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/how-to-change-the-number-of-cores-and-memory-allocated-to-ceph-osds.186519/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>qcow2 file is bigger as hdd config</title>
+      <pubDate>Fri, 25 Sep 2026 11:45:17 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/qcow2-file-is-bigger-as-hdd-config.186565/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186565</guid>
+      <author>invalid@example.com (informant)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>informant</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi all, a small question, my qcow2 files are bigger as i have set in configuration, most 1-75-2x bigger as configured. no snapshots are available in this. fallocate -d vm.qcow2 i have done already, same issue. what is the problem, why files are bigger as in configuration. how can i solve it? any ideas here?<br />
+i mean it was old crap but qemu-img convert -O qcow2 vm-5137-disk-0.qcow2 vm-5137-disk-0_clean.qcow2 dont help too. need other way.<br />
+regards<br />
+<br />
+example screens in attachment!</div>]]></content:encoded>
+      <slash:comments>13</slash:comments>
+    </item>
+    <item>
+      <title>BTRFS Warnungen beim umount</title>
+      <pubDate>Fri, 25 Sep 2026 11:30:26 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/btrfs-warnungen-beim-umount.186651/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186651</guid>
+      <author>invalid@example.com (JensF)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>JensF</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Seit Kernel 7.0.14-18-pve (und 7.0.14-19-pve) kommt beim umount eines USB-RDX-Laufwerks, welches auf BTRFS formatiert ist, folgende Warnungen:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Sep 24 11:58:14 pbs2 kernel: BTRFS warning (device sdc1): unable to release extent buffer 22036480 owner 3 gen 8 refs 4 flags 0x5
+Sep 24 11:58:14 pbs2 kernel: BTRFS warning (device sdc1): unable to release extent buffer 30425088 owner 5 gen 5 refs 4 flags 0x5
+Sep 24 11:58:14 pbs2 kernel: BTRFS warning (device sdc1): unable to release extent buffer...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/btrfs-warnungen-beim-umount.186651/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>Backup randomly fails on Synology NAS</title>
+      <pubDate>Fri, 25 Sep 2026 11:08:25 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/backup-randomly-fails-on-synology-nas.178994/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:178994</guid>
+      <author>invalid@example.com (mirmalag)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>mirmalag</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have troubles backing up an LXC container on PROXMOX VE 9.<br />
+I do it as a backup job that saves shapshot images on a NAS.<br />
+Strange thing is that it happens sometimes, not always.<br />
+<br />
+Traced error is:<br />
+2026-01-10 01:05:02 INFO: zstd: error 70 : Write error : cannot write block : Bad address<br />
+<br />
+Backup NAS is a Synology RS422+ (OS DSM 7.3.2)<br />
+Images are saved on a mounted folder shared by the NAS as an SMB volume<br />
+Diagnostics on the NAS did not reveal any problem.<br />
+<br />
+More detailed infos are attached.<br />
+<br />
+Can...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/backup-randomly-fails-on-synology-nas.178994/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>18</slash:comments>
+    </item>
+    <item>
+      <title>Module Auto Proxmox WHMCS</title>
+      <pubDate>Fri, 25 Sep 2026 10:59:34 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/module-auto-proxmox-whmcs.95522/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:95522</guid>
+      <author>invalid@example.com (M14092007)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>M14092007</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have a server with Proxmox installed and want to integrate it into WHMCS to automate sales and product management. Does anyone have a Proxmox automation module for WHMCS 8+? If yes, please share it with me. I have looked at modulegarden&#039;s modules but the price is quite high and I can&#039;t afford it. Please help me and thanks</div>]]></content:encoded>
+      <slash:comments>10</slash:comments>
+    </item>
     <item>
       <title>WHMCS Module and Proxmox server IP issue</title>
       <pubDate>Fri, 25 Sep 2026 10:54:50 +0000</pubDate>
@@ -51,44 +423,6 @@ Proxmox API...</code></pre>
       <slash:comments>6</slash:comments>
     </item>
     <item>
-      <title>Configure PBS datastore to use zfs dataset created in PVE</title>
-      <pubDate>Fri, 25 Sep 2026 09:54:18 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/configure-pbs-datastore-to-use-zfs-dataset-created-in-pve.186672/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186672</guid>
-      <author>invalid@example.com (whostolemyname)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>whostolemyname</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
-I have set up a Proxmox Virtual Environment on a NUC with the rootfs on a NVMe inside the NUC and 4 USB-attached HDDs. On the 4 HHDs I have created two zfs pools, each zfs pool resides on 2 mirrored HDDs.  <br />
-On the PVE a couple of unprivileged containers are running, amongst them a Nextcloud instance with the user data in one of the two zfs-pools. The zfs dataset is mounted to the Nextcloud-LXC by a mountpoint, users are mapped and everything works fine.<br />
-I have also set up an...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/configure-pbs-datastore-to-use-zfs-dataset-created-in-pve.186672/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>queued mail ... host 127.0.0.1[127.0.0.1] said: 451 4.4.0 detected undelivered mail to &lt;user@domain.com&gt; (in reply to end of DATA command)</title>
-      <pubDate>Fri, 25 Sep 2026 09:47:47 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/queued-mail-host-127-0-0-1-127-0-0-1-said-451-4-4-0-detected-undelivered-mail-to-user-domain-com-in-reply-to-end-of-data-command.186623/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186623</guid>
-      <author>invalid@example.com (Gambix)</author>
-      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
-      <dc:creator>Gambix</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I am on PMG 9.12 (fully updated), on enterprise repo.<br />
-<br />
-I have an email that does not get transferred to internal server. I can see in the queue as deferred.<br />
-<br />
-In the deferred tab, it says reason:<br />
-host 127.0.0.1[127.0.0.1] said: 451 4.4.0 detected undelivered mail to &lt;<a href="mailto:USER@DOMAIN.com">USER@DOMAIN.com</a>&gt; (in reply to end of DATA command)<br />
-<br />
-<a href="mailto:USER@DOMAIN.com">USER@DOMAIN.com</a> is our internal domain that I replaced for privacy. Other mails to same internal domain get in with no issues. This one seems to be stuck.<br />
-<br />
-Please...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/queued-mail-host-127-0-0-1-127-0-0-1-said-451-4-4-0-detected-undelivered-mail-to-user-domain-com-in-reply-to-end-of-data-command.186623/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
       <title>Linux Bridge (vmbr0) silently drops unicast traffic to specific TAP interfaces after corosync-qdevice setup incident — PVE 9.2.3, kernel 7.0.6-2-pve</title>
       <pubDate>Fri, 25 Sep 2026 09:30:40 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/linux-bridge-vmbr0-silently-drops-unicast-traffic-to-specific-tap-interfaces-after-corosync-qdevice-setup-incident-%E2%80%94-pve-9-2-3-kernel-7-0-6-2-pve.184688/</link>
@@ -119,344 +453,6 @@ Since installing corosync-qdevice on our 4-node cluster (an installation that in
 <br />
 <a href="https://forum.proxmox.com/threads/losing-dirty-bitmaps-during-live-migration.186659/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Root on encrypted ZFS boot issue suddenly</title>
-      <pubDate>Fri, 25 Sep 2026 08:08:19 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/root-on-encrypted-zfs-boot-issue-suddenly.186593/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186593</guid>
-      <author>invalid@example.com (DAVe3283)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>DAVe3283</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I rebooted one of my nodes to get a new kernel, and on startup I was dropped into initramfs busybox. It is similar to this: <a href="https://pve.proxmox.com/wiki/ZFS:_Tips_and_Tricks#Boot_fails_and_goes_into_busybox" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://pve.proxmox.com/wiki/ZFS:_Tips_and_Tricks#Boot_fails_and_goes_into_busybox</a><br />
-<br />
-I am running (unsupported, I know) an encrypted ZFS rpool:<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>root@ThreadReaper:~# zfs get encryption,encryptionroot,keylocation,keyformat,keystatus rpool/ROOT rpool/ROOT/pve-1
-NAME              PROPERTY        VALUE        SOURCE
-rpool/ROOT        encryption      aes-256-gcm  -...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/root-on-encrypted-zfs-boot-issue-suddenly.186593/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>10</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox File Level Restore Portal (Open Source) with snapshot timeline and guest restore</title>
-      <pubDate>Fri, 25 Sep 2026 07:59:53 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-file-level-restore-portal-open-source-with-snapshot-timeline-and-guest-restore.186660/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186660</guid>
-      <author>invalid@example.com (HappyHog)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>HappyHog</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Proxmox&#039;s file-restore feature (browse/download individual files out of a PBS backup via the helper-VM) already does the hard part — it&#039;s just missing a way to scrub across snapshots instead of picking one at a time from a flat dropdown. I built a small companion app on top of it, in the spirit of Synology Active Backup for Business&#039;s restore browser.<br />
-<br />
-<a href="https://forum.proxmox.com/attachments/main-screen-png.100106/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99802-7ab5877d1419a5de59f707d588da3e45.jpg?hash=9BR32BtDbs"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99802-7ab5877d1419a5de59f707d588da3e45.jpg?hash=9BR32BtDbs 2x"
-		class="bbImage "
-		style=""
-		alt="main-screen.png"
-		title="main-screen.png"
-		width="249" height="150" loading="lazy" /></a><br />
-<br />
-What it does:<br />
-- A drag-to-scrub timeline across every snapshot of a guest, instead of a flat list<br />
-- Browse/download files or...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-file-level-restore-portal-open-source-with-snapshot-timeline-and-guest-restore.186660/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>QEMU 11.1 available on pve-test as of now</title>
-      <pubDate>Fri, 25 Sep 2026 07:38:03 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/qemu-11-1-available-on-pve-test-as-of-now.186669/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186669</guid>
-      <author>invalid@example.com (fiona)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>fiona</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">There is a new QEMU 11.1 package available in the <code class="bbCodeInline">pve-test</code> repository for Proxmox VE 9.<br />
-<br />
-The package was tested internally for over two weeks and is now (2026-09-23) made available on the <code class="bbCodeInline">pve-test</code> repository.<br />
-<br />
-This QEMU version is planned to become the new default version for the next Proxmox VE point release later this year.<br />
-<br />
-Version <code class="bbCodeInline">11.1.1-1</code> of our QEMU package <code class="bbCodeInline">pve-qemu-kvm</code> includes some important stable fixes that have been developed since the original QEMU 11.1...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/qemu-11-1-available-on-pve-test-as-of-now.186669/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Windows VM with a passed through GPU slows down whole host to near not responding when powered on</title>
-      <pubDate>Fri, 25 Sep 2026 07:31:15 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/windows-vm-with-a-passed-through-gpu-slows-down-whole-host-to-near-not-responding-when-powered-on.186655/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186655</guid>
-      <author>invalid@example.com (vaxis)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>vaxis</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Initial setup of the Win VM with the GPU pass through worked with no issues. The issue only started when I installed a m.2 to sata expansion card on my mITX motherboard THEN passed it through a virtualized TrueNAS.<br />
-<br />
-I have already have separated my IOMMU groups and can also confirm that the new m.2 to sata adapter is on its own separate group. Currently host is up and has been up for a few weeks but I had to remove the passed through GPU to the Windows VM. <br />
-<br />
-This is my first time posting and...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/windows-vm-with-a-passed-through-gpu-slows-down-whole-host-to-near-not-responding-when-powered-on.186655/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>9</slash:comments>
-    </item>
-    <item>
-      <title>Windows Server 2025 + FSLogix Fileserver: sporadic vioscsi Event ID 129 ("Reset to device \Device\RaidPortX") causing inaccessible volume</title>
-      <pubDate>Fri, 25 Sep 2026 07:30:19 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/windows-server-2025-fslogix-fileserver-sporadic-vioscsi-event-id-129-reset-to-device-device-raidportx-causing-inaccessible-volume.186645/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186645</guid>
-      <author>invalid@example.com (bzr)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>bzr</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-we have observed a very rare but serious issue on two different Windows Server 2025 VMs running on Proxmox VE with Ceph RBD storage.<br />
-Both VMs are FSLogix profile container file servers with a nearly identical workload.<br />
-<br />
-Windows log shows:<br />
-Source: vioscsi<br />
-Event ID: 129<br />
-Reset to device, \Device\RaidPort5, was issued.<br />
-<br />
-After the first event appears, additional Event 129 warnings continue to occur.<br />
-<br />
-The affected volume:<br />
-<br />
-<ul>
-<li data-xf-list-type="ul">remains visible in Windows Explorer</li>
-<li data-xf-list-type="ul">drive letter remains...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/windows-server-2025-fslogix-fileserver-sporadic-vioscsi-event-id-129-reset-to-device-device-raidportx-causing-inaccessible-volume.186645/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>10</slash:comments>
-    </item>
-    <item>
-      <title>Ubuntu server issue after backup</title>
-      <pubDate>Fri, 25 Sep 2026 07:23:41 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ubuntu-server-issue-after-backup.186414/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186414</guid>
-      <author>invalid@example.com (ccnet)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>ccnet</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-<b>Config :</b><br />
-Ubuntu 22.04.5 LTS vm on PVE 9.2<br />
-PBS 4.2<br />
-Qemu agent installed in option.<br />
-Qemu agent running on the vm, tested with &quot;systemctl status qemu-guest-agent&quot;<br />
-qemu agent 10x ping is working<br />
-In Hardware SCSI Controler is &quot;LSI 53C895A&quot;<br />
-<br />
-<b>Issues</b><br />
-Logs :<br />
-112: 2026-09-13 19:07:33 INFO: skipping guest filesystem freeze - <b>agent configured but not running?</b><br />
-112: 2026-09-13 19:07:33 INFO: starting backup via QMP command<br />
-112: 2026-09-13 19:07:34 INFO: started backup task...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/ubuntu-server-issue-after-backup.186414/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>8</slash:comments>
-    </item>
-    <item>
-      <title>SR-IOV - Intel Arc Pro B50 - Hohe 3D Auslastung, aber stockender Desktop</title>
-      <pubDate>Fri, 25 Sep 2026 07:17:02 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/sr-iov-intel-arc-pro-b50-hohe-3d-auslastung-aber-stockender-desktop.186460/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186460</guid>
-      <author>invalid@example.com (Daniel [Karl_Pedross])</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>Daniel [Karl_Pedross]</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
-<br />
-Seit kurzem haben wir Proxmox 9.2 auf einem DL385 Gen 10 Plus laufen.<br />
-Ziel dieses Servers ist unter anderem Terminalserver Windows 2022 mit GPU auszuführen.<br />
-Jetzt haben wir aber bemerkt, dass bereits ein einzelner Benutzer in der Lage ist mit etwas so trivialem wie scrollen in einer text-PDF die Grafikkartenauslastung auf 100% zu treiben. Die Performance ist dann entsprechend für alle Benutzer auf diesem Server entsprechend schlecht.<br />
-<br />
-Dieser Server ist mit einer Intel Arc...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/sr-iov-intel-arc-pro-b50-hohe-3d-auslastung-aber-stockender-desktop.186460/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>25</slash:comments>
-    </item>
-    <item>
-      <title>pve-cephx-rotate-service-keys error in restrict-ciphers phase "not every monitor answered the session query"</title>
-      <pubDate>Fri, 25 Sep 2026 07:03:26 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pve-cephx-rotate-service-keys-error-in-restrict-ciphers-phase-not-every-monitor-answered-the-session-query.186444/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186444</guid>
-      <author>invalid@example.com (zukka)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>zukka</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi, I&#039;m following the instructions to make the aes -&gt; aes256k ceph key migration.<br />
-I&#039;ve a 3 node cluster, with all the updates installed.<br />
-Everything went fine until I had to run the last step:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Bash:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang="bash"><code>/usr/share/pve-manager/migrations/pve-cephx-rotate-service-keys
-INFO: This is a dry run. No Ceph key, cipher setting, or daemon will be changed. Session observations can update the migration journal.
-PASS: Every service key uses &#039;aes256k&#039;, and so do the service tickets.
-
-Remaining migration steps...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/pve-cephx-rotate-service-keys-error-in-restrict-ciphers-phase-not-every-monitor-answered-the-session-query.186444/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>BTRFS Warnungen beim umount</title>
-      <pubDate>Fri, 25 Sep 2026 06:47:28 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/btrfs-warnungen-beim-umount.186651/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186651</guid>
-      <author>invalid@example.com (JensF)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>JensF</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Seit Kernel 7.0.14-18-pve (und 7.0.14-19-pve) kommt beim umount eines USB-RDX-Laufwerks, welches auf BTRFS formatiert ist, folgende Warnungen:<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Sep 24 11:58:14 pbs2 kernel: BTRFS warning (device sdc1): unable to release extent buffer 22036480 owner 3 gen 8 refs 4 flags 0x5
-Sep 24 11:58:14 pbs2 kernel: BTRFS warning (device sdc1): unable to release extent buffer 30425088 owner 5 gen 5 refs 4 flags 0x5
-Sep 24 11:58:14 pbs2 kernel: BTRFS warning (device sdc1): unable to release extent buffer...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/btrfs-warnungen-beim-umount.186651/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>data corruption on shared-lvm</title>
-      <pubDate>Fri, 25 Sep 2026 06:46:36 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/data-corruption-on-shared-lvm.186650/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186650</guid>
-      <author>invalid@example.com (grisu68)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>grisu68</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-i have i weird situation with one of our shared-FC-storages<br />
-<br />
-<br />
-given:<br />
-3 nodes, each connected to a FC-switches ( 2 HBA-ports each, multipath)<br />
-2 storage-systems in the backend - configured a shared-storage on all 3 nodes<br />
- - ds1 - a HPE MSA2050<br />
- - san1 - a HUAWAI  (provided by our hoster)<br />
-<br />
-<br />
-setup:<br />
-a VM (id 114)  with 4 data-disks<br />
-/tst1 - on the local-store<br />
-/tst2 - on ds1 with qcow2<br />
-/tst3 - on ds1 with raw<br />
-/tst4 - on san1 with qcow2<br />
-<br />
-issue:<br />
-file-corruption after copy from local store to...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/data-corruption-on-shared-lvm.186650/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>USV Software Empfehlung für APC und Proxmox Cluster</title>
-      <pubDate>Fri, 25 Sep 2026 06:22:39 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/usv-software-empfehlung-f%C3%BCr-apc-und-proxmox-cluster.186638/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186638</guid>
-      <author>invalid@example.com (oelk)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>oelk</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
-<br />
-wir haben Proxmox Cluster mit 6 und 8 Knoten, die an mehreren großen APC-USV (Rack-Version) hängen.<br />
-Wie kriegt man die übers Netzwerk beim Stromausfall runtergefahren?<br />
-Ich hab hier gelesen, NUT ist im Einsatz, hatte ich mich mal vor vielen Jahren damit beschäftigt, Finde ich ziemlich krampfig,<br />
-Die Doku und die verschiedenen cfgs sind eigentlich was für Sado-Masochisten.<br />
-Gibts da Alternativen?<br />
-<br />
-Was passiert mit den VMs in dieser Situation? Werden die automatisch durch Proxmox...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/usv-software-empfehlung-f%C3%BCr-apc-und-proxmox-cluster.186638/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Guide for Persistent Storage over NFS/SMB for OCI-based LXCs?</title>
-      <pubDate>Fri, 25 Sep 2026 05:24:27 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/guide-for-persistent-storage-over-nfs-smb-for-oci-based-lxcs.186338/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186338</guid>
-      <author>invalid@example.com (SInisterPisces)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>SInisterPisces</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-I&#039;d like to experiment with the new OCI container-in-LXC support in PVE 9. I&#039;ve got a relatively simple container picked out to try (basically, an internet uptime monitor to detect WAN disconnects), but it&#039;s going to need a bit of external storage.<br />
-<br />
-<b>I know I can do this with bind-mounts, but I&#039;m not sure how to configure everything. Usually, I&#039;d set up a container&#039;s bind mount in Docker compose if I&#039;m using a Docker image. I know I can add a bind mount  to an NFS or SMB share on...</b><br />
-<br />
-<a href="https://forum.proxmox.com/threads/guide-for-persistent-storage-over-nfs-smb-for-oci-based-lxcs.186338/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>Outgoing Emails Delivered to Spam</title>
-      <pubDate>Fri, 25 Sep 2026 05:06:44 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/outgoing-emails-delivered-to-spam.186658/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186658</guid>
-      <author>invalid@example.com (Dinesh)</author>
-      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
-      <dc:creator>Dinesh</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi All,<br />
-<br />
-I have installed and configured <b>Proxmox Mail Gateway (PMG)</b> for both incoming and outgoing email traffic.<br />
-<br />
-Incoming emails are working fine. However, all outgoing emails sent to <b>Gmail and Yahoo</b> are being delivered to the <b>Spam/Junk folder</b>, even though:<br />
-<br />
-<ul>
-<li data-xf-list-type="ul"><b>SPF:</b> Pass</li>
-<li data-xf-list-type="ul"><b>DKIM:</b> Pass</li>
-<li data-xf-list-type="ul"><b>DMARC:</b> Pass</li>
-<li data-xf-list-type="ul"><b>Mail Tester:</b> 10/10 score</li>
-</ul>Could you please guide me on what additional configurations or checks should be performed on the <b>PMG...</b><br />
-<br />
-<a href="https://forum.proxmox.com/threads/outgoing-emails-delivered-to-spam.186658/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Nachträgliche Änderungen der Optionen 'OS Typ'</title>
-      <pubDate>Fri, 25 Sep 2026 05:02:45 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/nachtr%C3%A4gliche-%C3%84nderungen-der-optionen-os-typ.186637/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186637</guid>
-      <author>invalid@example.com (oelk)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>oelk</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
-<br />
-was hat das für Folgen, wenn ich die Option &#039;OS Typ&#039; von Linux auf Windows umstelle?<br />
-Da gabs Knalltüten, die Windows Server von vmware migriert hatten und im &#039;OS Typ&#039; Linux drin stehen haben.<br />
-<br />
-Kann man das gefahrlos ändern auf Windows oder hat fatale Folgen in der Windows-VM?<br />
-<br />
-MfG</div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
     </item>
   </channel>
 </rss>
