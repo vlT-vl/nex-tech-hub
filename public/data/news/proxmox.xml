@@ -4,14 +4,285 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Thu, 01 Oct 2026 12:09:02 +0000</pubDate>
-    <lastBuildDate>Thu, 01 Oct 2026 12:09:02 +0000</lastBuildDate>
+    <pubDate>Thu, 01 Oct 2026 22:13:02 +0000</pubDate>
+    <lastBuildDate>Thu, 01 Oct 2026 22:13:02 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
+      <title>Dell PowerEdge R630 reboots immediately on kernel 6.17.2-2-pve (PWR2262 / CPU0704 / UEFI0078)</title>
+      <pubDate>Thu, 01 Oct 2026 22:07:44 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/dell-poweredge-r630-reboots-immediately-on-kernel-6-17-2-2-pve-pwr2262-cpu0704-uefi0078.177201/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:177201</guid>
+      <author>invalid@example.com (msp)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>msp</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+I’m experiencing an issue booting the new Proxmox kernel 6.17.2-2-pve on a Dell PowerEdge R630.<br />
+The system boots perfectly with kernel 6.14.11-4-pve, but kernel 6.17 reboots instantly before reaching a shell.<br />
+<br />
+This looks like a platform-specific regression affecting Dell 13G servers (R630/R730), so I’d like to provide details and check with the Proxmox kernel maintainers.<br />
+<br />
+Hardware / Firmware<br />
+Server: Dell PowerEdge R630<br />
+CPUs: Intel(R) Xeon(R) CPU E5-2660 v3<br />
+BIOS: 2.19.0<br />
+<br />
+Working Kernel...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/dell-poweredge-r630-reboots-immediately-on-kernel-6-17-2-2-pve-pwr2262-cpu0704-uefi0078.177201/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>10</slash:comments>
+    </item>
+    <item>
+      <title>USV Software Empfehlung für APC und Proxmox Cluster</title>
+      <pubDate>Thu, 01 Oct 2026 22:00:30 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/usv-software-empfehlung-f%C3%BCr-apc-und-proxmox-cluster.186638/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186638</guid>
+      <author>invalid@example.com (oelk)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>oelk</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
+<br />
+wir haben Proxmox Cluster mit 6 und 8 Knoten, die an mehreren großen APC-USV (Rack-Version) hängen.<br />
+Wie kriegt man die übers Netzwerk beim Stromausfall runtergefahren?<br />
+Ich hab hier gelesen, NUT ist im Einsatz, hatte ich mich mal vor vielen Jahren damit beschäftigt, Finde ich ziemlich krampfig,<br />
+Die Doku und die verschiedenen cfgs sind eigentlich was für Sado-Masochisten.<br />
+Gibts da Alternativen?<br />
+<br />
+Was passiert mit den VMs in dieser Situation? Werden die automatisch durch Proxmox...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/usv-software-empfehlung-f%C3%BCr-apc-und-proxmox-cluster.186638/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>11</slash:comments>
+    </item>
+    <item>
+      <title>proxmox 8.0.3 and 7.4-16 with smartmontools 7.2-pve3 and 7.3-pve1"program smartctl is using a deprecated SCSI ioctl, please convert it to SG_IO"</title>
+      <pubDate>Thu, 01 Oct 2026 21:59:04 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-8-0-3-and-7-4-16-with-smartmontools-7-2-pve3-and-7-3-pve1-program-smartctl-is-using-a-deprecated-scsi-ioctl-please-convert-it-to-sg_io.131276/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:131276</guid>
+      <author>invalid@example.com (Szymons)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Szymons</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I have dmesg errors :<br />
+<br />
+
+
+
+
+<blockquote data-attributes="" data-quote="" data-source=""
+	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
+	
+	<div class="bbCodeBlock-content">
+		
+		<div class="bbCodeBlock-expandContent js-expandContent ">
+			program smartctl is using a deprecated SCSI ioctl, please convert it to SG_IO
+		</div>
+		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
+	</div>
+</blockquote><br />
+proxmox version:<br />
+
+
+
+
+<blockquote data-attributes="" data-quote="" data-source=""
+	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
+	
+	<div class="bbCodeBlock-content">
+		
+		<div class="bbCodeBlock-expandContent js-expandContent ">
+			proxmox-ve: 7.4-1 (running kernel: 5.15.108-1-pve)<br />
+pve-manager: 7.4-15 (running version: 7.4-15/a5d2a31e)<br />
+pve-kernel-5.15: 7.4-4<br />
+pve-kernel-5.15.108-1-pve: 5.15.108-1<br />
+pve-kernel-5.15.107-2-pve: 5.15.107-2<br />
+ceph-fuse: 14.2.21-1<br />
+corosync: 3.1.7-pve1<br />
+criu: 3.15-1+pve-1<br />
+glusterfs-client: 9.2-1<br />
+ifupdown2: 3.1.0-1+pmx4<br />
+libjs-extjs: 7.0.0-1<br />
+libknet1: 1.24-pve2...
+		</div>
+		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
+	</div>
+</blockquote><br />
+<a href="https://forum.proxmox.com/threads/proxmox-8-0-3-and-7-4-16-with-smartmontools-7-2-pve3-and-7-3-pve1-program-smartctl-is-using-a-deprecated-scsi-ioctl-please-convert-it-to-sg_io.131276/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>17</slash:comments>
+    </item>
+    <item>
+      <title>Major issues after upgrade 8-9</title>
+      <pubDate>Thu, 01 Oct 2026 21:56:33 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/major-issues-after-upgrade-8-9.186713/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186713</guid>
+      <author>invalid@example.com (AceMilo)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>AceMilo</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi, I&#039;m trying to upgrade my proxmox from 8 to 9.  It is currently displaying it as version 9.2.2 when it boots.  I cannot pass PCI devices anymore to my vms, specifically truenas.  It doesn&#039;t see my network card or my disk controller.  It did work in 8.  I&#039;ve tried every combo of pci-e on/off, rom on/off, etc and I cannot get anything to passthrough.  Please, I&#039;m at my witt&#039;s end.  Any help is greatly appreciated.<br />
+<br />
+Thanks</div>]]></content:encoded>
+      <slash:comments>32</slash:comments>
+    </item>
+    <item>
+      <title>How to migrate VM which is larger SSD to smaller SSD.</title>
+      <pubDate>Thu, 01 Oct 2026 21:52:36 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-to-migrate-vm-which-is-larger-ssd-to-smaller-ssd.186800/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186800</guid>
+      <author>invalid@example.com (bravo0916)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>bravo0916</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello team,<br />
+<br />
+I would like to migrate one VM machine which disk size is around 200GB to smaller SSD disk size (like 60GB). Could you please adivise me some hints for this.<br />
+<br />
+Thank you very much for your support!<br />
+<br />
+Regards,</div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Network</title>
+      <pubDate>Thu, 01 Oct 2026 21:50:59 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/network.186798/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186798</guid>
+      <author>invalid@example.com (malanden)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>malanden</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am clearly doing something dumb, and just have not figured it out<br />
+My proxmox server is at a local DC<br />
+It is connected to my home router via Route Based IPSEC<br />
+From the CLI of the Proxmox server, I can ping any host on my home subnet, no issues<br />
+From home subnet I can access any proxmox VM with no issues, including my windows server 2025 VM<br />
+<br />
+The problem is, when I try to go the other way<br />
+I cannot ping or connect from ANY proxmox VM to my home subnet<br />
+Proxmox CLI just fine<br />
+Actual VMs, nope...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/network.186798/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Crash with kernel 7.0.14-20-pve and passed through em28xx tuner on VM start</title>
+      <pubDate>Thu, 01 Oct 2026 20:24:42 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/crash-with-kernel-7-0-14-20-pve-and-passed-through-em28xx-tuner-on-vm-start.186799/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186799</guid>
+      <author>invalid@example.com (Starfire)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Starfire</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Proxmox VE 9.2.21<br />
+<br />
+After upgrading to kernel 7.0.14-20-pve I get a reproducible crash when starting a VM. This seems to be caused by a passed through em28xx-usb-tuner.<br />
+The VM will fail to start and the host is also not fine after that, e.g. it will hang on the &#039;rebooting now&#039; and needs to be power cycled.<br />
+<br />
+The crash only appeared with 7.0.14-20-pve, with 7.0.14-19-pve everything is good.<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Oct 01 22:01:20 starpve1 kernel: BUG: kernel NULL pointer dereference, address: 0000000000000000
+Oct...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/crash-with-kernel-7-0-14-20-pve-and-passed-through-em28xx-tuner-on-vm-start.186799/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>sparsame Hardware</title>
+      <pubDate>Thu, 01 Oct 2026 19:44:56 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/sparsame-hardware.186681/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186681</guid>
+      <author>invalid@example.com (RaSc)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>RaSc</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Wertes Forum,<br />
+<br />
+ich betreibe Proxmox aktuell auf einem N100 - Chip Board mit 16 GB RAM und SSDs. Ich habe OMV und iOBroker in jeweils einer eigenen VM, Grafana in einem Container und paperless in einem Docker-Container in einer VM. Da es als Bastelprojekt begann, ist das etwas Flickwerk. Aber es läuft.<br />
+<br />
+Nun plane ich mit einem neuen blanken System zu starten. Die Anwendungen würden ähnlich sein. Ich habe damals eher auf geringen Stromverbrauch und geringen Geräuschpegel als auf purer Leistung...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/sparsame-hardware.186681/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>21</slash:comments>
+    </item>
+    <item>
+      <title>Intel pentium 8505 support</title>
+      <pubDate>Thu, 01 Oct 2026 19:31:11 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/intel-pentium-8505-support.164140/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:164140</guid>
+      <author>invalid@example.com (Singman)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Singman</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+Are you sure the Pentium 8505 is supported by Proxmox ?<br />
+I have a few mini PC with this processor and they are all really unstable under Proxmox (latest version, intel firmware installed).<br />
+Under Linux, I tried many stress tests and they are rock solid.<br />
+Same for memory with memtest86+.</div>]]></content:encoded>
+      <slash:comments>22</slash:comments>
+    </item>
+    <item>
+      <title>Opt-in Linux 7.0 Kernel for Proxmox VE 9 available</title>
+      <pubDate>Thu, 01 Oct 2026 19:07:23 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:182328</guid>
+      <author>invalid@example.com (t.lamprecht)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>t.lamprecht</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">We recently uploaded the 7.0 (rc6) kernel to our repositories. The current default kernel for the Proxmox VE 9 series is still 6.17, but 7.0 is now an option.<br />
+<br />
+We plan to use the 7.0 kernel as the new default for the upcoming Proxmox VE 9.2 and Proxmox Backup Server 4.2 releases planned later in Q2.<br />
+This follows our tradition of upgrading the Proxmox VE kernel to match the current Ubuntu version until we reach an Ubuntu LTS release, at which point we will only provide newer kernels as an...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>239</slash:comments>
+    </item>
+    <item>
+      <title>NUT UPS stopped working after upgrade from PVE 8 to 9</title>
+      <pubDate>Thu, 01 Oct 2026 18:45:18 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/nut-ups-stopped-working-after-upgrade-from-pve-8-to-9.186786/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186786</guid>
+      <author>invalid@example.com (fcarneiro)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>fcarneiro</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+I just upgraded a server running Proxmox version 8 (PVE 8.4.19, Debian 12.14, kernel 6.8.12-30-pve) to version 9 (PVE 9.2.21, Debian 13.7, kernel 7.0.14-20-pve) and the NUT UPS server/monitor stopped working. It doesn&#039;t connect to the UPS anymore and doesn&#039;t even detect it with nut-scanner.<br />
+<br />
+Everything was working fine just before the upgrade. There were no physical changes or any change on the UPS, just the OS upgrade/reboot.<br />
+<br />
+I&#039;ve checked the nut group assignments and udev rules and...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/nut-ups-stopped-working-after-upgrade-from-pve-8-to-9.186786/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Slow/hanging Proxmox consoles after upgrade to 9.2.20 (from 9.2.4)</title>
+      <pubDate>Thu, 01 Oct 2026 18:41:45 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/slow-hanging-proxmox-consoles-after-upgrade-to-9-2-20-from-9-2-4.186721/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186721</guid>
+      <author>invalid@example.com (baas54)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>baas54</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><b>Symptom</b><br />
+After upgrading to Proxmox VE 9.2.20 (September 24, from 9.2.4), LXC/VM consoles in the web interface sometimes failed to start (termproxy ... failed: exit code 1, failed waiting for client: timed out), and overall interaction (console use, text highlighting/copy-paste, even SSH connection setup at times) was noticeably slower than before the upgrade.<br />
+<br />
+<b>Confirmed contributing causes</b><br />
+<ul>
+<li data-xf-list-type="ul"><b>PBS VM (705, Proxmox Backup Server,aka pbs1) temporarily unreachable</b>...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/slow-hanging-proxmox-consoles-after-upgrade-to-9-2-20-from-9-2-4.186721/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
+    <item>
       <title>Proxmox VE 9.2.21 - BCM57412 bnxt_en network failure after upgrade to kernel 7.0.14-20-pve</title>
-      <pubDate>Thu, 01 Oct 2026 12:07:25 +0000</pubDate>
+      <pubDate>Thu, 01 Oct 2026 18:34:12 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-21-bcm57412-bnxt_en-network-failure-after-upgrade-to-kernel-7-0-14-20-pve.186749/</link>
       <guid isPermaLink="false">urn:xenforo:thread:186749</guid>
       <author>invalid@example.com (ManuS)</author>
@@ -48,71 +319,28 @@ nic open fail (rc: fffffff3)<br />
 NETDEV WATCHDOG: transmit...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-21-bcm57412-bnxt_en-network-failure-after-upgrade-to-kernel-7-0-14-20-pve.186749/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>14</slash:comments>
+      <slash:comments>36</slash:comments>
     </item>
     <item>
-      <title>DKIM Signatur Zeitstempel/Ablaufdatum</title>
-      <pubDate>Thu, 01 Oct 2026 12:05:01 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/dkim-signatur-zeitstempel-ablaufdatum.186769/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186769</guid>
-      <author>invalid@example.com (strehi)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-mail-gateway-deutsch-german.21/"><![CDATA[Proxmox Mail Gateway (Deutsch/German)]]></category>
-      <dc:creator>strehi</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-mir ist aufgefallen, dass die vom PMG erzeugte DKIM Signatur die optionalen Felder t= und x= fuer<br />
-Zeitstempel der Signatur und Ablaufdatum nicht enthaelt. Kann man die ggf. ueber die Config einschalten?<br />
-Gibt es einen Grund, warum man hier auf die Felder verzichtet?<br />
-<br />
-Danke<br />
-Bernd</div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>[SOLVED] Proxmox VE 9.1 &amp; Broadcom BCM57412 10G SFP Dual Port PCIE adapter</title>
-      <pubDate>Thu, 01 Oct 2026 11:54:47 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/solved-proxmox-ve-9-1-broadcom-bcm57412-10g-sfp-dual-port-pcie-adapter.183207/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:183207</guid>
-      <author>invalid@example.com (dick_fiddler69)</author>
+      <title>Impossible to boot any VMs or container after Clonezilla backup, from original drive</title>
+      <pubDate>Thu, 01 Oct 2026 17:43:30 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/impossible-to-boot-any-vms-or-container-after-clonezilla-backup-from-original-drive.185848/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185848</guid>
+      <author>invalid@example.com (totoxaraymond)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>dick_fiddler69</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Flipping a working VMware vSphere vSAN to Proxmox 9.1 and Ceph !<br />
+      <dc:creator>totoxaraymond</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone, <br />
 <br />
-Everything was working on vSphere (ESXi 8 - networking), so no issues with physical switches, vDS, SFP+ etc<br />
+I&#039;m in quite a bad situation here.<br />
 <br />
-but the Broadcom BCM57412 10G SFP Dual Port PCIE adapters are not initialising correctly - firmware - 36.11.73.00<br />
+I wanted to backup my proxmox installation before upgrading to proxmox 9, so i used CLoneZilla to clone my boot SSD to a spare HDD.<br />
 <br />
-[   56.425484] bnxt_en 0000:5e:00.0 nic0: NIC Link is Up, 10000 Mbps (NRZ) full duplex, Flow control: none<br />
-[   56.425491] bnxt_en 0000:5e:00.0 nic0: FEC autoneg off encoding: None<br />
-[   56.589621] bnxt_en...<br />
+So far, so good but after rebooting to proxmox, i can&#039;t run ANY of my VMs or Container. <br />
 <br />
-<a href="https://forum.proxmox.com/threads/solved-proxmox-ve-9-1-broadcom-bcm57412-10g-sfp-dual-port-pcie-adapter.183207/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>VM becomes unresponsive during Veeam backup</title>
-      <pubDate>Thu, 01 Oct 2026 09:58:00 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/vm-becomes-unresponsive-during-veeam-backup.185199/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185199</guid>
-      <author>invalid@example.com (sudomaster.ljs)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>sudomaster.ljs</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">When a Veeam backup job runs against a VM on our HDD-backed Ceph cluster, the VM becomes unresponsive partway through the backup. In some cases, it recovers automatically once the job completes. Sometimes, it requires a hard reset to come back online.<br />
+VMs will return &quot;not a bootable disk&quot; and loop forever.<br />
 <br />
-We have reproduced this across multiple VMs, and it appears to affect only our HDD-based clusters. Backups using Proxmox Backup Server from the same cluster complete without issue. In both cases, the backup source and target storage are the...<br />
+while CTs will return:<br />
 <br />
-<a href="https://forum.proxmox.com/threads/vm-becomes-unresponsive-during-veeam-backup.185199/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>34</slash:comments>
-    </item>
-    <item>
-      <title>BTRFS Warnungen beim umount</title>
-      <pubDate>Thu, 01 Oct 2026 09:14:55 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/btrfs-warnungen-beim-umount.186651/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186651</guid>
-      <author>invalid@example.com (JensF)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>JensF</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Seit Kernel 7.0.14-18-pve (und 7.0.14-19-pve) kommt beim umount eines USB-RDX-Laufwerks, welches auf BTRFS formatiert ist, folgende Warnungen:<br />
 
 	
 	
@@ -123,314 +351,161 @@ We have reproduced this across multiple VMs, and it appears to affect only our H
 		Code:
 	</div>
 	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Sep 24 11:58:14 pbs2 kernel: BTRFS warning (device sdc1): unable to release extent buffer 22036480 owner 3 gen 8 refs 4 flags 0x5
-Sep 24 11:58:14 pbs2 kernel: BTRFS warning (device sdc1): unable to release extent buffer 30425088 owner 5 gen 5 refs 4 flags 0x5
-Sep 24 11:58:14 pbs2 kernel: BTRFS warning (device sdc1): unable to release extent buffer...</code></pre>
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>run_buffer: 571 Script exited with status 32
+lxc_init: 845 Failed to run lxc.hook.pre-start for container &quot;107&quot;
+__lxc_start: 2034 Failed...</code></pre>
 	</div>
 </div><br />
-<a href="https://forum.proxmox.com/threads/btrfs-warnungen-beim-umount.186651/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
+<a href="https://forum.proxmox.com/threads/impossible-to-boot-any-vms-or-container-after-clonezilla-backup-from-original-drive.185848/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>11</slash:comments>
     </item>
     <item>
-      <title>USV Software Empfehlung für APC und Proxmox Cluster</title>
-      <pubDate>Thu, 01 Oct 2026 08:54:17 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/usv-software-empfehlung-f%C3%BCr-apc-und-proxmox-cluster.186638/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186638</guid>
-      <author>invalid@example.com (oelk)</author>
+      <title>Shared LVM gewünscht: FC-SAN?</title>
+      <pubDate>Thu, 01 Oct 2026 17:23:03 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/shared-lvm-gew%C3%BCnscht-fc-san.186442/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186442</guid>
+      <author>invalid@example.com (sgw)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>oelk</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
+      <dc:creator>sgw</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Sorry, wenn ich noch nicht das Forum durchsucht habe .. ich bin bei einem Kunden (da gibt es einen längeren Thread) recht zufrieden mit Shared LVM auf einem FC-SAN.<br />
+Dort war die Hardware schon da, und ich musste keine Hardware-Auswahl treffen.<br />
 <br />
-wir haben Proxmox Cluster mit 6 und 8 Knoten, die an mehreren großen APC-USV (Rack-Version) hängen.<br />
-Wie kriegt man die übers Netzwerk beim Stromausfall runtergefahren?<br />
-Ich hab hier gelesen, NUT ist im Einsatz, hatte ich mich mal vor vielen Jahren damit beschäftigt, Finde ich ziemlich krampfig,<br />
-Die Doku und die verschiedenen cfgs sind eigentlich was für Sado-Masochisten.<br />
-Gibts da Alternativen?<br />
+Jetzt darf ich bei einem anderen Kunden from scratch konzipieren, bin schon relativ weit mit meiner Skizze für 2 Nodes mit jeweils local storage. Ich wollte denen in Phase 1 den Einstieg in die Virtualisierung leichter und günstiger machen. Heute aber...<br />
 <br />
-Was passiert mit den VMs in dieser Situation? Werden die automatisch durch Proxmox...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/usv-software-empfehlung-f%C3%BCr-apc-und-proxmox-cluster.186638/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
+<a href="https://forum.proxmox.com/threads/shared-lvm-gew%C3%BCnscht-fc-san.186442/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>55</slash:comments>
     </item>
     <item>
-      <title>LAG / VLAN on node setup</title>
-      <pubDate>Thu, 01 Oct 2026 08:53:32 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/lag-vlan-on-node-setup.180986/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:180986</guid>
-      <author>invalid@example.com (ChrisTG74)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>ChrisTG74</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi there,<br />
-I tried the search-function but did not find any fruitful to my question:<br />
+      <title>Creating Multiple Media Pools per Tape</title>
+      <pubDate>Thu, 01 Oct 2026 17:15:30 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/creating-multiple-media-pools-per-tape.186797/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186797</guid>
+      <author>invalid@example.com (funkytownusa)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>funkytownusa</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I want to create a new media set <i>(Allocation: Always, Retention: Keep)</i>, with no de-duplication so that each backup is a self-contained full-backup. Given that each tape backup must reside in a pool (media set), can multiple media sets coexist on a single physical tape? Or is PBS <b>incapable</b> of storing multiple &quot;Full-backups&quot; to a single tape?<br />
+ <br />
+If the answer is NO, what prevents an LTO-9 tape from losing all of it&#039;s data, if a single or multiple chunks or files get corrupted...<br />
 <br />
-Is it planned that the VE-installer will support definition of link-aggregation (like 802.3ad) and VLAN already while installing the node?<br />
-It is really a hassle to manually type-in an interfaces-file via the console after installation.<br />
-<br />
-Other possibility would be to support some kind of &quot;answer-file&quot; for unattended installation. For example the installer could check for an XML-file on the media and if...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/lag-vlan-on-node-setup.180986/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>13</slash:comments>
-    </item>
-    <item>
-      <title>NUT UPS stopped working after upgrade from PVE 8 to 9</title>
-      <pubDate>Thu, 01 Oct 2026 08:38:11 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/nut-ups-stopped-working-after-upgrade-from-pve-8-to-9.186786/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186786</guid>
-      <author>invalid@example.com (fcarneiro)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>fcarneiro</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-I just upgraded a server running Proxmox version 8 (PVE 8.4.19, Debian 12.14, kernel 6.8.12-30-pve) to version 9 (PVE 9.2.21, Debian 13.7, kernel 7.0.14-20-pve) and the NUT UPS server/monitor stopped working. It doesn&#039;t connect to the UPS anymore and doesn&#039;t even detect it with nut-scanner.<br />
-<br />
-Everything was working fine just before the upgrade. There were no physical changes or any change on the UPS, just the OS upgrade/reboot.<br />
-<br />
-I&#039;ve checked the nut group assignments and udev rules and...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/nut-ups-stopped-working-after-upgrade-from-pve-8-to-9.186786/" class="link link--internal">Read more</a></div>]]></content:encoded>
+<a href="https://forum.proxmox.com/threads/creating-multiple-media-pools-per-tape.186797/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>0</slash:comments>
     </item>
     <item>
-      <title>Proxmox random reboots on HP Elitedesk 800g4 - fixed with proxmox install on top of Debian 12 - now issues with hardware transcoding in plex</title>
-      <pubDate>Thu, 01 Oct 2026 08:37:54 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-random-reboots-on-hp-elitedesk-800g4-fixed-with-proxmox-install-on-top-of-debian-12-now-issues-with-hardware-transcoding-in-plex.132187/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:132187</guid>
-      <author>invalid@example.com (limit)</author>
+      <title>Stopped start failed: QEMU exited with code 1</title>
+      <pubDate>Thu, 01 Oct 2026 16:41:02 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/stopped-start-failed-qemu-exited-with-code-1.72540/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:72540</guid>
+      <author>invalid@example.com (deadbrook)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>limit</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;ve been dealing with an issue with the HP Elitedesk systems for a few weeks now.  I ordered 2 identical (but from different sellers) HP elitedesk 800G4&#039;s from ebay.  The first on I received, i was able to load Proxmox from the official bare metal installer and everything has worked fine.  No random reboots, no noticeable issues.  I did add a nvme drive for ZFS local storage and I installed new RAM (32GB).<br />
+      <dc:creator>deadbrook</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Good afternoon !<br />
 <br />
-The second unit arrived, I loaded up proxmox the same way, installed an additional...<br />
+I have a VM that started showing me the error below, could you help me?<br />
 <br />
-<a href="https://forum.proxmox.com/threads/proxmox-random-reboots-on-hp-elitedesk-800g4-fixed-with-proxmox-install-on-top-of-debian-12-now-issues-with-hardware-transcoding-in-plex.132187/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>70</slash:comments>
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>kvm: -drive file=/dev/pve/vm-102-disk-0,if=none,id=drive-sata0,format=raw,cache=none,aio=native,detect-zeroes=on: Could not open &#039;/dev/pve/vm-102-disk-0&#039;: No such file or directory
+
+TASK ERROR: start failed: QEMU exited with code 1</code></pre>
+	</div>
+</div></div>]]></content:encoded>
+      <slash:comments>47</slash:comments>
     </item>
     <item>
-      <title>Regression in 7.0.14-20-pve: Realtek RTL8168h/r8169 fails with PCIe AER/DPC error – 7.0.14-19-pve works</title>
-      <pubDate>Thu, 01 Oct 2026 08:37:37 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/regression-in-7-0-14-20-pve-realtek-rtl8168h-r8169-fails-with-pcie-aer-dpc-error-%E2%80%93-7-0-14-19-pve-works.186785/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186785</guid>
-      <author>invalid@example.com (Dennigma)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>Dennigma</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I have found what appears to be a reproducible network regression between Proxmox kernels <b>7.0.14-19-pve</b> and <b>7.0.14-20-pve</b>.<br />
-<br />
-The affected NIC is:<br />
-<br />
-02:00.0 Ethernet controller [0200]: Realtek Semiconductor Co., Ltd.<br />
-RTL8111/8168/8211/8411 PCI Express Gigabit Ethernet Controller<br />
-[10ec:8168] (rev 15)<br />
-<br />
-Subsystem: Realtek Semiconductor Co., Ltd. Device [10ec:0123]<br />
-Kernel driver in use: r8169<br />
-The driver identifies the controller as:<br />
-<br />
-RTL8168h/8111h<br />
-Firmware:<br />
-<br />
-rtl8168h-2_0.0.2 02/26/15...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/regression-in-7-0-14-20-pve-realtek-rtl8168h-r8169-fails-with-pcie-aer-dpc-error-%E2%80%93-7-0-14-19-pve-works.186785/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Détection virtiofs.exe par antivirus ESET</title>
-      <pubDate>Thu, 01 Oct 2026 08:19:16 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/d%C3%A9tection-virtiofs-exe-par-antivirus-eset.186784/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186784</guid>
-      <author>invalid@example.com (pascals07)</author>
+      <title>CEHPX Disabled, CEPH Key Migration - Removing an auth entry?</title>
+      <pubDate>Thu, 01 Oct 2026 16:39:20 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/cehpx-disabled-ceph-key-migration-removing-an-auth-entry.186359/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186359</guid>
+      <author>invalid@example.com (MN7675)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>pascals07</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Bonjour,<br />
+      <dc:creator>MN7675</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello, I have cephx disabled for our cluster, but I am still getting these insecure keyring errors, which I would like to migrate.<br />
 <br />
-J&#039;attire votre attention sur une détection de l&#039;antivirus ESET qui est apparue ce jour :<br />
+I am running into 2 issues, one is a WARN the other is a FAIL:<br />
 <br />
-<a href="https://forum.proxmox.com/attachments/1790842573640-png.100169/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99865-24238adb96e3aa5cacffc95a11d7e760.jpg?hash=s9pijLIOxy"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99865-24238adb96e3aa5cacffc95a11d7e760.jpg?hash=s9pijLIOxy 2x"
-		class="bbImage "
-		style=""
-		alt="1790842573640.png"
-		title="1790842573640.png"
-		width="573" height="150" loading="lazy" /></a><br />
-<br />
-C&#039;est donc un des composants lié aux outils d&#039;intégration Proxmox ... <br />
-<br />
-J&#039;ai trouvé une news très récente relatant cette information : <br />
-<br />
-<a href="https://borncity.com/blog/2026/09/30/eset-erkennt-virtiofs-exe-in-iso-dateien-als-win64-agent_agen-rwx/" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://borncity.com/blog/2026/09/3...-exe-in-iso-dateien-als-win64-agent_agen-rwx/</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>WARN: No OSD in this cluster carries the fsid of client.osd-lockbox.1f256c23-4481-4bb3-93f4-40a69ffeb296, so these lockbox keys are left alone. Remove one only after confirming the OSD was destroyed and no node carries its ceph-volume device; absence from the OSD map alone is not enough.
+FAIL...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/cehpx-disabled-ceph-key-migration-removing-an-auth-entry.186359/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>14</slash:comments>
     </item>
     <item>
-      <title>Proxmox Data Center Manager Resource View</title>
-      <pubDate>Thu, 01 Oct 2026 08:04:07 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-data-center-manager-resource-view.186772/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186772</guid>
-      <author>invalid@example.com (Lazyy_MP3)</author>
+      <title>Ceph Cipers Migration - Windows TPM States "can't map" - Cannot Start / Migrate Windows Guests</title>
+      <pubDate>Thu, 01 Oct 2026 16:34:44 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ceph-cipers-migration-windows-tpm-states-cant-map-cannot-start-migrate-windows-guests.186796/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186796</guid>
+      <author>invalid@example.com (MN7675)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Lazyy_MP3</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;ve just updated my Data Center Manager to 1.1.7, its nice having a view over all my device resources but i&#039;d like to be able to see used resources for individual nodes, mainly to use as a dashboard by my network rack, is this possible some how that i&#039;ve just not noticed? As it currently bundles all resources into one widget and i cant tell what node uses what.<br />
+      <dc:creator>MN7675</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">CEPHX Disabled.<br />
 <br />
-Thanks</div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
+pveversion -v<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>proxmox-ve: 9.2.0 (running kernel: 7.0.14-16-pve)
+pve-manager: 9.2.18 (running version: 9.2.18/614bede5d65599c6)
+proxmox-kernel-helper: 9.2.0
+proxmox-kernel-7.0: 7.0.14-16
+proxmox-kernel-7.0.14-16-pve-signed: 7.0.14-16
+proxmox-kernel-7.0.14-6-pve-signed: 7.0.14-6
+proxmox-kernel-7.0.2-6-pve-signed: 7.0.2-6
+ceph: 20.2.4-pve4
+ceph-fuse: 20.2.4-pve4
+corosync: 3.1.10-pve3
+criu: 4.1.1-1
+frr-pythontools: 10.6.1-1+pve3
+ifupdown2: 3.3.0-1+pmx12
+intel-microcode...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/ceph-cipers-migration-windows-tpm-states-cant-map-cannot-start-migrate-windows-guests.186796/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
     </item>
     <item>
-      <title>PVE 9.2.5 – Intermittent segfaults, cpuidle/RCU warnings and previous kernel panic on i7-14700K / ASUS B760</title>
-      <pubDate>Thu, 01 Oct 2026 08:01:52 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pve-9-2-5-%E2%80%93-intermittent-segfaults-cpuidle-rcu-warnings-and-previous-kernel-panic-on-i7-14700k-asus-b760.186783/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186783</guid>
-      <author>invalid@example.com (Infotelecom)</author>
+      <title>Proxmox VE GUI won't load after upgrade</title>
+      <pubDate>Thu, 01 Oct 2026 16:05:57 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-ve-gui-wont-load-after-upgrade.186795/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186795</guid>
+      <author>invalid@example.com (scottk8)</author>
       <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Infotelecom</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+      <dc:creator>scottk8</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello all. I ran a kernel upgrade today from within the GUI and it all seemed to go through fine but after rebooting the GUI no longer loads. The server is running and my containers are running but when I run &#039;systemctl status pveproxy.service&#039; I get the following error;<br />
 <br />
-We are troubleshooting an intermittent stability issue on a production Proxmox VE host and would appreciate some advice before changing hardware or firmware.<br />
+× pveproxy.service - PVE API Proxy Server<br />
+     Loaded: loaded (/usr/lib/systemd/system/pveproxy.service; enabled; preset: enabled)<br />
+     Active: failed (Result: exit-code) since Thu 2026-10-01 16:00:41 BST; 8min ago...<br />
 <br />
-<b>System:</b><br />
-<br />
-<ul>
-<li data-xf-list-type="ul">Proxmox VE 9.2.5</li>
-<li data-xf-list-type="ul">Current kernel: 6.11.11-2-pve</li>
-<li data-xf-list-type="ul">Newer 7.0.14-6-pve is installed, but 6.11 is currently pinned because we previously experienced a kernel panic</li>
-<li data-xf-list-type="ul">CPU: Intel Core i7-14700K</li>
-<li data-xf-list-type="ul">Motherboard: ASUS TUF GAMING B760-PLUS WIFI</li>
-<li data-xf-list-type="ul">BIOS: 1604 (15/12/2023)</li>
-<li data-xf-list-type="ul">Linux microcode: 0x12b</li>
-<li data-xf-list-type="ul">RAM: 128 GB...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/pve-9-2-5-%E2%80%93-intermittent-segfaults-cpuidle-rcu-warnings-and-previous-kernel-panic-on-i7-14700k-asus-b760.186783/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Broadcom BCM57504 (100G) bnxt_en TX timeout and NIC reset on Proxmox 8.1.5 — while BCM57414 (25G) works fine on same host</title>
-      <pubDate>Thu, 01 Oct 2026 07:50:44 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/broadcom-bcm57504-100g-bnxt_en-tx-timeout-and-nic-reset-on-proxmox-8-1-5-%E2%80%94-while-bcm57414-25g-works-fine-on-same-host.179837/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:179837</guid>
-      <author>invalid@example.com (walissongois)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>walissongois</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
-<br />
-I&#039;m experiencing a recurring network failure on a Proxmox VE host using a Broadcom NetXtreme-E 100G NIC (BCM57504).<br />
-The NIC stops transmitting, triggers a TX timeout, and then fails to reset correctly. After that, the interface is disabled and vmbr0 loses connectivity until the host is rebooted.<br />
-Interestingly, the same host also has another Broadcom NIC (BCM57414 dual 10G/25G) using the same driver and kernel, and it works perfectly without any issues. The problem only...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/broadcom-bcm57504-100g-bnxt_en-tx-timeout-and-nic-reset-on-proxmox-8-1-5-%E2%80%94-while-bcm57414-25g-works-fine-on-same-host.179837/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>19</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox Virtual Environment now available for 64-bit ARM (arm64)!</title>
-      <pubDate>Thu, 01 Oct 2026 07:49:48 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-virtual-environment-now-available-for-64-bit-arm-arm64.185527/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:185527</guid>
-      <author>invalid@example.com (t.lamprecht)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>t.lamprecht</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">We are excited to announce the first release of Proxmox Virtual Environment with official support for a second CPU architecture: 64-bit ARM (arm64/aarch64). Until now, Proxmox VE was available for x86-64 (amd64) only.<br />
-<br />
-Proxmox VE 9.2 for arm64 shares the code base, package repositories, and release lifecycle with its x86-64 counterpart. It is built on Debian 13.5 &quot;Trixie&quot; with Linux kernel 7.0 as the stable default, and ships the same versions of our underlying key technologies, including...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-virtual-environment-now-available-for-64-bit-arm-arm64.185527/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>56</slash:comments>
-    </item>
-    <item>
-      <title>Proposal: Graphical visualization of network configuration for a node/cluster in Proxmox VE</title>
-      <pubDate>Thu, 01 Oct 2026 07:48:29 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proposal-graphical-visualization-of-network-configuration-for-a-node-cluster-in-proxmox-ve.186782/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186782</guid>
-      <author>invalid@example.com (my1770)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>my1770</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Dear developers and community members,<br />
-<br />
-I would like to propose a feature that I believe would be useful to many Proxmox VE administrators: graphical visualization of network interfaces and their connections for a node and cluster.<br />
-<br />
-<b>Problem</b>:<br />
-Currently, network configuration in Proxmox VE is presented as tables and forms (Node → Network, VM → Hardware). With complex configurations — multiple physical interfaces, bonds, VLANs, bridges, and dozens of VMs/CTs — it becomes difficult to...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proposal-graphical-visualization-of-network-configuration-for-a-node-cluster-in-proxmox-ve.186782/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>PVE 9 / kernel 7.0.14-12-pve - silent warm resets on Supermicro Hardware</title>
-      <pubDate>Thu, 01 Oct 2026 07:47:39 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pve-9-kernel-7-0-14-12-pve-silent-warm-resets-on-supermicro-hardware.186747/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186747</guid>
-      <author>invalid@example.com (geletron)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>geletron</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi all,<br />
-<br />
-I have a standalone PVE 9 node that warm-resets without warning roughly every<br />
-1-4 weeks, and the interval is getting shorter. There are several VMs and the server is in production. <br />
-After three weeks of digging I have ruled out everything I can think of and would appreciate ideas before I<br />
-start swapping hardware.<br />
-<br />
-<b>1. Server Config:</b><br />
-Supermicro X13DEI<br />
-2x INTEL(R) XEON(R) SILVER 4509Y - family 6, model 143, stepping 8 (CPUID 06-8f-08)<br />
-Microcode 0x2b000650 (from BIOS...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pve-9-kernel-7-0-14-12-pve-silent-warm-resets-on-supermicro-hardware.186747/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Backup Error nach Update auf 9.X</title>
-      <pubDate>Thu, 01 Oct 2026 07:02:16 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/backup-error-nach-update-auf-9-x.170178/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:170178</guid>
-      <author>invalid@example.com (Peterich)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>Peterich</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen,<br />
-<br />
-<br />
-ich habe mein Proxmox-System auf <b>9.X</b> aktualisiert.<br />
-Das Update selbst lief fehlerfrei durch, lediglich im BIOS war bei einem der Server der Boot-Eintrag fehlerhaft. Nach Korrektur startete alles normal.<br />
-<br />
-<br />
-Jetzt habe ich aber ein Problem:<br />
-Ein LXC-Container mit <b>Nextcloud</b> lässt sich nicht mehr sichern. Ich vermute, das liegt an meinen verschachtelten Speicher-/Mountpoint-Strukturen.<br />
-Das Merkwürdige: <b>Vor dem Update auf 9 hat das Backup noch funktioniert.</b>...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/backup-error-nach-update-auf-9-x.170178/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>Does Proxmox accept external contributions/patches for projects such as PDM?</title>
-      <pubDate>Thu, 01 Oct 2026 06:50:47 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/does-proxmox-accept-external-contributions-patches-for-projects-such-as-pdm.186773/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186773</guid>
-      <author>invalid@example.com (Tacioandrade)</author>
-      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
-      <dc:creator>Tacioandrade</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
-<br />
-I&#039;ve been using Proxmox since around 2013 and, over the years, I&#039;ve participated in the community through the forums, Bugzilla, and other channels.<br />
-<br />
-Recently, I&#039;ve been considering contributing directly to the project, particularly to <b>Proxmox Datacenter Manager (PDM)</b>. There are a few features currently listed on the PDM roadmap that would be very useful for one of my own environments, and rather than relying on third-party tools, I&#039;d be interested in implementing some...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/does-proxmox-accept-external-contributions-patches-for-projects-such-as-pdm.186773/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Slow/hanging Proxmox consoles after upgrade to 9.2.20 (from 9.2.4)</title>
-      <pubDate>Thu, 01 Oct 2026 06:48:25 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/slow-hanging-proxmox-consoles-after-upgrade-to-9-2-20-from-9-2-4.186721/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186721</guid>
-      <author>invalid@example.com (baas54)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>baas54</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><b>Symptom</b><br />
-After upgrading to Proxmox VE 9.2.20 (September 24, from 9.2.4), LXC/VM consoles in the web interface sometimes failed to start (termproxy ... failed: exit code 1, failed waiting for client: timed out), and overall interaction (console use, text highlighting/copy-paste, even SSH connection setup at times) was noticeably slower than before the upgrade.<br />
-<br />
-<b>Confirmed contributing causes</b><br />
-<ul>
-<li data-xf-list-type="ul"><b>PBS VM (705, Proxmox Backup Server,aka pbs1) temporarily unreachable</b>...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/slow-hanging-proxmox-consoles-after-upgrade-to-9-2-20-from-9-2-4.186721/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
+<a href="https://forum.proxmox.com/threads/proxmox-ve-gui-wont-load-after-upgrade.186795/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>11</slash:comments>
     </item>
   </channel>
 </rss>
