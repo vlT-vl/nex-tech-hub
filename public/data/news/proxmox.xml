@@ -4,11 +4,111 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Wed, 30 Sep 2026 21:43:14 +0000</pubDate>
-    <lastBuildDate>Wed, 30 Sep 2026 21:43:14 +0000</lastBuildDate>
+    <pubDate>Thu, 01 Oct 2026 03:13:49 +0000</pubDate>
+    <lastBuildDate>Thu, 01 Oct 2026 03:13:49 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>Dell PowerEdge R630 reboots immediately on kernel 6.17.2-2-pve (PWR2262 / CPU0704 / UEFI0078)</title>
+      <pubDate>Thu, 01 Oct 2026 00:21:06 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/dell-poweredge-r630-reboots-immediately-on-kernel-6-17-2-2-pve-pwr2262-cpu0704-uefi0078.177201/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:177201</guid>
+      <author>invalid@example.com (msp)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>msp</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+I’m experiencing an issue booting the new Proxmox kernel 6.17.2-2-pve on a Dell PowerEdge R630.<br />
+The system boots perfectly with kernel 6.14.11-4-pve, but kernel 6.17 reboots instantly before reaching a shell.<br />
+<br />
+This looks like a platform-specific regression affecting Dell 13G servers (R630/R730), so I’d like to provide details and check with the Proxmox kernel maintainers.<br />
+<br />
+Hardware / Firmware<br />
+Server: Dell PowerEdge R630<br />
+CPUs: Intel(R) Xeon(R) CPU E5-2660 v3<br />
+BIOS: 2.19.0<br />
+<br />
+Working Kernel...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/dell-poweredge-r630-reboots-immediately-on-kernel-6-17-2-2-pve-pwr2262-cpu0704-uefi0078.177201/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox VE 9.2.21 - BCM57412 bnxt_en network failure after upgrade to kernel 7.0.14-20-pve</title>
+      <pubDate>Wed, 30 Sep 2026 22:34:12 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-21-bcm57412-bnxt_en-network-failure-after-upgrade-to-kernel-7-0-14-20-pve.186749/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186749</guid>
+      <author>invalid@example.com (ManuS)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>ManuS</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+After upgrade on my test cluster using no-subscription repository, broadcom network card failed to load<br />
+<br />
+Environment:<br />
+<br />
+- Proxmox VE 9.2.21<br />
+<br />
+- No-subscription repository<br />
+<br />
+- Dell XC750-14 CORE<br />
+<br />
+- Broadcom BCM57412 NetXtreme-E 10Gb<br />
+<br />
+- Firmware 236.1.167.0<br />
+<br />
+- Driver bnxt_en<br />
+<br />
+ <br />
+<br />
+Problem:<br />
+<br />
+After upgrading to kernel 7.0.14-20-pve and rebooting, the management network becomes unavailable.<br />
+<br />
+ <br />
+<br />
+Observed errors:<br />
+bnxt_init_nic err: fffffff3<br />
+nic open fail (rc: fffffff3)<br />
+NETDEV WATCHDOG: transmit...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-21-bcm57412-bnxt_en-network-failure-after-upgrade-to-kernel-7-0-14-20-pve.186749/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
+    <item>
+      <title>Broadcom BCM57504 (100G) bnxt_en TX timeout and NIC reset on Proxmox 8.1.5 — while BCM57414 (25G) works fine on same host</title>
+      <pubDate>Wed, 30 Sep 2026 22:33:11 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/broadcom-bcm57504-100g-bnxt_en-tx-timeout-and-nic-reset-on-proxmox-8-1-5-%E2%80%94-while-bcm57414-25g-works-fine-on-same-host.179837/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:179837</guid>
+      <author>invalid@example.com (walissongois)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>walissongois</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
+<br />
+I&#039;m experiencing a recurring network failure on a Proxmox VE host using a Broadcom NetXtreme-E 100G NIC (BCM57504).<br />
+The NIC stops transmitting, triggers a TX timeout, and then fails to reset correctly. After that, the interface is disabled and vmbr0 loses connectivity until the host is rebooted.<br />
+Interestingly, the same host also has another Broadcom NIC (BCM57414 dual 10G/25G) using the same driver and kernel, and it works perfectly without any issues. The problem only...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/broadcom-bcm57504-100g-bnxt_en-tx-timeout-and-nic-reset-on-proxmox-8-1-5-%E2%80%94-while-bcm57414-25g-works-fine-on-same-host.179837/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>18</slash:comments>
+    </item>
+    <item>
+      <title>Slow/hanging Proxmox consoles after upgrade to 9.2.20 (from 9.2.4)</title>
+      <pubDate>Wed, 30 Sep 2026 22:26:30 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/slow-hanging-proxmox-consoles-after-upgrade-to-9-2-20-from-9-2-4.186721/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186721</guid>
+      <author>invalid@example.com (baas54)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>baas54</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><b>Symptom</b><br />
+After upgrading to Proxmox VE 9.2.20 (September 24, from 9.2.4), LXC/VM consoles in the web interface sometimes failed to start (termproxy ... failed: exit code 1, failed waiting for client: timed out), and overall interaction (console use, text highlighting/copy-paste, even SSH connection setup at times) was noticeably slower than before the upgrade.<br />
+<br />
+<b>Confirmed contributing causes</b><br />
+<ul>
+<li data-xf-list-type="ul"><b>PBS VM (705, Proxmox Backup Server,aka pbs1) temporarily unreachable</b>...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/slow-hanging-proxmox-consoles-after-upgrade-to-9-2-20-from-9-2-4.186721/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
+    </item>
     <item>
       <title>Help - Snapshot restore fails with short vma error</title>
       <pubDate>Wed, 30 Sep 2026 20:19:11 +0000</pubDate>
@@ -182,17 +282,6 @@ We do have a requirements to support nested virtualization as well as Nvidia vGP
       <slash:comments>5</slash:comments>
     </item>
     <item>
-      <title>Fragen zum Ersteinsatz PBS</title>
-      <pubDate>Wed, 30 Sep 2026 18:03:33 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/fragen-zum-ersteinsatz-pbs.186760/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186760</guid>
-      <author>invalid@example.com (Lucar)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
-      <dc:creator>Lucar</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">delete</div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
       <title>Create a cloud init vm using API only</title>
       <pubDate>Wed, 30 Sep 2026 17:34:40 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/create-a-cloud-init-vm-using-api-only.186740/</link>
@@ -233,30 +322,6 @@ Wir suchen nun...<br />
       <slash:comments>5</slash:comments>
     </item>
     <item>
-      <title>Dell PowerEdge R630 reboots immediately on kernel 6.17.2-2-pve (PWR2262 / CPU0704 / UEFI0078)</title>
-      <pubDate>Wed, 30 Sep 2026 16:59:34 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/dell-poweredge-r630-reboots-immediately-on-kernel-6-17-2-2-pve-pwr2262-cpu0704-uefi0078.177201/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:177201</guid>
-      <author>invalid@example.com (msp)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>msp</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-I’m experiencing an issue booting the new Proxmox kernel 6.17.2-2-pve on a Dell PowerEdge R630.<br />
-The system boots perfectly with kernel 6.14.11-4-pve, but kernel 6.17 reboots instantly before reaching a shell.<br />
-<br />
-This looks like a platform-specific regression affecting Dell 13G servers (R630/R730), so I’d like to provide details and check with the Proxmox kernel maintainers.<br />
-<br />
-Hardware / Firmware<br />
-Server: Dell PowerEdge R630<br />
-CPUs: Intel(R) Xeon(R) CPU E5-2660 v3<br />
-BIOS: 2.19.0<br />
-<br />
-Working Kernel...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/dell-poweredge-r630-reboots-immediately-on-kernel-6-17-2-2-pve-pwr2262-cpu0704-uefi0078.177201/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>8</slash:comments>
-    </item>
-    <item>
       <title>CEPH Key Migration now "Not a proper rbd authentication file error"</title>
       <pubDate>Wed, 30 Sep 2026 16:18:40 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/ceph-key-migration-now-not-a-proper-rbd-authentication-file-error.186358/</link>
@@ -273,47 +338,6 @@ Not a proper rbd authentication file...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/ceph-key-migration-now-not-a-proper-rbd-authentication-file-error.186358/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>26</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE 9.2.21 - BCM57412 bnxt_en network failure after upgrade to kernel 7.0.14-20-pve</title>
-      <pubDate>Wed, 30 Sep 2026 16:04:45 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-21-bcm57412-bnxt_en-network-failure-after-upgrade-to-kernel-7-0-14-20-pve.186749/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186749</guid>
-      <author>invalid@example.com (ManuS)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>ManuS</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-After upgrade on my test cluster using no-subscription repository, broadcom network card failed to load<br />
-<br />
-Environment:<br />
-<br />
-- Proxmox VE 9.2.21<br />
-<br />
-- No-subscription repository<br />
-<br />
-- Dell XC750-14 CORE<br />
-<br />
-- Broadcom BCM57412 NetXtreme-E 10Gb<br />
-<br />
-- Firmware 236.1.167.0<br />
-<br />
-- Driver bnxt_en<br />
-<br />
- <br />
-<br />
-Problem:<br />
-<br />
-After upgrading to kernel 7.0.14-20-pve and rebooting, the management network becomes unavailable.<br />
-<br />
- <br />
-<br />
-Observed errors:<br />
-bnxt_init_nic err: fffffff3<br />
-nic open fail (rc: fffffff3)<br />
-NETDEV WATCHDOG: transmit...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-21-bcm57412-bnxt_en-network-failure-after-upgrade-to-kernel-7-0-14-20-pve.186749/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
     </item>
     <item>
       <title>Lost connectivity with external storage after upgrade</title>
@@ -384,37 +408,6 @@ Most of the gain came from...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/pve-9-2-arm64-on-asus-gx10-gb10-6-gb-s-of-nvme-tcp-out-of-the-box-29-gb-s-after-two-kernel-flags.186770/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>no network after installing pve9 on trixie</title>
-      <pubDate>Wed, 30 Sep 2026 15:36:13 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/no-network-after-installing-pve9-on-trixie.186767/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186767</guid>
-      <author>invalid@example.com (tschmidt)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>tschmidt</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Im preparing to install pve9 on a preexisting debian trixie and currently do trial runs on throwaway installs.<br />
-<br />
-I&#039;m following <a href="https://pve.proxmox.com/wiki/Install_Proxmox_VE_on_Debian_13_Trixie" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://pve.proxmox.com/wiki/Install_Proxmox_VE_on_Debian_13_Trixie</a>. After what seemed to be a success I unexpectedly lost network access to it.<br />
-<br />
-Recreating the situation it seems that `apt install proxmox-ve postfix open-iscsi chrony` disables the networking service<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>root@tschmidt-chimera:~# systemctl status networking
-● networking.service - Raise network...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/no-network-after-installing-pve9-on-trixie.186767/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
     </item>
   </channel>
 </rss>
