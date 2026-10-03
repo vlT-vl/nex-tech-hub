@@ -4,11 +4,229 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Sat, 03 Oct 2026 15:33:12 +0000</pubDate>
-    <lastBuildDate>Sat, 03 Oct 2026 15:33:12 +0000</lastBuildDate>
+    <pubDate>Sat, 03 Oct 2026 20:25:02 +0000</pubDate>
+    <lastBuildDate>Sat, 03 Oct 2026 20:25:02 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>Excluding disk from snapshots?</title>
+      <pubDate>Sat, 03 Oct 2026 20:20:43 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/excluding-disk-from-snapshots.186839/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186839</guid>
+      <author>invalid@example.com (Pinochet)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Pinochet</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m needing to provide each of my docker apps with there own storage that is independent of the root fs so that if I update the OS that&#039;s running docker and take a snapshot of it the docker storage isn&#039;t affected. Rolling forward or backwards in snapshots would end up causing issues with the data for said docker apps. I don&#039;t use snapshot for the data anyways and rely on actual backups. But, I would like to take snaps of the OS before and after updates. <br />
+<br />
+I started with a linux container and...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/excluding-disk-from-snapshots.186839/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>ZFS over iSCSI: ZVOLs created on iSCSI server but not being mounted on PVE box</title>
+      <pubDate>Sat, 03 Oct 2026 20:05:33 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/zfs-over-iscsi-zvols-created-on-iscsi-server-but-not-being-mounted-on-pve-box.186815/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186815</guid>
+      <author>invalid@example.com (no-usernames-left)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>no-usernames-left</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I&#039;m prototyping the ZFS-over-iSCSI functionality on PVE 9.2.20 and running into trouble. Specifically, I followed <a href="https://blog.haschek.at/2023/zfs-over-iscsi-in-proxmox.html" target="_blank" class="link link--external" rel="nofollow ugc noopener">these</a> <a href="https://forum.level1techs.com/t/guide-iscsi-target-server-on-linux-with-zfs-for-windows-initiator-clients" target="_blank" class="link link--external" rel="nofollow ugc noopener">two</a> blogposts to get it set up (I added auth on tpg1 instead of the ACLs).<br />
+<br />
+PVE package list:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>proxmox-ve: 9.2.0 (running kernel: 7.0.14-19-pve)
+pve-manager: 9.2.20 (running version: 9.2.20/49318c671b82f31e)
+proxmox-kernel-helper: 9.2.0
+proxmox-kernel-7.0.14-19-pve-signed: 7.0.14-19
+proxmox-kernel-7.0: 7.0.14-19
+proxmox-kernel-7.0.2-6-pve-signed...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/zfs-over-iscsi-zvols-created-on-iscsi-server-but-not-being-mounted-on-pve-box.186815/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>VM becomes unresponsive during Veeam backup</title>
+      <pubDate>Sat, 03 Oct 2026 19:36:52 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/vm-becomes-unresponsive-during-veeam-backup.185199/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185199</guid>
+      <author>invalid@example.com (sudomaster.ljs)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>sudomaster.ljs</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">When a Veeam backup job runs against a VM on our HDD-backed Ceph cluster, the VM becomes unresponsive partway through the backup. In some cases, it recovers automatically once the job completes. Sometimes, it requires a hard reset to come back online.<br />
+<br />
+We have reproduced this across multiple VMs, and it appears to affect only our HDD-based clusters. Backups using Proxmox Backup Server from the same cluster complete without issue. In both cases, the backup source and target storage are the...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/vm-becomes-unresponsive-during-veeam-backup.185199/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>35</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox PVE will crash out when Win Server 2025 and MS SQL 2025 is used.</title>
+      <pubDate>Sat, 03 Oct 2026 18:53:41 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-pve-will-crash-out-when-win-server-2025-and-ms-sql-2025-is-used.186635/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186635</guid>
+      <author>invalid@example.com (eatonjb)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>eatonjb</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I am really new to this, I have a client that I setup a proxmox server with a Windows 2025 server and all the updates, and installed a copy of Microsoft SQL 2025.  <br />
+<br />
+After some time, of use.  (right now it&#039;s only 1 workstation using it) it will crash out the Proxmox server and the user has to reboot the server, and start all over again.<br />
+<br />
+I am at a total lost,<br />
+<br />
+I turned off ballooning memory<br />
+turned on  NUMA<br />
+Running on X86-64-v2-AES<br />
+Vertools IO version 0.1.302,<br />
+10gig of memory,<br />
+SeaBIOS<br />
+I440fx...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-pve-will-crash-out-when-win-server-2025-and-ms-sql-2025-is-used.186635/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>13</slash:comments>
+    </item>
+    <item>
+      <title>Remote access Zigbee/Zwave controlllers for Live Migration (High Availability)</title>
+      <pubDate>Sat, 03 Oct 2026 18:52:35 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/remote-access-zigbee-zwave-controlllers-for-live-migration-high-availability.138143/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:138143</guid>
+      <author>invalid@example.com (DarthRUSerious)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>DarthRUSerious</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m trying to find a way to have true High Availability on my homelab cluster.<br />
+<br />
+I&#039;m currently running 3 NUC nodes in a cluster, running various tasks with the primary (and relevant) application being HomeAssistant (technically a VM running HASSOS).<br />
+<br />
+On my &quot;primary&quot; node, I had 2 USB devices installed for use with HomeAssistant (1 Zigbee and 1 Z-wave stick). Through a <b>total</b> lack of complete foresight in how it would all work, I purchased a copy of VirtualHere, installed the server on my...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/remote-access-zigbee-zwave-controlllers-for-live-migration-high-availability.138143/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>10</slash:comments>
+    </item>
+    <item>
+      <title>Synology NAS in Paperless LXC über Proxmox</title>
+      <pubDate>Sat, 03 Oct 2026 18:38:42 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/synology-nas-in-paperless-lxc-%C3%BCber-proxmox.186812/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186812</guid>
+      <author>invalid@example.com (cfkmo)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>cfkmo</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hej zusammen.<br />
+<br />
+Ich fange gerade erst an mich in das Thema <b>Proxmox</b> und <b>Paperless</b> einzuarbeiten. Mein proxmox läuft auf einem ThinClient und dort habe ich via <a href="https://community-scripts.org/scripts/paperless-ngx#install" target="_blank" class="link link--external" rel="nofollow ugc noopener">script </a>Paperless installiert. Nun habe ich einiges versucht um den Consume und Media Ordner auf das NAS zu verschieben, was leider nicht funktioniert hat. Mir fehlen nun leider die Kenntnisse der Möglichkeiten zum debuggen.<br />
+<br />
+Was ich bisher gemacht habe:<br />
+Auf dem NAS<br />
+<ul>
+<li data-xf-list-type="ul">Freigegebenen Ordner &quot;Paperless&quot; mit...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/synology-nas-in-paperless-lxc-%C3%BCber-proxmox.186812/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
+    </item>
+    <item>
+      <title>Ubuntu server issue after backup</title>
+      <pubDate>Sat, 03 Oct 2026 18:06:18 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/ubuntu-server-issue-after-backup.186414/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186414</guid>
+      <author>invalid@example.com (ccnet)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>ccnet</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+<b>Config :</b><br />
+Ubuntu 22.04.5 LTS vm on PVE 9.2<br />
+PBS 4.2<br />
+Qemu agent installed in option.<br />
+Qemu agent running on the vm, tested with &quot;systemctl status qemu-guest-agent&quot;<br />
+qemu agent 10x ping is working<br />
+In Hardware SCSI Controler is &quot;LSI 53C895A&quot;<br />
+<br />
+<b>Issues</b><br />
+Logs :<br />
+112: 2026-09-13 19:07:33 INFO: skipping guest filesystem freeze - <b>agent configured but not running?</b><br />
+112: 2026-09-13 19:07:33 INFO: starting backup via QMP command<br />
+112: 2026-09-13 19:07:34 INFO: started backup task...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/ubuntu-server-issue-after-backup.186414/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>12</slash:comments>
+    </item>
+    <item>
+      <title>Rebuilding pve need help</title>
+      <pubDate>Sat, 03 Oct 2026 16:48:59 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/rebuilding-pve-need-help.186836/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186836</guid>
+      <author>invalid@example.com (AceMilo)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>AceMilo</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I had a catastrophic failure of my pve and had to reformat the main disk and reload.  I have all my vms back up and running save 1.  It&#039;s a truenas core vm (I need core for a specific reason).  I had created a storage pool on a 2tb hdd that is on the pve.  I can see the drive listed under vm disks on the drive.  I have recreated the vm (I must not have backed that one up) and now I need to know how do I attach the hdd image in qcow2 format back to this vm without formatting it?</div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>TLS Certificate Issues, cannot connect to PVE Interface error:0A000126:SSL</title>
+      <pubDate>Sat, 03 Oct 2026 16:39:32 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/tls-certificate-issues-cannot-connect-to-pve-interface-error-0a000126-ssl.186838/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186838</guid>
+      <author>invalid@example.com (Flavinux)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Flavinux</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+i encounter some difficulty, I&#039;m ussing smallstep PKI, Certificate generate via ACME or CLI, none of certificate works with pveproxy .<br />
+proxmox 8.x &amp; version 9.2.20 same problem<br />
+<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code># pveproxy start --debug
+2026-10-03 18:19:09.349072 worker[1658055]: PVE::APIServer::AnyEvent +1937: (eval): ACCEPT FH10 CONN1
+2026-10-03 18:19:09.349072 worker[1658056]: PVE::APIServer::AnyEvent +1937: (eval): ACCEPT FH10 CONN1
+2026-10-03 18:19:09.349168 worker[1658055]: PVE::APIServer::AnyEvent +1937: (eval): Setting TLS...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/tls-certificate-issues-cannot-connect-to-pve-interface-error-0a000126-ssl.186838/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox Need to add HPE MSA storage through SAN switch</title>
+      <pubDate>Sat, 03 Oct 2026 16:26:02 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-need-to-add-hpe-msa-storage-through-san-switch.186834/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186834</guid>
+      <author>invalid@example.com (santhakumar)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>santhakumar</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi recently we added lun from hoe storage but its not visible im console we tried lot of times</div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>Storage ISCSI</title>
+      <pubDate>Sat, 03 Oct 2026 16:23:28 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/storage-iscsi.186837/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186837</guid>
+      <author>invalid@example.com (marco.caserio)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>marco.caserio</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi, we are in testing a migration from vmware to proxmox with two DL380 Gen10 and a new Storage IScsi such a De200H Lenovo oer MSA20260 from HP. There is someone already do a similar and  have experience in this project ?  So there is also  certification or interoperability Matrix for Proxmox and the Vendor Lenovo and HP ?  Tks Marco</div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
     <item>
       <title>Kernel 7.0.x regression: ACS violation on PCIe port 80:1b.4 causes VM freeze — Arrow Lake + Thunderbolt 5 + Intel Arc B50 passthrough</title>
       <pubDate>Sat, 03 Oct 2026 13:26:19 +0000</pubDate>
@@ -29,17 +247,6 @@
 <li data-xf-list-type="ul">NVMe (passthrough): Samsung S4LV008...</li>
 </ul><br />
 <a href="https://forum.proxmox.com/threads/kernel-7-0-x-regression-acs-violation-on-pcie-port-80-1b-4-causes-vm-freeze-%E2%80%94-arrow-lake-thunderbolt-5-intel-arc-b50-passthrough.184312/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox Need to add HPE MSA storage through SAN switch</title>
-      <pubDate>Sat, 03 Oct 2026 13:19:57 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-need-to-add-hpe-msa-storage-through-san-switch.186834/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186834</guid>
-      <author>invalid@example.com (santhakumar)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>santhakumar</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi recently we added lun from hoe storage but its not visible im console we tried lot of times</div>]]></content:encoded>
       <slash:comments>3</slash:comments>
     </item>
     <item>
@@ -85,19 +292,6 @@ I&#039;m facing an intermittent issue with the integrated 10GbE ports on a Dell 
 On some boots, the...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/dell-r630-rndc-broadcom-bcm57416-10gbe-intermittent-bnxt_en-probe-failure-error-16-after-reboot-nic-missing-from-idrac-firmware-inventory.186835/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Stakemoor Equity Platform-{AWARE TO FRAUD}-A Practical Guide to Trading With Stakemoor Equity App!</title>
-      <pubDate>Sat, 03 Oct 2026 10:34:25 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/stakemoor-equity-platform-aware-to-fraud-a-practical-guide-to-trading-with-stakemoor-equity-app.186833/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186833</guid>
-      <author>invalid@example.com (stakemoorequity)</author>
-      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
-      <dc:creator>stakemoorequity</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Stakemoor Equity describes itself as an AI-assisted trading platform that analyzes financial markets in real time. Its stated purpose is to help traders monitor market activity, identify setups, manage risk, and organize trading information through a centralized dashboard. The platform combines several functions that traders commonly need, including market charts, portfolio tracking, alerts, trading tickets, account information, and analysis tools. Its website states that users can access...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/stakemoor-equity-platform-aware-to-fraud-a-practical-guide-to-trading-with-stakemoor-equity-app.186833/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>0</slash:comments>
     </item>
     <item>
@@ -150,26 +344,6 @@ Is this possible with ZFS? If so, can I...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/zfs-pool-question.186822/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>10</slash:comments>
-    </item>
-    <item>
-      <title>Synology NAS in Paperless LXC über Proxmox</title>
-      <pubDate>Sat, 03 Oct 2026 09:04:46 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/synology-nas-in-paperless-lxc-%C3%BCber-proxmox.186812/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186812</guid>
-      <author>invalid@example.com (cfkmo)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>cfkmo</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hej zusammen.<br />
-<br />
-Ich fange gerade erst an mich in das Thema <b>Proxmox</b> und <b>Paperless</b> einzuarbeiten. Mein proxmox läuft auf einem ThinClient und dort habe ich via <a href="https://community-scripts.org/scripts/paperless-ngx#install" target="_blank" class="link link--external" rel="nofollow ugc noopener">script </a>Paperless installiert. Nun habe ich einiges versucht um den Consume und Media Ordner auf das NAS zu verschieben, was leider nicht funktioniert hat. Mir fehlen nun leider die Kenntnisse der Möglichkeiten zum debuggen.<br />
-<br />
-Was ich bisher gemacht habe:<br />
-Auf dem NAS<br />
-<ul>
-<li data-xf-list-type="ul">Freigegebenen Ordner &quot;Paperless&quot; mit...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/synology-nas-in-paperless-lxc-%C3%BCber-proxmox.186812/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
     </item>
     <item>
       <title>Hardware clock access missing in kernel 7.0.14-20 (and reboot issue)</title>
@@ -269,175 +443,6 @@ NETDEV WATCHDOG: transmit...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-21-bcm57412-bnxt_en-network-failure-after-upgrade-to-kernel-7-0-14-20-pve.186749/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>52</slash:comments>
-    </item>
-    <item>
-      <title>EVPN SDN: multiple zones (one VRF per tenant) + controlled inter-zone routing (shared services) – supported approach?</title>
-      <pubDate>Sat, 03 Oct 2026 02:56:46 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/evpn-sdn-multiple-zones-one-vrf-per-tenant-controlled-inter-zone-routing-shared-services-%E2%80%93-supported-approach.186818/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186818</guid>
-      <author>invalid@example.com (pille99)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>pille99</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Setup<br />
-- PVE 9.2.21, FRR 10.6.1-1+pve3, 3-node cluster (Ceph), EVPN controller (ASN 65000), EVPN underlay on a dedicated 10G network (MTU 9000).<br />
-- Firewall/edge (OPNsense) on a separate host, connected via a static VXLAN transit (1 Gbit). Exit nodes peer eBGP with it.<br />
-- Multi-tenant: one shared-services network (DNS, NTP, proxy, update mirror, monitoring, Ansible) and one network per customer. Each is a /24 split into 16 VNets (/28, anycast gateway).<br />
-<br />
-Goal<br />
-- Tenant isolation by architecture...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/evpn-sdn-multiple-zones-one-vrf-per-tenant-controlled-inter-zone-routing-shared-services-%E2%80%93-supported-approach.186818/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox UPS and Power Loss</title>
-      <pubDate>Sat, 03 Oct 2026 01:27:36 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ups-and-power-loss.102131/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:102131</guid>
-      <author>invalid@example.com (ieronymous)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>ieronymous</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi <br />
-<br />
-   Has someone deployed a configuration where during power loss and when the batteries level are critical-low / below a certain percentage, UPS informs proxmox and proxmox shuts down all VMs gracefully?  <br />
-   Does the  way goes UPS-&gt;Server (idrac / ilo) -&gt;proxmox? <br />
-<br />
-Thank you</div>]]></content:encoded>
-      <slash:comments>20</slash:comments>
-    </item>
-    <item>
-      <title>Empty OSD keyring files after every reboot</title>
-      <pubDate>Fri, 02 Oct 2026 22:55:56 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/empty-osd-keyring-files-after-every-reboot.186824/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186824</guid>
-      <author>invalid@example.com (ph0x)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>ph0x</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi there!<br />
-<br />
-I had to do the cephx keyring migration by hand since I have a Ceph cluster member which is not part of my PVE cluster. I followed the upstream guide from <a href="https://docs.ceph.com/en/latest/rados/configuration/auth-config-ref/index.html#upgrading-and-rotating-cephx-keys" target="_blank" class="link link--external" rel="nofollow ugc noopener">ceph.com</a> and had a healthy cluster at some point. That is after I rebooted every machine that had locked up because I rotated the admin key for the storage too late. <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f600.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":D" title="Big Grin    :D"  data-smilie="8"data-shortname=":D" /><br />
-<br />
-However, with every host reboot I perform now, the keyring files of the OSDs are empty. I didn&#039;t even know that they were recreated on every boot. This is...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/empty-osd-keyring-files-after-every-reboot.186824/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>NUT on 9.1</title>
-      <pubDate>Fri, 02 Oct 2026 22:40:59 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/nut-on-9-1.180749/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:180749</guid>
-      <author>invalid@example.com (Held)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Held</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;ve upgraded/reinstalled my Proxmox 8.4 installation to 9.1 through a new ISO install, but I cannot seem to get NUT to work any longer on my host. It used to work under 8.4.<br />
-<br />
-Nut-scanner seems to operate normally (using USB so the missing libs shouldn&#039;t be an issue):<br />
-<br />
-
-
-
-
-<blockquote data-attributes="" data-quote="" data-source=""
-	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
-	
-	<div class="bbCodeBlock-content">
-		
-		<div class="bbCodeBlock-expandContent js-expandContent ">
-			root@host1:/etc/nut# nut-scanner<br />
-Cannot load SNMP library (libnetsnmp.so.40) : file not found. SNMP search disabled.<br />
-Cannot load XML library (libneon.so.27) : file not found. XML search disabled.<br />
-Cannot load IPMI library...
-		</div>
-		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
-	</div>
-</blockquote><br />
-<a href="https://forum.proxmox.com/threads/nut-on-9-1.180749/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Major issues after upgrade 8-9</title>
-      <pubDate>Fri, 02 Oct 2026 22:05:08 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/major-issues-after-upgrade-8-9.186713/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186713</guid>
-      <author>invalid@example.com (AceMilo)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>AceMilo</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi, I&#039;m trying to upgrade my proxmox from 8 to 9.  It is currently displaying it as version 9.2.2 when it boots.  I cannot pass PCI devices anymore to my vms, specifically truenas.  It doesn&#039;t see my network card or my disk controller.  It did work in 8.  I&#039;ve tried every combo of pci-e on/off, rom on/off, etc and I cannot get anything to passthrough.  Please, I&#039;m at my witt&#039;s end.  Any help is greatly appreciated.<br />
-<br />
-Thanks</div>]]></content:encoded>
-      <slash:comments>34</slash:comments>
-    </item>
-    <item>
-      <title>Intel pentium 8505 support</title>
-      <pubDate>Fri, 02 Oct 2026 22:01:33 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/intel-pentium-8505-support.164140/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:164140</guid>
-      <author>invalid@example.com (Singman)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Singman</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-Are you sure the Pentium 8505 is supported by Proxmox ?<br />
-I have a few mini PC with this processor and they are all really unstable under Proxmox (latest version, intel firmware installed).<br />
-Under Linux, I tried many stress tests and they are rock solid.<br />
-Same for memory with memtest86+.</div>]]></content:encoded>
-      <slash:comments>29</slash:comments>
-    </item>
-    <item>
-      <title>LXC Boot and vzdump Failures on Ceph RBD after Upgrade: fsconfig() failed ... Can't lookup blockdev (Exit Code 32)</title>
-      <pubDate>Fri, 02 Oct 2026 20:40:00 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/lxc-boot-and-vzdump-failures-on-ceph-rbd-after-upgrade-fsconfig-failed-cant-lookup-blockdev-exit-code-32.183650/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:183650</guid>
-      <author>invalid@example.com (chrispage1)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>chrispage1</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-After all of the CVE&#039;s and security disclosures over the past week or two, I thought it&#039;d be useful to upgrade my Proxmox nodes to the latest. I recently updated everything to PVE 9 &amp; Ceph 19 and it has been working without fault for a few weeks. Since todays package updates, I am getting sporadic LXC boot and vzdump failures with the error <code class="bbCodeInline">Can&#039;t lookup blockdev (Exit code 32)</code><br />
-<br />
-Environment:<br />
-<br />
-- PVE 9.1.9 / Linux 6.17.13-9-pve (2026-05-15T08:46Z)<br />
-- Ceph 19.2.3 - RBD (krbd mapped)<br />
--...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/lxc-boot-and-vzdump-failures-on-ceph-rbd-after-upgrade-fsconfig-failed-cant-lookup-blockdev-exit-code-32.183650/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>ZFS over iSCSI: ZVOLs created on iSCSI server but not being mounted on PVE box</title>
-      <pubDate>Fri, 02 Oct 2026 19:36:59 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/zfs-over-iscsi-zvols-created-on-iscsi-server-but-not-being-mounted-on-pve-box.186815/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186815</guid>
-      <author>invalid@example.com (no-usernames-left)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>no-usernames-left</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-I&#039;m prototyping the ZFS-over-iSCSI functionality on PVE 9.2.20 and running into trouble. Specifically, I followed <a href="https://blog.haschek.at/2023/zfs-over-iscsi-in-proxmox.html" target="_blank" class="link link--external" rel="nofollow ugc noopener">these</a> <a href="https://forum.level1techs.com/t/guide-iscsi-target-server-on-linux-with-zfs-for-windows-initiator-clients" target="_blank" class="link link--external" rel="nofollow ugc noopener">two</a> blogposts to get it set up (I added auth on tpg1 instead of the ACLs).<br />
-<br />
-PVE package list:<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>proxmox-ve: 9.2.0 (running kernel: 7.0.14-19-pve)
-pve-manager: 9.2.20 (running version: 9.2.20/49318c671b82f31e)
-proxmox-kernel-helper: 9.2.0
-proxmox-kernel-7.0.14-19-pve-signed: 7.0.14-19
-proxmox-kernel-7.0: 7.0.14-19
-proxmox-kernel-7.0.2-6-pve-signed...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/zfs-over-iscsi-zvols-created-on-iscsi-server-but-not-being-mounted-on-pve-box.186815/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
     </item>
   </channel>
 </rss>
