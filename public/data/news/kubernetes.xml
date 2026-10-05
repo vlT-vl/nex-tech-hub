@@ -1,4 +1,84 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Spotlight on SIG Apps</title><link>https://kubernetes.io/blog/2026/09/22/sig-apps-spotlight/</link><pubDate>Tue, 22 Sep 2026 10:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/22/sig-apps-spotlight/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Scaling Kubernetes Workloads with Node Swap</title><link>https://kubernetes.io/blog/2026/10/05/scaling-kubernetes-workloads-with-node-swap/</link><pubDate>Mon, 05 Oct 2026 10:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/10/05/scaling-kubernetes-workloads-with-node-swap/</guid><description>
+&lt;p>Memory is often the first hard limit a Kubernetes cluster hits.
+Nodes run out of RAM long before they run out of CPU, and the new wave of agentic AI workloads makes this worse.
+These workloads demand large memory footprints to start up and run untrusted code, then sit idle waiting for the next prompt.
+That idle but resident memory is expensive, and it caps how many pods a node can hold. This is where swap helps. Kubernetes support for running nodes with swap enabled reached General Availability in v1.34, and by backing that swap with fast NVMe solid state drives (SSDs), a node can page out dormant memory and pack in far more pods.
+This post explains how we benchmarked that approach across three workloads, including CI/CD kernel builds, sandboxed headless browsers, and isolated Python runtimes; we found density gains of up to 3×, often with little or no latency cost.&lt;/p>
+&lt;h2 id="the-node-density-problem">The node density problem&lt;a class="td-heading-self-link" href="#the-node-density-problem" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The Kubernetes ecosystem has reached a fundamental physical resource constraint: the strict limits of hardware memory versus the growing demand for dynamic, bursty workloads in the new agentic era.&lt;/p>
+&lt;p>Historically, administrators provisioning memory-intensive workloads encountered a persistent dilemma: set memory limits too high and you waste expensive infrastructure on idle RAM; set them too low and you risk Out-Of-Memory (OOM) kills.&lt;/p>
+&lt;p>This conflict is amplified when deploying autonomous AI agents using secure execution environments like the &lt;a href="https://github.com/kubernetes-sigs/agent-sandbox">&lt;code>agent-sandbox&lt;/code>&lt;/a> framework. These agentic pods require large memory footprints to initialize and execute untrusted code. However, after their burst of activity, they typically enter long-tail idle phases waiting for user prompts. Keeping this idle state in physical RAM caps cluster density and makes AI infrastructure expensive to run.&lt;/p>
+&lt;h2 id="the-solution-kubernetes-node-swap">The solution: Kubernetes node swap&lt;a class="td-heading-self-link" href="#the-solution-kubernetes-node-swap" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>With the introduction of Kubernetes' support for running nodes with swap enabled (which reached General Availability in v1.34), this paradigm shifts. By enabling the Linux kernel to page out anonymous memory to disk, &lt;em>node swap&lt;/em> acts as a shock absorber during traffic spikes or periods of heavy memory oversubscription.&lt;/p>
+&lt;p>Historically, swap was discouraged in Kubernetes for two reasons. The first was memory accounting. Under cgroup v1, the controls treated memory and swap as a single combined limit rather than letting operators set an independent limit for disk swap. Without independent tracking, a process could page large amounts of anonymous memory out to disk, which made a container's real memory usage unpredictable and hard to isolate. Kubernetes' swap support resolves this by relying on cgroup v2, whose separate swap accounting tracks disk swap on its own. The second reason was the latency penalty of paging to slow spinning disks, which fast NVMe Local SSDs largely eliminate. Together, these make it practical to increase pod density and buffer against memory spikes without sacrificing cluster stability.&lt;/p>
+&lt;h2 id="the-benchmark-data">The benchmark data&lt;a class="td-heading-self-link" href="#the-benchmark-data" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>To quantify the performance boundaries and cost-saving potential of Local SSD-backed node swap, this analysis covers three distinct workload categories: a Traditional Build Workload for CI/CD pipelines, High-Density Browser Sandboxes, and Isolated Python Sandboxes.&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Workload Profile&lt;/th>
+&lt;th>Baseline Capacity (No Swap)&lt;/th>
+&lt;th>Local SSD Swap Capacity&lt;/th>
+&lt;th>Density Improvement&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>&lt;strong>Linux CI/CD Kernel Build&lt;/strong>&lt;/td>
+&lt;td>600 MB RAM Limit&lt;/td>
+&lt;td>300 MB RAM Limit&lt;/td>
+&lt;td>&lt;strong>-50% RAM Footprint&lt;/strong>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>Headless Chrome (Kata)&lt;/strong>&lt;/td>
+&lt;td>40 Concurrent Pods&lt;/td>
+&lt;td>50 Concurrent Pods&lt;/td>
+&lt;td>&lt;strong>+25% Pod Density&lt;/strong>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>Headless Chrome (gVisor)&lt;/strong>&lt;/td>
+&lt;td>80 Concurrent Pods&lt;/td>
+&lt;td>160 Concurrent Pods&lt;/td>
+&lt;td>&lt;strong>+100% Pod Density&lt;/strong>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>&lt;strong>Python Sandbox (gVisor)&lt;/strong>&lt;/td>
+&lt;td>80 Concurrent Pods&lt;/td>
+&lt;td>240 Concurrent Pods&lt;/td>
+&lt;td>&lt;strong>+200% Pod Density&lt;/strong>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;h3 id="1-traditional-workload-linux-kernel-build">1. Traditional workload: Linux kernel build&lt;a class="td-heading-self-link" href="#1-traditional-workload-linux-kernel-build" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Before exploring specialized agentic architectures, swap was validated against classic batch workloads by running a complete &lt;a href="https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git/tag/?h=v6.1.1">Linux 6.1.1 kernel&lt;/a> build. The kernel compilation process leverages concurrent worker threads, balloons in memory to hold compiled object files, and requires a large memory spike during the brief linking phase.&lt;/p>
+&lt;p>This workload mirrors the memory behavior of enterprise CI/CD pipelines. Because earlier compiled objects sit inactive in memory while the pipeline progresses, CI/CD jobs frequently hoard unused physical RAM, which makes them well suited to node swap compression.&lt;/p>
+&lt;p>On a baseline node without swap, the minimum memory limit to prevent an OOM crash during compilation was 600 MB. Routing swap to a Local SSD cut the container memory limit by 50% to 300 MB without incurring any execution slowdown (in fact, it ran cleanly in 374s vs the baseline 433s). However, as an explicit tradeoff, compressing the limit further to 200 MB forced the active working set into swap, causing long I/O wait times and increasing execution time by over 40%. This reinforces that swap serves as an insurance policy for burst memory, not a replacement for active RAM.&lt;/p>
+&lt;h3 id="2-high-density-agent-workloads-headless-browser-runtimes">2. High-density agent workloads: headless browser runtimes&lt;a class="td-heading-self-link" href="#2-high-density-agent-workloads-headless-browser-runtimes" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>AI agent workloads frequently require manipulating headless browsers via Chromium. However, trusting external code execution often requires stricter security isolation than standard Linux namespaces. This benchmark cross-evaluated several container runtime environments. The raw logs and testing methodologies for the default runtime are available in the &lt;a href="https://github.com/kubernetes-sigs/agent-sandbox/tree/main/examples/gke-swap">Agent Sandbox GKE Swap directory&lt;/a>.&lt;/p>
+&lt;ul>
+&lt;li>&lt;strong>Unsandboxed baseline limits (&lt;code>runc&lt;/code>):&lt;/strong> To test the limits of the environment without the overhead of security runtimes, plain runc containers were swept on a c4-standard-32 node (32 vCPU, 120 GB RAM). Without swap, the node exhausted physical memory and failed past 512 pods. Enabling Local SSD swap allowed the node to support 768 concurrent pods.&lt;/li>
+&lt;li>&lt;strong>Advanced security runtimes (for example: gVisor, Kata Containers):&lt;/strong> Enabling strict security sandboxing increases memory overhead and normally reduces pod density. However, memory swap naturally absorbs this overhead penalty. Without swap, a gVisor environment hit a hard limit at 80 pods. Local SSD swap doubled that capacity, which allowed 160 concurrent gVisor pods on a single node. Similarly, Kata Containers microVMs exhausted physical RAM at 40 concurrent pods without swap, but using GCP Local SSD swap expanded this to 50 stable Kata microVMs before CPU saturation.&lt;/li>
+&lt;/ul>
+&lt;p>At these maximum densities, the per-pod latency increase is driven mainly by pods competing for CPU, not by swap I/O. An operator tuning for a specific latency target would run at a lower density than the peak numbers here and see a proportionally smaller latency cost.&lt;/p>
+&lt;p>For a comprehensive architectural breakdown and density metrics for gVisor and Kata, see the &lt;a href="https://github.com/kubernetes-sigs/agent-sandbox/tree/main/examples/gke-swap/runtimes">Agent Sandbox GKE Swap Runtimes directory&lt;/a>.&lt;/p>
+&lt;h3 id="3-beyond-browsers-sandboxed-python-runtimes">3. Beyond browsers: sandboxed Python runtimes&lt;a class="td-heading-self-link" href="#3-beyond-browsers-sandboxed-python-runtimes" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The advantages of node swap also extend to untrusted, isolated code-execution environments.
+This sweep deployed simultaneous Python sandbox sessions analyzing 5 million rows of data from the MovieLens 20M dataset, requiring a ≃375 MiB resident memory footprint per execution.
+The in-depth scaling results and deployment code for this sweep can be reviewed in the &lt;a href="https://github.com/kubernetes-sigs/agent-sandbox/tree/main/examples/gke-swap/python-density">Agent Sandbox GKE Swap Python Density directory&lt;/a>.&lt;/p>
+&lt;p>Without swap, heavy concurrent bursts exhausted physical memory, causing the node to hit a hard RAM limit and fail at 80 concurrent sessions.
+Enabling Local SSD swap offloaded dormant anonymous memory, freeing up physical RAM and preserving the node's page cache.
+This allowed the node to scale to 240 concurrently isolated Python sandboxes—a 3× density improvement.
+As with the browser workloads, the latency rise at peak density comes mainly from the sandboxes competing for CPU rather than from swap itself.&lt;/p>
+&lt;figure>
+&lt;img src="https://kubernetes.io/blog/2026/10/05/scaling-kubernetes-workloads-with-node-swap/node-swap-chart.svg"/> &lt;figcaption>
+&lt;h4>Density Benchmarks with and without Node Swap&lt;/h4>
+&lt;/figcaption>
+&lt;/figure>
+&lt;h2 id="how-to-use-it">How to use it&lt;a class="td-heading-self-link" href="#how-to-use-it" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>If you manage Kubernetes infrastructure for developer environments, browser testing farms, JVM applications, or AI execution runtimes, leveraging Local SSD swap can multiply your density efficiency.&lt;/p>
+&lt;p>In Kubernetes v1.34+, node swap is Generally Available. You enable it via the kubelet configuration:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">KubeletConfiguration&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kubelet.config.k8s.io/v1beta1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">failSwapOn&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">false&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">memorySwap&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">swapBehavior&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">LimitedSwap&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Pairing this upstream configuration with your cloud provider's high-speed local disk gives you dynamic memory balancing. For example, this is natively supported on Google Kubernetes Engine via &lt;a href="https://docs.cloud.google.com/kubernetes-engine/docs/how-to/node-memory-swap">Node Memory Swap&lt;/a> configured on Local SSD profiles.&lt;/p>
+&lt;p>To get the benefits, configure your workloads with Burstable QoS: set your container's memory limits higher than its requests. The node automatically rations fast swap space based on idle application memory usage while keeping active processes responsive.&lt;/p>
+&lt;h2 id="conclusion">Conclusion&lt;a class="td-heading-self-link" href="#conclusion" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>As the Kubernetes ecosystem transitions into the agentic era, administrators face a growing conflict between finite hardware memory limits and the bursty behavior of AI workloads. Frameworks like Agent Sandbox provide the security isolation required for running untrusted agents, but that isolation traditionally demands large amounts of idle memory overhead.&lt;/p>
+&lt;p>By configuring the kubelet with &lt;code>LimitedSwap&lt;/code> and routing it to Local SSDs, you can mitigate this conflict. Fast swap offloads the dormant states of idle agents, allowing you to increase pod density and node utilization on the same infrastructure without compromising security boundaries.&lt;/p></description></item><item><title>Spotlight on SIG Apps</title><link>https://kubernetes.io/blog/2026/09/22/sig-apps-spotlight/</link><pubDate>Tue, 22 Sep 2026 10:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/09/22/sig-apps-spotlight/</guid><description>
 &lt;p>As Kubernetes adoption has grown, the conversation has shifted beyond running containers to managing increasingly complex application lifecycles. Modern platforms support stateless web services, stateful databases, batch processing, AI workloads, and platform services. At the same time, they must remain reliable during upgrades, scaling events, and infrastructure failures.&lt;/p>
 &lt;p>Every Kubernetes user relies on SIG Apps, whether they realize it or not. Deployments, StatefulSets, DaemonSets, Jobs, and CronJobs form the foundation of how applications are deployed, updated, scaled, and operated across the Kubernetes ecosystem.&lt;/p>
 &lt;p>SIG Apps is focused on improving workload resilience, refining application lifecycle management, and addressing the operational challenges that emerge when applications encounter node failures, rollout disruptions, and increasingly complex infrastructure environments.&lt;/p>
@@ -7285,138 +7365,4 @@ We are also interested in hearing your feedback on this feature. Please let us k
 below or by opening an &lt;a href="https://github.com/kubernetes/kubernetes/issues">issue&lt;/a> on the Kubernetes GitHub repository.&lt;/p>
 &lt;p>We are also working with &lt;a href="https://github.com/kubernetes-sigs/controller-runtime/pull/3473">controller-runtime&lt;/a> to enable this set of
 semantics for all controllers built with controller-runtime. This will allow any controller built with controller-runtime to gain
-the benefits of read your own writes, without having to implement the logic themselves.&lt;/p></description></item><item><title>Kubernetes v1.36: Mutable Pod Resources for Suspended Jobs (beta)</title><link>https://kubernetes.io/blog/2026/04/27/kubernetes-v1-36-mutable-pod-resources-for-suspended-jobs/</link><pubDate>Mon, 27 Apr 2026 10:35:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/04/27/kubernetes-v1-36-mutable-pod-resources-for-suspended-jobs/</guid><description>
-&lt;p>Kubernetes v1.36 promotes the ability to modify container resource requests and limits
-in the pod template of a suspended Job to beta. First introduced as alpha in v1.35, this
-feature allows queue controllers and cluster administrators to adjust CPU, memory, GPU,
-and extended resource specifications on a Job while it is suspended, before it starts
-or resumes running.&lt;/p>
-&lt;h2 id="why-mutable-pod-resources-for-suspended-jobs">Why mutable pod resources for suspended Jobs?&lt;a class="td-heading-self-link" href="#why-mutable-pod-resources-for-suspended-jobs" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Batch and machine learning workloads often have resource requirements that are not
-precisely known at Job creation time. The optimal resource allocation depends on
-current cluster capacity, queue priorities, and the availability of specialized hardware
-like GPUs.&lt;/p>
-&lt;p>Before this feature, resource requirements in a Job's pod template were immutable once set.
-If a queue controller like &lt;a href="https://kueue.sigs.k8s.io/">Kueue&lt;/a> determined that a suspended
-Job should run with different resources, the only option was to delete and recreate the Job,
-losing any associated metadata, status, or history. This feature also provides a way
-to let a specific Job instance for a CronJob progress slowly with reduced resources,
-rather than outright failing to run if the cluster is heavily loaded.&lt;/p>
-&lt;p>Consider a machine learning training Job initially requesting 4 GPUs:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">batch/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Job&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">training-job-example-abcd123&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">labels&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">app.kubernetes.io/name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">trainer&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">suspend&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">template&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kubernetes.io/description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;ML training, ID abcd123&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">containers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">trainer&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-registry.example.com/training:2026-04-23T150405.678&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">requests&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;8&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;32Gi&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">example-hardware-vendor.com/gpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;4&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">limits&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;8&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;32Gi&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">example-hardware-vendor.com/gpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;4&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">restartPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Never&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>A queue controller managing cluster resources might determine that only 2 GPUs
-are available. With this feature, the controller can update the Job's resource
-requests before resuming it:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">batch/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Job&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">training-job-example-abcd123&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">labels&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">app.kubernetes.io/name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">trainer&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">suspend&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">template&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kubernetes.io/description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;ML training, ID abcd123&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">containers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">trainer&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">example-registry.example.com/training:2026-04-23T150405.678&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">requests&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;4&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;16Gi&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">example-hardware-vendor.com/gpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;2&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">limits&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;4&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;16Gi&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">example-hardware-vendor.com/gpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;2&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">restartPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Never&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Once the resources are updated, the controller resumes the Job by setting
-&lt;code>spec.suspend&lt;/code> to &lt;code>false&lt;/code>, and the new Pods are created with the adjusted
-resource specifications.&lt;/p>
-&lt;h2 id="how-it-works">How it works&lt;a class="td-heading-self-link" href="#how-it-works" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The Kubernetes API server relaxes the immutability constraint on pod template
-resource fields specifically for suspended Jobs. No new API types have been introduced;
-the existing Job and pod template structures accommodate the change through
-relaxed validation.&lt;/p>
-&lt;p>The mutable fields are:&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>spec.template.spec.containers[*].resources.requests&lt;/code>&lt;/li>
-&lt;li>&lt;code>spec.template.spec.containers[*].resources.limits&lt;/code>&lt;/li>
-&lt;li>&lt;code>spec.template.spec.initContainers[*].resources.requests&lt;/code>&lt;/li>
-&lt;li>&lt;code>spec.template.spec.initContainers[*].resources.limits&lt;/code>&lt;/li>
-&lt;/ul>
-&lt;p>Resource updates are permitted when the following conditions are met:&lt;/p>
-&lt;ol>
-&lt;li>The Job has &lt;code>spec.suspend&lt;/code> set to &lt;code>true&lt;/code>.&lt;/li>
-&lt;li>For a Job that was previously running and then suspended, all active
-Pods must have terminated (&lt;code>status.active&lt;/code> equals 0) before resource
-mutations are accepted.&lt;/li>
-&lt;/ol>
-&lt;p>Standard resource validation still applies. For example, resource limits
-must be greater than or equal to requests, and extended resources must be
-specified as whole numbers where required.&lt;/p>
-&lt;h2 id="what-s-new-in-beta">What's new in beta&lt;a class="td-heading-self-link" href="#what-s-new-in-beta" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>With the promotion to beta in Kubernetes v1.36, the
-&lt;code>MutablePodResourcesForSuspendedJobs&lt;/code> feature gate is enabled by default.
-This means clusters running v1.36 can use this feature without any additional
-configuration on the API server.&lt;/p>
-&lt;h2 id="try-it-out">Try it out&lt;a class="td-heading-self-link" href="#try-it-out" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>If your cluster is running Kubernetes v1.36 or later, this feature is available
-by default. For v1.35 clusters, enable the &lt;code>MutablePodResourcesForSuspendedJobs&lt;/code>
-&lt;a href="https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/">feature gate&lt;/a> on
-the &lt;code>kube-apiserver&lt;/code>.&lt;/p>
-&lt;p>You can test it by creating a suspended Job, updating its container resources
-using &lt;code>kubectl edit&lt;/code> or a controller, and then resuming the Job:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-shell" data-lang="shell">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Create a suspended Job&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl apply -f my-job.yaml --server-side
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Edit the resource requests&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl edit job training-job-example-abcd123
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Resume the Job&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl patch job training-job-example-abcd123 -p &lt;span class="s1">&amp;#39;{&amp;#34;spec&amp;#34;:{&amp;#34;suspend&amp;#34;:false}}&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="considerations">Considerations&lt;a class="td-heading-self-link" href="#considerations" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;h3 id="running-jobs-that-are-suspended">Running Jobs that are suspended&lt;a class="td-heading-self-link" href="#running-jobs-that-are-suspended" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>If you suspend a Job that was already running, you must wait for &lt;strong>all&lt;/strong> of that Job's active
-Pods to terminate before modifying resources. The API server rejects resource
-mutations while &lt;code>status.active&lt;/code> is greater than zero. This prevents inconsistency
-between running Pods and the updated pod template.&lt;/p>
-&lt;h3 id="pod-replacement-policy">Pod replacement policy&lt;a class="td-heading-self-link" href="#pod-replacement-policy" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>When using this feature with Jobs that may have failed Pods, consider setting
-&lt;code>podReplacementPolicy: Failed&lt;/code>. This ensures that replacement Pods are only
-created after the previous Pods have fully terminated, preventing resource
-contention from overlapping Pods.&lt;/p>
-&lt;h3 id="resourceclaims">ResourceClaims&lt;a class="td-heading-self-link" href="#resourceclaims" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Dynamic Resource Allocation (DRA) &lt;code>resourceClaimTemplates&lt;/code> remain immutable.
-If your workload uses DRA, you must recreate the claim templates separately
-to match any resource changes.&lt;/p>
-&lt;h2 id="getting-involved">Getting involved&lt;a class="td-heading-self-link" href="#getting-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>This feature was developed by &lt;a href="https://github.com/kubernetes/community/tree/master/sig-apps">SIG Apps&lt;/a>
-This feature was developed by &lt;a href="https://www.kubernetes.dev/community/community-groups/sigs/apps/">SIG Apps&lt;/a>
-with input from &lt;a href="https://www.kubernetes.dev/community/community-groups/wg/batch/">WG Batch&lt;/a>. Both groups welcome feedback
-as the feature progresses toward stable.&lt;/p>
-&lt;p>You can reach out through:&lt;/p>
-&lt;ul>
-&lt;li>Slack channel &lt;a href="https://kubernetes.slack.com/archives/C18NZM5K9">#sig-apps&lt;/a>.&lt;/li>
-&lt;li>Slack channel &lt;a href="https://kubernetes.slack.com/archives/C032ZE66A2X">#wg-batch&lt;/a>.&lt;/li>
-&lt;li>The &lt;a href="https://kep.k8s.io/5440">KEP-5440&lt;/a> tracking issue.&lt;/li>
-&lt;/ul></description></item></channel></rss>
+the benefits of read your own writes, without having to implement the logic themselves.&lt;/p></description></item></channel></rss>

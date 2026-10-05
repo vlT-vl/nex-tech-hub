@@ -12,7 +12,7 @@
 	<atom:link href="https://blogs.vmware.com/feed" rel="self" type="application/rss+xml" />
 	<link>https://blogs.vmware.com/</link>
 	<description>VMware Blogs</description>
-	<lastBuildDate>Fri, 02 Oct 2026 15:51:23 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 05 Oct 2026 21:22:30 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -20,6 +20,119 @@
 	1	</sy:updateFrequency>
 	<generator>https://wordpress.org/?v=6.8.10</generator>
 <site xmlns="com-wordpress:feed-additions:1">237817777</site>	<item>
+		<title>Optimizing AI Deployments with VMware Cloud Foundation (Part 3)</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/10/05/optimizing-ai-deployments-with-vmware-cloud-foundation-part-3/</link>
+		
+		<dc:creator><![CDATA[hari sivaraman lan vu and uday kurkure]]></dc:creator>
+		<pubDate>Mon, 05 Oct 2026 21:20:23 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10103769</guid>
+
+					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Blog3_featuredimage.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>Maximizing CPU and Memory Utilization for Best TCO Introduction VMware Cloud Foundation (VCF) can help enterprises maximize utilization and optimize AI infrastructure. To demonstrate VCF’s efficiency and flexibility for running AI workloads in various configurations, the Broadcom Performance team has completed extensive performance tests. We present these results in our white paper and are publishing &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/05/optimizing-ai-deployments-with-vmware-cloud-foundation-part-3/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/05/optimizing-ai-deployments-with-vmware-cloud-foundation-part-3/">Optimizing AI Deployments with VMware Cloud Foundation (Part 3)</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Blog3_featuredimage.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Blog3_featuredimage.jpeg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Blog3_featuredimage.jpeg 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Blog3_featuredimage.jpeg?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Blog3_featuredimage.jpeg?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Blog3_featuredimage.jpeg?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Blog3_featuredimage.jpeg?resize=600,300 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<h2 class="wp-block-heading" id="h-maximizing-cpu-and-memory-utilization-for-best-tco"><strong>Maximizing CPU and Memory Utilization for Best TCO</strong></h2>
+<h3 class="wp-block-heading" id="h-introduction"><strong>Introduction</strong></h3>
+<p>VMware Cloud Foundation (VCF) can help enterprises maximize utilization and optimize AI infrastructure. To demonstrate VCF’s efficiency and flexibility for running AI workloads in various configurations, the Broadcom Performance team has completed extensive performance tests. We present these results in our <a href="https://www.vmware.com/docs/optimize-ai-deployments-with-vcf">white paper</a> and are publishing a series of four blogs posts:</p>
+<ul class="wp-block-list">
+<li>Part 1: <a href="https://blogs.vmware.com/cloud-foundation/2026/09/21/optimizing-ai-deployments-with-vmware-cloud-foundation-part-1/">Maximizing Performance, Efficiency and Flexibility in a Multi-tenant Environments</a></li>
+<li>Part 2: <a href="https://blogs.vmware.com/cloud-foundation/2026/09/28/optimizing-ai-deployments-with-vmware-cloud-foundation-part-2/">Maximizing GPU Utilization for Best Total Cost of Ownership</a></li>
+<li>Part 3 (this blog post): Maximizing CPU and Memory Utilization for Best Total Cost of Ownership</li>
+<li>Part 4: Utilizing Time-Slicing to Optimize Inference Throughput</li>
+</ul>
+<p>Today we are happy to share with you part 3 of this series.</p>
+<hr class="wp-block-separator has-alpha-channel-opacity" />
+<p>Many GPU-accelerated AI inference workloads don’t require a server&#8217;s full CPU and memory capacity to perform optimally. In many cases, CPU and system memory utilization are very low. With VCF, IT administrators can optimize resource allocation by reducing the vCPU and memory assigned to these AI virtual machines (VMs), freeing up valuable capacity to consolidate more CPU-intensive workload VMs on the same host and reduce the total cost of ownership (TCO). <strong><em>In this blog, we demonstrate that CPU-intensive and GPU-heavy AI VMs can coexist on the same ESX host without degrading the performance of either workload.</em></strong></p>
+<h3 class="wp-block-heading" id="h-maximizing-cpu-and-memory-utilization-by-consolidating-cpu-and-gpu-workloads-to-reduce-cost-in-vcf">Maximizing CPU and Memory Utilization by Consolidating CPU and GPU Workloads to Reduce Cost in VCF</h3>
+<p>VCF streamlines data center management through workload consolidation, increasing density on existing hardware and reducing the costs of cloud infrastructure. According to <a href="https://blogs.vmware.com/cloud-foundation/2025/12/15/mlperf-5-1-confirms-vcf-future-of-ai-ml-performance/">our performance study</a> using various MLPerf inference workloads, most GPU-accelerated AI inference workloads have low CPU utilization. Even when we allocated only 25%-50% of available CPU cores to the VM, the inference performance is on par with bare metal. This creates a significant opportunity to leverage the remaining CPU and memory resources to run CPU-intensive workloads, such as agentic AI and databases. Disparate workloads, even those running on different operating systems, such as Windows and Linux, can run in separate VMs on the same host and ensure full isolation, enhanced security, and simplified management. This helps to save the cost of having two separate sets of hardware for different types of workloads, as illustrated in Figure 1.</p>
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6ac41511b7da0&quot;}" data-wp-interactive="core/image" class="wp-block-image size-large wp-lightbox-container"><img fetchpriority="high" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="318" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image_87d3c8.png" alt="" class="wp-image-34526" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_87d3c8.png 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_87d3c8.png?resize=300,93 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_87d3c8.png?resize=768,238 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_87d3c8.png?resize=1024,318 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_87d3c8.png?resize=1536,476 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_87d3c8.png?resize=600,186 600w" sizes="(max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+<p><em>Figure 1: Consolidating workloads for cost saving</em></p>
+<p>In VCF, CPU-intensive and GPU-intensive workload VMs can coexist on the same platform, simplifying cloud management and optimizing the usage of cloud resources, including AI private cloud. For example, suppose an enterprise has some new CPU-intensive workloads. Instead of buying new hardware for these workloads, IT admins can:&nbsp;</p>
+<ul class="wp-block-list">
+<li>Monitor the servers running GPU-accelerated AI workloads to identify the VMs that heavily underutilize CPUs and memory.</li>
+<li>Reduce the vCPU and memory resources allocated to these VMs.</li>
+<li>Allocate the newly available vCPUs and memory to the new CPU-intensive workload VMs.</li>
+</ul>
+<p>We demonstrate this in the next section by analyzing the performance of GPU-based AI inference workloads running in VMs with various CPU and memory configurations. Then, in the following section, we showcase that GPU-intensive AI workloads can co-locate with CPU workloads while still delivering excellent performance for both.</p>
+<h2 class="wp-block-heading" id="h-impact-of-cpu-and-memory-on-ai-inference-performance">Impact of CPU and Memory on AI Inference Performance</h2>
+<p>To illustrate that many GPU-accelerated AI inference workloads require only minimal CPU and memory resources to achieve maximum performance, we did an experiment where we varied the number of CPU cores and amount of system memory allocated to a VM running LLM inference with Llama3.1 8B and measured their throughput and latency performance.&nbsp;</p>
+<p>We ran Llama3.1 8B of MLPerf Inference 5.1 (Interactive mode) in VCF 9.1 on the system with a Dell PowerEdge XE7745 with two AMD EPYC 9555 64-core processors, 256 total logical cores, 768 GB memory, and four NVIDIA RTX 6000 Blackwell 96 GB GPUs.&nbsp;</p>
+<p>Our tests include two scenarios: memory sizing tests and vCPU sizing tests.&nbsp;</p>
+<ul class="wp-block-list">
+<li>In our memory sizing tests, we configured the VM with 64 vCPUs and varied the VM memory from 32 GB to 512 GB.&nbsp;</li>
+<li>In the vCPU sizing tests, we configured the VM with 128 GB of memory and varied the number of vCPUs from 16 to 128.&nbsp;&nbsp;</li>
+</ul>
+<p>The results of both scenarios in Figure 2 and Figure 3 show that changing the number of vCPUs while fixing the memory size, and changing the memory size while fixing the number of vCPUs, had little or no impact on the performance of AI workloads that use GPUs for acceleration.</p>
+<figure class="wp-block-image size-full"><img decoding="async" width="766" height="383" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Blog3-Figure-2b.png" alt="" class="wp-image-34580" srcset="https://blogs.vmware.com/wp-content/uploads/2026/10/Blog3-Figure-2b.png 766w, https://blogs.vmware.com/wp-content/uploads/2026/10/Blog3-Figure-2b.png?resize=300,150 300w, https://blogs.vmware.com/wp-content/uploads/2026/10/Blog3-Figure-2b.png?resize=600,300 600w" sizes="(max-width: 766px) 100vw, 766px" /></figure>
+<p><em>Figure 2. Throughput of Llama3.1 8B for various vCPUs and memory size in VCF 9.1&nbsp;</em></p>
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="766" height="383" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Blog3-Figure-3b.png" alt="" class="wp-image-34582" srcset="https://blogs.vmware.com/wp-content/uploads/2026/10/Blog3-Figure-3b.png 766w, https://blogs.vmware.com/wp-content/uploads/2026/10/Blog3-Figure-3b.png?resize=300,150 300w, https://blogs.vmware.com/wp-content/uploads/2026/10/Blog3-Figure-3b.png?resize=600,300 600w" sizes="auto, (max-width: 766px) 100vw, 766px" /></figure>
+<p><em>Figure 3. Latency of of Llama3.1 8B for different vCPUs and memory size in VCF 9.1</em></p>
+<p>As long as the VM is allocated enough vCPUs and memory to perform the inference task, the inference throughput and latency remain the same. These tests show that we don’t need to allocate more vCPUs and memory than a workload uses. These resources can then be used to consolidate more CPU-based workloads/VMs onto the same server, as demonstrated later below.</p>
+<h3 class="wp-block-heading" id="h-no-more-silos-consolidating-cpu-and-gpu-workloads-to-maximize-resource-utilization">No More Silos: Consolidating CPU and GPU Workloads to Maximize Resource Utilization</h3>
+<p>Many enterprises prefer co-locating both AI (including autonomous, agentic workflows) and non-AI workloads on the same infrastructure for better resource utilization and simpler private cloud management. Agentic AI, often involving RAG and tool use, acts like a specialized microservice requiring efficient GPU-CPU coordination, as CPU resources are heavily utilized for orchestration, RAG, and state management, while GPUs handle reasoning.</p>
+<p>VCF optimizes this mix by allowing flexible sizing of VM CPU and memory resources based on agent orchestration intensity. VCF&#8217;s ability to co-locate GPU-accelerated and CPU-intensive applications on the same servers offers superior flexibility compared to bare metal or separate systems, reducing deployment and operational costs for next-generation agentic systems. In this section, we demonstrate that co-locating AI and non-AI workloads <strong>does not have any measurable performance impact</strong> on either workload.</p>
+<p>The left panel in Figure 4 compares the normalized TPM for the HammerDB TPC-C driven workload running by itself to the normalized TPM while running concurrently with LLM-inference (using the Llama3 70B model compiled using NVIDIA TRT-LLM with tensor-parallelism of 4). We can clearly see that the database workload shows no measurable impact due to sharing the server with LLM-inference.</p>
+<p>The right panel in Figure 4 compares the normalized throughput for LLM-inference alone (using the same model as above) with the throughput for LLM-inference while sharing the server with the database application. From the data we can see that LLM-inference suffers no measurable performance impact due to sharing the server with the database workload.&nbsp;</p>
+<p>These results show that enterprises can run multiple workloads on the same server with no performance impact, thus obtaining much higher resource utilization than if the workloads ran on separate servers. The CPU-based workloads can be traditional non-AI workloads, like the databases in our experiment, or can be CPU-based AI workloads, including agentic AI.</p>
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6ac41511b8a54&quot;}" data-wp-interactive="core/image" class="wp-block-image size-full wp-lightbox-container"><img loading="lazy" decoding="async" width="766" height="383" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Blog3-Figure-4.png" alt="" class="wp-image-34537" srcset="https://blogs.vmware.com/wp-content/uploads/2026/10/Blog3-Figure-4.png 766w, https://blogs.vmware.com/wp-content/uploads/2026/10/Blog3-Figure-4.png?resize=300,150 300w, https://blogs.vmware.com/wp-content/uploads/2026/10/Blog3-Figure-4.png?resize=600,300 600w" sizes="auto, (max-width: 766px) 100vw, 766px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+<p><em>Figure 4: Results running a database workload concurrently with LLM-inference on the same server.</em><br />(Both HammerBD TPC-C driven workload and Llama3 70B inference co-exist on a single server with no measurable impact on each other.)</p>
+<p>For LLM-inference, we chose the input sequence length (ISL), output sequence length (OSL), and batch size so that it would run at the <strong>highest token generation rate</strong> with tensor-parallelism of 4 on four H200 GPUs. The HammerDB workload runs at 1.8 million TPM, which represents a heavy enterprise-level load. The database server VM runs at 75% utilization on 12 vCPUs. The LLM-inference uses 1 vCPU. The results show that neither workload experiences a measurable performance impact.</p>
+<p>Because many enterprises run database workloads that are accessed by numerous agents, we selected the HammerDB TPC-C driven workload as our benchmarking tool. We ran our experiments with a Dell PowerEdge XE7745 with two AMD EPYC 9555 64-core processors, 256 total logical cores, 1.5 TB memory, and four NVIDIA H200 GPUs with NVLink. The details of experimental configurations including software, hardware, and VM configuration and workload details can be found in our <a href="https://www.vmware.com/docs/optimize-ai-deployments-with-vcf">white paper</a>.</p>
+<h2 class="wp-block-heading" id="h-conclusion">Conclusion</h2>
+<p>VCF transcends virtualization to maximize ROI and reduce TCO for enterprise AI private cloud management by allowing enterprises to consolidate more workloads/VMs per server while maintaining the strictest isolation, security, and flexibility of workload deployment. Our performance studies show that most common servers used for AI inference workloads have extra capacity to host non-AI CPU workloads alongside AI workloads. In this blog, we demonstrated that co-locating an LLM inference workload with a HammerDB workload on the same server does not impact the performance of either one. In the future, we will demonstrate with agentic workloads.</p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/05/optimizing-ai-deployments-with-vmware-cloud-foundation-part-3/">Optimizing AI Deployments with VMware Cloud Foundation (Part 3)</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/05/optimizing-ai-deployments-with-vmware-cloud-foundation-part-3/">Optimizing AI Deployments with VMware Cloud Foundation (Part 3)</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10103769</post-id>	</item>
+		<item>
+		<title>Forrester Spotlight Finds That VMware Cloud Foundation Streamlines Private Cloud Operations</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/10/05/forrester-spotlight-finds-that-vmware-cloud-foundation-streamlines-private-cloud-operations/</link>
+		
+		<dc:creator><![CDATA[sehjung hah]]></dc:creator>
+		<pubDate>Mon, 05 Oct 2026 20:59:56 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10103763</guid>
+
+					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/vmw-prod-icon-cloud-foundation-name-rgb-ol_vert-1200x600-1.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>As companies deploy new AI applications for innovation, they can look toward improving IT operations to help deliver business results. VMware Cloud Foundation (VCF) is a single platform that delivers containers and virtual machines for both AI and existing applications. Forrester Consulting conducted a 2026 commissioned Spotlight abstract based on The Projected Total Economic Impact &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/05/forrester-spotlight-finds-that-vmware-cloud-foundation-streamlines-private-cloud-operations/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/05/forrester-spotlight-finds-that-vmware-cloud-foundation-streamlines-private-cloud-operations/">Forrester Spotlight Finds That VMware Cloud Foundation Streamlines Private Cloud Operations</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/vmw-prod-icon-cloud-foundation-name-rgb-ol_vert-1200x600-1.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/vmw-prod-icon-cloud-foundation-name-rgb-ol_vert-1200x600-1.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmw-prod-icon-cloud-foundation-name-rgb-ol_vert-1200x600-1.jpg 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmw-prod-icon-cloud-foundation-name-rgb-ol_vert-1200x600-1.jpg?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmw-prod-icon-cloud-foundation-name-rgb-ol_vert-1200x600-1.jpg?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmw-prod-icon-cloud-foundation-name-rgb-ol_vert-1200x600-1.jpg?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmw-prod-icon-cloud-foundation-name-rgb-ol_vert-1200x600-1.jpg?resize=600,300 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<p>As companies deploy new AI applications for innovation, they can look toward improving IT operations to help deliver business results. VMware Cloud Foundation (VCF) is a single platform that delivers containers and virtual machines for both AI and existing applications. Forrester Consulting conducted a 2026 commissioned Spotlight abstract based on<a href="https://tei.forrester.com/go/Broadcom/VMwareCloudFoundation9/?lang=en-us"> The Projected Total Economic Impact<img decoding="async" src="https://s.w.org/images/core/emoji/16.0.1/72x72/2122.png" alt="&#x2122;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Of Broadcom VMware Cloud Foundation 9</a><sup>1</sup>. This Spotlight is based on information from customer interviews. The Spotlight reflects the experiences of IT teams operating effectively in large and medium-sized complex enterprises running VCF 9 in production.&nbsp;</p>
+<p>Read the<a href="https://www.vmware.com/docs/forrester-spotlight-vcf9-streamlining-private-cloud-operations"> Broadcom VMware Cloud Foundation 9 Spotlight: Streamlining Private Cloud Operations</a> to see these benefits of VCF:</p>
+<ul class="wp-block-list">
+<li><strong>90%</strong>: Eliminated third-party tool costs following consolidation onto VCF 9.</li>
+<li><strong>70%</strong>: Faster lifecycle operations to reduce maintenance windows.</li>
+<li><strong>33%</strong>: Reduction in infrastructure operations effort.</li>
+<li><strong>50%</strong>: Reduction in tool sprawl yielding savings through software consolidation and lower vendor management costs.<sup>2</sup></li>
+</ul>
+<p>“&#8230;VMware Cloud Foundation…delivers capabilities for continuous performance optimization, lifecycle management, cost and capacity planning, troubleshooting, and integrated security operations across containers and virtual machines.“<sup>2</sup></p>
+<figure class="wp-block-image size-large is-resized"><a href="https://www.vmware.com/docs/forrester-spotlight-vcf9-streamlining-private-cloud-operations"><img fetchpriority="high" decoding="async" height="1024" width="801" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image_5ce940.png" alt="" class="wp-image-34555" style="width:630px;height:auto" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_5ce940.png 1513w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_5ce940.png?resize=235,300 235w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_5ce940.png?resize=768,982 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_5ce940.png?resize=801,1024 801w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_5ce940.png?resize=1202,1536 1202w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_5ce940.png?resize=600,767 600w" sizes="(max-width: 801px) 100vw, 801px" /></a></figure>
+<p>Customers of VMware Cloud Foundation 9 are seeing multiple benefits that accelerate their infrastructure journey when operating their private clouds.</p>
+<p><a href="https://www.vmware.com/docs/forrester-spotlight-vcf9-streamlining-private-cloud-operations">To learn more about these findings, read the commissioned Forrester Spotlight on behalf of Broadcom to see the full benefits and cost analysis behind these numbers on VMware Cloud Foundation 9.</a></p>
+<p><a href="https://labs.hol.vmware.com/HOL/catalog?search=operations">To learn more about how to improve private cloud operations, try a Hands-on Lab.</a></p>
+<hr class="wp-block-separator has-alpha-channel-opacity" />
+<h2 class="wp-block-heading has-vivid-cyan-blue-color has-text-color has-link-color wp-elements-5cce40a29ca7661a41b4684d55290691" id="h-resources">Resources</h2>
+<p><sup>1</sup>Source: Results are based on interviewed customers. <a href="https://tei.forrester.com/go/Broadcom/VMwareCloudFoundation9/?lang=en-us">Forrester New Technology: The Projected Total Economic Impact<img decoding="async" src="https://s.w.org/images/core/emoji/16.0.1/72x72/2122.png" alt="&#x2122;" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Of Broadcom VMware Cloud Foundation 9</a>, a commissioned study conducted by Forrester Consulting on behalf of Broadcom, August 2026.&nbsp;</p>
+<p><sup>2</sup>Source: Results are based on interviewed customers. <a href="https://www.vmware.com/docs/forrester-spotlight-vcf9-streamlining-private-cloud-operations">Forrester: Broadcom VMware Cloud Foundation 9 Spotlight: Streamlining Private Cloud Operations</a>, a commissioned study conducted by Forrester Consulting on behalf of Broadcom, October 2026.</p>
+</p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/05/forrester-spotlight-finds-that-vmware-cloud-foundation-streamlines-private-cloud-operations/">Forrester Spotlight Finds That VMware Cloud Foundation Streamlines Private Cloud Operations</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/05/forrester-spotlight-finds-that-vmware-cloud-foundation-streamlines-private-cloud-operations/">Forrester Spotlight Finds That VMware Cloud Foundation Streamlines Private Cloud Operations</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10103763</post-id>	</item>
+		<item>
 		<title>Security Starts with Hardware</title>
 		<link>https://blogs.vmware.com/cloud-foundation/2026/10/02/security-starts-with-hardware/</link>
 		
@@ -28,7 +141,7 @@
 				<category><![CDATA[Cloud Infrastructure]]></category>
 		<guid isPermaLink="false">https://blogs.vmware.com/?p=10103501</guid>
 
-					<description><![CDATA[<img width="300" height="258" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Cybersecurity-Awareness-Month-Logo.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" fetchpriority="high" srcset="https://blogs.vmware.com/wp-content/uploads/2026/10/Cybersecurity-Awareness-Month-Logo.png 300w, https://blogs.vmware.com/wp-content/uploads/2026/10/Cybersecurity-Awareness-Month-Logo.png?resize=244,210 244w" sizes="(max-width: 300px) 100vw, 300px" /><p>(Day 2 of 22 in our Cybersecurity Awareness Month series. See the whole month’s schedule below.) Security is about three things: confidentiality, integrity, and availability. Delivering these ideas to workloads requires building security atop a long string of connected dependencies, starting in hardware. Discrete hardware choices, as well as settings within the BIOS/UEFI help the &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/02/security-starts-with-hardware/">Continued</a></p>
+					<description><![CDATA[<img width="300" height="258" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Cybersecurity-Awareness-Month-Logo.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/wp-content/uploads/2026/10/Cybersecurity-Awareness-Month-Logo.png 300w, https://blogs.vmware.com/wp-content/uploads/2026/10/Cybersecurity-Awareness-Month-Logo.png?resize=244,210 244w" sizes="auto, (max-width: 300px) 100vw, 300px" /><p>(Day 2 of 22 in our Cybersecurity Awareness Month series. See the whole month’s schedule below.) Security is about three things: confidentiality, integrity, and availability. Delivering these ideas to workloads requires building security atop a long string of connected dependencies, starting in hardware. Discrete hardware choices, as well as settings within the BIOS/UEFI help the &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/02/security-starts-with-hardware/">Continued</a></p>
 <p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/02/security-starts-with-hardware/">Security Starts with Hardware</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
 										<content:encoded><![CDATA[<img width="300" height="258" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Cybersecurity-Awareness-Month-Logo.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/wp-content/uploads/2026/10/Cybersecurity-Awareness-Month-Logo.png 300w, https://blogs.vmware.com/wp-content/uploads/2026/10/Cybersecurity-Awareness-Month-Logo.png?resize=244,210 244w" sizes="auto, (max-width: 300px) 100vw, 300px" /><div><img width="300" height="258" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Cybersecurity-Awareness-Month-Logo.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Cybersecurity-Awareness-Month-Logo.png 415w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Cybersecurity-Awareness-Month-Logo.png?resize=300,258 300w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
@@ -42,7 +155,7 @@
 <p><strong>CPU Encryption offload</strong> &#8211; AES-NI has been supported for some time, but subsequent generations of Intel AND AMD processors have increased the throughput it can support, while reducing the CPU overhead consumed. Software library encryption like VM encryption, and vSAN<sup>®</sup> encryption are effectively hardware accelerated encryption, where the CPU has significant hardware assistance.</p>
 <p><strong>Intel</strong><strong><sup>®</sup></strong><strong> QAT</strong><strong><sup><img decoding="async" src="https://s.w.org/images/core/emoji/16.0.1/72x72/2122.png" alt="&#x2122;" class="wp-smiley" style="height: 1em; max-height: 1em;" /></sup></strong> &#8211; <a href="https://blogs.vmware.com/cloud-foundation/2026/05/21/encrypted-vmotion-offload-to-intel-qat-in-vmware-cloud-foundation-9-1/">Offloading vMotion encryption</a> to dedicated QAT cores, helps keep security high, and compute overhead low. Previously QAT required a discrete add-on card to deploy. Now it is an embedded option in some Intel CPUs (generally starting with 4th generation Sapphire Rapids). Intel QAT needs to be enabled in the BIOS.</p>
 <p><strong>Confidential computing </strong>&#8211; AMD introduced confidential compute with Secure Encrypted Virtualization (SEV) on Naples, added Encrypted State (SEV-ES) on Rome, and introduced Secure Encrypted Virtualization–Secure Nested Paging (SEV-SNP) on Milan. &nbsp;Intel on 4th generation Xeons<sup>®</sup> introduced Trust Domain Extensions (TDX). This came initially to a subset of SKUs for 4th generation and is available more broadly on later Xeon generations. These technologies allow for encrypted memory, memory integrity and protects workload memory from malicious hypervisor activity. Enabling these mode often requires a number of bios specific flags be set specific to SEV-SNP or TDX directly. Consult with your <a href="https://lenovopress.lenovo.com/lp2349-configuring-confidential-computing-with-amd-sev-snp-and-vmware-esxi-90">OEMs specific bios guide</a>, but in general AMD requires SVM mode, SEV-SNP be enabled, as well as the SNP Memory RMP table (that secures the memory table from manipulation) be enabled.&nbsp;</p>
-<figure class="wp-block-image size-large"><img decoding="async" height="469" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image_b5e46a.png" alt="" class="wp-image-34507" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_b5e46a.png 1600w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_b5e46a.png?resize=300,137 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_b5e46a.png?resize=768,352 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_b5e46a.png?resize=1024,469 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_b5e46a.png?resize=1536,704 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_b5e46a.png?resize=600,275 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="469" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image_b5e46a.png" alt="" class="wp-image-34507" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_b5e46a.png 1600w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_b5e46a.png?resize=300,137 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_b5e46a.png?resize=768,352 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_b5e46a.png?resize=1024,469 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_b5e46a.png?resize=1536,704 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_b5e46a.png?resize=600,275 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
 <p>For Intel TDX <a href="https://blogs.vmware.com/cloud-foundation/2026/09/15/confidential-computing-complete-setup-walkthrough-intel-tdx/">here’s a guide</a> for setting this up step by step.</p>
 <p><strong>Redundant components</strong> &#8211; Availability is often an underappreciated element of security. An outage caused by failure of a power supply, switches, or PDU taking offline critical logging or authentication software yields the same impact as a traditional denial of service attack. Infrastructure that will host Authentication or audit related infrastructure should start with designing appropriate uptime SLAs and working backwards from the requirements to deliver it.&nbsp;</p>
 <h2 class="wp-block-heading" id="h-securing-and-verifying-the-management-controllers">Securing and Verifying the Management Controllers</h2>
@@ -54,7 +167,7 @@
 <p><a href="https://www.dell.com/support/manuals/en-us/idrac9-lifecycle-controller-v7.x-series/idrac9_scg_tta/securely-configuring-bios-system-security?guid=guid-4227b092-7404-4aac-8ff8-e057877f7823&amp;lang=en-us">Dell iDRAC9 SCG — BIOS System Security (v7.x Series)</a></p>
 <p>To help simplify the steps of auditing these BIOS <a href="https://github.com/vmware/vcf-readiness">VCF Readiness</a> can be used to audit the posture of the BIOS settings, and BMC configuration using Redfish APIs. Some sample configuration items and security implications include over 50 built in&nbsp; BMC Hardware Security Audit Findings, as well as additional conditional controls based on specific posture requirements.</p>
 <p><strong>TPM and Secure boot</strong></p>
-<p>Making sure that a TPM 2.0 is deployed, enabled, and hosts are configured for secure boot.<br /><img decoding="async" src="blob:https://blogs.vmware.com/f31fe7eb-5803-4753-9d04-3429a8863997" width="482" height="130" /></p>
+<p>Making sure that a TPM 2.0 is deployed, enabled, and hosts are configured for secure boot.<br /><img loading="lazy" decoding="async" src="blob:https://blogs.vmware.com/f31fe7eb-5803-4753-9d04-3429a8863997" width="482" height="130" /></p>
 <p><strong>Time</strong></p>
 <p>NTP, and DNS are properly configured. DNS, and PTR records are required for certificates to be used for proper authentication to the BMC interfaces. NTP is important as proper time is required for certificates, kerberos authentication, prevention of back in time attacks, and making sure logs can be correlated for incident response.&nbsp;</p>
 <figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="451" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image_755c3b.png" alt="" class="wp-image-34505" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_755c3b.png 1734w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_755c3b.png?resize=300,132 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_755c3b.png?resize=768,338 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_755c3b.png?resize=1024,451 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_755c3b.png?resize=1536,677 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_755c3b.png?resize=600,264 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
@@ -611,287 +724,5 @@ spec:
 		
 		
 		<post-id xmlns="com-wordpress:feed-additions:1">10103060</post-id>	</item>
-		<item>
-		<title>One Namespace to Rule Them All: The New esxcli memtier Namespace</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/09/25/one-namespace-to-rule-them-all-the-new-esxcli-memtier-namespace/</link>
-		
-		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
-		<pubDate>Fri, 25 Sep 2026 14:18:42 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10102827</guid>
-
-					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/09/memory-tiering-featured-image.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Memory Tiering is a great way to get more out of your ESX hosts, and managing it from the command line just got a whole lot easier. Let me explain why that matters. In VMware Cloud Foundation (VCF) 9.0, working with Memory Tiering from the CLI meant using two namespaces: esxcli system tierdevice for device &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/09/25/one-namespace-to-rule-them-all-the-new-esxcli-memtier-namespace/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/09/25/one-namespace-to-rule-them-all-the-new-esxcli-memtier-namespace/">One Namespace to Rule Them All: The New esxcli memtier Namespace</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/09/memory-tiering-featured-image.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/09/memory-tiering-featured-image.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/memory-tiering-featured-image.png 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/memory-tiering-featured-image.png?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/memory-tiering-featured-image.png?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/memory-tiering-featured-image.png?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/memory-tiering-featured-image.png?resize=600,300 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<p>Memory Tiering is a great way to get more out of your ESX hosts, and managing it from the command line just got a whole lot easier. Let me explain why that matters.</p>
-<p>In VMware Cloud Foundation (VCF) 9.0, working with Memory Tiering from the CLI meant using two namespaces: esxcli system tierdevice for device operations and esxcli system settings kernel for kernel-level tuning. It got the job done. With the 9.1 release, we made it even better.</p>
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer"></div>
-<h2 class="wp-block-heading" id="h-memory-tiering-gets-a-home-of-its-own"><a></a>Memory Tiering gets a home of its own</h2>
-<p>Starting in VCF 9.1 (and VMware vSphere Foundation 9.1, and vSphere 9.1), all Memory Tiering operations live under a single, dedicated namespace: <strong>esxcli memtier</strong>.</p>
-<div class="wp-block-image">
-<figure data-wp-context="{&quot;imageId&quot;:&quot;6ab690ca5c761&quot;}" data-wp-interactive="core/image" class="aligncenter size-large wp-lightbox-container"><img fetchpriority="high" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="482" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/09/image_4d224c.png" alt="" class="wp-image-34379" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_4d224c.png 1562w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_4d224c.png?resize=300,141 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_4d224c.png?resize=768,361 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_4d224c.png?resize=1024,482 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_4d224c.png?resize=1536,723 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_4d224c.png?resize=600,282 600w" sizes="(max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
-			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
-				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
-			</svg><br />
-		</button></figure>
-</div>
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer"></div>
-<p>This is a real consolidation. Think of it like moving every tool you need into one well-organized toolbox instead of two. Everything you need to enable, disable, configure, inspect, and list devices for Memory Tiering now hangs off one root command. The structure is cleaner, the commands are more discoverable, and scripting and automation get noticeably faster because everything is in one place.</p>
-<p>So how does that look in practice? Let’s walk through it.</p>
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer"></div>
-<h2 class="wp-block-heading" id="h-what-the-new-namespace-looks-like"><a></a>What the new namespace looks like</h2>
-<p>Here is the command tree under esxcli memtier:</p>
-<ul class="wp-block-list">
-<li><strong>memtier device list</strong> &#8211; List memory tiering devices. Use &#8211;available to see devices available for tiering, or &#8211;configured to see what is already configured.</li>
-<li><strong>memtier enable</strong> &#8211; Enable memory tiering. Options include &#8211;devices for the first tiering device, &#8211;encryption to turn on encryption on the host, and &#8211;tier-size-pct to set the maximum tiering size as a percentage of DRAM (between 1 and 400).</li>
-<li><strong>memtier disable</strong> &#8211; Disable memory tiering. The &#8211;delete-devices flag removes the devices when you turn it off.</li>
-<li><strong>memtier config set</strong> &#8211; Set the memory tiering configuration: devices, encryption, and tier size percentage.</li>
-<li><strong>memtier config get</strong> &#8211; Get the current configuration values, with flags to pull individual settings like &#8211;devices, &#8211;enable, &#8211;encryption, and &#8211;tier-size-pct.</li>
-<li><strong>memtier config delete</strong> &#8211; Delete the memory tiering configuration.</li>
-<li><strong>memtier status get</strong> &#8211; Show the currently deployed Memory Tiering configuration.</li>
-</ul>
-<p>That is the full set. One namespace, four logical areas (device, enable/disable, config, status), and a clear path to exactly the operation you need.</p>
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer"></div>
-<div class="wp-block-image">
-<figure data-wp-context="{&quot;imageId&quot;:&quot;6ab690ca5d28f&quot;}" data-wp-interactive="core/image" class="aligncenter size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="404" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/09/image_6ab72a.png" alt="" class="wp-image-34380" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_6ab72a.png 1630w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_6ab72a.png?resize=300,118 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_6ab72a.png?resize=768,303 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_6ab72a.png?resize=1024,404 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_6ab72a.png?resize=1536,606 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_6ab72a.png?resize=600,237 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
-			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
-				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
-			</svg><br />
-		</button></figure>
-</div>
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer"></div>
-<p>Want a quick example? Say you want to check what tiering devices are available on a host. It is as simple as:</p>
-<pre class="crayon-plain-tag">esxcli memtier device list --available</pre>
-<p>That single command replaces the kind of lookup that used to require knowing which namespace to reach for. The same goes for checking your current configuration with esxcli memtier status get, or enabling tiering with esxcli memtier enable &#8211;devices &lt;device&gt;. Everything starts with esxcli memtier, and tab-completion takes care of the rest. Easy enough, right?</p>
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer"></div>
-<h2 class="wp-block-heading" id="h-so-what-s-the-real-win-here"><a></a>So what’s the real win here?</h2>
-<p><a></a>I’m glad you asked, because the benefits really come down to three words that are worth repeating:</p>
-<ul class="wp-block-list">
-<li><strong>Cleaner</strong> – A more discoverable command structure. When you type esxcli memtier and tab-complete, the options that come back all relate to Memory Tiering. No more scanning a long list of unrelated system commands.</li>
-<li><strong>Simpler</strong> – One namespace for all operations. Your scripts, your runbooks, and your muscle memory all point to the same place.</li>
-<li><strong>Faster</strong> – Easier scripting and automation. Everything under one namespace means less boilerplate and a smoother path from idea to working script.</li>
-</ul>
-<p>For anyone building automation around Memory Tiering, this is the kind of change that quietly makes your day a little better.</p>
-<div style="height:25px" aria-hidden="true" class="wp-block-spacer"></div>
-<h2 class="wp-block-heading" id="h-a-note-on-versions"><a></a>A note on versions</h2>
-<p>This new namespace is for VCF 9.1, vSphere Foundation 9.1, and vSphere 9.1 and later. Don’t worry, if you are still on VCF 9.0, you will continue using the existing two-namespace approach (esxcli system tierdevice and esxcli system settings kernel). You can plan your upgrade path and your scripts accordingly, and the new esxcli memtier namespace is waiting for you on the other side.</p>
-<p>You can find the full command reference for the new namespace on the <a href="https://developer.broadcom.com/xapis/esxcli-command-reference/latest/namespace/esxcli_memtier.html">Broadcom developer site</a>, which covers every option and flag in detail.</p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/09/25/one-namespace-to-rule-them-all-the-new-esxcli-memtier-namespace/">One Namespace to Rule Them All: The New esxcli memtier Namespace</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/09/25/one-namespace-to-rule-them-all-the-new-esxcli-memtier-namespace/">One Namespace to Rule Them All: The New esxcli memtier Namespace</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10102827</post-id>	</item>
-		<item>
-		<title>The Complete Guide to Workload Mobility with VMware Cloud Foundation Operations HCX 9.1 (Part 3: Extending Networks and Migrating Workloads)</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/09/25/vcf-9-operations-hcx-network-extension-migration-part-3/</link>
-		
-		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
-		<pubDate>Fri, 25 Sep 2026 10:11:19 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10102811</guid>
-
-					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/09/featured_hcx_part3.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Key Points Network Extension: Learn how to stretch Layer 2 networks from your legacy vSphere environment to VMware Cloud Foundation (VCF) 9.1, ensuring workloads retain their original IP and MAC addresses. Workload Migration: Understand the different HCX migration types available, with a step-by-step guide to perform your first migration. About This Series Part 1: Deploy &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/09/25/vcf-9-operations-hcx-network-extension-migration-part-3/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/09/25/vcf-9-operations-hcx-network-extension-migration-part-3/">The Complete Guide to Workload Mobility with VMware Cloud Foundation Operations HCX 9.1 (Part 3: Extending Networks and Migrating Workloads)</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/09/featured_hcx_part3.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/09/featured_hcx_part3.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/featured_hcx_part3.jpg 2880w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/featured_hcx_part3.jpg?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/featured_hcx_part3.jpg?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/featured_hcx_part3.jpg?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/featured_hcx_part3.jpg?resize=1536,768 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/featured_hcx_part3.jpg?resize=2048,1024 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/featured_hcx_part3.jpg?resize=600,300 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<div class="key-points">
-<h3>Key Points</h3>
-<ul>
-<li><strong>Network Extension:</strong> Learn how to stretch Layer 2 networks from your legacy vSphere environment to VMware Cloud Foundation (VCF) 9.1, ensuring workloads retain their original IP and MAC addresses.</li>
-<li><strong>Workload Migration:</strong> Understand the different HCX migration types available, with a step-by-step guide to perform your first migration.</li>
-</ul>
-</div>
-<h3>About This Series</h3>
-<ul class="content-list">
-<li><a href="https://blogs.vmware.com/cloud-foundation/2026/06/26/vcf-9-operations-hcx-deployment-part-1/" target="_blank" rel="noopener noreferrer"><strong>Part 1:</strong> Deploy VMware Cloud Foundation Operations HCX 9.1 directly from VCF 9.1 and manually deploy it on the legacy environment.</a></li>
-<li><a href="https://blogs.vmware.com/cloud-foundation/2026/07/13/vcf-9-operations-hcx-service-mesh-part-2/" target="_blank" rel="noopener noreferrer"><strong>Part 2:</strong> Creating the Network Profile, Compute Profile, Site Pair, and HCX Service Mesh.</a></li>
-<li><strong>Part 3: Extending the networks and performing your first migration.</strong></li>
-</ul>
-<div class="disclaimer"><strong>Disclaimer:</strong> It is important to note that this blog offers general recommendations, which may not apply to all scenarios or cover every aspect of deployment. For professional services, please engage Broadcom Professional Services.</div>
-<h2>Understanding HCX Migration Types</h2>
-<p>Before migrating workloads, selecting the appropriate HCX migration type depends on the following main considerations:</p>
-<ul class="content-list">
-<li><strong>Tolerance for Downtime:</strong> If your applications require zero downtime, you must use a live migration method (vMotion, RAV, or HAV). Among these, Replication Assisted vMotion (RAV) is generally the preferred choice for large scale migrations because it uniquely combines the benefits of zero downtime (vMotion) with parallel disk replication.</li>
-<li><strong>Underlay Network Reliability:</strong> Live migrations demand a highly stable network with at least 250 Mbps bandwidth and a strict maximum of 0.1% packet loss. VCF Operations HCX 9.1 includes the WAN Optimization appliance, which lowers the minimum bandwidth requirement to 150 Mbps while maintaining the strict 0.1% packet loss threshold. Dropping below these network limits can cause live migrations to fail. Consequently, if the network is not reliable for live migration, non-live Bulk Migration is the safest choice due to its tolerance for lower bandwidth (50 Mbps) and higher packet loss (1.0%). For additional details, review the official Broadcom <a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/workload-mobility/vmware-hcx-user-guide-vcf-9-0/preparing-for-hcx-installations/network-underlay-minimum-requirements.html" target="_blank" rel="noopener noreferrer">Network Underlay Minimum Requirements</a>.</li>
-<li><strong>Replication vs. Relocation (Rollback Requirements):</strong> Most migration methods fully <em>relocate</em> the virtual machine, meaning the original VM is no longer available on the source vCenter once migration is completed. If your business requires a fast rollback plan, Bulk Migration is recommended. It functions as a <em>replication</em> process, safely preserving the original VM in a powered off and disconnected state on the legacy environment.<br /><span style="display: block; margin-top: 8px; font-size: 0.95em; color: #666; font-style: italic;">Note: While all migration methods support reverse migration, returning a workload to the source environment always requires initiating a separate migration job.</span></li>
-</ul>
-<p>For more information on each migration type and additional limitations, see the table below:</p>
-<table style="width: 100%; border-collapse: collapse; margin: 25px 0 0 0; font-size: 0.95em; text-align: left; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-radius: 6px; overflow: hidden;">
-<thead>
-<tr style="background-color: #0065ab; color: white;">
-<th style="width: 18%; padding: 15px; border: 1px solid #ddd;">Migration Type</th>
-<th style="width: 10%; padding: 15px; border: 1px solid #ddd; text-align: center;">Downtime</th>
-<th style="width: 10%; padding: 15px; border: 1px solid #ddd; text-align: center;">Parallel</th>
-<th style="width: 20%; padding: 15px; border: 1px solid #ddd;">Network Underlay Minimums</th>
-<th style="width: 42%; padding: 15px; border: 1px solid #ddd;">Additional Characteristics &amp; Protocols</th>
-</tr>
-</thead>
-<tbody><!-- COLD MIGRATION --></p>
-<tr>
-<td style="padding: 15px; border: 1px solid #ddd; vertical-align: top;"><a style="color: #0065ab; text-decoration: none; font-weight: bold;" href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/workload-mobility/vmware-hcx-user-guide-vcf-9-0/migrating-virtual-machines-with-vmware-hcx/understanding-vmware-hcx-vmotion-and-cold-migration.html" target="_blank" rel="noopener noreferrer">Cold Migration</a></td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top; text-align: center; font-weight: 600;">Yes*</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top; text-align: center;">No</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top;"><span style="color: #333; font-weight: 600;">BW:</span> 250 Mbps<br /><span style="color: #333; font-weight: 600;">MTU:</span> 1150<br /><span style="color: #333; font-weight: 600;">Loss:</span> 0.1%<br /><span style="color: #333; font-weight: 600;">Latency:</span> 150 ms</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top;">
-<ul style="margin: 0; padding-left: 20px;">
-<li style="margin-bottom: 5px;">Applicable only for powered off VMs.</li>
-<li>Uses the VMware NFC (TCP 902) protocol.</li>
-</ul>
-<div style="margin-top: 10px; font-size: 0.85em; color: #777;"><em>* Because this is a cold migration, the virtual machine starts in a powered off state and remains in the same state during the entire migration.</em></div>
-</td>
-</tr>
-<p><!-- VMOTION --></p>
-<tr style="background-color: #f9f9f9;">
-<td style="padding: 15px; border: 1px solid #ddd; vertical-align: top;"><a style="color: #0065ab; text-decoration: none; font-weight: bold;" href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/workload-mobility/vmware-hcx-user-guide-vcf-9-0/migrating-virtual-machines-with-vmware-hcx/understanding-vmware-hcx-vmotion-and-cold-migration.html" target="_blank" rel="noopener noreferrer">vMotion</a></td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top; text-align: center;">No</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top; text-align: center;">No</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top;"><span style="color: #333; font-weight: 600;">BW:</span> 150 Mbps <span style="font-size: 0.85em; color: #777;">(w/ Opt)</span><br /><span style="color: #333; font-weight: 600;">BW:</span> 250 Mbps <span style="font-size: 0.85em; color: #777;">(no Opt)</span><br /><span style="color: #333; font-weight: 600;">MTU:</span> 1150<br /><span style="color: #333; font-weight: 600;">Loss:</span> 0.1%<br /><span style="color: #333; font-weight: 600;">Latency:</span> 150 ms</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top;">
-<ul style="margin: 0; padding-left: 20px;">
-<li style="margin-bottom: 5px;">Moves virtual machines with no downtime.</li>
-<li style="margin-bottom: 5px;">While you can queue multiple VMs in a single Mobility Group, they are processed serially (one by one) per Service Mesh. Concurrent data replication is not supported with this method. For parallel live migrations, see Replication Assisted vMotion (RAV).</li>
-<li>Uses standard vMotion (TCP 8000) and NFC (TCP 902) protocols.</li>
-</ul>
-</td>
-</tr>
-<p><!-- BULK MIGRATION --></p>
-<tr>
-<td style="padding: 15px; border: 1px solid #ddd; vertical-align: top;"><a style="color: #0065ab; text-decoration: none; font-weight: bold;" href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/workload-mobility/vmware-hcx-user-guide-vcf-9-0/migrating-virtual-machines-with-vmware-hcx/understanding-vmware-hcx-bulk-migration.html" target="_blank" rel="noopener noreferrer">Bulk Migration</a></td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top; text-align: center; font-weight: 600;">Yes*</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top; text-align: center; font-weight: 600;">Yes</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top;"><span style="color: #333; font-weight: 600;">BW:</span> 50 Mbps<br /><span style="color: #333; font-weight: 600;">MTU:</span> 1150<br /><span style="color: #333; font-weight: 600;">Loss:</span> 1.0%<br /><span style="color: #333; font-weight: 600;">Latency:</span> 150 ms</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top;">
-<ul style="margin: 0; padding-left: 20px;">
-<li style="margin-bottom: 5px;">Preserves the original VM at the source site. Because this is a replication process rather than a relocation, the source VM is left intact, powered off, and disconnected after the final sync.</li>
-<li style="margin-bottom: 5px;"><strong>Highly Scalable:</strong> Supports up to 1,000 concurrent Bulk Migrations per HCX Manager (requires custom configuration per <a style="color: #0065ab; text-decoration: none; font-weight: 600;" href="https://knowledge.broadcom.com/external/article?articleNumber=373010" target="_blank" rel="noopener noreferrer">VMware KB 373010</a>), and up to 200 concurrent migrations per Interconnect (IX) appliance.</li>
-<li style="margin-bottom: 5px;"><strong>Optional:</strong> Supports Guest OS Customization and the migration of Encrypted Virtual Machines.</li>
-<li style="margin-bottom: 5px;"><strong>Seed Checkpoint Support:</strong> Retains target disks if a migration fails or is canceled, allowing subsequent attempts to reuse transferred data instead of starting from scratch.</li>
-<li>Uses the vSphere Replication (TCP 31031) protocol for parallel operations, and TCP 32032 for Bulk Migration Encrypted.</li>
-</ul>
-<div style="margin-top: 10px; font-size: 0.85em; color: #777;"><em>* Minimum downtime occurs during the scheduled switchover window when the active VM is gracefully powered off at the source and the replica is powered on at the destination.</em></div>
-</td>
-</tr>
-<p><!-- RAV --></p>
-<tr style="background-color: #f9f9f9;">
-<td style="padding: 15px; border: 1px solid #ddd; vertical-align: top;"><a style="color: #0065ab; text-decoration: none; font-weight: bold;" href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/workload-mobility/vmware-hcx-user-guide-vcf-9-0/migrating-virtual-machines-with-vmware-hcx/understanding-vmware-hcx-replication-assisted-vmotion.html" target="_blank" rel="noopener noreferrer">Replication Assisted vMotion (RAV)</a></td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top; text-align: center;">No</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top; text-align: center; font-weight: 600;">Yes*</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top;"><span style="color: #333; font-weight: 600;">BW:</span> 150 Mbps <span style="font-size: 0.85em; color: #777;">(w/ Opt)</span><br /><span style="color: #333; font-weight: 600;">BW:</span> 250 Mbps <span style="font-size: 0.85em; color: #777;">(no Opt)</span><br /><span style="color: #333; font-weight: 600;">MTU:</span> 1150<br /><span style="color: #333; font-weight: 600;">Loss:</span> 0.1%<br /><span style="color: #333; font-weight: 600;">Latency:</span> 150 ms</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top;">
-<ul style="margin: 0; padding-left: 20px;">
-<li style="margin-bottom: 5px;">Moves virtual machines with zero downtime using parallel disk replication and live vMotion.</li>
-<li style="margin-bottom: 5px;"><strong>Highly Scalable:</strong> Supports up to 1,000 concurrent RAV migrations per HCX Manager (requires custom configuration per <a style="color: #0065ab; text-decoration: none; font-weight: 600;" href="https://knowledge.broadcom.com/external/article?articleNumber=373010" target="_blank" rel="noopener noreferrer">VMware KB 373010</a>), and up to 200 concurrent migrations per Interconnect (IX) appliance.</li>
-<li style="margin-bottom: 5px;"><strong>Seed Checkpoint Support:</strong> Retains target disks if a migration fails or is canceled, allowing subsequent attempts to reuse transferred data instead of starting from scratch.</li>
-<li>Uses vSphere Replication (TCP 31031), vMotion (TCP 8000), and NFC (TCP 902) protocols.</li>
-</ul>
-<div style="margin-top: 10px; font-size: 0.85em; color: #777;"><em>* Live switchover of concurrent RAV migrations is run serially per Service Mesh.</em></div>
-</td>
-</tr>
-<p><!-- DIRECT --></p>
-<tr>
-<td style="padding: 15px; border: 1px solid #ddd; vertical-align: top;"><a style="color: #0065ab; text-decoration: none; font-weight: bold;" href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/workload-mobility/vmware-hcx-user-guide-vcf-9-0/migrating-virtual-machines-with-vmware-hcx/understanding-hcx-assisted-vmotion-direct.html" target="_blank" rel="noopener noreferrer">HCX Assisted vMotion (Direct)</a></td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top; text-align: center;">No</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top; text-align: center;">No</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top;"><span style="color: #333; font-weight: 600;">BW:</span> 250 Mbps<br /><span style="color: #333; font-weight: 600;">MTU:</span> 1500<br /><span style="color: #333; font-weight: 600;">Loss:</span> 0.1%<br /><span style="color: #333; font-weight: 600;">Latency:</span> 150 ms</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top;">
-<ul style="margin: 0; padding-left: 20px;">
-<li style="margin-bottom: 5px;">HCX orchestrates migrations using native VMware vSphere cross vCenter vMotion.</li>
-<li>Uses vMotion (TCP 8000) and NFC (TCP 902) protocols.</li>
-</ul>
-</td>
-</tr>
-<p><!-- OSAM --></p>
-<tr style="background-color: #f9f9f9;">
-<td style="padding: 15px; border: 1px solid #ddd; vertical-align: top;"><a style="color: #0065ab; text-decoration: none; font-weight: bold;" href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/workload-mobility/vmware-hcx-user-guide-vcf-9-0/migrating-virtual-machines-with-vmware-hcx/understanding-vmware-hcx-os-assisted-migration.html" target="_blank" rel="noopener noreferrer">OS Assisted Migration (OSAM)</a></td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top; text-align: center; font-weight: 600;">Yes</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top; text-align: center; font-weight: 600;">Yes</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top;"><span style="color: #333; font-weight: 600;">BW:</span> 50 Mbps<br /><span style="color: #333; font-weight: 600;">MTU:</span> 1150<br /><span style="color: #333; font-weight: 600;">Loss:</span> 1.0%<br /><span style="color: #333; font-weight: 600;">Latency:</span> 150 ms</td>
-<td style="padding: 15px; border: 1px solid #ddd; color: #555; vertical-align: top;">
-<ul style="margin: 0; padding-left: 20px;">
-<li style="margin-bottom: 5px;">Provides migration for non vSphere guest virtual machines, specifically for VMs running on Hyper-V and KVM.</li>
-<li>Uses an HCX specific OSAM agent.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="table-legend">Legend: <strong>BW</strong> = Bandwidth | <strong>Opt</strong> = WAN Optimization appliance enabled</div>
-<p style="font-size: 0.95em; color: #555; font-style: italic; margin-top: 20px;">Blog Scope: The OS Assisted Migration (OSAM) method is designed for non-vSphere workloads (Hyper-V or KVM). However, this guide focuses exclusively on migrating from a legacy vCenter to a VCF 9.1 vCenter.</p>
-<h2>1. Pre-Migration Health Checks</h2>
-<p>Before starting migrations, run <strong>HCX Diagnostics</strong> and <strong>Transport Analytics</strong>. Diagnostics verifies that required firewall ports are open, while Transport Analytics measures underlay bandwidth, latency, and packet loss. Completing these checks helps to identify issues and avoid unexpected failures during migration.</p>
-<h3 style="color: #1a1a1a;">Step 1: Running HCX Diagnostics</h3>
-<ol class="step-list">
-<li>Log in to your source HCX Manager. Running diagnostics from the source automatically tests the target side as well.</li>
-<li>Go to <strong>Interconnect</strong> &gt; <strong>Service Mesh</strong>, select your service mesh, click <strong>More</strong>, and choose <strong>Run Diagnostics</strong>.<br /><img fetchpriority="high" decoding="async" class="alignnone size-large wp-image-34345" src="https://blogs.vmware.com/wp-content/uploads/2026/09/run_hcxdiags_1.png" alt="Running HCX Diagnostics" width="1024" height="311" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/run_hcxdiags_1.png 1159w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/run_hcxdiags_1.png?resize=300,91 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/run_hcxdiags_1.png?resize=768,233 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/run_hcxdiags_1.png?resize=1024,311 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/run_hcxdiags_1.png?resize=600,182 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></li>
-</ol>
-<ol class="step-list" start="3">
-<li>When the process completes, verify all probes are successful. Do not proceed to migration if any probes fail.<br /><span style="font-size: 0.95em; color: #666; font-style: italic;">Note: If you see failed probes, check the <a href="https://ports.broadcom.com/view/?vcfVersion=9.1+VCF-Operations-HCX" target="_blank" rel="noopener noreferrer">VMware Ports and Protocols</a> and verify your firewalls are allowing the traffic.<br /><img loading="lazy" decoding="async" class="alignnone size-large wp-image-34346" src="https://blogs.vmware.com/wp-content/uploads/2026/09/run_hcxdiags_3.png" alt="HCX Data Plane Diagnostics Results" width="1024" height="427" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/run_hcxdiags_3.png 1110w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/run_hcxdiags_3.png?resize=300,125 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/run_hcxdiags_3.png?resize=768,320 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/run_hcxdiags_3.png?resize=1024,427 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/run_hcxdiags_3.png?resize=600,250 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></span></li>
-</ol>
-<h3 style="color: #1a1a1a;">Step 2: Running Transport Analytics</h3>
-<ol class="step-list">
-<li>From the left navigation menu under <strong>Infrastructure</strong>, select <strong>Transport Analytics</strong>.</li>
-<li>Expand <strong>HCX Uplink</strong> and click <strong>RUN TEST</strong> (click <strong>YES</strong> on the prompt to proceed).<br /><img loading="lazy" decoding="async" class="alignnone size-large wp-image-34347" src="https://blogs.vmware.com/wp-content/uploads/2026/09/transport_analytics_1.png" alt="Transport Analytics Run Test" width="1024" height="623" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/transport_analytics_1.png 1257w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/transport_analytics_1.png?resize=300,183 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/transport_analytics_1.png?resize=768,467 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/transport_analytics_1.png?resize=1024,623 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/transport_analytics_1.png?resize=600,365 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></li>
-</ol>
-<ol class="step-list" start="3">
-<li>Once the test completes, verify that your <strong>Available Bandwidth</strong>, <strong>Latency</strong>, and <strong>Loss</strong> meet or exceed the underlay requirements for your target migration type. Green checkmarks next to each migration service in the <strong>Services Overview</strong> confirm that the underlay network can support those methods.<br /><img loading="lazy" decoding="async" class="alignnone size-large wp-image-34348" src="https://blogs.vmware.com/wp-content/uploads/2026/09/transport_analytics_2.png" alt="Transport Analytics Results" width="1024" height="495" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/transport_analytics_2.png 1640w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/transport_analytics_2.png?resize=300,145 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/transport_analytics_2.png?resize=768,371 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/transport_analytics_2.png?resize=1024,495 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/transport_analytics_2.png?resize=1536,742 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/transport_analytics_2.png?resize=600,290 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></li>
-</ol>
-<h2>2. Network Extension</h2>
-<p>Extending Layer 2 networks allows workloads migrated to VMware Cloud Foundation (VCF) 9.1 to retain their original IP and MAC addresses, eliminating application re-IP requirements during migration. Follow these steps to stretch your source network across the HCX Service Mesh:</p>
-<h3 style="color: #1a1a1a;">Reviewing Prerequisites &amp; Supported Topologies</h3>
-<p>Before proceeding, it is highly recommended to review the official documentation to ensure your environment configuration is fully supported:</p>
-<ul class="content-list">
-<li><a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/workload-mobility/vmware-hcx-user-guide-vcf-9-0/extending-networks-with-vmware-hcx/about-vmware-hcx-network-extension/requirements-for-network-extension.html" target="_blank" rel="noopener noreferrer">Requirements for Network Extension</a></li>
-<li><a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/workload-mobility/vmware-hcx-user-guide-vcf-9-0/extending-networks-with-vmware-hcx/about-vmware-hcx-network-extension/restrictions-and-limitations-for-network-extension.html" target="_blank" rel="noopener noreferrer">Restrictions and Limitations for Network Extension</a> <em>(Review this to identify any unsupported source and destination configurations)</em>.</li>
-</ul>
-<p>When extending networks with HCX, keep the following supported network types in mind:</p>
-<ul class="content-list">
-<li><strong>Supported Sources:</strong> DVS portgroup, NSX overlay, NSX VLAN, or NSX VPC (if the source is NSX 9).</li>
-<li><strong>Supported Targets:</strong> NSX VPC, NSX Overlay, and NSX VLAN.</li>
-</ul>
-<h3 style="color: #1a1a1a;">Step-by-Step Configuration</h3>
-<p>For comprehensive details, reference the official Broadcom guide on <a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/workload-mobility/vmware-hcx-user-guide-vcf-9-0/extending-networks-with-vmware-hcx/extending-networks-using-vmware-hcx.html" target="_blank" rel="noopener noreferrer">Extending Networks</a>. Below is a simplified breakdown of the process:</p>
-<ol class="step-list">
-<li>From the HCX Manager UI, navigate to <strong>Network Extension</strong> under the Services menu and click <strong>Extend Networks</strong>.</li>
-<li>Select your Service Mesh, browse your source datacenter, and check the boxes next to the specific networks you want to extend.<br /><img loading="lazy" decoding="async" class="alignnone size-large wp-image-34349" src="https://blogs.vmware.com/wp-content/uploads/2026/09/network_extension_select.png" alt="Select Networks to Extend in HCX" width="1024" height="363" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/network_extension_select.png 1161w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/network_extension_select.png?resize=300,106 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/network_extension_select.png?resize=768,272 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/network_extension_select.png?resize=1024,363 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/network_extension_select.png?resize=600,212 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" />
-</li>
-</ol>
-<ol class="step-list" start="3">
-<li>Click <strong>Next</strong> to open the extension properties configuration.</li>
-<li>For each selected network, enter the <strong>Gateway IP Address / Prefix Length</strong> and choose your <strong>Destination First Hop Router</strong> (e.g., your NSX Tier-1 gateway or NSX VPC).<br /><img loading="lazy" decoding="async" class="alignnone size-large wp-image-34350" src="https://blogs.vmware.com/wp-content/uploads/2026/09/network_extension_configure.jpg" alt="Configure Network Extension Gateway and Router" width="1024" height="328" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/network_extension_configure.jpg 1086w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/network_extension_configure.jpg?resize=300,96 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/network_extension_configure.jpg?resize=768,246 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/network_extension_configure.jpg?resize=1024,328 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/network_extension_configure.jpg?resize=600,192 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></li>
-</ol>
-<ol class="step-list" start="5">
-<li>Click <strong>Submit</strong> to initiate the extension process. Once finished, your Layer 2 networks will be successfully stretched to VCF 9.1.</li>
-</ol>
-<h2>3. Migrating Virtual Machines</h2>
-<p>Now that your Layer 2 networks are successfully extended, the environment is ready to migrate virtual machines. Because the network is stretched, workloads will retain their original IP and MAC addresses upon moving to VCF 9.1. VCF Operations HCX orchestrates this process using <strong>Mobility Groups</strong>, allowing you to batch and manage multiple workloads at once. For detailed operational instructions, review the official guide on <a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/workload-mobility/vmware-hcx-user-guide-vcf-9-0/migrating-virtual-machines-with-vmware-hcx/migrating-virtual-machines-using-mobility-groups.html" target="_blank" rel="noopener noreferrer">Migrating Virtual Machines using Mobility Groups</a>.</p>
-<h3 style="color: #1a1a1a;">Step-by-Step Configuration</h3>
-<ol class="step-list">
-<li>In the VCF Operations HCX UI, navigate to <strong>Migration</strong> under the Services menu.</li>
-<li>Click <strong>Create Mobility Group</strong>.</li>
-<li>Browse your source inventory, select the set of virtual machines to include in the migration group, and click <strong>Add to Selection</strong>.</li>
-<li>Configure the migration settings for your group. During this step, you can define essential parameters, including:
-<ul style="margin-top: 10px; margin-bottom: 10px;">
-<li><strong>Switchover:</strong> Schedule exactly when the migration completes the final sync and cuts over.</li>
-<li><strong>Advanced Options:</strong> Configure specific behaviors like retaining MAC addresses or upgrading VMware Tools.</li>
-</ul>
-<div class="disclaimer"><strong>Warning:</strong> Be cautious when enabling <em>Upgrade Virtual Hardware</em> or <em>Disable HCX Per-VM EVC</em>. These settings can cause lock-in, preventing you from migrating the workload back to the legacy environment due to hardware or CPU instruction set incompatibilities.</div>
-<ul style="margin-top: 10px; margin-bottom: 10px;">
-<li><strong>Migrate NSX Tags:</strong> Ensure security tags are carried over to the destination NSX environment.</li>
-<li><strong>Seed Checkpoint:</strong> Enable this option to retain target disks if a migration fails, allowing subsequent attempts to reuse transferred data.</li>
-</ul>
-</li>
-<li>Validate the migration and click <strong>Go</strong> to start the process.</li>
-</ol>
-<h2>Conclusion</h2>
-<p>This concludes our three-part series on VCF Operations HCX 9.1. From the initial deployment and Service Mesh configuration to extending Layer 2 networks and executing VM migrations, you now have the foundational steps to successfully transition your workloads to VCF 9.1.</p>
-<p><strong>Special thanks to</strong> <a href="https://blogs.vmware.com/cloud-foundation/author/akunhappan/">Abhilash Kunhappan</a>, Chris O’Sullivan (Support Domain Expert), Vipul Patel (HCX Engineering) and Jose Gonzalez Cobo (Product Management).</p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/09/25/vcf-9-operations-hcx-network-extension-migration-part-3/">The Complete Guide to Workload Mobility with VMware Cloud Foundation Operations HCX 9.1 (Part 3: Extending Networks and Migrating Workloads)</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/09/25/vcf-9-operations-hcx-network-extension-migration-part-3/">The Complete Guide to Workload Mobility with VMware Cloud Foundation Operations HCX 9.1 (Part 3: Extending Networks and Migrating Workloads)</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10102811</post-id>	</item>
 	</channel>
 </rss>
