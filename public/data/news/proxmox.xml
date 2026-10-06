@@ -4,11 +4,119 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Mon, 05 Oct 2026 23:31:47 +0000</pubDate>
-    <lastBuildDate>Mon, 05 Oct 2026 23:31:47 +0000</lastBuildDate>
+    <pubDate>Tue, 06 Oct 2026 03:57:14 +0000</pubDate>
+    <lastBuildDate>Tue, 06 Oct 2026 03:57:14 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>My Proxmox 9 server keep hanging, completely frozen !?</title>
+      <pubDate>Tue, 06 Oct 2026 03:06:23 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/my-proxmox-9-server-keep-hanging-completely-frozen.172489/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:172489</guid>
+      <author>invalid@example.com (shodan)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>shodan</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+I cobbled together a bunch of parts into a nice new-to-me Proxmox server.<br />
+<br />
+Unfortunately, it keeps hanging after a couple of hours no matter what I do !<br />
+<br />
+This server has <br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>CPU0: AMD Ryzen 7 1700 Eight-Core Processor (family: 0x17, model: 0x1, stepping: 0x1)
+
+Gigabyte Technology Co., Ltd. B450M DS3H V2/B450M DS3H V2, BIOS F67h 08/12/2025
+
+EFI v2.7 by American Megatrends
+
+ACPI=0xbcf0b000 ACPI 2.0=0xbcf0b014 SMBIOS=0xbd9f2000 SMBIOS 3.0=0xbd9f1000 MEMATTR=0xb777f398 ESRT=0xb98f6b98...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/my-proxmox-9-server-keep-hanging-completely-frozen.172489/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
+    </item>
+    <item>
+      <title>NUT UPS stopped working after upgrade from PVE 8 to 9</title>
+      <pubDate>Tue, 06 Oct 2026 02:48:44 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/nut-ups-stopped-working-after-upgrade-from-pve-8-to-9.186786/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186786</guid>
+      <author>invalid@example.com (fcarneiro)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>fcarneiro</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+I just upgraded a server running Proxmox version 8 (PVE 8.4.19, Debian 12.14, kernel 6.8.12-30-pve) to version 9 (PVE 9.2.21, Debian 13.7, kernel 7.0.14-20-pve) and the NUT UPS server/monitor stopped working. It doesn&#039;t connect to the UPS anymore and doesn&#039;t even detect it with nut-scanner.<br />
+<br />
+Everything was working fine just before the upgrade. There were no physical changes or any change on the UPS, just the OS upgrade/reboot.<br />
+<br />
+I&#039;ve checked the nut group assignments and udev rules and...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/nut-ups-stopped-working-after-upgrade-from-pve-8-to-9.186786/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>6</slash:comments>
+    </item>
+    <item>
+      <title>How to disable softdog and use hardware watchdog instead ?</title>
+      <pubDate>Tue, 06 Oct 2026 02:27:07 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-to-disable-softdog-and-use-hardware-watchdog-instead.171768/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:171768</guid>
+      <author>invalid@example.com (shodan)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>shodan</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+I have a flakey system on proxmox 9<br />
+It&#039;s a new-old system that should have worked but I didn&#039;t test earlier<br />
+Motherboard is a gigabyte B450M DS3H V2 with latest bios F67h 08/12/2025<br />
+<br />
+So, to begin with I only have the softdog watchdog loaded<br />
+So I load the hardware watchdog sp5100_tco<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>root@proutmox:~# cat /sys/class/watchdog/watchdog0/identity
+Software Watchdog
+root@proutmox:~# cat /sys/class/watchdog/watchdog1/identity
+cat: /sys/class/watchdog/watchdog1/identity: No such file or...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/how-to-disable-softdog-and-use-hardware-watchdog-instead.171768/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Hypervisor node freezes completely during backup</title>
+      <pubDate>Mon, 05 Oct 2026 23:38:38 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/hypervisor-node-freezes-completely-during-backup.184262/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:184262</guid>
+      <author>invalid@example.com (1monkey)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>1monkey</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Our team has a 3 nodes Proxmox cluster. Every night we backup all of the VMs. Every 2-3 days the nightly backup completely freezes one of the nodes.<br />
+<br />
+Sometimes the freezing can be stopped by stopping the backup job from another node, but complete freezing is the usual, in that case the Backup job&#039;s Stop button is disabled on other nodes. There is no specific VM which causes the freeze to happen, it varies.<br />
+<br />
+Making ssh connection to the machine times out. Connecting physically to the server...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/hypervisor-node-freezes-completely-during-backup.184262/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
+    </item>
     <item>
       <title>KVM Escape, publication. CVE-2026-64561, ZAPScape</title>
       <pubDate>Mon, 05 Oct 2026 23:16:51 +0000</pubDate>
@@ -51,23 +159,6 @@ Does someone knows a way to install it ?<br />
 If not possible, is there a better way to backup...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/proxmox-9-2-veeam-agent-for-linux.186864/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>Hypervisor node freezes completely during backup</title>
-      <pubDate>Mon, 05 Oct 2026 22:17:41 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/hypervisor-node-freezes-completely-during-backup.184262/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:184262</guid>
-      <author>invalid@example.com (1monkey)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>1monkey</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Our team has a 3 nodes Proxmox cluster. Every night we backup all of the VMs. Every 2-3 days the nightly backup completely freezes one of the nodes.<br />
-<br />
-Sometimes the freezing can be stopped by stopping the backup job from another node, but complete freezing is the usual, in that case the Backup job&#039;s Stop button is disabled on other nodes. There is no specific VM which causes the freeze to happen, it varies.<br />
-<br />
-Making ssh connection to the machine times out. Connecting physically to the server...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/hypervisor-node-freezes-completely-during-backup.184262/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>4</slash:comments>
     </item>
     <item>
@@ -362,94 +453,6 @@ rtl8168h-2_0.0.2 02/26/15...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/regression-in-7-0-14-20-pve-realtek-rtl8168h-r8169-fails-with-pcie-aer-dpc-error-%E2%80%93-7-0-14-19-pve-works.186785/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>12</slash:comments>
-    </item>
-    <item>
-      <title>TLS Certificate Issues, cannot connect to PVE Interface error:0A000126:SSL</title>
-      <pubDate>Mon, 05 Oct 2026 15:00:53 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/tls-certificate-issues-cannot-connect-to-pve-interface-error-0a000126-ssl.186838/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186838</guid>
-      <author>invalid@example.com (Flavinux)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Flavinux</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-i encounter some difficulty, I&#039;m ussing smallstep PKI, Certificate generate via ACME or CLI, none of certificate works with pveproxy .<br />
-proxmox 8.x &amp; version 9.2.20 same problem<br />
-<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code># pveproxy start --debug
-2026-10-03 18:19:09.349072 worker[1658055]: PVE::APIServer::AnyEvent +1937: (eval): ACCEPT FH10 CONN1
-2026-10-03 18:19:09.349072 worker[1658056]: PVE::APIServer::AnyEvent +1937: (eval): ACCEPT FH10 CONN1
-2026-10-03 18:19:09.349168 worker[1658055]: PVE::APIServer::AnyEvent +1937: (eval): Setting TLS...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/tls-certificate-issues-cannot-connect-to-pve-interface-error-0a000126-ssl.186838/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>NFS server side copy stopped working</title>
-      <pubDate>Mon, 05 Oct 2026 14:53:52 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/nfs-server-side-copy-stopped-working.186869/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186869</guid>
-      <author>invalid@example.com (keeka)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>keeka</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have successfully been using a privileged lxc to export NFS shares for quite a while. Each share exports a separate ZFS dastaset. Mounting those shares on a Debian 13 desktop system, all file operations worked apparently flawlessly. My client fstab specified NFS vers=4 but I believe v4.2 was in effect and cross-share SSC appeared to be working.<br />
-Today, I have had to downgrade the mount to explicit vers=4.1, otherwise a cp or mv from one share to another (and hence between ZFS datasets)...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/nfs-server-side-copy-stopped-working.186869/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>pve-qemu-kvm 11.0.3-4 performance degradation</title>
-      <pubDate>Mon, 05 Oct 2026 14:34:17 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pve-qemu-kvm-11-0-3-4-performance-degradation.186811/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186811</guid>
-      <author>invalid@example.com (atomek)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>atomek</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m doing frequent proxmox updates, today I&#039;ve noticed much higher CPU usage of VMs (linux and BSD) after yesterday upgrade. I&#039;ve checked that kernel was updated to 7.0.14-20-pve, but reverting the issue remains. After I downgraded pve-qemu-kvm 11.0.3-4 to pve-qemu-kvm 11.0.3-3 the issue is gone. Have you noticed this? Can I report it somewhere?<br />
-<br />
-<br />
-<a href="https://forum.proxmox.com/attachments/1790924600232-png.100187/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99883-4eecfe7145c34e8380043a2efb7785d7.jpg?hash=lGGtfhhrFf"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99883-4eecfe7145c34e8380043a2efb7785d7.jpg?hash=lGGtfhhrFf 2x"
-		class="bbImage "
-		style=""
-		alt="1790924600232.png"
-		title="1790924600232.png"
-		width="314" height="150" loading="lazy" /></a><br />
-<br />
-<a href="https://forum.proxmox.com/attachments/1790924629344-png.100188/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99884-638c08272ff45636952d5e0ab61d5e8b.jpg?hash=4NhcqL1wlp"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99884-638c08272ff45636952d5e0ab61d5e8b.jpg?hash=4NhcqL1wlp 2x"
-		class="bbImage "
-		style=""
-		alt="1790924629344.png"
-		title="1790924629344.png"
-		width="309" height="150" loading="lazy" /></a><br />
-<br />
-And this is after the downgrade of package - notice the idle CPU usage at around 8:50 dropped in half:<br />
-<br />
-<br />
-<a href="https://forum.proxmox.com/attachments/1790924700210-png.100189/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/99/99885-4338124b18eb7f5ff00246491ccdd5fd.jpg?hash=CQgx8qhful"
-		srcset="https://forum.proxmox.com/data/attachments/99/2x/99885-4338124b18eb7f5ff00246491ccdd5fd.jpg?hash=CQgx8qhful 2x"
-		class="bbImage "
-		style=""
-		alt="1790924700210.png"
-		title="1790924700210.png"
-		width="331" height="150" loading="lazy" /></a></div>]]></content:encoded>
-      <slash:comments>8</slash:comments>
     </item>
   </channel>
 </rss>
