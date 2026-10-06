@@ -1,4 +1,281 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Scaling Kubernetes Workloads with Node Swap</title><link>https://kubernetes.io/blog/2026/10/05/scaling-kubernetes-workloads-with-node-swap/</link><pubDate>Mon, 05 Oct 2026 10:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/10/05/scaling-kubernetes-workloads-with-node-swap/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>The Shift to cgroup v2 in Kubernetes: What You Need to Know</title><link>https://kubernetes.io/blog/2026/10/06/kubernetes-cgroups-v2-shift/</link><pubDate>Tue, 06 Oct 2026 10:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/10/06/kubernetes-cgroups-v2-shift/</guid><description>
+&lt;p>In Linux, &lt;em>cgroups&lt;/em> (control groups) are a kernel feature used for managing system resources.
+Kubernetes uses cgroups to allocate resources like CPU and memory to containers,
+ensuring that applications run smoothly without interfering with each other.
+With the release of Kubernetes v1.31, support for v1 cgroup management moved into
+&lt;a href="https://kubernetes.io/blog/2024/08/14/kubernetes-1-31-moving-cgroup-v1-support-maintenance-mode/">maintenance mode&lt;/a>.
+Support for v2 cgroup management has been stable since Kubernetes v1.25.&lt;/p>
+&lt;p>Compared with cgroup v1, cgroup v2 provides a single unified hierarchy,
+a more consistent interface, and a stronger foundation for resource isolation
+and modern resource-management features.&lt;/p>
+&lt;h2 id="deprecation-of-cgroup-v1">Deprecation of cgroup v1&lt;a class="td-heading-self-link" href="#deprecation-of-cgroup-v1" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Kubernetes has &lt;a href="https://kubernetes.io/docs/concepts/architecture/cgroups/#deprecation-of-cgroup-v1">deprecated cgroup v1&lt;/a>.
+Starting with Kubernetes v1.35, &lt;code>failCgroupV1&lt;/code> defaults to &lt;code>true&lt;/code>, so the kubelet does not start
+on a cgroup v1 node by default. Administrators can temporarily set &lt;code>failCgroupV1: false&lt;/code> in the
+&lt;a href="https://kubernetes.io/docs/tasks/administer-cluster/kubelet-config-file/">kubelet configuration file&lt;/a>, but removal will
+follow the &lt;a href="https://kubernetes.io/docs/reference/using-api/deprecation-policy/">Kubernetes deprecation policy&lt;/a>.
+Further removal work is tracked in &lt;a href="https://www.kubernetes.dev/resources/keps/5573">KEP-5573: Remove cgroup v1 support&lt;/a>.&lt;/p>
+&lt;p>If you are still on a release older than v1.35, migrate every Linux node to
+cgroup v2 before upgrading, or plan to set the temporary &lt;code>failCgroupV1: false&lt;/code>
+override. If you are already on v1.35 or later, confirm that every Linux node
+runs cgroup v2 (or that you intentionally keep the override). Under the default
+configuration, a remaining cgroup v1 node fails during kubelet startup.&lt;/p>
+&lt;p>For kubeadm-managed clusters, Kubernetes v1.35 also makes this an earlier, stricter check. The
+&lt;code>SystemVerification&lt;/code> preflight check, provided by &lt;code>k8s.io/system-validators&lt;/code>, returns an error during
+&lt;code>kubeadm init&lt;/code>, &lt;code>kubeadm join&lt;/code>, and &lt;code>kubeadm upgrade&lt;/code> when it detects cgroup v1 with kubelet v1.35 or
+later; with an older kubelet, the check remains a warning. See
+&lt;a href="https://github.com/kubernetes/system-validators/releases/tag/v1.12.1">kubernetes/system-validators#1.12.1 release notes&lt;/a> for details.&lt;/p>
+&lt;p>The top FAQs cover three main areas: why to migrate, the benefits and drawbacks,
+and key points to keep in mind when using cgroup v2.&lt;/p>
+&lt;h2 id="limitations-of-cgroup-v1-and-improvements-with-cgroup-v2">Limitations of cgroup v1 and Improvements with cgroup v2&lt;a class="td-heading-self-link" href="#limitations-of-cgroup-v1-and-improvements-with-cgroup-v2" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The Linux kernel documentation describes both interfaces:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://www.kernel.org/doc/Documentation/cgroup-v1/">cgroup v1 documentation&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://docs.kernel.org/admin-guide/cgroup-v2.html">cgroup v2 documentation&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;p>Let's enumerate some known issues.&lt;/p>
+&lt;h3 id="active-file-memory-is-not-considered-available-memory">&lt;code>active_file&lt;/code> memory is not considered available memory&lt;a class="td-heading-self-link" href="#active-file-memory-is-not-considered-available-memory" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The kubelet treats &lt;code>active_file&lt;/code> memory as not reclaimable. For I/O-intensive workloads, a large
+page cache can therefore make the kubelet report memory pressure and evict Pods. This is a
+&lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/#active-file-memory-is-not-considered-as-available-memory">known kubelet issue&lt;/a>
+(&lt;a href="https://github.com/kubernetes/kubernetes/issues/43916">kubernetes/kubernetes#43916&lt;/a>); migrating to
+cgroup v2 does not by itself change that calculation. The documented workaround is to set equal
+memory requests and limits for containers that perform intensive I/O, after measuring an appropriate
+value.&lt;/p>
+&lt;h3 id="memory-qos-updates-in-kubernetes-v1-36">Memory QoS updates in Kubernetes v1.36&lt;a class="td-heading-self-link" href="#memory-qos-updates-in-kubernetes-v1-36" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>&lt;a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/#memory-qos-with-cgroup-v2">Memory QoS&lt;/a> was introduced as an alpha feature in Kubernetes v1.22 and
+updated in v1.27. It remains alpha in v1.36, but now separates memory throttling from memory
+reservation and adds &lt;a href="https://kubernetes.io/blog/2026/04/29/kubernetes-v1-36-memory-qos-tiered-protection/">tiered memory protection&lt;/a>:&lt;/p>
+&lt;p>Memory QoS is available &lt;strong>only&lt;/strong> on Linux nodes that use cgroup v2. It relies on the cgroup v2 memory
+controller: &lt;code>memory.high&lt;/code> provides throttling, while &lt;code>memory.min&lt;/code> and &lt;code>memory.low&lt;/code> provide hard and
+soft protection when tiered reservation is enabled. cgroup v1 cannot provide this protection model.&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Enabling the &lt;code>MemoryQoS&lt;/code> feature gate applies &lt;code>memory.high&lt;/code> throttling to Burstable containers.
+The threshold is derived from the request, limit, and &lt;code>memoryThrottlingFactor&lt;/code> (default &lt;code>0.9&lt;/code>).&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>memoryReservationPolicy: None&lt;/code> is the default. It does not write &lt;code>memory.min&lt;/code> or &lt;code>memory.low&lt;/code>.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>memoryReservationPolicy: TieredReservation&lt;/code> maps Guaranteed Pod memory requests to &lt;code>memory.min&lt;/code>
+(hard protection) and Burstable Pod requests to &lt;code>memory.low&lt;/code> (soft protection). BestEffort Pods
+receive neither protection.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The kubelet exposes Alpha metrics for the total &lt;code>memory.min&lt;/code> and &lt;code>memory.low&lt;/code> reservations on a node.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Kernel 5.9 or later is recommended. On older kernels, &lt;code>memory.high&lt;/code> reclaim can trigger a known
+livelock; from v1.36 the kubelet logs a warning when Memory QoS is enabled on an affected kernel.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>For example, to opt in to tiered protection:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kubelet.config.k8s.io/v1beta1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">KubeletConfiguration&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">featureGates&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">MemoryQoS&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">memoryReservationPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">TieredReservation&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">memoryThrottlingFactor&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="m">0.9&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The overall Kubernetes recommendation is not to enable Alpha features in production; however, if you
+judge that memory QoS with tiered reservations is useful for your platform in production, make sure
+to test the configuration &lt;strong>and&lt;/strong> account for hard-reserved memory before you enable
+the &lt;code>TieredReservation&lt;/code> feature gate.
+See the
+&lt;a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/#memory-qos-with-cgroup-v2">Pod QoS&lt;/a> documentation
+for the current mapping of Kubernetes QoS classes to cgroup v2 controls.&lt;/p>
+&lt;h3 id="container-aware-oom-handling">Container-aware OOM handling&lt;a class="td-heading-self-link" href="#container-aware-oom-handling" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>On cgroup v2 nodes, the kubelet defaults &lt;code>singleProcessOOMKill&lt;/code> to &lt;code>false&lt;/code>. It therefore sets
+&lt;code>memory.oom.group&lt;/code> for each container cgroup so that an OOM event kills all processes in that
+container together, rather than leaving a partially functioning multi-process container. Set
+&lt;code>singleProcessOOMKill: true&lt;/code> only if you need the cgroup v1-compatible behavior where the kernel
+may kill one process at a time. See the
+&lt;a href="https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/#kubelet-config-k8s-io-v1beta1-KubeletConfiguration">&lt;code>KubeletConfiguration&lt;/code> reference&lt;/a>
+for this setting.&lt;/p>
+&lt;p>This behavior is scoped to a container cgroup, not the whole Pod. Also, &lt;code>cgroup.kill&lt;/code> is a separate
+administrative interface: writing &lt;code>1&lt;/code> to it sends &lt;code>SIGKILL&lt;/code> to every process in that cgroup and its
+descendants; it does not configure OOM behavior. The cgroup v2 memory controller additionally
+provides &lt;code>memory.events&lt;/code> counters that monitoring systems and userspace OOM managers can observe.&lt;/p>
+&lt;h3 id="rootless-support">Rootless support&lt;a class="td-heading-self-link" href="#rootless-support" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>In cgroup v1, delegating controllers to less privileged containers may be dangerous.&lt;/p>
+&lt;p>Unlike cgroup v1, cgroup v2 officially supports delegation.
+Most implementations of rootless containers rely on systemd for
+delegating v2 controllers to non-root users.&lt;/p>
+&lt;p>This delegation mechanism is separate from Kubernetes Pod user namespaces, which map container
+users to unprivileged host users. &lt;a href="https://kubernetes.io/docs/concepts/workloads/pods/user-namespaces/">Pod user namespace support&lt;/a>
+graduated to stable in Kubernetes v1.36; check its filesystem, kernel, CRI runtime, and OCI runtime
+prerequisites before enabling it.&lt;/p>
+&lt;h3 id="what-else">What else?&lt;a class="td-heading-self-link" href="#what-else" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;ol>
+&lt;li>eBPF stories:
+&lt;ul>
+&lt;li>In cgroup v1, device access controls are exposed through interface files.&lt;/li>
+&lt;li>The cgroup v2 device controller has no interface files, and is implemented on top of cgroup BPF.&lt;/li>
+&lt;li>Cilium attaches BPF cgroup programs for socket-based load balancing. Its
+&lt;a href="https://docs.cilium.io/en/stable/network/kubernetes/kubeproxy-free/#validate-bpf-cgroup-programs-attachment">default cgroup root&lt;/a>
+is &lt;code>/run/cilium/cgroupv2&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://kubernetes.io/docs/reference/instrumentation/understand-psi-metrics/">Pressure Stall Information (PSI)&lt;/a>
+reports CPU, memory, and I/O contention at node, Pod, and container level. On supported
+clusters, the kubelet exposes PSI by default (&lt;code>KubeletPSI&lt;/code> is stable and locked on). PSI
+requires cgroup v2, Linux 4.20 or later, &lt;code>CONFIG_PSI=y&lt;/code>, and a kernel not booted with
+&lt;code>psi=0&lt;/code>. The kubelet surfaces the data through the
+&lt;a href="https://kubernetes.io/docs/reference/instrumentation/node-metrics/#summary-api-source">Summary API&lt;/a> and
+&lt;code>/metrics/cadvisor&lt;/code>.&lt;/li>
+&lt;li>When migrating, update software that reads the cgroup filesystem directly. The
+&lt;a href="https://kubernetes.io/docs/concepts/architecture/cgroups/#migrating-cgroupv2">migration guidance&lt;/a> recommends
+cAdvisor v0.43.0 or later and lists compatible Java, Node.js, and &lt;code>automaxprocs&lt;/code> versions.&lt;/li>
+&lt;/ol>
+&lt;h3 id="cpu-weight-conversion-in-newer-oci-runtimes">CPU weight conversion in newer OCI runtimes&lt;a class="td-heading-self-link" href="#cpu-weight-conversion-in-newer-oci-runtimes" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>cgroup v1 uses &lt;code>cpu.shares&lt;/code>, whereas cgroup v2 uses &lt;code>cpu.weight&lt;/code>. Newer OCI runtimes use an improved
+non-linear conversion that preserves the default priority and gives small CPU requests more usable
+granularity. The change is implemented in the OCI runtime rather than Kubernetes: it is available
+in crun v1.23 and runc v1.3.2. After upgrading a runtime, monitoring or policy tools that predict
+exact &lt;code>cpu.weight&lt;/code> values may need updates. Read
+&lt;a href="https://kubernetes.io/blog/2026/01/30/new-cgroup-v1-to-v2-cpu-conversion-formula/">New Conversion from cgroup v1 CPU Shares to v2 CPU Weight&lt;/a>
+for the formula, examples, and compatibility considerations.&lt;/p>
+&lt;h3 id="in-place-resource-updates">In-place resource updates&lt;a class="td-heading-self-link" href="#in-place-resource-updates" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>&lt;a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-resize-inplace">In-place Pod vertical scaling&lt;/a>
+graduated to stable in Kubernetes v1.35. Kubernetes v1.36 then [enabled]
+(/blog/2026/04/30/kubernetes-v1-36-inplace-pod-level-resources-beta/)
+in-place vertical scaling for Pod-level resources
+by default, as a Beta feature. The kubelet coordinates changes between the Pod-level and container
+cgroups so that increases create headroom before container limits grow, while decreases constrain
+containers before shrinking the Pod-level boundary. Accurate aggregate enforcement for this
+v1.36 feature requires cgroup v2.&lt;/p>
+&lt;h2 id="adopting-cgroup-version-2">Adopting cgroup version 2&lt;a class="td-heading-self-link" href="#adopting-cgroup-version-2" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;h3 id="requirements">Requirements&lt;a class="td-heading-self-link" href="#requirements" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Here's what you need to use cgroup v2 with Kubernetes.
+First up, you need to be using a version of Kubernetes with support for v2 cgroup management;
+that's been stable since Kubernetes v1.25 and all supported Kubernetes releases include this support.&lt;/p>
+&lt;ul>
+&lt;li>You need at least one Linux node; cgroup is a Linux-only concept&lt;/li>
+&lt;li>Your OS install must run with cgroup v2 enabled&lt;/li>
+&lt;li>The kernel version must be 5.8 or later (5.9 or later is recommended when using memory QoS)&lt;/li>
+&lt;li>The container runtime must support cgroup v2. For example:
+&lt;ul>
+&lt;li>containerd v1.4 or later supports cgroup v2; use containerd v2.0 or later for automatic
+cgroup-driver discovery&lt;/li>
+&lt;li>CRI-O v1.20 or later&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>The kubelet and the container runtime must both be configured to use the correct cgroup driver. See &lt;a href="https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/">Configure the kubelet's cgroup driver to match the container runtime cgroup driver&lt;/a>.&lt;/li>
+&lt;/ul>
+&lt;p>For now, you can opt back in to use cgroup v1; the Kubernetes project recommends using cgroup v2, but in Kubernetes 1.36 (the current release) the cgroup v1 option remains
+supported as a fallback.
+That fallback is scheduled for removal in
+Kubernetes v1.38. If you are running an older cluster, plan to migrate; if you are setting
+up a new cluster with Linux nodes, you should prefer cgroup v2.
+In either case, review both the &lt;a href="https://kubernetes.io/docs/setup/production-environment/container-runtimes/#systemd-cgroup-driver">Kubernetes runtime documentation&lt;/a>
+and (if relevant) the &lt;a href="https://github.com/containerd/containerd/blob/main/RELEASES.md#kubernetes-support">containerd compatibility matrix&lt;/a>.&lt;/p>
+&lt;h4 id="kernel-updates-around-cgroup-v2">kernel updates around cgroup v2&lt;a class="td-heading-self-link" href="#kernel-updates-around-cgroup-v2" aria-label="Heading self-link">&lt;/a>&lt;/h4>&lt;p>When Kubernetes was first announced, in 2014, only v1 cgroup existed.
+Version 2 cgroup management first appeared in Linux kernel 4.5, released in 2016.&lt;/p>
+&lt;ul>
+&lt;li>In Linux 4.5, the cgroup v2 &lt;code>io&lt;/code>, &lt;code>memory&lt;/code>, and &lt;code>pids&lt;/code> controllers were supported.&lt;/li>
+&lt;li>Linux 4.15 added support for the cgroup v2 &lt;code>cpu&lt;/code> controller.&lt;/li>
+&lt;li>&lt;a href="https://docs.kernel.org/accounting/psi.html">Pressure Stall Information&lt;/a> (PSI) support began with Linux 4.20.&lt;/li>
+&lt;li>The Kubernetes project does not recommend using cgroup v2 with a Linux kernel older than 5.2
+due to lack of cgroup-level task freezer support.&lt;/li>
+&lt;li>Kubernetes documents 5.8 as the minimum kernel version for cgroup v2; the root cgroup's
+system-level &lt;code>cpu.stat&lt;/code> file was added in Linux 5.8.&lt;/li>
+&lt;li>The &lt;code>memory.high&lt;/code> livelock fix used by Memory QoS is present in Linux 5.9 and later.&lt;/li>
+&lt;li>&lt;code>memory.peak&lt;/code> was added in Linux 5.19.&lt;/li>
+&lt;/ul>
+&lt;h3 id="cgroup-driver-configuration">cgroup driver configuration&lt;a class="td-heading-self-link" href="#cgroup-driver-configuration" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>&lt;a href="https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/">Configure the kubelet's cgroup driver to match the container runtime cgroup driver&lt;/a>.&lt;/p>
+&lt;p>If you use &lt;code>kubeadm&lt;/code> to manage your cluster, Kubernetes recommends that you use the &lt;code>systemd&lt;/code> cgroup driver,
+because &lt;code>kubeadm&lt;/code> manages the kubelet as a systemd service. For other management tooling,
+check the documentation for the tool you're using to manage your cluster.&lt;/p>
+&lt;p>If you can pick either option, I recommend using the systemd driver.&lt;/p>
+&lt;p>Whatever tooling you've chosen, the kubelet automatically tries to detect the runtime's recommended cgroup driver.
+This automatic detection relies on using a runtime
+that implements the &lt;code>RuntimeConfig&lt;/code>
+CRI RPC (for example: containerd v2.0+ or CRI-O v1.28+).&lt;/p>
+&lt;p>If you're using a container runtime that supports cgroup v2 but doesn't support automatic cgroup driver detection,
+you can manually configure an override by editing
+the kubelet configuration file. For example:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kubelet.config.k8s.io/v1beta1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">KubeletConfiguration&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">cgroupDriver&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">systemd&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Automatic discovery of the runtime's cgroup driver through the CRI, tracked by
+&lt;a href="https://www.kubernetes.dev/resources/keps/4033">KEP-4033&lt;/a>, graduated to stable in Kubernetes v1.34. It requires a runtime
+that implements the &lt;code>RuntimeConfig&lt;/code> CRI RPC (containerd v2.0+ or CRI-O v1.28+). When available,
+the kubelet uses the value reported by the runtime instead of its configured &lt;code>cgroupDriver&lt;/code> value.&lt;/p>
+&lt;h3 id="tools-and-commands-for-troubleshooting">Tools and commands for troubleshooting&lt;a class="td-heading-self-link" href="#tools-and-commands-for-troubleshooting" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Tools and commands that you should know about cgroups:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>stat -fc %T /sys/fs/cgroup/&lt;/code>: Check whether cgroup v2 is enabled; it returns &lt;code>cgroup2fs&lt;/code>.&lt;/li>
+&lt;li>&lt;code>systemctl list-units 'kube*' --type=slice&lt;/code> or &lt;code>--type=scope&lt;/code>: List Kubernetes-related units
+that systemd currently has in memory.&lt;/li>
+&lt;li>&lt;code>bpftool cgroup list /sys/fs/cgroup/*&lt;/code>: List all programs attached to the cgroup CGROUP.&lt;/li>
+&lt;li>&lt;code>systemd-cgls /sys/fs/cgroup/*&lt;/code>: Recursively show control group contents.&lt;/li>
+&lt;li>&lt;code>systemd-cgtop&lt;/code>: Show top control groups by their resource usage.&lt;/li>
+&lt;li>&lt;code>tree -L 2 -d /sys/fs/cgroup/kubepods.slice&lt;/code>: Show Pods' related cgroups directories.&lt;/li>
+&lt;/ul>
+&lt;h4 id="how-to-check-if-a-pod-cpu-or-memory-limit-is-successfully-applied-to-the-cgroup-file">How to check if a Pod CPU or memory limit is successfully applied to the cgroup file?&lt;a class="td-heading-self-link" href="#how-to-check-if-a-pod-cpu-or-memory-limit-is-successfully-applied-to-the-cgroup-file" aria-label="Heading self-link">&lt;/a>&lt;/h4>&lt;p>Work from the API object down to the node. Identify the node, then compare
+desired resources in the spec with the enacted values in status (in-place
+resize can leave those out of sync):&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">kubectl get pod &amp;lt;pod-name&amp;gt; -n &amp;lt;namespace&amp;gt; &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> -o &lt;span class="nv">jsonpath&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;{.spec.nodeName}{&amp;#34;\n&amp;#34;}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl get pod &amp;lt;pod-name&amp;gt; -n &amp;lt;namespace&amp;gt; &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> -o &lt;span class="nv">jsonpath&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;{range .spec.containers[*]}{.name}{&amp;#34; spec\t&amp;#34;}{.resources}{&amp;#34;\n&amp;#34;}{end}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">kubectl get pod &amp;lt;pod-name&amp;gt; -n &amp;lt;namespace&amp;gt; &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> -o &lt;span class="nv">jsonpath&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s1">&amp;#39;{range .status.containerStatuses[*]}{.name}{&amp;#34; status\t&amp;#34;}{.resources}{&amp;#34;\n&amp;#34;}{end}&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>On that node, as root, with the systemd cgroup driver and cgroup v2 (these
+snippets also need &lt;code>jq&lt;/code>). Pin the container with kubelet labels; a container
+name alone is not unique on a node. Use &lt;code>crictl ps -a&lt;/code> if the container is
+not running:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CONTAINER_ID&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>crictl ps &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --label io.kubernetes.pod.namespace&lt;span class="o">=&lt;/span>&amp;lt;namespace&amp;gt; &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --label io.kubernetes.pod.name&lt;span class="o">=&lt;/span>&amp;lt;pod-name&amp;gt; &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> --name &amp;lt;container-name&amp;gt; -q &lt;span class="p">|&lt;/span> head -n1&lt;span class="k">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># OCI view (not the CRI protobuf field names)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">crictl inspect &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$CONTAINER_ID&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> jq &lt;span class="s1">&amp;#39;.info.runtimeSpec.linux.resources&amp;#39;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Kernel cgroup path for this container&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">PID&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>crictl inspect &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$CONTAINER_ID&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="p">|&lt;/span> jq -r &lt;span class="s1">&amp;#39;.info.pid&amp;#39;&lt;/span>&lt;span class="k">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">CGROUP&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;/sys/fs/cgroup&lt;/span>&lt;span class="k">$(&lt;/span>awk -F: &lt;span class="s1">&amp;#39;$1==&amp;#34;0&amp;#34;{print $3}&amp;#39;&lt;/span> /proc/&lt;span class="nv">$PID&lt;/span>/cgroup&lt;span class="k">)&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">cat &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$CGROUP&lt;/span>&lt;span class="s2">/cpu.weight&amp;#34;&lt;/span> &lt;span class="c1"># request.cpu → shares → weight; not a limit&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">cat &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$CGROUP&lt;/span>&lt;span class="s2">/cpu.max&amp;#34;&lt;/span> &lt;span class="c1"># limit.cpu as &amp;#34;quota period&amp;#34;; unlimited is &amp;#34;max &amp;lt;period&amp;gt;&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">cat &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$CGROUP&lt;/span>&lt;span class="s2">/memory.max&amp;#34;&lt;/span> &lt;span class="c1"># limit.memory; unlimited is &amp;#34;max&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Pod-level cgroup (parent slice), used by Pod-level resources&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">cat &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="k">$(&lt;/span>dirname &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$CGROUP&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="k">)&lt;/span>&lt;span class="s2">/cpu.max&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="k">$(&lt;/span>dirname &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$CGROUP&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="k">)&lt;/span>&lt;span class="s2">/memory.max&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># Present when MemoryQoS is enabled&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">cat &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$CGROUP&lt;/span>&lt;span class="s2">/memory.high&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$CGROUP&lt;/span>&lt;span class="s2">/memory.min&amp;#34;&lt;/span> &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$CGROUP&lt;/span>&lt;span class="s2">/memory.low&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nv">SCOPE&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="k">$(&lt;/span>basename &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$CGROUP&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="k">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">systemctl show &lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="nv">$SCOPE&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span> &lt;span class="se">\
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> -p CPUWeight -p CPUQuotaPerSecUSec -p CPUQuotaPeriodUSec -p MemoryMax
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>Do not treat &lt;code>info.runtimeSpec.linux.cgroupsPath&lt;/code> as a filesystem path when
+the runtime uses the systemd driver; that value is a systemd unit path
+(&lt;code>slice:runtime:id&lt;/code>), not a directory under &lt;code>/sys/fs/cgroup&lt;/code>.&lt;/p>
+&lt;p>Expected mapping at each layer:&lt;/p>
+&lt;ul>
+&lt;li>Kubernetes: &lt;code>spec.containers[*].resources&lt;/code> (desired) and
+&lt;code>status.containerStatuses[*].resources&lt;/code> (enacted after in-place resize).
+Pod-level resources are on &lt;code>spec.resources&lt;/code> and the parent pod slice.&lt;/li>
+&lt;li>CRI (kubelet → runtime; these protobuf names stay cgroup v1-style even on
+v2): &lt;code>cpu_shares&lt;/code>, &lt;code>cpu_quota&lt;/code>, &lt;code>cpu_period&lt;/code>, &lt;code>memory_limit_in_bytes&lt;/code>, plus
+&lt;code>unified&lt;/code> for Memory QoS. &lt;code>crictl inspect&lt;/code> does not show these names; it
+shows the OCI spec the runtime derived from them.&lt;/li>
+&lt;li>OCI spec: &lt;code>linux.resources.cpu.{shares,quota,period}&lt;/code>,
+&lt;code>linux.resources.memory.limit&lt;/code>, and &lt;code>linux.resources.unified&lt;/code>. The runtime
+converts shares, quota, and period into cgroup v2 files. After upgrading
+crun or runc, the shares-to-weight formula may change; see
+&lt;a href="#cpu-weight-conversion-in-newer-oci-runtimes">CPU weight conversion&lt;/a>.&lt;/li>
+&lt;li>systemd scope: &lt;code>CPUWeight&lt;/code>, &lt;code>CPUQuotaPerSecUSec&lt;/code>, &lt;code>CPUQuotaPeriodUSec&lt;/code>,
+&lt;code>MemoryMax&lt;/code>. Unlimited or unset values often appear as &lt;code>[not set]&lt;/code> or
+infinity.&lt;/li>
+&lt;li>cgroupfs: &lt;code>cpu.weight&lt;/code> (from CPU request; an unset request still yields the
+default of 2 shares), &lt;code>cpu.max&lt;/code>, and &lt;code>memory.max&lt;/code> on the container scope.
+Memory QoS adds &lt;code>memory.high&lt;/code>, &lt;code>memory.min&lt;/code>, and &lt;code>memory.low&lt;/code>.&lt;/li>
+&lt;/ul>
+&lt;h2 id="further-reading">Further reading&lt;a class="td-heading-self-link" href="#further-reading" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;ul>
+&lt;li>&lt;a href="https://kubernetes.io/blog/2024/08/14/kubernetes-1-31-moving-cgroup-v1-support-maintenance-mode/">Kubernetes 1.31: Moving cgroup v1 Support into Maintenance Mode&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://kubernetes.io/blog/2026/04/29/kubernetes-v1-36-memory-qos-tiered-protection/">Kubernetes v1.36: Tiered Memory Protection with Memory QoS&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://kubernetes.io/blog/2026/05/12/kubernetes-v1-36-psi-metrics-ga/">Kubernetes v1.36: PSI Metrics for Kubernetes Graduates to GA&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://kubernetes.io/blog/2022/08/31/cgroupv2-ga-1-25/">Kubernetes 1.25: cgroup v2 graduates to GA&lt;/a>&lt;/li>
+&lt;li>KubeCon NA 2022 &lt;a href="https://www.youtube.com/watch?v=WxZK-UXKvXk">cgroup v2: Before You Jump In&lt;/a> by Tony Gosselin &amp;amp; Mike Tougeron, Adobe Systems&lt;/li>
+&lt;li>KubeCon NA 2022 &lt;a href="https://www.youtube.com/watch?v=sgyFCp1CRhA">Cgroupv2 Is Coming Soon To a Cluster Near You&lt;/a> - David Porter, Google &amp;amp; Mrunal Patel, RedHat&lt;/li>
+&lt;li>KubeCon EU 2020 &lt;a href="https://www.youtube.com/watch?v=u8h0e84HxcE&amp;t=783s">Kubernetes On cgroup v2&lt;/a> by Giuseppe Scrivano, Red Hat.&lt;/li>
+&lt;li>This blog only covers the basic requirements and configuration of Kubernetes components.
+It will not include how to enable cgroup fs in OS distributions.
+For migration, you can refer to &lt;a href="https://kubernetes.io/docs/concepts/architecture/cgroups/#migrating-cgroupv2">migrating cgroup v2&lt;/a>&lt;/li>
+&lt;/ul></description></item><item><title>Scaling Kubernetes Workloads with Node Swap</title><link>https://kubernetes.io/blog/2026/10/05/scaling-kubernetes-workloads-with-node-swap/</link><pubDate>Mon, 05 Oct 2026 10:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/10/05/scaling-kubernetes-workloads-with-node-swap/</guid><description>
 &lt;p>Memory is often the first hard limit a Kubernetes cluster hits.
 Nodes run out of RAM long before they run out of CPU, and the new wave of agentic AI workloads makes this worse.
 These workloads demand large memory footprints to start up and run untrusted code, then sit idle waiting for the next prompt.
@@ -7263,106 +7540,4 @@ or at the regular
 &lt;a href="https://github.com/kubernetes/community/tree/master/sig-node#meetings">SIG Node meetings&lt;/a>.
 Please file bugs at &lt;a href="https://github.com/kubernetes/kubernetes/issues">kubernetes/kubernetes&lt;/a>
 and enhancement proposals at
-&lt;a href="https://github.com/kubernetes/enhancements/issues/2570">kubernetes/enhancements&lt;/a>.&lt;/p></description></item><item><title>Kubernetes v1.36: Staleness Mitigation and Observability for Controllers</title><link>https://kubernetes.io/blog/2026/04/28/kubernetes-v1-36-staleness-mitigation-for-controllers/</link><pubDate>Tue, 28 Apr 2026 10:35:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/04/28/kubernetes-v1-36-staleness-mitigation-for-controllers/</guid><description>
-&lt;p>Staleness in Kubernetes controllers is a problem that affects many controllers, and is something may affect controller behavior
-in subtle ways. It is usually not until it is too late, when a controller in production has already taken incorrect action, that
-staleness is found to be an issue due to some underlying assumption made by the controller author. Some issues caused by staleness
-include controllers taking incorrect actions, controllers not taking action when they should, and controllers taking too long to
-take action. I am excited to announce that Kubernetes v1.36 includes new features that help mitigate staleness in controllers
-and provide better observability into controller behavior.&lt;/p>
-&lt;h2 id="what-is-staleness">What is staleness?&lt;a class="td-heading-self-link" href="#what-is-staleness" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Staleness in controllers comes from an outdated view of the world inside of the controller cache. In order to provide a fast user
-experience, controllers typically maintain a local cache of the state of the cluster. This cache is populated by watching the
-Kubernetes API server for changes to objects that the controller cares about. When the controller needs to take action, it will
-first check its cache to see if it has the latest information. If it does not, it will then update its cache by watching the API
-server for changes to objects that the controller cares about. This process is known as &lt;em>reconciliation&lt;/em>.&lt;/p>
-&lt;p>However, there are some cases where the controller's cache may be outdated. For example, if the controller is restarted, it will
-need to rebuild its cache by watching the API server for changes to objects that the controller cares about. During this time, the
-controller's cache will be outdated, and it will not be able to take action. Additionally, if the API server is down, the controller's
-cache will not be updated, and it will not be able to take action. These are just a few examples of cases where the controller's
-cache may be outdated.&lt;/p>
-&lt;h2 id="improvements-in-1-36">Improvements in 1.36&lt;a class="td-heading-self-link" href="#improvements-in-1-36" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Kubernetes v1.36 includes improvements in both client-go as well as implementations of highly contended controllers in
-kube-controller-manager, using those client-go improvements.&lt;/p>
-&lt;h3 id="client-go-improvements">client-go improvements&lt;a class="td-heading-self-link" href="#client-go-improvements" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>In client-go, the project added &lt;em>atomic FIFO processing&lt;/em> (feature gate
-name &lt;code>AtomicFIFO&lt;/code>), which is on top of the existing FIFO queue implementation. The new approach allows for
-the queue to atomically handle operations that are received in batches, such as the initial set of objects from a
-&lt;em>list&lt;/em> operation that an informer uses to populate its cache. This ensures that the queue is always in a consistent state,
-even when events come out of order. Prior to this, events were added to the queue
-in the order that they were received, which could lead to an inconsistent state in the cache that does not accurately reflect
-the state of the cluster.&lt;/p>
-&lt;p>With this change, you can now ensure that the queue is always in a consistent state, even when events come out of order. To take
-advantage of this, clients using client-go can now introspect into the cache to determine the latest resource version that the
-controller cache has seen. This is done with the newly added function &lt;code>LastStoreSyncResourceVersion()&lt;/code> implemented on the &lt;code>Store&lt;/code>
-interface &lt;a href="https://pkg.go.dev/k8s.io/client-go@v0.36.0/tools/cache#Store">here&lt;/a>. This function is the basis for the staleness mitigation
-features in kube-controller-manager.&lt;/p>
-&lt;h3 id="kube-controller-manager-improvements">kube-controller-manager improvements&lt;a class="td-heading-self-link" href="#kube-controller-manager-improvements" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>In kube-controller-manager, the v1.36 release has added the ability for 4 different controllers to use this new capability. The controllers are:&lt;/p>
-&lt;ol>
-&lt;li>DaemonSet controller&lt;/li>
-&lt;li>StatefulSet controller&lt;/li>
-&lt;li>ReplicaSet controller&lt;/li>
-&lt;li>Job controller&lt;/li>
-&lt;/ol>
-&lt;p>These controllers all act on pods, which in most cases are under the highest amount of contention in a cluster. The changes are
-on by default for these controllers, and can be disabled by setting the feature gates &lt;code>StaleControllerConsistency&amp;lt;API type&amp;gt;&lt;/code>
-to &lt;code>false&lt;/code> for the specific controller you wish to disable it for. For example, to disable the feature for the DaemonSet controller,
-you would set the feature gate &lt;code>StaleControllerConsistencyDaemonSet&lt;/code> to &lt;code>false&lt;/code>.&lt;/p>
-&lt;p>When the relevant feature gate is enabled, the controller will first check the latest
-&lt;a href="https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions">resource version&lt;/a> of the cache before taking action. If the
-latest resource version of the cache is lower than what the controller has written to the API server for the object it is trying to
-reconcile, the controller will not take action. This is because the controller's cache is outdated, and it does not have the latest
-information about the state of the cluster.&lt;/p>
-&lt;h3 id="use-for-informer-authors">Use for informer authors&lt;a class="td-heading-self-link" href="#use-for-informer-authors" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Informer authors using client-go can also immediately take advantage of these improvements. See an example of how to use this feature
-in the &lt;a href="https://github.com/kubernetes/kubernetes/pull/137212">ReplicaSet informer&lt;/a>. This PR shows how to use the new feature to check
-if the informer's cache is stale before taking action. The client-go library provides a &lt;code>ConsistencyStore&lt;/code> data structure that queries the store
-and compares the latest resource version of the cache with the written resource version of the object.&lt;/p>
-&lt;p>The ReplicaSet controller tracks both the ReplicaSet's resource version and the resource version of the pods that the ReplicaSet
-manages. For a specific ReplicaSet, it tracks the latest written resource version of the pods that the ReplicaSet owns as well as
-any writes to the ReplicaSet itself. If the latest resource version of the cache is lower than what the controller has
-written to the API server for the object it is trying to reconcile, the controller will not take action. This is because the
-controller's cache is outdated, and it does not have the latest information about the state of the cluster.&lt;/p>
-&lt;p>An informer author can use the &lt;code>ConsistencyStore&lt;/code> to track the latest resource version of the objects that the informer cares about.
-It provides 3 main functions:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">ConsistencyStore&lt;/span> &lt;span class="kd">interface&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// WroteAt records that the given object was written at the given resource version.&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">WroteAt&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">owningObj&lt;/span> &lt;span class="nx">runtime&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Object&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">uid&lt;/span> &lt;span class="nx">types&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">UID&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">groupResource&lt;/span> &lt;span class="nx">schema&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">GroupResource&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">resourceVersion&lt;/span> &lt;span class="kt">string&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// EnsureReady returns true if the cache is up to date for the given object.&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// It is used prior to reconciliation to decide whether to reconcile or not.&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">EnsureReady&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">namespacedName&lt;/span> &lt;span class="nx">types&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">NamespacedName&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="kt">bool&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// Clear removes the given object from the consistency store.&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// It is used when an object is deleted.&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nf">Clear&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">namespacedName&lt;/span> &lt;span class="nx">types&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">NamespacedName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">uid&lt;/span> &lt;span class="nx">types&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">UID&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol>
-&lt;li>&lt;code>WroteAt&lt;/code>: This function is called by the controller when it writes to the API server for an object. It is used to record the
-latest resource version of the object that the controller has written to the API server. The &lt;code>owningObj&lt;/code> is the object that the
-controller is reconciling, and the &lt;code>uid&lt;/code> is the UID of that object. The resource version and GroupResource are the resource version
-and GroupResource of the object that the controller has written to the API server. The object is not explicitly tracked, since the
-controller only cares about waiting to catch up to the latest resource version of the written object.&lt;/li>
-&lt;li>&lt;code>EnsureReady&lt;/code>: This function is called by the controller to ensure that the cache is up to date for the object. It is used prior
-to reconciliation to decide whether to reconcile or not. It returns true if the cache is up to date for the object, and false
-otherwise. It will use the information provided by &lt;code>WroteAt&lt;/code> to determine if the cache is up to date.&lt;/li>
-&lt;li>&lt;code>Clear&lt;/code>: This function is called by the controller when an object is deleted. It is used to remove the object from the consistency
-store. This is mostly used for cleanup when an object is deleted to prevent the consistency store from growing indefinitely.&lt;/li>
-&lt;/ol>
-&lt;p>The UID is used to distinguish between different objects that have the same name, such as when an object is deleted and then
-recreated. It is not needed for EnsureReady because the consistency store is only concerned with catching up to the latest resource
-version of the object, not the specific object. It is primarily used to ensure that the controller doesn't delete the entry for
-an object when it is recreated with a new UID.&lt;/p>
-&lt;p>With these 3 functions, an informer author can implement staleness mitigation in their controller.&lt;/p>
-&lt;h2 id="observability">Observability&lt;a class="td-heading-self-link" href="#observability" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>In addition to the staleness mitigation features, the Kubernetes project has also added related instrumentation to kube-controller-manager
-in 1.36. These metrics are also enabled by default, and are controlled using the same set of feature gates.&lt;/p>
-&lt;h3 id="metrics">Metrics&lt;a class="td-heading-self-link" href="#metrics" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The following &lt;a href="https://kubernetes.io/docs/reference/instrumentation/metrics/#list-of-alpha-kubernetes-metrics">alpha metrics&lt;/a> have been added to kube-controller-manager in 1.36:&lt;/p>
-&lt;p>&lt;code>stale_sync_skips_total&lt;/code>: The number of times the controller has skipped a sync due to stale cache. This metric is exposed
-for each controller that uses the staleness mitigation feature with the subsystem of the controller.&lt;/p>
-&lt;p>This metric is exposed by the kube-controller-manager metrics endpoint, and can be used to monitor the health of the controller.&lt;/p>
-&lt;p>Along with this metric, client-go also emits metrics that expose the latest resource version of every shared informer
-with the subsystem of the informer. This allows you to see the latest resource version of each informer, and use that to
-determine if the controller's cache is stale, especially great for comparing against the resource version of the API server.&lt;/p>
-&lt;p>This metric is named &lt;code>store_resource_version&lt;/code> and has the Group, Version, and Resource as labels.&lt;/p>
-&lt;h2 id="what-s-next">What's next?&lt;a class="td-heading-self-link" href="#what-s-next" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Kubernetes SIG API Machinery is excited to continue working on this feature and hope to bring it to more controllers in the future.
-We are also interested in hearing your feedback on this feature. Please let us know what you think in the comments
-below or by opening an &lt;a href="https://github.com/kubernetes/kubernetes/issues">issue&lt;/a> on the Kubernetes GitHub repository.&lt;/p>
-&lt;p>We are also working with &lt;a href="https://github.com/kubernetes-sigs/controller-runtime/pull/3473">controller-runtime&lt;/a> to enable this set of
-semantics for all controllers built with controller-runtime. This will allow any controller built with controller-runtime to gain
-the benefits of read your own writes, without having to implement the logic themselves.&lt;/p></description></item></channel></rss>
+&lt;a href="https://github.com/kubernetes/enhancements/issues/2570">kubernetes/enhancements&lt;/a>.&lt;/p></description></item></channel></rss>
