@@ -12,7 +12,7 @@
 	<atom:link href="https://blogs.vmware.com/feed" rel="self" type="application/rss+xml" />
 	<link>https://blogs.vmware.com/</link>
 	<description>VMware Blogs</description>
-	<lastBuildDate>Tue, 06 Oct 2026 17:19:32 +0000</lastBuildDate>
+	<lastBuildDate>Wed, 07 Oct 2026 20:57:03 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -20,6 +20,396 @@
 	1	</sy:updateFrequency>
 	<generator>https://wordpress.org/?v=6.8.11</generator>
 <site xmlns="com-wordpress:feed-additions:1">237817777</site>	<item>
+		<title>Vulnerabilities: Everything You’ve Wanted To Know</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/10/07/vulnerabilities-everything-you-want-know/</link>
+		
+		<dc:creator><![CDATA[bob plankers]]></dc:creator>
+		<pubDate>Wed, 07 Oct 2026 20:29:12 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10103951</guid>
+
+					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>(Day 5 of 22 in our Cybersecurity Awareness Month series. Today: vulnerabilities) AI is a force multiplier. Good folks use it to do their work faster and with more accuracy. Bad actors use it to… do their work faster and with more accuracy, too. One thing that AI definitely does faster is find vulnerabilities in &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/vulnerabilities-everything-you-want-know/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/vulnerabilities-everything-you-want-know/">Vulnerabilities: Everything You’ve Wanted To Know</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=600,300 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+<p>(<em>Day 5 of 22 in our <a href="https://blogs.vmware.com/cloud-foundation/2026/10/01/security-way-of-thinking/">Cybersecurity Awareness Month series</a>. Today: vulnerabilities)</em></p>
+<p>AI is a force multiplier. Good folks use it to do their work faster and with more accuracy. Bad actors use it to… do their work faster and with more accuracy, too. One thing that AI definitely does faster is find vulnerabilities in software. AI models are very good at detecting vulnerabilities, developing exploits, and chaining them together. This is manifesting as an explosion of CVEs and patches, which is stressful for organizations and their change control processes.</p>
+<p>The thing to remember amongst all this is that it’s very possible the bad actors already knew about some of these issues. Threat actors get to see everything defenders do, but we don’t get to see what they know. And if it’s true that they knew about some of these issues, it behooves us to do something about it, to deny them the ability to attack us all in these ways.</p>
+<p>The big issue, though, isn’t really about vulnerabilities. It’s that many organizations have trouble assessing and mitigating security risk, and all of this hullabaloo isn’t helping. To start, the traditional measurements of risk, like CVSS score, aren’t enough on their own anymore. AI can chain vulnerabilities together, using multiple low- and moderate-severity vulnerabilities to achieve the same effect as one critical issue. And, in this regard, it’s very hard to tell what will be important to an AI. As a result, organizations that pick and choose what to update based solely on criticality are being caught off guard, especially if they’ve been biased towards only patching higher-severity issues.</p>
+<p>The other plot twist is also related to attackers being able to see everything defenders do. Software vendors everywhere are using AI to examine their own code, which is a good thing. But every detail a vendor publishes about a security improvement is also a hint to bad actors about where to look. That is a hard balance to strike, and it is one reason release notes across the industry can be short on detail. Organizations that haven’t yet surrendered to the idea that they need to patch everything, all the time, can find that frustrating.</p>
+<p>Over the next few posts we’ll talk about this more, because there are a lot of tools inside VMware Cloud Foundation (VCF) that help mitigate these risks. But first let’s take a step back and talk more about vulnerability basics.</p>
+<h2 class="wp-block-heading" id="vocabulary-of-vulnerabilities">Vocabulary of Vulnerabilities</h2>
+<p>Information security staff use specific terminology when talking about vulnerabilities, because being precise is helpful.</p>
+<p><strong>Vulnerability:</strong> A flaw in software, hardware, or configuration that someone can use to do something they shouldn’t be able to do. Not every bug is a vulnerability, and not every vulnerability can be reached in your environment. Both of those ideas matter, a lot.</p>
+<p><strong>CVE:</strong> Common Vulnerabilities and Exposures. This is an ID, like CVE-2026-12345, that lets everyone talk about the same flaw without confusion. A CVE is a name. It says nothing about how bad the flaw is, and the CVE program issues tens of thousands of them every year. It is also worth noting that not all vulnerabilities are assigned CVE numbers, either.</p>
+<p><strong>CVSS:</strong> The Common Vulnerability Scoring System, maintained by FIRST, the Forum of Incident Response and Security Teams. It produces a score from 0 to 10 and a “vector,” a compact string that describes how an attack would work. Does the attacker need to be on the network or on the machine? Do they need privileges already? Does a person have to click something? Put frankly, the vector is usually more useful than the number, especially nowadays.</p>
+<p><strong>Severity:</strong> The word that goes with the CVSS number. Our advisories use Critical (CVSS 9.0 to 10.0), Important (7.0 to 8.9), Moderate (4.0 to 6.9), and Low (0.1 to 3.9). Other organizations might say “High” and “Medium” where we say Important and Moderate, but the ranges are the same.</p>
+<p><strong>VMSA:</strong> A VMware Security Advisory, which is how we tell you about vulnerabilities in our products. Each one lists the affected products and versions, the CVEs and their scores, the versions that contain the fix, and any workarounds. You can find them on the Broadcom Support Portal at:</p>
+<p><a href="https://www.broadcom.com/support/vmware-security-advisories">https://www.broadcom.com/support/vmware-security-advisories</a></p>
+<p><strong>Exploit:</strong> Code or a technique that takes advantage of a vulnerability. A “proof of concept” shows that it can be done. A working exploit in the hands of attackers is a different and more urgent thing.</p>
+<p><strong>Chaining:</strong> Using several vulnerabilities together, where each one gets the attacker a step closer to the goal. A chain of small flaws can do as much damage as one big one.</p>
+<p><strong>Zero-day:</strong> A vulnerability that has no patch available when it is disclosed. The name comes from how many days the defenders have had to prepare. The term gets overused. If a patch was available when the flaw was disclosed, it was not a zero-day, no matter how bad the breach that followed. Log4Shell was a real zero-day. EternalBlue was not, because the patch had been out for two months before the WannaCry ransomware started using it.</p>
+<p><strong>Negative-day:</strong> A vulnerability that attackers are exploiting before defenders know it exists, so the clock is already below zero when it is disclosed. People also use the term for a flaw whose fix shows up in public code before the advisory does, which lets an attacker work out the flaw from the fix. AI makes both easier for attackers.</p>
+<p><strong>KEV:</strong> The Known Exploited Vulnerabilities catalog, kept by the US Cybersecurity and Infrastructure Security Agency, or CISA. If a CVE is on this list, someone has confirmed that attackers are using it.</p>
+<p><strong>EPSS:</strong> The Exploit Prediction Scoring System, also from FIRST. It estimates the probability that a vulnerability will be exploited in the next 30 days. KEV tells you what is happening, and EPSS is an educated guess about what will.</p>
+<p><strong>Workaround:</strong> A change you can make to reduce or remove the risk without installing the fix, such as disabling a feature or blocking a port.</p>
+<p><strong>Coordinated disclosure:</strong> The practice of keeping the details of a vulnerability private until a fix is ready, then publishing both together. This is why you usually hear about a vulnerability and its patch on the same day. The alternative is full disclosure, where someone publishes the details right away, fix or no fix.</p>
+<h2 class="wp-block-heading" id="severity-is-not-risk">Severity Is Not Risk</h2>
+<p>A CVSS score describes the vulnerability in general, assuming the worst reasonable case. It knows nothing about your environment. Risk is what you get when you combine that vulnerability with the context of your environment, with your system and network design, your access controls, and your workloads.</p>
+<p>A good example is a vulnerability with a CVSS score of 9.8 in a management interface. If that interface sits on an isolated management network that only a handful of administrators can reach, with MFA, the attacker has a lot of work to do before the 9.8 matters. If the same interface is reachable from the Internet, the attacker has no work to do at all. The score is the same, and the risk is very different.</p>
+<p>This is where the vector comes in. “AV:N” means the attack works over the network, and “AV:L” means the attacker needs to already be on the system. “PR:N” means no privileges are needed, and “PR:H” means the attacker already has to be an administrator. If the attacker is already an administrator on your vCenter, a new vulnerability is not your biggest problem.</p>
+<h3 class="wp-block-heading" id="questions-to-ask-about-a-vulnerability">Questions to Ask About a Vulnerability</h3>
+<p>When something new appears, ask yourself a few questions:</p>
+<ol class="wp-block-list">
+<li>Is anyone exploiting it? Check the advisory and the KEV catalog. If the answer is yes, most of the other questions stop mattering. Security advisories for VMware products generally indicate if exploitation “in the wild” is known to us (but also remember that vendors are not omniscient, either).</li>
+<li>Can an attacker reach it? Think about where the affected component sits and who can talk to it. In many ways it’s less about vulnerabilities than attack paths nowadays. How can the attacker get to the problem to exploit it?</li>
+<li>What does the attacker need first? Read the vector. A flaw that needs administrator access and a person to click something is a different problem from one that needs nothing. Also remember that an attacker who has administrator access won’t exploit a vulnerability, because they already have the access that they need (this is why identity and access control are extremely important as defense-in-depth).</li>
+<li>Are you fully patched otherwise? Are you up to date so that an attacker cannot chain two issues together to make this a bigger deal than the individual severity would portray?</li>
+</ol>
+<p>You shouldn’t skip patching, but isolation and hardening and access control buy you time, and these questions help you figure out how much time you might have.</p>
+<h2 class="wp-block-heading" id="chaining-changes-things">Chaining Changes Things</h2>
+<p>Traditionally, organizations look at a vulnerability by itself. The problem is that attackers, and especially AI-driven attackers, don’t work that way. They combine flaws. One gets them onto the network, a second gets them privileges, and a third gets them out of a sandbox. On its own each might be rated Low or Moderate. Together they behave like a Critical.</p>
+<p>Chaining is not new, but it has become more prominent. Building a chain used to take a skilled person days or weeks, so attackers saved that effort for their most valuable targets. AI models can now read advisories, compare patches, and work out which flaws fit together, and they do it quickly and cheaply. This changes things.</p>
+<p>A prerequisite is not a barrier. When a vector says the attacker needs local access or privileges, ask whether another unpatched flaw in your environment could supply it, and who already has the access needed to exploit it.</p>
+<p><strong>Low and Moderate still need to get patched</strong>. You can schedule them, but don’t skip them. A backlog of small flaws is the raw material for a chain.</p>
+<p><strong>Staying current beats attempting to pick and choose</strong>. If you sort vulnerabilities one at a time and patch only the ones that seem scary, you leave the other pieces lying around. Regular updates that take everything remove them all at once.</p>
+<p>The good news is that a chain fails when you break any one link. Isolation, hardening, and MFA all break links, and so does every patch you apply, including the boring ones. If you’ve been wondering why so many vendors stress patching, this is part of the reason.</p>
+<h2 class="wp-block-heading" id="how-we-decide-what-to-do-about-vulnerabilities">How We Decide What to Do About Vulnerabilities</h2>
+<p>VMware Security Advisories emerge at the end of a long process that starts with us learning about an issue, and ends with coordinated disclosure. All issues are different, which makes the security response process infinitely interesting, and it means none of this is a formula. Still, there are a few things that we think about.</p>
+<h3 class="wp-block-heading" id="how-critical-is-the-vulnerability">How Critical Is the Vulnerability?</h3>
+<p><strong>Criticality, according to everyone else</strong>. The first number most people see comes from the National Vulnerability Database (NVD), or from the project that owns the code. Those numbers are usually worst-case and do not include any context. It’s also true that those numbers change. CVE-2023-51385, a flaw in OpenSSH, is a good example. NVD first scored it 9.8, which is Critical. After more analysis NVD revised it to 6.5. Other projects and vendors that ship OpenSSH scored it 4.8 and 3.9. Which score do you choose to believe? Especially when vulnerability scanners often choose the worst number to report (entirely understandable, from their perspective, as they’re caught in the middle, too).</p>
+<p><strong>Criticality, as implemented in the products</strong>. A generic score assumes the worst case, but is the problem actually exploitable in the product? Who can exploit it? What do they get if they do? A library can be present and never called, or reachable only by someone who is already an administrator. Or, conversely, the affected software could be there in part, but the issue is in a module that we don’t ship, meaning the issue may not affect the product at all.</p>
+<h3 class="wp-block-heading" id="timing-and-risk">Timing and Risk</h3>
+<p><strong>Who reported it</strong>. Outside researchers have their own timelines. Some set disclosure deadlines of 90 or 120 days. Others want to present their work at a conference, and some work through bug bounty programs. We value this work and the people who do it, and those dates are part of how we plan.</p>
+<p><strong>The release cycle</strong>. Is a fix already available, perhaps from an open-source project, or are we building one? Which supported releases need it, and how soon can each one deliver it? Do we stop a release to do this, or wait for the next? Will we be able to test the change properly? We take our position in the infrastructure stack very seriously, and we work hard to make what we ship solid amongst the tradeoffs.</p>
+<p><strong>The overall risk to users</strong>. A security fix is a change, and every change carries risk. What does it do to a product that is feature-complete, like downlevel-yet-supported versions of ESX? What is the downstream risk, to third-party systems and the partner ecosystem? The OpenSSH release that fixed CVE-2023-51385 also listed “potentially incompatible changes” in its release notes. That is normal for security fixes, especially in the open-source world, and it is why testing matters so much to us.</p>
+<p>Security also includes availability, after all.</p>
+<h2 class="wp-block-heading" id="so-what-should-i-do-when-i-see-a-vmsa">So What Should I Do When I See a VMSA?</h2>
+<p>In order to “see” a VMSA, start by subscribing to the VMSA mailing list at:</p>
+<p><a href="https://go-vmware.broadcom.com/vmsa_email_alert">https://go-vmware.broadcom.com/vmsa_email_alert</a></p>
+<p>We also strongly recommend subscribing to all your vendors’ security mailing lists. Some organizations subscribe a single shared mailbox or distribution list, and others have all their staff subscribe individually. Up to you, but make sure it works. This is also a good task for an agentic AI bot (not kidding!). “Keep me posted twice daily on all security news for this list of vendors, make no mistakes.”</p>
+<h3 class="wp-block-heading" id="when-an-advisory-arrives">When an Advisory Arrives</h3>
+<p>When an advisory is issued, check whether it applies to you. The advisory lists the affected products and versions. If you don’t run the product, or you already run the fixed version, the advisory does not apply to you. Sometimes an advisory covers an issue that a release has already resolved. Coordinated disclosure generally means waiting until fixes are available for the supported versions, so an advisory can arrive after some releases already have shipped the fix. Patches are cumulative, too, so if you&#8217;re running a version that was released after the fixed version you will be covered as well.</p>
+<p>Read the severity and the vector. Ask the questions above.</p>
+<p>You might look for a workaround, and for some vulnerabilities there are workarounds. Workarounds buy time but they are not an easier path, for, in most cases, a workaround consumes more staff time overall than just fixing it the right way from the start. With tools like vMotion, snapshots, Live Patch, and more, we’ve made it very easy to patch VCF. These ideas aren’t just about VCF, either. Your workloads need patching, too, and VCF has a lot of tools to protect them and reduce the risk of patching them.</p>
+<p>Read the VMSA itself, and read the Questions &amp; Answers if there is one. For critical or not-as-straightforward advisories (issues with nuances) we publish a companion Q&amp;A that attempts to answer the questions we know you are going to ask. We also update it with new questions as we go. You can see examples of this in our GitHub repository:</p>
+<p><a href="https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-advisories">https://github.com/vmware/vcf-security-and-compliance-guidelines/tree/main/security-advisories</a></p>
+<p>Plan the update. If your organization follows change management frameworks like ITIL, lean into those. Declare ITIL-esque Emergency changes, where the risk of not doing the update is much higher than the risk of doing it. Also lean into Live Patch on ESX and Quick Patch on vCenter where the patches support it.</p>
+<h2 class="wp-block-heading" id="frequently-asked-questions-about-vulnerabilities">Frequently Asked Questions About Vulnerabilities</h2>
+<p><strong>Q1: How can I find out about vulnerabilities sooner? Can you tell me more about the issue?</strong></p>
+<p>A1: Telling you also tells the attackers. Under coordinated disclosure we keep the details private until a fix is ready, and then we publish the advisory and the fix together. Publishing early would give attackers a head start and give you nothing to install.</p>
+<p>Similarly, we tell you what we can about the issue at hand. If an advisory seems light on detail, please know that we aren’t trying to be coy. Detail helps attackers, too, and limiting it buys you time.</p>
+<p><strong>Q2: My scanner says VCF is affected by a CVE in an open-source component. Is it?</strong></p>
+<p>A2: Maybe, but often not. A scanner can see that a component is present. It usually cannot see whether the vulnerable code is used, or whether an attacker can reach it. We will talk about scanners more in a future post in this series.</p>
+<p><strong>Q3: How can I know if my scanner is reporting a false positive?</strong></p>
+<p>A3: In the VCF download portal, under the tab “Additional Downloads,” is a CVE disposition report in CSV format that you can use to determine where the product stack stands.</p>
+<p><strong>Q4: The CVSS score on your advisory is different from the one I see elsewhere. Who is right?</strong></p>
+<p>A4: Scores can differ because the people doing the scoring know different things. We know how the product uses the affected code, and a public database often has to assume the worst. When the scores disagree, compare the vectors to see where the assumptions differ. The OpenSSH example above shows how far apart they can be.</p>
+<p><strong>Q5: Is there always a workaround?</strong></p>
+<p>A5: No. Some vulnerabilities are in code you cannot turn off, and the only answer is the fix. Other times a potential workaround would cause stability or other issues, too.</p>
+<p>When a workaround does exist, treat it as a stopgap for when you cannot patch right away. Workarounds seem interesting but often cause more overall work than just fixing it the right way and moving on.</p>
+<p>If you can patch, patch, and spend the time you save on improving your defense-in-depth.</p>
+<p><strong>Q6: I’ve isolated and hardened my environment. Do I still need to patch?</strong></p>
+<p>A6: Yes. Isolation and hardening make an attacker’s job harder and give you time, but attackers are patient and environments change.</p>
+<p><strong>Q7: Do you evaluate older versions that are out of support?</strong></p>
+<p>A7: No. Products past their End of General Support date are not evaluated as part of security advisories. If you are running a downlevel version, assume it is affected and plan your upgrade. If you have Extended Support for the version you are running, please contact Support for guidance.</p>
+<p><strong>Q8: Do I need to apply all the updates you release?</strong></p>
+<p>A8: We encourage that. Something to keep in mind is that Live Patch requires sequential patching, like from version A to B to C to D. If you skip versions you will need to do the more traditional vMotion-based patching to catch up (which really isn’t a problem, but Live Patch is better). So staying up to date in a timely manner, and working through process issues in your organization that might prevent that, is well worth the effort.</p>
+<p>Also remember that vCenter and other management appliance updates are designed not to impact workloads. Your change managers may not know this.</p>
+<p><strong>Q9: How do I report a vulnerability I found in a Broadcom product?</strong></p>
+<p>A9: Please report it privately to Broadcom’s VMware Security Response Center using the information at:</p>
+<p>https://www.broadcom.com/support/vmware-services/security-response</p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/vulnerabilities-everything-you-want-know/">Vulnerabilities: Everything You&#8217;ve Wanted To Know</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/vulnerabilities-everything-you-want-know/">Vulnerabilities: Everything You’ve Wanted To Know</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10103951</post-id>	</item>
+		<item>
+		<title>The Cloud Admin’s Path to Platform Engineering</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/10/07/the-cloud-admins-path-to-platform-engineering/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Wed, 07 Oct 2026 18:14:55 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10103931</guid>
+
+					<description><![CDATA[<img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Getty-2203607940.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>A practical guide for virtualization and cloud admins exploring a seat at the platform table Somewhere in your organization, a platform team is deciding how developers will get infrastructure for the next five years. There&#8217;s a decent chance you weren&#8217;t invited to that meeting. There&#8217;s an even better chance they&#8217;re building on top of something &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/the-cloud-admins-path-to-platform-engineering/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/the-cloud-admins-path-to-platform-engineering/">The Cloud Admin’s Path to Platform Engineering</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Getty-2203607940.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Getty-2203607940.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-2203607940.jpg 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-2203607940.jpg?resize=300,200 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-2203607940.jpg?resize=768,513 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-2203607940.jpg?resize=1024,684 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/08/Getty-2203607940.jpg?resize=600,401 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<h2 class="wp-block-heading" id="h-a-practical-guide-for-virtualization-and-cloud-admins-exploring-a-seat-at-the-platform-table"><em>A practical guide for virtualization and cloud admins exploring a seat at the platform table</em></h2>
+<p>Somewhere in your organization, a platform team is deciding how developers will get infrastructure for the next five years. There&#8217;s a decent chance you weren&#8217;t invited to that meeting. There&#8217;s an even better chance they&#8217;re building on top of something you run.</p>
+<p>I spend many working hours with enterprise teams adopting VMware Cloud Foundation (VCF), and I see the same split everywhere. The platform team owns the roadmap, the Git repos, the developer portal, and the budget conversation. The infrastructure team owns capacity, uptime, and the 2 a.m. fire drills. One group gets invited to give conference talks. The other gets the helpdesk tickets.</p>
+<p>This post is for the second group: the cloud and virtualization admins (“vAdmins”) who have quietly kept the lights on for years and are wondering where they fit now.</p>
+<h2 class="wp-block-heading" id="h-you-ve-reinvented-yourself-before"><strong>You&#8217;ve reinvented yourself before</strong></h2>
+<p>If you&#8217;ve been in this game since the early days, indulge me for a minute.</p>
+<p>Some of you remember the first time a running VM <em>seemingly teleported</em> between physical hosts with vMotion (capital V back then) and nobody on the application team noticed. Some of you spent weekends on P2V conversions and came back Monday to a data center with a third of its racks empty, instantly earning hero status. You learned VirtualCenter before it was vCenter, argued about ESX versus ESXi, and could recite your hardware compatibility list from memory. Virtualization rewrote the economics of IT, and it rewrote your job along with it. You went from racking servers to designing clusters and trying to explain why physical CPUs ≠ vCPUs.</p>
+<p>Then came the cloud management era. VMware&#8217;s Cloud Management Platform grew into the vRealize suite in 2014: vRealize Automation (the product formerly known as vCloud Automation Center), vRealize Operations, Log Insight, Network Insight, and Orchestrator underneath it all. That suite taught a generation of admins to think in blueprints, catalogs, approval policies, and capacity models. In 2022 the portfolio was rebranded as Aria, and when the current platform came together in VCF, that lineage became VCF Operations and VCF Automation, the operations, cost, tenancy, and self-service layers this post will keep pointing you toward.</p>
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="449" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cloud-management-lineage-v2_d435d8.jpeg" alt="" class="wp-image-34748" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cloud-management-lineage-v2_d435d8.jpeg 3200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cloud-management-lineage-v2_d435d8.jpeg?resize=300,131 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cloud-management-lineage-v2_d435d8.jpeg?resize=768,336 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cloud-management-lineage-v2_d435d8.jpeg?resize=1024,449 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cloud-management-lineage-v2_d435d8.jpeg?resize=1536,673 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cloud-management-lineage-v2_d435d8.jpeg?resize=2048,897 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cloud-management-lineage-v2_d435d8.jpeg?resize=600,263 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+<p>I lived in that world for a long time. vRealize Automation was my home turf, from the early vCAC days through the SaaS / 8.x rearchitecture, and the rest of the Cloud Management Platform came along for the ride. If you built blueprints or tuned vROps dashboards in any of those eras, you were practicing platform engineering years before anyone added it to their LinkedIn profile.</p>
+<p>And then there was the community. The local VMUG meeting where someone from the company down the road showed you exactly how they solved the problem you&#8217;d been stuck on for a month. The first VMworld in San Diego in 2004, and the Las Vegas and San Francisco years that followed, where the hallway track and the Hands-on Labs were worth as much as any keynote. VMworld became VMware Explore in 2022, and the community kept showing up. A lot of careers in our industry were built one VMUG talk and one expo hall at a time. I&#8217;ve been at every VMworld / Explore in the US since 2008, and in Barcelona since its beginnings, and I have left each one with a conversation that shifted how I think about something.</p>
+<div class="wp-block-jetpack-tiled-gallery aligncenter is-style-columns">
+<div class="">
+<div class="tiled-gallery__gallery">
+<div class="tiled-gallery__row">
+<div class="tiled-gallery__col" style="flex-basis:24.22175%">
+<figure class="tiled-gallery__item"><img decoding="async" srcset="https://i0.wp.com/blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmworld2005.png?strip=info&#038;w=357&#038;ssl=1 357w" alt="" data-height="252" data-id="34726" data-link="https://blogs.vmware.com/cloud-foundation/?attachment_id=34726" data-url="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmworld2005.png" data-width="357" src="https://blogs.vmware.com/wp-content/uploads/2026/10/vmworld2005.png" data-amp-layout="responsive" /></figure>
+<figure class="tiled-gallery__item"><img decoding="async" srcset="https://i0.wp.com/blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/DianeGreeneR1_99ef6c.jpg?strip=info&#038;w=550&#038;ssl=1 550w" alt="" data-height="284" data-id="34724" data-link="https://blogs.vmware.com/cloud-foundation/?attachment_id=34724" data-url="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/DianeGreeneR1_99ef6c.jpg" data-width="550" src="https://blogs.vmware.com/wp-content/uploads/2026/10/DianeGreeneR1_99ef6c.jpg" data-amp-layout="responsive" /></figure>
+</div>
+<div class="tiled-gallery__col" style="flex-basis:22.86643%">
+<figure class="tiled-gallery__item"><img decoding="async" srcset="https://i0.wp.com/blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmworld-europe-2009_e8b9f3.png?strip=info&#038;w=441&#038;ssl=1 441w" alt="" data-height="323" data-id="34725" data-link="https://blogs.vmware.com/cloud-foundation/?attachment_id=34725" data-url="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmworld-europe-2009_e8b9f3.png" data-width="441" src="https://blogs.vmware.com/wp-content/uploads/2026/10/vmworld-europe-2009_e8b9f3.png" data-amp-layout="responsive" /></figure>
+<figure class="tiled-gallery__item"><img decoding="async" srcset="https://i0.wp.com/blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmug-usercon.jpeg?strip=info&#038;w=298&#038;ssl=1 298w" alt="" data-height="168" data-id="34729" data-link="https://blogs.vmware.com/cloud-foundation/?attachment_id=34729" data-url="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmug-usercon.jpeg" data-width="298" src="https://blogs.vmware.com/wp-content/uploads/2026/10/vmug-usercon.jpeg" data-amp-layout="responsive" /></figure>
+</div>
+<div class="tiled-gallery__col" style="flex-basis:52.91182%">
+<figure class="tiled-gallery__item"><img decoding="async" srcset="https://i0.wp.com/blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmware-explore.jpeg?strip=info&#038;w=600&#038;ssl=1 600w,https://i0.wp.com/blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmware-explore.jpeg?strip=info&#038;w=900&#038;ssl=1 900w,https://i0.wp.com/blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmware-explore.jpeg?strip=info&#038;w=1200&#038;ssl=1 1200w,https://i0.wp.com/blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmware-explore.jpeg?strip=info&#038;w=1500&#038;ssl=1 1500w,https://i0.wp.com/blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmware-explore.jpeg?strip=info&#038;w=1800&#038;ssl=1 1800w,https://i0.wp.com/blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmware-explore.jpeg?strip=info&#038;w=1920&#038;ssl=1 1920w" alt="" data-height="1081" data-id="34730" data-link="https://blogs.vmware.com/cloud-foundation/?attachment_id=34730" data-url="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/vmware-explore.jpeg?w=1024" data-width="1920" src="https://blogs.vmware.com/wp-content/uploads/2026/10/vmware-explore.jpeg" data-amp-layout="responsive" /></figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Here&#8217;s why I bring any of this up. <strong>Every one of those shifts asked you to trade a skill you were proud of for one you didn&#8217;t have yet, and you came out the other side more valuable every time.</strong> Platform engineering is the next shift in that sequence. Even the vSphere Supervisor you&#8217;ll meet later in this post has roots in that history: it was unveiled as <a href="https://cormachogan.com/2019/11/22/project-pacific-vmworld-2019-deep-dive-updates/">Project Pacific</a> at VMworld 2019.</p>
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow">
+<p><strong>The community that taught you virtualization </strong><br /><strong>is the same one that can carry you through this.</strong></p>
+</blockquote>
+<h2 class="wp-block-heading" id="h-why-you-re-not-at-the-pe-table-yet"><strong>Why you&#8217;re not at the PE table yet</strong></h2>
+<p>Now the uncomfortable part. Most vAdmins are kept out of platform engineering by <em>posture</em>. Technical depth is the expensive part of this job, and you already paid for it.</p>
+<p>Here&#8217;s what I mean. The traditional infrastructure model runs like a service desk: a request arrives -&gt; you fulfill it -&gt; you close the ticket. Platform engineering runs infrastructure as a <em>product</em>. It has consumers, an interface, a roadmap, versioned releases, and adoption metrics. When a platform team looks at the VI team, they often see a fulfillment function. That perception is unfair but it’s fixable. Because the fix is a set of habits you can build. And the timing has never been better.</p>
+<h2 class="wp-block-heading" id="h-why-this-matters-now"><strong>Why this matters now</strong></h2>
+<p>Platform engineering is now the default operating model: the <a href="https://dora.dev/research/2025/dora-report/">2025 DORA report</a> found that roughly 90% of organizations have an internal platform and about three-quarters have a dedicated platform team. DORA also found that platform quality decides whether AI productivity gains reach the organization at all. Weak platforms diminish the gains. Strong ones amplify them.</p>
+<p>Meanwhile, the hard problems in what we call <a href="https://blogs.vmware.com/cloud-foundation/2026/06/16/platform-engineering-2-0-the-evolution-the-ai-era-demands/">Platform Engineering 2.0</a> have moved <em>down</em> the stack. PE 1.0 was about golden paths and self-service for application developers, the solo persona. PE 2.0 widens the audience to security teams, FinOps, data and ML engineers, and increasingly to the <strong>non-human consumers</strong> (AI agents) calling infrastructure APIs directly.</p>
+<p>Serving all of them at once is a question of multi-tenancy, isolation, failure domains, GPU capacity, lifecycle, and cost attribution.</p>
+<p><strong>Those are already <em>your</em> problems</strong>. You&#8217;ve been solving them for years, usually without anyone calling it platform engineering, and as automation increasingly acts on infrastructure without a human clicking the button, your deep knowledge of identity, scope, and blast radius only gets more valuable.</p>
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="539" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image_58bf68.png" alt="" class="wp-image-34715" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_58bf68.png 1800w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_58bf68.png?resize=300,158 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_58bf68.png?resize=768,404 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_58bf68.png?resize=1024,539 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_58bf68.png?resize=1536,808 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_58bf68.png?resize=600,316 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+<h2 class="wp-block-heading" id="h-what-you-already-know-is-a-head-start"><strong>What you already know is a head start</strong></h2>
+<p>The fastest way to feel less like an outsider is to learn the vocabulary for skills you already have. Here&#8217;s the mapping I walk through with vAdmins most often.</p>
+<figure class="wp-block-table is-style-stripes">
+<table class="has-fixed-layout">
+<thead>
+<tr>
+<th><strong><mark style="background-color:rgba(0, 0, 0, 0);color:#004c78" class="has-inline-color">What you do today</mark></strong></th>
+<th><mark style="background-color:rgba(0, 0, 0, 0);color:#004c78" class="has-inline-color"><strong>What PE 2.0 calls it </strong><br /><strong>(and where it lives in VCF 9.1)</strong></mark></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Resource pools, reservations, shares, permissions</td>
+<td><strong>Tenancy and quota design.</strong> VCF Automation Organizations, Projects, and Namespaces, with delegation from Org Admins to Project Admins</td>
+</tr>
+<tr>
+<td>DRS, HA, admission control, stretched clusters</td>
+<td><strong>Platform SLOs and failure domains.</strong> vSphere Zones as the availability construct your consumers target</td>
+</tr>
+<tr>
+<td>Templates, Content Library, customization specs</td>
+<td><strong>Golden paths and image lifecycle.</strong> VM Service images and VM classes, consumed declaratively</td>
+</tr>
+<tr>
+<td>NSX segments, DFW rules, micro-segmentation</td>
+<td><strong>Isolation as the tenancy substrate.</strong> Virtual Private Clouds (VPCs) and vDefend behind namespace boundaries</td>
+</tr>
+<tr>
+<td>Upgrade sequencing, maintenance windows, HCL checks</td>
+<td><strong>Fleet lifecycle workflows.</strong> vSphere Supervisor and vSphere Kubernetes Service (VKS) cluster upgrades sequenced as a release process</td>
+</tr>
+<tr>
+<td>Capacity planning and chargeback spreadsheets</td>
+<td><strong>Embedded FinOps.</strong> Cost and showback across VKS nodes, clusters, namespaces, Projects, and Organizations in VCF Operations</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p>When a platform team debates whether a Kubernetes namespace is a hard enough boundary for two business units, I’d want a vAdmin in that room to own the answer. You know what a noisy neighbor does to a cluster at utilization peaks. You know which isolation promises hold up under an audit. That knowledge is scarce on teams that grew up on managed cloud services, where someone else absorbed those problems for them.</p>
+<h2 class="wp-block-heading" id="h-the-gaps-stated-plainly"><strong>The gaps, stated plainly</strong></h2>
+<p>Data that only flatters you is useless ?, so here are the four transition gaps we see most often. None requires a new degree. All of them require practice.</p>
+<ul class="wp-block-list">
+<li><strong>Git is the source of truth.</strong> In a platform organization, a change that lives only in the vSphere Client effectively didn&#8217;t happen, because nobody else can review, reproduce, or roll it back. Put your own work in Git first (host profiles, NSX policy, VM classes, even runbooks) and ship changes as pull requests.</li>
+<li><strong>A Kubernetes mental model.</strong> Skip the Kubernetes developer track; what you need is <em>desired state</em> and <em>reconciliation</em> in your bones. The vSphere Supervisor is a Kubernetes control plane built into vSphere, and a VM there is a declarative VirtualMachine object that a controller keeps driving toward the desired state. Once that clicks, the platform team&#8217;s conversations start making sense. (You&#8217;ll also need to learn YAML indentation rules…because everyone suffers equally!)</li>
+<li><strong>Writing for developers.</strong> Templates, READMEs, error messages, and deprecation notices are how consumers experience your platform. Practice explaining a quota to someone who only wants their deployment to succeed.</li>
+<li><strong>Product thinking.</strong> This is the big one. You are no longer providing a service. You’re delivering a product. Deciding what to build, iterating/versioning what you ship, deprecating on a published schedule, measuring adoption, and answering a ticket with a supported path. That last habit is hardest for anyone whose career rewarded never saying no.</li>
+</ul>
+<h2 class="wp-block-heading" id="h-choose-your-adventure"><strong>Choose your adventure</strong></h2>
+<p>The desire to &#8220;get into platform engineering&#8221; is too vague to act on. In practice, vAdmins can earn their way in through one of four doors. Pick (at least) one that best aligns with your skillset. Trying all four at once is how people end up with four half-finished labs and no credibility (ask me how I know ?).</p>
+<figure class="wp-block-table is-style-stripes">
+<table class="has-fixed-layout">
+<thead>
+<tr>
+<th><strong><mark style="background-color:rgba(0, 0, 0, 0);color:#004c78" class="has-inline-color">Door</mark></strong></th>
+<th><strong><mark style="background-color:rgba(0, 0, 0, 0);color:#004c78" class="has-inline-color">Your existing leverage</mark></strong></th>
+<th><strong><mark style="background-color:rgba(0, 0, 0, 0);color:#004c78" class="has-inline-color">First thing to ship</mark></strong></th>
+<th><strong><mark style="background-color:rgba(0, 0, 0, 0);color:#004c78" class="has-inline-color">Skills to add</mark></strong></th>
+<th><strong><mark style="background-color:rgba(0, 0, 0, 0);color:#004c78" class="has-inline-color">Who you&#8217;ll work with</mark></strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tenancy and blast-radius owner</strong></td>
+<td>Resource pools, NSX, RBAC, identity federation</td>
+<td>Tenant onboarding as a pull request: Project, namespace, quota, VPC, and RBAC from one PR</td>
+<td>GitOps, VCF Automation APIs or its Terraform provider</td>
+<td>Security, platform leads</td>
+</tr>
+<tr>
+<td><strong>VM golden-path author</strong></td>
+<td>Templates, guest OS expertise, trust from app owners</td>
+<td>One VM-based app delivered through VM Service by the same GitOps flow the container teams use</td>
+<td>VirtualMachine manifests, cloud-init, Argo CD basics</td>
+<td>Application teams</td>
+</tr>
+<tr>
+<td><strong>FinOps and showback owner</strong></td>
+<td>Capacity planning, chargeback history</td>
+<td>A per-Project showback view with a rate card your tenants can actually read</td>
+<td>FinOps vocabulary, pricing policies</td>
+<td>Finance, engineering leadership</td>
+</tr>
+<tr>
+<td><strong>Fleet and runtime lifecycle owner</strong></td>
+<td>Upgrades, patching, interoperability checks</td>
+<td>A written upgrade choreography for Supervisor plus a VKS cluster fleet, with a consumer-facing SLO</td>
+<td>Kubernetes versioning, release channels</td>
+<td>Platform team, SRE</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p>If you&#8217;re unsure, start with the <strong>VM golden path</strong>. Most enterprises still run the bulk of their workloads in VMs, and most Kubernetes-native platform teams would gladly hand that problem to someone who understands it. VCF 9.1 widens this door further: the vSphere Supervisor now supports non-disruptive import of existing vSphere VMs into a vSphere Namespace for VM Service (KubeVM) to manage, with batching and rollback. Your existing estate becomes a platform onboarding story, and you&#8217;re the best person to tell it.</p>
+<h2 class="wp-block-heading" id="h-a-30-60-90-plan"><strong>A 30/60/90 plan</strong></h2>
+<h3 class="wp-block-heading" id="h-days-1-to-30-build-the-muscle-privately">Days 1 to 30: build the muscle privately</h3>
+<ol class="wp-block-list">
+<li>Create a Git repository for your own infrastructure changes and use pull requests even when you&#8217;re the only reviewer.</li>
+<li>Deploy a VM from a VirtualMachine manifest in a lab namespace with <em>kubectl</em>. Then delete it and redo it from Git. </li>
+<li>Read the CNCF Platforms white paper and your platform team&#8217;s backlog, noting every item that touches tenancy, isolation, lifecycle, or cost.</li>
+</ol>
+<h3 class="wp-block-heading" id="h-days-31-to-60-ship-one-thing-from-your-door">Days 31 to 60: ship one thing from your door</h3>
+<ol class="wp-block-list">
+<li>Build the first artifact from the table above, small enough to finish.</li>
+<li>Ask someone on the platform team to review it as a pull request. This is the moment the relationship starts.</li>
+<li>Measure something before and after, ideally <em>time-to-first-deploy</em> or ticket volume for that request type.</li>
+</ol>
+<h3 class="wp-block-heading" id="h-days-61-to-90-make-it-visible">Days 61 to 90: make it visible</h3>
+<ol class="wp-block-list">
+<li>Present the result at the platform team&#8217;s review with the numbers, the limits, and what you&#8217;d do next.</li>
+<li>Propose owning that capability going forward, with a version number and a deprecation policy.</li>
+<li>Write it up internally (the person who documents the capability usually ends up owning it).</li>
+<li>Present this journey at your local VMUG! It&#8217;s the friendliest audience you&#8217;ll ever have for a first platform talk, and the platform engineers in the room will remember who gave it.</li>
+</ol>
+<p><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-vivid-red-color"><strong>TIP:</strong></mark> If you&#8217;re still in the &#8220;how?&#8221; stage, see the resources at the end of this post and dig in. If you&#8217;re already on VCF 9.x, I <strong>highly</strong> recommend starting with the <a href="https://youtube.com/playlist?list=PL8_k3uUCO39vTFMRpuPINd6aBU-IyvHuY&amp;si=tV19X03IZP_s3c71">VCF Automation 9.1 video series</a> by my friend Maher Al-Asfar.</p>
+<h2 class="wp-block-heading" id="h-getting-invited-into-platform-decisions"><strong>Getting invited into platform decisions</strong></h2>
+<p>Influence on a platform team comes from three things: data, ownership, and candor.</p>
+<ul class="wp-block-list">
+<li><strong>Data</strong> means showing up with measurements. &#8220;Tenant onboarding took nine days and now takes one PR&#8221; ends debates that opinions can&#8217;t.</li>
+<li><strong>Ownership</strong> means volunteering for the capability nobody wants. Upgrades, quotas, and cost reporting are unglamorous, and they&#8217;re exactly where platform teams feel the most pain.</li>
+<li><strong>Candor</strong> means saying clearly what the substrate can and can&#8217;t do. Whoever understands the infrastructure layer best tends to shape what gets built on it. Platform teams without that depth default to the abstraction they learned last (like a managed public cloud service), then spend a year rebuilding tenancy, isolation, and cost controls that already exist one layer down.
+<p>When you can show them, in their language, that the vSphere Supervisor exposes one declarative API for VMs, Containers, and VKS clusters behind a real tenancy model, the architecture conversation changes. When you also tell them plainly where they&#8217;ll still need Backstage or a secrets manager, they start trusting your recommendations.<em><strong>That trust is the seat at the table</strong></em>.</li>
+</ul>
+<h2 class="wp-block-heading" id="h-what-vcf-gives-you-and-what-it-doesn-t-on-purpose"><strong>What VCF gives you, and what it doesn’t (on purpose)</strong></h2>
+<figure class="wp-block-table is-style-stripes">
+<table class="has-fixed-layout">
+<thead>
+<tr>
+<th><strong><mark style="background-color:rgba(0, 0, 0, 0);color:#004c78" class="has-inline-color">What VCF 9.1+ Provides</mark></strong></th>
+<th><strong><mark style="background-color:rgba(0, 0, 0, 0);color:#004c78" class="has-inline-color">What PEs still build</mark></strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A declarative API for VMs (VM Service), Containers (vSphere Pods), and VKS clusters</td>
+<td>A developer portal, typically Backstage, if your consumers need one</td>
+</tr>
+<tr>
+<td>Tenancy through VCF Automation Organizations, Projects, and Namespaces, with delegated self-service</td>
+<td>Secrets management, typically External Secrets Operator plus a KMS</td>
+</tr>
+<tr>
+<td>Network isolation through VPCs and vDefend</td>
+<td>App-level observability with Prometheus, Grafana, and OpenTelemetry</td>
+</tr>
+<tr>
+<td>Fleet lifecycle, cost, showback, and reclamation in VCF Operations, including VKS cost across nodes, clusters, namespaces, Projects, and Organizations</td>
+<td>CI and image build, plus your GitOps repository topology</td>
+</tr>
+<tr>
+<td>Non-disruptive import of existing VMs onto the Supervisor</td>
+<td>The product discipline: golden-path ownership, versioning, deprecation, and adoption metrics</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="539" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image_c83e98.png" alt="" class="wp-image-34710" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_c83e98.png 1727w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_c83e98.png?resize=300,158 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_c83e98.png?resize=768,404 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_c83e98.png?resize=1024,539 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_c83e98.png?resize=1536,808 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_c83e98.png?resize=600,316 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
+<hr class="wp-block-separator has-alpha-channel-opacity" />
+<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
+<p><strong>Your Challenge:</strong> if your platform team redesigned the infrastructure layer tomorrow, would anyone think to call you first?&nbsp;<strong>What could you ship in the next 90 days to change that answer?</strong></p>
+<h2 class="wp-block-heading" id="h-further-reading-docs-and-media"><strong>Further reading, docs, and media</strong></h2>
+<h3 class="wp-block-heading" id="h-platform-engineering-2-0-and-vcf-9-1"><strong>Platform Engineering 2.0 and VCF 9.1</strong></h3>
+<ul class="wp-block-list">
+<li><a href="https://www.vmware.com/topics/platform-engineering">What is Platform Engineering</a>: VMware topic pages</li>
+<li><a href="https://blogs.vmware.com/cloud-foundation/2026/06/16/platform-engineering-2-0-the-evolution-the-ai-era-demands/">Platform Engineering 2.0: The Evolution the AI Era Demands</a>: the five pillars and why PE 1.0 hit its ceiling</li>
+<li><a href="https://brcm.tech/PE2WhitePaper">Platform Engineering 2.0 whitepaper</a>: the full paper, developed with PlatformEngineering.org</li>
+<li><a href="https://blogs.vmware.com/cloud-foundation/2026/05/05/announcing-vcf-9-1-modern-private-cloud-built-for-efficiency-and-resilience/">Announcing VCF 9.1: Modern Private Cloud Built for Efficiency and Resilience</a>: the release overview with links to feature blogs</li>
+<li><a href="https://blogs.vmware.com/cloud-foundation/2026/05/05/vcf-9-1-secure-cost-effective-private-cloud-platform-for-production-ai/">VCF 9.1: The Secure, Cost-Effective Private Cloud Platform for Production AI</a>: the one-platform story for VMs, containers, AI, and data services</li>
+<li><a href="https://blogs.vmware.com/cloud-foundation/2026/05/05/announcing-vcf-9-1-modern-private-cloud-built-for-efficiency-and-resilience/">VCF 9.1 What&#8217;s New</a>: highlights of the VCF 9.1 release. Also see the <a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/release-notes/vmware-cloud-foundation-9-1-1-0-release-notes/vcfautomation-9-1-1-0-release-notes.html">VCF 9.1.1 Release Notes</a></li>
+</ul>
+<h3 class="wp-block-heading" id="h-tenancy-self-service-and-the-vsphere-supervisor"><strong>Tenancy, self-service, and the vSphere Supervisor</strong></h3>
+<ul class="wp-block-list">
+<li><a href="https://blogs.vmware.com/cloud-foundation/2026/05/05/accelerate-streamline-and-control-your-self-service-private-cloud-with-vcf-9-1/">Accelerate, Streamline, and Control Your Self-Service Private Cloud with VCF 9.1</a>: namespace delegation with guardrails, plus cost in Org and Project dashboards</li>
+<li><a href="https://www.youtube.com/watch?v=Y7Z-tLvUJCU">Self-service Infrastructure with VCF Automation 9.1</a>: Virtually Speaking Podcast with Maher Al-Asfar</li>
+<li><a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/release-notes/vmware-cloud-foundation-9-1-0-0-release-notes/what-s-new/whats-new-vcf-automation.html">What&#8217;s New in VCF Automation 9.1</a>: release notes, namespace day-2 actions, project content libraries, shared subnets</li>
+<li><a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/organization-management/managing-organizations-for-all-apps-in-vcf-automation.html">Managing Organizations in VCF Automation</a>: how Organizations, Projects, and Namespaces divide quota</li>
+<li><a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/overview-of-vmware-cloud-foundation-9/what-is-vmware-cloud-foundation-and-vmware-vsphere-foundation/vcf-automation-overview/vsphere-supervisor.html">vSphere Supervisor overview</a>: the unified declarative API for VMs, vSphere Pods, and VKS</li>
+<li><a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/vsphere-supervisor-installation-and-configuration/configuring-and-managing-vsphere-namespaces.html">Configuring and Managing vSphere Namespaces</a>: quotas, permissions, VM classes, and storage policies, in terms a vAdmin already knows</li>
+</ul>
+<h3 class="wp-block-heading" id="h-your-30-60-90-resources"><strong>Your 30/60/90 resources</strong></h3>
+<ul class="wp-block-list">
+<li><a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-service-administration-and-development/9-1/release-notes/vmware-vsphere-supervisor-release-notes.html">vSphere Supervisor Release Notes (9.1)</a>: non-disruptive VM import and the Argo CD Supervisor Service support matrix</li>
+<li><a href="https://developer.broadcom.com/xapis/vsphere-automation-api/latest/vcenter-namespaces/vcenter-namespaces-mobility-virtualmachines-imports">VM import API (vcenter/namespaces/mobility)</a>: for scripting imports of existing VMs onto the Supervisor</li>
+<li><a href="https://blogs.vmware.com/cloud-foundation/2026/06/05/gitops-argo-on-vks/">Driving GitOps Workflows with Argo CD on VKS</a>: namespaces, VKS clusters, and VM Service instances managed from Git</li>
+<li><a href="https://blogs.vmware.com/cloud-foundation/2026/05/05/scale-simplify-and-secure-your-private-cloud-operations-with-vcf-9-1/">Scale, Simplify, and Secure Your Private Cloud Operations with VCF 9.1</a>: VKS cost details for showback and chargeback</li>
+<li><a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/cost-and-capacity-management/optimizing-capacity-and-improving-performance/how-to-optimize-capacity-and-improve-performance/using-reclaim-to-free-up-resources.html">Using Reclaim to Free Up Resources</a>: the reclamation workflow behind a credible FinOps story</li>
+</ul>
+<h3 class="wp-block-heading" id="h-hands-on-labs"><strong>Hands-on Labs</strong></h3>
+<ul class="wp-block-list">
+<li><a href="https://blogs.vmware.com/cloud-foundation/2026/05/12/vcf-9-1-is-available-explore-the-new-features-in-hands-on-labs/">VCF 9.1 Is Available: Explore the New Features in Hands-on Labs</a>: free labs, including HOL-2702-01 on Kubernetes in VCF 9.1, to run your first 30 days without a home lab</li>
+</ul>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/the-cloud-admins-path-to-platform-engineering/">The Cloud Admin&#8217;s Path to Platform Engineering</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/the-cloud-admins-path-to-platform-engineering/">The Cloud Admin’s Path to Platform Engineering</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10103931</post-id>	</item>
+		<item>
+		<title>VCF Breakroom Chats Episode 96 – The Infrastructure-Centric Path to App Modernization</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/10/07/vcf-breakroom-chats-episode-96-the-infrastructure-centric-path-to-app-modernization/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Wed, 07 Oct 2026 15:02:58 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10103897</guid>
+
+					<description><![CDATA[<img width="298" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/06/VCF-Breakroom-Chats-Final-Selected-featured-image.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>VCF Breakroom Chats Episode 96 Welcome to the next episode of the VCF Breakroom Chats. Today, we are happy to present this vLog with Jeremy Wolf, Senior Group Product Manager at Broadcom. In this episode, Jeremy Wolf and Taka Uenishi discuss the infrastructure-centric approach to application modernization and how organizations can scale modern developer experiences &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/vcf-breakroom-chats-episode-96-the-infrastructure-centric-path-to-app-modernization/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/vcf-breakroom-chats-episode-96-the-infrastructure-centric-path-to-app-modernization/">VCF Breakroom Chats Episode 96 – The Infrastructure-Centric Path to App Modernization</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="298" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/06/VCF-Breakroom-Chats-Final-Selected-featured-image.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/06/VCF-Breakroom-Chats-Final-Selected-featured-image.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/12/VCF-Breakroom-Chats-Final-Selected-featured-image.png 1920w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/12/VCF-Breakroom-Chats-Final-Selected-featured-image.png?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/12/VCF-Breakroom-Chats-Final-Selected-featured-image.png?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/12/VCF-Breakroom-Chats-Final-Selected-featured-image.png?resize=1024,577 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/12/VCF-Breakroom-Chats-Final-Selected-featured-image.png?resize=1536,865 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/12/VCF-Breakroom-Chats-Final-Selected-featured-image.png?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/12/VCF-Breakroom-Chats-Final-Selected-featured-image.png?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/12/VCF-Breakroom-Chats-Final-Selected-featured-image.png?resize=600,338 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<h2 class="wp-block-heading" id="h-vcf-breakroom-chats-episode-96">VCF Breakroom Chats Episode 96</h2>
+<p>Welcome to the next episode of the VCF Breakroom Chats. Today, we are happy to present this vLog with Jeremy Wolf, Senior Group Product Manager at Broadcom. In <a href="https://youtu.be/4EoPCkuf55k?si=bobzHJLkr0vv60aI" target="_blank" rel="noreferrer noopener">this episode</a>, Jeremy Wolf and Taka Uenishi discuss the infrastructure-centric approach to application modernization and how organizations can scale modern developer experiences while addressing large legacy application portfolios. Learn how to leverage KubeVM and vSphere Pods to bridge the gap between developer velocity and enterprise infrastructure control with vMotion capabilities.</p>
+<figure class="wp-block-image size-large"><a href="https://youtu.be/4EoPCkuf55k?si=bobzHJLkr0vv60aI" target="_blank" rel=" noreferrer noopener"><img loading="lazy" decoding="async" height="579" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/VCF-Breakroom-Chats-Episode-96-–-The-Infrastructure-Centric-Path-to-App-Modernization.png" alt="" class="wp-image-34678" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/VCF-Breakroom-Chats-Episode-96-–-The-Infrastructure-Centric-Path-to-App-Modernization.png 1147w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/VCF-Breakroom-Chats-Episode-96-–-The-Infrastructure-Centric-Path-to-App-Modernization.png?resize=300,170 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/VCF-Breakroom-Chats-Episode-96-–-The-Infrastructure-Centric-Path-to-App-Modernization.png?resize=768,435 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/VCF-Breakroom-Chats-Episode-96-–-The-Infrastructure-Centric-Path-to-App-Modernization.png?resize=1024,579 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/VCF-Breakroom-Chats-Episode-96-–-The-Infrastructure-Centric-Path-to-App-Modernization.png?resize=600,339 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></a></figure>
+<p><strong>Want to learn more about VCF Automation?</strong></p>
+<ul class="wp-block-list">
+<li>Check out the <a href="https://www.vmware.com/products/cloud-infrastructure/cloud-foundation-automation" target="_blank" rel="noreferrer noopener">VCF Automation web page</a> for more resources.</li>
+<li>Read the blog post <a href="https://blogs.vmware.com/cloud-foundation/2026/09/03/from-bottleneck-to-breakthrough-centralizing-gitops-at-enterprise-scale-with-vcf-9-1-1/" target="_blank" rel="noreferrer noopener"><a href="https://blogs.vmware.com/cloud-foundation/2026/09/03/from-bottleneck-to-breakthrough-centralizing-gitops-at-enterprise-scale-with-vcf-9-1-1/">From Bottleneck to Breakthrough: Centralizing GitOps at Enterprise Scale with VCF 9.1.1</a></a>.</li>
+<li>Listen to our <a href="https://blogs.vmware.com/cloud-foundation?s=%22VCF%20Automation%22%20%22Breakroom%22" target="_blank" rel="noreferrer noopener">previous topics</a>.</li>
+</ul>
+<h2 class="wp-block-heading" id="h-about-the-vcf-breakroom-chat-series">About the VCF Breakroom Chat Series</h2>
+<p><em>This webinar series focuses on VMware Cloud Foundation (VCF). In this series, we share conversations with industry-recognized experts from Broadcom and with solution partners and customers. You’ll gain relevant insights whether you’re an IT practitioner, IT admin, cloud or platform architect, developer, DevOps, senior IT manager, IT executive, or AI/ML professional.</em></p>
+<p><em>If you are new to the series, please check out our <a href="https://blogs.vmware.com/cloud-foundation/?s=breakroom+chats" target="_blank" rel="noreferrer noopener">previous episodes</a>.</em></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/vcf-breakroom-chats-episode-96-the-infrastructure-centric-path-to-app-modernization/">VCF Breakroom Chats Episode 96 – The Infrastructure-Centric Path to App Modernization</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/vcf-breakroom-chats-episode-96-the-infrastructure-centric-path-to-app-modernization/">VCF Breakroom Chats Episode 96 – The Infrastructure-Centric Path to App Modernization</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10103897</post-id>	</item>
+		<item>
 		<title>Dependencies Are a Boat Anchor</title>
 		<link>https://blogs.vmware.com/cloud-foundation/2026/10/06/dependencies-are-a-boat-anchor/</link>
 		
@@ -28,10 +418,10 @@
 				<category><![CDATA[Cloud Infrastructure]]></category>
 		<guid isPermaLink="false">https://blogs.vmware.com/?p=10103836</guid>
 
-					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>There was a time in this industry when having system uptime measured in years was viewed as a weird badge of honor or accomplishment. Unix admins would delight in the uptime command returning years, and brag about how stable something was because it could run that long uninterrupted. The modern security landscape has changed the &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/06/dependencies-are-a-boat-anchor/">Continued</a></p>
+					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>There was a time in this industry when having system uptime measured in years was viewed as a weird badge of honor or accomplishment. Unix admins would delight in the uptime command returning years, and brag about how stable something was because it could run that long uninterrupted. The modern security landscape has changed the &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/06/dependencies-are-a-boat-anchor/">Continued</a></p>
 <p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/06/dependencies-are-a-boat-anchor/">Dependencies Are a Boat Anchor</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
-										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=600,300 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=600,300 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
 <p>There was a time in this industry when having system uptime measured in years was viewed as a weird badge of honor or accomplishment. Unix admins would delight in the uptime command returning years, and brag about how stable something was because it <em>could</em> run that long uninterrupted. The modern security landscape has changed the reaction from positive amusement to dread and fear when systems go longer and longer without patching. When I talk to customers about <em>why</em> they have not been patched, I find it is often rather mundane dependencies that are getting in the way of keeping vSphere up to date.</p>
 <h2 class="wp-block-heading" id="h-i-m-waiting-on">I’m Waiting on…..</h2>
 <p>A common cause for patching gaps is that customers state they are waiting on a 3rd party server vendor to package the ESXi release into an ISO file. This is a curious one, because back in the day when you bought a server with vSphere pre-installed it would often come with a physical CD, but it has functionally been years since I’ve actually seen anyone with a CD burner, so this release mechanism feels slightly antiquated. The vendor ISO release is functionally a bundling of the “vanilla” ESXi release with its inbox drivers, but also supplemented with asynchronous drivers and VIBs for handling things like that OEM&#8217;s proprietary server management tooling. The challenge is that vendors do not keep up with hotpatches, and some release as rarely as quarterly. Waiting 90 days for bugfixes and critical security patches is simply not acceptable.</p>
@@ -461,259 +851,5 @@
 		
 		
 		<post-id xmlns="com-wordpress:feed-additions:1">10103375</post-id>	</item>
-		<item>
-		<title>BroadcomがサポートするKubernetes関連のOSSパッケージ (VKS アドオン) について</title>
-		<link>https://blogs.vmware.com/vmware-japan/2026/10/vcf-vks-addons-jpn.html</link>
-		
-		<dc:creator><![CDATA[shinya asako]]></dc:creator>
-		<pubDate>Thu, 01 Oct 2026 00:23:37 +0000</pubDate>
-				<category><![CDATA[International]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10103302</guid>
-
-					<description><![CDATA[<img width="300" height="179" src="https://blogs.vmware.com/wp-content/uploads/2026/09/VKSaddonsJPN.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>VMware vSphere® Kubernetes Service (VKS) には、CNCF認定のKubernetes実行環境とVKSアドオンが含まれています。VKSアドオンとは、Kubernetes実行環境の運用に関する周辺機能 (セキュリティ、ネットワーク、レジストリ、監視、バックアップなど) を追加する検証済みのOSSパッケージ群になり、Kubernetes環境全体の運用負荷を大幅に軽減できます。   VKSアドオンの主な特徴 エンタープライズ品質の保証：Broadcomが事前選定・パッケージ化・検証を行っており、VKSとの互換性が保証されます。 ワンストップのサポート体制：Broadcomグローバルサポートにより、アドオンの導入、ライフサイクル管理、実行時のトラブルシューティングまで一括してサポートが提供されます。なお、VKSアドオンのティアに応じてサポート内容も変わり、詳細なサポート内容は次項の「VKSアドオンのティアについて」に記載しています。 柔軟な操作性：VMware Cloud Foundation®（VCF9）環境と密連携されており、VKSアドオンをUI/CLI/APIにより、迅速かつ容易にデプロイすることが可能です。   VKSアドオンのティアについて VKSアドオンには下記の4つのティアがあり、ProductティアのVKSアドオンは、Broadcomグローバルサポートでサポートされます。   Productティア：Broadcomが厳選・検証したソフトウェアです。導入からライフサイクル管理、ランタイム(デプロイしたソフトウェア)のトラブルシューティングまで、Broadcomグローバルサポートが保守サポートを提供します。ただし、パッケージの展開、動作状態、実行時の安定性の範囲内に限ります。 Partnerティア：独立系ソフトウェアベンダー (ISV) が検証したソフトウェアです。Broadcomグローバルサポートは導入とライフサイクル管理をサポートし、ランタイムのトラブルシューティングはパートナーへエスカレーションします。 Ecosystemティア：互換性検証済みのオープンソースソフトウェア (OSS) です。Broadcomグローバルサポートはパッケージングやライフサイクル管理に関する問題に限定され、ランタイムのバグやパッチ等はアップストリームコミュニティでの対応となります。 Communityティア：未検証またはユーザー作成のOSSです。Broadcomからの公式サポートやライフサイクル管理は提供されません。   VKSアドオンは日々追加されており、最初の図には全VKSアドオンが記載されておりません。全VKSアドオンの概要と、ティア分けについては、下記リンク先からご覧いただけます。 VKS 3.7に含まれるVKSアドオンについてVKSアドオンのティアについて &#160; VKSアドオンのインストールについて 一部のVKSアドオンのインストールはGUI (VMware Cloud Foundation® Automation) から簡単にインストールできます。インストール例として、VCF Automationバージョン9.1を使った[cert-manager]のインストールの流れを下記に記載します。なお、VKSアドオンのインストールについてのマニュアル記載箇所は、こちらからご覧いただけます。 VCF Automation上のタブメニューより「管理と制御」を選択し、左ナビゲーションメニューから「Kubernetesの管理」を選択。「Clusters」には、既に作成したKubernetesクラスタが一覧表示されるので、VKSアドオンをデプロイしたいKubernetesクラスタを選択。(図中では[vks-prod]を選択)  [vks-prod]のタブメニューの「Add-ons」を選択し、左ナビゲーションメニューから「Available Add-ons」を選択。インストール可能なVKSアドオンが表示されるので、インストールしたいVKSアドオンを選択。(図中では[cert-manager]を選択)  「Package Name」と「Package version」を入力し、「INSTALL ADD-ON」ボタンを選択。(図中では「Package Name」として[certmgtpkg]を入力。「Package version」として[latest compatible version]を選択。)  「INSTALL ADD-ON」ボタンを選択すると、「Installed Add-ons」の画面に自動で戻り、先程入力した[certmgtpkg]が表示される。「Installed &#8230; <a href="https://blogs.vmware.com/vmware-japan/2026/10/vcf-vks-addons-jpn.html">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/vmware-japan/2026/10/vcf-vks-addons-jpn.html">BroadcomがサポートするKubernetes関連のOSSパッケージ (VKS アドオン) について</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="179" src="https://blogs.vmware.com/wp-content/uploads/2026/09/VKSaddonsJPN.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="180" src="https://blogs.vmware.com/wp-content/uploads/2026/09/VKSaddonsJPN.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" fetchpriority="high" srcset="https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/08/VKSaddonsJPN.jpg 2809w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/08/VKSaddonsJPN.jpg?resize=300,180 300w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/08/VKSaddonsJPN.jpg?resize=768,460 768w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/08/VKSaddonsJPN.jpg?resize=1024,613 1024w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/08/VKSaddonsJPN.jpg?resize=1536,920 1536w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/08/VKSaddonsJPN.jpg?resize=2048,1226 2048w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/08/VKSaddonsJPN.jpg?resize=600,359 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
-<p>VMware vSphere® Kubernetes Service (VKS) には、CNCF認定のKubernetes実行環境とVKSアドオンが含まれています。VKSアドオンとは、Kubernetes実行環境の運用に関する周辺機能 (セキュリティ、ネットワーク、レジストリ、監視、バックアップなど) を追加する検証済みのOSSパッケージ群になり、Kubernetes環境全体の運用負荷を大幅に軽減できます。   VKSアドオンの主な特徴 エンタープライズ品質の保証：Broadcomが事前選定・パッケージ化・検証を行っており、VKSとの互換性が保証されます。 ワンストップのサポート体制：Broadcomグローバルサポートにより、アドオンの導入、ライフサイクル管理、実行時のトラブルシューティングまで一括してサポートが提供されます。なお、VKSアドオンのティアに応じてサポート内容も変わり、詳細なサポート内容は次項の「VKSアドオンのティアについて」に記載しています。 柔軟な操作性：VMware Cloud Foundation®（VCF9）環境と密連携されており、VKSアドオンをUI/CLI/APIにより、迅速かつ容易にデプロイすることが可能です。   VKSアドオンのティアについて VKSアドオンには下記の4つのティアがあり、ProductティアのVKSアドオンは、Broadcomグローバルサポートでサポートされます。   Productティア：Broadcomが厳選・検証したソフトウェアです。導入からライフサイクル管理、ランタイム(デプロイしたソフトウェア)のトラブルシューティングまで、Broadcomグローバルサポートが保守サポートを提供します。ただし、パッケージの展開、動作状態、実行時の安定性の範囲内に限ります。 Partnerティア：独立系ソフトウェアベンダー (ISV) が検証したソフトウェアです。Broadcomグローバルサポートは導入とライフサイクル管理をサポートし、ランタイムのトラブルシューティングはパートナーへエスカレーションします。 Ecosystemティア：互換性検証済みのオープンソースソフトウェア (OSS) です。Broadcomグローバルサポートはパッケージングやライフサイクル管理に関する問題に限定され、ランタイムのバグやパッチ等はアップストリームコミュニティでの対応となります。 Communityティア：未検証またはユーザー作成のOSSです。Broadcomからの公式サポートやライフサイクル管理は提供されません。   VKSアドオンは日々追加されており、最初の図には全VKSアドオンが記載されておりません。全VKSアドオンの概要と、ティア分けについては、下記リンク先からご覧いただけます。 VKS 3.7に含まれるVKSアドオンについてVKSアドオンのティアについて &#160; VKSアドオンのインストールについて 一部のVKSアドオンのインストールはGUI (VMware Cloud Foundation® Automation) から簡単にインストールできます。インストール例として、VCF Automationバージョン9.1を使った[cert-manager]のインストールの流れを下記に記載します。なお、VKSアドオンのインストールについてのマニュアル記載箇所は、こちらからご覧いただけます。 VCF Automation上のタブメニューより「管理と制御」を選択し、左ナビゲーションメニューから「Kubernetesの管理」を選択。「Clusters」には、既に作成したKubernetesクラスタが一覧表示されるので、VKSアドオンをデプロイしたいKubernetesクラスタを選択。(図中では[vks-prod]を選択)  [vks-prod]のタブメニューの「Add-ons」を選択し、左ナビゲーションメニューから「Available Add-ons」を選択。インストール可能なVKSアドオンが表示されるので、インストールしたいVKSアドオンを選択。(図中では[cert-manager]を選択)  「Package Name」と「Package version」を入力し、「INSTALL ADD-ON」ボタンを選択。(図中では「Package Name」として[certmgtpkg]を入力。「Package version」として[latest compatible version]を選択。)  「INSTALL ADD-ON」ボタンを選択すると、「Installed Add-ons」の画面に自動で戻り、先程入力した[certmgtpkg]が表示される。「Installed &#8230; <a href="https://blogs.vmware.com/vmware-japan/2026/10/vcf-vks-addons-jpn.html">続き</a></p>
-<p>The post <a href="https://blogs.vmware.com/vmware-japan/2026/10/vcf-vks-addons-jpn.html">BroadcomがサポートするKubernetes関連のOSSパッケージ (VKS アドオン) について</a> appeared first on <a href="https://blogs.vmware.com/vmware-japan">VMware Japan Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/vmware-japan/2026/10/vcf-vks-addons-jpn.html">BroadcomがサポートするKubernetes関連のOSSパッケージ (VKS アドオン) について</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10103302</post-id>	</item>
-		<item>
-		<title>Streamlining CI/CD on VMware vSphere Kubernetes Service with Harness, Wiz, Artifactory, Dynatrace and the VCF Secret Store</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/09/30/streamlining-ci-cd-on-vmware-vsphere-kubernetes-service-with-harness-wiz-artifactory-dynatrace-and-the-vcf-secret-store/</link>
-		
-		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
-		<pubDate>Wed, 30 Sep 2026 14:42:52 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10103257</guid>
-
-					<description><![CDATA[<img width="298" height="136" src="https://blogs.vmware.com/wp-content/uploads/2026/09/image_43aac7.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>A Production-Ready Blueprint for Enterprise Ecosystem Integration on VMware Cloud Foundation Broadcom VCF Technical Product Solutions ArchitectureSession Resources: VMware Explore Video #APPB1147LV &#124; GitHub vks-consumption-models As enterprise organizations adopt VMware Cloud Foundation (VCF), the VMware vSphere Kubernetes Service (VKS) becomes the bridge to modern scale, enabling platform engineering teams to deliver standardized Kubernetes environments on &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/09/30/streamlining-ci-cd-on-vmware-vsphere-kubernetes-service-with-harness-wiz-artifactory-dynatrace-and-the-vcf-secret-store/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/09/30/streamlining-ci-cd-on-vmware-vsphere-kubernetes-service-with-harness-wiz-artifactory-dynatrace-and-the-vcf-secret-store/">Streamlining CI/CD on VMware vSphere Kubernetes Service with Harness, Wiz, Artifactory, Dynatrace and the VCF Secret Store</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="298" height="136" src="https://blogs.vmware.com/wp-content/uploads/2026/09/image_43aac7.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="137" src="https://blogs.vmware.com/wp-content/uploads/2026/09/image_43aac7.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_43aac7.png 2410w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_43aac7.png?resize=300,137 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_43aac7.png?resize=768,351 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_43aac7.png?resize=1024,467 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_43aac7.png?resize=1536,701 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_43aac7.png?resize=2048,935 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_43aac7.png?resize=600,274 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<p><em>A Production-Ready Blueprint for Enterprise Ecosystem Integration on VMware Cloud Foundation</em></p>
-<p>Broadcom VCF Technical Product Solutions Architecture<br />Session Resources: VMware Explore Video <a href="https://www.vmware.com/explore/video/6403820647112" target="_blank" rel="noreferrer noopener">#APPB1147LV</a> | GitHub <a href="https://github.com/vmware/vks-consumption-models/tree/main/ecosystem-integration/harness-artifactory-dynatrace-wiz-secretstore" target="_blank" rel="noreferrer noopener">vks-consumption-models</a></p>
-<figure class="wp-block-image size-large"><img fetchpriority="high" decoding="async" height="470" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/09/Screenshot-2026-09-30-at-15.40.58.png" alt="" class="wp-image-34471" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/Screenshot-2026-09-30-at-15.40.58.png 2407w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/Screenshot-2026-09-30-at-15.40.58.png?resize=300,138 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/Screenshot-2026-09-30-at-15.40.58.png?resize=768,352 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/Screenshot-2026-09-30-at-15.40.58.png?resize=1024,470 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/Screenshot-2026-09-30-at-15.40.58.png?resize=1536,705 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/Screenshot-2026-09-30-at-15.40.58.png?resize=2048,939 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/Screenshot-2026-09-30-at-15.40.58.png?resize=600,275 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
-<p>As enterprise organizations adopt <strong>VMware Cloud Foundation (VCF)</strong>, the <strong>VMware vSphere Kubernetes Service (VKS)</strong> becomes the bridge to modern scale, enabling platform engineering teams to deliver standardized Kubernetes environments on private cloud infrastructure. However, as highlighted by <strong>Hugo Phan</strong> and <strong>Skand Purohit</strong> in VMware Explore Session <a href="https://www.vmware.com/explore/video/6403820647112" target="_blank" rel="noreferrer noopener"><strong>#APPB1147LV</strong></a>, standing up a Kubernetes cluster is only half the battle. The real challenge lies in architecting a secure-by-design DevOps ecosystem that balances developer velocity with enterprise governance and control.</p>
-<p>Enterprise DevOps and security teams frequently face three operational hurdles when expanding cloud-native workloads on-premises:</p>
-<ol class="wp-block-list">
-<li><strong>Fragmented Tooling and Friction: </strong>Developers do not want to abandon familiar public cloud pipelines or re-learn internal toolchains.</li>
-<li><strong>Delivery Security Risks: </strong>Static, long-lived kubeconfig files or service account tokens stored in pipeline variables expose production clusters to significant security vulnerabilities.</li>
-<li><strong>Observability and Secret Governance Gaps: </strong>Deploying workloads without automated supply chain scanning, runtime secret injection, and closed-loop Application Performance Monitoring (APM) guardrails increases operational toil.</li>
-</ol>
-<p>This technical deep dive presents a production-ready blueprint that integrates VKS directly into enterprise DevOps stacks using <strong>GitHub, Harness, Wiz, Artifactory, Dynatrace, and the VCF Secret Store</strong>. By transforming VKS into both an <strong>ephemeral build infrastructure</strong> and a <strong>secure application runtime platform</strong>, organizations can maximize their VCF investment without ripping and replacing existing tooling.</p>
-<h1 class="wp-block-heading"><strong>Architectural Mapping: Public Cloud (AWS) to On-Premises VCF / VKS</strong></h1>
-<p>A common misconception among platform architecture teams is that migrating from hyperscalers (such as AWS) to on-premises private cloud requires rebuilding delivery pipelines from scratch. As demonstrated in the session, VMware Cloud Foundation provides 1:1 functional equivalency for public cloud native constructs.</p>
-<div class="wp-block-image">
-<figure class="aligncenter size-large"><img loading="lazy" decoding="async" height="487" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/09/image_68e6ce.png" alt="" class="wp-image-34402" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_68e6ce.png 2010w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_68e6ce.png?resize=300,143 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_68e6ce.png?resize=768,365 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_68e6ce.png?resize=1024,487 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_68e6ce.png?resize=1536,731 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_68e6ce.png?resize=600,285 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><figcaption class="wp-element-caption"><em>Figure 1: Architectural Mapping between AWS Public Cloud and VCF / VKS On-Premises Stack</em></figcaption></figure>
-</div>
-<h2 class="wp-block-heading" id="h-the-supervisor-architecture-and-paravirtualization"><strong>The Supervisor Architecture and Paravirtualization</strong></h2>
-<p>At the core of VCF lies the <strong>vSphere Supervisor</strong>. By exposing declarative Kubernetes Custom Resource Definitions (CRDs) directly at the vSphere control plane, the Supervisor translates declarative YAML manifests down to underlying VMware infrastructure resources without forcing developers to interact with vCenter UI.</p>
-<pre class="crayon-plain-tag"># Declarative Infrastructure CRDs exposed on vSphere Supervisor
-apiVersion: vmoperator.vmware.com/v1
-kind: VirtualMachine
-metadata:
-  name: travel-portal-app
-spec:
-  className: best-effort-large
-  imageName: ubuntu-22.04-vks
-  powerState: poweredOn
----
-apiVersion: cluster.x-k8s.io/v1beta1
-kind: Cluster
-metadata:
-  name: vks-prod-cluster-01
-spec:
-  topology:
-    version: v1.30.1+vmware.1
-    controlPlane:
-      replicas: 3
-    workers:
-      machineDeployments:
-        - class: node-pool-large
-          replicas: 3</pre>
-<p>When requests hit the Supervisor API Server, dedicated controllers coordinate resource instantiation:</p>
-<ul class="wp-block-list">
-<li><strong>VKS Controller and VM Operator: </strong>Translates Cluster API specifications into vCenter API calls to provision virtual machines for control plane and worker nodes.</li>
-<li><strong>Network Plugins and Operators (CNI and AKO): </strong>Interfaces with NSX and Avi Load Balancer to dynamically assign IP addresses, configure VPC subnets, and publish L4/L7 load balancer virtual IPs.</li>
-</ul>
-<p><strong>CSI Controller: </strong>Binds persistent volumes to vSAN storage policies, providing paravirtualized storage access to guest cluster workloads.</p>
-<h1 class="wp-block-heading" id="h-the-end-to-end-devops-architecture-and-software-supply-chain"><strong>The End-to-End DevOps Architecture and Software Supply Chain</strong></h1>
-<p>To achieve a secure, automated software supply chain, the blueprint integrates six core ecosystem components operating across dual VKS clusters:</p>
-<div class="wp-block-image">
-<figure class="aligncenter size-large"><img loading="lazy" decoding="async" height="485" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/09/image_926e3b.png" alt="" class="wp-image-34403" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_926e3b.png 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_926e3b.png?resize=300,142 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_926e3b.png?resize=768,364 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_926e3b.png?resize=1024,485 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_926e3b.png?resize=1536,728 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_926e3b.png?resize=600,284 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><figcaption class="wp-element-caption"><em>Figure 2: End-to-End Software Supply Chain and GitOps Pipeline Architecture</em></figcaption></figure>
-</div>
-<h2 class="wp-block-heading"><strong>Key Architectural Innovations</strong></h2>
-<ul class="wp-block-list">
-<li><strong>Dual-Cluster Topology and Ephemeral Build Pods: </strong>Harness CI leverages a dedicated VKS Build Cluster. Build steps execute as short-lived, ephemeral Kubernetes pods that auto-terminate upon completion, eliminating workspace pollution and reducing attack surface.</li>
-<li><strong>Secure OIDC Authentication (No Static Kubeconfig Files): </strong>To eliminate the risk of embedding static kubeconfig files or cluster admin tokens in CI/CD platforms, Broadcom and Harness co-engineered VKS OIDC Integration. The Harness Delegate requests a short-lived OIDC identity token from the enterprise Identity Provider (IDP). The target VKS production cluster validates the token dynamically, granting ephemeral RBAC authorization before self-expiring.</li>
-<li><strong>Dual-Stage Wiz Security Gates: </strong>Pre-build CLI scans source code for static vulnerabilities and secrets before compilation; post-build scans pull container images directly from Artifactory to verify base image layers before authorizing CD promotion.</li>
-<li><strong>Runtime Secret Injection via VCF Secret Store: </strong>Workloads deployed to VKS consume sensitive database credentials directly from the supervisor-integrated VCF Secret Store. The VKS Vault Injector intercepts pod creation, dynamically mounting credentials into memory at /vault/secrets without persisting secrets in Git or container images.</li>
-</ul>
-<h1 class="wp-block-heading"><strong>Deep Dive: Live Demo Walkthrough by Skand Purohit</strong></h1>
-<p>During the breakout session, Skand Purohit walked through a live demonstration showcasing an automated application update for a Go-based microservice application titled <strong>Travel Portal</strong>. Below is the complete step-by-step execution path recorded in the session demo:</p>
-<p><strong>Step 1: Code Modification and Git Commit in VS Code</strong><strong><br /></strong>The developer opens the Travel Portal repository in VS Code and modifies web/templates/login.html, updating the title header from &#8216;Travel Portal&#8217; to &#8216;Travel Explore Portal&#8217;. The commit is pushed to GitHub.</p>
-<p><strong>Step 2: Webhook Interception and Ephemeral Harness CI Execution</strong><strong><br /></strong>GitHub fires a webhook payload to Harness CI, triggering the travel-portal-explore pipeline. Harness schedules ephemeral build pods inside the dedicated NS-01 namespace on the VKS Build Cluster.</p>
-<p><strong>Step 3: Wiz Pre-Build Source Code and Secret Scan</strong><strong><br /></strong>Before compiling binaries, the Wiz CLI scans source code for static vulnerabilities and embedded secrets. Upon verification, the build proceeds.</p>
-<p><strong>Step 4: Container Compilation and Artifactory Registry Push</strong><strong><br /></strong>The build pod compiles the Go binary, packages it into a chiseled container image, tags it with the build ID, and pushes it to Artifactory.</p>
-<p><strong>Step 5: Wiz Image Vulnerability Scanning and Promotion Gate</strong><strong><br /></strong>Harness triggers a post-build Wiz scan. Wiz pulls the image digest from Artifactory, performing a layer-by-layer security check before approving CD promotion.</p>
-<p><strong>Step 6: GitOps CD Deployment with Short-Lived OIDC Authentication</strong><strong><br /></strong>Harness CD requests a short-lived OIDC token from the enterprise IDP and executes a rolling update deployment targeting the travel-portal namespace on the VKS production cluster.</p>
-<p><strong>Step 7: Runtime Secret Injection via VCF Secret Store</strong><strong><br /></strong>As VKS schedules the pods, the VKS Vault Injector intercepts creation, fetching database credentials managed on the Supervisor and mounting them into memory at /vault/secrets/db-creds.</p>
-<p><strong>Step 8: Layer 7 Gateway API Routing with Contour and Envoy Proxy</strong><strong><br /></strong>Traffic ingress is configured using the Kubernetes Gateway API and Contour add-on, routing requests sent to travelportal.safet.io directly into Envoy VIPs.</p>
-<p><strong>Step 9: UI and Injected Secret Verification</strong><strong><br /></strong>Navigating to http://travelportal.safet.io confirms the updated &#8216;Travel Explore Portal&#8217; header is live and database login succeeds using dynamically mounted Vault secrets.</p>
-<p><strong>Step 10: Full-Stack Observability and Guardrails with Dynatrace</strong><strong><br /></strong>Dynatrace ingests real-time telemetry. If deployment SLOs are violated, Harness automatically triggers an automated rollback to the previous stable revision.</p>
-<div class="wp-block-image">
-<figure class="aligncenter size-large"><img loading="lazy" decoding="async" height="445" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/09/image_633de8.png" alt="" class="wp-image-34404" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_633de8.png 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_633de8.png?resize=300,130 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_633de8.png?resize=768,334 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_633de8.png?resize=1024,445 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_633de8.png?resize=1536,668 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/image_633de8.png?resize=600,261 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><figcaption class="wp-element-caption"><em>Figure 3: Layer 7 Ingress Traffic Routing via Contour Control Plane and Envoy Data Plane</em></figcaption></figure>
-</div>
-<h1 class="wp-block-heading"><strong>Enterprise Customer Adoption Patterns</strong></h1>
-<p>Enterprise organizations across sectors are actively implementing this VKS ecosystem architecture to modernize private cloud operations:</p>
-<figure class="wp-block-table">
-<table class="has-fixed-layout">
-<tbody>
-<tr>
-<td><strong>Industry Sector</strong></td>
-<td><strong>Primary Business Driver</strong></td>
-<td><strong>Ecosystem Integration Pattern</strong></td>
-</tr>
-<tr>
-<td><strong>Global Commercial Airline</strong></td>
-<td>Replicate AWS DevOps practices on-premises with zero pipeline modification</td>
-<td>Harness + VKS + Wiz + Dynatrace + Artifactory + GitHub</td>
-</tr>
-<tr>
-<td><strong>Healthcare Organization</strong></td>
-<td>Lower TCO by replacing Anthos clusters with native VKS environments</td>
-<td>GitHub Actions + VKS + Harbor + Dynatrace</td>
-</tr>
-<tr>
-<td><strong>Financial Services (FSI)</strong></td>
-<td>Expand cloud-native footprint while strengthening security compliance</td>
-<td>Harness + VKS + Wiz + Dynatrace + CyberArk + GitLab</td>
-</tr>
-<tr>
-<td><strong>Financial Services (FSI)</strong></td>
-<td>Reduce licensing costs by migrating bare-metal OpenShift to VCF/VKS</td>
-<td>Argo CD + VKS + VCF Supervisor Services</td>
-</tr>
-</tbody>
-</table>
-</figure>
-<h1 class="wp-block-heading" id="h-key-takeaways-and-getting-started"><strong>Key Takeaways and Getting Started</strong></h1>
-<p>Transforming your VMware Cloud Foundation deployment into a high-velocity application platform boils down to five fundamental principles:</p>
-<ul class="wp-block-list">
-<li><strong>Preserve Developer Experience: </strong>Bring VKS into your existing DevOps ecosystem rather than forcing developers to adapt to proprietary platform tools.</li>
-<li><strong>Build Once, Promote Everywhere: </strong>Maintain artifact consistency by promoting the exact container image digest across environments after passing security gates.</li>
-<li><strong>Automate Security and Eliminate Static Credentials: </strong>Enforce pre/post-build Wiz scanning and eliminate static kubeconfig files using short-lived OIDC tokens and VCF Vault secrets.</li>
-<li><strong>Extend Observability into Deployment: </strong>Close the loop with Dynatrace telemetry to validate SLOs and automate deployment rollbacks.</li>
-</ul>
-<p><strong>Maximize VCF ROI: </strong>Leverage VKS to turn private cloud infrastructure into an automated, self-service developer platform.</p>
-<p><strong>Explore Session Resources:<br /></strong>• Watch Session Video (Explore Video Archive <a href="https://www.vmware.com/explore/video/6403820647112">#APPB1147LV</a>)<br />• GitHub Consumption Models Repository: <a href="https://github.com/vmware/vks-consumption-models/tree/main/ecosystem-integration/harness-artifactory-dynatrace-wiz-secretstore" target="_blank" rel="noreferrer noopener">https://github.com/vmware/vks-consumption-models/tree/main/ecosystem-integration/harness-artifactory-dynatrace-wiz-secretstore</a></p>
-<h1 class="wp-block-heading"><strong>Frequently Asked Questions</strong></h1>
-<p>Here is an FAQ section tailored to help <strong>VI Admins</strong>, <strong>Platform Engineers</strong>, and <strong>Application Developers</strong> quickly grasp the key takeaways, operational impacts, and architectural choices outlined in the blog post.</p>
-<hr class="wp-block-separator has-alpha-channel-opacity" />
-<h2 class="wp-block-heading" id="h-for-the-vi-admin-vsphere-and-infrastructure-administrator"><strong>For the VI Admin (vSphere and Infrastructure Administrator)</strong></h2>
-<p><strong>Q: How does VMware vSphere Kubernetes Service (VKS) fit into my existing vCenter infrastructure? Do I need to learn Kubernetes to support my app teams?</strong><strong><br /></strong> <strong>A:</strong> VKS runs natively on top of the <strong>vSphere Supervisor</strong>, turning vSphere compute, storage, and networking into a declarative Kubernetes platform. You continue managing underlying physical clusters, ESXi hosts, and vSphere Namespaces using familiar vCenter controls and storage policies. Developers consume Kubernetes APIs directly, while internal Supervisor controllers (such as <strong>VM Operator</strong> and <strong>Network Operator</strong>) automatically handle VM instantiation and networking in the background.</p>
-<p><strong>Q: How are network load balancers and IP addresses dynamically provisioned for VKS clusters?</strong><strong><br /></strong> <strong>A:</strong> Through the <strong>Network Operator (AKO)</strong> running on the Supervisor, VKS interfaces directly with <strong>NSX Advanced Load Balancer (Avi)</strong>. When a developer or platform engineer requests a Kubernetes Service or Gateway API resource, AKO automatically provisions virtual IPs (VIPs) and configures L4/L7 load balancing without requiring manual network ticket requests.</p>
-<p><strong>Q: Where do application secrets live, and how are they protected from being exposed on vSphere storage or hosts?</strong><strong><br /></strong> <strong>A:</strong> Sensitive credentials (such as database passwords and API keys) are managed natively via the <strong>VCF Secret Store</strong>. Using the supervisor-integrated <strong>VKS Vault Injector</strong>, secrets are injected directly into pod memory at runtime under /vault/secrets and are never written to disk, stored in Git repositories, or exposed in vCenter VM properties.</p>
-<hr class="wp-block-separator has-alpha-channel-opacity" />
-<h2 class="wp-block-heading" id="h-for-the-platform-engineer-devops-and-k8s-platform-architect"><strong>For the Platform Engineer (DevOps and K8s Platform Architect)</strong></h2>
-<p><strong>Q: Why should we use short-lived OIDC tokens instead of static </strong><strong>kubeconfig</strong><strong> files or service account tokens in our CI/CD pipelines?</strong><strong><br /></strong> <strong>A:</strong> Storing static kubeconfig files or cluster-admin tokens inside CI/CD pipeline secrets creates a high-severity security vulnerability. With the co-engineered <strong>Harness OIDC Integration</strong>, the Harness Delegate requests short-lived OIDC identity tokens from your central Identity Provider (IdP) per build execution. The target VKS cluster validates the token on the fly, grants temporary RBAC privileges for the deployment, and auto-expires the session immediately afterward.</p>
-<p><strong>Q: What is the benefit of a dual-cluster topology with ephemeral build pods for CI/CD?</strong><strong><br /></strong> <strong>A:</strong> Isolating build workloads on a dedicated <strong>VKS Build Cluster</strong> (NS-01) ensures that resource-heavy compilation and container packaging tasks do not impact production application workloads. Running build steps inside ephemeral pods means workspace environments are completely fresh, self-contained, and automatically destroyed after execution, preventing workspace pollution and reducing attack surfaces.</p>
-<p><strong>Q: How does the pipeline enforce supply chain security before code reaches production?</strong><strong><br /></strong> <strong>A:</strong> The architecture implements a two-stage <strong>Wiz security gate</strong>:</p>
-<ol class="wp-block-list">
-<li><strong>Pre-Build Scan</strong>: The Wiz CLI scans git source code commits for static vulnerabilities and embedded credentials before binary compilation.</li>
-<li><strong>Post-Build Scan</strong>: Once the image is pushed to <strong>JFrog Artifactory</strong>, Wiz pulls the image layers directly from the registry to inspect base dependencies. Harness CD requires an explicit security gate approval from Wiz before initiating deployment to VKS.</li>
-</ol>
-<p><strong>Q: How do we prevent bad deployments from impacting users if a performance degradation occurs?</strong><strong><br /></strong> <strong>A:</strong> <strong>Dynatrace APM</strong> continuously monitors real-time telemetry, pod health, and response latency against predefined Service Level Objectives (SLOs). If a new deployment violates an SLO (e.g., error rate spike), Harness triggers an automated closed-loop rollback to the previous stable revision without manual intervention.</p>
-<hr class="wp-block-separator has-alpha-channel-opacity" />
-<h2 class="wp-block-heading" id="h-for-the-application-developer-software-and-microservice-developer"><strong>For the Application Developer (Software and Microservice Developer)</strong></h2>
-<p><strong>Q: Do I need to rewrite my application manifests or pipelines when moving microservices from AWS (EKS) to VKS on-premises?<br /></strong> <strong>A:</strong> No. VKS is a fully conformant Kubernetes runtime. Because VCF maps 1:1 with AWS constructs (EKS → VKS, ECR → Artifactory/Harbor, ALB → Avi and Contour, EBS → vSAN CSI), your existing YAML manifests, Helm charts, and GitHub webhooks work without architectural refactoring.</p>
-<p><strong>Q: How does my microservice securely consume database credentials at runtime without hardcoded config files?</strong><strong><br /></strong> <strong>A:</strong> You don&#8217;t need to bake credentials into environment variables or container images. The <strong>VKS Vault Injector</strong> intercepts pod creation and automatically mounts database credentials as a virtual file at /vault/secrets/db-creds. Your application simply reads the credential file from disk at startup.</p>
-<p><strong>Q: How does Layer 7 ingress and web routing work for my VKS microservices?</strong><strong><br /></strong> <strong>A:</strong> VKS uses the modern <strong>Kubernetes Gateway API</strong> managed by <strong>Contour</strong> (control plane) and <strong>Envoy Proxy</strong> (data plane). You declare standard Gateway and HTTPRoute resources in your namespace to map custom hostnames (e.g., travelportal.sfo.io) directly to your backend service endpoints.</p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/09/30/streamlining-ci-cd-on-vmware-vsphere-kubernetes-service-with-harness-wiz-artifactory-dynatrace-and-the-vcf-secret-store/">Streamlining CI/CD on VMware vSphere Kubernetes Service with Harness, Wiz, Artifactory, Dynatrace and the VCF Secret Store</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/09/30/streamlining-ci-cd-on-vmware-vsphere-kubernetes-service-with-harness-wiz-artifactory-dynatrace-and-the-vcf-secret-store/">Streamlining CI/CD on VMware vSphere Kubernetes Service with Harness, Wiz, Artifactory, Dynatrace and the VCF Secret Store</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10103257</post-id>	</item>
-		<item>
-		<title>VMware Explore on Tour 2026 &#124; Season Recap</title>
-		<link>https://blogs.vmware.com/explore/explore-on-tour-recap-2026/</link>
-		
-		<dc:creator><![CDATA[ashley woodbury]]></dc:creator>
-		<pubDate>Wed, 30 Sep 2026 12:30:00 +0000</pubDate>
-				<category><![CDATA[Company]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10103266</guid>
-
-					<description><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3087.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Explore on Tour 2026 The energy from Las Vegas is taking the global stage. Explore on Tour is bringing technical training, expert access, and certification opportunities directly to regional tech hubs across the world. Designed for IT practitioners seeking practical knowledge, each tour stop offers direct access to the VMware software architects behind today&#8217;s private &#8230; <a href="https://blogs.vmware.com/explore/explore-on-tour-recap-2026/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/explore/explore-on-tour-recap-2026/">VMware Explore on Tour 2026 | Season Recap</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3087.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3087.jpg" class="attachment-medium size-medium wp-post-image" alt="VMware Explore on Tour plenary stage" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3087.jpg 1920w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3087.jpg?resize=300,169 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3087.jpg?resize=768,432 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3087.jpg?resize=1024,576 1024w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3087.jpg?resize=1536,864 1536w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3087.jpg?resize=752,423 752w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3087.jpg?resize=576,324 576w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3087.jpg?resize=600,338 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<h1 class="wp-block-heading has-text-align-center" id="h-explore-on-tour-2026"><strong>Explore on Tour 2026</strong></h1>
-</p>
-<div class="wp-block-image is-style-rounded">
-<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" height="683" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3062.jpg" alt="VMware Explore on Tour" class="wp-image-8225" style="width:682px;height:auto" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3062.jpg 1920w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3062.jpg?resize=300,200 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3062.jpg?resize=768,512 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3062.jpg?resize=1024,683 1024w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3062.jpg?resize=1536,1025 1536w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3062.jpg?resize=600,400 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
-</div>
-<p>The energy from Las Vegas is <a href="https://blogs.vmware.com/explore/save-the-date/" target="_blank" rel="noreferrer noopener"><strong>taking the global stage</strong></a>. Explore on Tour is bringing technical training, expert access, and certification opportunities directly to regional tech hubs across the world.</p>
-<p>Designed for IT practitioners seeking practical knowledge, each tour stop offers direct access to the VMware software architects behind today&#8217;s private cloud solutions. Read on for the latest updates from each city on the schedule.</p>
-</p>
-<figure class="wp-block-image size-large is-resized"><img loading="lazy" decoding="async" width="616" height="40" src="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Wavy-Line-Divider-Straight-Top.png?w=616" alt="Divider Line - Spicy color" class="wp-image-4160" style="width:840px;height:auto" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Wavy-Line-Divider-Straight-Top.png 616w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Wavy-Line-Divider-Straight-Top.png?resize=300,19 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Wavy-Line-Divider-Straight-Top.png?resize=600,39 600w" sizes="auto, (max-width: 616px) 100vw, 616px" /></figure>
-</p>
-<h2 class="wp-block-heading has-text-align-center" id="h-mumbai-29-30-september-2026"><strong><span style="text-decoration: underline;">Mumbai | 29 – 30 September 2026</span></strong></h2>
-<p>The global tour kicked off at the Jio World Convention Centre with an incredible turnout of Broadcom customers and IT specialists. Attendees dove into deep technical content focused on VCF platform management, network security, and modern app development.</p>
-<p>Key highlights included a packed plenary session with standing room only, consistently full VMware Hands-on Labs stations, and practitioners earning onsite certifications where every exam seat was claimed. Add in some dynamic networking and exhibitor interactions on top of that, and attendees fast tracked on their way to private cloud and modern workload success.</p>
-<figure class="wp-block-gallery aligncenter has-nested-images columns-default is-cropped wp-block-gallery-1 is-layout-flex wp-block-gallery-is-layout-flex">
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="800" height="533" data-id="8239" src="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A5420.jpg" alt="" class="wp-image-8239" srcset="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A5420.jpg 800w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A5420.jpg?resize=300,200 300w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A5420.jpg?resize=768,512 768w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A5420.jpg?resize=600,400 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="800" height="534" data-id="8226" src="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3356.jpg" alt="VMware Explore on Tour in Mumbai Expert - Attendee Access" class="wp-image-8226" srcset="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3356.jpg 800w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3356.jpg?resize=300,200 300w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3356.jpg?resize=768,513 768w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3356.jpg?resize=600,401 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="800" height="534" data-id="8228" src="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3707.jpg" alt="VMware Explore on Tour in Mumbai Attendee Audience" class="wp-image-8228" srcset="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3707.jpg 800w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3707.jpg?resize=300,200 300w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3707.jpg?resize=768,513 768w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3707.jpg?resize=600,401 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="800" height="534" data-id="8227" src="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3529.jpg" alt="VMware Explore on Tour in Mumbai Expert - Attendee Access" class="wp-image-8227" srcset="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3529.jpg 800w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3529.jpg?resize=300,200 300w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3529.jpg?resize=768,513 768w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3529.jpg?resize=600,401 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="800" height="533" data-id="8231" src="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A4428.jpg" alt="Speaker on stage at VMware Explore on Tour in Mumbai" class="wp-image-8231" srcset="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A4428.jpg 800w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A4428.jpg?resize=300,200 300w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A4428.jpg?resize=768,512 768w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A4428.jpg?resize=600,400 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="800" height="534" data-id="8234" src="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A4918.jpg" alt="VMware Explore on Tour in Mumbai Expert - Attendee Access" class="wp-image-8234" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A4918.jpg 800w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A4918.jpg?resize=300,200 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A4918.jpg?resize=768,513 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A4918.jpg?resize=600,401 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="800" height="534" data-id="8238" src="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A5047.jpg" alt="" class="wp-image-8238" srcset="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A5047.jpg 800w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A5047.jpg?resize=300,200 300w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A5047.jpg?resize=768,513 768w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A5047.jpg?resize=600,401 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="800" height="533" data-id="8235" src="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A5472.jpg" alt="VMware Explore on Tour in Mumbai HOL Training and Attendee Certifications " class="wp-image-8235" srcset="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A5472.jpg 800w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A5472.jpg?resize=300,200 300w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A5472.jpg?resize=768,512 768w, https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A5472.jpg?resize=600,400 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" width="800" height="534" data-id="8237" src="https://blogs.vmware.com/wp-content/uploads/2026/09/0U2A3721.jpg" alt="VMware Explore on Tour in Mumbai Attendee Audience" class="wp-image-8237" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3721.jpg 800w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3721.jpg?resize=300,200 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3721.jpg?resize=768,513 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/0U2A3721.jpg?resize=600,401 600w" sizes="auto, (max-width: 800px) 100vw, 800px" /></figure>
-</figure>
-<div class="wp-block-image">
-<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" width="600" height="3" src="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?w=600" alt="Divider Line - Spicy color" class="wp-image-4157" style="width:4000px;height:auto" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png 600w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?resize=300,2 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?resize=576,3 576w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2024/05/Rainbow-Divider-Line.png?resize=360,3 360w" sizes="auto, (max-width: 600px) 100vw, 600px" /></figure>
-</div>
-<h2 class="wp-block-heading has-text-align-center" id="h-track-the-global-tour"><strong><span style="text-decoration: underline;">Track the Global Tour</span></strong></h2>
-<p>As Explore on Tour continues its journey, each city will deliver tailored technical content, interactive demos, and local networking opportunities. Bookmark this post and check back after each stop for fresh updates, key learnings, and event photography.</p>
-<p><strong><a href="https://www.vmware.com/explore?int_cid=vmwx_exploreblog" target="_blank" rel="noreferrer noopener">Full Tour Schedu</a><a href="https://www.vmware.com/explore?int_cid=vmwx_exploreblog">le:</a></strong></p>
-<ul class="wp-block-list">
-<li>Mumbai | 29 – 30 September 2026</li>
-<li>Singapore | 1 – 2 October 2026</li>
-<li>Frankfurt | 13 – 14 October 2026</li>
-<li>Tokyo | 20 – 21 October 2026</li>
-<li>London | 18 – 19 November 2026</li>
-<li>Washington, D.C. | 8 December 2026 | Public Sector</li>
-<li>Sydney | 3 – 4 March 2027</li>
-</ul>
-<hr />
-<p><em>Whether you’re leveling up your VMware software expertise or meeting local peers who “get it,” #VMwareExplore on Tour is the place to be. Get the 2026 events recap here!</em><br /><a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fblogs.vmware.com%2Fexplore%2Fexplore-on-tour-recap-2026%2F&#038;text=Whether%20you%E2%80%99re%20leveling%20up%20your%20VMware%20software%20expertise%20or%20meeting%20local%20peers%20who%20%E2%80%9Cget%20it%2C%E2%80%9D%20%23VMwareExplore%20on%20Tour%20is%20the%20place%20to%20be.%20Get%20the%202026%20events%20recap%20here%21&#038;related" target="_blank" rel="noopener noreferrer">Share on X</a></p>
-<hr />
-</p>
-<div class="wp-block-image">
-<figure class="aligncenter size-full"><a href="https://www.vmware.com/explore?int_cid=vmwx_exploreblog" target="_blank" rel=" noreferrer noopener"><img loading="lazy" decoding="async" width="1080" height="596" src="https://blogs.vmware.com/wp-content/uploads/2026/09/Explore-2026-Global-Map_1080x595-1.png" alt="Map of the Globe with city map points for each stop during VMware Explore on and Explore on Tour 2026" class="wp-image-7255" srcset="https://blogs.vmware.com/wp-content/uploads/2026/09/Explore-2026-Global-Map_1080x595-1.png 1080w, https://blogs.vmware.com/wp-content/uploads/2026/09/Explore-2026-Global-Map_1080x595-1.png?resize=300,166 300w, https://blogs.vmware.com/wp-content/uploads/2026/09/Explore-2026-Global-Map_1080x595-1.png?resize=768,424 768w, https://blogs.vmware.com/wp-content/uploads/2026/09/Explore-2026-Global-Map_1080x595-1.png?resize=1024,565 1024w, https://blogs.vmware.com/wp-content/uploads/2026/09/Explore-2026-Global-Map_1080x595-1.png?resize=600,331 600w" sizes="auto, (max-width: 1080px) 100vw, 1080px" /></a></figure>
-</div>
-<h2 class="wp-block-heading has-text-align-center" id="h-one-stop-down-many-more-yet-to-go-vmware-explore-on-tour-2026-is-delivering-knowledge-skills-and-connections-city-by-city"><strong>One stop down, many more yet to go—VMware Explore on Tour 2026 is delivering knowledge, skills, and connections city by city.</strong></h2>
-</p>
-<div class="wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-16018d1d wp-block-buttons-is-layout-flex">
-<div class="wp-block-button"><a class="wp-block-button__link has-white-color has-text-color has-background has-link-color has-text-align-center wp-element-button" href="https://news.broadcom.com/releases/vmware-explore-2026?int_cid=vmwx_exploreblog" style="background-color:#1d428a" target="_blank" rel="noreferrer noopener"><strong>GET THE PRESS RELEASE</strong></a></div>
-</div>
-<p class="has-text-align-center"><strong>If we’re coming to your region, secure your pass and prepare to get inspired, immerse in the latest tech innovation, and find your people. Learn more about each event through the <a href="https://www.vmware.com/explore?int_cid=vmwx_exploreblog" target="_blank" rel="noreferrer noopener">Explore Website</a> and reserve your spot.</strong>&nbsp;</p>
-</p>
-<div class="wp-block-image">
-<figure class="aligncenter size-large"><img loading="lazy" decoding="async" height="138" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/09/68729-Explore-on-Tour-Email-Headers-1479x200-1.jpg" alt="Explore on Tour branded banner" class="wp-image-8221" srcset="https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/68729-Explore-on-Tour-Email-Headers-1479x200-1.jpg 1479w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/68729-Explore-on-Tour-Email-Headers-1479x200-1.jpg?resize=300,41 300w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/68729-Explore-on-Tour-Email-Headers-1479x200-1.jpg?resize=768,104 768w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/68729-Explore-on-Tour-Email-Headers-1479x200-1.jpg?resize=1024,138 1024w, https://blogs.vmware.com/explore/wp-content/uploads/sites/139/2026/09/68729-Explore-on-Tour-Email-Headers-1479x200-1.jpg?resize=600,81 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
-</div>
-<p class="has-text-align-center"><strong>If you missed our flagship gathering in Nevada, catch up on our previous coverage in the <a href="https://blogs.vmware.com/explore/?s=2026+recap" target="_blank" rel="noreferrer noopener">VMware Explore 2026 in Las Vegas recaps.</a></strong></p>
-<p>The post <a href="https://blogs.vmware.com/explore/explore-on-tour-recap-2026/">VMware Explore on Tour 2026 | Season Recap</a> appeared first on <a href="https://blogs.vmware.com/explore">VMware Explore Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/explore/explore-on-tour-recap-2026/">VMware Explore on Tour 2026 | Season Recap</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10103266</post-id>	</item>
 	</channel>
 </rss>
