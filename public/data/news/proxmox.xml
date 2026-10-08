@@ -4,14 +4,121 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Wed, 07 Oct 2026 22:29:00 +0000</pubDate>
-    <lastBuildDate>Wed, 07 Oct 2026 22:29:00 +0000</lastBuildDate>
+    <pubDate>Thu, 08 Oct 2026 03:39:31 +0000</pubDate>
+    <lastBuildDate>Thu, 08 Oct 2026 03:39:31 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
+      <title>Proxmox VE 9.2.21 - BCM57412 bnxt_en network failure after upgrade to kernel 7.0.14-20-pve</title>
+      <pubDate>Thu, 08 Oct 2026 03:14:58 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-21-bcm57412-bnxt_en-network-failure-after-upgrade-to-kernel-7-0-14-20-pve.186749/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186749</guid>
+      <author>invalid@example.com (ManuS)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>ManuS</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+After upgrade on my test cluster using no-subscription repository, broadcom network card failed to load<br />
+<br />
+Environment:<br />
+<br />
+- Proxmox VE 9.2.21<br />
+<br />
+- No-subscription repository<br />
+<br />
+- Dell XC750-14 CORE<br />
+<br />
+- Broadcom BCM57412 NetXtreme-E 10Gb<br />
+<br />
+- Firmware 236.1.167.0<br />
+<br />
+- Driver bnxt_en<br />
+<br />
+ <br />
+<br />
+Problem:<br />
+<br />
+After upgrading to kernel 7.0.14-20-pve and rebooting, the management network becomes unavailable.<br />
+<br />
+ <br />
+<br />
+Observed errors:<br />
+bnxt_init_nic err: fffffff3<br />
+nic open fail (rc: fffffff3)<br />
+NETDEV WATCHDOG: transmit...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-21-bcm57412-bnxt_en-network-failure-after-upgrade-to-kernel-7-0-14-20-pve.186749/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>75</slash:comments>
+    </item>
+    <item>
+      <title>bnx2x Network Card Driver stopped working (NetXtreme II BCM57810 10 Gigabit Ethernet NIC)</title>
+      <pubDate>Thu, 08 Oct 2026 02:44:21 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/bnx2x-network-card-driver-stopped-working-netxtreme-ii-bcm57810-10-gigabit-ethernet-nic.164056/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:164056</guid>
+      <author>invalid@example.com (Flashnet)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Flashnet</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello all.<br />
+<br />
+Our 10GB network card recently stopped working out of the blue. <br />
+<br />
+The interfaces are shown as present but wont come up<br />
+<br />
+
+
+<div class="bbCodeSpoiler">
+	<button type="button" class="button bbCodeSpoiler-button button--longText" data-xf-click="toggle" data-xf-init="tooltip" title="Click to reveal or hide spoiler"><span class="button-text">
+
+		<span>Spoiler: <span class="bbCodeSpoiler-button-title">ip link list</span></span>
+	</span></button>
+	<div class="bbCodeSpoiler-content">
+		<div class="bbCodeBlock bbCodeBlock--spoiler">
+			<div class="bbCodeBlock-content">root@:~# ip link list<br />
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000<br />
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00<br />
+2: eno1: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast master vmbr0 state UP mode DEFAULT group default qlen 1000<br />
+    link/ether 84:69:93:85:64:fb brd...</div>
+		</div>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/bnx2x-network-card-driver-stopped-working-netxtreme-ii-bcm57810-10-gigabit-ethernet-nic.164056/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Setting up remote access to the Gui - From outside the local network</title>
+      <pubDate>Thu, 08 Oct 2026 01:56:44 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/setting-up-remote-access-to-the-gui-from-outside-the-local-network.178149/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:178149</guid>
+      <author>invalid@example.com (avduo)</author>
+      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
+      <dc:creator>avduo</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi all,<br />
+<br />
+Fairly new to severs/proxmox and looking for a way to access the proxmox gui from when I&#039;m not in the local network.<br />
+<br />
+After googling for a while haven&#039;t come up with any tutorials just a direction via a vpn, but what are the options with this? <br />
+<br />
+Going by the research I have tried with wireguard, but seem to missing something as can&#039;t seem to get it working. Any information on this would be gratefully received.<br />
+<br />
+Thanks for taking the time to read this post.</div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
+    <item>
+      <title>Cephx Key Migration Procedure and Ceph 19.2 Squid Going EOL Soon</title>
+      <pubDate>Thu, 08 Oct 2026 00:46:35 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/cephx-key-migration-procedure-and-ceph-19-2-squid-going-eol-soon.186276/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186276</guid>
+      <author>invalid@example.com (t.lamprecht)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>t.lamprecht</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Recent security findings and fixes in Ceph make it necessary to upgrade ceph and migrate authentication keys from the <code class="bbCodeInline">aes</code> to the <code class="bbCodeInline">aes256k</code> cipher. This is to address weaknesses in the old Cephx authentication method, especially if your Ceph service networks are not isolated. Upgrading to Ceph Tentacle 20.2.4 or newer, or Ceph Squid 19.2.6 or newer, will trigger new Cephx health errors and warnings for the old <code class="bbCodeInline">aes</code> type. These do not by themselves indicate data loss, data...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/cephx-key-migration-procedure-and-ceph-19-2-squid-going-eol-soon.186276/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>76</slash:comments>
+    </item>
+    <item>
       <title>Is there a solution to VirtViewer 0.11 (SPICE client) occasionally capturing keyboard without focus ?</title>
-      <pubDate>Wed, 07 Oct 2026 22:11:52 +0000</pubDate>
+      <pubDate>Wed, 07 Oct 2026 22:33:35 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/is-there-a-solution-to-virtviewer-0-11-spice-client-occasionally-capturing-keyboard-without-focus.186612/</link>
       <guid isPermaLink="false">urn:xenforo:thread:186612</guid>
       <author>invalid@example.com (shodan)</author>
@@ -32,7 +139,7 @@ But I&#039;d like it would only capture keyboard events when I click on it and f
 I&#039;m just curious, before I...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/is-there-a-solution-to-virtviewer-0-11-spice-client-occasionally-capturing-keyboard-without-focus.186612/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
+      <slash:comments>3</slash:comments>
     </item>
     <item>
       <title>[PVE 9.2.x] How to Fix Broken Kernel Install? Or is this a DKMS issue? (PVE Node is Working, but on Older Kernel)</title>
@@ -85,47 +192,6 @@ Let&#039;s call this machine &quot;pve&quot;. In my house i have a<b> TALKTALK h
 <br />
 <a href="https://forum.proxmox.com/threads/proxmox-with-private-ips-and-router.177147/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE 9.2.21 - BCM57412 bnxt_en network failure after upgrade to kernel 7.0.14-20-pve</title>
-      <pubDate>Wed, 07 Oct 2026 21:22:39 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-21-bcm57412-bnxt_en-network-failure-after-upgrade-to-kernel-7-0-14-20-pve.186749/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186749</guid>
-      <author>invalid@example.com (ManuS)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>ManuS</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-After upgrade on my test cluster using no-subscription repository, broadcom network card failed to load<br />
-<br />
-Environment:<br />
-<br />
-- Proxmox VE 9.2.21<br />
-<br />
-- No-subscription repository<br />
-<br />
-- Dell XC750-14 CORE<br />
-<br />
-- Broadcom BCM57412 NetXtreme-E 10Gb<br />
-<br />
-- Firmware 236.1.167.0<br />
-<br />
-- Driver bnxt_en<br />
-<br />
- <br />
-<br />
-Problem:<br />
-<br />
-After upgrading to kernel 7.0.14-20-pve and rebooting, the management network becomes unavailable.<br />
-<br />
- <br />
-<br />
-Observed errors:<br />
-bnxt_init_nic err: fffffff3<br />
-nic open fail (rc: fffffff3)<br />
-NETDEV WATCHDOG: transmit...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-21-bcm57412-bnxt_en-network-failure-after-upgrade-to-kernel-7-0-14-20-pve.186749/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>73</slash:comments>
     </item>
     <item>
       <title>Single flapping corosync link caused a node to fence itself. Is knet link_mode active the right fix?</title>
@@ -364,49 +430,6 @@ After reading through <a href="https://forum.proxmox.com/threads/why-lvm-thin-ca
 <br />
 <a href="https://forum.proxmox.com/threads/how-to-install-mac-os-x-snow-leopard-10-6-on-pve-8-9.186450/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>EFI, TPM Partitionen</title>
-      <pubDate>Wed, 07 Oct 2026 15:42:19 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/efi-tpm-partitionen.186609/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186609</guid>
-      <author>invalid@example.com (TErxleben)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>TErxleben</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hat jemand vielleicht ein Bestpractice auf Tasche, mit dem ich die o.g. Partitionen von umgestellten WinVMs am liebsten automatisiert an den Anfang verschieben kann?</div>]]></content:encoded>
-      <slash:comments>16</slash:comments>
-    </item>
-    <item>
-      <title>PRTG Sensoren</title>
-      <pubDate>Wed, 07 Oct 2026 15:21:34 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/prtg-sensoren.186790/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186790</guid>
-      <author>invalid@example.com (Guzzo10)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Guzzo10</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo, <br />
-ich suche eine Konfigurationsmöglichkeit, dass ich mit PRTG meinen PVE überwachen kann.<br />
-Leider habe ich dazu noch keine wirkliche Lösung gefunden.<br />
-<br />
-Gruß N</div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Stability Issues Following Major Release Updates</title>
-      <pubDate>Wed, 07 Oct 2026 15:18:41 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/stability-issues-following-major-release-updates.186911/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186911</guid>
-      <author>invalid@example.com (thennerich)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>thennerich</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello all,<br />
-<br />
-we have a server running Proxmox Backup Server here, along with a Proxmox Virtual Environment running a single guest.<br />
-<br />
-The system initially ran without any issues with PBS 3 and PVE 8 and was updated to PBS 4 / PVE 8 in May of this year, following the instructions at <a href="https://pbs.proxmox.com/wiki/Upgrade_from_3_to_4" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://pbs.proxmox.com/wiki/Upgrade_from_3_to_4</a> and <a href="https://pve.proxmox.com/wiki/Upgrade_from_8_to_9" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://pve.proxmox.com/wiki/Upgrade_from_8_to_9</a>. All packages are continuously updated; that is, we started in May with kernel 7.0.2-x and are now...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/stability-issues-following-major-release-updates.186911/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
     </item>
   </channel>
 </rss>
