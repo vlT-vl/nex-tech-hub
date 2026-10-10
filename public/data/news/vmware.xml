@@ -12,7 +12,7 @@
 	<atom:link href="https://blogs.vmware.com/feed" rel="self" type="application/rss+xml" />
 	<link>https://blogs.vmware.com/</link>
 	<description>VMware Blogs</description>
-	<lastBuildDate>Fri, 09 Oct 2026 20:59:33 +0000</lastBuildDate>
+	<lastBuildDate>Fri, 09 Oct 2026 23:18:47 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -20,6 +20,94 @@
 	1	</sy:updateFrequency>
 	<generator>https://wordpress.org/?v=6.8.11</generator>
 <site xmlns="com-wordpress:feed-additions:1">237817777</site>	<item>
+		<title>CRITICAL ADVISORY: Pre-Upgrade Verification Required for vSphere Supervisor and VKS Environments Upgrading to vCenter 9.1.0 or 9.1.1</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/10/09/critical-advisory-pre-upgrade-verification-required-for-vsphere-supervisor-and-vks-environments-upgrading-to-vcenter-9-1-0-or-9-1-1/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Fri, 09 Oct 2026 23:11:43 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10104185</guid>
+
+					<description><![CDATA[<img width="300" height="201" src="https://blogs.vmware.com/wp-content/uploads/2026/10/criticaladvisory.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" fetchpriority="high" /><p>Overview and Call to Action While critical advisories are not typical blog topics, protecting customer environments and preventing unexpected data loss is our top priority. We are leveraging every communication channel available to ensure platform and infrastructure administrators are aware of a critical upgrade prerequisite. If you run vSphere Supervisor or VMware vSphere Kubernetes Service &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/09/critical-advisory-pre-upgrade-verification-required-for-vsphere-supervisor-and-vks-environments-upgrading-to-vcenter-9-1-0-or-9-1-1/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/09/critical-advisory-pre-upgrade-verification-required-for-vsphere-supervisor-and-vks-environments-upgrading-to-vcenter-9-1-0-or-9-1-1/">CRITICAL ADVISORY: Pre-Upgrade Verification Required for vSphere Supervisor and VKS Environments Upgrading to vCenter 9.1.0 or 9.1.1</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="201" src="https://blogs.vmware.com/wp-content/uploads/2026/10/criticaladvisory.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="201" src="https://blogs.vmware.com/wp-content/uploads/2026/10/criticaladvisory.jpeg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/criticaladvisory.jpeg 2528w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/criticaladvisory.jpeg?resize=300,201 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/criticaladvisory.jpeg?resize=768,515 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/criticaladvisory.jpeg?resize=1024,687 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/criticaladvisory.jpeg?resize=1536,1030 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/criticaladvisory.jpeg?resize=2048,1374 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/criticaladvisory.jpeg?resize=600,403 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+<h1 class="wp-block-heading" id="h-overview-and-call-to-action">Overview and Call to Action</h1>
+<p>While critical advisories are not typical blog topics, protecting customer environments and preventing unexpected data loss is our top priority. We are leveraging every communication channel available to ensure platform and infrastructure administrators are aware of a critical upgrade prerequisite.</p>
+<p>If you run vSphere Supervisor or VMware vSphere Kubernetes Service (VKS) clusters and are planning an upgrade to vCenter Server 9.1.0 or 9.1.1, you must verify the vLCM/VUM database schema prior to initiating the upgrade.</p>
+<p>Under specific conditions, upgrading without verifying and remediating database scheme inconsistencies caused by a vLCM/VUM reset <strong>will result in Supervisor Control Plane Virtual Machines (VMs) and Foundation Load Balancers (FLBs) being removed and lost</strong>.</p>
+<h1 class="wp-block-heading" id="h-environment-and-applicability-matrix">Environment and Applicability Matrix</h1>
+<p>Please review the following matrix to determine if your environment requires pre-upgrade verification:</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<thead>
+<tr>
+<th><strong>Dimension</strong></th>
+<th><strong>Details</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Target Versions</strong></td>
+<td>vCenter Server / VMware Cloud Foundation (VCF) <strong>9.1.0</strong> and <strong>9.1.1</strong></td>
+</tr>
+<tr>
+<td><strong>Source Versions</strong></td>
+<td>vCenter Server <strong>8.0 Update 3 (and later)</strong>, <strong>9.0.0</strong>, <strong>9.0.1</strong>, and <strong>9.0.2</strong></td>
+</tr>
+<tr>
+<td><strong>Impacted Solutions</strong></td>
+<td>• vSphere Supervisor• vSphere Kubernetes Service (VKS)• Foundation Load Balancers (FLBs)</td>
+</tr>
+<tr>
+<td><strong>Trigger Condition</strong></td>
+<td>The VMware Lifecycle Manager (vLCM / VUM) database depot was previously reset</td>
+</tr>
+<tr>
+<td><strong>Risk / Impact</strong></td>
+<td>Loss of Supervisor Control Plane VMs and associated load balancer configurations upon completion of the 9.1.x upgrade.</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<h1 class="wp-block-heading" id="h-what-causes-this-issue">What Causes This Issue?</h1>
+<p>In earlier releases (vCenter 8.0 Update 3 through 9.0.x), administrators experiencing depot synchronization issues or patch repository corruption may have executed the standard vLCM database reset script documented in <a href="https://knowledge.broadcom.com/external/article/316581/resetting-vmware-update-manager-database.html">Broadcom KB 316581</a>.</p>
+<p>While this reset cleared depot corruption, running it on affected 8.0U3 or 9.0.x builds inadvertently caused database schema inconsistencies, specifically dropping required placement policy columns and relation tables.</p>
+<p>When upgrading to vCenter 9.1.0 or 9.1.1, the new Lifecycle and Cluster Management (LCCM) subsystem relies on these database relations to discover and manage system VMs. Because of the missing schema definitions, LCCM operations cannot reconcile the Supervisor state, leading to the deletion of Supervisor Control Plane VMs and FLBs from inventory.</p>
+<h1 class="wp-block-heading" id="h-what-you-need-to-do">What You Need to Do</h1>
+<p>To ensure a seamless upgrade and prevent disruption to your Kubernetes workloads:</p>
+<h2 class="wp-block-heading" id="h-1-before-upgrading-pre-upgrade-check-and-remediation">1. Before Upgrading (Pre-Upgrade Check and Remediation)</h2>
+<p>Do not proceed with an upgrade to vCenter 9.1.0 or 9.1.1 until you have verified your database consistency.</p>
+<p>Broadcom has published validation and remediation scripts to check for and fix this schema inconsistency before the upgrade is started.</p>
+<p>Refer to <a href="https://knowledge.broadcom.com/external/article?articleNumber=455737"><strong>Broadcom KB 455737: Checking and Fixing VUMDB inconsistency issues after running vLCM reset script on 8.0U3 to 9.0.x</strong></a> for the official database checker script, remediation script, and detailed execution instructions.</p>
+<p>Note: Executing a health inspection using the <strong>VCF Diagnostic Tool for vSphere (VDT)</strong> will likewise identify this issue, returning a [FAIL] VUM SCHEMA CHECK status notification.</p>
+<h2 class="wp-block-heading" id="h-2-if-you-have-already-upgraded-and-encountered-missing-supervisor-vms">2. If You Have Already Upgraded and Encountered Missing Supervisor VMs</h2>
+<p>If an upgrade to 9.1.0 or 9.1.1 has already completed and your Supervisor Control Plane VMs are missing from inventory, immediate recovery requires reverting to your pre-upgrade backup/snapshot and restoring the Supervisor state before applying the database fix.</p>
+<p>Refer to <a href="https://knowledge.broadcom.com/external/article/457944"><strong>Broadcom KB 457944: After upgrading to VCF 9.1 or VCF 9.1.1 from either 8.0U3 or 9.0.x, the Supervisor Control Plane VM&#8217;s are no longer in inventory</strong></a> for the official recovery workflow.</p>
+<h1 class="wp-block-heading" id="h-official-reference-links">Official Reference Links</h1>
+<p>For the latest updates, validation utilities, and authoritative remediation steps, always refer directly to the official Broadcom Knowledge Base articles:</p>
+<ul class="wp-block-list">
+<li><a href="https://knowledge.broadcom.com/external/article?articleNumber=455737"><strong>Broadcom KB 455737</strong></a> — <em>Checking and Fixing VUMDB Inconsistency Issues After Running vLCM Reset Script (Authoritative Fix &amp; Checker Scripts)</em></li>
+<li><a href="https://knowledge.broadcom.com/external/article/457944"><strong>Broadcom KB 457944</strong></a> — <em>Supervisor Control Plane VMs No Longer in Inventory Post-Upgrade (Issue Overview &amp; Recovery)</em></li>
+<li><a href="https://knowledge.broadcom.com/external/article/316581/resetting-vmware-update-manager-database.html"><strong>Broadcom KB 316581</strong></a> — <em>Reset VMware Lifecycle Manager Depot in vCenter Server Appliance</em></li>
+</ul>
+<hr class="wp-block-separator has-alpha-channel-opacity" />
+<h1 class="wp-block-heading" id="h-summary">Summary</h1>
+<p>Before scheduling or initiating your next upgrade cycle to vCenter 9.1.x:</p>
+<ol class="wp-block-list">
+<li><strong>Verify</strong> your environment using the checker script in <a href="https://knowledge.broadcom.com/external/article?articleNumber=455737"><strong>KB 455737</strong></a>.</li>
+<li><strong>Remediate</strong> if prompted by the script or VDT.</li>
+<li><strong>Back up</strong> your <a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/vsphere-supervisor-installation-and-configuration/backing-up-and-restoring-vsphere-supervisor/backup-and-restore-the-supervisor-control-plane.html#GUID-a33fd868-c66a-448a-a548-599171ebb323-en">vCenter Server and Supervisor</a> prior to performing any upgrade.</li>
+</ol>
+<p>If you have questions or need assistance evaluating your environment, please open a support request through the <strong>Broadcom Support Portal</strong> referencing <strong><a href="https://knowledge.broadcom.com/external/article?articleNumber=455737">KB 455737</a></strong>.</p>
+</p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/09/critical-advisory-pre-upgrade-verification-required-for-vsphere-supervisor-and-vks-environments-upgrading-to-vcenter-9-1-0-or-9-1-1/">CRITICAL ADVISORY: Pre-Upgrade Verification Required for vSphere Supervisor and VKS Environments Upgrading to vCenter 9.1.0 or 9.1.1</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/09/critical-advisory-pre-upgrade-verification-required-for-vsphere-supervisor-and-vks-environments-upgrading-to-vcenter-9-1-0-or-9-1-1/">CRITICAL ADVISORY: Pre-Upgrade Verification Required for vSphere Supervisor and VKS Environments Upgrading to vCenter 9.1.0 or 9.1.1</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10104185</post-id>	</item>
+		<item>
 		<title>Certificates, Trust, and Network Encryption</title>
 		<link>https://blogs.vmware.com/cloud-foundation/2026/10/09/certificates-trust-network-encryption/</link>
 		
@@ -28,10 +116,10 @@
 				<category><![CDATA[Cloud Infrastructure]]></category>
 		<guid isPermaLink="false">https://blogs.vmware.com/?p=10104173</guid>
 
-					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>(Day 7 of 22 in our Cybersecurity Awareness Month series. Today: certificates) Certificates generate more questions than almost any other security topic we cover. We find that most of those questions come from misunderstandings about what certificates do. The biggest one is that a certificate means you can trust something. Truth is, it mostly means &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/09/certificates-trust-network-encryption/">Continued</a></p>
+					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>(Day 7 of 22 in our Cybersecurity Awareness Month series. Today: certificates) Certificates generate more questions than almost any other security topic we cover. We find that most of those questions come from misunderstandings about what certificates do. The biggest one is that a certificate means you can trust something. Truth is, it mostly means &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/09/certificates-trust-network-encryption/">Continued</a></p>
 <p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/09/certificates-trust-network-encryption/">Certificates, Trust, and Network Encryption</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
-										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=600,300 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=600,300 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
 <p><em>(Day 7 of 22 in our <a href="https://blogs.vmware.com/cloud-foundation/2026/10/01/security-way-of-thinking/">Cybersecurity Awareness Month series</a>. Today: certificates)</em></p>
 <p>Certificates generate more questions than almost any other security topic we cover. We find that most of those questions come from misunderstandings about what certificates do. The biggest one is that a certificate means you can trust something. Truth is, it mostly means the connection is encrypted.</p>
 <p>A certificate does two things. It helps two computers encrypt what they say to each other, and it’s good at that. It also makes a claim about who is on the other end, and whether that claim is true depends on people a lot more than on technology.</p>
@@ -1129,36 +1217,5 @@
 		
 		
 		<post-id xmlns="com-wordpress:feed-additions:1">10103931</post-id>	</item>
-		<item>
-		<title>VCF Breakroom Chats Episode 96 – The Infrastructure-Centric Path to App Modernization</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/10/07/vcf-breakroom-chats-episode-96-the-infrastructure-centric-path-to-app-modernization/</link>
-		
-		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
-		<pubDate>Wed, 07 Oct 2026 15:02:58 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10103897</guid>
-
-					<description><![CDATA[<img width="298" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/06/VCF-Breakroom-Chats-Final-Selected-featured-image.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>VCF Breakroom Chats Episode 96 Welcome to the next episode of the VCF Breakroom Chats. Today, we are happy to present this vLog with Jeremy Wolf, Senior Group Product Manager at Broadcom. In this episode, Jeremy Wolf and Taka Uenishi discuss the infrastructure-centric approach to application modernization and how organizations can scale modern developer experiences &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/vcf-breakroom-chats-episode-96-the-infrastructure-centric-path-to-app-modernization/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/vcf-breakroom-chats-episode-96-the-infrastructure-centric-path-to-app-modernization/">VCF Breakroom Chats Episode 96 – The Infrastructure-Centric Path to App Modernization</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="298" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/06/VCF-Breakroom-Chats-Final-Selected-featured-image.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/06/VCF-Breakroom-Chats-Final-Selected-featured-image.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/12/VCF-Breakroom-Chats-Final-Selected-featured-image.png 1920w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/12/VCF-Breakroom-Chats-Final-Selected-featured-image.png?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/12/VCF-Breakroom-Chats-Final-Selected-featured-image.png?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/12/VCF-Breakroom-Chats-Final-Selected-featured-image.png?resize=1024,577 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/12/VCF-Breakroom-Chats-Final-Selected-featured-image.png?resize=1536,865 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/12/VCF-Breakroom-Chats-Final-Selected-featured-image.png?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/12/VCF-Breakroom-Chats-Final-Selected-featured-image.png?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/12/VCF-Breakroom-Chats-Final-Selected-featured-image.png?resize=600,338 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<h2 class="wp-block-heading" id="h-vcf-breakroom-chats-episode-96">VCF Breakroom Chats Episode 96</h2>
-<p>Welcome to the next episode of the VCF Breakroom Chats. Today, we are happy to present this vLog with Jeremy Wolf, Senior Group Product Manager at Broadcom. In <a href="https://youtu.be/4EoPCkuf55k?si=bobzHJLkr0vv60aI" target="_blank" rel="noreferrer noopener">this episode</a>, Jeremy Wolf and Taka Uenishi discuss the infrastructure-centric approach to application modernization and how organizations can scale modern developer experiences while addressing large legacy application portfolios. Learn how to leverage KubeVM and vSphere Pods to bridge the gap between developer velocity and enterprise infrastructure control with vMotion capabilities.</p>
-<figure class="wp-block-image size-large"><a href="https://youtu.be/4EoPCkuf55k?si=bobzHJLkr0vv60aI" target="_blank" rel=" noreferrer noopener"><img loading="lazy" decoding="async" height="579" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/VCF-Breakroom-Chats-Episode-96-–-The-Infrastructure-Centric-Path-to-App-Modernization.png" alt="" class="wp-image-34678" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/VCF-Breakroom-Chats-Episode-96-–-The-Infrastructure-Centric-Path-to-App-Modernization.png 1147w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/VCF-Breakroom-Chats-Episode-96-–-The-Infrastructure-Centric-Path-to-App-Modernization.png?resize=300,170 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/VCF-Breakroom-Chats-Episode-96-–-The-Infrastructure-Centric-Path-to-App-Modernization.png?resize=768,435 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/VCF-Breakroom-Chats-Episode-96-–-The-Infrastructure-Centric-Path-to-App-Modernization.png?resize=1024,579 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/VCF-Breakroom-Chats-Episode-96-–-The-Infrastructure-Centric-Path-to-App-Modernization.png?resize=600,339 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></a></figure>
-<p><strong>Want to learn more about VCF Automation?</strong></p>
-<ul class="wp-block-list">
-<li>Check out the <a href="https://www.vmware.com/products/cloud-infrastructure/cloud-foundation-automation" target="_blank" rel="noreferrer noopener">VCF Automation web page</a> for more resources.</li>
-<li>Read the blog post <a href="https://blogs.vmware.com/cloud-foundation/2026/09/03/from-bottleneck-to-breakthrough-centralizing-gitops-at-enterprise-scale-with-vcf-9-1-1/" target="_blank" rel="noreferrer noopener"><a href="https://blogs.vmware.com/cloud-foundation/2026/09/03/from-bottleneck-to-breakthrough-centralizing-gitops-at-enterprise-scale-with-vcf-9-1-1/">From Bottleneck to Breakthrough: Centralizing GitOps at Enterprise Scale with VCF 9.1.1</a></a>.</li>
-<li>Listen to our <a href="https://blogs.vmware.com/cloud-foundation?s=%22VCF%20Automation%22%20%22Breakroom%22" target="_blank" rel="noreferrer noopener">previous topics</a>.</li>
-</ul>
-<h2 class="wp-block-heading" id="h-about-the-vcf-breakroom-chat-series">About the VCF Breakroom Chat Series</h2>
-<p><em>This webinar series focuses on VMware Cloud Foundation (VCF). In this series, we share conversations with industry-recognized experts from Broadcom and with solution partners and customers. You’ll gain relevant insights whether you’re an IT practitioner, IT admin, cloud or platform architect, developer, DevOps, senior IT manager, IT executive, or AI/ML professional.</em></p>
-<p><em>If you are new to the series, please check out our <a href="https://blogs.vmware.com/cloud-foundation/?s=breakroom+chats" target="_blank" rel="noreferrer noopener">previous episodes</a>.</em></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/vcf-breakroom-chats-episode-96-the-infrastructure-centric-path-to-app-modernization/">VCF Breakroom Chats Episode 96 – The Infrastructure-Centric Path to App Modernization</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/vcf-breakroom-chats-episode-96-the-infrastructure-centric-path-to-app-modernization/">VCF Breakroom Chats Episode 96 – The Infrastructure-Centric Path to App Modernization</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10103897</post-id>	</item>
 	</channel>
 </rss>
