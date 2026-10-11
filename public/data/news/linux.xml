@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>Linux News</title><item>
+   <title>Linux Landing Kernel Workaround For AMD TLBI Erratum #1718</title>
+   <link>https://www.phoronix.com/news/Linux-WA-TLBI-Erratum-1718</link>
+   <guid>https://www.phoronix.com/news/Linux-WA-TLBI-Erratum-1718</guid>
+   <description>AMD TLBI Erratum #1718 was worked around in CPU microcode for addressing a defect in certain Zen CPUs where the Translation Lookaside Buffer Invalidate Instruction use could lead to to stale translation entries. But for those on affected AMD CPUs and not running the updated microcode, a kernel workaround is being introduced with today's Linux 7.3-rc7 kernel and to be back-ported to prior kernel versions...</description>
+   <pubDate>Sun, 11 Oct 2026 09:20:00 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
+   <title>Microsoft Contributes Para-Virtualized IOMMU Hyper-V Driver For Linux</title>
+   <link>https://www.phoronix.com/news/MS-Paravirt-Hyper-V-IOMMU</link>
+   <guid>https://www.phoronix.com/news/MS-Paravirt-Hyper-V-IOMMU</guid>
+   <description>Microsoft is contributing a new kernel driver for the upcoming Linux 7.4 cycle. Queued up into the IOMMU subsystem's "-next" branch is a new para-virtualized IOMMU driver for benefiting Linux guest VMs running on Microsoft's Hyper-V virtualization platform...</description>
+   <pubDate>Sun, 11 Oct 2026 08:00:00 -0400</pubDate>
+   <dc:creator>Michael Larabel</dc:creator>
+  </item><item>
    <title>Auto Vectorizing The RISC-V Linux Kernel Shows Promising Results</title>
    <link>https://www.phoronix.com/news/Auto-Vectorize-RISC-V-Kernel</link>
    <guid>https://www.phoronix.com/news/Auto-Vectorize-RISC-V-Kernel</guid>
@@ -207,20 +221,6 @@
    <guid>https://www.phoronix.com/news/SpacemiT-Linux-7.4</guid>
    <description>For those interested in the SpacemiT K3 as one of the few RVA23 RISC-V SoCs readily available so far and in the likes of the K3 Pico-ITX system, more improvements for its upstream kernel support are coming in Linux 7.4...</description>
    <pubDate>Thu, 08 Oct 2026 06:13:54 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>Google Working To Leverage More Compiler Optimizations Within The Linux Kernel</title>
-   <link>https://www.phoronix.com/news/Google-More-Kernel-Compiler-Opt</link>
-   <guid>https://www.phoronix.com/news/Google-More-Kernel-Compiler-Opt</guid>
-   <description>While Linus Torvalds previously shot down plans for Profile Guided Optimizations (PGO) in the mainline Linux kernel, Google engineers are hoping still to get that out-of-tree functionality upstream. They also would like to see PGO supported for Linux kernel modules rather than just the main Linux kernel image. Additionally, they hope to see limitations overcome around AutoFDO and Propeller optimizations of kernel modules...</description>
-   <pubDate>Thu, 08 Oct 2026 05:57:36 -0400</pubDate>
-   <dc:creator>Michael Larabel</dc:creator>
-  </item><item>
-   <title>Steam Beta Now Defaults Non-Steam Windows Binaries To Using Proton</title>
-   <link>https://www.phoronix.com/news/Steam-Beta-Use-Proton-Default</link>
-   <guid>https://www.phoronix.com/news/Steam-Beta-Use-Proton-Default</guid>
-   <description>Valve released tonight a new Steam client beta that includes some notable improvements for Linux users...</description>
-   <pubDate>Wed, 07 Oct 2026 21:09:05 -0400</pubDate>
    <dc:creator>Michael Larabel</dc:creator>
   </item><item><title>What&amp;#8217;s new in security for Ubuntu 26.10?</title><link>https://ubuntu.com//blog/ubuntu-26-10-security</link><description>&lt;p&gt;Ubuntu 26.10 “Stonking Stingray” arrives at a time when AI tools are accelerating vulnerability discovery. Patching faster is essential, but the resilience of the underlying operating system must also limit what an attacker can achieve before a fix is available. To respond to this new threat landscape, Ubuntu 26.10 continues the work of previous releases [&amp;hellip;]&lt;/p&gt;
 </description><content:encoded>
@@ -999,6 +999,15 @@ spec:
 &lt;li&gt;&lt;strong&gt;Read the full announcement:&lt;/strong&gt; Learn more about how Canonical is expanding total coverage for legacy releases &lt;a href="https://canonical.com/blog/canonical-expands-total-coverage-for-ubuntu-lts-releases-to-15-years-with-legacy-add-on"&gt;in our official announcement&lt;/a&gt;.&lt;/li&gt;
 &lt;/ol&gt;
 </content:encoded><author>Carlos Bravo (Carlos Bravo)</author><category>AWS</category><category>AWS EC2</category><category>Ubuntu Pro</category><pubDate>Thu, 17 Sep 2026 19:46:36 +0000</pubDate></item><item>
+        <title>Stable kernels 7.2.10 and 6.18.56</title>
+        <link>https://lwn.net/Articles/1099764/</link>
+        <guid>https://lwn.net/Articles/1099764/</guid>
+        <dc:creator>corbet</dc:creator>
+        <description>The &lt;a href=&quot;https://lwn.net/Articles/1099765/&quot;&gt;7.2.10&lt;/a&gt; and &lt;a
+href=&quot;https://lwn.net/Articles/1099766/&quot;&gt;6.18.56&lt;/a&gt; stable kernels have been released.
+Each contains another several hundred important fixes.</description>
+        <pubDate>Sun, 11 Oct 2026 14:35:57 +0000</pubDate>
+        </item><item>
         <title>Python 3.15 released</title>
         <link>https://lwn.net/Articles/1099602/</link>
         <guid>https://lwn.net/Articles/1099602/</guid>
@@ -1237,20 +1246,4 @@ Instead, in 2016, Python 3.6 added a second module: &lt;tt&gt;secrets&lt;/tt&gt;
 to look into how the random-number modules should be used.
 </description>
         <pubDate>Tue, 06 Oct 2026 15:02:09 +0000</pubDate>
-        </item><item>
-        <title>[$] Last rites for Gentoo's Chromium package</title>
-        <link>https://lwn.net/Articles/1097760/</link>
-        <guid>https://lwn.net/Articles/1097760/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>&lt;p&gt;&lt;a href=&quot;https://www.chromium.org/Home/&quot;&gt;Chromium&lt;/a&gt;, the open-source
-upstream project for Google's Chrome web browser, is the browser of choice for
-many Linux users. It has also gained a reputation as being &lt;a
-href=&quot;https://lwn.net/Articles/619158/&quot;&gt;difficult for Linux distributions to
-package and build&lt;/a&gt;: Chromium has a complex build system, the project bundles
-many of its dependencies, and it has frequent releases. All of that, plus user
-complaints, has led the maintainers of the &lt;a
-href=&quot;https://packages.gentoo.org/packages/www-client/chromium&quot;&gt;Gentoo Chromium
-package&lt;/a&gt; to give up on trying to maintain the package.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 06 Oct 2026 13:44:50 +0000</pubDate>
         </item></channel></rss>
