@@ -4,11 +4,221 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Sun, 11 Oct 2026 03:00:15 +0000</pubDate>
-    <lastBuildDate>Sun, 11 Oct 2026 03:00:15 +0000</lastBuildDate>
+    <pubDate>Sun, 11 Oct 2026 11:51:59 +0000</pubDate>
+    <lastBuildDate>Sun, 11 Oct 2026 11:51:59 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>accidentally increased the proxmox host sda3 to max</title>
+      <pubDate>Sun, 11 Oct 2026 11:32:42 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/accidentally-increased-the-proxmox-host-sda3-to-max.186976/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186976</guid>
+      <author>invalid@example.com (AN00b)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>AN00b</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">i ssh&#039;d into the wrong hostname and instead of running cfdisk on the VM i ran in on the proxmox node and resized it to max capacity<br />
+not sure possible issues down the road</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>No web UI randomly</title>
+      <pubDate>Sun, 11 Oct 2026 11:31:27 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/no-web-ui-randomly.186970/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186970</guid>
+      <author>invalid@example.com (FiltroMan)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>FiltroMan</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi there! I&#039;ve searched far and wide on the forums as well as using Gemini but I&#039;ve been encountering a weird issue in the past couple of days: out of the blue (perhaps I&#039;m not looking at the right logs) my web UI dies, and connecting straight to the host I notice that there are issues with pve-cluster.service which goes into error saying<br />
+<br />
+Start request repeated too quickly<br />
+Failed with result &#039;exit-code&#039;<br />
+<br />
+Another error I get is also about fuse mountpoint not empty: with trial and error I...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/no-web-ui-randomly.186970/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>Opt-in Linux 7.0 Kernel for Proxmox VE 9 available</title>
+      <pubDate>Sun, 11 Oct 2026 09:56:13 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:182328</guid>
+      <author>invalid@example.com (t.lamprecht)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>t.lamprecht</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">We recently uploaded the 7.0 (rc6) kernel to our repositories. The current default kernel for the Proxmox VE 9 series is still 6.17, but 7.0 is now an option.<br />
+<br />
+We plan to use the 7.0 kernel as the new default for the upcoming Proxmox VE 9.2 and Proxmox Backup Server 4.2 releases planned later in Q2.<br />
+This follows our tradition of upgrading the Proxmox VE kernel to match the current Ubuntu version until we reach an Ubuntu LTS release, at which point we will only provide newer kernels as an...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>241</slash:comments>
+    </item>
+    <item>
+      <title>Replication Jobs failing with timeout now and then</title>
+      <pubDate>Sun, 11 Oct 2026 09:42:25 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/replication-jobs-failing-with-timeout-now-and-then.186975/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186975</guid>
+      <author>invalid@example.com (maxim.webster)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>maxim.webster</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">So,<br />
+<br />
+I do run a 3-Cluster in my homelab, using ZFS replikation for HA. Node names are bert, ernie and grobi. <br />
+<br />
+Everything is running fine most of the time, but now and then for a period of 15-30min all replikation jobs fail like this. <br />
+<br />
+
+
+
+
+<blockquote data-attributes="" data-quote="" data-source=""
+	class="bbCodeBlock bbCodeBlock--expandable bbCodeBlock--quote js-expandWatch">
+	
+	<div class="bbCodeBlock-content">
+		
+		<div class="bbCodeBlock-expandContent js-expandContent ">
+			Replication job &#039;104-0&#039; with target &#039;bert&#039; and schedule &#039;0/15&#039; failed!<br />
+<br />
+Last successful sync: 2026-10-11 01:45:01<br />
+Next sync try: ERROR<br />
+Failure count: 1<br />
+<br />
+Error:<br />
+command &#039;zfs snapshot local-zfs/subvol-104-disk-0@__replicate_104-0_1791676801__&#039; failed: got...
+		</div>
+		<div class="bbCodeBlock-expandLink js-expandLink"><a role="button" tabindex="0">Click to expand...</a></div>
+	</div>
+</blockquote><br />
+<a href="https://forum.proxmox.com/threads/replication-jobs-failing-with-timeout-now-and-then.186975/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Nach BIOS Reset - massive Probleme (storage mit Fragezeichen und Web-GUI leer)</title>
+      <pubDate>Sun, 11 Oct 2026 09:34:35 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/nach-bios-reset-massive-probleme-storage-mit-fragezeichen-und-web-gui-leer.186973/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186973</guid>
+      <author>invalid@example.com (drnicolas)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
+      <dc:creator>drnicolas</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Ich habe (leider) einen BIOS Reset gemacht und seither massive und zahlreiche Probleme mit PVE und jetzt noch mit dem PBS.<br />
+Beides ist auf einer Maschine angesiedelt.<br />
+- der PVE war nicht mehr erreichbar, da sich die gesamte Netzwerkkarten-Banmsung geändert hatte ; solved<br />
+- ein Storage mit 3 NVMe war wegen BIOS-Settings nicht mehr erreichbar (bifurcation, BIOS -Einstellung); SOLVED<br />
+- ein weiterer Storage war wg. aktiviertem VT-d und einem MARVELL 9230 nicht mehr erreichbar; SOLVED<br />
+  BTW...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/nach-bios-reset-massive-probleme-storage-mit-fragezeichen-und-web-gui-leer.186973/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>Synology NAS in Paperless LXC über Proxmox</title>
+      <pubDate>Sun, 11 Oct 2026 09:06:22 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/synology-nas-in-paperless-lxc-%C3%BCber-proxmox.186812/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186812</guid>
+      <author>invalid@example.com (cfkmo)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>cfkmo</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hej zusammen.<br />
+<br />
+Ich fange gerade erst an mich in das Thema <b>Proxmox</b> und <b>Paperless</b> einzuarbeiten. Mein proxmox läuft auf einem ThinClient und dort habe ich via <a href="https://community-scripts.org/scripts/paperless-ngx#install" target="_blank" class="link link--external" rel="nofollow ugc noopener">script </a>Paperless installiert. Nun habe ich einiges versucht um den Consume und Media Ordner auf das NAS zu verschieben, was leider nicht funktioniert hat. Mir fehlen nun leider die Kenntnisse der Möglichkeiten zum debuggen.<br />
+<br />
+Was ich bisher gemacht habe:<br />
+Auf dem NAS<br />
+<ul>
+<li data-xf-list-type="ul">Freigegebenen Ordner &quot;Paperless&quot; mit...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/synology-nas-in-paperless-lxc-%C3%BCber-proxmox.186812/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>20</slash:comments>
+    </item>
+    <item>
+      <title>ASUS P9D-E/4L + RX 6700 XT prevents Proxmox from booting (black screen / blinking cursor)</title>
+      <pubDate>Sun, 11 Oct 2026 08:30:18 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/asus-p9d-e-4l-rx-6700-xt-prevents-proxmox-from-booting-black-screen-blinking-cursor.181672/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:181672</guid>
+      <author>invalid@example.com (Tomblarom)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Tomblarom</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I’ve now tried several times to install my AMD RX 6700 XT in my Proxmox server. Unfortunately, without success. Whenever the card is installed, Proxmox stops booting (freezed ASUS-Bootlogo or simply a black screen). In this state I can hit <code class="bbCodeInline">Ctrl+Alt+Del</code> to reboot the machine. At first, I suspected an incorrect BIOS setting or that Proxmox was booting in Legacy BIOS mode. I also removed the riser card and installed the card directly. I also tired temporarily removing the QNAP...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/asus-p9d-e-4l-rx-6700-xt-prevents-proxmox-from-booting-black-screen-blinking-cursor.181672/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>10</slash:comments>
+    </item>
+    <item>
+      <title>[PVE 9] How to clean up remnants of old, uninstalled kernels in /boot? Initramfs throwing warnings when updated.</title>
+      <pubDate>Sun, 11 Oct 2026 08:12:15 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pve-9-how-to-clean-up-remnants-of-old-uninstalled-kernels-in-boot-initramfs-throwing-warnings-when-updated.186950/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186950</guid>
+      <author>invalid@example.com (SInisterPisces)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>SInisterPisces</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I need some help cleaning up some random leftovers from old, uninstalled kernels, as well as cleanly uninstalling one that I don&#039;t want anymore.<br />
+I&#039;m using ZFS/systemd-boot on the boot partition, if that matters.<br />
+<br />
+I&#039;ve only got a couple of 7.0 kernels installed that I&#039;m actively using. A very old version of 6.17 is still installed and available, as well. That&#039;s the one I want to get rid of properly.<br />
+<br />
+And it looks like <code class="bbCodeInline">apt</code>&#039;s auto remove feature hasn&#039;t been cleanly uninstalling...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pve-9-how-to-clean-up-remnants-of-old-uninstalled-kernels-in-boot-initramfs-throwing-warnings-when-updated.186950/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox forum administrators, please increase maximum character count per post from 16KB to 128KB, thanks !</title>
+      <pubDate>Sun, 11 Oct 2026 07:26:48 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-forum-administrators-please-increase-maximum-character-count-per-post-from-16kb-to-128kb-thanks.186947/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186947</guid>
+      <author>invalid@example.com (shodan)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>shodan</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+I wish to paste a command script<br />
+Unfortunately, it is 17579 characters so it is over the limit of 16384 characters.<br />
+<br />
+I know SSDs went up but the storage bill for these forum is still going to be alright if you spare me a couple more KBs !</div>]]></content:encoded>
+      <slash:comments>33</slash:comments>
+    </item>
+    <item>
+      <title>Changing xterm.js Font Per-Guest?</title>
+      <pubDate>Sun, 11 Oct 2026 06:37:23 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/changing-xterm-js-font-per-guest.186972/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186972</guid>
+      <author>invalid@example.com (SInisterPisces)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>SInisterPisces</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><b>Ref:</b> <a href="https://forum.proxmox.com/threads/change-fonts-of-xterm-js.121134/post-694047" class="link link--internal">https://forum.proxmox.com/threads/change-fonts-of-xterm-js.121134/post-694047</a><br />
+<br />
+The instructions in the message above explain how to change the global default xterm.js font.<br />
+<br />
+Is there a way to change the xterm.js font for a specific LXC or VM?<br />
+<br />
+I really like the default, but for some guests, I need to use a nerd-font to print special characters.<br />
+is there a way to override the xterm.js font per-guest?</div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>MARVELL 9230 und VT-d - gibt es dafür eine Lösung?</title>
+      <pubDate>Sun, 11 Oct 2026 05:00:12 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/marvell-9230-und-vt-d-gibt-es-daf%C3%BCr-eine-l%C3%B6sung.186974/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186974</guid>
+      <author>invalid@example.com (drnicolas)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>drnicolas</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">In einem anderen Thread schribe ich schon, dass ich nac einem BIOS-reset massiive Probleme hatte/habe.<br />
+<br />
+Ich bin mir nicht sicher ob vor dem BIOS-reset VT-d aktiviert war; danach habe ich es auf jeden Fall eingeschaltet weil ich dachte, das muß so.<br />
+<br />
+Folge: Ein storage mit Platten an einem MARVELL 9230 SATA-Controller funktioniert nicht, in PVE tauchen die Platten gar nicht erst auf!<br />
+<br />
+Das Tücksiche daran: <br />
+- im BIOS sieht man die angeschlossenen Platten (mit VT-d  ON)<br />
+- in PVE wird per lspci...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/marvell-9230-und-vt-d-gibt-es-daf%C3%BCr-eine-l%C3%B6sung.186974/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
     <item>
       <title>Storage "local" and "local-zfs"</title>
       <pubDate>Sun, 11 Oct 2026 02:48:54 +0000</pubDate>
@@ -30,24 +240,6 @@ Is better to use a dedicated...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/storage-local-and-local-zfs.31761/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>18</slash:comments>
-    </item>
-    <item>
-      <title>Changing xterm.js Font Per-Guest?</title>
-      <pubDate>Sun, 11 Oct 2026 00:18:26 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/changing-xterm-js-font-per-guest.186972/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186972</guid>
-      <author>invalid@example.com (SInisterPisces)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>SInisterPisces</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><b>Ref:</b> <a href="https://forum.proxmox.com/threads/change-fonts-of-xterm-js.121134/post-694047" class="link link--internal">https://forum.proxmox.com/threads/change-fonts-of-xterm-js.121134/post-694047</a><br />
-<br />
-The instructions in the message above explain how to change the global default xterm.js font.<br />
-<br />
-Is there a way to change the xterm.js font for a specific LXC or VM?<br />
-<br />
-I really like the default, but for some guests, I need to use a nerd-font to print special characters.<br />
-is there a way to override the xterm.js font per-guest?</div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
     </item>
     <item>
       <title>Change fonts of xterm.js</title>
@@ -82,24 +274,6 @@ Ich hoffe, jemand...<br />
       <slash:comments>0</slash:comments>
     </item>
     <item>
-      <title>No web UI randomly</title>
-      <pubDate>Sat, 10 Oct 2026 21:56:58 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/no-web-ui-randomly.186970/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186970</guid>
-      <author>invalid@example.com (FiltroMan)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>FiltroMan</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi there! I&#039;ve searched far and wide on the forums as well as using Gemini but I&#039;ve been encountering a weird issue in the past couple of days: out of the blue (perhaps I&#039;m not looking at the right logs) my web UI dies, and connecting straight to the host I notice that there are issues with pve-cluster.service which goes into error saying<br />
-<br />
-Start request repeated too quickly<br />
-Failed with result &#039;exit-code&#039;<br />
-<br />
-Another error I get is also about fuse mountpoint not empty: with trial and error I...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/no-web-ui-randomly.186970/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>8</slash:comments>
-    </item>
-    <item>
       <title>Problem with MegaRAID SAS3508 controller</title>
       <pubDate>Sat, 10 Oct 2026 20:55:39 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/problem-with-megaraid-sas3508-controller.179378/</link>
@@ -122,21 +296,6 @@ Hardware / software details:<br />
 </ul><br />
 <a href="https://forum.proxmox.com/threads/problem-with-megaraid-sas3508-controller.179378/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>40</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox forum administrators, please increase maximum character count per post from 16KB to 128KB, thanks !</title>
-      <pubDate>Sat, 10 Oct 2026 20:53:09 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-forum-administrators-please-increase-maximum-character-count-per-post-from-16kb-to-128kb-thanks.186947/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186947</guid>
-      <author>invalid@example.com (shodan)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>shodan</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-I wish to paste a command script<br />
-Unfortunately, it is 17579 characters so it is over the limit of 16384 characters.<br />
-<br />
-I know SSDs went up but the storage bill for these forum is still going to be alright if you spare me a couple more KBs !</div>]]></content:encoded>
-      <slash:comments>33</slash:comments>
     </item>
     <item>
       <title>New Intallation</title>
@@ -230,151 +389,6 @@ was haltet Ihr davon ?<br />
 <br />
 liebe grüsse</div>]]></content:encoded>
       <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Synology NAS in Paperless LXC über Proxmox</title>
-      <pubDate>Sat, 10 Oct 2026 17:56:15 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/synology-nas-in-paperless-lxc-%C3%BCber-proxmox.186812/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186812</guid>
-      <author>invalid@example.com (cfkmo)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>cfkmo</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hej zusammen.<br />
-<br />
-Ich fange gerade erst an mich in das Thema <b>Proxmox</b> und <b>Paperless</b> einzuarbeiten. Mein proxmox läuft auf einem ThinClient und dort habe ich via <a href="https://community-scripts.org/scripts/paperless-ngx#install" target="_blank" class="link link--external" rel="nofollow ugc noopener">script </a>Paperless installiert. Nun habe ich einiges versucht um den Consume und Media Ordner auf das NAS zu verschieben, was leider nicht funktioniert hat. Mir fehlen nun leider die Kenntnisse der Möglichkeiten zum debuggen.<br />
-<br />
-Was ich bisher gemacht habe:<br />
-Auf dem NAS<br />
-<ul>
-<li data-xf-list-type="ul">Freigegebenen Ordner &quot;Paperless&quot; mit...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/synology-nas-in-paperless-lxc-%C3%BCber-proxmox.186812/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>19</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox 9 boot issues</title>
-      <pubDate>Sat, 10 Oct 2026 16:32:23 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-9-boot-issues.186962/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186962</guid>
-      <author>invalid@example.com (sagiziv3)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>sagiziv3</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have an HPE microserver gen 8 that I just upgrade to version 9 and I get those terrible failures on boot.<br />
-I initially tried to do a clean install but it showed an error related to GRUB files, so I installed version 8 and then upgraded to 9 (`pve8to9 --full` showed no errors).<br />
-I followed the <a href="https://pve.proxmox.com/wiki/Upgrade_from_8_to_9#In-place_upgrade" target="_blank" class="link link--external" rel="nofollow ugc noopener">official guide</a> and everything seemed to go well, but when I rebooted the machine I got those errors.<br />
-<br />
-I can boot to the previous version of the kernel and to the recovery mode of the new kernel...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-9-boot-issues.186962/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>8</slash:comments>
-    </item>
-    <item>
-      <title>Vaste Cautevane Avis-{REJOINDRE LE COMPTE}-une présentation détaillée de l’expérience utilisateur!</title>
-      <pubDate>Sat, 10 Oct 2026 11:50:04 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/vaste-cautevane-avis-rejoindre-le-compte-une-pr%C3%A9sentation-d%C3%A9taill%C3%A9e-de-l%E2%80%99exp%C3%A9rience-utilisateur.186965/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186965</guid>
-      <author>invalid@example.com (vastecautevane)</author>
-      <category domain="https://forum.proxmox.com/forums/mail-gateway-ha-cluster.10/"><![CDATA[Mail Gateway: HA Cluster]]></category>
-      <dc:creator>vastecautevane</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">La facilité d’utilisation constitue un critère important lors du choix d’une plateforme de trading. Les marchés financiers utilisent un vocabulaire spécialisé et présentent de nombreuses données susceptibles de dérouter les personnes qui découvrent cet univers. Une interface bien conçue devrait permettre de repérer facilement les principales sections, de comprendre les informations affichées et de retrouver les paramètres essentiels du compte. La navigation doit rester suffisamment claire...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/vaste-cautevane-avis-rejoindre-le-compte-une-pr%C3%A9sentation-d%C3%A9taill%C3%A9e-de-l%E2%80%99exp%C3%A9rience-utilisateur.186965/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Ceph network setup for Wan rbd replication</title>
-      <pubDate>Sat, 10 Oct 2026 11:47:40 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ceph-network-setup-for-wan-rbd-replication.186888/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186888</guid>
-      <author>invalid@example.com (Zabrolak)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>Zabrolak</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-Anyone has some practical docs on network connectivity required for ceph rbd replication?<br />
-<br />
-Let&#039;s assume I have a dedicated lacp group for internal cluster communication (all the private traffic+ceph client net there) and another one for &quot;production traffic and WAN&quot; in two clusters in two locations.<br />
-<br />
-Does rbd mirror (for disaster recovery, so production normally stays in site A and gets replicated to site B only for use in a &quot;black site&quot; event) need connectivity between internal...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/ceph-network-setup-for-wan-rbd-replication.186888/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Migrate to a new cluster</title>
-      <pubDate>Sat, 10 Oct 2026 09:23:10 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/migrate-to-a-new-cluster.164514/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:164514</guid>
-      <author>invalid@example.com (Lucian Lazar)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Lucian Lazar</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi all,<br />
-We are currently running an outdated PVE cluster (version 6.4) consisting of 5 nodes. All VMs and containers are using an external NFS share for both disk storage and backups, mounted at /mnt/pve/NFS.<br />
-We’ve recently acquired 2 new nodes, and instead of adding them to the existing cluster, we plan to build a fresh cluster running PVE 8.3. <br />
-Our proposed migration strategy is as follows:<br />
-<br />
-    1.    Remove one node from the old cluster, leaving the minimum 3 nodes required to form the...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/migrate-to-a-new-cluster.164514/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>17</slash:comments>
-    </item>
-    <item>
-      <title>Does Proxmox Mail Gateway support FC connection between Synology RS4826xs+ and Dell PowerEdge 660xs?</title>
-      <pubDate>Sat, 10 Oct 2026 09:09:09 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/does-proxmox-mail-gateway-support-fc-connection-between-synology-rs4826xs-and-dell-poweredge-660xs.186926/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186926</guid>
-      <author>invalid@example.com (ernvb)</author>
-      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
-      <dc:creator>ernvb</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Does Proxmox Mail Gateway support a Fiber Channel connection between Synology RS4826xs+ and Dell PowerEdge 660xs? Based on the forum that I read in the previous it is supported but would like to confirm in this official forum.<br />
-<br />
-Thanks in advance,<br />
-<br />
-Ern</div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Memory cgroup out of memory : how to understand it ?</title>
-      <pubDate>Sat, 10 Oct 2026 08:49:41 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/memory-cgroup-out-of-memory-how-to-understand-it.186948/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186948</guid>
-      <author>invalid@example.com (Ernie95)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Ernie95</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Dear All,<br />
-<br />
-For the first time, I have this message :<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Oct 06 06:20:32 pve kernel: file invoked oom-killer: gfp_mask=0xcc0(GFP_KERNEL), order=0, oom_score_adj=0
-Oct 06 06:20:32 pve kernel: CPU: 9 UID: 100000 PID: 2604997 Comm: file Tainted: P           O        7.0.14-20-pve #1&gt;
-Oct 06 06:20:32 pve kernel: Tainted: [P]=PROPRIETARY_MODULE, [O]=OOT_MODULE
-Oct 06 06:20:32 pve kernel: Hardware name: ASUSTeK COMPUTER INC. To be filled by O.E.M./P12R-M Series, BIOS 1901 01/1&gt;
-Oct 06 06:20:32 pve...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/memory-cgroup-out-of-memory-how-to-understand-it.186948/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>10</slash:comments>
-    </item>
-    <item>
-      <title>Default Block Size</title>
-      <pubDate>Sat, 10 Oct 2026 08:30:22 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/default-block-size.186957/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186957</guid>
-      <author>invalid@example.com (Stereoscope)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Stereoscope</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Does Proxmox need a local-zfs with default Block Size settings anywhere? Or can I re-name it and specify a custom Block Size?</div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
     </item>
   </channel>
 </rss>
