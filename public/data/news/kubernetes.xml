@@ -2301,23 +2301,23 @@ or not to issue the certificate.&lt;/li>
 &lt;li>The signer controller issues the certificate by filling out the
 status.certificateChain field.&lt;/li>
 &lt;li>The signer controller also fills out the status.beginRefreshAt field to
-instruct Kubelet when it should begin trying to refresh the certificate.&lt;br>
+instruct Kubelet when it should begin trying to refresh the certificate.&lt;/li>
+&lt;li>Kubelet retrieves the issued certificate, and writes the private key and
 certificate to the container filesystem.&lt;/li>
 &lt;/ol>
 &lt;/li>
-&lt;li>For each clusterTrustBundle source:&lt;br>
-6) Kubelet retrieves the issued certificate, and writes the private key and
+&lt;li>For each clusterTrustBundle source:
 &lt;ol>
-&lt;li>Kubelet collects all the ClusterTrustBundles that match the signer name&lt;/li>
+&lt;li>Kubelet collects all the ClusterTrustBundles that match the signer name
+and label selectors in the source.&lt;/li>
 &lt;li>Kubelet unifies all of the certificates from all matching
 ClusterTrustBundles, and (stably) reorders them (to prevent applications
-from accidentally depending on a particular ordering).&lt;br>
-and label selectors in the source.&lt;/li>
-&lt;li>Kubelet writes the certificates to the file path named in the source.&lt;br>
-and trust anchors from the filesystem.&lt;/li>
+from accidentally depending on a particular ordering).&lt;/li>
+&lt;li>Kubelet writes the certificates to the file path named in the source.&lt;/li>
 &lt;/ol>
 &lt;/li>
-&lt;li>Your application pod starts up, and the application reads keys, certificates,&lt;/li>
+&lt;li>Your application pod starts up, and the application reads keys, certificates,
+and trust anchors from the filesystem.&lt;/li>
 &lt;li>Kubelet periodically updates the files from clusterTrustBundle sources as the
 contents of the selected ClusterTrustBundles changes. The application must
 pick up the changes using inotify or polling.&lt;/li>
