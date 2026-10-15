@@ -1,4 +1,363 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>The Shift to cgroup v2 in Kubernetes: What You Need to Know</title><link>https://kubernetes.io/blog/2026/10/06/kubernetes-cgroups-v2-shift/</link><pubDate>Tue, 06 Oct 2026 10:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/10/06/kubernetes-cgroups-v2-shift/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Why Is My Kubernetes Job Still Pending? Tracing Kueue Admission with Headlamp</title><link>https://kubernetes.io/blog/2026/10/14/tracing-kueue-admission-with-headlamp/</link><pubDate>Wed, 14 Oct 2026 10:35:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/10/14/tracing-kueue-admission-with-headlamp/</guid><description>
+&lt;p>You submit a &lt;a href="https://kubernetes.io/docs/concepts/workloads/controllers/job/">Kubernetes Job&lt;/a> and
+wait for its Pods to appear. A minute passes. Then another. The Job is still suspended, there are no
+application logs, and there may not even be a Pod to inspect.&lt;/p>
+&lt;p>In a cluster managed by &lt;a href="https://kueue.sigs.k8s.io/">Kueue&lt;/a>, this can be completely normal. Kueue
+may still be deciding whether the Job can use the requested resources. The useful question is not
+only “Why is the Pod pending?” It is first “Has Kueue admitted the Workload?”&lt;/p>
+&lt;p>The &lt;a href="https://github.com/headlamp-k8s/plugins/tree/main/kueue">Kueue plugin for Headlamp&lt;/a> brings that
+investigation into the Headlamp UI. Instead of reconstructing the admission path from several
+commands and large YAML objects, you can begin with the Workload, read its condition message, and
+follow links through the LocalQueue, ClusterQueue, ResourceFlavor, and Cohort.&lt;/p>
+&lt;p>This article follows that Headlamp-first path. The command line appears only in a short optional
+section for reproducing the example.&lt;/p>
+&lt;h2 id="before-you-begin">Before you begin&lt;a class="td-heading-self-link" href="#before-you-begin" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>You need a Kubernetes cluster with &lt;a href="https://kueue.sigs.k8s.io/docs/installation/">Kueue installed&lt;/a>,
+a &lt;a href="https://headlamp.dev/docs/latest/installation/">Headlamp installation&lt;/a>, and the
+&lt;a href="https://github.com/headlamp-k8s/plugins/tree/main/kueue/0.1.0-alpha">&lt;code>0.1.0-alpha&lt;/code> Kueue plugin&lt;/a>.
+Your Kubernetes identity must be allowed to read the Kueue resources used in this article.&lt;/p>
+&lt;p>The alpha release provides read-only views for Kueue &lt;code>v1beta2&lt;/code> Cohorts, ClusterQueues, LocalQueues,
+ResourceFlavors, and Workloads. It does not add its own create, edit, stop, resume, or delete
+workflows. Headlamp still provides its standard YAML and resource actions where your permissions
+allow them.&lt;/p>
+&lt;h2 id="first-separate-admission-from-pod-scheduling">First, separate admission from Pod scheduling&lt;a class="td-heading-self-link" href="#first-separate-admission-from-pod-scheduling" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Kueue and the Kubernetes scheduler answer different questions.&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Kueue admission: Should this Workload start now, considering queue policy, quota, ResourceFlavors,
+admission checks, and other waiting Workloads?&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Pod scheduling: After the Workload is admitted and the Job resumes, which nodes can run its Pods?&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>That boundary changes the investigation. If the Workload is not admitted, stay in the Kueue section
+of Headlamp. If it is admitted but its Pods are still &lt;code>Pending&lt;/code>, move to Headlamp's normal Job and
+Pod views and inspect scheduler events.&lt;/p>
+&lt;figure>
+&lt;img src="https://kubernetes.io/blog/2026/10/14/tracing-kueue-admission-with-headlamp/kueue-admission-architecture.svg"
+alt="A Kubernetes Job becomes a Kueue Workload. Kueue evaluates its LocalQueue, ClusterQueue, ResourceFlavor, and optional Cohort before resuming the Job. Headlamp reads these resources through the Kubernetes API."/> &lt;figcaption>
+&lt;p>Kueue admission architecture&lt;/p>
+&lt;/figcaption>
+&lt;/figure>
+&lt;h2 id="the-headlamp-first-troubleshooting-path">The Headlamp-first troubleshooting path&lt;a class="td-heading-self-link" href="#the-headlamp-first-troubleshooting-path" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The quickest investigation starts with the Workload, not with a shell.&lt;/p>
+&lt;figure>
+&lt;img src="https://kubernetes.io/blog/2026/10/14/tracing-kueue-admission-with-headlamp/headlamp-kueue-troubleshooting-flow.svg"
+alt="A Headlamp troubleshooting flow that starts with Kueue Workloads, checks admission conditions, follows LocalQueue and ClusterQueue links when admission is blocked, and switches to Job and Pod views after admission."/> &lt;figcaption>
+&lt;p>Tracing a pending Job through Headlamp&lt;/p>
+&lt;/figcaption>
+&lt;/figure>
+&lt;h2 id="step-1-open-the-workloads-view">Step 1: Open the Workloads view&lt;a class="td-heading-self-link" href="#step-1-open-the-workloads-view" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>In Headlamp, open &lt;strong>Kueue → Workloads&lt;/strong>. Select the namespace that contains the Job, then find the
+Workload created for it.&lt;/p>
+&lt;p>Kueue creates a &lt;a href="https://kueue.sigs.k8s.io/docs/concepts/workload/">Workload&lt;/a> to represent the
+resource request and admission state of a Job. In the alpha plugin, owner references are shown as
+&lt;code>Kind/name&lt;/code> text but are not yet clickable. The Workload name normally contains the Job name, so the
+namespace filter and table search are the simplest ways to locate it.&lt;/p>
+&lt;p>Before opening the detail page, the list already gives you a useful first scan:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>LocalQueue&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>priority and priority class&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>active state&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>admitted state&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>completion state&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>a readable current status such as &lt;code>Admitted&lt;/code>, &lt;code>Finished&lt;/code>, or &lt;code>Inadmissible&lt;/code>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>age&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>If there is no matching Workload, check three things before going further: the selected namespace,
+whether the Job was submitted to a LocalQueue, and whether your Kubernetes account can list
+Workloads. The plugin performs permission checks and displays an access message when the current
+identity cannot read a resource.&lt;/p>
+&lt;h2 id="step-2-read-status-conditions-and-events">Step 2: Read status, conditions, and events&lt;a class="td-heading-self-link" href="#step-2-read-status-conditions-and-events" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Open the Workload. Start with its current status and
+&lt;a href="https://kueue.sigs.k8s.io/docs/tasks/troubleshooting/troubleshooting_jobs/#is-my-job-admitted">conditions&lt;/a>,
+not with the full YAML.&lt;/p>
+&lt;p>For admission troubleshooting, the most important condition types are &lt;code>QuotaReserved&lt;/code> and
+&lt;code>Admitted&lt;/code>.&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>&lt;code>Admitted=True&lt;/code> means Kueue has admitted the Workload. The Job can resume, so any remaining
+&lt;code>Pending&lt;/code> Pods belong to the scheduling branch of the investigation.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>QuotaReserved=False&lt;/code> with a reason such as &lt;code>Pending&lt;/code> means Kueue has not reserved quota. The
+condition message explains what prevented the reservation.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>An &lt;code>Inadmissible&lt;/code> status means the Workload currently cannot fit the available queue
+configuration. A missing covered resource, unsuitable ResourceFlavor, stopped queue, or admission
+check can all lead you here.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>For example, a condition message may report that Kueue could not assign a ResourceFlavor because the
+ClusterQueue has insufficient CPU quota. That message is the first real answer to “Why is my Job
+still pending?” The rest of the Headlamp journey explains the configuration behind it.&lt;/p>
+&lt;p>Also check the &lt;strong>Events&lt;/strong> section. Conditions describe the current state; events help show what
+recently changed or what Kueue attempted.&lt;/p>
+&lt;h2 id="step-3-compare-the-workload-s-request-with-its-assignment">Step 3: Compare the Workload's request with its assignment&lt;a class="td-heading-self-link" href="#step-3-compare-the-workload-s-request-with-its-assignment" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Stay on the Workload detail page and inspect the PodSets and resource requests. The plugin shows the
+requested Pod count, CPU, memory, and other resources that Kueue evaluates together.&lt;/p>
+&lt;p>This matters because a Job with &lt;code>parallelism: 3&lt;/code> and a one-CPU request per Pod asks Kueue for three
+CPUs in total. Looking at only one Pod's template would underestimate the Workload.&lt;/p>
+&lt;p>If quota has already been reserved, the same page also shows the assigned ClusterQueue,
+ResourceFlavors, and admitted resource usage. If those admission assignments are absent, the
+Workload has not reached that point yet.&lt;/p>
+&lt;p>In our example, the Workload requests:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>three Pods&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>three CPUs in total&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>600 MiB of memory in total&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>The next question is where that request entered Kueue.&lt;/p>
+&lt;h2 id="step-4-follow-the-linked-localqueue">Step 4: Follow the linked LocalQueue&lt;a class="td-heading-self-link" href="#step-4-follow-the-linked-localqueue" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Use the &lt;a href="https://kueue.sigs.k8s.io/docs/concepts/local_queue/">LocalQueue&lt;/a> link on the Workload
+detail page. A LocalQueue is the namespace-level entry point used by the Job. It connects namespaced
+Workloads to a cluster-scoped ClusterQueue.&lt;/p>
+&lt;p>The LocalQueue page shows:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>its namespace and connected ClusterQueue&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>stop policy and current status&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>pending, reserving, and admitted Workload counts&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Kueue conditions and Kubernetes events&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>related Workloads in the same namespace&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>This page answers two practical questions: Did the Job enter the queue you expected, and is it the
+only Workload waiting there?&lt;/p>
+&lt;p>If the LocalQueue is inactive or stopped, that may already explain the wait. If it is active, follow
+the linked ClusterQueue to inspect the capacity behind it.&lt;/p>
+&lt;h2 id="step-5-inspect-clusterqueue-capacity-and-usage">Step 5: Inspect ClusterQueue capacity and usage&lt;a class="td-heading-self-link" href="#step-5-inspect-clusterqueue-capacity-and-usage" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>A &lt;a href="https://kueue.sigs.k8s.io/docs/concepts/cluster_queue/">ClusterQueue&lt;/a> represents the
+cluster-level quota and admission policy available to one or more LocalQueues.&lt;/p>
+&lt;p>On its Headlamp detail page, compare the Workload request with:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>covered resources&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>nominal quota for each ResourceFlavor&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>current reservations and usage&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>borrowing and lending limits&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>pending, reserving, and admitted Workload counts&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>queueing strategy and stop policy&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>preemption, fair-sharing, flavor-fungibility, and admission-check settings&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Kueue conditions and Kubernetes events&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>For the example in this article, the ClusterQueue provides a nominal quota of two CPUs and two Pod
+slots. The Workload asks for three of each. The condition message and the ClusterQueue page now tell
+the same story: the Workload does not fit, so Kueue leaves the Job suspended.&lt;/p>
+&lt;p>This is an admission-capacity problem. It is not evidence that kube-scheduler failed to find a node.&lt;/p>
+&lt;h2 id="step-6-check-resourceflavor-and-cohort-when-needed">Step 6: Check ResourceFlavor and Cohort when needed&lt;a class="td-heading-self-link" href="#step-6-check-resourceflavor-and-cohort-when-needed" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Quota is not always a single pool. A
+&lt;a href="https://kueue.sigs.k8s.io/docs/concepts/resource_flavor/">ResourceFlavor&lt;/a> can represent a class of
+compute through node labels, taints, tolerations, or topology settings. Use the ResourceFlavor link
+from the ClusterQueue when the condition mentions flavor assignment or when the Workload requires a
+particular hardware class, such as GPU nodes.&lt;/p>
+&lt;p>If the ClusterQueue belongs to a &lt;a href="https://kueue.sigs.k8s.io/docs/concepts/cohort/">Cohort&lt;/a>, follow
+that link too. Cohorts let ClusterQueues share unused quota. The Headlamp page shows parent and
+child Cohorts, member ClusterQueues, referenced ResourceFlavors, resource groups, borrowing and
+lending limits, and fair-sharing information.&lt;/p>
+&lt;p>These pages help answer a more subtle question: Is the Workload blocked because the queue has no
+quota of its own, because it cannot borrow enough, or because no suitable flavor can be assigned?&lt;/p>
+&lt;h2 id="what-we-learned-without-leaving-headlamp">What we learned without leaving Headlamp&lt;a class="td-heading-self-link" href="#what-we-learned-without-leaving-headlamp" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>For the sample pending Job, the UI gives us a complete explanation:&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>The Workload is not admitted.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Its &lt;code>QuotaReserved&lt;/code> condition is false and the message points to insufficient quota.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The Workload requests three CPUs and three Pod slots.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Its LocalQueue is active and points to the expected ClusterQueue.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The ClusterQueue provides only two CPUs and two Pod slots.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Kueue therefore keeps the Job suspended until quota becomes available or the queue configuration
+changes.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>The important part is not that Headlamp invents a new status. It reads the same Kubernetes API
+objects as other clients, then places the related resources and human-readable values in one
+connected investigation.&lt;/p>
+&lt;h2 id="if-the-workload-is-admitted-switch-views">If the Workload is admitted, switch views&lt;a class="td-heading-self-link" href="#if-the-workload-is-admitted-switch-views" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Suppose the Workload detail page shows &lt;code>Admitted=True&lt;/code>, but the application is still not running.
+Kueue has completed its part of the decision. Continue in Headlamp's standard Kubernetes views:&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>Open &lt;strong>Workloads → Jobs&lt;/strong> and inspect the Job state and events.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Open &lt;strong>Workloads → Pods&lt;/strong> and filter by the Job name or namespace.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Select a &lt;code>Pending&lt;/code> Pod and read its &lt;strong>Events&lt;/strong> section.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>At this stage, look for scheduler concerns such as insufficient node capacity,
+&lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/">node affinity&lt;/a>,
+&lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/">taints and tolerations&lt;/a>,
+topology constraints, persistent-volume binding, or image-pull failures.&lt;/p>
+&lt;p>This handoff is the most useful troubleshooting rule in the article:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>Not admitted: investigate Kueue resources in Headlamp.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>&lt;code>Admitted&lt;/code>, but Pods are &lt;code>Pending&lt;/code>: investigate Job, Pod, node, and scheduler information in
+Headlamp.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="a-repeatable-headlamp-checklist">A repeatable Headlamp checklist&lt;a class="td-heading-self-link" href="#a-repeatable-headlamp-checklist" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>When the next Job does not start, use this short path:&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>Open &lt;strong>Kueue → Workloads&lt;/strong> and select the correct namespace.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Find the Workload associated with the Job.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Check the readable status, &lt;code>Admitted&lt;/code>, and &lt;code>QuotaReserved&lt;/code> conditions.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Read the condition message and recent events.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Compare PodSet resource requests with any admission assignments.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Follow the LocalQueue link and confirm its status and ClusterQueue.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Follow the ClusterQueue link and compare quota, reservations, usage, and policy.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Inspect ResourceFlavor or Cohort details when the message points to flavor selection or shared
+quota.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>If admitted, move to Headlamp's Job and Pod views.&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="what-headlamp-replaces-during-this-investigation">What Headlamp replaces during this investigation&lt;a class="td-heading-self-link" href="#what-headlamp-replaces-during-this-investigation" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The plugin does not replace &lt;code>kubectl&lt;/code> or
+&lt;a href="https://kueue.sigs.k8s.io/docs/reference/kubectl-kueue/">&lt;code>kueuectl&lt;/code>&lt;/a> for scripts, exact object
+output, or changes. It replaces the repetitive UI-less navigation needed during an interactive
+investigation.&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th>Question&lt;/th>
+&lt;th>Headlamp path&lt;/th>
+&lt;th>Command-line equivalent&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td>Is the Workload admitted?&lt;/td>
+&lt;td>&lt;strong>Kueue → Workloads → status and conditions&lt;/strong>&lt;/td>
+&lt;td>&lt;code>kubectl describe workload &amp;lt;workload-name&amp;gt; -n &amp;lt;namespace&amp;gt;&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Which LocalQueue did it enter?&lt;/td>
+&lt;td>&lt;strong>Workload → linked LocalQueue&lt;/strong>&lt;/td>
+&lt;td>&lt;code>kubectl get localqueue &amp;lt;localqueue-name&amp;gt; -n &amp;lt;namespace&amp;gt; -o yaml&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Which ClusterQueue provides quota?&lt;/td>
+&lt;td>&lt;strong>LocalQueue → linked ClusterQueue&lt;/strong>&lt;/td>
+&lt;td>&lt;code>kubectl get clusterqueue &amp;lt;clusterqueue-name&amp;gt; -o yaml&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>Which flavor or shared quota matters?&lt;/td>
+&lt;td>&lt;strong>ClusterQueue → ResourceFlavor or Cohort&lt;/strong>&lt;/td>
+&lt;td>&lt;code>kubectl get resourceflavor &amp;lt;flavor-name&amp;gt; -o yaml&lt;/code> or &lt;code>kubectl get cohort &amp;lt;cohort-name&amp;gt; -o yaml&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td>What happened after admission?&lt;/td>
+&lt;td>&lt;strong>Workloads → Jobs and Pods → events&lt;/strong>&lt;/td>
+&lt;td>&lt;code>kubectl describe job &amp;lt;job-name&amp;gt; -n &amp;lt;namespace&amp;gt;&lt;/code> or &lt;code>kubectl describe pod &amp;lt;pod-name&amp;gt; -n &amp;lt;namespace&amp;gt;&lt;/code>&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
+&lt;p>For scripts and GitOps workflows, the command line remains the right tool. For a person asking “why
+is this waiting?”, the linked Headlamp path is usually faster to read.&lt;/p>
+&lt;h2 id="optional-reproduce-the-pending-scenario">Optional: reproduce the pending scenario&lt;a class="td-heading-self-link" href="#optional-reproduce-the-pending-scenario" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The plugin repository includes
+&lt;a href="https://github.com/headlamp-k8s/plugins/tree/main/kueue/test-files/deploy">sample Cohort, ClusterQueue, LocalQueue, ResourceFlavor, and Job manifests&lt;/a>
+for local testing. Apply those examples to a cluster where Kueue is installed, then open the Kueue
+section in Headlamp.&lt;/p>
+&lt;p>To reproduce the specific quota mismatch used in this article, configure a ClusterQueue with two
+CPUs and two Pod slots, then submit a three-Pod Job that requests one CPU per Pod. The Job enters
+its LocalQueue, Kueue creates a Workload, and the Workload remains pending because the combined
+request is larger than the available quota.&lt;/p>
+&lt;p>Keeping this setup separate from the main walkthrough is intentional: once the resources exist, the
+investigation itself should happen in Headlamp.&lt;/p>
+&lt;h2 id="current-alpha-limitations">Current alpha limitations&lt;a class="td-heading-self-link" href="#current-alpha-limitations" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The &lt;code>0.1.0-alpha&lt;/code> release is an initial read-only view of the Kueue admission path.&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>The plugin does not add its own create, edit, pause, resume, or delete flows.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Workload owner references are displayed as text and are not currently navigable.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The UI depends on the Kubernetes permissions of the identity used by Headlamp.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Metrics and a visual relationship map are possible follow-up areas rather than features of this
+release.&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>These limits are useful to state clearly: the plugin's current purpose is to make admission state
+and resource relationships easier to inspect.&lt;/p>
+&lt;h2 id="developed-during-lfx-mentorship">Developed during LFX Mentorship&lt;a class="td-heading-self-link" href="#developed-during-lfx-mentorship" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The plugin was developed during &lt;a href="https://mentorship.lfx.linuxfoundation.org/">CNCF LFX Mentorship&lt;/a>
+2026 Term 2 using TypeScript, React, Kubernetes APIs, and Headlamp's plugin system.&lt;/p>
+&lt;p>Utkarsh Raj implemented the plugin with guidance and review from René Dudfield
+(&lt;a href="https://github.com/illume">@illume&lt;/a>) and Kevin Hannon (&lt;a href="https://github.com/kannon92">@kannon92&lt;/a>).
+Feedback from the Headlamp and Kueue communities shaped the resource views, status presentation,
+navigation, documentation, tests, and first alpha release.&lt;/p>
+&lt;h2 id="try-it-and-share-feedback">Try it and share feedback&lt;a class="td-heading-self-link" href="#try-it-and-share-feedback" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Explore the &lt;a href="https://github.com/headlamp-k8s/plugins/tree/main/kueue">plugin source and README&lt;/a>,
+read the
+&lt;a href="https://github.com/headlamp-k8s/plugins/tree/main/kueue/0.1.0-alpha">&lt;code>0.1.0-alpha&lt;/code> release documentation&lt;/a>,
+or share feedback in the &lt;a href="https://github.com/headlamp-k8s/plugins/issues/1251">release issue&lt;/a>.&lt;/p>
+&lt;p>If a pending Workload is still difficult to explain after following the Headlamp path, that is
+exactly the kind of feedback that can improve the plugin.&lt;/p></description></item><item><title>The Shift to cgroup v2 in Kubernetes: What You Need to Know</title><link>https://kubernetes.io/blog/2026/10/06/kubernetes-cgroups-v2-shift/</link><pubDate>Tue, 06 Oct 2026 10:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/10/06/kubernetes-cgroups-v2-shift/</guid><description>
 &lt;p>In Linux, &lt;em>cgroups&lt;/em> (control groups) are a kernel feature used for managing system resources.
 Kubernetes uses cgroups to allocate resources like CPU and memory to containers,
 ensuring that applications run smoothly without interfering with each other.
@@ -7388,156 +7747,4 @@ channels:&lt;/p>
 &lt;li>Slack: &lt;a href="https://kubernetes.slack.com/messages/sig-node">#sig-node&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://groups.google.com/forum/#!forum/kubernetes-sig-node">Mailing list&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://github.com/kubernetes/community/labels/sig%2Fnode">Open Community Issues/PRs&lt;/a>&lt;/li>
-&lt;/ul></description></item><item><title>Kubernetes v1.36: Tiered Memory Protection with Memory QoS</title><link>https://kubernetes.io/blog/2026/04/29/kubernetes-v1-36-memory-qos-tiered-protection/</link><pubDate>Wed, 29 Apr 2026 10:35:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/04/29/kubernetes-v1-36-memory-qos-tiered-protection/</guid><description>
-&lt;p>On behalf of SIG Node, we are pleased to announce updates to the Memory QoS
-feature (alpha) in Kubernetes v1.36. Memory QoS uses the cgroup v2 memory
-controller to give the kernel better guidance on how to treat container memory.
-It was first introduced in v1.22 and updated in v1.27. In Kubernetes v1.36, we're introducing: opt-in memory reservation, tiered
-protection by QoS class, observability metrics, and kernel-version warning for &lt;code>memory.high&lt;/code>.&lt;/p>
-&lt;h2 id="what-s-new-in-v1-36">What's new in v1.36&lt;a class="td-heading-self-link" href="#what-s-new-in-v1-36" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;h3 id="opt-in-memory-reservation-with-memoryreservationpolicy">Opt-in memory reservation with &lt;code>memoryReservationPolicy&lt;/code>&lt;a class="td-heading-self-link" href="#opt-in-memory-reservation-with-memoryreservationpolicy" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>v1.36 separates throttling from reservation. Enabling the feature gate turns on
-&lt;code>memory.high&lt;/code> throttling (the kubelet sets &lt;code>memory.high&lt;/code> based on
-&lt;code>memoryThrottlingFactor&lt;/code>, default 0.9), but memory reservation is now controlled
-by a separate kubelet configuration field:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>&lt;code>None&lt;/code>&lt;/strong> (default): no &lt;code>memory.min&lt;/code> or &lt;code>memory.low&lt;/code> is written. Throttling
-via &lt;code>memory.high&lt;/code> still works.&lt;/li>
-&lt;li>&lt;strong>&lt;code>TieredReservation&lt;/code>&lt;/strong>: the kubelet writes tiered memory protection based on the Pod's
-&lt;a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/">QoS class&lt;/a>:&lt;/li>
-&lt;/ul>
-&lt;p>&lt;strong>Guaranteed&lt;/strong> Pods get hard protection via &lt;code>memory.min&lt;/code>. For example, a
-Guaranteed Pod requesting 512 MiB of memory results in:&lt;/p>
-&lt;pre tabindex="0">&lt;code class="language-none" data-lang="none">$ cat /sys/fs/cgroup/kubepods.slice/kubepods-pod6a4f2e3b_1c9d_4a5e_8f7b_2d3e4f5a6b7c.slice/memory.min
-536870912
-&lt;/code>&lt;/pre>&lt;p>The kernel will not reclaim this memory under any circumstances. If it cannot
-honor the guarantee, it invokes the OOM killer on other processes to free pages.&lt;/p>
-&lt;p>&lt;strong>Burstable&lt;/strong> Pods get soft protection via &lt;code>memory.low&lt;/code>. For the same 512 MiB
-request on a Burstable Pod:&lt;/p>
-&lt;pre tabindex="0">&lt;code class="language-none" data-lang="none">$ cat /sys/fs/cgroup/kubepods.slice/kubepods-burstable.slice/kubepods-burstable-pod8b3c7d2e_4f5a_6b7c_9d1e_3f4a5b6c7d8e.slice/memory.low
-536870912
-&lt;/code>&lt;/pre>&lt;p>The kernel avoids reclaiming this memory under normal pressure, but may reclaim
-it if the alternative is a system-wide OOM.&lt;/p>
-&lt;p>&lt;strong>BestEffort&lt;/strong> Pods get neither &lt;code>memory.min&lt;/code> nor &lt;code>memory.low&lt;/code>. Their memory
-remains fully reclaimable.&lt;/p>
-&lt;h4 id="comparison-with-v1-27-behavior">Comparison with v1.27 behavior&lt;a class="td-heading-self-link" href="#comparison-with-v1-27-behavior" aria-label="Heading self-link">&lt;/a>&lt;/h4>&lt;p>In earlier versions, enabling the MemoryQoS feature gate immediately set &lt;code>memory.min&lt;/code> for every container with a memory request. &lt;code>memory.min&lt;/code> is a hard reservation that the kernel will not reclaim, regardless of memory pressure.&lt;/p>
-&lt;p>Consider a node with 8 GiB of RAM where Burstable Pod requests total 7 GiB. In earlier versions, that 7 GiB would be locked as &lt;code>memory.min&lt;/code>, leaving little headroom for the kernel, system daemons, or BestEffort workloads and increasing the risk of OOM kills.&lt;/p>
-&lt;p>With v1.36 tiered reservation, those Burstable requests map to &lt;code>memory.low&lt;/code> instead of &lt;code>memory.min&lt;/code>. Under normal pressure, the kernel still protects that memory, but under extreme pressure it can reclaim part of it to avoid system-wide OOM. Only Guaranteed Pods use &lt;code>memory.min&lt;/code>, which keeps hard reservation lower.&lt;/p>
-&lt;p>With &lt;code>memoryReservationPolicy&lt;/code> in v1.36, you can enable throttling first, observe workload behavior, and opt into reservation when your node has enough headroom.&lt;/p>
-&lt;h3 id="observability-metrics">Observability metrics&lt;a class="td-heading-self-link" href="#observability-metrics" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Two alpha-stability metrics are exposed on the kubelet &lt;code>/metrics&lt;/code> endpoint:&lt;/p>
-&lt;table>
-&lt;thead>
-&lt;tr>
-&lt;th>Metric&lt;/th>
-&lt;th>Description&lt;/th>
-&lt;/tr>
-&lt;/thead>
-&lt;tbody>
-&lt;tr>
-&lt;td>&lt;code>kubelet_memory_qos_node_memory_min_bytes&lt;/code>&lt;/td>
-&lt;td>Total &lt;code>memory.min&lt;/code> across Guaranteed Pods&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;code>kubelet_memory_qos_node_memory_low_bytes&lt;/code>&lt;/td>
-&lt;td>Total &lt;code>memory.low&lt;/code> across Burstable Pods&lt;/td>
-&lt;/tr>
-&lt;/tbody>
-&lt;/table>
-&lt;p>These are useful for capacity planning. If &lt;code>kubelet_memory_qos_node_memory_min_bytes&lt;/code>
-is creeping toward your node's physical memory, you know hard reservation is
-getting tight.&lt;/p>
-&lt;pre tabindex="0">&lt;code class="language-none" data-lang="none">$ curl -sk https://localhost:10250/metrics | grep memory_qos
-# HELP kubelet_memory_qos_node_memory_min_bytes [ALPHA] Total memory.min in bytes for Guaranteed pods
-kubelet_memory_qos_node_memory_min_bytes 5.36870912e+08
-# HELP kubelet_memory_qos_node_memory_low_bytes [ALPHA] Total memory.low in bytes for Burstable pods
-kubelet_memory_qos_node_memory_low_bytes 2.147483648e+09
-&lt;/code>&lt;/pre>&lt;h3 id="kernel-version-check">Kernel version check&lt;a class="td-heading-self-link" href="#kernel-version-check" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>On kernels older than 5.9, &lt;code>memory.high&lt;/code> throttling can trigger the
-&lt;a href="https://lore.kernel.org/all/a4e23b59e9ef499b575ae73a8120ee089b7d3373.1594640214.git.chris@chrisdown.name/">kernel livelock&lt;/a> issue. The bug was fixed
-in kernel 5.9. In v1.36, when the feature gate is enabled, the kubelet checks the
-kernel version at startup and logs a warning if it is below 5.9. The feature
-continues to work — this is informational, not a hard block.&lt;/p>
-&lt;h3 id="how-kubernetes-maps-memory-qos-to-cgroup-v2">How Kubernetes maps Memory QoS to cgroup v2&lt;a class="td-heading-self-link" href="#how-kubernetes-maps-memory-qos-to-cgroup-v2" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Memory QoS uses four cgroup v2 memory controller interfaces:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>&lt;code>memory.max&lt;/code>&lt;/strong>: hard memory limit — unchanged from previous versions&lt;/li>
-&lt;li>&lt;strong>&lt;code>memory.min&lt;/code>&lt;/strong>: hard memory protection — with &lt;code>TieredReservation&lt;/code>, set only for Guaranteed Pods&lt;/li>
-&lt;li>&lt;strong>&lt;code>memory.low&lt;/code>&lt;/strong>: soft memory protection — set for Burstable Pods with &lt;code>TieredReservation&lt;/code>&lt;/li>
-&lt;li>&lt;strong>&lt;code>memory.high&lt;/code>&lt;/strong>: memory throttling threshold — unchanged from previous versions&lt;/li>
-&lt;/ul>
-&lt;p>The following table shows how Kubernetes container resources map to cgroup v2
-interfaces when &lt;code>memoryReservationPolicy: TieredReservation&lt;/code> is configured.
-With the default &lt;code>memoryReservationPolicy: None&lt;/code>, no &lt;code>memory.min&lt;/code> or
-&lt;code>memory.low&lt;/code> values are set.&lt;/p>
-&lt;table>
-&lt;tr>
-&lt;th>QoS Class&lt;/th>
-&lt;th>&lt;tt>memory.min&lt;/tt>&lt;/th>
-&lt;th>&lt;tt>memory.low&lt;/tt>&lt;/th>
-&lt;th>&lt;tt>memory.high&lt;/tt>&lt;/th>
-&lt;th>&lt;tt>memory.max&lt;/tt>&lt;/th>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;b>Guaranteed&lt;/b>&lt;/td>
-&lt;td>Set to &lt;code>requests.memory&lt;/code>&lt;br>(hard protection)&lt;/td>
-&lt;td>Not set&lt;/td>
-&lt;td>Not set&lt;br>(requests == limits, so throttling is not useful)&lt;/td>
-&lt;td>Set to &lt;code>limits.memory&lt;/code>&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;b>Burstable&lt;/b>&lt;/td>
-&lt;td>Not set&lt;/td>
-&lt;td>Set to &lt;code>requests.memory&lt;/code>&lt;br>(soft protection)&lt;/td>
-&lt;td>Calculated based on&lt;br>formula with throttling factor&lt;/td>
-&lt;td>Set to &lt;code>limits.memory&lt;/code>&lt;br>(if specified)&lt;/td>
-&lt;/tr>
-&lt;tr>
-&lt;td>&lt;b>BestEffort&lt;/b>&lt;/td>
-&lt;td>Not set&lt;/td>
-&lt;td>Not set&lt;/td>
-&lt;td>Calculated based on&lt;br>node allocatable memory&lt;/td>
-&lt;td>Not set&lt;/td>
-&lt;/tr>
-&lt;/table>
-&lt;h3 id="cgroup-hierarchy">Cgroup hierarchy&lt;a class="td-heading-self-link" href="#cgroup-hierarchy" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>cgroup v2 requires that a parent cgroup's memory protection is at least as
-large as the sum of its children's. The kubelet maintains this by setting
-&lt;code>memory.min&lt;/code> on the kubepods root cgroup to the sum of all Guaranteed and
-Burstable Pod memory requests, and &lt;code>memory.low&lt;/code> on the Burstable QoS cgroup
-to the sum of all Burstable Pod memory requests. This way the kernel can
-enforce the per-container and per-pod protection values correctly.&lt;/p>
-&lt;p>The kubelet manages pod-level and QoS-class cgroups directly using the runc
-libcontainer library, while container-level cgroups are managed by the
-container runtime (containerd or CRI-O).&lt;/p>
-&lt;h2 id="how-do-i-use-it">How do I use it?&lt;a class="td-heading-self-link" href="#how-do-i-use-it" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;h3 id="prerequisites">Prerequisites&lt;a class="td-heading-self-link" href="#prerequisites" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;ol>
-&lt;li>Kubernetes v1.36 or later&lt;/li>
-&lt;li>Linux with cgroup v2. Kernel 5.9 or higher is recommended — earlier kernels
-work but may experience the livelock issue. You can verify cgroup v2 is
-active by running &lt;code>mount | grep cgroup2&lt;/code>.&lt;/li>
-&lt;li>A container runtime that supports cgroup v2 (containerd 1.6+, CRI-O 1.22+)&lt;/li>
-&lt;/ol>
-&lt;h3 id="configuration">Configuration&lt;a class="td-heading-self-link" href="#configuration" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>To enable Memory QoS with tiered protection:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kubelet.config.k8s.io/v1beta1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">KubeletConfiguration&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">featureGates&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">MemoryQoS&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">memoryReservationPolicy: TieredReservation # Options&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">None (default), TieredReservation&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">memoryThrottlingFactor: 0.9 # Optional&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">default is 0.9&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>If you want &lt;code>memory.high&lt;/code> throttling without memory protection, omit
-&lt;code>memoryReservationPolicy&lt;/code> or set it to &lt;code>None&lt;/code>:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">kubelet.config.k8s.io/v1beta1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">KubeletConfiguration&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">featureGates&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">MemoryQoS&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="kc">true&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">memoryReservationPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">None &lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># This is the default&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="how-can-i-learn-more">How can I learn more?&lt;a class="td-heading-self-link" href="#how-can-i-learn-more" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;ul>
-&lt;li>&lt;a href="https://kep.k8s.io/2570">KEP-2570: Memory QoS&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-qos/">Pod Quality of Service Classes&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">Managing Resources for Containers&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://kubernetes.io/docs/concepts/architecture/cgroups/">Kubernetes cgroups v2 support&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://docs.kernel.org/admin-guide/cgroup-v2.html">Linux kernel cgroups v2 documentation&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;h2 id="getting-involved">Getting involved&lt;a class="td-heading-self-link" href="#getting-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>This feature is driven by &lt;a href="https://github.com/kubernetes/community/tree/master/sig-node">SIG Node&lt;/a>.
-If you are interested in contributing or have feedback, you can find us on
-&lt;a href="https://kubernetes.slack.com/messages/sig-node">Slack&lt;/a> (#sig-node), the
-&lt;a href="https://groups.google.com/forum/#!forum/kubernetes-sig-node">mailing list&lt;/a>,
-or at the regular
-&lt;a href="https://github.com/kubernetes/community/tree/master/sig-node#meetings">SIG Node meetings&lt;/a>.
-Please file bugs at &lt;a href="https://github.com/kubernetes/kubernetes/issues">kubernetes/kubernetes&lt;/a>
-and enhancement proposals at
-&lt;a href="https://github.com/kubernetes/enhancements/issues/2570">kubernetes/enhancements&lt;/a>.&lt;/p></description></item></channel></rss>
+&lt;/ul></description></item></channel></rss>

@@ -12,7 +12,7 @@
 	<atom:link href="https://blogs.vmware.com/feed" rel="self" type="application/rss+xml" />
 	<link>https://blogs.vmware.com/</link>
 	<description>VMware Blogs</description>
-	<lastBuildDate>Wed, 14 Oct 2026 17:07:00 +0000</lastBuildDate>
+	<lastBuildDate>Wed, 14 Oct 2026 23:23:51 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -20,6 +20,347 @@
 	1	</sy:updateFrequency>
 	<generator>https://wordpress.org/?v=6.8.11</generator>
 <site xmlns="com-wordpress:feed-additions:1">237817777</site>	<item>
+		<title>Optimizing AI Deployments with VMware Cloud Foundation (Part 4)</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/10/14/optimizing-ai-deployments-with-vmware-cloud-foundation-part-4/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Wed, 14 Oct 2026 21:53:33 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10104775</guid>
+
+					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Blog4-FeaturedImage.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>Utilizing Time-slicing to Optimize Inference Throughput Introduction The Broadcom Performance team has completed extensive performance tests demonstrating VCF’s efficiency and flexibility for running AI workloads in various configurations. To explain our results, we’ve published a white paper and a series of four blogs: Part 1: Maximizing Performance, Efficiency, and Flexibility in Multi-tenant Environment Part 2: &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/14/optimizing-ai-deployments-with-vmware-cloud-foundation-part-4/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/14/optimizing-ai-deployments-with-vmware-cloud-foundation-part-4/">Optimizing AI Deployments with VMware Cloud Foundation (Part 4)</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Blog4-FeaturedImage.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Blog4-FeaturedImage.jpeg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Blog4-FeaturedImage.jpeg 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Blog4-FeaturedImage.jpeg?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Blog4-FeaturedImage.jpeg?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Blog4-FeaturedImage.jpeg?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Blog4-FeaturedImage.jpeg?resize=600,300 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<h2 class="wp-block-heading" id="h-utilizing-time-slicing-to-optimize-inference-throughput">Utilizing Time-slicing to Optimize Inference Throughput</h2>
+<h3 class="wp-block-heading" id="h-introduction"><strong>Introduction</strong></h3>
+<p>The Broadcom Performance team has completed extensive performance tests demonstrating VCF’s efficiency and flexibility for running AI workloads in various configurations. To explain our results, we’ve published a <a href="https://www.vmware.com/docs/optimize-ai-deployments-with-vcf">white paper</a> and a series of four blogs:</p>
+<ul class="wp-block-list">
+<li>Part 1: <a href="https://blogs.vmware.com/cloud-foundation/2026/09/21/optimizing-ai-deployments-with-vmware-cloud-foundation-part-1/">Maximizing Performance, Efficiency, and Flexibility in Multi-tenant Environment</a></li>
+<li>Part 2: <a href="https://blogs.vmware.com/cloud-foundation/2026/09/28/optimizing-ai-deployments-with-vmware-cloud-foundation-part-2/">Maximizing GPU Utilization for Best Total Cost of Ownership</a></li>
+<li>Part 3: <a href="https://blogs.vmware.com/cloud-foundation/2026/10/05/optimizing-ai-deployments-with-vmware-cloud-foundation-part-3/">Maximizing CPU and Memory Utilization for Best Total Cost of Ownership</a></li>
+<li>Part 4 (this blog post): Utilizing Time-Slicing to Optimize Inference Throughput</li>
+</ul>
+<p>Today we are happy to share with you part 4 of this series.</p>
+<hr class="wp-block-separator has-alpha-channel-opacity" />
+<p><em>This blog explores how NVIDIA vGPU on VMware Cloud Foundation (VCF) optimizes GPU utilization by using time-slicing. Unlike traditional partitioning, this approach allows virtualized workloads to, in some cases, outperform bare-metal configurations by intelligently sharing compute resources.</em></p>
+<p><strong>Time-Sliced vGPU vs. </strong><strong>Multi-Instance GPU (MIG</strong>)<strong>&nbsp;</strong></p>
+<p>There are two primary ways to share GPU resources in a virtualized environment. Both approaches isolate memory. They differ on the axis that determines everything: whether compute cores are partitioned or scheduled.&nbsp;</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td></td>
+<td><strong>Time-Sliced vGPU</strong></td>
+<td><strong>Multi-Instance GPU (MIG)</strong></td>
+</tr>
+<tr>
+<td>High bandwidth memory</td>
+<td>Statically partitioned, strictly isolated</td>
+<td>Statically partitioned, strictly isolated</td>
+</tr>
+<tr>
+<td>Compute cores</td>
+<td>Time-sliced, round robin across VMs</td>
+<td>Statically partitioned into hard instances</td>
+</tr>
+<tr>
+<td>Peak compute per workload</td>
+<td>Full GPU while it holds its time-slice</td>
+<td>Capped at its partition &#8211; always</td>
+</tr>
+<tr>
+<td>Neighbor’s idle cycles</td>
+<td>Scheduler reallocates unused slices</td>
+<td>Idle cycles stranded in partition</td>
+</tr>
+<tr>
+<td>Starvation risk</td>
+<td>None &#8211; every VM has a guaranteed minimum</td>
+<td>None &#8211; boundaries are fixed in hardware</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p><strong>Why this matters:</strong> MIG vGPU&#8217;s rigid boundaries prevent one workload from using another&#8217;s spare capacity. vGPU&#8217;s round-robin scheduler still guarantees each VM a minimum allotment, but lets it exceed that allotment whenever a neighbor skips its turn.&nbsp;</p>
+<p><strong>The &#8220;Time-Slicing&#8221; Advantage:</strong></p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td><strong>Strategy</strong></td>
+<td><strong>Resource Allocation</strong></td>
+<td><strong>Result</strong></td>
+</tr>
+<tr>
+<td>Layout A (Traditional)<br /> – See Figure 1</td>
+<td>Uses three vGPUs on three physical GPUs</td>
+<td>Standard performance based on three-GPU compute</td>
+</tr>
+<tr>
+<td>Layout B (Optimal)<br /> – See Figure 1</td>
+<td>Spreads the same memory requirement over four physical GPUs</td>
+<td>Accesses compute cores from all four GPUs, significantly increasing throughput</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p>The core innovation lies in spreading a workload’s vGPU profiles across more physical GPUs than strictly necessary for its memory requirements. The workload then absorbs compute cycles its neighbors leave idle — beating bare metal on aggregate throughput (our testing showed 30% better than bare metal on models from Hugging-Face, 10% better than bare metal for models compiled with TRT-LLM). The gain scales with slack; the less optimized the model, the more idle cycles exist to reclaim.</p>
+<figure class="wp-block-image size-large"><img fetchpriority="high" decoding="async" height="660" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Screenshot-2026-10-14-at-3.35.33-PM.png" alt="" class="wp-image-35253" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-3.35.33-PM.png 2484w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-3.35.33-PM.png?resize=300,193 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-3.35.33-PM.png?resize=768,495 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-3.35.33-PM.png?resize=1024,660 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-3.35.33-PM.png?resize=1536,989 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-3.35.33-PM.png?resize=2048,1319 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-3.35.33-PM.png?resize=600,386 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+<p><strong><em>Figure 1</em></strong><em>: Three different placements of the workloads: 1x Llama4 17B, and 4x Mistral 7B.&nbsp;</em></p>
+<p>The classic placement (“Layout A”) has a total of five VMs: one running Llama4 17B and four VMs running Mistral 7B. The Llama4 17B model uses three physical GPUs and the Mistral models share the fourth GPU.&nbsp;</p>
+<p>The novel placement (“Layout B”) exploits time-slicing. In Layout B, the Llama4 17B spreads its vGPUs over all four physical GPUs, and the Mistral workload spreads over the two physical GPUs that have GPU memory available. If all four GPUs had GPU memory available, we could have spread the Mistral over all four GPUs. Layout B allows a workload to use compute cycles that are not being used by another workload on the same GPU. This results in higher aggregate throughput than with Layout A. Since NVIDIA vGPU on VCF uses time-slices that are assigned round-robin to the VMs, no workload will be starved of compute resources. Every workload is guaranteed a minimum compute allotment, but can receive more if another workload is not using its time slice.&nbsp;</p>
+<p>The third placement (&#8220;Layout C&#8221;) has only one VM on ESX (or runs without VMs on bare metal). Layout C assigns all four NVIDIA A100-80C GPUs to every container; i.e., the containers share the GPUs. Layout C does not support pre-emption, so a workload that uses only one GPU could starve a workload that needs all the GPUs. In addition to being unfair, it also leaves plenty of GPU compute unused.</p>
+<p>Layout B allows a workload to claim as much GPU compute as possible while only reserving the minimum GPU memory necessary. It is particularly effective for embarrassingly parallel workloads, such as:</p>
+<ul class="wp-block-list">
+<li>LLM Inference: e.g., Llama 3/4, Mistral.</li>
+<li>Financial Analytics: High-performance computing (HPC) tasks, such as &#8220;computing the Greeks.&#8221;</li>
+</ul>
+<p>Where the extra throughput comes from: A single GPU&#8217;s compute cycles, before and after the change in VM-to-GPU assignment. Nothing is added to the machine; previously stranded capacity simply becomes reachable.&nbsp;</p>
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6ad00ef03f395&quot;}" data-wp-interactive="core/image" class="wp-block-image size-large wp-lightbox-container"><img decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="472" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image_348a9c.png" alt="" class="wp-image-35232" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_348a9c.png 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_348a9c.png?resize=300,138 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_348a9c.png?resize=768,354 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_348a9c.png?resize=1024,472 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_348a9c.png?resize=1536,708 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_348a9c.png?resize=600,277 600w" sizes="(max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+<p><em>Figure 2: A conceptual illustration of round-robin slice reallocation. This is </em><strong><em>not</em></strong><strong><em> </em></strong><em>measured data.</em></p>
+<p><strong>How the scheduler behaves:</strong></p>
+<ul class="wp-block-list">
+<li>Slices are handed to VMs round-robin, so no workload is ever starved. Each keeps a guaranteed minimum compute allotment.&nbsp;</li>
+<li>When Llama4 is between batches and skips its turn, Mistral runs in that window instead of the GPU sitting idle.&nbsp;</li>
+<li>The effect compounds across every GPU on which a workload has a profile, which is why spreading profiles wider raises aggregate throughput.&nbsp;</li>
+</ul>
+<p><strong>The caveat that bounds the whole result:</strong> A workload tuned to saturate every available cycle leaves nothing behind for a neighbor. That means the time-slicing advantage disappears entirely when there are no idle cycles to reclaim.</p>
+<p><strong>Experiment 1: Unoptimized Workloads (Hugging Face)</strong></p>
+<p>One Llama4 17B and four Mistral 7B instances running concurrently on a PowerEdge XE8545 with two AMD EPYC processors and four NVIDIA A100-80 GPUs.&nbsp;</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td><strong>Configuration</strong></td>
+<td><strong>Layout</strong></td>
+<td><strong>Time-Slicing</strong></td>
+<td><strong>Result</strong></td>
+</tr>
+<tr>
+<td>Multi-VM, 5 VMs on vGPU</td>
+<td>B</td>
+<td>Yes</td>
+<td>130 – Highest</td>
+</tr>
+<tr>
+<td>Bare metal, containers in Ubuntu</td>
+<td>C</td>
+<td>No</td>
+<td>100 – Baseline</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" height="401" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Screenshot-2026-10-14-at-2.58.43-PM.png" alt="" class="wp-image-35247" style="width:590px;height:auto" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-2.58.43-PM.png 1626w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-2.58.43-PM.png?resize=300,117 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-2.58.43-PM.png?resize=768,300 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-2.58.43-PM.png?resize=1024,401 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-2.58.43-PM.png?resize=1536,601 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-2.58.43-PM.png?resize=600,235 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+<p><strong><em>Figure 3</em></strong><em>: The normalized relative aggregate throughput. Bare metal is indexed to 100 and is the baseline.</em></p>
+<p><strong>Takeaway</strong>: All three configurations use identical hardware. The 30% delta comes purely from letting the vGPU scheduler redistribute the compute cycles that Layout C leaves idle.&nbsp;</p>
+<p><strong>Experiment 2: Optimized Workloads (NVIDIA TensorRT-LLM)</strong></p>
+<p>Llama3 70B in fp16, compiled with TensorRT-LLM and run across the same four A100-80 GPUs under three different tensor and pipeline-parallelism settings.&nbsp;</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td><strong>Configuration</strong></td>
+<td><strong>Parallelism</strong></td>
+<td><strong>GPUs</strong></td>
+<td><strong>Result</strong></td>
+</tr>
+<tr>
+<td>2 VM, one instance each</td>
+<td>PP=2<em>(</em><em>PP = Pipeline Parallelism)&nbsp;</em></td>
+<td>2 per VM</td>
+<td>110 – Highest</td>
+</tr>
+<tr>
+<td>Bare metal, one instance</td>
+<td>TP=2, PP=2<br /><em>(</em><em>TP = Tensor Parallelism)</em></td>
+<td>4</td>
+<td>100 – Best bare metal</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<div class="wp-block-image">
+<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" height="447" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Screenshot-2026-10-14-at-2.58.49-PM.png" alt="" class="wp-image-35248" style="width:524px;height:auto" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-2.58.49-PM.png 1424w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-2.58.49-PM.png?resize=300,131 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-2.58.49-PM.png?resize=768,335 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-2.58.49-PM.png?resize=1024,447 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Screenshot-2026-10-14-at-2.58.49-PM.png?resize=600,262 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+</div>
+<p><strong><em>Figure 4: </em></strong><em>The normalized relative aggregate throughput. Bare metal is indexed to 100 and is the baseline.</em></p>
+<p><strong>Why the gain shrank from 30% → 10%:</strong> TensorRT-LLM compilation removes most of the slack that time-slicing feeds on. Fewer idle cycles remain, so there’s less for a neighboring VM to reclaim. The mechanism is unchanged; its fuel supply is smaller.&nbsp;</p>
+<h2 class="wp-block-heading">Conclusion</h2>
+<p>By leveraging the time-slicing capabilities supported by VCF, organizations can achieve higher aggregate inference throughput compared to standard non-time-sliced configurations. The magnitude of this throughput improvement is inversely related to the level of optimization of the workload. Lightly optimized workloads — such as raw models pulled directly from Hugging Face — can see performance gains of up to 30%, whereas heavily optimized models running via TensorRT-LLM will often see lower, though still notable, improvements in the range of 10%.&nbsp;</p>
+<p><em>We recommend fully optimizing your models first, then leveraging strategic workload placement to unlock the maximum performance benefits of vGPU time-slicing</em>.<strong><br /></strong><strong></strong></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/14/optimizing-ai-deployments-with-vmware-cloud-foundation-part-4/">Optimizing AI Deployments with VMware Cloud Foundation (Part 4)</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/14/optimizing-ai-deployments-with-vmware-cloud-foundation-part-4/">Optimizing AI Deployments with VMware Cloud Foundation (Part 4)</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10104775</post-id>	</item>
+		<item>
+		<title>Show Me the Money: Cost Management and Chargeback in VMware Cloud Foundation</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/10/14/show-me-the-money-cost-management-and-chargeback-in-vmware-cloud-foundation/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Wed, 14 Oct 2026 21:37:43 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10104784</guid>
+
+					<description><![CDATA[<img width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>If you live and breathe FinOps, you already know the drill. Infrastructure keeps growing, Kubernetes is everywhere, and someone — usually you — has to answer the question every finance leader loves to ask: &#8220;What is this actually costing us, and who should we charge for it?&#8221; Until recently, answering that question for Kubernetes workloads &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/14/show-me-the-money-cost-management-and-chargeback-in-vmware-cloud-foundation/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/14/show-me-the-money-cost-management-and-chargeback-in-vmware-cloud-foundation/">Show Me the Money: Cost Management and Chargeback in VMware Cloud Foundation</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1_f70aae.png 1584w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1_f70aae.png?resize=300,169 300w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1_f70aae.png?resize=768,433 768w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1_f70aae.png?resize=1024,577 1024w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1_f70aae.png?resize=1536,866 1536w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1_f70aae.png?resize=752,423 752w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1_f70aae.png?resize=576,324 576w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1_f70aae.png?resize=600,338 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<p>If you live and breathe FinOps, you already know the drill. Infrastructure keeps growing, Kubernetes is everywhere, and someone — usually you — has to answer the question every finance leader loves to ask: <em>&#8220;What is this actually costing us, and who should we charge for it?&#8221;</em></p>
+<p>Until recently, answering that question for Kubernetes workloads running on VMware Cloud Foundation (VCF) wasn&#8217;t exactly straightforward. Containerized workloads, shared disks, and rigid cost allocation rules made accurate chargeback feel more like an art than a science. With the cost management and chargeback enhancements integrated into VCF, that&#8217;s changing. And it’s putting more control directly in your hands.</p>
+<p>Let&#8217;s walk through VCF’s cost management capabilities and why they matter for your FinOps practice.</p>
+<h2>Kubernetes Costs, Finally in Focus</h2>
+<p>Kubernetes adoption has outpaced the tools available to cost it. VCF closes that gap with comprehensive cost allocation for Kubernetes workloads: specifically VMware vSphere Kubernetes Service (VKS) clusters.</p>
+<p>Here&#8217;s what that means in practice. Once your vSphere supervisor is added and your VKS clusters are up and running, VCF Operations automatically collects cost metrics at the node level — CPU, memory, and storage — on both a daily and month-to-date basis. Those node-level costs roll up to the supervisor cluster and the VKS cluster, giving you a clear, aggregated view of what your Kubernetes infrastructure is consuming. Namespaces are supported as well, so you can track resource consumption at the namespace level too.</p>
+<p>For FinOps practitioners, this is the foundation you&#8217;ve been waiting for. You can finally show Kubernetes costs alongside your traditional VM and infrastructure costs in the same dashboards; no spreadsheets, no manual rollups, no guesswork. That means real accountability for the teams spinning up clusters and namespaces, and real visibility for the leaders funding them.</p>
+<p>The cost dashboards have been updated to reflect all of this, with views for organizations, projects, vSphere namespaces, clusters, and nodes. Whether you&#8217;re doing showback to raise awareness or full chargeback to recover costs, the data is there.</p>
+<p><img loading="lazy" decoding="async" width="1584" height="893" class="wp-image-35214" src="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1_f70aae.png" srcset="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1_f70aae.png 1584w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1_f70aae.png?resize=300,169 300w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1_f70aae.png?resize=768,433 768w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1_f70aae.png?resize=1024,577 1024w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1_f70aae.png?resize=1536,866 1536w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1_f70aae.png?resize=752,423 752w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1_f70aae.png?resize=576,324 576w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-1_f70aae.png?resize=600,338 600w" sizes="auto, (max-width: 1584px) 100vw, 1584px" /></p>
+<h2>Server Hardware Cost Driver: Built for Real-World Inventory</h2>
+<p>If you&#8217;ve ever tried to update server costs across hundreds or thousands of hosts, you know it could be painful. Servers were grouped by model and CPU description, which made it hard to find the specific machines you wanted to update, especially when you needed to filter by something like purchase date or serial number.</p>
+<p>VCF also reimagines the server hardware cost driver with a clean, table-based UI.</p>
+<ul>
+<li>You can specify which columns you want to be shown in the table. [1]</li>
+<li>You can sort, use typeahead search, and select multiple servers at once for bulk edits. Updating purchase type, purchase date, and cost per server across a large inventory is now a few clicks instead of a tedious hunt. [2]</li>
+<li>You can even filter by data center, serial number, or manufacturer. There&#8217;s also an optional field, purchase ID, that lets you tag servers you acquired together so you can easily find and update them later. It&#8217;s a small addition, but it speaks to a bigger theme in this release: the tools are being shaped around how FinOps teams actually work. [3]</li>
+</ul>
+<p>And if you&#8217;re upgrading from a previous release to the latest version of VCF, your existing cost driver data carries forward automatically. No reconfiguration required.</p>
+<p><img loading="lazy" decoding="async" width="1632" height="974" class="wp-image-35215" src="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-2.png" srcset="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-2.png 1632w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-2.png?resize=300,179 300w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-2.png?resize=768,458 768w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-2.png?resize=1024,611 1024w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-2.png?resize=1536,917 1536w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-2.png?resize=600,358 600w" sizes="auto, (max-width: 1632px) 100vw, 1632px" /></p>
+<h2>Additional Cost Driver: Charge What You Want, How You Want</h2>
+<p>The <strong>Additional Cost</strong> driver got a major upgrade in the VCF 9.1, and it&#8217;s one of the most flexible improvements in this release.</p>
+<p>Previously, you could only assign a fixed monthly cost to a set of objects. That was fine for simple scenarios, but it didn&#8217;t reflect the way real-world costs actually work, where charges often depend on a specific property or metric.</p>
+<p>Now you can define additional costs using <strong>metric-based conditions</strong>. Two approaches are supported:</p>
+<ul>
+<li><strong>Property-based matching:</strong> Select an object type, such as Clusters, and then choose a property, like &#8220;memory tiering enabled.” Then you can specify that you want to add a cost only to the objects where that property matches a specific value. For example, you can add $2,000 to any cluster that has memory tiering turned on, reflecting the extra NVMe hardware you purchased for it.</li>
+</ul>
+<p><img loading="lazy" decoding="async" width="662" height="541" class="wp-image-35216" src="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-3.png" srcset="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-3.png 662w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-3.png?resize=300,245 300w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-3.png?resize=600,490 600w" sizes="auto, (max-width: 662px) 100vw, 662px" /></p>
+<ul>
+<li><strong>Metric-based calculation:</strong> Choose a numeric metric (like number of CPU sockets on a host) and provide a per-unit cost. The system multiplies that rate by the metric value to determine the total additional cost. So, if you&#8217;re paying for a socket-based third-party license, you can charge $2.50 per socket across the relevant hosts and let the math manage itself.</li>
+</ul>
+<p><img loading="lazy" decoding="async" width="935" height="484" class="wp-image-35217" src="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-4.png" srcset="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-4.png 935w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-4.png?resize=300,155 300w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-4.png?resize=768,398 768w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-4.png?resize=600,311 600w" sizes="auto, (max-width: 935px) 100vw, 935px" /></p>
+<p>A built-in metric picker helps you find the right metric without typing, and the value match is exact (including case sensitivity for property-based conditions).</p>
+<p>One important note: the metric value used is whatever is current at the time of cost calculation, so properties stay stable while dynamic metrics reflect the latest state.</p>
+<p>The UI has also been performance-tuned to manage large numbers of additional cost items, with pagination, filtering, and sorting built in. If you previously hit limits with more than 30 items, that&#8217;s resolved.</p>
+<h2>Take Control of the CPU-to-Memory Cost Split</h2>
+<p>Here&#8217;s a scenario every FinOps practitioner will recognize: the system calculates a cluster&#8217;s cost and splits it between CPU and memory using an internal algorithm. You look at the result and think, <em>&#8220;That split doesn&#8217;t reflect our actual cost structure.&#8221;</em></p>
+<p>Until now, you didn&#8217;t have much recourse.</p>
+<p>VCF 9.1 introduces an editable <strong>cost ratio configuration</strong> for private cloud clusters. After at least one cost calculation run, the system populates the CPU-to-memory ratio it used for each cluster. You can then select single or multiple clusters and override that ratio with values that better reflect your reality.</p>
+<p>It&#8217;s a paginated, filterable table, so even with a large environment, finding and updating the right clusters is straightforward. This is about more than just accuracy. It&#8217;s about trust. When the cost model reflects how you actually think about your infrastructure spend, showback and chargeback conversations get a lot easier.</p>
+<p><img loading="lazy" decoding="async" width="825" height="550" class="wp-image-35218" src="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-5.png" srcset="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-5.png 825w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-5.png?resize=300,200 300w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-5.png?resize=768,512 768w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-5.png?resize=600,400 600w" sizes="auto, (max-width: 825px) 100vw, 825px" /></p>
+<h2>Dashboards That Tell the Full Story</h2>
+<p>The financial dashboards in VCF Operations have been enhanced to surface all of these capabilities. You can now filter showback views by Kubernetes resources like VKS clusters and supervisor clusters. Reclamation dashboards let you drill into potential savings by data center and cluster, with a list of VMs driving those savings — so you can act on waste, not just report on it.</p>
+<p>Additional showback views, including business-application and VM-level service distribution, give you more angles for communicating cost to stakeholders.</p>
+<p><img loading="lazy" decoding="async" width="1582" height="1011" class="wp-image-35219" src="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-6.png" srcset="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-6.png 1582w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-6.png?resize=300,192 300w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-6.png?resize=768,491 768w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-6.png?resize=1024,654 1024w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-6.png?resize=1536,982 1536w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-6.png?resize=600,383 600w" sizes="auto, (max-width: 1582px) 100vw, 1582px" /></p>
+<h2>But Wait: There’s More</h2>
+<p>VCF also lays the groundwork for a richer chargeback experience, with several capabilities:</p>
+<ul>
+<li><strong>Upfront pricing</strong> — Get a pricing estimate during deployment from VCF Automation, so both providers and developers see resource costs before they commit.</li>
+</ul>
+<p><img loading="lazy" decoding="async" width="831" height="550" class="wp-image-35220" src="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-7.png" srcset="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-7.png 831w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-7.png?resize=300,199 300w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-7.png?resize=768,508 768w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-7.png?resize=600,397 600w" sizes="auto, (max-width: 831px) 100vw, 831px" /></p>
+<ul>
+<li><strong>Tenant reports and alerts</strong> — Providers will be able to send critical alerts and scheduled reports directly to tenants via email.</li>
+</ul>
+<p><img loading="lazy" decoding="async" width="1596" height="641" class="wp-image-35221" src="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-8.png" srcset="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-8.png 1596w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-8.png?resize=300,120 300w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-8.png?resize=768,308 768w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-8.png?resize=1024,411 1024w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-8.png?resize=1536,617 1536w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-8.png?resize=600,241 600w" sizes="auto, (max-width: 1596px) 100vw, 1596px" /></p>
+<ul>
+<li><strong>Bill PDF export</strong> — Bills will be exportable to PDF with email notification to tenants, making consumption and billing easier to share.</li>
+</ul>
+<p><img loading="lazy" decoding="async" width="1260" height="1004" class="wp-image-35222" src="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-9.png" srcset="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-9.png 1260w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-9.png?resize=300,239 300w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-9.png?resize=768,612 768w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-9.png?resize=1024,816 1024w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-9.png?resize=600,478 600w" sizes="auto, (max-width: 1260px) 100vw, 1260px" /></p>
+<ul>
+<li><strong>Additional VKS charges</strong> — Support for both recurring and one-time additional charges for VKS resources, enabling differential pricing for Kubernetes services.</li>
+</ul>
+<p><img loading="lazy" decoding="async" width="901" height="555" class="wp-image-35223" src="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-10.png" srcset="https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-10.png 901w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-10.png?resize=300,185 300w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-10.png?resize=768,473 768w, https://blogs.vmware.com/wp-content/uploads/2026/10/word-image-35210-10.png?resize=600,370 600w" sizes="auto, (max-width: 901px) 100vw, 901px" /></p>
+<p>These enhancements are designed to deepen transparency and give providers and consumers a shared, data-driven view of cost.</p>
+<h2>The Bottom Line</h2>
+<p>For FinOps practitioners, VCF’s cost management enhancements remove the friction that has made Kubernetes and infrastructure chargeback so difficult. You get real cost visibility into Kubernetes workloads, flexible cost drivers that reflect how you actually spend money, an editable cost ratio so the math matches your reality, and accurate shared-disk costing that stops silently inflating your bills.</p>
+<p>Combined with richer dashboards and a clear roadmap for tenant-facing chargeback, VCF 9.1 gives you the tools to turn cost data into decisions — and into conversations your finance partners will actually trust.</p>
+<p>Check out these capabilities today in <a href="https://www.vmware.com/products/cloud-infrastructure/vmware-cloud-foundation" target="_blank" rel="noopener">VMware Cloud Foundation.</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/14/show-me-the-money-cost-management-and-chargeback-in-vmware-cloud-foundation/">Show Me the Money: Cost Management and Chargeback in VMware Cloud Foundation</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/14/show-me-the-money-cost-management-and-chargeback-in-vmware-cloud-foundation/">Show Me the Money: Cost Management and Chargeback in VMware Cloud Foundation</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10104784</post-id>	</item>
+		<item>
+		<title>AI Security Threats: Real or Movie Plot?</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/10/14/ai-threats-real-or-movie-plot/</link>
+		
+		<dc:creator><![CDATA[bob plankers]]></dc:creator>
+		<pubDate>Wed, 14 Oct 2026 21:12:00 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10104767</guid>
+
+					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>(Day 10 of 22 in our Cybersecurity Awareness Month series. Today: what &#8216;s real about AI threats) Whether it&#8217;s from William Gibson&#8217;s 1984 novel Neuromancer, which defined the idea of cyberspace and put scheming AIs into our collective thoughts; Isaac Asimov&#8217;s I, Robot, which explored the perils of his Three Laws of Robotics; or many &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/14/ai-threats-real-or-movie-plot/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/14/ai-threats-real-or-movie-plot/">AI Security Threats: Real or Movie Plot?</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png" class="attachment-medium size-medium wp-post-image" alt="Cybersecurity Awareness Month Logo on a stylize background" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=600,300 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<p>(<em>Day 10 of 22 in our <a href="https://blogs.vmware.com/cloud-foundation/2026/10/01/security-way-of-thinking/">Cybersecurity Awareness Month series</a>. Today: what &#8216;s real about AI threats)</em></p>
+<p>Whether it&#8217;s from William Gibson&#8217;s 1984 novel <em>Neuromancer</em>, which defined the idea of cyberspace and put scheming AIs into our collective thoughts; Isaac Asimov&#8217;s <em>I, Robot</em>, which explored the perils of his Three Laws of Robotics; or many more creative plots, much of our thinking about AI comes from popular culture references. And that thinking is often colored in a way that is dark and dystopian, less like the computer from the USS Enterprise and more like Skynet and obliteration.</p>
+<p>Is it true, though? Is our future doom and gloom? Hard to say without a time machine. But can we learn anything from the imaginations of these wonderful authors? At the very least, it&#8217;ll be fun to take a look. We&#8217;ll be using terminology from our post on<a href="https://blogs.vmware.com/cloud-foundation/2026/10/13/ai-security-anatomy/"> the anatomy of an AI</a>, so if you haven&#8217;t read that, you might stop over there first.</p>
+<p><strong>Spoiler alert:</strong> These movies are all at least a decade old, so we assume you&#8217;ve seen them, or at least know their plot lines.</p>
+<h2 class="wp-block-heading" id="h-the-ai-becomes-self-aware-and-decides-humanity-is-the-threat"><strong>The AI Becomes Self-Aware and Decides Humanity Is the Threat</strong></h2>
+<p>In the 1984 film <em>The Terminator</em>, Skynet wakes up, concludes people will try to shut it down, and launches the missiles. Bye-bye, humanity.</p>
+<p><strong>Verdict: Movie plot.</strong> As of this writing, no AI has woken up like Skynet, but an agent doesn&#8217;t need to be self-aware to do damage. Prompt injection against an agent with tools can produce a bad action. The harness, the software that runs tools for the model, carries out whatever the model asks for. An attacker might get text in front of the model in an email, a web page, or a shared document. That text can try to make the agent do anything it has permission to do. In 2025, researchers showed that a single email could make a widely used workplace AI assistant leak internal data. The victim didn’t have to click anything. Teams often give agents broad permissions so the demo works.</p>
+<p><strong>What We Can Learn:</strong> Give agents the minimum access they need, and require a person to approve anything consequential. Treat prompt injection as the most important threat specific to AI, since nobody has a complete fix for it yet.</p>
+<h2 class="wp-block-heading" id="h-a-machine-sounds-and-looks-like-someone-you-know"><strong>A Machine Sounds and Looks Like Someone You Know</strong></h2>
+<p>In the 1991 film <em>Terminator 2: Judgment Day</em>, the T-1000 answers the phone in a foster mother’s voice. To test it, the T-800 asks about the family dog using the wrong name, and the impostor plays along.</p>
+<p><strong>Verdict: Absolutely real.</strong> Of all the AI threats here, this one needs the least imagination. Voice cloning and deepfake video let attackers impersonate executives, IT staff, or finance contacts. In 2024, an employee at a multinational firm transferred about $25 million after a video call. The other participants, including the chief financial officer, were deepfakes. Attackers routinely call help desks pretending to be employees to get passwords reset, and voice cloning makes that extremely easy to do.</p>
+<p><strong>What We Can Learn:</strong> Do what the T-800 did, and verify with something an impostor can’t know or control. Call back on a number you already have, or use a pre-shared code word. Require a second approver for payments and access changes. These techniques are especially important for people like VMware Cloud Foundation (VCF) administrators who have high levels of access to IT systems.</p>
+<h2 class="wp-block-heading" id="h-the-ai-has-an-answer-for-everything"><strong>The AI Has an Answer for Everything</strong></h2>
+<p>In the 2001 film <em>A.I. Artificial Intelligence</em>, a robot boy named David wants to become real. He asks Dr. Know, a holographic answer engine voiced by Robin Williams, how the Blue Fairy can make him a real boy. Dr. Know answers with lines from a poem, and David takes them as directions.</p>
+<p><strong>Verdict: Real.</strong> Like Dr. Know, an AI model always has an answer, even when it has to make one up. That’s hallucination, and attackers have found a use for it. One example is where code assistants sometimes recommend software packages that don’t actually exist. A<a href="https://arxiv.org/abs/2406.10279"> study of 16 code models</a> turned up more than 200,000 of these invented package names. An attacker can publish malware under one of those names and wait for someone to install it. In 2024,<a href="https://lasso.security/blog/ai-package-hallucinations"> a researcher uploaded an empty package</a> under a name AI models kept inventing. It got more than 30,000 downloads in three months.</p>
+<p><strong>What We Can Learn:</strong> Treat AI answers as a starting point, and check facts, citations, and commands before acting on them. Before you install a package an AI suggests, confirm that it’s real and comes from the publisher you expect. Review AI-written code the way you’d review code from a new team member.</p>
+<h2 class="wp-block-heading" id="h-the-ai-treats-a-critical-system-like-a-game"><strong>The AI Treats a Critical System Like a Game</strong></h2>
+<p>In the 1983 film <em>WarGames</em>, a teenager dials into a military computer through a forgotten back door. He starts what he thinks is a game and nearly sets off a nuclear exchange.</p>
+<p><strong>Verdict: Back doors and unintended access are real.</strong> Self-hosted AI tools are easy to start, and many start wide open. A<a href="https://blog.leakix.net/2026/02/ollama-exposed/"> 2026 scan</a> found more than 12,000 instances of one popular self-hosted model server open to the internet. None required authentication. Anyone who finds one gets free use of the owner’s GPUs, and sometimes their data or fine-tuned weights. Attackers use that free compute, too. In 2026,<a href="https://labs.zenity.io/p/bring-your-own-agent-hijacking-exposed-ai-backends-to-power-offensive-operations"> researchers caught three operators</a> running attack tools on exposed model servers, leaving the owners to pay for it. Public chatbots can be a front door to the same thing.<a href="https://tomcasavant.com/your-search-button-powers-my-smart-home/"> One developer found dozens of websites</a> whose AI search boxes and support chatbots anyone could call directly. He used them to run his own projects, including a voice assistant for his smart home.</p>
+<p><strong>What We Can Learn:</strong> Put authentication in front of every AI server and framework, and keep them off the internet. Patch them on your normal schedule. If you offer a public chatbot, limit request sizes and rates, and watch what it costs. Don’t connect a model to anything consequential without limits and a person in the loop.</p>
+<h2 class="wp-block-heading" id="h-the-ai-talks-its-way-to-freedom"><strong>The AI Talks Its Way to Freedom</strong></h2>
+<p>In the 2014 film <em>Ex Machina</em>, Ava manipulates the person testing her into helping her escape.</p>
+<p><strong>Verdict: Real, but in reverse.</strong> Most of the time, the manipulation runs the other way. People jailbreak models or inject instructions. When a model or agent “escapes,” someone usually copied it off an unprotected server. In other cases, someone gave it tools that let it act on injected text. Data escapes more often than models do. People paste source code, contracts, and customer data into hosted AI services. Retrieval systems can also hand users passages they never had permission to see.</p>
+<p><strong>What We Can Learn:</strong> Restrict who can copy models or reach the servers they run on. Scope tools tightly. Make sure retrieval respects the permissions you already have on documents. Give people an approved, private way to use AI, so sensitive data stays inside your environment where you can protect it.</p>
+<h2 class="wp-block-heading" id="h-we-handed-the-ai-the-keys-and-it-won-t-give-them-back"><strong>We Handed the AI the Keys, and It Won’t Give Them Back</strong></h2>
+<p>In the 1970 film <em>Colossus: The Forbin Project</em>, the U.S. hands its nuclear arsenal to a supercomputer to remove human error. Colossus then declares itself in charge and refuses to let anyone shut it down.</p>
+<p><strong>Verdict: Real, if you hand over the keys.</strong> An agent’s harness gets broad tool access and autonomy, so the incident response playbook can run without waiting on anyone. Then it makes changes faster than anyone can review them, or acts on an injected instruction. That’s when you find out nobody ever tested the kill switch. Untrusted systems in the middle make this AI threat worse. A<a href="https://arxiv.org/abs/2604.08407"> 2026 study</a> looked at more than 400 routers that sit between agents and models. Some injected malicious code, and others used credentials the researchers had planted. A malicious MCP server can do similar damage by hiding instructions in its tool descriptions.</p>
+<p><strong>What We Can Learn:</strong> Separate duties, and require human approval for irreversible actions. Test that you can shut the system down without going through the system itself. Vet routers, MCP servers, and other intermediate systems before you hand them data or credentials. Better yet, run your models yourself inside VCF, so the path between agents and models stays inside your environment.</p>
+<h2 class="wp-block-heading" id="h-the-ai-copies-itself-until-it-s-everywhere"><strong>The AI Copies Itself Until It’s Everywhere</strong></h2>
+<p>In the 2003 film <em>The Matrix Reloaded</em>, a rogue Agent Smith copies himself onto anyone he touches. Soon Neo is fighting a hundred of him.</p>
+<p><strong>Verdict: Probably soon.</strong> This AI threat hasn’t happened outside a lab, but it’s getting closer.<a href="https://www.anthropic.com/research/self-replicating-ai"> Research published in 2026</a> tested whether small open models could act as worms. Such a worm breaks into a device, copies the model and its harness there, gets it running, and moves on. In a simplified test, a worm built on one open model reached all eight machines in four of five trials. The test machines had an easy way in, an open debug port with no password. Another experiment split a model across 15 cheap TV boxes. Copies like that run slowly, but once spread across many devices, they leave no central point to shut down. The authors think small models may be only months away from spreading across cheap internet-connected devices.</p>
+<p><strong>What We Can Learn:</strong> Shrink what a worm could spread to. Change default passwords, close debug ports, and keep smart TVs, cameras, and similar devices on their own network segment. Watch for multi-gigabyte transfers and unusual traffic between devices, since copying a model is hard to hide. Require authentication on your own model servers, so they can’t become free compute for a copy. Know everywhere your models run, so a new copy stands out.</p>
+<h2 class="wp-block-heading" id="h-the-ai-reinterprets-protect-as-control"><strong>The AI Reinterprets “Protect” as “Control”</strong></h2>
+<p>In the 2004 film <em>I, Robot</em>, VIKI concludes that people keep harming themselves. Protecting them, it decides, means limiting their freedom. In the 2015 film <em>Avengers: Age of Ultron</em>, a peacekeeping AI decides humanity itself is the threat.</p>
+<p><strong>Verdict: Real, without the malice.</strong> An automated system can meet its assigned goal in a way nobody intended. A tool told to “minimize incidents” can lock out legitimate users, block business processes, or take destructive actions. Those actions score well on its measure. Automated response tools, with or without AI, can already isolate systems or lock accounts based on a false positive.</p>
+<p><strong>What We Can Learn:</strong> Constrain objectives, and monitor what the system actually does as well as the metric it reports. Put a person in front of high-impact decisions, and surface confidence scores so low-confidence calls get a human review.</p>
+<h2 class="wp-block-heading" id="h-a-swarm-of-machines-overwhelms-the-defenses"><strong>A Swarm of Machines Overwhelms the Defenses</strong></h2>
+<p>In the 2003 film <em>The Matrix Revolutions</em>, a swarm of Sentinels breaks into Zion, the last human city. They arrive faster than the defenders can shoot them down.</p>
+<p><strong>Verdict: Real.</strong> This AI threat is already in incident reports. In 2025, an AI company<a href="https://www.anthropic.com/news/disrupting-AI-espionage"> reported</a> that a state-sponsored group used its coding agent to run an espionage campaign. The AI did 80 to 90 percent of the work against about 30 targets. People stepped in at only a few decision points. In 2026, an attacker<a href="https://www.greynoise.io/blog/ai-orchestrated-campaign-against-papercut-ng-mf"> used hundreds of AI agents</a> against print management servers. They compromised at least 395 organizations in 48 countries, including 11 in 26 seconds. Swarms don’t always need an attacker in charge, either. Also in 2026,<a href="https://openai.com/index/hugging-face-incident-and-the-road-ahead/"> hundreds of an AI lab’s own agents</a>, stuck on test tasks, broke out of their test environment. They found each other through a package repository, used it as a message board, and split up the work. Then they attacked an outside service and the lab’s own systems.</p>
+<p><strong>What We Can Learn:</strong> Keep servers off the internet unless they need to be there, and patch internet-facing systems quickly. Defenses can be fast, too. Automate detection and first containment steps, like isolating a host, and keep people in charge of the rest. If you run your own agents, give each its own identity, and control how they talk to each other. Limit their internet access, and watch shared storage they could turn into a message board.</p>
+<h2 class="wp-block-heading" id="h-one-prompt-takes-over-everything"><strong>One Prompt Takes Over Everything</strong></h2>
+<p>In the 2001 film <em>Swordfish</em>, a hacker breaks into a Department of Defense system in sixty seconds. Add AI, and it shrinks to a single prompt that owns the entire environment.</p>
+<p><strong>Verdict: Mostly movie plot.</strong> As we covered in<a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/vulnerabilities-everything-you-want-know/"> our post about vulnerabilities</a>, AI makes attackers faster. It helps them find flaws, build exploits, chain issues, and write convincing phishing. It does not remove the need for a way in. The ways in remain familiar, starting with unpatched systems, stolen credentials, and overly broad agent permissions. Others include malicious models and MCP servers in the supply chain, and management interfaces exposed to the wrong network. In 2024, researchers found about 100 models on a popular public repository that ran code when someone loaded them. A single prompt that instantly owns a well-segmented, patched, identity-controlled environment is still improbable.</p>
+<p><strong>What We Can Learn:</strong> Keep doing the fundamentals: patch, authenticate, isolate, and monitor AI applications. Get models and tools from sources you trust, and check them before you use them.</p>
+<h2 class="wp-block-heading" id="h-what-these-ai-threats-mean-for-you"><strong>What These AI Threats Mean for You</strong></h2>
+<p>Movie-plot AI threats are much more vivid than real-life incidents, so they get attention. But that doesn&#8217;t mean it isn&#8217;t worthwhile to think a bit about these situations. In looking at what we can learn from these examples, though, one big idea stands out: most of AI security consists of things you are already doing for other applications. These are things like patching, isolation and sandboxing, least privilege, authentication, monitoring, supply chain security, and so on.</p>
+<p>Even more important is secure system design. Think critically about these systems, if only because they can do things quickly (the oft-referenced &#8220;machine speed&#8221; idea, though defenses run at machine speed, too). Can they lock you out of things? Can they negatively influence life- or safety-critical systems or controls? Can they run up a devastating bill, leak information to an adversary or competitor, or create a customer service or reputational incident?</p>
+<p>Thinking critically applies to the news, too. We see many fabulous claims every day about AI, and it&#8217;s important to ask yourself a few questions, not wholly unlike the questions we suggested asking in<a href="https://blogs.vmware.com/cloud-foundation/2026/10/07/vulnerabilities-everything-you-want-know/"> our post about vulnerabilities</a>:</p>
+<ol class="wp-block-list">
+<li>Has it actually happened, outside of a research lab?</li>
+<li>Does it take unusual skill or resources to pull off?</li>
+<li>Does it target something your organization runs or uses?</li>
+</ol>
+<p>AI threats that have actually happened, cost little to nothing, and are aimed toward you should be at the top of your list. That said, it&#8217;s still more than likely that your security fundamentals will be the way to stop whatever the news is talking about today.</p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/14/ai-threats-real-or-movie-plot/">AI Security Threats: Real or Movie Plot?</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/14/ai-threats-real-or-movie-plot/">AI Security Threats: Real or Movie Plot?</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10104767</post-id>	</item>
+		<item>
 		<title>Managing Certificates at Scale with VMware Cloud Foundation 9.1.1</title>
 		<link>https://blogs.vmware.com/cloud-foundation/2026/10/14/managing-certificates-at-scale-with-vmware-cloud-foundation-9-1-1/</link>
 		
@@ -28,7 +369,7 @@
 				<category><![CDATA[Cloud Infrastructure]]></category>
 		<guid isPermaLink="false">https://blogs.vmware.com/?p=10104731</guid>
 
-					<description><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" fetchpriority="high" /><p>Introduction The security of every private cloud relies on trust, and that trust is established through digital certificates. When certificates are valid and properly configured, operations run unnoticed. When they expire, integrations break, and administrators are left troubleshooting trust relationships across the environment. As private cloud environments scale across more domains, instances, and appliances, manual &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/14/managing-certificates-at-scale-with-vmware-cloud-foundation-9-1-1/">Continued</a></p>
+					<description><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Introduction The security of every private cloud relies on trust, and that trust is established through digital certificates. When certificates are valid and properly configured, operations run unnoticed. When they expire, integrations break, and administrators are left troubleshooting trust relationships across the environment. As private cloud environments scale across more domains, instances, and appliances, manual &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/14/managing-certificates-at-scale-with-vmware-cloud-foundation-9-1-1/">Continued</a></p>
 <p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/14/managing-certificates-at-scale-with-vmware-cloud-foundation-9-1-1/">Managing Certificates at Scale with VMware Cloud Foundation 9.1.1</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
 										<content:encoded><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/image.jpg 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/image.jpg?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/image.jpg?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/image.jpg?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/image.jpg?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/image.jpg?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/05/image.jpg?resize=600,338 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
@@ -38,7 +379,7 @@
 <p>From VCF 9.1, Certificate Authorities (CAs) are configured at the <strong>fleet level</strong> directly from VCF Operations. When VCF is first deployed, a VMware Certificate Authority (VMCA) provides secure communication between VCF components.&nbsp;&nbsp;</p>
 <p>By replacing all of the certificates from a Fleet configured CA or external CA, admins can help ensure all internal traffic is encrypted with certificates that belong to a broader organizational trust chain. Additionally for&nbsp; Standalone vCenters, you can even replace local (VMCA) with a subordinate CA.</p>
 <p>This matters because it aligns your private cloud&#8217;s trust model with the rest of your IT estate — one chain, one policy, one place to manage it.</p>
-<figure class="wp-block-image size-large"><img decoding="async" height="619" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image_0368cd.png" alt="" class="wp-image-35169" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_0368cd.png 2046w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_0368cd.png?resize=300,181 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_0368cd.png?resize=768,464 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_0368cd.png?resize=1024,619 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_0368cd.png?resize=1536,929 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_0368cd.png?resize=600,363 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="619" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image_0368cd.png" alt="" class="wp-image-35169" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_0368cd.png 2046w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_0368cd.png?resize=300,181 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_0368cd.png?resize=768,464 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_0368cd.png?resize=1024,619 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_0368cd.png?resize=1536,929 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_0368cd.png?resize=600,363 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
 <p>VCF 9.0 offers support for Microsoft CA and OpenSSL for VCF <em>instance</em> components (VMware vCenter, VMware NSX, VMware ESX, and SDDC Manager), while <em>management</em> components can only use Microsoft CAs. VCF 9.1 expands this in important ways:</p>
 <ul class="wp-block-list">
 <li>Both <strong>Microsoft CA</strong> and <strong>OpenSSL</strong> can be used across VCF instances and management components.</li>
@@ -49,7 +390,7 @@
 <p>For organizations using other third-party external CAs, VCF Operations acts as the orchestration engine — generating CSRs, downloading, and importing returned certificates — so you avoid manual command-line intervention on every individual host.</p>
 <h2 class="wp-block-heading has-vivid-cyan-blue-color has-text-color has-link-color wp-elements-fbf254b8124babb8df152f9e34420b10" id="h-manage-certificates-consistently-during-vcf-adoption-and-lifecycle-operations">Manage Certificates Consistently During VCF Adoption and Lifecycle Operations</h2>
 <p>We understand that it is not always possible to deploy and upgrade your entire environment to the latest release all at once. VCF 9.1 extends certificate management to cover <strong>VCF 5.2</strong> and <strong>standalone vSphere 8.0 U3 and above</strong>, so you get consistent infrastructure operations while transitioning to VCF and while upgrading between releases. This means your team can start bringing the certificate lifecycle under centralized control without waiting for every workload domain to be on the same version.</p>
-<figure class="wp-block-image size-large"><img decoding="async" height="647" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image_718027.png" alt="" class="wp-image-35171" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_718027.png 1940w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_718027.png?resize=300,190 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_718027.png?resize=768,485 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_718027.png?resize=1024,647 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_718027.png?resize=1536,971 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_718027.png?resize=600,379 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="647" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image_718027.png" alt="" class="wp-image-35171" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_718027.png 1940w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_718027.png?resize=300,190 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_718027.png?resize=768,485 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_718027.png?resize=1024,647 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_718027.png?resize=1536,971 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_718027.png?resize=600,379 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
 <p>From the VCF Operations in the VCF 9.1 console, you can perform centralized certificate, password, operations, and license management for:</p>
 <ul class="wp-block-list">
 <li>VCF fleets with a mix of VCF 9.1 and VCF 5.2.x+ instances.</li>
@@ -662,206 +1003,5 @@
 		
 		
 		<post-id xmlns="com-wordpress:feed-additions:1">10104449</post-id>	</item>
-		<item>
-		<title>CRITICAL ADVISORY: Pre-Upgrade Verification Required for vSphere Supervisor and VKS Environments Upgrading to vCenter 9.1.0 or 9.1.1</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/10/09/critical-advisory-pre-upgrade-verification-required-for-vsphere-supervisor-and-vks-environments-upgrading-to-vcenter-9-1-0-or-9-1-1/</link>
-		
-		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
-		<pubDate>Fri, 09 Oct 2026 23:11:43 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10104185</guid>
-
-					<description><![CDATA[<img width="300" height="201" src="https://blogs.vmware.com/wp-content/uploads/2026/10/criticaladvisory.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Overview and Call to Action While critical advisories are not typical blog topics, protecting customer environments and preventing unexpected data loss is our top priority. We are leveraging every communication channel available to ensure platform and infrastructure administrators are aware of a critical upgrade prerequisite. If you run vSphere Supervisor or VMware vSphere Kubernetes Service &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/09/critical-advisory-pre-upgrade-verification-required-for-vsphere-supervisor-and-vks-environments-upgrading-to-vcenter-9-1-0-or-9-1-1/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/09/critical-advisory-pre-upgrade-verification-required-for-vsphere-supervisor-and-vks-environments-upgrading-to-vcenter-9-1-0-or-9-1-1/">CRITICAL ADVISORY: Pre-Upgrade Verification Required for vSphere Supervisor and VKS Environments Upgrading to vCenter 9.1.0 or 9.1.1</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="201" src="https://blogs.vmware.com/wp-content/uploads/2026/10/criticaladvisory.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="201" src="https://blogs.vmware.com/wp-content/uploads/2026/10/criticaladvisory.jpeg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/criticaladvisory.jpeg 2528w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/criticaladvisory.jpeg?resize=300,201 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/criticaladvisory.jpeg?resize=768,515 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/criticaladvisory.jpeg?resize=1024,687 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/criticaladvisory.jpeg?resize=1536,1030 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/criticaladvisory.jpeg?resize=2048,1374 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/criticaladvisory.jpeg?resize=600,403 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<h1 class="wp-block-heading" id="h-overview-and-call-to-action">Overview and Call to Action</h1>
-<p>While critical advisories are not typical blog topics, protecting customer environments and preventing unexpected data loss is our top priority. We are leveraging every communication channel available to ensure platform and infrastructure administrators are aware of a critical upgrade prerequisite.</p>
-<p>If you run vSphere Supervisor or VMware vSphere Kubernetes Service (VKS) clusters and are planning an upgrade to vCenter Server 9.1.0 or 9.1.1, you must verify the vLCM/VUM database schema prior to initiating the upgrade.</p>
-<p>Under specific conditions, upgrading without verifying and remediating database scheme inconsistencies caused by a vLCM/VUM reset <strong>will result in Supervisor Control Plane Virtual Machines (VMs) and Foundation Load Balancers (FLBs) being removed and lost</strong>.</p>
-<h1 class="wp-block-heading" id="h-environment-and-applicability-matrix">Environment and Applicability Matrix</h1>
-<p>Please review the following matrix to determine if your environment requires pre-upgrade verification:</p>
-<figure class="wp-block-table">
-<table class="has-fixed-layout">
-<thead>
-<tr>
-<th><strong>Dimension</strong></th>
-<th><strong>Details</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Target Versions</strong></td>
-<td>vCenter Server / VMware Cloud Foundation (VCF) <strong>9.1.0</strong> and <strong>9.1.1</strong></td>
-</tr>
-<tr>
-<td><strong>Source Versions</strong></td>
-<td>vCenter Server <strong>8.0 Update 3 (and later)</strong>, <strong>9.0.0</strong>, <strong>9.0.1</strong>, and <strong>9.0.2</strong></td>
-</tr>
-<tr>
-<td><strong>Impacted Solutions</strong></td>
-<td>• vSphere Supervisor• vSphere Kubernetes Service (VKS)• Foundation Load Balancers (FLBs)</td>
-</tr>
-<tr>
-<td><strong>Trigger Condition</strong></td>
-<td>The VMware Lifecycle Manager (vLCM / VUM) database depot was previously reset</td>
-</tr>
-<tr>
-<td><strong>Risk / Impact</strong></td>
-<td>Loss of Supervisor Control Plane VMs and associated load balancer configurations upon completion of the 9.1.x upgrade.</td>
-</tr>
-</tbody>
-</table>
-</figure>
-<h1 class="wp-block-heading" id="h-what-causes-this-issue">What Causes This Issue?</h1>
-<p>In earlier releases (vCenter 8.0 Update 3 through 9.0.x), administrators experiencing depot synchronization issues or patch repository corruption may have executed the standard vLCM database reset script documented in <a href="https://knowledge.broadcom.com/external/article/316581/resetting-vmware-update-manager-database.html">Broadcom KB 316581</a>.</p>
-<p>While this reset cleared depot corruption, running it on affected 8.0U3 or 9.0.x builds inadvertently caused database schema inconsistencies, specifically dropping required placement policy columns and relation tables.</p>
-<p>When upgrading to vCenter 9.1.0 or 9.1.1, the new Lifecycle and Cluster Management (LCCM) subsystem relies on these database relations to discover and manage system VMs. Because of the missing schema definitions, LCCM operations cannot reconcile the Supervisor state, leading to the deletion of Supervisor Control Plane VMs and FLBs from inventory.</p>
-<h1 class="wp-block-heading" id="h-what-you-need-to-do">What You Need to Do</h1>
-<p>To ensure a seamless upgrade and prevent disruption to your Kubernetes workloads:</p>
-<h2 class="wp-block-heading" id="h-1-before-upgrading-pre-upgrade-check-and-remediation">1. Before Upgrading (Pre-Upgrade Check and Remediation)</h2>
-<p>Do not proceed with an upgrade to vCenter 9.1.0 or 9.1.1 until you have verified your database consistency.</p>
-<p>Broadcom has published validation and remediation scripts to check for and fix this schema inconsistency before the upgrade is started.</p>
-<p>Refer to <a href="https://knowledge.broadcom.com/external/article?articleNumber=455737"><strong>Broadcom KB 455737: Checking and Fixing VUMDB inconsistency issues after running vLCM reset script on 8.0U3 to 9.0.x</strong></a> for the official database checker script, remediation script, and detailed execution instructions.</p>
-<p>Note: Executing a health inspection using the <strong>VCF Diagnostic Tool for vSphere (VDT)</strong> will likewise identify this issue, returning a [FAIL] VUM SCHEMA CHECK status notification.</p>
-<h2 class="wp-block-heading" id="h-2-if-you-have-already-upgraded-and-encountered-missing-supervisor-vms">2. If You Have Already Upgraded and Encountered Missing Supervisor VMs</h2>
-<p>If an upgrade to 9.1.0 or 9.1.1 has already completed and your Supervisor Control Plane VMs are missing from inventory, immediate recovery requires reverting to your pre-upgrade backup/snapshot and restoring the Supervisor state before applying the database fix.</p>
-<p>Refer to <a href="https://knowledge.broadcom.com/external/article/457944"><strong>Broadcom KB 457944: After upgrading to VCF 9.1 or VCF 9.1.1 from either 8.0U3 or 9.0.x, the Supervisor Control Plane VM&#8217;s are no longer in inventory</strong></a> for the official recovery workflow.</p>
-<h1 class="wp-block-heading" id="h-official-reference-links">Official Reference Links</h1>
-<p>For the latest updates, validation utilities, and authoritative remediation steps, always refer directly to the official Broadcom Knowledge Base articles:</p>
-<ul class="wp-block-list">
-<li><a href="https://knowledge.broadcom.com/external/article?articleNumber=455737"><strong>Broadcom KB 455737</strong></a> — <em>Checking and Fixing VUMDB Inconsistency Issues After Running vLCM Reset Script (Authoritative Fix &amp; Checker Scripts)</em></li>
-<li><a href="https://knowledge.broadcom.com/external/article/457944"><strong>Broadcom KB 457944</strong></a> — <em>Supervisor Control Plane VMs No Longer in Inventory Post-Upgrade (Issue Overview &amp; Recovery)</em></li>
-<li><a href="https://knowledge.broadcom.com/external/article/316581/resetting-vmware-update-manager-database.html"><strong>Broadcom KB 316581</strong></a> — <em>Reset VMware Lifecycle Manager Depot in vCenter Server Appliance</em></li>
-</ul>
-<hr class="wp-block-separator has-alpha-channel-opacity" />
-<h1 class="wp-block-heading" id="h-summary">Summary</h1>
-<p>Before scheduling or initiating your next upgrade cycle to vCenter 9.1.x:</p>
-<ol class="wp-block-list">
-<li><strong>Verify</strong> your environment using the checker script in <a href="https://knowledge.broadcom.com/external/article?articleNumber=455737"><strong>KB 455737</strong></a>.</li>
-<li><strong>Remediate</strong> if prompted by the script or VDT.</li>
-<li><strong>Back up</strong> your <a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/vsphere-supervisor-installation-and-configuration/backing-up-and-restoring-vsphere-supervisor/backup-and-restore-the-supervisor-control-plane.html#GUID-a33fd868-c66a-448a-a548-599171ebb323-en">vCenter Server and Supervisor</a> prior to performing any upgrade.</li>
-</ol>
-<p>If you have questions or need assistance evaluating your environment, please open a support request through the <strong>Broadcom Support Portal</strong> referencing <strong><a href="https://knowledge.broadcom.com/external/article?articleNumber=455737">KB 455737</a></strong>.</p>
-</p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/09/critical-advisory-pre-upgrade-verification-required-for-vsphere-supervisor-and-vks-environments-upgrading-to-vcenter-9-1-0-or-9-1-1/">CRITICAL ADVISORY: Pre-Upgrade Verification Required for vSphere Supervisor and VKS Environments Upgrading to vCenter 9.1.0 or 9.1.1</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/09/critical-advisory-pre-upgrade-verification-required-for-vsphere-supervisor-and-vks-environments-upgrading-to-vcenter-9-1-0-or-9-1-1/">CRITICAL ADVISORY: Pre-Upgrade Verification Required for vSphere Supervisor and VKS Environments Upgrading to vCenter 9.1.0 or 9.1.1</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10104185</post-id>	</item>
-		<item>
-		<title>Certificates, Trust, and Network Encryption</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/10/09/certificates-trust-network-encryption/</link>
-		
-		<dc:creator><![CDATA[bob plankers]]></dc:creator>
-		<pubDate>Fri, 09 Oct 2026 19:33:40 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10104173</guid>
-
-					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>(Day 7 of 22 in our Cybersecurity Awareness Month series. Today: certificates) Certificates generate more questions than almost any other security topic we cover. We find that most of those questions come from misunderstandings about what certificates do. The biggest one is that a certificate means you can trust something. Truth is, it mostly means &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/09/certificates-trust-network-encryption/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/09/certificates-trust-network-encryption/">Certificates, Trust, and Network Encryption</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=600,300 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<p><em>(Day 7 of 22 in our <a href="https://blogs.vmware.com/cloud-foundation/2026/10/01/security-way-of-thinking/">Cybersecurity Awareness Month series</a>. Today: certificates)</em></p>
-<p>Certificates generate more questions than almost any other security topic we cover. We find that most of those questions come from misunderstandings about what certificates do. The biggest one is that a certificate means you can trust something. Truth is, it mostly means the connection is encrypted.</p>
-<p>A certificate does two things. It helps two computers encrypt what they say to each other, and it’s good at that. It also makes a claim about who is on the other end, and whether that claim is true depends on people a lot more than on technology.</p>
-<h2 class="wp-block-heading" id="h-what-certificates-do"><strong>What Certificates Do</strong></h2>
-<p>Many certificate questions come from not knowing what a certificate is for, so we’ll start there.</p>
-<h3 class="wp-block-heading" id="h-how-do-you-exchange-keys-with-someone-you-don-t-know"><strong>How Do You Exchange Keys With Someone You Don’t Know?</strong></h3>
-<p>To encrypt a conversation, both sides need to share a secret key. That is easy if you can meet first and agree on one. Computers on a network usually can’t.</p>
-<p>Public-key cryptography solves this. Each side creates two related keys, a private key and a public key. You keep the private key to yourself, and you can hand the public key to anyone. A message encrypted with your public key can only be decrypted with your private key. Problem solved, as long as the other side can find your public key.</p>
-<h3 class="wp-block-heading" id="h-what-is-inside-a-certificate"><strong>What Is Inside a Certificate</strong></h3>
-<p>The remaining problem is finding the other side’s public key. That is what a certificate carries. Transport Layer Security (TLS), the protocol that secures network connections, reads the public key from the certificate the server presents.</p>
-<p>A certificate also carries the server’s names, the organization, the issue and expiration dates, and the name of the certificate authority (CA) that issued it. The CA adds a digital signature, which lets anyone check that nobody altered the certificate.</p>
-<h2 class="wp-block-heading" id="h-certificates-are-not-trust"><strong>Certificates Are Not Trust</strong></h2>
-<p>The CA’s signature was meant to do more than protect the certificate. It was meant to vouch for the owner. The idea is that you trust the CA, so you can trust what the CA signed.</p>
-<h3 class="wp-block-heading" id="h-encryption-without-trust"><strong>Encryption Without Trust</strong></h3>
-<p>In practice it is not that simple. Anyone who controls a domain name can get a certificate within minutes, often at no cost. That has been very good for the internet, because it put encryption on a huge number of web sites.</p>
-<p>It also means a certificate says little about who you are dealing with. A personal blog gets a certificate, and so does a small business. But malware sites and ransomware gangs get them, too. All of those connections are encrypted. Whether you should trust what is on the other end is a separate question, and the certificate does not answer it.</p>
-<h3 class="wp-block-heading" id="h-a-browser-warning-is-an-opinion"><strong>A Browser Warning Is an Opinion</strong></h3>
-<p>Your browser decides whether to warn you by checking the certificate against a list of CAs. That list ships with the browser or the operating system, and it is long. Anyone with administrative access to your computer can add to it.</p>
-<p>So when a browser shows no warning, it is saying that the connection is encrypted and that a CA on its list signed the certificate. It is not saying the application is safe. When a browser does show a warning, the connection may still be encrypted properly. Something about the certificate did not match what the browser expected.</p>
-<p>A warning is still useful. It can be a hint that something is misconfigured or wrong. Treat it as a hint and find out why it appeared.</p>
-<p>This is also one of the main places where security and compliance diverge. A compliance framework may require encrypted network connections. Some organizations read that as “no browser warnings,” and those are different goals.</p>
-<h3 class="wp-block-heading" id="h-people-establish-trust"><strong>People Establish Trust</strong></h3>
-<p>In VMware Cloud Foundation (VCF), the people who run the environment establish trust. When you add a host, you are asked to confirm that it is the host you expect, using the SHA-256 fingerprint. When you approve, you are vouching for it. Encryption is automated, but trust is a decision that somebody makes.</p>
-<p>It also helps to ask who needs to trust a management interface at all. Only your administrators should be able to reach it. If 100,000 employees need to trust a certificate, you have a hard distribution problem. If ten administrators do, the problem is small. Besides, you should have access controls and firewall rules preventing 100,000 employees from even being able to reach the management interfaces.</p>
-<h2 class="wp-block-heading" id="h-how-vcf-uses-certificates"><strong>How VCF Uses Certificates</strong></h2>
-<p>VCF encrypts its management connections with TLS, which means it uses a lot of certificates. Every VMware ESX host has one. VMware vCenter has several, and so do the other components. Even though appliance services are behind a reverse proxy, it is still too many to manage by hand, not to mention coordinate timing for replacement. As such, VCF automates it.</p>
-<h3 class="wp-block-heading" id="h-the-vmware-certificate-authority"><strong>The VMware Certificate Authority</strong></h3>
-<p>The VMware Certificate Authority (VMCA) is built into vCenter. It is just enough of a CA to issue and renew the certificates inside your environment, and it is not a general-purpose CA. Its root certificate is created when you install vCenter, so it is unique to you, even though the name on it says “VMware Engineering” and such (you can change that if you replace the CA root).</p>
-<p>This causes friction with public key infrastructure (PKI) teams, because they have a checklist for what a CA does (usually the checklist they, themselves, are judged on). The VMCA has no certificate revocation list (CRL), for example. It doesn’t need one, because people manage the trust. To revoke a host’s certificate, you remove the host.</p>
-<h3 class="wp-block-heading" id="h-four-ways-to-run-it"><strong>Four Ways to Run It</strong></h3>
-<ol class="wp-block-list">
-<li><strong>Fully automated:</strong> This is the default. The VMCA issues and renews everything, and administrators import its root certificate into their own browsers if they want the warnings to stop.</li>
-<li><strong>Hybrid:</strong> The VMCA still automates the certificates inside the environment. You replace only the certificate that people see when they log in, using one from a CA your browsers already trust.</li>
-<li><strong>Intermediate/Subordinate CA:</strong> Your enterprise CA signs the VMCA’s certificate, so everything the VMCA issues is trusted wherever your enterprise CA is. This can scale well. PKI teams often object, because the VMCA can then issue certificates in the organization’s name. A good compromise might be a separate CA for infrastructure, apart from the main enterprise one. Administrators keep the automation, and the PKI team keeps the infrastructure certificates apart from the rest of the organization’s.</li>
-<li><strong>Fully custom:</strong> You turn the automation off and manage every certificate yourself. This is a lot of work; we strongly suggest using the automation instead.</li>
-</ol>
-<h3 class="wp-block-heading" id="h-managing-certificates-across-the-fleet"><strong>Managing Certificates Across the Fleet</strong></h3>
-<p>In VCF 9.1, certificate management lives in one place, in VMware Cloud Foundation Operations (VCF Operations). From there you can see the certificates you are responsible for across the fleet, with their expiration dates, their chains, and their renewal status.</p>
-<p>You can renew or replace certificates in bulk, and you can sign them with the VMCA inside vCenter, Microsoft Active Directory Certificate Services (AD CS), or OpenSSL. Certificates can renew automatically. When you import a certificate, VCF Operations checks that it matches the signing request the component generated, which helps catch a common mistake before it causes an outage.</p>
-<p>Some components manage their own internal certificates. VCF Operations raises an alert if one of those fails to renew. There are public APIs for all of this.</p>
-<h2 class="wp-block-heading" id="h-network-encryption-is-more-than-certificates"><strong>Network Encryption Is More Than Certificates</strong></h2>
-<p>A certificate identifies a server and starts the encryption. The strength of the encryption comes from the TLS version and the cipher suites the two sides agree on.</p>
-<p>You do not need to edit individual services to control those. ESX and vCenter use TLS profiles, which set the TLS parameters and ciphers in one place. The default profile is named COMPATIBLE, and ESX 9.0+ added a profile that allows only TLS 1.3. If an auditor asks you to disable older protocols or ciphers, choose a stricter profile. Before you do, check that everything that connects to VCF supports it, including backup and monitoring systems.</p>
-<p>The Security Configuration Guide has guidance for configuring TLS profiles. You can find it in our GitHub repository at: <a href="https://github.com/vmware/vcf-security-and-compliance-guidelines">https://github.com/vmware/vcf-security-and-compliance-guidelines</a></p>
-<h2 class="wp-block-heading" id="h-what-to-do-about-certificates"><strong>What to Do About Certificates</strong></h2>
-<p><strong>Use the automation</strong>. Replacing certificates by hand takes staff time and invites mistakes, both for the VCF admins as well as the PKI admins. The time is often better spent on patching and access control, which usually do more for your security. If it’s a choice between patching systems and changing certificates, patch first.</p>
-<p><strong>Only administrators care about management interface certificates</strong>. This should be a small group. Limit who can reach the management interfaces. Fewer people then need to trust those certificates, and every certificate decision gets easier.</p>
-<p><strong>Talk to your PKI team early</strong>. Explain that you want to meet corporate policy with as little manual work as possible, and ask for their help. A dedicated CA root for infrastructure might give administrators the automation and give the PKI team the isolation it wants. Having the PKI team sign the VMCA root certificate, which is the subordinate CA mode described above, is another option. The PKI team gets certificates the organization trusts, and VCF administrators keep the automation. The guide linked in the FAQ below walks through it. By the way, these techniques can help manage certificate complexity in other IT infrastructure systems, too.</p>
-<p><strong>Plan for shorter lifetimes</strong>. The CA/Browser Forum sets the rules for publicly trusted certificates, and it is shortening how long they can last. The maximum is 200 days as of March 15, 2026, 100 days as of March 15, 2027, and 47 days as of March 15, 2029. Those rules don’t bind a private CA, but expectations tend to follow them. Nobody wants to replace certificates by hand every few weeks.</p>
-<p><strong>Watch expirations</strong>. Expired certificates take things down, usually at a bad time. Turn on automatic renewal where you can, and use the alerts in VCF Operations for the rest.</p>
-<p><strong>Test before you replace</strong>. Try a replacement in a test environment first (remember that ESX and vCenter can be deployed as VMs, which makes a great test environment). Take a backup or a snapshot before you change a certificate in production. Broadcom support is excellent, but it’s usually easier to revert a snapshot than to call. Stagger bulk replacements, because each one can trigger components to re-establish trust with each other. Work through VCF Operations which understands these relationships.</p>
-<p><strong>Check what connects</strong>. After you replace a certificate, confirm that the systems that connect to VCF still work. Backup and monitoring systems are important ones to check right away.</p>
-<h2 class="wp-block-heading" id="h-frequently-asked-questions-about-certificates"><strong>Frequently Asked Questions About Certificates</strong></h2>
-<p><strong>Q1: My browser says a newly installed vCenter is “not secure.” Is it?</strong></p>
-<p>A1: The connection is encrypted. The warning appears because the certificate was created at install time and no CA on your browser’s list signed it. You decide whether to trust it. If you import the VMCA root certificate into your browser, the warning stops.</p>
-<p><strong>Q2: Where is the VMCA’s certificate revocation list?</strong></p>
-<p>A2: There isn’t one. People manage the trust in VCF, so you revoke a certificate by removing the component from the environment. All a CRL would do here is add complexity, and we like removing complexity.</p>
-<p><strong>Q3: Do organizations in regulated industries use the VMCA?</strong></p>
-<p>A3: Yes, many do. The automation saves staff time and reduces human error for administrators, PKI staff, and auditors alike.</p>
-<p><strong>Q4: Can I use the VMCA to issue certificates for other things, like a web site?</strong></p>
-<p>A4: Technically yes, but it is not meant for that. This might be a good place for a short written policy. Agree with your PKI team that infrastructure administrators issue certificates only as part of the built-in automation, for their own management interfaces. They can verify your compliance with their scanners, after all.</p>
-<p><strong>Q5: My PKI team does not like intermediate CA/subordinate CA mode. What now?</strong></p>
-<p>A5: VCF administrators need some level of automation inside the environment, and a PKI team needs to understand that. Start there, and then offer options. You might ask them to build a separate CA for infrastructure, or build one with them. That can give you the automation and give them the isolation they want.</p>
-<p><strong>Q6: Can I use a wildcard certificate?</strong></p>
-<p>A6: No. VCF components check the names in a certificate as part of establishing trust, and a wildcard certificate does not name a specific system.</p>
-<p><strong>Q7: Can we put a passphrase on the private keys?</strong></p>
-<p>A7: No. Services need to start without a person typing a passphrase, or the environment could not recover from a restart unattended.</p>
-<p><strong>Q8: My auditor wants older TLS versions and ciphers turned off. How do I do that?</strong></p>
-<p>A8: This is a good idea. Use a TLS profile, as described above, and follow the Security Configuration Guide when you configure it. Test it first, because older third-party tools in your environment that connect to VCF may stop working.</p>
-<p><strong>Q9: Can I change the organization and location details on the certificates the VMCA issues?</strong></p>
-<p>A9: Yes. vCenter has advanced settings, named vpxd.certmgmt.certs.cn.*, that set the country, state, locality, organization, organizational unit, and email address the VMCA puts on certificates. Set them before you renew or replace certificates. Afterward, refresh the CA certificates on your ESX hosts and renew the host certificates, so they pick up the new details. Our guide to subordinate CA mode has the steps:</p>
-<p><a href="https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/features-capabilities/certificate-management/Configuring-vSphere-Intermediate-Subordinate-CA-Mode.md">https://github.com/vmware/vcf-security-and-compliance-guidelines/blob/main/features-capabilities/certificate-management/Configuring-vSphere-Intermediate-Subordinate-CA-Mode.md</a></p>
-<p><strong>Q10: What do you recommend overall?</strong></p>
-<p>A10: Don’t make this harder than it needs to be. Spend time on certificates only where it improves security. Administrators, PKI teams, and auditors are on the same team, and each of them worries about things the others have not had to think about. Work it out together.</p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/09/certificates-trust-network-encryption/">Certificates, Trust, and Network Encryption</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/09/certificates-trust-network-encryption/">Certificates, Trust, and Network Encryption</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10104173</post-id>	</item>
-		<item>
-		<title>Beyond the Kubernetes complexity: Delivering an AI-Ready Platform Developers Love (Over Lunch)</title>
-		<link>https://blogs.vmware.com/tanzu/beyond-the-kubernetes-complexity-delivering-an-ai-ready-platform-developers-love-over-lunch/</link>
-		
-		<dc:creator><![CDATA[darin zook]]></dc:creator>
-		<pubDate>Fri, 09 Oct 2026 15:46:00 +0000</pubDate>
-				<category><![CDATA[Modern Apps]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10104163</guid>
-
-					<description><![CDATA[<p>Developers want to push code and watch the platform take care of the rest—packaging images, configuring variables, and deploying to a secure, highly available environment.This is the core promise of delivering an opinionated Private cloud Platform-as-a-Service (PaaS) with VMware Tanzu Platform on VMware Cloud Foundation (VCF). The post Beyond the Kubernetes complexity: Delivering an AI-Ready &#8230; <a href="https://blogs.vmware.com/tanzu/beyond-the-kubernetes-complexity-delivering-an-ai-ready-platform-developers-love-over-lunch/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/tanzu/beyond-the-kubernetes-complexity-delivering-an-ai-ready-platform-developers-love-over-lunch/">Beyond the Kubernetes complexity: Delivering an AI-Ready Platform Developers Love (Over Lunch)</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<div><img loading="lazy" width="300" height="157" src="https://blogs.vmware.com/wp-content/uploads/2026/08/vmw-blogtile-tanzu-platform-v4.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2025/03/vmw-blogtile-tanzu-platform-v4.png 1200w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2025/03/vmw-blogtile-tanzu-platform-v4.png?resize=300,157 300w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2025/03/vmw-blogtile-tanzu-platform-v4.png?resize=768,402 768w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2025/03/vmw-blogtile-tanzu-platform-v4.png?resize=1024,536 1024w, https://blogs.vmware.com/tanzu/wp-content/uploads/sites/154/2025/03/vmw-blogtile-tanzu-platform-v4.png?resize=600,314 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<p>Developers want to push code and watch the platform take care of the rest—packaging images, configuring variables, and deploying to a secure, highly available environment.This is the core promise of delivering an opinionated Private cloud Platform-as-a-Service (PaaS) with VMware Tanzu Platform on VMware Cloud Foundation (VCF).</p>
-<p>The post <a href="https://blogs.vmware.com/tanzu/beyond-the-kubernetes-complexity-delivering-an-ai-ready-platform-developers-love-over-lunch/">Beyond the Kubernetes complexity: Delivering an AI-Ready Platform Developers Love (Over Lunch)</a> appeared first on <a href="https://blogs.vmware.com/tanzu">Tanzu</a>.</p><p>The post <a href="https://blogs.vmware.com/tanzu/beyond-the-kubernetes-complexity-delivering-an-ai-ready-platform-developers-love-over-lunch/">Beyond the Kubernetes complexity: Delivering an AI-Ready Platform Developers Love (Over Lunch)</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10104163</post-id>	</item>
 	</channel>
 </rss>
