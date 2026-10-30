@@ -1,4 +1,197 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Why Is My Kubernetes Job Still Pending? Tracing Kueue Admission with Headlamp</title><link>https://kubernetes.io/blog/2026/10/14/tracing-kueue-admission-with-headlamp/</link><pubDate>Wed, 14 Oct 2026 10:35:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/10/14/tracing-kueue-admission-with-headlamp/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>From Working Group to SIG Architecture: spotlight on AI Conformance</title><link>https://kubernetes.io/blog/2026/10/29/sig-arch-ai-conformance-2026/</link><pubDate>Thu, 29 Oct 2026 05:00:00 +0000</pubDate><guid>https://kubernetes.io/blog/2026/10/29/sig-arch-ai-conformance-2026/</guid><description>
+&lt;p>In this SIG Architecture spotlight we talked with &lt;a href="https://github.com/janetkuo">Janet Kuo&lt;/a> (Google)
+and &lt;a href="https://github.com/terrytangyuan">Yuan Tang&lt;/a> (Red Hat) about the journey of AI Conformance in
+Kubernetes, from the initial &lt;a href="https://github.com/kubernetes/community/blob/main/governance.md#working-groups">Working
+Group&lt;/a> to the
+integration &lt;a href="https://www.kubernetes.dev/community/community-groups/sigs/architecture/">SIG Architecture&lt;/a>
+as a subproject.&lt;/p>
+&lt;h2 id="introductions">Introductions&lt;a class="td-heading-self-link" href="#introductions" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>&lt;strong>Frederico Muñoz and Kirti Goyal (FK): Hi Janet, Yuan, and thank you for the opportunity to learn a
+bit more about AI Conformance. Can you tell us a bit about yourselves and how you got involved in
+Kubernetes?&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>Janet Kuo&lt;/strong>: I'm a Senior Staff Software Engineer at Google and have been a Kubernetes maintainer
+since 2015, joining the community just as we were racing toward the 1.0 launch. I started my journey
+writing the core workload controllers that standardized how applications are orchestrated on
+Kubernetes. Today, I lead SIG Apps as a Co-chair &amp;amp; TL, and also lead the
+&lt;a href="https://www.cncf.io/announcements/2025/11/11/cncf-launches-certified-kubernetes-ai-conformance-program-to-standardize-ai-workloads-on-kubernetes/">AI Conformance program&lt;/a>.
+My current focus is to ensure Kubernetes remains the best platform for the next generation of
+workloads, such as AI.&lt;/p>
+&lt;p>&lt;strong>Yuan Tang&lt;/strong>: I’m a Senior Principal Software Engineer at Red Hat, where I lead the development of
+our AI platform and drive our upstream open source strategy. I became involved in Kubernetes early
+on by fostering collaborations between the Kubernetes community and projects I was leading,
+including Kubeflow, Argo, and KServe. I later helped found and lead &lt;a href="https://github.com/kubernetes-sigs/wg-serving">WG Serving&lt;/a> and the AI Conformance program, advancing
+innovation and strengthening community collaboration around running AI workloads on Kubernetes.&lt;/p>
+&lt;h2 id="program-working-group-subproject-the-many-shapes-of-ai-conformance">Program, Working Group, Subproject: the many shapes of AI Conformance&lt;a class="td-heading-self-link" href="#program-working-group-subproject-the-many-shapes-of-ai-conformance" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>&lt;strong>FK: AI Conformance started as a CNCF Program, was it then you got involved?&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>Janet Kuo:&lt;/strong> I was actually involved from day one since I pitched the original idea. It became
+obvious then that everyone was starting to run AI on Kubernetes, but vendors were building their
+infrastructure stacks in different ways. I got worried about ecosystem fragmentation. So I wrote up
+the initial Kubernetes AI Conformance Proposal, took it to the CNCF leadership to get their buy-in,
+and started the AI Conformance Program. Once we had the green light, I reached out to my fellow
+co-chairs Yuan Tang, Rita Zhang, and Mario Fahlandt to get the community rallied around it.&lt;/p>
+&lt;p>&lt;strong>Yuan Tang:&lt;/strong> Yes. I was a co-chair of WG Serving at that time and some of the initiatives such as
+the &lt;a href="https://gateway-api-inference-extension.sigs.k8s.io/">Gateway AI Inference Extension&lt;/a> quickly
+gained traction. There was a strong interest among the community to include inference-related
+requirements in the Kubernetes AI Conformance program.&lt;/p>
+&lt;p>&lt;strong>FK: How would you describe the motivation behind the creation of the AI Conformance Working Group?&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>Janet and Yuan&lt;/strong>: The motivation behind creating the Kubernetes AI Conformance &lt;a href="https://github.com/kubernetes/community/blob/main/governance.md#working-groups">Working Group&lt;/a> (AI WG) was
+to address the rapid convergence of AI workloads onto Kubernetes while preventing ecosystem
+fragmentation.&lt;/p>
+&lt;p>As AI adoption accelerated, organizations began running increasingly complex workloads, including
+distributed training, large-scale inference, GPU-intensive pipelines, and emerging agentic AI
+systems across many different Kubernetes platforms. However, vendors were implementing AI
+infrastructure capabilities differently, especially around GPUs, networking, scheduling, and
+inference orchestration. That created portability challenges, operational inconsistency, and growing
+vendor lock-in concerns.&lt;/p>
+&lt;p>The AI WG was formed to bring the community together around:&lt;/p>
+&lt;ul>
+&lt;li>vendor-neutral AI infrastructure standards,&lt;/li>
+&lt;li>interoperable Kubernetes-based AI platforms,&lt;/li>
+&lt;li>consistent operational behavior for AI workloads,&lt;/li>
+&lt;li>and common requirements for scalable AI deployment.&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>FK: WGs are temporary by nature, based on outcomes: would you say the main goals of the WG were achieved?&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>Janet and Yuan&lt;/strong>: Yes, the WG achieved its primary initial goals.&lt;/p>
+&lt;p>The WG has succeeded in moving the ecosystem from: fragmented, vendor-specific AI infrastructure
+approaches to a shared, community-defined baseline for AI workloads on Kubernetes.&lt;/p>
+&lt;p>Some concrete indicators of success include:&lt;/p>
+&lt;ul>
+&lt;li>Launching the Certified Kubernetes AI Conformance Program&lt;/li>
+&lt;li>Defining formal Kubernetes AI Requirements (KARs)&lt;/li>
+&lt;li>Getting broad participation from major ecosystem players&lt;/li>
+&lt;li>Growing certified platforms from 18 to 31 within a few months&lt;/li>
+&lt;li>Aligning around newer Kubernetes primitives needed for AI workloads&lt;/li>
+&lt;li>Establishing a roadmap for automated conformance verification&lt;/li>
+&lt;/ul>
+&lt;p>Most importantly, the WG created consensus that AI workloads are now a first-class Kubernetes use case.&lt;/p>
+&lt;p>&lt;img src="https://kubernetes.io/blog/2026/10/29/sig-arch-ai-conformance-2026/ai_conf_kubecon.jpg" alt="KubeCon stage with 4 persons in it, one of them talking.">&lt;/p>
+&lt;p>&lt;strong>FK: AI Conformance was specifically highlighted at the latest KubeCon: is this a reflection of the
+growing importance of AI throughout the project?&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>Janet and Yuan&lt;/strong>: Yes, the prominence of AI Conformance at the latest &lt;a href="https://www.cncf.io/kubecon-cloudnativecon-events/">KubeCon + CloudNativeCon&lt;/a> is a strong reflection of how
+central AI has become to the Kubernetes ecosystem overall.&lt;/p>
+&lt;p>A few years ago, AI workloads on Kubernetes were still viewed as somewhat specialized, mostly tied
+to ML platforms or GPU-heavy research environments. What’s changed is that AI is now becoming a
+mainstream infrastructure concern for nearly every large-scale platform operator.&lt;/p>
+&lt;p>That shift naturally elevates AI from an application running on Kubernetes to a core workload
+category Kubernetes must optimize for.&lt;/p>
+&lt;p>The AI Conformance initiative reflects that evolution. It signals that the community now sees AI
+infrastructure requirements, things like accelerator scheduling, high-performance networking,
+workload-aware orchestration, and low-latency inference, as important enough to standardize at the
+ecosystem level.&lt;/p>
+&lt;p>Its visibility at KubeCon also shows a broader strategic realization: if Kubernetes is going to
+remain the universal control plane for modern infrastructure, it needs to provide a consistent
+foundation for AI workloads across clouds, on-prem, and edge environments.&lt;/p>
+&lt;p>So the emphasis on AI Conformance is not just about chasing AI hype; it's about Kubernetes adapting
+to a major shift in workload patterns and ensuring the ecosystem evolves cohesively rather than
+fragmenting into vendor-specific AI stacks.&lt;/p>
+&lt;p>&lt;img src="https://kubernetes.io/blog/2026/10/29/sig-arch-ai-conformance-2026/ai_conf_sponsors.jpg" alt="(slide) Initial adopters and major contributors: Akamai (logo), Alibaba Cloud (logo), AWS (logo), Broadcom (logo), CoreWeave (logo), DaoCloud (logo), Google Cloud (logo), Kubermatic (logo), Microsoft Azure (logo), NVIDIA (logo), Oracle (logo), SUSE (logo), Red Hat (logo), SAP (logo)">&lt;/p>
+&lt;h2 id="from-working-group-to-sig-architecture-subproject">From Working Group to SIG Architecture subproject&lt;a class="td-heading-self-link" href="#from-working-group-to-sig-architecture-subproject" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>&lt;strong>FK: How would you describe the change from WG to SIG? Is it a reflection of AI as something that
+requires ongoing architectural governance?&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>Janet and Yuan&lt;/strong>: In Kubernetes, Working Groups are meant to be temporary. Our WG had a specific
+goal to get the initial Kubernetes AI Conformance requirements published and get the certification
+process off the ground. Once we hit those milestones, we &lt;a href="https://github.com/kubernetes/community/tree/main/archive/wg-ai-conformance">archived the WG&lt;/a> and moved AI
+Conformance to be a &lt;a href="https://github.com/kubernetes/community/tree/main/sig-architecture#subprojects">permanent subproject&lt;/a> under
+SIG Architecture.&lt;/p>
+&lt;p>Moving to SIG Architecture definitely proves that AI needs ongoing governance. AI isn’t just a
+passing trend or a one-off workload. It has become a core part of what Kubernetes runs every day.
+Because SIG Architecture already owns overall Kubernetes Conformance and API design principles,
+housing the AI Conformance subproject there makes perfect sense. It makes sure our AI Conformance
+requirements stay aligned with the rest of the Kubernetes ecosystem for the long haul.&lt;/p>
+&lt;p>&lt;strong>FK: And with that change, how would you describe the main goals and areas of intervention of the subproject?&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>Janet and Yuan&lt;/strong>: Now that we’re a subproject, our main goal is to keep the AI Conformance
+standards current, vendor-neutral, and standard-setting. We want to make sure Kubernetes captures
+the latest advancements in AI infrastructure while keeping the ecosystem fair for everyone. When we
+find gaps where no clear community pattern exists, we help foster and form new standards to solve
+them.&lt;/p>
+&lt;h2 id="ai-conformance-and-kubernetes">AI Conformance and Kubernetes&lt;a class="td-heading-self-link" href="#ai-conformance-and-kubernetes" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>&lt;strong>FK: AI Infrastructure is evolving very quickly, while Kubernetes APIs are designed to remain
+stable for years. Is this something you consider a challenge?&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>Janet and Yuan&lt;/strong>: It’s definitely a tricky balance. AI moves very fast, while Kubernetes is
+designed to be stable and boring. But we actually structured the program around this exact tension.&lt;/p>
+&lt;p>First, we use a tiered graduation model. When new AI infrastructure concepts emerge, we introduce
+them as recommended SHOULD requirements. That gives the ecosystem room to experiment and agree on
+best practices without locking Kubernetes into rigid APIs too early. Once those APIs stabilize and
+with ecosystem adoption, we graduate them to mandatory MUST requirements.&lt;/p>
+&lt;p>Second, we intentionally keep our focus on the infrastructure layer. We test for core capabilities
+like accelerator support through &lt;a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/">Dynamic Resource Allocation&lt;/a> (DRA), rather than getting bogged down
+in specific AI frameworks or model servers. That keeps the base platform stable while letting the AI
+tooling evolve as fast as it needs to.&lt;/p>
+&lt;p>&lt;strong>FK: DRA has evolved, also due to the work of WG Device Management, as an important part of
+Kubernetes (and especially so for AI workloads), with SIG Architecture having an important role in
+how it’s integrated in Kubernetes: do you find any parallel in this? Specifically, do you think
+there will be a heavier focus in the integration with the evolving Kubernetes architecture as part
+of SIG Architecture?&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>Janet and Yuan&lt;/strong>: There is a huge parallel there. Whenever we face a massive, complicated
+challenge that touches multiple parts of the codebase and involves multiple SIGs, a Working Group is
+the best place to start. It lets experts from different SIGs get together to figure out the problem,
+and build consensus.&lt;/p>
+&lt;p>Being part of SIG Architecture means there will be a much heavier focus on how AI capabilities weave
+into the evolving Kubernetes architecture. Instead of treating AI as an add-on layer, we’re looking
+at how core Kubernetes primitives, like scheduling and resource allocation, need to adapt at a
+foundational level to support the next decade of AI workloads.&lt;/p>
+&lt;h2 id="final-remarks">Final remarks&lt;a class="td-heading-self-link" href="#final-remarks" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>&lt;strong>FK: For interested contributors, what’s the best way to get involved with the AI Conformance subproject?&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>Janet and Yuan&lt;/strong>: We're always looking for new contributors. The easiest way to get started is by checking out our
+main repo at &lt;a href="https://github.com/kubernetes-sigs/ai-conformance">kubernetes-sigs/ai-conformance&lt;/a> and
+join our &lt;a href="https://www.kubernetes.dev/community/community-groups/sigs/architecture/#meetings">meetings&lt;/a>. If
+you're interested in defining new AI Conformance requirements, you can jump into PR reviews or
+propose your own using our &lt;a href="https://github.com/kubernetes-sigs/ai-conformance/tree/main/kars/NNNN-kar-template">KAR template&lt;/a>. If
+you want to write code, we always need help expanding our automated Go test suites in the &lt;a href="https://github.com/kubernetes-sigs/ai-conformance/tree/main/test">&lt;code>test/&lt;/code> directory&lt;/a>.&lt;/p>
+&lt;p>For vendors looking to certify their platforms, all the details are at
+&lt;a href="https://github.com/cncf/k8s-ai-conformance">cncf/k8s-ai-conformance&lt;/a>.&lt;/p>
+&lt;p>&lt;strong>FK: Any final comments you would like to share?&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>Janet and Yuan&lt;/strong>: We’ve been blown away by how
+fast the community has rallied around this. When we first announced the AI Conformance program
+during the keynote at &lt;a href="https://www.cncf.io/reports/kubecon-cloudnativecon-north-america-2025/">KubeCon NA 2025&lt;/a>, we weren’t sure what
+the response would be. But by the time we gave our update keynote at &lt;a href="https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/">KubeCon EU 2026&lt;/a>, we had grown from 18
+certified platforms to 31 in just a few months.&lt;/p>
+&lt;p>That kind of growth shows just how much the industry wanted a unified, vendor-neutral standard. It
+gives organizations the confidence that they can run their AI workloads on any certification
+Kubernetes platform without getting locked into a proprietary stack.&lt;/p>
+&lt;p>If you’re a platform vendor, we’d love to see you get certified. If you’re a developer interested in
+the intersection of AI and cloud-native infrastructure, come join us in SIG Architecture!&lt;/p>
+&lt;p>&lt;strong>FK: Excellent, thank you both for guiding us in this journey on AI and AI Conformance in Kubernetes.&lt;/strong>&lt;/p></description></item><item><title>Announcing the Workload Conformance Working Group</title><link>https://kubernetes.io/blog/2026/10/27/announcing-workload-conformance-wg/</link><pubDate>Tue, 27 Oct 2026 04:30:00 +0000</pubDate><guid>https://kubernetes.io/blog/2026/10/27/announcing-workload-conformance-wg/</guid><description>
+&lt;p>We are excited to announce that the Kubernetes community now has a &lt;a href="https://www.kubernetes.dev/community/community-groups/wg/workload-conformance/">Workload Conformance Working Group&lt;/a>.
+The working group is writing a shared standard for how &lt;a href="https://kubernetes.io/docs/concepts/workloads/">workloads&lt;/a> behave at runtime on Kubernetes.
+To get it right, we need input from the people who build those workloads and from the people who run the clusters they're deployed on.&lt;/p>
+&lt;h2 id="why-workloads-need-a-shared-standard">Why workloads need a shared standard&lt;a class="td-heading-self-link" href="#why-workloads-need-a-shared-standard" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>&lt;a href="https://www.cncf.io/training/certification/software-conformance/">Certified Kubernetes&lt;/a> tests the cluster, and &lt;a href="https://github.com/cncf/k8s-ai-conformance">Kubernetes AI Conformance&lt;/a> tests whether a cluster can run AI and ML workloads.
+Nothing comparable exists for the workloads themselves, so cluster operators still check each application by hand before routine maintenance or a Kubernetes upgrade.&lt;/p>
+&lt;p>The problems they find are familiar. A routine &lt;a href="https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/">node drain&lt;/a> is often how you discover that an application can't tolerate disruption.
+An upgrade can break an application that still depends on a &lt;a href="https://kubernetes.io/docs/reference/using-api/deprecation-guide/">removed API version&lt;/a>.
+Others show up in day-to-day operation: workloads that ask for privileges they don't need, or reserve resources they never use.&lt;/p>
+&lt;p>Kubernetes already documents much of this, including &lt;a href="https://kubernetes.io/docs/concepts/security/">security&lt;/a> and &lt;a href="https://kubernetes.io/docs/concepts/workloads/pods/disruptions/">handling disruptions&lt;/a>.
+Even so, every cluster operator ends up repeating the same assessment, and application maintainers get the same questions from each environment they support.
+A common specification with repeatable tests would give both groups the same baseline to start from.&lt;/p>
+&lt;h2 id="what-the-working-group-will-deliver">What the working group will deliver&lt;a class="td-heading-self-link" href="#what-the-working-group-will-deliver" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The &lt;a href="https://github.com/kubernetes/community/blob/main/wg-workload-conformance/charter.md">charter&lt;/a> sets out three deliverables:&lt;/p>
+&lt;ul>
+&lt;li>A specification of workload behavior for each Kubernetes minor version.&lt;/li>
+&lt;li>A method for testing each requirement against a running workload.&lt;/li>
+&lt;li>Upstream conformance tooling that implements those tests.&lt;/li>
+&lt;/ul>
+&lt;p>The first step is deciding which workloads and behaviors the specification covers.
+The scope includes security, resilience during disruptions, resource use, networking, storage, API usage, and observability, but the group hasn't yet agreed on specific requirements or on how to test them.
+However, one rule is already set: every requirement needs an objective test that a test binary can run, so nothing subjective goes into the specification.&lt;/p>
+&lt;p>The specification covers how a workload runs, and importantly not what it does. Consequently, application logic is out of scope of workload conformance.
+The binary won't retest anything &lt;a href="https://www.cncf.io/training/certification/software-conformance/">Certified Kubernetes&lt;/a> already covers, and it won't require a particular workload packaging format, or vendor tool like policy engine, security scanner, etc.&lt;/p>
+&lt;h2 id="how-the-work-is-organized">How the work is organized&lt;a class="td-heading-self-link" href="#how-the-work-is-organized" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Two Special Interest Groups (SIGs) are sponsors for the working group.&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://www.kubernetes.dev/community/community-groups/sigs/architecture/">SIG Architecture&lt;/a> will own the specification and tooling through a subproject, which will be created once the first artifacts are proposed by the Working Group.&lt;/li>
+&lt;li>&lt;a href="https://www.kubernetes.dev/community/community-groups/sigs/apps/">SIG Apps&lt;/a> will bring the application perspective.&lt;/li>
+&lt;/ul>
+&lt;p>Whenever a requirement touches another Kubernetes SIG's area, such as node behavior or networking, the working group will initiate conversations with those SIGs as well.&lt;/p>
+&lt;p>The working group is a forum where SIGs can get involved and shape the direction of Workload Conformance while the specification is being written.
+We're aiming for a stable first specification and working tests within two to three Kubernetes release cycles.&lt;/p>
+&lt;h2 id="get-involved">Get involved&lt;a class="td-heading-self-link" href="#get-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The specification will and needs to be built from real examples, so we want to hear your experiences.
+If you run clusters, tell us how you assess workloads today and what broke during your last upgrade or maintenance window.
+If you maintain an application, tell us what it needs from the cluster and where the existing guidance left you guessing.&lt;/p>
+&lt;ul>
+&lt;li>Beyond examples, the work needs reviewers for proposed requirements and contributors to write the tests and tooling.&lt;/li>
+&lt;li>When early versions of the tests are ready, we also want early testers to run the binary against your own workloads and tell us where the results differ between runs or environments.&lt;/li>
+&lt;li>If a requirement touches your SIG's area, help us check its scope and the test behind it.&lt;/li>
+&lt;li>And because the subproject will outlive the working group, we're also looking for people who want to maintain it for the long term.&lt;/li>
+&lt;/ul>
+&lt;p>You can find us in &lt;a href="https://kubernetes.slack.com/messages/wg-workload-conformance">&lt;code>#wg-workload-conformance&lt;/code>&lt;/a> on Kubernetes Slack (visit &lt;a href="https://slack.k8s.io/">slack.k8s.io&lt;/a> for an invitation) and on the &lt;a href="https://groups.google.com/a/kubernetes.io/g/wg-workload-conformance">mailing list&lt;/a>.
+The working group meets every other Wednesday at 15:00 UTC.
+The Zoom link and the agenda are in the &lt;a href="https://docs.google.com/document/d/16GPnmukPqbTkauWb3CtXzA3aEDUXoVKY34gA41YQmPk/edit">meeting notes&lt;/a>.
+If you want to raise a topic, add it to the agenda.
+Joining the mailing list usually adds the meeting invite to your calendar.&lt;/p>
+&lt;p>Thanks to everyone who reviewed and supported the &lt;a href="https://github.com/kubernetes/community/pull/9139">working group proposal&lt;/a>.&lt;/p></description></item><item><title>Why Is My Kubernetes Job Still Pending? Tracing Kueue Admission with Headlamp</title><link>https://kubernetes.io/blog/2026/10/14/tracing-kueue-admission-with-headlamp/</link><pubDate>Wed, 14 Oct 2026 10:35:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/10/14/tracing-kueue-admission-with-headlamp/</guid><description>
 &lt;p>You submit a &lt;a href="https://kubernetes.io/docs/concepts/workloads/controllers/job/">Kubernetes Job&lt;/a> and
 wait for its Pods to appear. A minute passes. Then another. The Job is still suspended, there are no
 application logs, and there may not even be a Pod to inspect.&lt;/p>
@@ -33,14 +226,14 @@ admission checks, and other waiting Workloads?&lt;/p>
 of Headlamp. If it is admitted but its Pods are still &lt;code>Pending&lt;/code>, move to Headlamp's normal Job and
 Pod views and inspect scheduler events.&lt;/p>
 &lt;figure>
-&lt;img src="https://kubernetes.io/blog/2026/10/14/tracing-kueue-admission-with-headlamp/kueue-admission-architecture.svg"
+&lt;img src="https://kubernetes.io/blog/2026/10/14/tracing-kueue-admission-with-headlamp/kueue-admission-architecture.png"
 alt="A Kubernetes Job becomes a Kueue Workload. Kueue evaluates its LocalQueue, ClusterQueue, ResourceFlavor, and optional Cohort before resuming the Job. Headlamp reads these resources through the Kubernetes API."/> &lt;figcaption>
 &lt;p>Kueue admission architecture&lt;/p>
 &lt;/figcaption>
 &lt;/figure>
 &lt;h2 id="the-headlamp-first-troubleshooting-path">The Headlamp-first troubleshooting path&lt;a class="td-heading-self-link" href="#the-headlamp-first-troubleshooting-path" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The quickest investigation starts with the Workload, not with a shell.&lt;/p>
 &lt;figure>
-&lt;img src="https://kubernetes.io/blog/2026/10/14/tracing-kueue-admission-with-headlamp/headlamp-kueue-troubleshooting-flow.svg"
+&lt;img src="https://kubernetes.io/blog/2026/10/14/tracing-kueue-admission-with-headlamp/headlamp-kueue-troubleshooting-flow.png"
 alt="A Headlamp troubleshooting flow that starts with Kueue Workloads, checks admission conditions, follows LocalQueue and ClusterQueue links when admission is blocked, and switches to Job and Pod views after admission."/> &lt;figcaption>
 &lt;p>Tracing a pending Job through Headlamp&lt;/p>
 &lt;/figcaption>
@@ -7507,244 +7700,4 @@ SIG API Machinery projects, join us on
 &lt;a href="https://kubernetes.slack.com/archives/C0EG7JC6T">#sig-api-machinery&lt;/a>
 on Kubernetes Slack. You're also welcome to attend the
 &lt;a href="https://github.com/kubernetes/community/blob/master/sig-api-machinery/README.md#meetings">SIG API Machinery meetings&lt;/a>,
-held every other Wednesday.&lt;/p></description></item><item><title>Kubernetes v1.36: Pod-Level Resource Managers (Alpha)</title><link>https://kubernetes.io/blog/2026/05/01/kubernetes-v1-36-feature-pod-level-resource-managers-alpha/</link><pubDate>Fri, 01 May 2026 10:35:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/05/01/kubernetes-v1-36-feature-pod-level-resource-managers-alpha/</guid><description>
-&lt;p>Kubernetes v1.36 introduces
-&lt;a href="https://kubernetes.io/docs/concepts/resource-management/resource-managers/#pod-level-resource-managers">Pod-Level Resource Managers&lt;/a>
-as an alpha feature, bringing a more flexible and powerful resource management
-model to performance-sensitive workloads. This enhancement extends the kubelet's
-Topology, CPU, and Memory Managers to support pod-level resource specifications
-(&lt;code>.spec.resources&lt;/code>), evolving them from a strictly per-container allocation
-model to a pod-centric one.&lt;/p>
-&lt;h2 id="why-do-we-need-pod-level-resource-managers">Why do we need pod-level resource managers?&lt;a class="td-heading-self-link" href="#why-do-we-need-pod-level-resource-managers" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>When running performance-critical workloads such as machine learning (ML)
-training, high-frequency trading applications, or low-latency databases, you
-often need exclusive, NUMA-aligned resources for your primary application
-containers to ensure predictable performance.&lt;/p>
-&lt;p>However, modern Kubernetes pods rarely consist of just one container. They
-frequently include sidecar containers for logging, monitoring, service meshes,
-or data ingestion.&lt;/p>
-&lt;p>Before this feature, this created a trade-off, to get NUMA-aligned, exclusive
-resources for your main application, you had to allocate exclusive,
-integer-based CPU resources to &lt;em>every&lt;/em> container in the pod. This might be
-wasteful for lightweight sidecars. If you didn't do this, you forfeited the
-pod's Guaranteed Quality of Service (QoS) class entirely, losing the performance
-benefits.&lt;/p>
-&lt;h2 id="introducing-pod-level-resource-managers">Introducing pod-level resource managers&lt;a class="td-heading-self-link" href="#introducing-pod-level-resource-managers" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Enabling pod-level resources support for the resource managers (via the
-&lt;code>PodLevelResourceManagers&lt;/code> and &lt;code>PodLevelResources&lt;/code> feature gates) allows the
-kubelet to create &lt;strong>hybrid resource allocation models&lt;/strong>. This brings flexibility
-and efficiency to high-performance workloads without sacrificing NUMA alignment.&lt;/p>
-&lt;h3 id="real-world-use-cases">Real-world use cases&lt;a class="td-heading-self-link" href="#real-world-use-cases" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Here are a few practical scenarios demonstrating how this feature can be
-applied, depending on the configured Topology Manager scope:&lt;/p>
-&lt;h4 id="1-tightly-coupled-database-topology-manager-s-pod-scope">1. Tightly-coupled database (Topology manager's pod scope)&lt;a class="td-heading-self-link" href="#1-tightly-coupled-database-topology-manager-s-pod-scope" aria-label="Heading self-link">&lt;/a>&lt;/h4>&lt;p>Consider a latency-sensitive database pod that includes a main database
-container, a local metrics exporter, and a backup agent sidecar.&lt;/p>
-&lt;p>When configured with the &lt;code>pod&lt;/code> Topology Manager scope, the kubelet performs a
-single NUMA alignment based on the entire pod's budget. The database container
-gets its exclusive CPU and memory slices from that NUMA node. The remaining
-resources from the pod's budget form a new &lt;strong>pod shared pool&lt;/strong>. The metrics
-exporter and backup agent run in this pod shared pool. They share resources with
-each other, but they are strictly isolated from the database's exclusive slices
-and the rest of the node.&lt;/p>
-&lt;p>This allows you to safely co-locate auxiliary containers on the same NUMA node
-as your primary workload without wasting dedicated cores on them.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Pod&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">tightly-coupled-database&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c"># Pod-level resources establish the overall budget and NUMA alignment size.&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">requests&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;8&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;16Gi&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">limits&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;8&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;16Gi&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">initContainers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">metrics-exporter&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">metrics-exporter:v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">restartPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Always&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">backup-agent&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">backup-agent:v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">restartPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Always&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">containers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">database&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">database:v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c"># This Guaranteed container gets an exclusive 6 CPU slice from the pod&amp;#39;s budget.&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c"># The remaining 2 CPUs and 4Gi memory form the pod shared pool for the sidecars.&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">requests&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;6&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;12Gi&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">limits&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;6&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;12Gi&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h4 id="2-ml-workload-with-infrastructure-sidecars-topology-manager-s-container-scope">2. ML workload with infrastructure sidecars (Topology manager's container scope)&lt;a class="td-heading-self-link" href="#2-ml-workload-with-infrastructure-sidecars-topology-manager-s-container-scope" aria-label="Heading self-link">&lt;/a>&lt;/h4>&lt;p>Imagine a pod running a GPU-accelerated ML training workload alongside a generic
-service mesh sidecar.&lt;/p>
-&lt;p>Under the &lt;code>container&lt;/code> Topology Manager scope, the kubelet evaluates each
-container individually. You can grant the ML container exclusive, NUMA-aligned
-CPUs and Memory for maximum performance. Meanwhile, the service mesh sidecar
-doesn't need to be NUMA-aligned; it can run in the general node-wide shared
-pool. The collective resource consumption is still safely bounded by the overall
-pod limits, but you only allocate NUMA-aligned, exclusive resources to the
-specific containers that actually require them.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Pod&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ml-workload&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c"># Pod-level resources establish the overall budget constraint.&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">requests&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;4&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;8Gi&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">limits&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;4&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;8Gi&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">initContainers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">service-mesh-sidecar&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">service-mesh:v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">restartPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Always&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">containers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ml-training&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ml-training:v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c"># Under the &amp;#39;container&amp;#39; scope, this Guaranteed container receives exclusive,&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="c"># NUMA-aligned resources, while the sidecar runs in the node&amp;#39;s shared pool.&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">requests&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;3&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;6Gi&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">limits&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;3&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;6Gi&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="cpu-quotas-cfs-and-isolation">CPU quotas (CFS) and isolation&lt;a class="td-heading-self-link" href="#cpu-quotas-cfs-and-isolation" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>When running these mixed workloads within a pod, isolation is enforced
-differently depending on the allocation:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>Exclusive containers:&lt;/strong> Containers granted exclusive CPU slices have their
-CPU CFS quota enforcement disabled at the container level, allowing them to
-run without being throttled by the Linux scheduler.&lt;/li>
-&lt;li>&lt;strong>Pod shared pool containers:&lt;/strong> Containers falling into the pod shared pool
-have CPU CFS quotas enforced at the pod level, ensuring they do not consume
-more than the leftover pod budget.&lt;/li>
-&lt;/ul>
-&lt;h2 id="how-to-enable-pod-level-resource-managers">How to enable Pod-Level Resource Managers&lt;a class="td-heading-self-link" href="#how-to-enable-pod-level-resource-managers" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Using this feature requires Kubernetes v1.36 or newer. To enable it, you must
-configure the kubelet with the appropriate feature gates and policies:&lt;/p>
-&lt;ol>
-&lt;li>Enable the &lt;code>PodLevelResources&lt;/code> and &lt;code>PodLevelResourceManagers&lt;/code>
-&lt;a href="https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/">feature gates&lt;/a>.&lt;/li>
-&lt;li>Configure the
-&lt;a href="https://kubernetes.io/docs/tasks/administer-cluster/topology-manager/#topology-manager-policies">Topology Manager&lt;/a>
-with a policy other than &lt;code>none&lt;/code> (i.e., &lt;code>best-effort&lt;/code>, &lt;code>restricted&lt;/code>, or
-&lt;code>single-numa-node&lt;/code>).&lt;/li>
-&lt;li>Set the
-&lt;a href="https://kubernetes.io/docs/tasks/administer-cluster/topology-manager/#topology-manager-scopes">Topology Manager scope&lt;/a>
-to either &lt;code>pod&lt;/code> or &lt;code>container&lt;/code> using the &lt;code>topologyManagerScope&lt;/code> field in the
-&lt;a href="https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/">&lt;code>KubeletConfiguration&lt;/code>&lt;/a>.&lt;/li>
-&lt;li>Configure the
-&lt;a href="https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/">CPU Manager&lt;/a> with
-the &lt;code>static&lt;/code> policy.&lt;/li>
-&lt;li>Configure the
-&lt;a href="https://kubernetes.io/docs/tasks/administer-cluster/memory-manager/">Memory Manager&lt;/a> with the
-&lt;code>Static&lt;/code> policy.&lt;/li>
-&lt;/ol>
-&lt;h2 id="observability">Observability&lt;a class="td-heading-self-link" href="#observability" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>To help cluster administrators monitor and debug these new allocation models, we
-have introduced several new kubelet metrics when the feature gate is enabled:&lt;/p>
-&lt;ul>
-&lt;li>&lt;code>resource_manager_allocations_total&lt;/code>: Counts the total number of exclusive
-resource allocations performed by a manager. The &lt;code>source&lt;/code> label (&amp;quot;pod&amp;quot; or
-&amp;quot;node&amp;quot;) distinguishes between allocations drawn from the node-level pool
-versus a pre-allocated pod-level pool.&lt;/li>
-&lt;li>&lt;code>resource_manager_allocation_errors_total&lt;/code>: Counts errors encountered during
-exclusive resource allocation, distinguished by the intended allocation
-&lt;code>source&lt;/code> (&amp;quot;pod&amp;quot; or &amp;quot;node&amp;quot;).&lt;/li>
-&lt;li>&lt;code>resource_manager_container_assignments&lt;/code>: Tracks the cumulative number of
-containers running with specific assignment types. The &lt;code>assignment_type&lt;/code>
-label (&amp;quot;node_exclusive&amp;quot;, &amp;quot;pod_exclusive&amp;quot;, &amp;quot;pod_shared&amp;quot;) provides visibility
-into how workloads are distributed.&lt;/li>
-&lt;/ul>
-&lt;h2 id="current-limitations-and-caveats">Current limitations and caveats&lt;a class="td-heading-self-link" href="#current-limitations-and-caveats" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>While this feature opens up new possibilities, there are a few things to keep in
-mind during its alpha phase. Be sure to review the
-&lt;a href="https://kubernetes.io/docs/concepts/resource-management/pod-level-resource-managers/#limitations-and-caveats">Limitations and caveats&lt;/a>
-in the official documentation for full details on compatibility, requirements,
-and downgrade instructions.&lt;/p>
-&lt;h2 id="getting-started-and-providing-feedback">Getting started and providing feedback&lt;a class="td-heading-self-link" href="#getting-started-and-providing-feedback" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>For a deep dive into the technical details and configuration of this feature,
-check out the official concept documentation:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://kubernetes.io/docs/concepts/resource-management/pod-level-resource-managers/">Pod-level resource managers&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;p>To learn more about the overall pod-level resources feature and how to assign
-resources to pods, see:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://kubernetes.io/docs/tasks/configure-pod-container/assign-pod-level-resources/">Assign Pod-level CPU and memory resources&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;p>As this feature moves through Alpha, your feedback is invaluable. Please report
-any issues or share your experiences via the standard Kubernetes communication
-channels:&lt;/p>
-&lt;ul>
-&lt;li>Slack: &lt;a href="https://kubernetes.slack.com/messages/sig-node">#sig-node&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://groups.google.com/forum/#!forum/kubernetes-sig-node">Mailing list&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/kubernetes/community/labels/sig%2Fnode">Open Community Issues/PRs&lt;/a>&lt;/li>
-&lt;/ul></description></item><item><title>Kubernetes v1.36: In-Place Vertical Scaling for Pod-Level Resources Graduates to Beta</title><link>https://kubernetes.io/blog/2026/04/30/kubernetes-v1-36-inplace-pod-level-resources-beta/</link><pubDate>Thu, 30 Apr 2026 10:35:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/04/30/kubernetes-v1-36-inplace-pod-level-resources-beta/</guid><description>
-&lt;p>Following the graduation of Pod-Level Resources to Beta in v1.34 and the General Availability (GA) of In-Place Pod Vertical Scaling in v1.35, the Kubernetes community is thrilled to announce that &lt;strong>In-Place Pod-Level Resources Vertical Scaling has graduated to Beta in v1.36!&lt;/strong>&lt;/p>
-&lt;p>This feature is now enabled by default via the &lt;code>InPlacePodLevelResourcesVerticalScaling&lt;/code> feature gate. It allows users to update the aggregate Pod resource budget (&lt;code>.spec.resources&lt;/code>) for a running Pod, &lt;strong>often without requiring a container restart.&lt;/strong>&lt;/p>
-&lt;h2 id="why-pod-level-in-place-resize">Why Pod-level in-place resize?&lt;a class="td-heading-self-link" href="#why-pod-level-in-place-resize" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The Pod-level resource model simplified management for complex Pods (such as those with sidecars) by allowing containers to share a collective pool of resources. In v1.36, you can now adjust this aggregate boundary on-the-fly.&lt;/p>
-&lt;p>This is particularly useful for Pods where containers do not have individual limits defined. These containers automatically scale their effective boundaries to fit the newly resized Pod-level dimensions, allowing you to expand the shared pool during peak demand without manual per-container recalculations.&lt;/p>
-&lt;h2 id="resource-inheritance-and-the-resizepolicy">Resource inheritance and the &lt;code>resizePolicy&lt;/code>&lt;a class="td-heading-self-link" href="#resource-inheritance-and-the-resizepolicy" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>When a Pod-level resize is initiated, the Kubelet treats the change as a resize event for every container that inherits its limits from the Pod-level budget. To determine whether a restart is required, the Kubelet consults the &lt;code>resizePolicy&lt;/code> defined within individual containers:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>Non-disruptive Updates:&lt;/strong> If a container's &lt;code>restartPolicy&lt;/code> is set to &lt;code>NotRequired&lt;/code>, the Kubelet attempts to update the cgroup limits dynamically via the Container Runtime Interface (CRI).&lt;/li>
-&lt;li>&lt;strong>Disruptive Updates:&lt;/strong> If set to &lt;code>RestartContainer&lt;/code>, the container will be restarted to apply the new aggregate boundary safely.&lt;/li>
-&lt;/ul>
-&lt;blockquote>
-&lt;p>&lt;strong>Note:&lt;/strong> Currently, &lt;code>resizePolicy&lt;/code> is not supported at the Pod level. The Kubelet always defers to individual container settings to decide if an update can be applied in-place or requires a restart.&lt;/p>&lt;/blockquote>
-&lt;h2 id="example-scaling-a-shared-resource-pool">Example: Scaling a shared resource pool&lt;a class="td-heading-self-link" href="#example-scaling-a-shared-resource-pool" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>In this scenario, a Pod is defined with a 2 CPU pod-level limit. Because the individual containers do not have their own limits defined, they share this total pool.&lt;/p>
-&lt;h3 id="1-initial-pod-specification">1. Initial Pod specification&lt;a class="td-heading-self-link" href="#1-initial-pod-specification" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Pod&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">shared-pool-app&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="c"># Pod-level limits&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">limits&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;2&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">memory&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;4Gi&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">containers&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">main-app&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">my-app:v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resizePolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>{&lt;span class="nt">resourceName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;cpu&amp;#34;&lt;/span>&lt;span class="nt">, restartPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;NotRequired&amp;#34;&lt;/span>}&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">sidecar&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">image&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">logger:v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resizePolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>{&lt;span class="nt">resourceName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;cpu&amp;#34;&lt;/span>&lt;span class="nt">, restartPolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;NotRequired&amp;#34;&lt;/span>}&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="2-the-resize-operation">2. The resize operation&lt;a class="td-heading-self-link" href="#2-the-resize-operation" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>To double the CPU capacity to 4 CPUs, apply a patch using the &lt;code>resize&lt;/code> subresource:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">kubectl patch pod shared-pool-app --subresource resize --patch &lt;span class="se">\
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="se">&lt;/span> &lt;span class="s1">&amp;#39;{&amp;#34;spec&amp;#34;:{&amp;#34;resources&amp;#34;:{&amp;#34;limits&amp;#34;:{&amp;#34;cpu&amp;#34;:&amp;#34;4&amp;#34;}}}}&amp;#39;&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="node-level-reality-feasibility-and-safety">Node-Level reality: feasibility and safety&lt;a class="td-heading-self-link" href="#node-level-reality-feasibility-and-safety" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Applying a resize patch is only the first step. The Kubelet performs several checks and follows a specific sequence to ensure node stability:&lt;/p>
-&lt;h3 id="1-the-feasibility-check">1. The feasibility check&lt;a class="td-heading-self-link" href="#1-the-feasibility-check" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Before admitting a resize, the Kubelet verifies if the new aggregate request fits within the Node's allocatable capacity. If the Node is overcommitted, the resize is not ignored; instead, the &lt;code>PodResizePending&lt;/code> condition will reflect a &lt;code>Deferred&lt;/code> or &lt;code>Infeasible&lt;/code> status, providing immediate feedback on why the &amp;quot;envelope&amp;quot; hasn't grown.&lt;/p>
-&lt;h3 id="2-update-sequencing">2. Update sequencing&lt;a class="td-heading-self-link" href="#2-update-sequencing" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>To prevent resource &amp;quot;overshoot&amp;quot;, the Kubelet coordinates the cgroup updates in a specific order:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>When Increasing:&lt;/strong> The Pod-level cgroup is expanded first, creating the &amp;quot;room&amp;quot; before the individual container cgroups are enlarged.&lt;/li>
-&lt;li>&lt;strong>When Decreasing:&lt;/strong> The container cgroups are throttled first, and only then is the aggregate Pod-level cgroup shrunken.&lt;/li>
-&lt;/ul>
-&lt;h2 id="observability-tracking-resize-status">Observability: tracking resize status&lt;a class="td-heading-self-link" href="#observability-tracking-resize-status" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>With the move to Beta, Kubernetes uses &lt;strong>Pod Conditions&lt;/strong> to track the lifecycle of a resize:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>&lt;code>PodResizePending&lt;/code>&lt;/strong>: The spec is updated, but the Node hasn't admitted the change (e.g., due to capacity).&lt;/li>
-&lt;li>&lt;strong>&lt;code>PodResizeInProgress&lt;/code>&lt;/strong>: The Node has admitted the resize (&lt;code>status.allocatedResources&lt;/code>) but the changes aren't yet fully applied to the cgroups (&lt;code>status.resources&lt;/code>).&lt;/li>
-&lt;/ul>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">status&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">allocatedResources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;4&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">limits&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">cpu&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;4&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">conditions&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">type&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">PodResizeInProgress&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">status&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;True&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="constraints-and-requirements">Constraints and requirements&lt;a class="td-heading-self-link" href="#constraints-and-requirements" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;ul>
-&lt;li>&lt;strong>cgroup v2 Only:&lt;/strong> Required for accurate aggregate enforcement.&lt;/li>
-&lt;li>&lt;strong>CRI Support:&lt;/strong> Requires a container runtime that supports the &lt;code>UpdateContainerResources&lt;/code> CRI call (e.g., containerd v2.0+ or CRI-O).&lt;/li>
-&lt;li>&lt;strong>Feature Gates:&lt;/strong> Requires &lt;code>PodLevelResources&lt;/code>, &lt;code>InPlacePodVerticalScaling&lt;/code>, &lt;code>InPlacePodLevelResourcesVerticalScaling&lt;/code>, and &lt;code>NodeDeclaredFeatures&lt;/code>.&lt;/li>
-&lt;li>&lt;strong>Linux Only:&lt;/strong> Currently exclusive to Linux-based nodes.&lt;/li>
-&lt;/ul>
-&lt;h2 id="what-s-next">What's next?&lt;a class="td-heading-self-link" href="#what-s-next" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>As we move toward General Availability (GA), the community is focusing on &lt;strong>Vertical Pod Autoscaler (VPA) Integration&lt;/strong>, enabling VPA to issue Pod-level resource recommendations and trigger in-place actuation automatically.&lt;/p>
-&lt;h2 id="getting-started-and-providing-feedback">Getting started and providing feedback&lt;a class="td-heading-self-link" href="#getting-started-and-providing-feedback" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>We encourage you to test this feature and provide feedback via the standard Kubernetes communication channels:&lt;/p>
-&lt;ul>
-&lt;li>Slack: &lt;a href="https://kubernetes.slack.com/messages/sig-node">#sig-node&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://groups.google.com/forum/#!forum/kubernetes-sig-node">Mailing list&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/kubernetes/community/labels/sig%2Fnode">Open Community Issues/PRs&lt;/a>&lt;/li>
-&lt;/ul></description></item></channel></rss>
+held every other Wednesday.&lt;/p></description></item></channel></rss>
