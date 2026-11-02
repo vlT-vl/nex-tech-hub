@@ -12,7 +12,7 @@
 	<atom:link href="https://blogs.vmware.com/feed" rel="self" type="application/rss+xml" />
 	<link>https://blogs.vmware.com/</link>
 	<description>VMware Blogs</description>
-	<lastBuildDate>Fri, 30 Oct 2026 19:21:30 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 02 Nov 2026 03:26:05 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -20,6 +20,26 @@
 	1	</sy:updateFrequency>
 	<generator>https://wordpress.org/?v=6.8.12</generator>
 <site xmlns="com-wordpress:feed-additions:1">237817777</site>	<item>
+		<title>第2回：仮想パッチを用いたセキュリティパッチ適用までの「猶予期間」の消滅</title>
+		<link>https://blogs.vmware.com/vmware-japan/2026/11/vdefend-virtual-patching-avi-waf.html</link>
+		
+		<dc:creator><![CDATA[byungji kwon]]></dc:creator>
+		<pubDate>Mon, 02 Nov 2026 02:39:03 +0000</pubDate>
+				<category><![CDATA[International]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10106742</guid>
+
+					<description><![CDATA[<img width="300" height="152" src="https://blogs.vmware.com/wp-content/uploads/2026/11/virtual-patching02-e1793579758345.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>前回の「第1回：AI時代のプライベートクラウド多層防御、VMware Cloud Foundation®で実現する仮想基盤の堅牢化とリスク低減策」では、VMware Cloud Foundation (VCF) 環境におけるセキュリティの全体像と、ワークロードを保護するための多層防御アーキテクチャの重要性について解説しました。第1回公開後、多くのお客様から反響をいただき、特に内部トラフィックの可視化と制御に関する関心の高さを実感しております。 第2回となる今回は、企業のセキュリティ運用およびITインフラ管理者にとって恒常的な課題となっている「脆弱性公開からパッチ適用までの猶予期間（Vulnerability Window）」に焦点を当てます。この無防備となり得る期間の脅威をどのように無効化するかについて、VMware® vDefend™ (vDefend) の「分散IDS/IPS」と「VMware® Avi™ Load Balancer WAF (Web Application Firewall) 」を用いた「仮想パッチ」の技術を解説します。また、それらがもたらすダウンタイムの削減および運用コスト削減の具体的なメリットについて、技術的な観点から深掘りしてお届けします。 &#160; 1. セキュリティパッチ適用の課題：「猶予期間」に潜むリスク 新しい脆弱性（CVE）が公開され、ベンダーからセキュリティパッチがリリースされた際、セキュリティのベストプラクティスとしては即座にパッチを適用することが推奨されます。しかし、エンタープライズの運用環境、特にミッションクリティカルなプライベートクラウド環境においては、以下のような理由から即時適用は非常に困難です。 ・アプリケーションへの影響検証：OSやミドルウェアへのパッチ適用が、稼働中の業務アプリケーションやAIモデルの推論プロセスに予期せぬ不具合（互換性の問題、パフォーマンス低下など）を引き起こさないか、事前環境でのテストが必要です。 ・ダウンタイムの調整：システムの再起動を伴うパッチ適用の場合、事業部門との調整を行い、影響を最小限に抑えるメンテナンスウィンドウ（計画停止枠）を確保する必要があります。 ・運用リソースの逼迫：緊急度の高い脆弱性が連続して公開された場合、IT部門の運用担当者への負荷が高まり、通常の運用業務に支障をきたす恐れがあります。 この「脆弱性が公開されてから、実際にシステムにパッチが適用されるまでの期間（猶予期間）」は、攻撃者にとってシステムへ侵入するための格好の標的となります。この期間をいかに安全に保護し、リスクを低減するかが、インフラ運用における重要な鍵となります。 &#160; 2. 仮想パッチ（Virtual Patching）という解決策 この「猶予期間」の課題に対する有効な技術的アプローチが「仮想パッチ（Virtual Patching）」です。 仮想パッチとは、サーバーのOSやアプリケーションのコードに直接パッチを適用（修正）する代わりに、ネットワークの中間層で該当の脆弱性を突く攻撃トラフィックを検知し、遮断する手法です。これにより、システム本体には脆弱性が残った状態であっても、外部からのエクスプロイト（攻撃コード）が到達しないため、実質的にパッチが適用されたのと同じ防御効果を即座に得ることができます。 VCF環境においては、ネットワークの内部（East-West）と境界（North-South）のそれぞれで、最適な仮想パッチの仕組みを提供しています。 &#160; 3. vDefend 分散IDS/IPSによるEast-Westトラフィックの保護 データセンター内部の通信（East-Westトラフィック）に対する仮想パッチとして機能するのが、「vDefend」の分散IDS/IPSです。 従来の境界型（アプライアンス型）IPSでは、一度データセンター内部に侵入した脅威が、仮想マシン間で横展開（ラテラルムーブメント）する動きを検知・遮断することが困難でした。すべての内部通信を境界アプライアンスにヘアピンさせるアーキテクチャは、ネットワーク帯域の浪費と遅延を引き起こすため現実的ではありません。 vDefendの分散IDS/IPSは、各ESXホストのハイパーバイザー（vNIC）レベルで直接動作します。これにより、ネットワークのトポロジ変更を一切伴わず、すべての仮想マシン間通信に対して死角なく仮想パッチ（シグネチャによる検知・防御）を適用することが可能です。 &#160; 4. VMware Avi Load Balancer WAFによるアプリケーション層の保護 インフラストラクチャ層の保護に加えて、公開されているWebアプリケーション層（L7）の保護には「Avi Load Balancer WAF」が仮想パッチとして機能します。 Webアプリケーションの脆弱性（例：SQLインジェクション、クロスサイトスクリプティングなど）が発見された場合、アプリケーションのソースコードを修正してデプロイし直すには多大な時間とコストがかかります。Avi &#8230; <a href="https://blogs.vmware.com/vmware-japan/2026/11/vdefend-virtual-patching-avi-waf.html">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/vmware-japan/2026/11/vdefend-virtual-patching-avi-waf.html">第2回：仮想パッチを用いたセキュリティパッチ適用までの「猶予期間」の消滅</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="152" src="https://blogs.vmware.com/wp-content/uploads/2026/11/virtual-patching02-e1793579758345.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="152" src="https://blogs.vmware.com/wp-content/uploads/2026/11/virtual-patching02-e1793579758345.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/virtual-patching02-e1793579758345.jpg 807w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/virtual-patching02-e1793579758345.jpg?resize=300,152 300w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/virtual-patching02-e1793579758345.jpg?resize=768,390 768w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/virtual-patching02-e1793579758345.jpg?resize=600,305 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+<p>前回の「第1回：AI時代のプライベートクラウド多層防御、VMware Cloud Foundation®で実現する仮想基盤の堅牢化とリスク低減策」では、VMware Cloud Foundation (VCF) 環境におけるセキュリティの全体像と、ワークロードを保護するための多層防御アーキテクチャの重要性について解説しました。第1回公開後、多くのお客様から反響をいただき、特に内部トラフィックの可視化と制御に関する関心の高さを実感しております。 第2回となる今回は、企業のセキュリティ運用およびITインフラ管理者にとって恒常的な課題となっている「脆弱性公開からパッチ適用までの猶予期間（Vulnerability Window）」に焦点を当てます。この無防備となり得る期間の脅威をどのように無効化するかについて、VMware® vDefend<img src="https://s.w.org/images/core/emoji/16.0.1/72x72/2122.png" alt="™" class="wp-smiley" style="height: 1em; max-height: 1em;" /> (vDefend) の「分散IDS/IPS」と「VMware® Avi<img src="https://s.w.org/images/core/emoji/16.0.1/72x72/2122.png" alt="™" class="wp-smiley" style="height: 1em; max-height: 1em;" /> Load Balancer WAF (Web Application Firewall) 」を用いた「仮想パッチ」の技術を解説します。また、それらがもたらすダウンタイムの削減および運用コスト削減の具体的なメリットについて、技術的な観点から深掘りしてお届けします。 &#160; 1. セキュリティパッチ適用の課題：「猶予期間」に潜むリスク 新しい脆弱性（CVE）が公開され、ベンダーからセキュリティパッチがリリースされた際、セキュリティのベストプラクティスとしては即座にパッチを適用することが推奨されます。しかし、エンタープライズの運用環境、特にミッションクリティカルなプライベートクラウド環境においては、以下のような理由から即時適用は非常に困難です。 ・アプリケーションへの影響検証：OSやミドルウェアへのパッチ適用が、稼働中の業務アプリケーションやAIモデルの推論プロセスに予期せぬ不具合（互換性の問題、パフォーマンス低下など）を引き起こさないか、事前環境でのテストが必要です。 ・ダウンタイムの調整：システムの再起動を伴うパッチ適用の場合、事業部門との調整を行い、影響を最小限に抑えるメンテナンスウィンドウ（計画停止枠）を確保する必要があります。 ・運用リソースの逼迫：緊急度の高い脆弱性が連続して公開された場合、IT部門の運用担当者への負荷が高まり、通常の運用業務に支障をきたす恐れがあります。 この「脆弱性が公開されてから、実際にシステムにパッチが適用されるまでの期間（猶予期間）」は、攻撃者にとってシステムへ侵入するための格好の標的となります。この期間をいかに安全に保護し、リスクを低減するかが、インフラ運用における重要な鍵となります。 &#160; 2. 仮想パッチ（Virtual Patching）という解決策 この「猶予期間」の課題に対する有効な技術的アプローチが「仮想パッチ（Virtual Patching）」です。 仮想パッチとは、サーバーのOSやアプリケーションのコードに直接パッチを適用（修正）する代わりに、ネットワークの中間層で該当の脆弱性を突く攻撃トラフィックを検知し、遮断する手法です。これにより、システム本体には脆弱性が残った状態であっても、外部からのエクスプロイト（攻撃コード）が到達しないため、実質的にパッチが適用されたのと同じ防御効果を即座に得ることができます。 VCF環境においては、ネットワークの内部（East-West）と境界（North-South）のそれぞれで、最適な仮想パッチの仕組みを提供しています。 &#160; 3. vDefend 分散IDS/IPSによるEast-Westトラフィックの保護 データセンター内部の通信（East-Westトラフィック）に対する仮想パッチとして機能するのが、「vDefend」の分散IDS/IPSです。 従来の境界型（アプライアンス型）IPSでは、一度データセンター内部に侵入した脅威が、仮想マシン間で横展開（ラテラルムーブメント）する動きを検知・遮断することが困難でした。すべての内部通信を境界アプライアンスにヘアピンさせるアーキテクチャは、ネットワーク帯域の浪費と遅延を引き起こすため現実的ではありません。 vDefendの分散IDS/IPSは、各ESXホストのハイパーバイザー（vNIC）レベルで直接動作します。これにより、ネットワークのトポロジ変更を一切伴わず、すべての仮想マシン間通信に対して死角なく仮想パッチ（シグネチャによる検知・防御）を適用することが可能です。 &#160; 4. VMware Avi Load Balancer WAFによるアプリケーション層の保護 インフラストラクチャ層の保護に加えて、公開されているWebアプリケーション層（L7）の保護には「Avi Load Balancer WAF」が仮想パッチとして機能します。 Webアプリケーションの脆弱性（例：SQLインジェクション、クロスサイトスクリプティングなど）が発見された場合、アプリケーションのソースコードを修正してデプロイし直すには多大な時間とコストがかかります。Avi &#8230; <a href="https://blogs.vmware.com/vmware-japan/2026/11/vdefend-virtual-patching-avi-waf.html">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/vmware-japan/2026/11/vdefend-virtual-patching-avi-waf.html">第2回：仮想パッチを用いたセキュリティパッチ適用までの「猶予期間」の消滅</a> appeared first on <a href="https://blogs.vmware.com/vmware-japan">VMware Japan Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/vmware-japan/2026/11/vdefend-virtual-patching-avi-waf.html">第2回：仮想パッチを用いたセキュリティパッチ適用までの「猶予期間」の消滅</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10106742</post-id>	</item>
+		<item>
 		<title>Good Fences, Good Neighbors: Isolating Infrastructure Management</title>
 		<link>https://blogs.vmware.com/cloud-foundation/2026/10/30/isolating-management-network/</link>
 		
@@ -28,10 +48,10 @@
 				<category><![CDATA[Cloud Infrastructure]]></category>
 		<guid isPermaLink="false">https://blogs.vmware.com/?p=10106441</guid>
 
-					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>(Day 20 of 22 in our Cybersecurity Awareness Month series. Today: isolating the management network) Robert Frost&#8217;s poem &#8220;Mending Wall&#8221; gave us the line &#8220;good fences make good neighbors,&#8221; though the poem itself is actually skeptical of the idea. Infrastructure security needs no such skepticism. The management network, where vCenter, ESX, NSX, and the rest &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/30/isolating-management-network/">Continued</a></p>
+					<description><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>(Day 20 of 22 in our Cybersecurity Awareness Month series. Today: isolating the management network) Robert Frost&#8217;s poem &#8220;Mending Wall&#8221; gave us the line &#8220;good fences make good neighbors,&#8221; though the poem itself is actually skeptical of the idea. Infrastructure security needs no such skepticism. The management network, where vCenter, ESX, NSX, and the rest &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/30/isolating-management-network/">Continued</a></p>
 <p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/30/isolating-management-network/">Good Fences, Good Neighbors: Isolating Infrastructure Management</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
-										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png" class="attachment-medium size-medium wp-post-image" alt="Cybersecurity Awareness Month Logo on a stylize background" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=600,300 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+										<content:encoded><![CDATA[<img width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="150" src="https://blogs.vmware.com/wp-content/uploads/2026/10/cybersecurity-awareness-banner-1200x600-1.png" class="attachment-medium size-medium wp-post-image" alt="Cybersecurity Awareness Month Logo on a stylize background" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=300,150 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=768,384 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=1024,512 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/cybersecurity-awareness-banner-1200x600-1.png?resize=600,300 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
 <p>(Day 20 of 22 in our <a target="_blank" rel="noreferrer noopener" href="https://blogs.vmware.com/cloud-foundation/2026/10/01/security-way-of-thinking/">Cybersecurity Awareness Month series</a>. Today: isolating the management network)</p>
 <p>Robert Frost&#8217;s poem &#8220;Mending Wall&#8221; gave us the line &#8220;good fences make good neighbors,&#8221; though the poem itself is actually skeptical of the idea. Infrastructure security needs no such skepticism. The management network, where vCenter, ESX, NSX, and the rest of the VMware Cloud Foundation (VCF) management components live, holds the keys to everything running on the platform, and it deserves a good fence.</p>
 <h2 class="wp-block-heading" id="why-attackers-go-after-the-management-network">Why Attackers Go After the Management Network</h2>
@@ -458,186 +478,5 @@
 		
 		
 		<post-id xmlns="com-wordpress:feed-additions:1">10106228</post-id>	</item>
-		<item>
-		<title>From Infrastructure to Agents: A Hands-on Guide to Secure Private AI with Broadcom – Part 4</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/10/28/from-infrastructure-to-agents-a-hands-on-guide-to-secure-private-ai-with-broadcom-part-4/</link>
-		
-		<dc:creator><![CDATA[niran evenchen and william arroyo]]></dc:creator>
-		<pubDate>Wed, 28 Oct 2026 11:38:02 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10106234</guid>
-
-					<description><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Neon-AI-Governance-Infrastructure.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Part 4 of 4: Governing the Agentic Loop – Bringing Platform as a Service and Governed Agentic Loop with Tanzu and AgentMinder An AI agent needs more than a model. It needs instructions and skills, memory to retain context, and tools that let it interact with the systems around it. Every connection makes the agent &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/10/28/from-infrastructure-to-agents-a-hands-on-guide-to-secure-private-ai-with-broadcom-part-4/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/28/from-infrastructure-to-agents-a-hands-on-guide-to-secure-private-ai-with-broadcom-part-4/">From Infrastructure to Agents: A Hands-on Guide to Secure Private AI with Broadcom – Part 4</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Neon-AI-Governance-Infrastructure.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/10/Neon-AI-Governance-Infrastructure.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Neon-AI-Governance-Infrastructure.png 1672w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Neon-AI-Governance-Infrastructure.png?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Neon-AI-Governance-Infrastructure.png?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Neon-AI-Governance-Infrastructure.png?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Neon-AI-Governance-Infrastructure.png?resize=1536,864 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Neon-AI-Governance-Infrastructure.png?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Neon-AI-Governance-Infrastructure.png?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/Neon-AI-Governance-Infrastructure.png?resize=600,338 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<h2 class="wp-block-heading" id="h-part-4-of-4-governing-the-agentic-loop-bringing-platform-as-a-service-and-governed-agentic-loop-with-tanzu-and-agentminder">Part 4 of 4: Governing the Agentic Loop – Bringing Platform as a Service and Governed Agentic Loop with Tanzu and AgentMinder</h2>
-<p><em>An AI agent needs more than a model. It needs instructions and skills, memory to retain context, and tools that let it interact with the systems around it. Every connection makes the agent more useful. Every connection also gives us another access decision to govern.</em></p>
-<p><em>A marketing agent might need campaign data, a content library, and publishing tools. An infrastructure agent might need Kubernetes inventory and VMware Cloud Foundation management tools. Both can use the same underlying model, but they should have very different authority.<br />If you want to see the demo first, jump to the <a href="https://www.youtube.com/watch?v=_SRlrBAsMr0">video</a> at the end of this post where we go through the process of building an agent, controlling its bound services using a bind, controlling access to specific intents through a grant in AgentMinder and finally scrub PII form being processed on the agent itself. </em></p>
-<p><em>In</em><a href="https://blogs.vmware.com/cloud-foundation/2026/04/27/guide-to-secure-private-ai-with-broadcom-part-1/"><em> </em><em>Part 1</em></a><em>, we established compute tenancy and network isolation.&nbsp;</em></p>
-<p><em>In</em><a href="https://blogs.vmware.com/cloud-foundation/2026/04/30/guide-to-secure-private-ai-with-broadcom-part-2/"><em> </em><em>Part 2</em></a><em>, we applied VMware vDefend microsegmentation to control traffic between AI components.&nbsp;</em></p>
-<p><em>In</em><a href="https://blogs.vmware.com/cloud-foundation/2026/08/19/from-infrastructure-to-agents-a-hands-on-guide-to-secure-private-ai-with-broadcom-part-3/"><em> </em><em>Part 3</em></a><em>, we added application-layer inspection with Avi WAF and authenticated, encrypted communication with Istio.</em></p>
-<p><em>Those controls establish where traffic can travel and how we protect it. Now we need to govern what an agent can do through an allowed connection.</em></p>
-<p><em>An authenticated agent can send a perfectly valid request over an encrypted channel and still ask for something outside its responsibilities. Counting virtual machines and changing a network may use the same infrastructure endpoint. The distinction has to be enforced above the IP address and port.</em></p>
-<p><em>In this lab, we use Tanzu Platform and AgentMinder to demonstrate three controls within agentic governance: </em><strong><em>bind, grant, and scrub</em></strong><em>. We deploy an agent, connect its services, authorize specific groups of tools, and filter sensitive content on the model path.</em></p>
-<h2 class="wp-block-heading"><strong><em>What the Agent Needs: Skills, Memory, a Model, and Tools</em></strong></h2>
-<p><em>The agentic loop starts with a request. The agent sends context to a model, selects a tool, examines the result, and decides whether another action is necessary before answering.</em></p>
-<p><em>Several dependencies support that loop:</em></p>
-<figure class="wp-block-table">
-<table class="has-fixed-layout">
-<tbody>
-<tr>
-<td><strong><em>Dependency</em></strong></td>
-<td><strong><em>What it provides</em></strong></td>
-<td><strong><em>What we need to govern</em></strong></td>
-</tr>
-<tr>
-<td><em>Skills and instructions</em></td>
-<td><em>Procedures and guidance for completing a task</em></td>
-<td><em>Which instructions are supplied and who can change them</em></td>
-</tr>
-<tr>
-<td><em>Memory</em></td>
-<td><em>Previous context, stored facts, and task history</em></td>
-<td><em>What the agent can &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; read, retain, and update</em></td>
-</tr>
-<tr>
-<td><em>LLM</em></td>
-<td><em>Reasoning, tool selection, and response generation</em></td>
-<td><em>Which model service the agent can use</em></td>
-</tr>
-<tr>
-<td><em>Tools through MCP</em></td>
-<td><em>Access to external data and actions</em></td>
-<td><em>Which services and operations the agent may invoke</em></td>
-</tr>
-</tbody>
-</table>
-</figure>
-<p><em>Instructions help the agent choose a sensible action. The platform and authorization layer enforce whether that action is allowed.</em></p>
-<p><em>Our demo concentrates on the model and MCP connections. Skills and memory are in the same access model, but we are not demonstrating separate policy controls for each of them in this walkthrough.</em></p>
-<h3 class="wp-block-heading"><strong><em>MCP: A Door That Describes Its Tools</em></strong></h3>
-<p><em>Model Context Protocol, or MCP, gives an agent a standard way to discover and invoke capabilities exposed by an endpoint, or a server.</em></p>
-<p><em>Think of an MCP server as an active API doorway: it presents the available tools, explains what they do, and describes the arguments each tool accepts. The agent discovers those definitions through tools/list and invokes a selected tool through tools/call. The server’s implementation performs the underlying work. See the</em><a href="https://github.com/modelcontextprotocol"><em> MCP tools specification</em></a><em>.</em></p>
-<p><em>Consider an infrastructure platform like VCF with thousands of API operations. We could point an agent directly at the environment, give it a username, password, and shell, and ask it to complete a task. The agent would then have to read the documentation, identify the right CLIs or APIs, work out the parameters, execute commands, interpret errors, and keep looping until it succeeds. That discovery and trial-and-error process can be slow, error-prone, and expensive in tokens. An MCP server gives the agent a structured starting point: a defined set of tools that wrap the underlying CLI commands and API calls, with descriptions and input schemas explaining how to invoke them. The agent selects the appropriate tool while the server handles the integration details, reducing repeated discovery and potentially cutting both token consumption and execution time. That tool interface also creates a doorway where we can enforce governance: which agent may invoke which tool, against which resources, and under what conditions.</em></p>
-<p><em>Eight or ten tools could cover a focused workflow across thousands of APIs. Now, MCP requires a good design, enterprise implementation, rigorous testing and verification. Our VCF MCP catalog grew during the lab as we separated capabilities into more precise tools.</em></p>
-<p><em>This makes the next question unavoidable: discovering a tool tells the agent what it can do. Who decides whether it is allowed to execute it?</em></p>
-<h2 class="wp-block-heading"><strong><em>The Lab Architecture: Two MCP Paths, Different Enforcement</em></strong></h2>
-<p><em>We deploy the demo agent on Tanzu Platform, running on VCF. Avi provides the application ingress and WAF layer shown in the architecture, vDefend provides the L4 network segmentation preventing the agent from reaching any system directly. AgentMinder runs on a VKS cluster.</em></p>
-<p><em>As you can see in the diagram below, the agent has three service connections:</em></p>
-<ul class="wp-block-list">
-<li><em>A private LLM service.</em></li>
-<li><em>A Kubernetes MCP service reached directly and not through agentminder.</em></li>
-<li><em>A VCF MCP service reached through the local AgentMinder sidecar and AgentMinder gateway.</em></li>
-</ul>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="386" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image_f92f81.png" alt="" class="wp-image-35742" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_f92f81.png 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_f92f81.png?resize=300,113 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_f92f81.png?resize=768,290 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_f92f81.png?resize=1024,386 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_f92f81.png?resize=1536,579 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_f92f81.png?resize=600,226 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
-<p><em>Figure 1. The agent runs on Tanzu. Kubernetes tool calls use a direct MCP connection, while VCF tool calls traverse the AgentMinder sidecar and gateway. Tanzu AI Services invokes the external PII filter on the model interaction path.</em></p>
-<p><em>The two tool paths are deliberately different:</em></p>
-<p><em>Agent → Kubernetes MCP → Kubernetes API</em></p>
-<p><em>Agent → Local sidecar → AgentMinder gateway → VCF MCP → VCF APIs</em></p>
-<p><em>Kubernetes provides our comparison case. It has no AgentMinder intent enforcement on this path. Only its MCP credentials and Kubernetes permissions apply.</em></p>
-<p><em>VCF adds a separate additional authorization decision between connecting the service and executing a tool.</em></p>
-<h3 class="wp-block-heading"><strong><em>Runtime Containment: Control What the Agent Can Execute</em></strong></h3>
-<p><em>Governance starts inside the container. </em><strong><em>Runtime containment</em></strong><em> means controlling the agent’s execution environment: the operating-system packages, binaries, libraries, credentials, and local tools available to it. We use a stripped-down container environment containing the dependencies the agent needs. Additional shells, administrative utilities, and installation privileges should be available only where the workload requires them. We use Tanzu buildpacks to assemble that environment during deployment, supplying the runtime and dependencies the agent needs from a platform-managed configuration. We test the resulting package and deploy it as an immutable artifact: updates go through a new build and deployment rather than changes to the running container. This gives platform teams a consistent, repeatable way to control what the agent runs.Together with controlled MCP access, this limits both the tools the agent can invoke remotely and the capabilities it can exercise locally.</em></p>
-<h3 class="wp-block-heading"><strong><em>Deny by Default: Control What the Agent Can Reach</em></strong></h3>
-<p><em>At the network layer, we apply </em><strong><em>deny by default</em></strong><em>: explicitly allow the connections the workload needs and block the rest. This extends the Zero Trust segmentation approach we established with vDefend in Part 2. The agent should reach its approved model and tool endpoints without gaining a general route into management networks or unrelated services. On the governed VCF path, that means allowing access through AgentMinder while restricting the backend to the gateway. Runtime containment limits available capabilities; segmentation limits where those capabilities can be used.</em></p>
-<h2 class="wp-block-heading"><strong><em>First Control: Bind the Services the Agent Can Use</em></strong></h2>
-<p><em>We start by pushing the prepared agent package to Tanzu:</em></p>
-<p><em>cf push&nbsp;</em></p>
-<p><em>The package includes the sidecar configuration. On its initial deployment, the application can start without a model binding, but it cannot complete a useful conversation.</em></p>
-<p><em>Next, we bind the model service (in the video it is done though the Apps Manager UI)</em></p>
-<p><em>Before binding services to an agent, platform engineering teams must decide which MCP servers and services are made available. In a large enterprise, granting every agent access to all available services risks resource bloat and unnecessary exposure.</em></p>
-<p><em>The Tanzu Platform Marketplace provides a self-service catalog that lets teams curate and expose only approved, organization-suitable services to agents. This upfront governance ensures agents consume appropriate infrastructure tiers without overwhelming backend resources, establishing a clear boundary before an application ever binds or invokes a service:</em></p>
-<pre class="crayon-plain-tag">cf bind-service infrademo-agent private-ai-llm
-
-cf restart infrademo-agent</pre>
-<p><em>The agent now has the model connection it needs to reason about requests.</em></p>
-<p><em>This is the first governance boundary. Platform teams determine which services are available to an application and who can configure those bindings. A marketing agent receives its approved marketing services. An infrastructure agent receives its approved infrastructure services.</em></p>
-<p><em>In our lab, we then bind the two MCP services:</em></p>
-<pre class="crayon-plain-tag">cf bind-service infrademo-agent k8s-mcp-direct
-
-cf bind-service infrademo-agent sc-infrademo-vcf
-
-cf restart infrademo-agent</pre>
-<p><em>These commands use the lab’s service-instance names. The same bindings can be made in Apps Manager as it is done in the recorded demo.</em></p>
-<p><em>Tanzu Platform’s</em><a href="https://cli.cloudfoundry.org/en-US/v8/bind-service.html"><em> </em><em>bind-service</em></a><em> associates the service instance with the application. In this deployment, restarting refreshes the application’s runtime environment so it can consume the new bindings. Under the hood, the binding makes the service’s connection details such as its endpoint and credentials available to the application through the VCAP_SERVICES environment variable. The agent reads those details to connect to the model or MCP service without hardcoding them into its source.&nbsp;</em></p>
-<p><em>In our lab the Kubernetes binding points directly to the Kubernetes MCP server at </em><em>[KUBERNETES_MCP_URL]</em><em>, while the VCF binding points to the local AgentMinder sidecar at </em><em>127.0.0.1:8181</em><em>. Notice the difference: Kubernetes tool calls go directly to the MCP server, bypassing AgentMinder. VCF tool calls pass through the sidecar and AgentMinder gateway, where the agent’s grants determine which tools it can execute. Think of a binding as giving the agent the service’s address and connection details which for the direct Kubernetes MCP, that connection lets the agent use the tools permitted by the service’s credentials. For VCF, the binding connects the agent through AgentMinder, where a separate grant determines which groups of tools it may use. The bind establishes the connection and the grant authorizes the actions.&nbsp;</em></p>
-<p><em>At this point, we have connected both services. We have not granted the demo agent a VCF intent.</em></p>
-<h3 class="wp-block-heading"><strong><em>Proving the Difference</em></strong></h3>
-<p><em>We ask the agent a Kubernetes inventory question:</em></p>
-<p><em>How many namespaces are in the Kubernetes cluster?</em></p>
-<p><em>The request succeeds using the direct Kubernetes MCP path and its configured permissions.</em></p>
-<p><em>Then we ask:</em></p>
-<p><em>How many VMs do I have?</em></p>
-<p><em>The VCF operation fails because the agent has no applicable grant.</em></p>
-<p><em>The application is running. Its model works. The VCF service is bound. What is missing is authorization to perform the requested operation.</em></p>
-<h2 class="wp-block-heading"><strong><em>Second Control: Grant an Intent, Then Enforce It at Runtime</em></strong></h2>
-<p><em>An AgentMinder intent is a grouping of tools around a defined job.</em></p>
-<p><em>For this demo, we separate </em><strong><em>VM management</em></strong><em> from </em><strong><em>network management</em></strong><em>. VM tools belong to the first intent; network tools belong to the second. A grant authorizes an agent identity to use a corresponding intent.</em></p>
-<p><em>That separation matters because a generic tool that accepts arbitrary API paths makes the boundary harder to enforce. If the same tool can list VMs, modify networks, and change storage, granting that tool may authorize far more than the intended job.</em></p>
-<p><em>During the lab, we moved from broad operations toward explicit domain tool sets. VM management became a bundle of VM tools, making the scope of its grant visible and enforceable.</em></p>
-<p><em>The word intent here refers to a configured authorization object. This does not mean that the agent can gain access to tools through its own prompts and requests. These are explicitly granted and enforced by AgentMinder.</em></p>
-<h3 class="wp-block-heading"><strong><em>Under the Hood: Identity, Bearer Tokens, and the Gateway</em></strong></h3>
-<p><em>The demo agent has a registered AgentMinder identity. Its client configuration is available to the sidecar, which handles the authenticated connection on the agent’s behalf.</em></p>
-<p><em>This is the </em><strong><em>identity and access</em></strong><em> layer. Tanzu controls who can deploy the application and configure its service bindings. AgentMinder identifies the calling agent and enforces which intents and tools that identity is authorized to use. A service binding establishes the configured connection; the grant determines the permitted operations on the governed path. Each agent therefore needs an identifiable, appropriately scoped identity so that access decisions can be attributed to the agent making the request.</em></p>
-<p><em>The relevant request flow is:</em></p>
-<ol class="wp-block-list">
-<li><em>The agent selects a VCF tool and sends the request to the local sidecar.</em></li>
-<li><em>The sidecar obtains or reuses an access token for the configured agent identity.</em></li>
-<li><em>The sidecar presents that token to the AgentMinder gateway as a bearer token.</em></li>
-<li><em>The gateway evaluates the requested tool against its configured intent binding and the agent’s authorized scopes.</em></li>
-<li><em>An authorized call proceeds to the VCF MCP backend, which performs the corresponding infrastructure API operation. An unauthorized call is denied.</em></li>
-</ol>
-<p><em>AgentMinder separates the administrative configuration of identities, intents, tool bindings, and grants from runtime gateway enforcement. Broadcom describes this gateway as the enforcement point for authenticated, authorized tool calls. See the</em><a href="https://investors.broadcom.com/node/64636/pdf"><em> </em><em>AgentMinder announcement</em></a><em>.</em></p>
-<p><em>We now grant the demo agent </em><strong><em>VM management</em></strong><em> in AgentMinder and repeat:</em></p>
-<p><em>How many VMs do I have?</em></p>
-<p><em>The agent can invoke the VM inventory tool and answer from the returned data.</em></p>
-<p><em>Then we ask:</em></p>
-<p><em>How many networks do I have?</em></p>
-<p><em>That operation remains denied. The agent is connected to the same MCP service, but the network tool belongs to an intent it has not been granted.</em></p>
-<p><em>Finally, we grant </em><strong><em>network management</em></strong><em> and repeat the network question. The corresponding tool call can now succeed.</em></p>
-<p><em>The demo uses inventory questions to make the boundary easy to observe. The configured VM management intent also included mutation capabilities, so it should not be described as a read-only grant. A production inventory agent could instead receive a narrower intent containing only read operations.</em></p>
-<h3 class="wp-block-heading"><strong><em>Discovery and Token Refresh Are Separate Concerns</em></strong></h3>
-<p><em>Two implementation details affected this demonstration.</em></p>
-<p><em>First, the agent’s displayed tool catalog and its execution permissions are separate. Seeing a tool in the interface does not prove that the agent can invoke it.</em></p>
-<p><em>Second, updating a grant does not rewrite a token already cached by the sidecar. During testing, a token minted before authorization continued to carry its earlier scopes.</em></p>
-<p><em>We configured a 60-second token lifetime for the demo identity and corrected the refresh handling used by the integration. That value is specific to the lab configuration.&nbsp;</em></p>
-<p><strong><em>Closing the Direct Backend Path</em></strong></p>
-<p><em>There is one more connection between this post and the earlier infrastructure work.</em></p>
-<p><em>If the gateway enforces tool authorization, an agent must not be able to bypass it by calling the MCP backend directly.</em></p>
-<p><em>For the deployed architecture, backend reachability therefore needs to be restricted to the gateway through the applicable routing, firewall, and application-access controls.</em></p>
-<p><em>This is where the layers reinforce each other. AgentMinder governs which tool calls are authorized. The network and platform controls make the enforced route the only available route. The demonstrated gateway behavior is not, by itself, proof that every alternative path has been closed.</em></p>
-<h2 class="wp-block-heading"><strong><em>Third Control: Scrub Sensitive Content on the Model Path</em></strong></h2>
-<p><em>An agent can be authorized to use a service and still carry information that should not reach the model in its original form.</em></p>
-<p><em>For the final demonstration, we use Tanzu AI Services webhooks to invoke an external PII scrubber built with Presidio. It could be any system that supports being called using a webhook.</em></p>
-<p><em>This integration is separate from AgentMinder’s MCP authorization path. AgentMinder governs tool access. Tanzu AI Services provides the interception point for the content filter.</em></p>
-<p><em>In the lab build, the AI Services Policy configuration exposed the webhook capability as a </em><strong><em>technical preview</em></strong><em>, enabled through </em><em>webhook</em><em>. The integration provided these endpoints:</em></p>
-<p><em>/prompt</em></p>
-<p><em>/response</em></p>
-<p><em>/response/stream</em></p>
-<p><em>Our </em><em>pii-scrub</em><em> application implements the filtering service. Presidio identified configured entities, and its anonymization functionality replaces detected values with labels.&nbsp;</em></p>
-<p><em>We submit a synthetic contact card and ask the agent to repeat its contents. The filter acts on the AI Services processing path as the model is replying that it cannot disclose personal information does not prove that the scrubber ran.&nbsp;</em></p>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="500" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/10/image_9a3b7b.png" alt="" class="wp-image-35743" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_9a3b7b.png 2046w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_9a3b7b.png?resize=300,147 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_9a3b7b.png?resize=768,375 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_9a3b7b.png?resize=1024,500 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_9a3b7b.png?resize=1536,751 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/10/image_9a3b7b.png?resize=600,293 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
-<p><em>The webhook model also provides an integration point for other content inspection services, including appropriately configured PHI or prompt-injection detection. Those require their own implementation and validation. Our lab demonstrates PII replacement.</em></p>
-<h3 class="wp-block-heading"><strong><em>Audit: Make Every Access Traceable</em></strong></h3>
-<p><em>The Forth discipline is </em><strong><em>audit</em></strong><em>, and it spans the stack. Tanzu records endpoint access. AgentMinder records actions attempted through its gateway, including both allowed and denied requests. At the runtime and infrastructure layers, vDefend, Avi, and VCF/VKS provide the network, application-access, and platform audit records.</em></p>
-<p><em>Together, these records let us trace which agent accessed a service, which operation it attempted, whether the gateway authorized it, and what happened along the underlying application and infrastructure path. Correlating those records gives us an end-to-end account of the agent’s activity, including attempts that were blocked before reaching the target system.</em></p>
-<h2 class="wp-block-heading"><strong><em>What This Means for Governed Agentic Coding</em></strong></h2>
-<p><em>The same decisions apply to a coding agent.</em></p>
-<p><em>It may need repository access, build tools, package sources, memory, and deployment services. Binding those services gives the runtime its configured dependencies. Grants can then separate inspection, testing, and deployment capabilities. Content inspection can govern sensitive information passing through the model service.</em></p>
-<p><em>Our infrastructure demo makes those boundaries visible with VM and network questions. A development workflow can apply the same pattern to reviewing code, running a build, and deploying the result.</em></p>
-<p><em>Across the four parts, we have assembled complementary controls: tenant isolation, network segmentation, application inspection, authenticated communication, service bindings, tool authorization, and content filtering.</em></p>
-<p><em>Each answers a different question. Together, they let us build useful agents whose access is defined and enforced outside the model’s reasoning loop.</em></p>
-<figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-4-3 wp-has-aspect-ratio">
-<div class="wp-block-embed__wrapper">
-<div class="embed embed-responsive embed-responsive-16by9"><script ot_flaged="1">appendContentOneTrust("4:1","<iframe loading="lazy" title="Agentic Governance on VMware Cloud Foundation with Tanzu Platform and AgentMinder" width="500" height="375" src="https://www.youtube.com/embed/_SRlrBAsMr0?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen ot_flaged="1"></iframe>","content");</script></div>
-</div>
-</figure>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/28/from-infrastructure-to-agents-a-hands-on-guide-to-secure-private-ai-with-broadcom-part-4/">From Infrastructure to Agents: A Hands-on Guide to Secure Private AI with Broadcom – Part 4</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/10/28/from-infrastructure-to-agents-a-hands-on-guide-to-secure-private-ai-with-broadcom-part-4/">From Infrastructure to Agents: A Hands-on Guide to Secure Private AI with Broadcom – Part 4</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10106234</post-id>	</item>
 	</channel>
 </rss>
