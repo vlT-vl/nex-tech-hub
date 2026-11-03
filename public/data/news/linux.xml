@@ -222,7 +222,40 @@
    <description>With the recently released Ubuntu 26.10 and the nearly-released Fedora Workstation 45, Phoronix readers have begun inquiring about fresh benchmarks looking at how they stack up against the performance-optimized, Arch Linux based CachyOS. Up today are our first CachyOS vs. Fedora 45 vs. Ubuntu 26.10 benchmarks on an AMD Ryzen 9 9900X3D2 desktop system.</description>
    <pubDate>Wed, 28 Oct 2026 10:46:46 -0400</pubDate>
    <dc:creator>Michael Larabel</dc:creator>
-  </item><item><title>php2shell (CVE-2026-109618 and CVE-2026-109619) – PHP critical vulnerability fixes available</title><link>https://ubuntu.com//blog/php2shell-vulnerability-fixes-available</link><description>&lt;p&gt;Introduction Two critical security vulnerabilities affecting PHP have been identified that result in unauthenticated remote code execution (RCE) for any PHP application. The vulnerabilities have been assigned the CVE-2026-109618 and CVE-2026-109619 identifiers, but are also referred to using the php2shell nickname. Ubuntu has released fixes for the affected packages for all supported releases. The two [&amp;hellip;]&lt;/p&gt;
+  </item><item><title>Fixes available in -proposed pocket for CVE-2026-98432</title><link>https://ubuntu.com//blog/fixes-available-in-proposed-pocket-for-cve-2026-98432</link><description>&lt;p&gt;Fixes for the CVE-2026-98432 Linux kernel vulnerability are available for Ubuntu.&lt;/p&gt;
+</description><content:encoded>
+&lt;h2 class="wp-block-heading"&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;We have received several questions about CVE-2026-98432, a flaw in how the Linux kernel sets up IPv4 TCP connections, present in Linux kernel versions 4.4 and later.&lt;/p&gt;
+&lt;p&gt;The vulnerability has a CVSS 3.1 score of 9.8, corresponding to a severity of High. &lt;/p&gt;
+&lt;p&gt;Our team is currently working on testing the fixes for CVE-2026-98432 for Ubuntu 22.04 LTS and newer. The fixes are currently in the -proposed pocket, so users who run their own kernel acceptance tests can choose to apply them as per &lt;a href="https://canonical.com/blog/accelerating-delivery-of-cve-fixes-with-a-new-kernel-release-strategy"&gt;our new SRU strategy for accelerating CVE fixes&lt;/a&gt;. A fix for older, still supported Ubuntu releases will follow. &lt;/p&gt;
+&lt;p&gt;To ensure stability across a wide ecosystem we perform extensive tests on more than 2,000 certified servers and devices. We will release the fixes in the updates pocket of the Ubuntu archive as soon as those tests are complete, and will update this blog with further details. Users can also check our CVE status page for up-to-date &lt;a href="https://ubuntu.com/security/CVE-2026-98432"&gt;information&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 class="wp-block-heading"&gt;Which Ubuntu releases are affected by CVE-2026-98432?&lt;/h2&gt;
+&lt;figure class="wp-block-table"&gt;&lt;table class="has-fixed-layout"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Release&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;Package Name&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;&lt;strong&gt;Remediation status&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Trusty (14.04)&lt;/td&gt;&lt;td&gt;linux&lt;/td&gt;&lt;td&gt;Not affected&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Xenial (16.04)&lt;/td&gt;&lt;td&gt;linux&lt;/td&gt;&lt;td&gt;Fix pending&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Bionic (18.04)&lt;/td&gt;&lt;td&gt;linux&lt;/td&gt;&lt;td&gt;Fix pending&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Focal (20.04)&lt;/td&gt;&lt;td&gt;linux&lt;/td&gt;&lt;td&gt;Fix pending&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Jammy (22.04)&lt;/td&gt;&lt;td&gt;linux&lt;/td&gt;&lt;td&gt;Fix available in -proposed (5.15.0-203.213)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Noble (24.04)&lt;/td&gt;&lt;td&gt;linux&lt;/td&gt;&lt;td&gt;Fix available in -proposed (6.8.0-149.149)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Resolute (26.04)&lt;/td&gt;&lt;td&gt;linux&lt;/td&gt;&lt;td&gt;Fix available in -proposed (7.0.0-43.43)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Stonking (26.10)&lt;/td&gt;&lt;td&gt;linux&lt;/td&gt;&lt;td&gt;Fixed in 7.3.0-10.10&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 class="wp-block-heading"&gt;How to check if you are impacted by CVE-2026-98432&lt;/h2&gt;
+&lt;p&gt;On your system, run the following command to get the version of the currently running kernel and compare the listed version to the corresponding table above.&lt;/p&gt;
+&lt;pre class="wp-block-code"&gt;&lt;code&gt;uname -r&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The list of installed kernel packages can be obtained using the following command:&lt;/p&gt;
+&lt;pre class="wp-block-code"&gt;&lt;code&gt;dpkg -l 'linux-image*' | grep ^ii&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 class="wp-block-heading"&gt;Impact of CVE-2026-98432&lt;/h2&gt;
+&lt;p&gt;The vulnerability affects the IPv4 TCP connection handling in the Linux kernel and can lead to remote code execution. The yet-unreleased exploit generated by Anthropic is described as using Multipath TCP (MPTCP), although the vulnerability is not specific to MPTCP. At the time of writing, no other exploit is known to have been generated or published.&lt;/p&gt;
+&lt;h2 class="wp-block-heading"&gt;How to apply fixes for CVE-2026-98432&lt;/h2&gt;
+&lt;p&gt;To enable the -proposed pocket follow these &lt;a href="https://ubuntu.com/project/docs/SRU/reference/sru-verification/#reference-enable-proposed"&gt;instructions&lt;/a&gt;. Alternatively, you can enable the -proposed pocket of the Ubuntu archive main component (which covers the Linux kernel images) using the following command:&lt;/p&gt;
+&lt;pre class="wp-block-code"&gt;&lt;code&gt;sudo add-apt-repository --component main --pocket proposed http://archive.ubuntu.com/ubuntu&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Packages from the -proposed pocket are not selected for upgrade by default. You have to explicitly install the package by specifying the -proposed pocket corresponding to your release. For example, if your kernel has been installed via a meta-package, you can use the following command:&lt;/p&gt;
+&lt;pre class="wp-block-code"&gt;&lt;code&gt;sudo apt update
+dpkg-query -W -f '${source:Package}\t${binary:Package}\n' | awk '$1 ~ "^linux-meta" { print $2 }' | xargs sudo apt install -t $(. /etc/os-release &amp;amp;&amp;amp; echo $VERSION_CODENAME)-proposed --only-upgrade&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Once the security updates for the Linux kernel are installed, a reboot is required:&lt;/p&gt;
+&lt;pre class="wp-block-code"&gt;&lt;code&gt;sudo reboot&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ubuntu 26.10, 26.04 LTS, 24.04 LTS, and 22.04 LTS receive these fixes as part of standard support. &lt;/p&gt;
+&lt;p&gt;If you are using Ubuntu 20.04 LTS or older, the Ubuntu Pro subscription offers coverage for up to 15 years. Ubuntu 20.04 LTS and 18.04 LTS are covered by Expanded Security Maintenance (ESM), while Ubuntu 16.04 LTS and 14.04 LTS require ESM with the Legacy add-on. Ubuntu Pro is free for up to 5 machines, or up to 50 machines for community members. Ubuntu Pro also provides access to Landscape which enables you to control the roll-out of security fixes across your estate. &lt;a href="http://www.ubuntu.com/pro"&gt;Learn more&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 class="wp-block-heading"&gt;Mitigations for CVE-2026-98432&lt;/h2&gt;
+&lt;p&gt;Mitigations that disable multipath TCP (MPTCP) are being recommended by various sources, but please note that the CVE fix is not specific to MPTCP. The recommendations are based exclusively on the fact that the yet-unreleased exploit generated by Anthropic is described as using MPTCP; no other exploit is known to have been generated or published. The Ubuntu Security Team believes that security updates are the only appropriate mitigation. For Ubuntu 22.04 LTS and newer, these are currently in qualification testing and available in the -proposed pocket, as mentioned above. &lt;/p&gt;
+&lt;h1 class="wp-block-heading"&gt;References&lt;/h1&gt;
+&lt;ul class="wp-block-list"&gt;
+&lt;li&gt;&lt;a href="https://ubuntu.com/security/CVE-2026-98432"&gt;https://ubuntu.com/security/CVE-2026-98432&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.anthropic.com/research/discovering-vulnerabilities-with-claude"&gt;https://www.anthropic.com/research/discovering-vulnerabilities-with-claude&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded><category>Security</category><category>Vulnerabilities</category><pubDate>Mon, 02 Nov 2026 21:00:15 +0000</pubDate><dc:creator>Luci Stanescu</dc:creator></item><item><title>php2shell (CVE-2026-109618 and CVE-2026-109619) – PHP critical vulnerability fixes available</title><link>https://ubuntu.com//blog/php2shell-vulnerability-fixes-available</link><description>&lt;p&gt;Introduction Two critical security vulnerabilities affecting PHP have been identified that result in unauthenticated remote code execution (RCE) for any PHP application. The vulnerabilities have been assigned the CVE-2026-109618 and CVE-2026-109619 identifiers, but are also referred to using the php2shell nickname. Ubuntu has released fixes for the affected packages for all supported releases. The two [&amp;hellip;]&lt;/p&gt;
 </description><content:encoded>
 &lt;h2 class="wp-block-heading"&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;&lt;br/&gt;Two critical security vulnerabilities affecting PHP have been identified that result in unauthenticated remote code execution (RCE) for any PHP application. The vulnerabilities have been assigned the &lt;a href="https://ubuntu.com/security/CVE-2026-109618"&gt;CVE-2026-109618&lt;/a&gt; and &lt;a href="https://ubuntu.com/security/CVE-2026-109619"&gt;CVE-2026-109619&lt;/a&gt; identifiers, but are also referred to using the php2shell nickname. Ubuntu has released fixes for the affected packages for all supported releases.&lt;/p&gt;
@@ -635,7 +668,7 @@
 </description><content:encoded>
 &lt;p&gt;I recently recorded a Lightboard presentation on securing open source software dependencies in the public cloud. This blog summarises, and expands upon, some of the key elements from that presentation:&lt;/p&gt;
 &lt;figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"&gt;&lt;div class="wp-block-embed__wrapper"&gt;
-&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" height="281" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/nnvsletLWNk?feature=oembed" title="Securing Open Source Dependencies on Public Cloud" width="500"&gt;&lt;/iframe&gt;
+&lt;iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" height="304" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/nnvsletLWNk?feature=oembed" title="Securing Open Source Dependencies on Public Cloud" width="540"&gt;&lt;/iframe&gt;
 &lt;/div&gt;&lt;/figure&gt;
 &lt;p&gt;I think about this topic through two lenses: software supply chains and updating software dependencies while maintaining stability.&lt;/p&gt;
 &lt;h2 class="wp-block-heading"&gt;Software supply chains&lt;/h2&gt;
@@ -775,129 +808,87 @@
 &lt;p&gt;&lt;a href="https://ubuntu.com/blog/android-development-shouldnt-start-with-a-physical-device"&gt;Read Part 1: Android development shouldn’t start with a physical device&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://ubuntu.com/blog/scaling-android-development-without-scaling-hardware"&gt;Read Part 2: Scaling Android development without scaling hardware&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;For any questions, feel free to &lt;a href="https://canonical.com/anbox-cloud#get-in-touch"&gt;get in touch with the Anbox team.&lt;/a&gt;&lt;/p&gt;
-</content:encoded><category>Anbox</category><category>anbox cloud</category><category>Anbox Cloud Appliance</category><pubDate>Thu, 01 Oct 2026 09:24:20 +0000</pubDate><dc:creator>Bertrand Boisseau</dc:creator></item><item><title>Realtime transaction fraud detection – with an LLM?</title><link>https://ubuntu.com//blog/realtime-transaction-fraud-detection-with-an-llm</link><description>&lt;p&gt;Conversational AI with a chatbot is great for drafting emails or debugging code,&amp;nbsp; but it&amp;#8217;s less ideal for real-time application middleware. If you’re trying to inspect a financial transaction for potential fraud in the middle of a checkout loop, you don’t need an LLM to write you an essay about why a credit card transaction [&amp;hellip;]&lt;/p&gt;
-</description><content:encoded>
-&lt;p&gt;Conversational AI with a chatbot is great for drafting emails or debugging code,  but it’s less ideal for real-time application middleware. If you’re trying to inspect a financial transaction for potential fraud in the middle of a checkout loop, you don’t need an LLM to write you an essay about why a credit card transaction looks suspicious – you just need a probability score, and you need it as fast as possible.&lt;/p&gt;
-&lt;p&gt;To this end, TypeSafe AI recently released Jev, a cloud-based service that uses modified generative AI models for classification tasks. Naturally, the open weight model community has responded with similar, publicly accessible models that you can run yourself. Instead of generating natural language, these AI large language models bypass text generation entirely. They read the context you provide them with, evaluate all your typed questions in a single parallel pass, and report back the probabilities.&lt;/p&gt;
-&lt;p&gt;The advent of this new LLM-based classification technique seemed to me to be, if nothing else, a great opportunity to demonstrate how to use Canonical’s open source MLOps stack to build a realtime transaction fraud detection system, based on an open weight, Jev-like model – the “&lt;a href="https://huggingface.co/pngwn/system-one-qwen3.5-4b-scorer"&gt;system-one-qwen3.5-4b-scorer&lt;/a&gt;” model.&lt;/p&gt;
-&lt;figure class="wp-block-image size-full"&gt;&lt;img alt="" height="857" loading="lazy" sizes="(min-width: 1516px) 1516px, 100vw" src="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_1516/https%3A%2F%2Fubuntu.com%2Fwp-content%2Fuploads%2Fb4cb%2Frealtime-fraud-detection-with-an-open-jev-model.png" srcset="https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_460/https%3A%2F%2Fubuntu.com%2Fwp-content%2Fuploads%2Fb4cb%2Frealtime-fraud-detection-with-an-open-jev-model.png 460w, https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_620/https%3A%2F%2Fubuntu.com%2Fwp-content%2Fuploads%2Fb4cb%2Frealtime-fraud-detection-with-an-open-jev-model.png 620w, https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_1036/https%3A%2F%2Fubuntu.com%2Fwp-content%2Fuploads%2Fb4cb%2Frealtime-fraud-detection-with-an-open-jev-model.png 1036w, https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_1681/https%3A%2F%2Fubuntu.com%2Fwp-content%2Fuploads%2Fb4cb%2Frealtime-fraud-detection-with-an-open-jev-model.png 1681w, https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_1920/https%3A%2F%2Fubuntu.com%2Fwp-content%2Fuploads%2Fb4cb%2Frealtime-fraud-detection-with-an-open-jev-model.png 1920w, https://res.cloudinary.com/canonical/image/fetch/f_auto,q_auto,fl_sanitize,c_fill,w_1516/https%3A%2F%2Fubuntu.com%2Fwp-content%2Fuploads%2Fb4cb%2Frealtime-fraud-detection-with-an-open-jev-model.png 1516w" width="1516"/&gt;&lt;/figure&gt;
-&lt;p&gt;Sounds like fun? Good. Let’s start.&lt;/p&gt;
-&lt;h2 class="wp-block-heading"&gt;Open source MLOps&lt;/h2&gt;
-&lt;p&gt;Canonical’s open source &lt;a href="https://canonical.com/mlops"&gt;MLOps stack&lt;/a&gt; is pretty comprehensive, with integrated support for Kubeflow, Katib, Feast, MLFlow and KServe for doing everything from pre-training, to fine tuning and reinforcement learning, with a set of structured tools to help with the full project lifecycle from early research to production.&lt;/p&gt;
-&lt;p&gt;But for this project, we’ll just be using KServe. KServe is a Kubernetes based inference server control plane. It helps you to deploy AI models – including large language models – on Kubernetes, so that you can benefit from the resilience and automation that Kubernetes offers for production deployments. Before we begin in earnest, make sure you you can meet the prerequisites:&lt;/p&gt;
-&lt;ul class="wp-block-list"&gt;
-&lt;li&gt;You’ll need to be running at least Ubuntu 24.04 LTS on your computer.&lt;/li&gt;
-&lt;li&gt;Your computer needs to have at least 32GB of RAM and a modern CPU to run everything comfortably.&lt;/li&gt;
-&lt;li&gt;I initially used the integrated graphics processor on my laptop’s CPU to accelerate the model’s processing, but to make this lab project more accessible, we will use your computer’s CPU. The model will just run slower.&lt;/li&gt;
-&lt;li&gt;A stable, high speed internet connection for downloads.&lt;/li&gt;
-&lt;li&gt;Some familiarity with Linux commands so that you can follow along.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 class="wp-block-heading"&gt;Install KServe and set up the lab project&lt;/h2&gt;
-&lt;p&gt;First up, let’s prepare the system. Open up your terminal and make sure you’ve got the base software installed. Run the following commands:&lt;/p&gt;
-&lt;pre class="wp-block-code"&gt;&lt;code&gt;sudo snap install microk8s --channel 1.34-strict/stable
-sudo microk8s enable storage dns
-sudo microk8s enable metallb 10.64.140.43-10.64.140.49
-sudo snap install juju --channel 3.6/stable
-sudo microk8s.config | juju add-k8s my-k8s
-sudo snap install terraform
-sudo apt install git -y
-git clone https://github.com/canonical/charmed-kubeflow-solutions.git
-pushd charmed-kubeflow-solutions
-git checkout track/1.11
-pushd terraform/products/kubeflow&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Congratulations, you’ve just installed a one-node, super-compact Kubernetes cluster running Canonical’s &lt;a href="https://canonical.com/microk8s"&gt;MicroK8s&lt;/a&gt;, with Canonical’s operations management engine &lt;a href="https://juju.is"&gt;Juju&lt;/a&gt;, and with Terraform.&lt;/p&gt;
-&lt;p&gt;Now let’s launch Charmed Kubeflow. We’re only going to enable Kubeflow and KServe, so we’ll disable all the other modules like Katib, MLFlow, TensorBoard, federated login and the Canonical Observability Stack. You can always enable them if you want, but they aren’t needed for the purposes of this demo.&lt;/p&gt;
-&lt;pre class="wp-block-code"&gt;&lt;code&gt;DEX_USERNAME=username
-DEX_PASSWORD=password
-terraform init
-terraform apply -auto-approve -var dex_static_username="${DEX_USERNAME}" -var dex_static_password="${DEX_PASSWORD}" -var enable_feast=false -var enable_katib=false -var enable_kserve=true -var enable_training_v2=false -var enable_training_v1=false -var enable_observability=false -var enable_tensorboard=false 
-popd
-popd&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Give it 10-15 minutes for things to come up on the Kubernetes node. You can monitor how close things are getting to completion with the command `juju status -m kubeflow`. When everything is saying “idle/active”, we’re ready to go further with this lab project.&lt;/p&gt;
-&lt;p&gt;I’ve prepared the scripts needed to successfully complete this project and put them up on GitHub. The next step will be to clone the git repository to your local system. Run the following command:&lt;/p&gt;
-&lt;pre class="wp-block-code"&gt;&lt;code&gt;git clone https://github.com/grobbie/realtime-transaction-fraud-detection-with-an-llm.git
-pushd realtime-transaction-fraud-detection-with-an-llm&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now let’s install the development tools that we’re going to need. Make sure not to skip these steps.&lt;/p&gt;
-&lt;pre class="wp-block-code"&gt;&lt;code&gt;sudo apt update &amp;amp;&amp;amp; apt install -y python3-venv python3-pip
-python3 -m venv .venv
-source .venv/bin/activate
-.venv/bin/pip3 install -r requirements.txt&lt;/code&gt;&lt;/pre&gt;
-&lt;h2 class="wp-block-heading"&gt;Model crush&lt;/h2&gt;
-&lt;p&gt;The model we’re using isn’t the biggest, but it’s still big enough to crash a laptop – or rather, to crash the Kubernetes pod it’s going to run inside. So there are a couple of tricks we’re going to use to make it work much more efficiently on your computer, even without a high power GPU. &lt;/p&gt;
-&lt;p&gt;The model we’re using is actually a derivative model using a &lt;strong&gt;LoRA adapter&lt;/strong&gt; architecture. Low rank adaptation (LoRA) is a model fine-tuning technique that allows you to adapt a large language model to a specific task, without modifying the original model at all. However, for our purposes this approach adds additional overheads – every request has to pass through both the base model and the adapter paths simultaneously. This is good if you want to hot-swap model specialisms on a base model in real-time. But we just want a compact, efficient model that’s going to do classification tasks, so we’ll merge the LoRA weights into the base model.&lt;/p&gt;
-&lt;p&gt;The other trick we’re going to use is Activation-aware Weight Quantization (AWQ). This is a 4-bit post-training quantization technique that compresses the model with minimal loss of accuracy. With AWQ, we can squash the amount of VRAM the model needs down by up to 75%. While this technique is really designed and optimized for accelerating models that are running on GPUs, it does also work on the CPU. So for our Qwen3.5-4b derivative model, we should be able to get the model’s VRAM needs down from about 18GB all-in to around 5GB. Not too bad and definitely enough of a squeeze for you to be able to reliably run it on a laptop or similar without crashing, and yielding decent performance.&lt;/p&gt;
-&lt;p&gt;Run the following command to download a calibration dataset and prep it, and then merge the model weights and quantize:&lt;/p&gt;
-&lt;pre class="wp-block-code"&gt;&lt;code&gt;.venv/bin/python3 quantize_awq.py&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This downloads the model weights from &lt;a href="https://huggingface.co/"&gt;Hugging Face Hub&lt;/a&gt;, runs the merge and quantization, and produces a `./system-one-4bit-awq` directory containing all the necessary model artifacts. The task could take a while to complete – expect it to take around 6 hours on a laptop because of the calibration that we need to do during quantization.&lt;/p&gt;
-&lt;h2 class="wp-block-heading"&gt;Run the model on vLLM&lt;/h2&gt;
-&lt;p&gt;Now we’ve got the model, we need a way to run it. We’ll run it on the industry standard vLLM model server, using KServe as a means to set everything up nicely on Kubernetes.&lt;/p&gt;
-&lt;p&gt;To deploy the vLLM serving pod and service, you can use the manifests from my git repository.  &lt;strong&gt;Before you run the commands&lt;/strong&gt;, be sure to edit the file `kserve_deployment_cpu.yaml` to adjust the path to the model. Make sure the path is set to wherever the `system-one-4bit-awq` directory is on your system.&lt;/p&gt;
-&lt;pre class="wp-block-code"&gt;&lt;code&gt;microk8s.kubectl create namespace modelserving
-microk8s.kubectl apply -f kserve_deployment_cpu.yaml
-microk8s.kubectl apply -f kserve_service_lb.yaml&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;It’ll take a fair bit of time for vLLM to start up, load the weights into memory, and get ready to serve on your CPU. You might be waiting as long as 5 minutes for this depending on the specs of your system. Obviously, it almost goes without saying that if we were doing this for real we’d use GPU acceleration and the whole experience would be a lot more performant.&lt;/p&gt;
-&lt;p&gt;To verify the pod is running, you can try the following command:&lt;/p&gt;
-&lt;pre class="wp-block-code"&gt;&lt;code&gt;microk8s.kubectl get inferenceservice -n modelserving&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Eventually, if all goes well the output will show that the health checks are good, and you’ll be ready to try out some classification tasks with your new specialized artificial brain.&lt;/p&gt;
-&lt;h2 class="wp-block-heading"&gt;Run some predictions&lt;/h2&gt;
-&lt;p&gt;Obviously the goal of all of this, besides learning, is to run some transaction fraud detection with an LLM. So we want to try that, right? Of course. Let’s try that now and see if it works.&lt;/p&gt;
-&lt;p&gt;First we’ll try with a terminal command, and then we can try with a little web app I put together. To make sure the model is running accurately, we’re going to send it a web request using the `curl` command in the terminal, and see how it responds. We can use this one-liner command to find the right IP address for the vLLM model server:&lt;/p&gt;
-&lt;pre class="wp-block-code"&gt;&lt;code&gt;KSERVE_IP=$(kubectl get services -n modelserving | grep system-one | grep private | awk '{ print $3 }')&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Now let’s send a request to the vLLM endpoint and see what we get back:&lt;/p&gt;
-&lt;pre class="wp-block-code"&gt;&lt;code&gt;curl -s -X POST http://${KSERVE_IP}:8080/v1/completions \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "/model",
-    "prompt": "&amp;lt;|im_start|&amp;gt;user\nSystem One Fraud Risk Decision Query:\n\nTarget Transaction Profile:\nTRANSACTION PROFILE:\n- Type: TRANSFER\n- Transaction Amount: $100,000.00\n- Sender Initial Balance: $100,000.00\n- Sender Post-Transaction Balance: $0.00 (Delta: $100,000.00)\n- Recipient Initial Balance: $0.00\n- Recipient Post-Transaction Balance: $100,000.00 (Delta: $100,000.00)\n\nQuestion: What is the fraud risk classification for this transaction?\nOptions: 0: LOW_RISK, 1: MEDIUM_RISK, 2: HIGH_RISK_FRAUD&amp;lt;|im_end|&amp;gt;\n&amp;lt;|im_start|&amp;gt;assistant\nAnswer: ",
-    "max_tokens": 1,
-    "temperature": 0.0,
-    "logprobs": 3
-  }' | .venv/bin/python3 -m json.tool&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The request contains the context – a transaction record, showing the transaction type, amount, the sender’s initial balance, the sender’s balance after the transaction, the recipient’s initial balance, and the recipient’s post-transaction balance. It also contains a structured JSON object containing the question: “What is the fraud risk classification for this transaction?”, and it contains the options that the model can use – “LOW_RISK”, “MEDIUM_RISK”, and “HIGH_RISK_FRAUD”. Each option has a short description. You could actually ask a few of these structured questions, and they should all be processed in parallel by the model.&lt;/p&gt;
-&lt;p&gt;If everything goes correctly, then when you run the command you’ll get some output back pretty quickly. It should look something like the listing below which is a response giving the model’s prediction.&lt;/p&gt;
-&lt;pre class="wp-block-code"&gt;&lt;code&gt;{
-  "id": "cmpl-84ef1f97a3cc8d37",
-  "object": "text_completion",
-  "created": 1789839558,
-  "model": "/model",
-  "choices": [
-    {
-      "index": 0,
-      "text": "2",
-      "logprobs": {
-        "text_offset": [0],
-        "token_logprobs": [-1.5500739812850952],
-        "tokens": ["2"],
-        "top_logprobs": [
-          {
-            "2": -1.5500739812850952,
-            "1": -1.7219489812850952,
-            "0": -2.0422616004943848,
-          }
-        ]
-      },
-      "finish_reason": "length"
-    }
-  ],
-  "usage": {
-    "prompt_tokens": 182,
-    "total_tokens": 183,
-    "completion_tokens": 1
-  }
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;It can be a bit tricky to interpret, but basically the bits to look for are the value of `text` and `top_logprobs`.  “text” indicates the predicted classification (“text”: “2”). The model selected option token “2”, which corresponds to HIGH_RISK_FRAUD.&lt;/p&gt;
-&lt;p&gt;Looking back at the transaction record we sent, the transaction was a wire transfer of $100,000 to an empty bank account that completely drained the sender’s account. Definitely a risky transaction highly likely to be fraudulent. So if your model responded with “text”: “2”, then it got it right.&lt;/p&gt;
-&lt;p&gt;Not as much fun using the terminal though, so let’s start up that web app I promised you, which you’ll find in my repo. Start it by running the following command:&lt;/p&gt;
-&lt;pre class="wp-block-code"&gt;&lt;code&gt;.venv/bin/python app.py&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The interactive web UI should be accessible at &lt;a href="http://localhost:8000/"&gt;http://localhost:8000/&lt;/a&gt; for you to play with.&lt;/p&gt;
-&lt;h2 class="wp-block-heading"&gt;Take it further&lt;/h2&gt;
-&lt;p&gt;This has just been a lab project, but you can definitely take this further. Open weight models and open source software enable you to run AI behind the firewall in your own, self-governed environment – without needing to use cloud services. And with some optimizations the investment involved to run this technology doesn’t need to be out of reach – especially for enterprise use cases like this one. Of course, the whole process from quantization of the model to running the model could be accelerated with only a modest investment in GPUs; but if you want to run this kind of workload in production with low milliseconds response times across a huge number of concurrent real time transactions, then you might need a more substantial setup.&lt;/p&gt;
-&lt;p&gt;In any case, &lt;a href="https://canonical.com/mlops"&gt;Canonical’s MLOps stack&lt;/a&gt; is there to support your use case.&lt;/p&gt;
-&lt;ul class="wp-block-list"&gt;
-&lt;li&gt;&lt;a href="https://canonical.com/mlops/kubeflow"&gt;Discover the full capabilities of Charmed Kubeflow&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;Want us to manage the infrastructure so you can focus on the models? &lt;a href="https://marketplace.microsoft.com/en-us/product/saas/canonical.managed-kubeflow?tab=overview"&gt;Sign up for Managed Kubeflow on Azure&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</content:encoded><category>AI</category><category>Charmed Kubeflow</category><category>LLMs</category><category>MLOps</category><pubDate>Wed, 30 Sep 2026 06:58:49 +0000</pubDate><dc:creator>Rob Gibbon</dc:creator></item><item>
+</content:encoded><category>Anbox</category><category>anbox cloud</category><category>Anbox Cloud Appliance</category><pubDate>Thu, 01 Oct 2026 09:24:20 +0000</pubDate><dc:creator>Bertrand Boisseau</dc:creator></item><item>
+        <title>[$] The second part of the 7.4 merge window</title>
+        <link>https://lwn.net/Articles/1102739/</link>
+        <guid>https://lwn.net/Articles/1102739/</guid>
+        <dc:creator>daroc</dc:creator>
+        <description>&lt;p&gt;
+The 7.4 merge window, which
+&lt;a href=&quot;https://lwn.net/Articles/1104653/&quot;&gt;closed&lt;/a&gt; on November 1,
+included a record-breaking 18,591 non-merge changesets.
+That is almost as many as the entire 7.3 development cycle, which had 18,765, itself a record breaker. Of
+those, 11,838 landed after &lt;a href=&quot;https://lwn.net/Articles/1101211/&quot;&gt;the article covering the
+first part of the merge window&lt;/a&gt;. Most of those were bug fixes of
+various forms; it seems as though bug fixes may be crowding out feature
+additions &lt;a href=&quot;https://lwn.net/Articles/1104210/&quot;&gt;across the open-source ecosystem&lt;/a&gt; to
+some extent. Still, a good number of new features were included, and a handful
+removed, in the tail end of the merge window.
+&lt;/p&gt;
+</description>
+        <pubDate>Mon, 02 Nov 2026 17:51:48 +0000</pubDate>
+        </item><item>
+        <title>Shutting the Door on the XCPE Botnet (Threat Intelligence)</title>
+        <link>https://lwn.net/Articles/1104847/</link>
+        <guid>https://lwn.net/Articles/1104847/</guid>
+        <dc:creator>corbet</dc:creator>
+        <description>The Google Threat Intelligence blog &lt;a
+href=&quot;https://cloud.google.com/blog/topics/threat-intelligence/shutting-the-door-on-the-xcpe-botnet/&quot;&gt;describes,
+in great detail&lt;/a&gt;, the XCPE botnet, which has just been taken down.
+&lt;p&gt;
+&lt;blockquote class=&quot;bq&quot;&gt;
+	Last week, Google and industry partners dismantled the XCPE
+	backdoor which enrolled more than 1.3 million set-top boxes into a
+	botnet. We assess with high confidence that the backdoor and botnet
+	were intentionally developed, deployed, and operated for financial
+	gain by Videostrong Technology Co., an Android Original Equipment
+	Manufacturer (OEM) and Original Device Manufacturer (ODM).
+&lt;p&gt;
+	Videostrong monetized the backdoor by selling access to criminal
+	affiliates and loading those affiliates' malware modules onto
+	infected devices. These secondary modules were conducting ad-fraud;
+	silently enrolling infected devices into residential proxy
+	networks; and loading additional malware onto XCPE-compromised
+	devices. 
+&lt;/blockquote&gt;</description>
+        <pubDate>Mon, 02 Nov 2026 14:29:37 +0000</pubDate>
+        </item><item>
+        <title>[$] Managing the kernel CVE flood</title>
+        <link>https://lwn.net/Articles/1100894/</link>
+        <guid>https://lwn.net/Articles/1100894/</guid>
+        <dc:creator>corbet</dc:creator>
+        <description>We recently &lt;a href=&quot;https://lwn.net/Articles/1096908/&quot;&gt;looked&lt;/a&gt; at how the
+kernel community is dealing with the firehose of vulnerability reports, but
+said little about how users of the kernel are responding.  At the  2026 &lt;a
+href=&quot;https://lpc.events/&quot;&gt;Linux Plumbers Conference&lt;/a&gt;, Amazon employees
+Dylan Johnson and Justinien Bouron discussed the problem from the point of
+view of engineers trying to keep AWS running and secure in the face of a
+storm of CVE disclosures.  The kernel community's longstanding advice is to
+run current kernels, and that turns out to work — sort of.
+</description>
+        <pubDate>Mon, 02 Nov 2026 14:28:39 +0000</pubDate>
+        </item><item>
+        <title>Tor Browser 16.0 released</title>
+        <link>https://lwn.net/Articles/1104846/</link>
+        <guid>https://lwn.net/Articles/1104846/</guid>
+        <dc:creator>jzb</dc:creator>
+        <description>&lt;p&gt;&lt;a href=&quot;https://blog.torproject.org/new-release-tor-browser-160/&quot;&gt;Version
+16.0&lt;/a&gt; of the &lt;a
+href=&quot;https://download.torproject.org/tor-browser-for-desktop/&quot;&gt;Tor Browser&lt;/a&gt;
+has been released. This is the first stable version based on Firefox ESR
+153. Notable changes in this release include support for Linux on 64-bit Arm,
+redesigned settings, and a &quot;generic window titles&quot; feature to help prevent other
+applications from snooping on one's browser activity. &lt;a
+href=&quot;https://download.torproject.org/tor-browser-for-android/&quot;&gt;Tor Browser for
+Android&lt;/a&gt; has had a number of interface updates to Google's Material
+Design&amp;#160;3 design language.&lt;/p&gt;
+
+&lt;p&gt;This release also follows Firefox in ending support for 32-bit x86 Linux
+systems. See the &lt;a
+href=&quot;https://gitlab.torproject.org/tpo/applications/tor-browser-build/-/raw/maint-16.0/projects/browser/Bundle-Data/Docs-TBB/ChangeLog.txt&quot;&gt;full
+changelog&lt;/a&gt; for all of the updates and bug fixes.&lt;/p&gt;</description>
+        <pubDate>Mon, 02 Nov 2026 14:28:23 +0000</pubDate>
+        </item><item>
         <title>Security updates for Monday</title>
         <link>https://lwn.net/Articles/1104844/</link>
         <guid>https://lwn.net/Articles/1104844/</guid>
@@ -1104,69 +1095,4 @@ increased number of security-relevant bug fixes that the kernel is seeing these 
         <description>Security updates have been issued by &lt;b&gt;AlmaLinux&lt;/b&gt; (aspell, cjose, curl, gcc-toolset-15-gcc, httpd:2.4, ignition, java-21-openjdk, libX11, libXi, libXrender, libXtst, mariadb:10.11, nodejs:24, python-pillow, python3.12-urllib3, and webkit2gtk3), &lt;b&gt;Debian&lt;/b&gt; (imagemagick, libdatetime-timezone-perl, python-git, tor, tzdata, vlc, and wordpress), &lt;b&gt;Fedora&lt;/b&gt; (accessibility-inspector, akonadi-calendar, akonadi-calendar-tools, akonadi-contacts, akonadi-import-wizard, akonadi-mime, akonadi-search, akonadi-server, akonadiconsole, akregator, alligator, analitza, angelfish, applet-window-buttons, arianna, ark, artikulate, audex, audiocd-kio, audiotube, aurorae, baloo-widgets, blinken, bluedevil, bomber, bovo, breeze-gtk, brotli, bup, calendarsupport, calindori, calligra, cantor, colord-kde, cxx-rust-cssparser, dolphin, dolphin-plugins, dragon, elisa-player, eventviews, falkon, fcitx-configtool, ffmpegthumbs, filelight, firefox, flatpak-kcm, francis, ghostwriter, granatier, grantlee-editor, grantleetheme, grub2-breeze-theme, gwenview, incidenceeditor, isoimagewriter, itinerary, juk, k3b, kaccounts-integration, kaccounts-providers, kactivitymanagerd, kaddressbook, kajongg, kalarm, kalgebra, kalk, kalm, kalzium, kamera, kamoso, kanagram, kapman, kapptemplate, kasts, kate, katomic, kbackup, kblackbox, kblocks, kbounce, kbruch, kcachegrind, kcalc, kcalutils, kcharselect, kclock, kcolorchooser, kcron, kde-cli-tools, kde-connect, kde-dev-scripts, kde-dev-utils, kde-gtk-config, kde-inotify-survey, kde-partitionmanager, kdebugsettings, kdecoration, kdeedu-data, kdegraphics-mobipocket, kdegraphics-thumbnailers, kdenetwork-filesharing, kdenlive, kdepim-addons, kdepim-runtime, kdeplasma-addons, kdesdk-kioslaves, kdesdk-thumbnailers, kdevelop, kdevelop-php, kdevelop-python, kdf, kdialog, kdiamond, kdnssd, kdominate, keditbookmarks, keepsecret, keysmith, kf6-baloo, kfind, kfourinline, kgeography, kget, kglobalacceld, kgoldrunner, kgpg, kgraphviewer, khangman, khealthcertificate, khelpcenter, kidentitymanagement, kig, kigo, killbots, kimagemapeditor, kimap, kinfocenter, kio-admin, kio-extras, kio-gdrive, kirigami-gallery, kiriki, kiten, kitinerary, kjournald, kjumpingcube, kldap, kleopatra, klettres, klickety, klines, kmag, kmahjongg, kmail, kmail-account-wizard, kmailtransport, kmbox, kmenuedit, kmines, kmix, kmousetool, kmouth, kmplot, knavalbattle, knetwalk, knights, knighttime, knot, koko, kolf, kollision, kolourpaint, kompare, kongress, konqueror, konquest, konsole, kontact, kontactinterface, kontrast, konversation, kopeninghours, korganizer, kosmindoormap, kpat, kpimtextedit, kpipewire, kpkpass, kpmcore, kpublictransport, kqtquickcharts, krdc, krdp, krecorder, kreversi, krfb, kruler, ksanecore, kscreen, kscreenlocker, kshisen, ksirk, ksmtp, ksnakeduel, kspaceduel, ksquares, ksshaskpass, ksudoku, ksystemlog, ksystemstats, kteatime, ktimer, ktnef, ktorrent, ktouch, ktrip, ktuberling, kturtle, kubrick, kunifiedpush, kup-backup, kwalletmanager5, kwave, kwayland, kwayland-integration, kweather, kweathercore, kwin, kwin-zones, kwordquiz, kwrited, layer-shell-qt, libgravatar, libkcddb, libkdcraw, libkdegames, libkdepim, libkeduvocdocument, libkexiv2, libkgapi, libkleo, libkmahjongg, libkomparediff2, libksane, libkscreen, libksieve, libksysguard, libktorrent, libplasma, libquotient, lokalize, lskat, mailcommon, mailimporter, marble, markdownpart, massif-visualizer, mbox-importer, merkuro, messagelib, mimetreeparser, mingw-python-certifi, minuet, neochat, ocean-sound-theme, okular, oxygen-sounds, palapeli, pam-kwallet, parley, perl-Alien-Brotli, picmi, pim-data-exporter, pim-sieve-editor, pimcommon, plasma-activities, plasma-activities-stats, plasma-bigscreen, plasma-breeze, plasma-browser-integration, plasma-camera, plasma-desktop, plasma-dialer, plasma-discover, plasma-disks, plasma-drkonqi, plasma-firewall, plasma-integration, plasma-keyboard, plasma-login-manager, plasma-milou, plasma-mobile, plasma-nano, plasma-nm, plasma-oxygen, plasma-pa, plasma-phonebook, plasma-print-manager, plasma-sdk, plasma-settings, plasma-setup, plasma-systemmonitor, plasma-systemsettings, plasma-thunderbolt, plasma-union, plasma-vault, plasma-wayland-protocols, plasma-welcome, plasma-workspace, plasma-workspace-wallpapers, plasma5support, plasmatube, plymouth-kcm, plymouth-theme-breeze, polkit-kde, powerdevil, poxml, qmlkonsole, qqc2-breeze-style, qrca, rocs, sddm-kcm, signon-kwallet-extension, skanlite, skanpage, skladnik, spacebar, spectacle, step, svgpart, sweeper, tokodon, trafficserver, umbrello, xdg-desktop-portal-kde, yakuake, and zanshin), &lt;b&gt;Mageia&lt;/b&gt; (cfitsio, libsolv, tomcat, and xrdp), &lt;b&gt;Oracle&lt;/b&gt; (bind, cjose, curl, dogtag-pki, expat, gcc-toolset-15-gcc, ignition, kernel, libX11, libXrender, libXtst, php, python3.12-urllib3, and webkit2gtk3), &lt;b&gt;SUSE&lt;/b&gt; (389-ds, aws-nitro-enclaves-binaryblobs-upstream, brotli, chromium, firefox, flatpak, gnutls, google-osconfig-agent, haproxy, hawk2, kernel, libapr1, libtcnative-1-0, tomcat, liboath-devel, libpcre2-16-0, librecad, libXi-devel, libXtst-devel, python311, python313, python313-markdown2, python313-xhtml2pdf, rabbitmq-server, roundcubemail, rust-keylime, and xen), and &lt;b&gt;Ubuntu&lt;/b&gt; (dotnet8, dotnet10, dotnet11).
 </description>
         <pubDate>Fri, 30 Oct 2026 13:37:12 +0000</pubDate>
-        </item><item>
-        <title>[$] Containers as a recognized kernel object</title>
-        <link>https://lwn.net/Articles/1102593/</link>
-        <guid>https://lwn.net/Articles/1102593/</guid>
-        <dc:creator>corbet</dc:creator>
-        <description>The foundation of the design for containers in the kernel is that there
-isn't one; there is no container abstraction that the kernel recognizes.
-Instead, the kernel provides a long list of components — namespaces,
-control groups, sandboxing mechanisms, and more — along with a note that
-says, in effect, &quot;some assembly required&quot;.  There have been &lt;a
-href=&quot;https://lwn.net/Articles/723477/&quot;&gt;attempts&lt;/a&gt; (&lt;a
-href=&quot;https://lwn.net/Articles/780364/&quot;&gt;repeatedly&lt;/a&gt;) over the years to turn containers
-into first-class objects with kernel support, but they have never gotten
-far.  Now Josef Bacik is &lt;a
-href=&quot;https://lwn.net/ml/all/20261026-cells-rfc-v2-b41d7e0c95a3@toxicpanda.com&quot;&gt;making a
-try&lt;/a&gt; with a concept that he calls &quot;cells&quot;.
-</description>
-        <pubDate>Thu, 29 Oct 2026 14:02:30 +0000</pubDate>
-        </item><item>
-        <title>Security updates for Thursday</title>
-        <link>https://lwn.net/Articles/1103666/</link>
-        <guid>https://lwn.net/Articles/1103666/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>Security updates have been issued by &lt;b&gt;AlmaLinux&lt;/b&gt; (cjose, emacs, expat, gcc-toolset-15-gcc, java-17-openjdk, java-25-openjdk, kernel, kernel-rt, libX11, libXi, libXrender, libXtst, mod_auth_openidc:2.3, pki-deps:10.6, thunderbird, webkit2gtk3, and yggdrasil), &lt;b&gt;Debian&lt;/b&gt; (chromium, firefox-esr, and openjdk-25), &lt;b&gt;Fedora&lt;/b&gt; (firefox, librabbitmq, libreswan, python-pillow, and unbound), &lt;b&gt;Mageia&lt;/b&gt; (fio and python3, python-pip), &lt;b&gt;Oracle&lt;/b&gt; (buildah, cjose, container-tools:ol8, emacs, flute, libbase, libfonts, libformula, liblayout, libloader, libreoffice, librepository, libserializer, pentaho-libxml, pentaho-reporting-flow-engine, and sac, kernel, libX11, libXi, libXrender, libXtst, podman, python-urllib3, thunderbird, and yggdrasil), &lt;b&gt;Red Hat&lt;/b&gt; (firefox, goose, kernel, kernel package, kernel-rt, librsvg2, multiple packages, php:7.4, sudo, thunderbird, and xorg-x11-server), and &lt;b&gt;SUSE&lt;/b&gt; (alsa, ca-certificates-mozilla, chromedriver, cifs-utils, coredns, coreutils, cpupower, curl, cyrus-sasl, docker, dpdk, haproxy, kernel, libpoppler-cpp3, libsndfile-devel, libzbar-devel, mozilla-nss, MozillaFirefox, nginx, openai-codex, and perl-Cpanel-JSON-XS).
-</description>
-        <pubDate>Thu, 29 Oct 2026 13:18:42 +0000</pubDate>
-        </item><item>
-        <title>[$] LWN.net Weekly Edition for October 29, 2026</title>
-        <link>https://lwn.net/Articles/1102136/</link>
-        <guid>https://lwn.net/Articles/1102136/</guid>
-        <dc:creator>jzb</dc:creator>
-        <description>Inside this week's LWN.net Weekly Edition:
-        &lt;p&gt;
-        &lt;ul&gt;
-&lt;li&gt; &lt;a href=&quot;https://lwn.net/Articles/1102136/&quot;&gt;Front&lt;/a&gt;: Python JIT; Kernel clean up; Rust panics; Future Rust features; Northstar browser; 7.4 merge window; Smaller kernel stacks.
-            &lt;li&gt; &lt;a href=&quot;https://lwn.net/Articles/1102138/&quot;&gt;Briefs&lt;/a&gt;: KeePassXC 2.8.0; Redox ring buffers; Rust in systemd; Quotes; ...
-            &lt;li&gt; &lt;a href=&quot;https://lwn.net/Articles/1102139/&quot;&gt;Announcements&lt;/a&gt;: Newsletters, conferences, security updates, patches, and more.
-            &lt;/ul&gt;
-
-        </description>
-        <pubDate>Thu, 29 Oct 2026 00:19:08 +0000</pubDate>
-        </item><item>
-        <title>A report from the LPC sched_ext microconference</title>
-        <link>https://lwn.net/Articles/1103426/</link>
-        <guid>https://lwn.net/Articles/1103426/</guid>
-        <dc:creator>corbet</dc:creator>
-        <description>The Linux Plumbers Conference blog has &lt;a
-href=&quot;https://lpc.events/blog/current/index.php/2026/10/28/the-sched_exit-microconference/&quot;&gt;a
-report&lt;/a&gt; from the sched_ext microconference held in Prague.
-&lt;p&gt;
-&lt;blockquote class=&quot;bq&quot;&gt;
-	Three main topics dominated the discussions
-	&lt;ul class=&quot;spacylist&quot;&gt;
-	&lt;li&gt; &lt;b&gt;Priority inversion and how to handle it in sched_ext&lt;/b&gt;: lock holder and
-  	     lock waiter preemption, time slice extension, and making proxy execution
-  	     work together with BPF schedulers.&lt;/li&gt;
-        &lt;li&gt; &lt;b&gt;Paravirtualized scheduling&lt;/b&gt;: letting the host and guest schedulers
-  	     cooperate across the VM boundary, with sched_ext as the policy engine on
-  	     the host.&lt;/li&gt;
-        &lt;li&gt; &lt;b&gt;Device and topology-aware scheduling&lt;/b&gt;: using hardware feedback (Intel
-  	     HFI), device/accelerator locality and cache topology to drive task
-  	     placement.&lt;/li&gt;
-	&lt;/ul&gt;
-&lt;/blockquote&gt;</description>
-        <pubDate>Wed, 28 Oct 2026 22:11:43 +0000</pubDate>
         </item></channel></rss>

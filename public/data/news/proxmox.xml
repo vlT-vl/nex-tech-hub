@@ -4,11 +4,426 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Mon, 02 Nov 2026 14:18:40 +0000</pubDate>
-    <lastBuildDate>Mon, 02 Nov 2026 14:18:40 +0000</lastBuildDate>
+    <pubDate>Tue, 03 Nov 2026 00:16:41 +0000</pubDate>
+    <lastBuildDate>Tue, 03 Nov 2026 00:16:41 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>Network Usage for Ceph and iSCSI</title>
+      <pubDate>Mon, 02 Nov 2026 23:53:28 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/network-usage-for-ceph-and-iscsi.187386/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187386</guid>
+      <author>invalid@example.com (el_vagokz)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>el_vagokz</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Good afternoon,<br />
+<br />
+Currently, we have a dedicated bond1 interface for Proxmox Ceph traffic and a separate bond2 interface for VM traffic.<br />
+<br />
+Would it be possible to use bond1 for iSCSI connectivity as well, without any negative impact on performance or stability?</div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>iSCSI storage performance drops after firewall rule changes – anyone else?</title>
+      <pubDate>Mon, 02 Nov 2026 23:14:11 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/iscsi-storage-performance-drops-after-firewall-rule-changes-%E2%80%93-anyone-else.185869/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185869</guid>
+      <author>invalid@example.com (mohsin045)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>mohsin045</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Now we&#039;re seeing random performance drops on the iSCSI connections – latency spikes, occasional timeouts. The VMs are still running but storage performance is inconsistent.<br />
+What we&#039;ve checked:<br />
+<br />
+<ul>
+<li data-xf-list-type="ul">iSCSI network is on a separate VLAN</li>
+<li data-xf-list-type="ul">Firewall rules are allowing all traffic on that VLAN (no restrictions)</li>
+<li data-xf-list-type="ul">Jumbo frames are still enabled</li>
+<li data-xf-list-type="ul">No changes to switch config</li>
+</ul>What we&#039;re seeing:<br />
+<br />
+<ul>
+<li data-xf-list-type="ul">Latency jumps from 1ms to 100ms+ randomly</li>
+<li data-xf-list-type="ul">iSCSI session resets during high IO</li>
+<li data-xf-list-type="ul">No...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/iscsi-storage-performance-drops-after-firewall-rule-changes-%E2%80%93-anyone-else.185869/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>2</slash:comments>
+    </item>
+    <item>
+      <title>qmrestore cli: Howto configure parallelism?</title>
+      <pubDate>Mon, 02 Nov 2026 21:48:14 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/qmrestore-cli-howto-configure-parallelism.183545/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:183545</guid>
+      <author>invalid@example.com (rahman)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>rahman</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+When using &quot;qmrestore&quot; for backup restore tests it uses 4 threads by default: &quot;using up to 4 threads .... fetching up to 16 chunks in parallel&quot;. So how can I configure these values? I want to decrease it for testing (to see if it will affect S3 problems I am having). &quot;man qmrestore&quot; does not show any such parameters.<br />
+<br />
+Regards,<br />
+<br />
+Rahman</div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Multiple Operations in Hookscript Failing</title>
+      <pubDate>Mon, 02 Nov 2026 21:31:58 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/multiple-operations-in-hookscript-failing.187396/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187396</guid>
+      <author>invalid@example.com (tonystriker)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>tonystriker</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><a href="https://forum.proxmox.com/threads/using-the-pct-qm-command-within-a-hook-script.125614/" class="link link--internal">https://forum.proxmox.com/threads/using-the-pct-qm-command-within-a-hook-script.125614/</a> for reference.<br />
+<br />
+I am using the hookscript to revert a vm to a prior snapshot with the nohup command suggested above:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>nohup /usr/sbin/qm destroy &quot;$1&quot; &amp;&gt;/dev/null &amp;</code></pre>
+	</div>
+</div><br />
+This works fine enough, but I&#039;d like the snapshot to be powered off, and then the hookscript power it back on after reverting.  When I try some combination of <br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>nohup /usr/sbin/qm rollback &quot;$1&quot; &quot;snapshot&quot; &amp;&gt;/dev/null &amp;
+nohup...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/multiple-operations-in-hookscript-failing.187396/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>One PBS with raid1 or two with single discs?</title>
+      <pubDate>Mon, 02 Nov 2026 20:17:15 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/one-pbs-with-raid1-or-two-with-single-discs.187375/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187375</guid>
+      <author>invalid@example.com (bomart)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>bomart</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Which solution is better:<br />
+1. One PBS host with two disks raid1<br />
+2. Two PBSs with single disc and sync from one to two?<br />
+Hardware costs doesn&#039;t matter.</div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox VE Host OS Protection – Cortex XDR Agent Compatibility and Recommendations</title>
+      <pubDate>Mon, 02 Nov 2026 20:13:14 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-ve-host-os-protection-%E2%80%93-cortex-xdr-agent-compatibility-and-recommendations.187394/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187394</guid>
+      <author>invalid@example.com (Rajan_Kumar.Jaiswal@sita.)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Rajan_Kumar.Jaiswal@sita.</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+We are evaluating security measures to protect the Proxmox VE host operating system in our infrastructure and would like to clarify the recommended approach for OS-level security and endpoint protection.<br />
+<br />
+We would appreciate your guidance on the following questions:<br />
+<br />
+<b>1. Proxmox VE Host OS Protection</b><br />
+<br />
+<ul>
+<li data-xf-list-type="ul">What are the recommended security practices to protect the Proxmox VE host operating system?</li>
+<li data-xf-list-type="ul">What security tools or endpoint protection solutions are recommended for Proxmox...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/proxmox-ve-host-os-protection-%E2%80%93-cortex-xdr-agent-compatibility-and-recommendations.187394/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox erkennt nicht den vollständigen RAM</title>
+      <pubDate>Mon, 02 Nov 2026 19:28:10 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-erkennt-nicht-den-vollst%C3%A4ndigen-ram.169814/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:169814</guid>
+      <author>invalid@example.com (Luschmann)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>Luschmann</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Moin,<br />
+ich hab Proxmox auf einem Lenovo M75Nano installiert. Dieser verfügt über 8 GB fest verlöteten RAM. <br />
+<br />
+Proxmox erkennt hiervon nur 6 GB<br />
+<br />
+<a href="https://forum.proxmox.com/attachments/1755245649913-png.89483/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/89/89179-67acc558b0ff643e6380d5c03820e236.jpg?hash=0ebuzWZPvZ"
+		srcset=""
+		class="bbImage "
+		style=""
+		alt="1755245649913.png"
+		title="1755245649913.png"
+		width="385" height="150" loading="lazy" /></a><br />
+<br />
+DMIDECODE erkennt aber 2 4GB Riegel.<br />
+<br />
+Das Problem tritt sowohl unter 8.4.09 als auch unter 9.0.5 auf. Zudem lässt es sich auch auf einem baugleichen M75nano reproduzieren !<br />
+<br />
+Kann sich das jemand erklären und hat eine Lösung ?<br />
+<br />
+Hier noch die Ausgaben von dmidecode:<br />
+Code:<br />
+Getting SMBIOS data from sysfs.<br />
+SMBIOS 3.2.0 present.<br />
+<br />
+Handle 0x001E...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-erkennt-nicht-den-vollst%C3%A4ndigen-ram.169814/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
+    </item>
+    <item>
+      <title>Shutdown/Reboot geht nicht durch</title>
+      <pubDate>Mon, 02 Nov 2026 18:56:30 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/shutdown-reboot-geht-nicht-durch.187354/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187354</guid>
+      <author>invalid@example.com (diwoma)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
+      <dc:creator>diwoma</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi Leute,<br />
+<br />
+ich habe zur Zeit 3 Probleme mit den Shutdown/Reboot meines Proxmox-Servers<br />
+<br />
+1. Weder Shutdown noch Reboot geht durch, er bleibt imer hängen (schon länger)<br />
+2. Seit neuestem hängt sich Proxmox ohne Vorwand auf. Ich nehme an irgendetwas initiert einen Reboot und ... Siehe Punkt 1.<br />
+3. Nach einem Hard-Off (Button, anders nicht möglich) kommt er in eine Bootschleife, so 2 - 4 mal, bis er durchstartet.<br />
+<br />
+<b>Hardware</b>:<br />
+Minisforum Venus UM690 Pro, Board-ID F7BSH, Bios 1.05<br />
+AMD Ryzen 9...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/shutdown-reboot-geht-nicht-durch.187354/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>21</slash:comments>
+    </item>
+    <item>
+      <title>PBS HTTP request timeout issue</title>
+      <pubDate>Mon, 02 Nov 2026 17:39:34 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pbs-http-request-timeout-issue.186820/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186820</guid>
+      <author>invalid@example.com (megabit)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>megabit</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+Recently, I started getting the following error when checking backups locally using <code class="bbCodeInline">proxmox-backup-client</code>: <b>Error: http request timed out</b><br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Bash:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang="bash"><code>root@pbs:~# proxmox-backup-client snapshot list --repository &#039;root@pam!token@127.0.0.1:datastore1&#039; -ns my-ns1 | grep vm | wc -l 
+Error: http request timed out
+root@pbs:~# proxmox-backup-client snapshot list --repository &#039;root@pam!token@127.0.0.1:datastore1&#039; -ns my-ns1 | grep vm | wc -l 
+7327</code></pre>
+	</div>
+</div><br />
+The error occurs on the first run of...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pbs-http-request-timeout-issue.186820/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>12</slash:comments>
+    </item>
+    <item>
+      <title>Speichern in S3 von zweitem PBS</title>
+      <pubDate>Mon, 02 Nov 2026 17:17:14 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/speichern-in-s3-von-zweitem-pbs.187395/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187395</guid>
+      <author>invalid@example.com (GMBauer)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
+      <dc:creator>GMBauer</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Grüeziwoll beinand,<br />
+<br />
+bitte entschuldigt die sicher sehr doofe Frage:<br />
+<br />
+Folgende Situation:<br />
+PVE01 mit x VMs, die gesichert werden sollen.<br />
+PBS01, Backupziel von PVE01, verfügt über lokalen Datastore01<br />
+PBS02, synct alle Backups von PBS01 zu sich in den lokalen Datastore02<br />
+<br />
+Nun soll PBS02 alle Backups auch auf einen S3-Endpoint syncen.<br />
+<br />
+Dazu habe ich auf PBS02 einen pull-sync angelegt, der kann aber nur Inhalte von Datastore01 (also auf PBS01) auf den S3 schieben. Was muss ich machen, damit...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/speichern-in-s3-von-zweitem-pbs.187395/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>CVE-2026-98432 in Proxmox VE</title>
+      <pubDate>Mon, 02 Nov 2026 17:08:53 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/cve-2026-98432-in-proxmox-ve.187339/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187339</guid>
+      <author>invalid@example.com (hannsr)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>hannsr</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+I couldn&#039;t find a clear answer online whether <a href="https://ubuntu.com/security/CVE-2026-98432" target="_blank" class="link link--external" rel="nofollow ugc noopener">CVE-2026-98432</a> has been adressed by the Proxmox Kernel or not. Or whether it is vulnerable at all to be prescise.<br />
+<br />
+Thanks in advance for any feedback!</div>]]></content:encoded>
+      <slash:comments>24</slash:comments>
+    </item>
+    <item>
+      <title>Older LTS nvidia vGPU host drivers with newer kernel / pve-manager</title>
+      <pubDate>Mon, 02 Nov 2026 15:51:40 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/older-lts-nvidia-vgpu-host-drivers-with-newer-kernel-pve-manager.182755/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:182755</guid>
+      <author>invalid@example.com (Stephane Chazelas)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Stephane Chazelas</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+from <a href="https://pve.proxmox.com/wiki/NVIDIA_vGPU_on_Proxmox_VE#Software_Versions" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://pve.proxmox.com/wiki/NVIDIA_vGPU_on_Proxmox_VE#Software_Versions</a> I see now that version 595.58.02 from branch 20.0 is available and supported with<br />
+<br />
+<div class="bbTable">
+<table style='width: 100%'><tr><th>pve-manager</th><th>Kernel</th><th>vGPU Software Branch</th><th>NVIDIA Host drivers</th></tr><tr><td>9.1.8</td><td>7.0.0-1-rc6-pve</td><td>20.0</td><td>595.58.02</td></tr><tr><td>9.1.8</td><td>6.17.13-2-pve</td><td>20.0</td><td>595.58.02</td></tr></table>
+</div><br />
+While the previous LTS one (branch 19, 580.126.08) is supported for...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/older-lts-nvidia-vgpu-host-drivers-with-newer-kernel-pve-manager.182755/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox VE production cluster with HPE MSA 2072 FC SAN — compatibility and multipath considerations</title>
+      <pubDate>Mon, 02 Nov 2026 15:43:35 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-ve-production-cluster-with-hpe-msa-2072-fc-san-%E2%80%94-compatibility-and-multipath-considerations.187393/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187393</guid>
+      <author>invalid@example.com (Piet De Roeck)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Piet De Roeck</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
+<br />
+We are evaluating a three-node Proxmox VE cluster to replace an existing VMware environment.<br />
+<br />
+Proposed hardware:<br />
+<br />
+<ul>
+<li data-xf-list-type="ul">3 × HPE ProLiant DL320 Gen12, Xeon 6515P, 256 GB RAM</li>
+<li data-xf-list-type="ul">HPE SN1620E dual-port 32Gb Fibre Channel HBA per host</li>
+<li data-xf-list-type="ul">HPE MSA 2072 with dual 32Gb FC controllers</li>
+<li data-xf-list-type="ul">Redundant direct-attached FC connections, without SAN switches</li>
+<li data-xf-list-type="ul">Shared LVM with Linux dm-multipath/ALUA</li>
+<li data-xf-list-type="ul">HA and live migration for predominantly Windows Server workloads</li>
+</ul>We understand that...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-ve-production-cluster-with-hpe-msa-2072-fc-san-%E2%80%94-compatibility-and-multipath-considerations.187393/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>How can I make gluetun work in PVE?</title>
+      <pubDate>Mon, 02 Nov 2026 15:26:57 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-can-i-make-gluetun-work-in-pve.186817/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186817</guid>
+      <author>invalid@example.com (fabian69420)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>fabian69420</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hey there, I&#039;ve installed gluetun in a docker container on a VM in Proxmox and I&#039;d like to use it on some of my existing docker containers. I&#039;m pretty sure I&#039;ve set it up correctly, but I don&#039;t know how to connect it to my other containers.<br />
+<br />
+Let&#039;s start off by doing 1 container if possible, as if I&#039;ve done 1, i could probably do the rest myself. This is what my system looks like now:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Proxmox Host
+
+├─LXC container
+
+    ├─docker
+
+          ├─qbittorrent
+
+
+├─debian VM
+
+      ├─docker...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/how-can-i-make-gluetun-work-in-pve.186817/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>SDN</title>
+      <pubDate>Mon, 02 Nov 2026 14:40:10 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/sdn.187324/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187324</guid>
+      <author>invalid@example.com (manix101)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>manix101</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello Everyone,<br />
+<br />
+I am just started using Proxmox VE<br />
+<br />
+I have 2 Dell-Tiny-PCs Optiplex 7070 (Node1-Intel-i7-9th) (Node2-Intel-i5-8th)<br />
+<br />
+Disabled Wi-Fi on Bios on Both devices<br />
+<br />
+Question is After installation and logged in I see localnetwork(name) under node in Node2 pc but not in Node1 am I missing something here ?<br />
+<br />
+Node 1 don&#039;t have localnetwork(name)<br />
+<br />
+<a href="https://forum.proxmox.com/attachments/screenshot-2026-10-29-001941-png.100534/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/100/100230-c2c99d67e5d1deabdba93b412c568c27.jpg?hash=WmG7gVga3G"
+		srcset="https://forum.proxmox.com/data/attachments/100/2x/100230-c2c99d67e5d1deabdba93b412c568c27.jpg?hash=WmG7gVga3G 2x"
+		class="bbImage "
+		style=""
+		alt="Screenshot 2026-10-29 001941.png"
+		title="Screenshot 2026-10-29 001941.png"
+		width="1336" height="150" loading="lazy" /></a><br />
+<br />
+Node 2 have localnetwork(name)<br />
+<br />
+<a href="https://forum.proxmox.com/attachments/screenshot-2026-10-29-002033-png.100535/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/100/100231-ff8a5f361c516dffd025cf0b60d060c0.jpg?hash=wYoOEKMtbO"
+		srcset="https://forum.proxmox.com/data/attachments/100/2x/100231-ff8a5f361c516dffd025cf0b60d060c0.jpg?hash=wYoOEKMtbO 2x"
+		class="bbImage "
+		style=""
+		alt="Screenshot 2026-10-29 002033.png"
+		title="Screenshot 2026-10-29 002033.png"
+		width="999" height="150" loading="lazy" /></a><br />
+<br />
+Why it appears there ?<br />
+<br />
+Any advice for first times what to do and what not to do ?</div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Roblox VM detection - can be overcome?</title>
+      <pubDate>Mon, 02 Nov 2026 14:23:26 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/roblox-vm-detection-can-be-overcome.164635/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:164635</guid>
+      <author>invalid@example.com (proitprox)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>proitprox</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I&#039;m setting up a Win11 VM for gaming use. Unfortunately, Roblox anticheat detects the use of VM&#039;s and does not allow the game to work. I have played around with the conf, but nothing seems to be working. I also passed through a GPU which should make it work but hasn&#039;t. (I&#039;m a beginner; please tell me anything you need to help.)<br />
+<br />
+Thanks!</div>]]></content:encoded>
+      <slash:comments>21</slash:comments>
+    </item>
     <item>
       <title>Increased latency on disks since 9.2.6 and associated 7.0.x kernel</title>
       <pubDate>Mon, 02 Nov 2026 13:43:48 +0000</pubDate>
@@ -38,32 +453,6 @@ Basically it&#039;s like the disks are lagging, on...<br />
       <slash:comments>13</slash:comments>
     </item>
     <item>
-      <title>Proxmox VE production cluster with HPE MSA 2072 FC SAN — compatibility and multipath considerations</title>
-      <pubDate>Mon, 02 Nov 2026 13:34:43 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-production-cluster-with-hpe-msa-2072-fc-san-%E2%80%94-compatibility-and-multipath-considerations.187393/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187393</guid>
-      <author>invalid@example.com (Piet De Roeck)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Piet De Roeck</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
-<br />
-We are evaluating a three-node Proxmox VE cluster to replace an existing VMware environment.<br />
-<br />
-Proposed hardware:<br />
-<br />
-<ul>
-<li data-xf-list-type="ul">3 × HPE ProLiant DL320 Gen12, Xeon 6515P, 256 GB RAM</li>
-<li data-xf-list-type="ul">HPE SN1620E dual-port 32Gb Fibre Channel HBA per host</li>
-<li data-xf-list-type="ul">HPE MSA 2072 with dual 32Gb FC controllers</li>
-<li data-xf-list-type="ul">Redundant direct-attached FC connections, without SAN switches</li>
-<li data-xf-list-type="ul">Shared LVM with Linux dm-multipath/ALUA</li>
-<li data-xf-list-type="ul">HA and live migration for predominantly Windows Server workloads</li>
-</ul>We understand that...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-production-cluster-with-hpe-msa-2072-fc-san-%E2%80%94-compatibility-and-multipath-considerations.187393/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
       <title>Proxmox backup client for windows ALPHA</title>
       <pubDate>Mon, 02 Nov 2026 13:18:05 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/proxmox-backup-client-for-windows-alpha.137547/</link>
@@ -82,29 +471,6 @@ And also for example a job...<br />
       <slash:comments>28</slash:comments>
     </item>
     <item>
-      <title>Shutdown/Reboot geht nicht durch</title>
-      <pubDate>Mon, 02 Nov 2026 12:09:28 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/shutdown-reboot-geht-nicht-durch.187354/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187354</guid>
-      <author>invalid@example.com (diwoma)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>diwoma</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi Leute,<br />
-<br />
-ich habe zur Zeit 3 Probleme mit den Shutdown/Reboot meines Proxmox-Servers<br />
-<br />
-1. Weder Shutdown noch Reboot geht durch, er bleibt imer hängen (schon länger)<br />
-2. Seit neuestem hängt sich Proxmox ohne Vorwand auf. Ich nehme an irgendetwas initiert einen Reboot und ... Siehe Punkt 1.<br />
-3. Nach einem Hard-Off (Button, anders nicht möglich) kommt er in eine Bootschleife, so 2 - 4 mal, bis er durchstartet.<br />
-<br />
-<b>Hardware</b>:<br />
-Minisforum Venus UM690 Pro, Board-ID F7BSH, Bios 1.05<br />
-AMD Ryzen 9...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/shutdown-reboot-geht-nicht-durch.187354/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>16</slash:comments>
-    </item>
-    <item>
       <title>Kernel 7.0.14-24 and 7.0.14-25: Bug in amdgpu</title>
       <pubDate>Mon, 02 Nov 2026 11:35:00 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/kernel-7-0-14-24-and-7-0-14-25-bug-in-amdgpu.187181/</link>
@@ -120,21 +486,6 @@ And each system throws (the same) kernel error.<br />
 The systems run apparently normally afterwards, so this is no big trouble for me. But just to let you know.<br />
 I&#039;m not yet familiar with filing bug reports, but could support looking into this issue.</div>]]></content:encoded>
       <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>CVE-2026-98432 in Proxmox VE</title>
-      <pubDate>Mon, 02 Nov 2026 11:18:39 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/cve-2026-98432-in-proxmox-ve.187339/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187339</guid>
-      <author>invalid@example.com (hannsr)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>hannsr</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I couldn&#039;t find a clear answer online whether <a href="https://ubuntu.com/security/CVE-2026-98432" target="_blank" class="link link--external" rel="nofollow ugc noopener">CVE-2026-98432</a> has been adressed by the Proxmox Kernel or not. Or whether it is vulnerable at all to be prescise.<br />
-<br />
-Thanks in advance for any feedback!</div>]]></content:encoded>
-      <slash:comments>22</slash:comments>
     </item>
     <item>
       <title>[PVE 9.2] Upgrade to Kernel 7.0.26 Seems Failed Frozen--Web GUI (Mostly) Functional, Guests Ran, but No Access to Shell or Power Operations</title>
@@ -156,338 +507,6 @@ So, I tried to go back to the web...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/pve-9-2-upgrade-to-kernel-7-0-26-seems-failed-frozen-web-gui-mostly-functional-guests-ran-but-no-access-to-shell-or-power-operations.187374/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Shutdown 3 nodes out of 5 nodes cluster in mix of v8.4 and v9.2</title>
-      <pubDate>Mon, 02 Nov 2026 10:52:38 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/shutdown-3-nodes-out-of-5-nodes-cluster-in-mix-of-v8-4-and-v9-2.187275/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187275</guid>
-      <author>invalid@example.com (timlower)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>timlower</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi<br />
- We have a 5 nodes cluster:<br />
-- 2 at v9.2.21 (upgraded recently) in physical DC1<br />
-- 1 at v8.4.21 (pending upgrade) in physical DC1<br />
-- 2 at v8.4.21 (pending upgrade) in physical DC2<br />
-<br />
-As part of DC1 power maintenance, we need to shutdown the 3 hosts (VMs/CTs can shutdown).<br />
-<br />
-Any advice how to safely power off that 3 hosts and then, power up later?<br />
-<br />
-Thanks.</div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>One PBS with raid1 or two with single discs?</title>
-      <pubDate>Mon, 02 Nov 2026 10:24:10 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/one-pbs-with-raid1-or-two-with-single-discs.187375/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187375</guid>
-      <author>invalid@example.com (bomart)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>bomart</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Which solution is better:<br />
-1. One PBS host with two disks raid1<br />
-2. Two PBSs with single disc and sync from one to two?<br />
-Hardware costs doesn&#039;t matter.</div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>High VM-EXIT and Host CPU usage on idle with Windows Server 2025</title>
-      <pubDate>Mon, 02 Nov 2026 10:11:55 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/high-vm-exit-and-host-cpu-usage-on-idle-with-windows-server-2025.163564/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:163564</guid>
-      <author>invalid@example.com (orange)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>orange</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Good evening, I have been pouring over an interesting problem and it seems like I need some deep insight.  Windows Server 2025 Core has much more than expected overhead.<br />
-<br />
-I am testing Windows Server 2025 Core (and Desktop) on Proxmox 8.3, with all paravirtualized features enabled and the agent installed.<br />
-<br />
-On the VM all virt-io drivers have been installed and VBS has been explicitly disabled.  The OS is newly installed, is completely idle, with no software installed, and running idle for...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/high-vm-exit-and-host-cpu-usage-on-idle-with-windows-server-2025.163564/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>149</slash:comments>
-    </item>
-    <item>
-      <title>Both linux-kernel and proxmox-kernel installed, needed?</title>
-      <pubDate>Mon, 02 Nov 2026 10:10:08 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/both-linux-kernel-and-proxmox-kernel-installed-needed.187382/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187382</guid>
-      <author>invalid@example.com (Exzellius)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Exzellius</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I just noticed, that I have the proxmox-kernel and the default debian kernel installed on my machine. Is that normal?<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Bash:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang="bash"><code>root@pve01 ~ # apt list --installed | grep -E &#039;linux-image|proxmox-kernel&#039;
-
-WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
-
-linux-image-6.12.113+deb13-amd64/stable-security,now 6.12.113-1 amd64  [Installiert,automatisch]
-linux-image-amd64/stable-security,now 6.12.113-1 amd64  [Installiert,automatisch]...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/both-linux-kernel-and-proxmox-kernel-installed-needed.187382/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>3</slash:comments>
-    </item>
-    <item>
-      <title>Pve cluster upgrade 8.4 to 9.2 adding pve-entreprise subscription</title>
-      <pubDate>Mon, 02 Nov 2026 10:08:24 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pve-cluster-upgrade-8-4-to-9-2-adding-pve-entreprise-subscription.187357/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187357</guid>
-      <author>invalid@example.com (Valombre)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Valombre</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-I’m writing this post to best prepare for the migration of my cluster of two Proxmox 8.4 servers to the latest version, 9.2 (no ceph)<br />
-<br />
-I’m carefully reviewing the procedure at <a href="https://pve.proxmox.com/wiki/Upgrade_from_8_to_9" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://pve.proxmox.com/wiki/Upgrade_from_8_to_9</a><br />
-<br />
-For your information, I already migrated from version 7 to version 8 some time ago on same hardware.<br />
-<br />
-The difference this time is that I’m in the process of acquiring licenses to upgrade to the Enterprise version. <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f60e.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":cool:" title="Cool    :cool:"  data-smilie="6"data-shortname=":cool:" /><br />
-<br />
-Goal: to have a minimum level of...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pve-cluster-upgrade-8-4-to-9-2-adding-pve-entreprise-subscription.187357/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
-    </item>
-    <item>
-      <title>Older LTS nvidia vGPU host drivers with newer kernel / pve-manager</title>
-      <pubDate>Mon, 02 Nov 2026 09:53:00 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/older-lts-nvidia-vgpu-host-drivers-with-newer-kernel-pve-manager.182755/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:182755</guid>
-      <author>invalid@example.com (Stephane Chazelas)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Stephane Chazelas</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-from <a href="https://pve.proxmox.com/wiki/NVIDIA_vGPU_on_Proxmox_VE#Software_Versions" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://pve.proxmox.com/wiki/NVIDIA_vGPU_on_Proxmox_VE#Software_Versions</a> I see now that version 595.58.02 from branch 20.0 is available and supported with<br />
-<br />
-<div class="bbTable">
-<table style='width: 100%'><tr><th>pve-manager</th><th>Kernel</th><th>vGPU Software Branch</th><th>NVIDIA Host drivers</th></tr><tr><td>9.1.8</td><td>7.0.0-1-rc6-pve</td><td>20.0</td><td>595.58.02</td></tr><tr><td>9.1.8</td><td>6.17.13-2-pve</td><td>20.0</td><td>595.58.02</td></tr></table>
-</div><br />
-While the previous LTS one (branch 19, 580.126.08) is supported for...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/older-lts-nvidia-vgpu-host-drivers-with-newer-kernel-pve-manager.182755/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>8</slash:comments>
-    </item>
-    <item>
-      <title>[Proxmox API] GET /access/permissions returns incorrect permissions for resources contained in pools.</title>
-      <pubDate>Mon, 02 Nov 2026 08:43:33 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-api-get-access-permissions-returns-incorrect-permissions-for-resources-contained-in-pools.187358/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187358</guid>
-      <author>invalid@example.com (ltcptgeneral)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>ltcptgeneral</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have an example user testuser, which is a member of group dmz:<br />
-<a href="https://forum.proxmox.com/attachments/1793394238751-png.100548/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/100/100244-eea6a04ac7c2faf0fcb3081d17104416.jpg?hash=-EzUd5prSO"
-		srcset="https://forum.proxmox.com/data/attachments/100/2x/100244-eea6a04ac7c2faf0fcb3081d17104416.jpg?hash=-EzUd5prSO 2x"
-		class="bbImage "
-		style=""
-		alt="1793394238751.png"
-		title="1793394238751.png"
-		width="1047" height="58" loading="lazy" /></a><br />
-Iin ALCs, I have given group dmz a custom PAAS-Client role to /pools/dmz with propogate:<br />
-<a href="https://forum.proxmox.com/attachments/1793394291097-png.100549/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/100/100245-c4c96868784669211e46e42dd087c93d.jpg?hash=o2QlBbplXN"
-		srcset="https://forum.proxmox.com/data/attachments/100/2x/100245-c4c96868784669211e46e42dd087c93d.jpg?hash=o2QlBbplXN 2x"
-		class="bbImage "
-		style=""
-		alt="1793394291097.png"
-		title="1793394291097.png"
-		width="2048" height="58" loading="lazy" /></a><br />
-Where the custom role has Pool.Audit, Datastore.Audit, VM.Audit, VM.Console, and VM.PowerMgmt<br />
-<a href="https://forum.proxmox.com/attachments/1793394377800-png.100550/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/100/100246-d65dd476d449a70a9d3fc0aa45d1229a.jpg?hash=WFcV6toCA3"
-		srcset="https://forum.proxmox.com/data/attachments/100/2x/100246-d65dd476d449a70a9d3fc0aa45d1229a.jpg?hash=WFcV6toCA3 2x"
-		class="bbImage "
-		style=""
-		alt="1793394377800.png"
-		title="1793394377800.png"
-		width="1911" height="150" loading="lazy" /></a><br />
-<br />
-But, when I make a GET request to /access/permissions I get:<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>{
-    &quot;data&quot;: {
-        &quot;/vms/109&quot;: {
-            &quot;VM.Audit&quot;: 0,
-            &quot;Pool.Audit&quot;: 0,
-            &quot;Datastore.Audit&quot;: 0...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/proxmox-api-get-access-permissions-returns-incorrect-permissions-for-resources-contained-in-pools.187358/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>PBS backups of arm64 guests failing</title>
-      <pubDate>Mon, 02 Nov 2026 08:13:36 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pbs-backups-of-arm64-guests-failing.186076/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186076</guid>
-      <author>invalid@example.com (leenooks)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>leenooks</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Howdy,<br />
-<br />
-Love the arm64 availability - I&#039;ve got a CM5 cluster using a Super4C board and I&#039;m building it as I speak. I went the &quot;upgrade&quot; from tixie path - everything appears to work well except its on the trixie kernel `Linux cm5-3-0 6.18.39+rpt-rpi-2712 #1 SMP PREEMPT Debian 1:6.18.39-1+rpt1 (2026-07-29) aarch64 GNU/Linux`, not the proxmox v7 kernel <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f641.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":(" title="Frown    :("  data-smilie="3"data-shortname=":(" /><br />
-Look forward to it being supported officially on these boards <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f642.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":)" title="Smile    :)"  data-smilie="1"data-shortname=":)" /><br />
-<br />
-Anyway, PBS backups are not working and I&#039;m wondering if this is expected...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pbs-backups-of-arm64-guests-failing.186076/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox is destroying my NVMEs</title>
-      <pubDate>Mon, 02 Nov 2026 08:11:29 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-is-destroying-my-nvmes.187241/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187241</guid>
-      <author>invalid@example.com (manguy)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>manguy</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I installed proxmox in a raid1 using 2x4TB NVMEs. About 6 months later, while randomly browsing the proxmox web UI, I stumbled upon a page saying that the drives are at 6% wear. I dont even write to these drives other than whatever logs linux writes in the background by just existing. I only use the drives to install proxmox and the VM OSes, and use other drives like HDDs for things that &quot;write&quot; and for writing media to (jellyfin, immich etc). WTH is going on and how do I stop it? Another...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-is-destroying-my-nvmes.187241/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>55</slash:comments>
-    </item>
-    <item>
-      <title>QGA fsfreeze on excluded disks (backup=0) can render a VM unresponsive for up to 60 minutes</title>
-      <pubDate>Mon, 02 Nov 2026 08:11:26 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/qga-fsfreeze-on-excluded-disks-backup-0-can-render-a-vm-unresponsive-for-up-to-60-minutes.187378/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187378</guid>
-      <author>invalid@example.com (dusatvoj)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>dusatvoj</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><h3 class="bbHeading"><a class="u-anchorTarget" name="-hi"></a>Hi,&#8203;<a class="hoverLink" href="#-hi" title="Permanent link"></a></h3><br />
-We encountered a problematic behavior in Proxmox VE snapshot backups that caused a significant availability issue for a running VM.<br />
-<br />
-<b>The problem is that Proxmox freezes all guest filesystems, including those on disks explicitly excluded from the backup (backup=0). If one of those filesystems is affected by slow or stalled I/O, the freeze operation can block for an extended period, potentially leaving other already-frozen filesystems inaccessible and the VM effectively...</b><br />
-<br />
-<a href="https://forum.proxmox.com/threads/qga-fsfreeze-on-excluded-disks-backup-0-can-render-a-vm-unresponsive-for-up-to-60-minutes.187378/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>ceph-osd crashes with kernel 6.17.2-1-pve on Dell system</title>
-      <pubDate>Mon, 02 Nov 2026 07:57:47 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ceph-osd-crashes-with-kernel-6-17-2-1-pve-on-dell-system.176725/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:176725</guid>
-      <author>invalid@example.com (Herman1)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Herman1</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hey! Recently i upgraded one of the three running nodes in a cluster to 6.17.2-1-pve kernel, ceph version remains the same on all hosts (19.2.3).<br />
-<br />
-When server rebooted i noticed that instantly ceph-osd processes were crashing:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>ceph-osd[10805]: ./src/common/HeartbeatMap.cc: 85: ceph_abort_msg(&quot;hit suicide timeout&quot;)</code></pre>
-	</div>
-</div><br />
-And kernel did throw these stack traces:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>kernel: sd 0:2:0:0: [sda] tag#616 page boundary ptr_sgl: 0x00000000df48bcb9
-kernel: BUG: unable to handle page fault for address...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/ceph-osd-crashes-with-kernel-6-17-2-1-pve-on-dell-system.176725/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>31</slash:comments>
-    </item>
-    <item>
-      <title>Network Usage for Ceph and iSCSI</title>
-      <pubDate>Mon, 02 Nov 2026 07:16:35 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/network-usage-for-ceph-and-iscsi.187386/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187386</guid>
-      <author>invalid@example.com (el_vagokz)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
-      <dc:creator>el_vagokz</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Good afternoon,<br />
-<br />
-Currently, we have a dedicated bond1 interface for Proxmox Ceph traffic and a separate bond2 interface for VM traffic.<br />
-<br />
-Would it be possible to use bond1 for iSCSI connectivity as well, without any negative impact on performance or stability?</div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox 6.4 ZFS some ZSTD backups sometimes failing with exit status 1</title>
-      <pubDate>Mon, 02 Nov 2026 05:16:09 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-6-4-zfs-some-zstd-backups-sometimes-failing-with-exit-status-1.91170/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:91170</guid>
-      <author>invalid@example.com (Chiaki)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Chiaki</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello everyone,<br />
-<br />
-I have several VMs on my Proxmox 6.4 VE and sometimes some of the backups are failing.<br />
-<br />
-The target is a CIFS backup storage which was connected via the Proxmox GUI.<br />
-<br />
-Example of a fail:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>820: 2021-06-20 04:45:14 INFO: Starting Backup of VM 820 (qemu)
-
-820: 2021-06-20 04:45:14 INFO: status = running
-
-820: 2021-06-20 04:45:14 INFO: VM Name: MyVM
-
-820: 2021-06-20 04:45:14 INFO: include disk &#039;scsi0&#039; &#039;local-zfs:vm-820-disk-0&#039; 100G
-
-820: 2021-06-20 04:45:14 INFO: backup mode...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/proxmox-6-4-zfs-some-zstd-backups-sometimes-failing-with-exit-status-1.91170/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>5</slash:comments>
     </item>
   </channel>
 </rss>
