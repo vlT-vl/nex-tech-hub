@@ -4,14 +4,187 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Wed, 04 Nov 2026 03:59:53 +0000</pubDate>
-    <lastBuildDate>Wed, 04 Nov 2026 03:59:53 +0000</lastBuildDate>
+    <pubDate>Wed, 04 Nov 2026 13:33:52 +0000</pubDate>
+    <lastBuildDate>Wed, 04 Nov 2026 13:33:52 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
     <item>
+      <title>Multiple Operations in Hookscript Failing</title>
+      <pubDate>Wed, 04 Nov 2026 13:21:02 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/multiple-operations-in-hookscript-failing.187396/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187396</guid>
+      <author>invalid@example.com (tonystriker)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>tonystriker</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><a href="https://forum.proxmox.com/threads/using-the-pct-qm-command-within-a-hook-script.125614/" class="link link--internal">https://forum.proxmox.com/threads/using-the-pct-qm-command-within-a-hook-script.125614/</a> for reference.<br />
+<br />
+I am using the hookscript to revert a vm to a prior snapshot with the nohup command suggested above:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>nohup /usr/sbin/qm destroy &quot;$1&quot; &amp;&gt;/dev/null &amp;</code></pre>
+	</div>
+</div><br />
+This works fine enough, but I&#039;d like the snapshot to be powered off, and then the hookscript power it back on after reverting.  When I try some combination of <br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>nohup /usr/sbin/qm rollback &quot;$1&quot; &quot;snapshot&quot; &amp;&gt;/dev/null &amp;
+nohup...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/multiple-operations-in-hookscript-failing.187396/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
+    </item>
+    <item>
+      <title>Opt-in Linux 7.0 Kernel for Proxmox VE 9 available</title>
+      <pubDate>Wed, 04 Nov 2026 13:14:58 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:182328</guid>
+      <author>invalid@example.com (t.lamprecht)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>t.lamprecht</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">We recently uploaded the 7.0 (rc6) kernel to our repositories. The current default kernel for the Proxmox VE 9 series is still 6.17, but 7.0 is now an option.<br />
+<br />
+We plan to use the 7.0 kernel as the new default for the upcoming Proxmox VE 9.2 and Proxmox Backup Server 4.2 releases planned later in Q2.<br />
+This follows our tradition of upgrading the Proxmox VE kernel to match the current Ubuntu version until we reach an Ubuntu LTS release, at which point we will only provide newer kernels as an...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/opt-in-linux-7-0-kernel-for-proxmox-ve-9-available.182328/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>252</slash:comments>
+    </item>
+    <item>
+      <title>GC auf lokalem Storage dauert länger als auf NAS?</title>
+      <pubDate>Wed, 04 Nov 2026 12:40:36 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/gc-auf-lokalem-storage-dauert-l%C3%A4nger-als-auf-nas.187426/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187426</guid>
+      <author>invalid@example.com (mhert)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
+      <dc:creator>mhert</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hallo zusammen.<br />
+<br />
+Wir haben im PBS-Server (eigene VM auf PVE) 2 durchgereichte HDD&#039;s mit 16TB im ZFS-Verbund als lokalen Backupspeicher eingerichtet. Ist keine Rakete (GC und Verify), funktioniert aber eigentlich ganz gut.<br />
+<br />
+Außerdem haben wir einen ähnlich großen Speicherpool auf einem NAS, auf welchen die Backups vom lokalen Storage täglich repliziert werden (PBS Sycn Job). Auch mit dieser <br />
+Leistung sind wir zufrieden.<br />
+<br />
+Was aber merkwürdig ist in meinen Augen:<br />
+<br />
+Die GC auf dem lokalen Storage...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/gc-auf-lokalem-storage-dauert-l%C3%A4nger-als-auf-nas.187426/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>9</slash:comments>
+    </item>
+    <item>
+      <title>Relay access denied" for outbound mail to any external domain from trusted networks in PMG</title>
+      <pubDate>Wed, 04 Nov 2026 12:17:13 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/relay-access-denied-for-outbound-mail-to-any-external-domain-from-trusted-networks-in-pmg.176416/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:176416</guid>
+      <author>invalid@example.com (iprahem.mohamed)</author>
+      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
+      <dc:creator>iprahem.mohamed</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+I&#039;m using Proxmox Mail Gateway in front of an internal mail server (WHM/cPanel) to manage email sending and receiving.<br />
+Everything works fine for inbound mail. The problem is when sending outbound emails from my internal server to any external domain (e.g., Gmail, Hotmail, company.com). The following error appears in the logs or via telnet<br />
+<br />
+<ul>
+<li data-xf-list-type="ul">have added my mail servers/networks to the PMG trusted networks section.</li>
+<li data-xf-list-type="ul">I reviewed main.cf and postconf to ensure:<br />
+<ul>
+<li data-xf-list-type="ul">mynetworks...</li>
+</ul></li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/relay-access-denied-for-outbound-mail-to-any-external-domain-from-trusted-networks-in-pmg.176416/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox is destroying my NVMEs</title>
+      <pubDate>Wed, 04 Nov 2026 11:58:54 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-is-destroying-my-nvmes.187241/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187241</guid>
+      <author>invalid@example.com (manguy)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>manguy</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I installed proxmox in a raid1 using 2x4TB NVMEs. About 6 months later, while randomly browsing the proxmox web UI, I stumbled upon a page saying that the drives are at 6% wear. I dont even write to these drives other than whatever logs linux writes in the background by just existing. I only use the drives to install proxmox and the VM OSes, and use other drives like HDDs for things that &quot;write&quot; and for writing media to (jellyfin, immich etc). WTH is going on and how do I stop it? Another...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-is-destroying-my-nvmes.187241/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>56</slash:comments>
+    </item>
+    <item>
+      <title>How-to: alert on failed or missed vzdump backups with a hook script (job-end runs even when guests fail)</title>
+      <pubDate>Wed, 04 Nov 2026 11:56:03 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/how-to-alert-on-failed-or-missed-vzdump-backups-with-a-hook-script-job-end-runs-even-when-guests-fail.187427/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187427</guid>
+      <author>invalid@example.com (Watchgoose)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Watchgoose</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hey,<br />
+<br />
+Full disclosure, I&#039;m the founder of Watchgoose.com (cron and heartbeat monitoring platform), so I have an interest here.<br />
+<br />
+I wanted a vzdump hook script that reports start, success and failure to a ping-URL service and I think I found one thing that trips people up (it came up in <a href="https://forum.proxmox.com/threads/phase-for-determing-overall-job-information-in-vzdump-hook-script.148107/" class="link link--internal">this thread</a>): <b>job-end is also called when some guests failed.</b> If one guest backup fails vzdump calls backup-abort for that guest, carries on with the rest and still finishes with job-end. The...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/how-to-alert-on-failed-or-missed-vzdump-backups-with-a-hook-script-job-end-runs-even-when-guests-fail.187427/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>[feature-request] Add tags for Clusternodes</title>
+      <pubDate>Wed, 04 Nov 2026 09:49:39 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/feature-request-add-tags-for-clusternodes.187423/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187423</guid>
+      <author>invalid@example.com (udo)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>udo</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+it would be very helpfull to use tags, like on VMs, on Cluster-Nodes too.<br />
+Like to show CPU/IO-Performance, special  task and so on.<br />
+<br />
+Best regards<br />
+<br />
+Udo</div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Speichern in S3 von zweitem PBS</title>
+      <pubDate>Wed, 04 Nov 2026 09:42:21 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/speichern-in-s3-von-zweitem-pbs.187395/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187395</guid>
+      <author>invalid@example.com (GMBauer)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
+      <dc:creator>GMBauer</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Grüeziwoll beinand,<br />
+<br />
+bitte entschuldigt die sicher sehr doofe Frage:<br />
+<br />
+Folgende Situation:<br />
+PVE01 mit x VMs, die gesichert werden sollen.<br />
+PBS01, Backupziel von PVE01, verfügt über lokalen Datastore01<br />
+PBS02, synct alle Backups von PBS01 zu sich in den lokalen Datastore02<br />
+<br />
+Nun soll PBS02 alle Backups auch auf einen S3-Endpoint syncen.<br />
+<br />
+Dazu habe ich auf PBS02 einen pull-sync angelegt, der kann aber nur Inhalte von Datastore01 (also auf PBS01) auf den S3 schieben. Was muss ich machen, damit...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/speichern-in-s3-von-zweitem-pbs.187395/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
+    </item>
+    <item>
       <title>Proxmox SDN VLAN works on same node but not across cluster nodes</title>
-      <pubDate>Wed, 04 Nov 2026 03:05:53 +0000</pubDate>
+      <pubDate>Wed, 04 Nov 2026 09:14:54 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/proxmox-sdn-vlan-works-on-same-node-but-not-across-cluster-nodes.187414/</link>
       <guid isPermaLink="false">urn:xenforo:thread:187414</guid>
       <author>invalid@example.com (luksti)</author>
@@ -49,6 +222,97 @@ iface bond0 inet manual
 On top of <b><u>bond0</u></b>, I created <b><u>vmbr999</u></b> as a...</span><br />
 <br />
 <a href="https://forum.proxmox.com/threads/proxmox-sdn-vlan-works-on-same-node-but-not-across-cluster-nodes.187414/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>4</slash:comments>
+    </item>
+    <item>
+      <title>Cloud init drives change to cdrom drive</title>
+      <pubDate>Wed, 04 Nov 2026 09:02:45 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/cloud-init-drives-change-to-cdrom-drive.173762/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:173762</guid>
+      <author>invalid@example.com (jimmycav)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>jimmycav</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I use terraform to provision my VMs, and each is created with a cloudinit drive (cloudinit.png). They are each replicated to other nodes for HA.<br />
+<br />
+At some point during the life of the VM the cloudinit drives seem to change to cdrom drives in the UI (cloudinit-cdrom.png) and a new disk is created in zfs (cloudinit-zfs.png). While replication still works, when I attempt to migrate the VM to another node it fails because of the cdrom drive (cloudinit-error.png).<br />
+<br />
+So I have to go to each VM...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/cloud-init-drives-change-to-cdrom-drive.173762/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>11</slash:comments>
+    </item>
+    <item>
+      <title>Mac address prefix</title>
+      <pubDate>Wed, 04 Nov 2026 08:26:23 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/mac-address-prefix.141491/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:141491</guid>
+      <author>invalid@example.com (markusbernhard)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>markusbernhard</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi.<br />
+I have one cluster (3-node) and 3 single proxmox servers running alongside (for various reasons).<br />
+<br />
+I figured I&#039;d set mac address prefixes so I won&#039;t have any problems with identical mac addresses for different VM:s.<br />
+<br />
+The cluster runs 8.1.3 and the standalone hosts are 7.4.17, 8.0.3 and 7.4.3. <br />
+<br />
+I go to the options under datacenter, and try to change prefix to BC:24:11:1 (from default BC:24:11) on any of the servers or clusters, but it won&#039;t let me click &quot;OK&quot; after adding the last 1. Just...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/mac-address-prefix.141491/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>7</slash:comments>
+    </item>
+    <item>
+      <title>Proxmox 9 email gateway time issue in Alberta</title>
+      <pubDate>Wed, 04 Nov 2026 07:51:16 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-9-email-gateway-time-issue-in-alberta.187415/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187415</guid>
+      <author>invalid@example.com (V3_Exceed)</author>
+      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
+      <dc:creator>V3_Exceed</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Alberta has cancelled Daylight savings time. So no &quot;fall behind, spring ahead&quot;. My Proxmox shows the correct time in the shell, I have the latest updates. The syslog shows an hour ago as does the email tracker.I have checked everywhere and the system has the correct time, its just the Email gateway that is processing on the wrong time. Googles Ai suggests its browser based, but I have tried this on several desktops and other servers which are correctly synced and still have this issue.<br />
+<br />
+How...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-9-email-gateway-time-issue-in-alberta.187415/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Kernel oops in sunrpc xs_read_stream_request — NFSv4.2 client wedges, host reboot required (7.0.14-12-pve)</title>
+      <pubDate>Wed, 04 Nov 2026 06:01:38 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/kernel-oops-in-sunrpc-xs_read_stream_request-%E2%80%94-nfsv4-2-client-wedges-host-reboot-required-7-0-14-12-pve.185948/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185948</guid>
+      <author>invalid@example.com (vayacondios)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>vayacondios</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello all,<br />
+I&#039;m hitting a recurring NFSv4.2 client-side failure on a PVE host. Three incidents over roughly three weeks. The most recent one produced a kernel oops with a corrupted return address on the kernel stack, inside the sunrpc receive path. After the oops the mount is dead, every process touching it goes into uninterruptible D-state, and eventually systemd itself stops responding to D-Bus (systemctl and journalctl hang). Only a host reboot recovers it.<br />
+The NFS server is a VM (with...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/kernel-oops-in-sunrpc-xs_read_stream_request-%E2%80%94-nfsv4-2-client-wedges-host-reboot-required-7-0-14-12-pve.185948/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Intermittent SAS device blocking on three HBA330 hosts — mpt3sas 54.100.00.00, kernel 7.0.14-16-pve, Ceph slow ops</title>
+      <pubDate>Wed, 04 Nov 2026 04:56:54 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/intermittent-sas-device-blocking-on-three-hba330-hosts-%E2%80%94-mpt3sas-54-100-00-00-kernel-7-0-14-16-pve-ceph-slow-ops.187417/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187417</guid>
+      <author>invalid@example.com (Kiemal)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Kiemal</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I am investigating intermittent blocking of multiple local SAS SSDs on a three-node Proxmox VE/Ceph cluster. Similar incidents have now occurred on all three hosts.<br />
+<br />
+I would appreciate advice on whether this resembles a known mpt3sas issue and what additional diagnostics would help distinguish a driver/firmware interaction from a hardware problem.<br />
+<br />
+Environment:<br />
+<br />
+<ul>
+<li data-xf-list-type="ul">Proxmox VE GUI reports version 9.2.18.</li>
+<li data-xf-list-type="ul">Kernel on all three nodes: 7.0.14-16-pve.</li>
+<li data-xf-list-type="ul">mpt3sas module version on all...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/intermittent-sas-device-blocking-on-three-hba330-hosts-%E2%80%94-mpt3sas-54-100-00-00-kernel-7-0-14-16-pve-ceph-slow-ops.187417/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>1</slash:comments>
     </item>
     <item>
@@ -69,30 +333,6 @@ All of the services are running in the VM but the issue persists. The mouse is c
       <slash:comments>2</slash:comments>
     </item>
     <item>
-      <title>Intermittent SAS device blocking on three HBA330 hosts — mpt3sas 54.100.00.00, kernel 7.0.14-16-pve, Ceph slow ops</title>
-      <pubDate>Wed, 04 Nov 2026 00:34:02 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/intermittent-sas-device-blocking-on-three-hba330-hosts-%E2%80%94-mpt3sas-54-100-00-00-kernel-7-0-14-16-pve-ceph-slow-ops.187417/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187417</guid>
-      <author>invalid@example.com (Kiemal)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Kiemal</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-I am investigating intermittent blocking of multiple local SAS SSDs on a three-node Proxmox VE/Ceph cluster. Similar incidents have now occurred on all three hosts.<br />
-<br />
-I would appreciate advice on whether this resembles a known mpt3sas issue and what additional diagnostics would help distinguish a driver/firmware interaction from a hardware problem.<br />
-<br />
-Environment:<br />
-<br />
-<ul>
-<li data-xf-list-type="ul">Proxmox VE GUI reports version 9.2.18.</li>
-<li data-xf-list-type="ul">Kernel on all three nodes: 7.0.14-16-pve.</li>
-<li data-xf-list-type="ul">mpt3sas module version on all...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/intermittent-sas-device-blocking-on-three-hba330-hosts-%E2%80%94-mpt3sas-54-100-00-00-kernel-7-0-14-16-pve-ceph-slow-ops.187417/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
       <title>pbs-desk: open-source desktop backup client for PBS (Linux, early Windows support)</title>
       <pubDate>Tue, 03 Nov 2026 23:22:58 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/pbs-desk-open-source-desktop-backup-client-for-pbs-linux-early-windows-support.187416/</link>
@@ -109,21 +349,6 @@ pbs-desk runs the backup from a systemd timer and shows the state in the tray. I
 What it does...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/pbs-desk-open-source-desktop-backup-client-for-pbs-linux-early-windows-support.187416/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox 9 email gateway time issue in Alberta</title>
-      <pubDate>Tue, 03 Nov 2026 22:24:13 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-9-email-gateway-time-issue-in-alberta.187415/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187415</guid>
-      <author>invalid@example.com (V3_Exceed)</author>
-      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
-      <dc:creator>V3_Exceed</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Alberta has cancelled Daylight savings time. So no &quot;fall behind, spring ahead&quot;. My Proxmox shows the correct time in the shell, I have the latest updates. The syslog shows an hour ago as does the email tracker.I have checked everywhere and the system has the correct time, its just the Email gateway that is processing on the wrong time. Googles Ai suggests its browser based, but I have tried this on several desktops and other servers which are correctly synced and still have this issue.<br />
-<br />
-How...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-9-email-gateway-time-issue-in-alberta.187415/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>0</slash:comments>
     </item>
     <item>
@@ -193,257 +418,6 @@ Goal: to have a minimum level of...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/pve-cluster-upgrade-8-4-to-9-2-adding-pve-entreprise-subscription.187357/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>8</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox stuck on grub after reboot</title>
-      <pubDate>Tue, 03 Nov 2026 15:35:09 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-stuck-on-grub-after-reboot.187363/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187363</guid>
-      <author>invalid@example.com (Belbz)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>Belbz</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m new to Proxmox and linux. I was looking to create a file server for my home and made a couple partitions. When I restart my system took me to a failure to boot screen and then went to a screen showing grub error. Please help ‍</div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Ceph S3 Storage und Veeam M365 Backup</title>
-      <pubDate>Tue, 03 Nov 2026 14:30:24 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ceph-s3-storage-und-veeam-m365-backup.187406/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187406</guid>
-      <author>invalid@example.com (Ingo S)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>Ingo S</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Moin zusammen<br />
-<br />
-Ich versuche ein M365 Backup Repository einzurichten, das unseren Ceph Cluster als S3 kompatiblen Objekt Storage nutzt. Hat jemand von euch schonmal sowas gebaut?<br />
-Ich habe mich dazu durch die Anforderungen aus der Veeam Dokumentation gewühlt und den Rados GW, den Pool und den Bucket entsprechend konfiguriert.<br />
--&gt;<br />
-<ul>
-<li data-xf-list-type="ul">AWS Signature Version 4 (ist wohl default?)</li>
-<li data-xf-list-type="ul">Pool &quot;veeam&quot; angelegt</li>
-<li data-xf-list-type="ul">Bucket &quot;M365 Backup&quot; angelegt, der den Pool veeam als Storage Ziel nutzt</li>
-<li data-xf-list-type="ul">S3 Object...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/ceph-s3-storage-und-veeam-m365-backup.187406/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>PG stuck peering (peering_blocked_by_history_les_bound) after OSD host reboot</title>
-      <pubDate>Tue, 03 Nov 2026 13:58:09 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pg-stuck-peering-peering_blocked_by_history_les_bound-after-osd-host-reboot.187118/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187118</guid>
-      <author>invalid@example.com (FProxo)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>FProxo</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi all,<br />
-<br />
-during a rolling PVE 8 -&gt; 9 upgrade on our 3-node hyper-converged cluster, one PG got stuck in peering for ~9 minutes after a node reboot and blocked VM I/O until we ran a manual <code class="bbCodeInline">ceph pg repeer</code>. We dug through the logs and found what looks like a lost message in the OSD messenger. Details below – maybe someone has seen this before.<br />
-<br />
-<b>Environment</b><br />
-<ul>
-<li data-xf-list-type="ul">Ceph 19.2.6 (squid), Proxmox VE 9 (kernel 7.0.14-24-pve), during a rolling PVE 8 -&gt; 9 upgrade. At the time of the...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/pg-stuck-peering-peering_blocked_by_history_les_bound-after-osd-host-reboot.187118/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Reproducible Radeon Navi 23 passthrough regression: 7.0.14-19 works; 7.0.14-20 and -22 leaves GPU stuck in D3</title>
-      <pubDate>Tue, 03 Nov 2026 13:50:41 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/reproducible-radeon-navi-23-passthrough-regression-7-0-14-19-works-7-0-14-20-and-22-leaves-gpu-stuck-in-d3.186927/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186927</guid>
-      <author>invalid@example.com (nblomquist)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>nblomquist</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-Possibly related thread: <a href="https://forum.proxmox.com/threads/regression-in-7-0-14-20-pve-realtek-rtl8168h-r8169-fails-with-pcie-aer-dpc-error-%E2%80%93-7-0-14-19-pve-works.186785/" class="link link--internal">https://forum.proxmox.com/threads/r...e-aer-dpc-error-–-7-0-14-19-pve-works.186785/</a><br />
-<br />
-I can reproduce an AMD Radeon PCI passthrough failure when switching a Proxmox host from 7.0.14-19-pve to 7.0.14-20-pve. Booting the previous kernel restores GPU initialization inside the same Debian VM, and booting -20 again reproduces the failure.<br />
-<br />
-TEST RESULTS<br />
-<br />
-2026-10-05: 7.0.14-20-pve -&gt; fails...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/reproducible-radeon-navi-23-passthrough-regression-7-0-14-19-works-7-0-14-20-and-22-leaves-gpu-stuck-in-d3.186927/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>7</slash:comments>
-    </item>
-    <item>
-      <title>Realtek 8157 driver installation (Wavlink WL-NWU340G)</title>
-      <pubDate>Tue, 03 Nov 2026 13:49:44 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/realtek-8157-driver-installation-wavlink-wl-nwu340g.164621/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:164621</guid>
-      <author>invalid@example.com (sunseeker2k5)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>sunseeker2k5</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Good day Everyone.<br />
-<br />
-I have been using Proxmox over 3 years and very happy with it in my homelab.<br />
-<br />
-I am on the latest 8.3.5 with kernel 6.8.12-9-pve. My proxmox test server is a Minisforum UN100L<br />
-I bought this adapter to get 5 Gbps network on Proxmox : <a href="https://www.amazon.com/dp/B0DBY23BL9/ref=sspa_dk_hqp_detail_aax_0?sp_csd=d2lkZ2V0TmFtZT1zcF9ocXBfc2hhcmVk&amp;th=1" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://www.amazon.com/dp/B0DBY23BL...?sp_csd=d2lkZ2V0TmFtZT1zcF9ocXBfc2hhcmVk&amp;th=1</a><br />
-<br />
-When I connect it to proxmox and do lsusb and lsusb -t, i see it&#039;s not using a Realtek driver but the plain USB driver, hence...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/realtek-8157-driver-installation-wavlink-wl-nwu340g.164621/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>44</slash:comments>
-    </item>
-    <item>
-      <title>Speichern in S3 von zweitem PBS</title>
-      <pubDate>Tue, 03 Nov 2026 13:33:05 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/speichern-in-s3-von-zweitem-pbs.187395/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187395</guid>
-      <author>invalid@example.com (GMBauer)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-server-deutsch-german.25/"><![CDATA[Proxmox Backup Server (Deutsch/German)]]></category>
-      <dc:creator>GMBauer</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Grüeziwoll beinand,<br />
-<br />
-bitte entschuldigt die sicher sehr doofe Frage:<br />
-<br />
-Folgende Situation:<br />
-PVE01 mit x VMs, die gesichert werden sollen.<br />
-PBS01, Backupziel von PVE01, verfügt über lokalen Datastore01<br />
-PBS02, synct alle Backups von PBS01 zu sich in den lokalen Datastore02<br />
-<br />
-Nun soll PBS02 alle Backups auch auf einen S3-Endpoint syncen.<br />
-<br />
-Dazu habe ich auf PBS02 einen pull-sync angelegt, der kann aber nur Inhalte von Datastore01 (also auf PBS01) auf den S3 schieben. Was muss ich machen, damit...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/speichern-in-s3-von-zweitem-pbs.187395/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Multiple Operations in Hookscript Failing</title>
-      <pubDate>Tue, 03 Nov 2026 13:13:10 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/multiple-operations-in-hookscript-failing.187396/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187396</guid>
-      <author>invalid@example.com (tonystriker)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>tonystriker</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><a href="https://forum.proxmox.com/threads/using-the-pct-qm-command-within-a-hook-script.125614/" class="link link--internal">https://forum.proxmox.com/threads/using-the-pct-qm-command-within-a-hook-script.125614/</a> for reference.<br />
-<br />
-I am using the hookscript to revert a vm to a prior snapshot with the nohup command suggested above:<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>nohup /usr/sbin/qm destroy &quot;$1&quot; &amp;&gt;/dev/null &amp;</code></pre>
-	</div>
-</div><br />
-This works fine enough, but I&#039;d like the snapshot to be powered off, and then the hookscript power it back on after reverting.  When I try some combination of <br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>nohup /usr/sbin/qm rollback &quot;$1&quot; &quot;snapshot&quot; &amp;&gt;/dev/null &amp;
-nohup...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/multiple-operations-in-hookscript-failing.187396/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>KVM Vulnerability - CVE-2026-99082</title>
-      <pubDate>Tue, 03 Nov 2026 12:58:58 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/kvm-vulnerability-cve-2026-99082.187408/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187408</guid>
-      <author>invalid@example.com (servperso)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>servperso</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-A new vulnerability on linux kernel seems to be out and affect KVM.<br />
-<br />
-Is proxmox team aware / work on a patch at some point ?<br />
-<br />
-Debian start to rollout them.<br />
-<br />
-<a href="https://nvd.nist.gov/vuln/detail/cve-2026-99082" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://nvd.nist.gov/vuln/detail/cve-2026-99082</a><br />
-<a href="https://security-tracker.debian.org/tracker/CVE-2026-99082" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://security-tracker.debian.org/tracker/CVE-2026-99082</a><br />
-<br />
-Best regards,<br />
-Sarah</div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>USB Stick passthrough nach reconnect nicht wiederholt</title>
-      <pubDate>Tue, 03 Nov 2026 11:42:28 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/usb-stick-passthrough-nach-reconnect-nicht-wiederholt.187106/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187106</guid>
-      <author>invalid@example.com (KrawallKurt)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>KrawallKurt</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo,<br />
-Ich habe eine Home Assistant VM auf meinem Proxmox Host laufen und reiche über USB Passthrough (über Vendor/Device ID) einen Bluetooth Stick an die VM durch. Alle paar Tage, sehr unregelmäßig und keinem Muster folgend, verbindet sich der Bluetooth Stick anscheinend neu (vermute Spannungsschwankungen am USB oder so) und wird danach nicht mehr von Proxmox an die VM durch gereicht. Im PVE Log findet sich dann folgendes:<br />
-<br />
-
-	
-	
-
-
-<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
-	<div class="bbCodeBlock-title">
-		Code:
-	</div>
-	<div class="bbCodeBlock-content" dir="ltr">
-		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>[Fri Oct 16 16:08:20 2026] usb 1-3: USB disconnect, device...</code></pre>
-	</div>
-</div><br />
-<a href="https://forum.proxmox.com/threads/usb-stick-passthrough-nach-reconnect-nicht-wiederholt.187106/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>20</slash:comments>
-    </item>
-    <item>
-      <title>Suggestion: improve CT restore</title>
-      <pubDate>Tue, 03 Nov 2026 11:40:31 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/suggestion-improve-ct-restore.187019/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187019</guid>
-      <author>invalid@example.com (windowsdesxtop)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>windowsdesxtop</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Greetings<br />
-<br />
-I&#039;m ~1hour into CT restore (with 1gbps guaranteed) (only ~50GB restored so far)<br />
-<br />
-Would it be possible to make proxmox CT backups faster by:<br />
-a) using more than one stream/connection? (needed when latency is like 100ms+)<br />
-Now restore speed is max 300mbps (while bandwidth is 1gbps)<br />
-I could be wrong but maybe VM restore already do it better somehow?<br />
-b) live restore - would be nice addition<br />
-<br />
-And all the best greetings for proxmox/pbs team. Your product group is amazing!</div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>Prune before creating backup</title>
-      <pubDate>Tue, 03 Nov 2026 11:11:48 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/prune-before-creating-backup.187400/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187400</guid>
-      <author>invalid@example.com (fnatter)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>fnatter</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">hello Proxmox experts,<br />
-<br />
-I am running pretty current PVE9 (updated last week) and my challenge<br />
-is that I have two backup disks (using vzdump, no PBS!) that each have<br />
-space for only one backup.<br />
-Later I want to configure two backup jobs for the two disks<br />
-(one running 1st and 3rd Sunday, the other running 2nd and 4th Sunday),<br />
-but for now my question is whether Proxmox9 is so smart to prune the<br />
-backup *before* creating the new backup if there is an existing backup<br />
-and keep-last==1 (and in doing...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/prune-before-creating-backup.187400/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
     </item>
   </channel>
 </rss>
