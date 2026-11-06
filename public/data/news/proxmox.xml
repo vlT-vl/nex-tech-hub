@@ -4,11 +4,189 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Thu, 05 Nov 2026 23:05:10 +0000</pubDate>
-    <lastBuildDate>Thu, 05 Nov 2026 23:05:10 +0000</lastBuildDate>
+    <pubDate>Fri, 06 Nov 2026 04:28:12 +0000</pubDate>
+    <lastBuildDate>Fri, 06 Nov 2026 04:28:12 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>iptables and package dependencies</title>
+      <pubDate>Fri, 06 Nov 2026 03:30:49 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/iptables-and-package-dependencies.187451/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187451</guid>
+      <author>invalid@example.com (monkfish)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-networking-and-firewall.17/"><![CDATA[Proxmox VE: Networking and Firewall]]></category>
+      <dc:creator>monkfish</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello Proxmox team,<br />
+Question if I may on nftables vs iptables. I&#039;ve had nftables configured for a while now on my nodes in preference to iptables, I think it was introduced maybe v8.3 as &quot;tech preview&quot; - still listed as such on 9.2.<br />
+<br />
+I get repeatedly asked why various vuln scanning tools flag up that iptables is installed but with no ruleset. Apparently that&#039;s a &quot;finding&quot;. Yes, I know, auditors who dont understand their subject matter... meh.<br />
+<br />
+Would it be possible for dev team to consider...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/iptables-and-package-dependencies.187451/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Feature request: show and allow disabling automatically trusted local subnets</title>
+      <pubDate>Fri, 06 Nov 2026 02:11:23 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/feature-request-show-and-allow-disabling-automatically-trusted-local-subnets.184969/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:184969</guid>
+      <author>invalid@example.com (Covalenco_S)</author>
+      <category domain="https://forum.proxmox.com/forums/mail-gateway-installation-and-configuration.8/"><![CDATA[Mail Gateway: Installation and configuration]]></category>
+      <dc:creator>Covalenco_S</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I am running Proxmox Mail Gateway 9.1.0 with two network interfaces:<br />
+<br />
+ens192    public-address.240/24<br />
+ens224    192.168.10.240/24<br />
+<br />
+Under Configuration &gt; Mail Proxy &gt; Networks, I configured only explicit /32 trusted hosts. The public /24 subnet is not displayed in the GUI and is not present in /etc/pmg/mynetworks.<br />
+<br />
+However, the generated Postfix configuration contains the entire directly connected public subnet:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>postfix.mynetworks = 127.0.0.0/8 192.168.10.250/32 ...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/feature-request-show-and-allow-disabling-automatically-trusted-local-subnets.184969/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>vGPU just stopped working randomly (solution includes 6.14, pascal fixes for 17.5, changing mock p4 to A5500 thanks to GreenDam )</title>
+      <pubDate>Fri, 06 Nov 2026 01:04:27 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/vgpu-just-stopped-working-randomly-solution-includes-6-14-pascal-fixes-for-17-5-changing-mock-p4-to-a5500-thanks-to-greendam.164301/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:164301</guid>
+      <author>invalid@example.com (ancientmystic)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>ancientmystic</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">stopped one VM started another, says it cannot allocate memory on the gpu. rebooted, reinstalled drivers, etc, nothing is working, it was just working fine before i closed the last  VM.  (which now also will not start back up)<br />
+<br />
+error message:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>error writing &#039;00000001-0000-0000-0000-000000000128&#039; to &#039;/sys/bus/pci/devices/0000:17:00.0/mdev_supported_types/nvidia-70/create&#039;: Cannot allocate memory
+could not create &#039;type&#039; for pci devices &#039;0000:17:00.0&#039;
+TASK ERROR: could not create mediated...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/vgpu-just-stopped-working-randomly-solution-includes-6-14-pascal-fixes-for-17-5-changing-mock-p4-to-a5500-thanks-to-greendam.164301/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>88</slash:comments>
+    </item>
+    <item>
+      <title>Suggestion/question</title>
+      <pubDate>Fri, 06 Nov 2026 00:03:33 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/suggestion-question.187449/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187449</guid>
+      <author>invalid@example.com (pbrown-gr)</author>
+      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
+      <dc:creator>pbrown-gr</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I was interested when I first learned of PDM. But, I&#039;m not quite sure where it&#039;s intended to &quot;live&quot;. <br />
+<br />
+Reading through <a href="https://pdm.proxmox.com/docs" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://pdm.proxmox.com/docs</a> I sort of get mixed messages whether this is intended to be a standalone app you might run on a desktop, or a standalone monitoring host. Or an in-cluster VM.  Or an additional node thats PART of the cluster directly. Orrr...... ?<br />
+<br />
+It would be appreciated by new users such as myself, if that was made clearer in the documentation, early on.</div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>Quorum failure and recovery</title>
+      <pubDate>Thu, 05 Nov 2026 23:54:13 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/quorum-failure-and-recovery.187303/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187303</guid>
+      <author>invalid@example.com (dafydd)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>dafydd</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have a 4 node cluster running Proxmox 9. I just updated one node with the latest packages and kernel. I spotted something odd and realised that the cluster had no quorum. I don&#039;t know if that was due to the upgrade or whether it happed previously (I suspect it did). I rebooted the first node but I can&#039;t restart the container on it.<br />
+<br />
+I can&#039;t risk restarting the other 3 nodes if the containers won&#039;t start up.<br />
+<br />
+The nodes are all there in /etc/corosync/corosync.conf and on the same config...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/quorum-failure-and-recovery.187303/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>8</slash:comments>
+    </item>
+    <item>
+      <title>Windows 10 VM only showing 1 Socket and 4 cores.</title>
+      <pubDate>Thu, 05 Nov 2026 23:46:00 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/windows-10-vm-only-showing-1-socket-and-4-cores.74293/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:74293</guid>
+      <author>invalid@example.com (sirtcp)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>sirtcp</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Dear All, <br />
+<br />
+Hope you guys are doing good. i have been trying to setup a windows 10 VM on Proxmox. This proxmox box is also hosting other Windows Server VMs all other VMs are working perfectly fine base on Server 2016 OS. but 1 recently migrated Windows 10 VM showing only 1 socket and 4 cores no matter how much cores i assigned to it. <br />
+i tried every combination of socket and cores but no luck. <br />
+I tried changing the core in msconfig but no luck. <br />
+Would you guys please help why only this...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/windows-10-vm-only-showing-1-socket-and-4-cores.74293/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>32</slash:comments>
+    </item>
+    <item>
+      <title>Very poor SQL Server application performance on Proxmox VM compared to bare metal</title>
+      <pubDate>Thu, 05 Nov 2026 23:38:53 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/very-poor-sql-server-application-performance-on-proxmox-vm-compared-to-bare-metal.187067/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187067</guid>
+      <author>invalid@example.com (Lugitsch IT)</author>
+      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
+      <dc:creator>Lugitsch IT</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
+<br />
+I&#039;m experiencing a significant performance issue after migrating a Microsoft SQL Server database from an older bare-metal Windows Server to a new Windows Server VM running on Proxmox.<br />
+<br />
+I&#039;m trying to determine whether the problem is related to Proxmox, ZFS storage configuration, or SQL Server itself.<br />
+<br />
+<h2 class="bbHeading"><a class="u-anchorTarget" name="-previous-environment-working-perfectly"></a>Previous environment (working perfectly)&#8203;<a class="hoverLink" href="#-previous-environment-working-perfectly" title="Permanent link"></a></h2><ul>
+<li data-xf-list-type="ul"><b>Operating system:</b> Windows Server 2016</li>
+<li data-xf-list-type="ul"><b>Storage:</b> RAID5 consisting of Hard Disks</li>
+<li data-xf-list-type="ul"><b>Installation:</b> Bare metal...</li>
+</ul><br />
+<a href="https://forum.proxmox.com/threads/very-poor-sql-server-application-performance-on-proxmox-vm-compared-to-bare-metal.187067/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>14</slash:comments>
+    </item>
+    <item>
+      <title>ZFS Replication fails after creating a VM snapshot with RAM – no warning in the GUI</title>
+      <pubDate>Thu, 05 Nov 2026 23:25:58 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/zfs-replication-fails-after-creating-a-vm-snapshot-with-ram-%E2%80%93-no-warning-in-the-gui.187434/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187434</guid>
+      <author>invalid@example.com (martusi61)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>martusi61</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I&#039;m running Proxmox VE 9.2.25 on a two-node cluster with ZFS storage and scheduled VM replication.<br />
+<br />
+I encountered an issue with VM 101 (Home Assistant) after creating a snapshot using the default GUI settings, which include the VM&#039;s RAM state.<br />
+<br />
+The procedure was straightforward:<br />
+<ol>
+<li data-xf-list-type="ol">Created a snapshot named Ok using the Proxmox GUI, leaving the default RAM inclusion option enabled.</li>
+<li data-xf-list-type="ol">Performed a VM update.</li>
+<li data-xf-list-type="ol">The next scheduled replication job failed with the following error:</li>
+</ol>...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/zfs-replication-fails-after-creating-a-vm-snapshot-with-ram-%E2%80%93-no-warning-in-the-gui.187434/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>5</slash:comments>
+    </item>
     <item>
       <title>detected undelivered mail to</title>
       <pubDate>Thu, 05 Nov 2026 20:00:54 +0000</pubDate>
@@ -69,23 +247,6 @@ We have been running PBS with an S3 backend for some time and recently started e
 <li data-xf-list-type="ul">S3 backend with a 600 GB local cache on...</li>
 </ul><br />
 <a href="https://forum.proxmox.com/threads/s3-chunk-lock-files-accumulate-indefinitely-in-tmpfs-causing-memory-exhaustion.184070/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
-    </item>
-    <item>
-      <title>Quorum failure and recovery</title>
-      <pubDate>Thu, 05 Nov 2026 17:04:20 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/quorum-failure-and-recovery.187303/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187303</guid>
-      <author>invalid@example.com (dafydd)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>dafydd</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I have a 4 node cluster running Proxmox 9. I just updated one node with the latest packages and kernel. I spotted something odd and realised that the cluster had no quorum. I don&#039;t know if that was due to the upgrade or whether it happed previously (I suspect it did). I rebooted the first node but I can&#039;t restart the container on it.<br />
-<br />
-I can&#039;t risk restarting the other 3 nodes if the containers won&#039;t start up.<br />
-<br />
-The nodes are all there in /etc/corosync/corosync.conf and on the same config...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/quorum-failure-and-recovery.187303/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>6</slash:comments>
     </item>
     <item>
@@ -221,52 +382,6 @@ This follows our tradition of upgrading the Proxmox VE kernel to match the curre
       <slash:comments>256</slash:comments>
     </item>
     <item>
-      <title>ZFS Replication fails after creating a VM snapshot with RAM – no warning in the GUI</title>
-      <pubDate>Thu, 05 Nov 2026 13:18:50 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/zfs-replication-fails-after-creating-a-vm-snapshot-with-ram-%E2%80%93-no-warning-in-the-gui.187434/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187434</guid>
-      <author>invalid@example.com (martusi61)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>martusi61</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
-<br />
-I&#039;m running Proxmox VE 9.2.25 on a two-node cluster with ZFS storage and scheduled VM replication.<br />
-<br />
-I encountered an issue with VM 101 (Home Assistant) after creating a snapshot using the default GUI settings, which include the VM&#039;s RAM state.<br />
-<br />
-The procedure was straightforward:<br />
-<ol>
-<li data-xf-list-type="ol">Created a snapshot named Ok using the Proxmox GUI, leaving the default RAM inclusion option enabled.</li>
-<li data-xf-list-type="ol">Performed a VM update.</li>
-<li data-xf-list-type="ol">The next scheduled replication job failed with the following error:</li>
-</ol>...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/zfs-replication-fails-after-creating-a-vm-snapshot-with-ram-%E2%80%93-no-warning-in-the-gui.187434/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>4</slash:comments>
-    </item>
-    <item>
-      <title>Very poor SQL Server application performance on Proxmox VM compared to bare metal</title>
-      <pubDate>Thu, 05 Nov 2026 11:12:33 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/very-poor-sql-server-application-performance-on-proxmox-vm-compared-to-bare-metal.187067/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187067</guid>
-      <author>invalid@example.com (Lugitsch IT)</author>
-      <category domain="https://forum.proxmox.com/forums/datacenter-manager-installation-and-configuration.28/"><![CDATA[Datacenter Manager: Installation and configuration]]></category>
-      <dc:creator>Lugitsch IT</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
-<br />
-I&#039;m experiencing a significant performance issue after migrating a Microsoft SQL Server database from an older bare-metal Windows Server to a new Windows Server VM running on Proxmox.<br />
-<br />
-I&#039;m trying to determine whether the problem is related to Proxmox, ZFS storage configuration, or SQL Server itself.<br />
-<br />
-<h2 class="bbHeading"><a class="u-anchorTarget" name="-previous-environment-working-perfectly"></a>Previous environment (working perfectly)&#8203;<a class="hoverLink" href="#-previous-environment-working-perfectly" title="Permanent link"></a></h2><ul>
-<li data-xf-list-type="ul"><b>Operating system:</b> Windows Server 2016</li>
-<li data-xf-list-type="ul"><b>Storage:</b> RAID5 consisting of Hard Disks</li>
-<li data-xf-list-type="ul"><b>Installation:</b> Bare metal...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/very-poor-sql-server-application-performance-on-proxmox-vm-compared-to-bare-metal.187067/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>13</slash:comments>
-    </item>
-    <item>
       <title>ENOSPC: No space left on device</title>
       <pubDate>Thu, 05 Nov 2026 10:51:50 +0000</pubDate>
       <link>https://forum.proxmox.com/threads/enospc-no-space-left-on-device.135180/</link>
@@ -322,106 +437,6 @@ I have already applied the ceph migration guide.<br />
 What should I do to fix these warnings?<br />
 Thanks in advance.</div>]]></content:encoded>
       <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Ceph 21.2 Umbrella Release Available as test preview and Ceph 19.2 Squid EOL</title>
-      <pubDate>Thu, 05 Nov 2026 08:51:28 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/ceph-21-2-umbrella-release-available-as-test-preview-and-ceph-19-2-squid-eol.187436/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187436</guid>
-      <author>invalid@example.com (t.lamprecht)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>t.lamprecht</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi Community!<br />
-<br />
-The <a href="https://docs.ceph.com/en/latest/releases/umbrella/#umbrella" target="_blank" class="link link--external" rel="noopener">recently released Ceph 21.2 Umbrella</a> is now available in the Proxmox Ceph <code class="bbCodeInline">no-subscription</code> and <code class="bbCodeInline">test</code> repositories for installation or upgrade.<br />
-<br />
-<b>Upgrades from Tentacle to Umbrella:</b><br />
-You can find the upgrade how-to here: <a href="https://pve.proxmox.com/wiki/Ceph_Tentacle_to_Umbrella" target="_blank" class="link link--external" rel="noopener">https://pve.proxmox.com/wiki/Ceph_Tentacle_to_Umbrella</a><br />
-<br />
-<b>New Installation of Umbrella:</b><br />
-Since <code class="bbCodeInline">pve-manager</code> 9.2.23, the Ceph installation wizard offers Umbrella as a technology preview. Select it together with the...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/ceph-21-2-umbrella-release-available-as-test-preview-and-ceph-19-2-squid-eol.187436/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
-    </item>
-    <item>
-      <title>Changing DNS in the GUI doesn't update Postfix's chroot resolv.conf — mail silently stops</title>
-      <pubDate>Thu, 05 Nov 2026 08:38:49 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/changing-dns-in-the-gui-doesnt-update-postfixs-chroot-resolv-conf-%E2%80%94-mail-silently-stops.187442/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187442</guid>
-      <author>invalid@example.com (bubbleaegis)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>bubbleaegis</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
-<br />
-I ran into something today that cost me a couple of hours, and I thought it was worth sharing — partly because the failure is completely silent, and partly because I&#039;m genuinely not sure whose job it is to fix it.<br />
-<br />
-I had moved a node from my lab to a customer site and changed the DNS servers from the GUI (Datacenter → Node → DNS). Everything looked fine. Mail notifications, though, had quietly stopped arriving.<br />
-<br />
-Here&#039;s what I eventually found:<br />
-<br />
-```<br />
-# cat /etc/resolv.conf<br />
-search...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/changing-dns-in-the-gui-doesnt-update-postfixs-chroot-resolv-conf-%E2%80%94-mail-silently-stops.187442/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>ZFS degraded, brauche Hilfe</title>
-      <pubDate>Thu, 05 Nov 2026 08:30:42 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/zfs-degraded-brauche-hilfe.187094/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187094</guid>
-      <author>invalid@example.com (Lueghi)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>Lueghi</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hallo proxmox-Freunde,<br />
-<br />
-mein proxmox (auf HP Microserver Gen8) läuft seit Jahren mit mehreren VM&#039;s und Containern klaglos und tut alles was ich von ihm erwarte <img src="https://cdn.jsdelivr.net/joypixels/assets/8.0/png/unicode/64/1f60e.png" class="smilie smilie--emoji" loading="lazy" width="64" height="64" alt=":cool:" title="Cool    :cool:"  data-smilie="6"data-shortname=":cool:" />. Bei einem Update auf VE 9.2.21 ist mir mehr oder weniger per Zufall aufgefallen, dass das ZFS-System ein Problem hat. Ich habe das System damals eingerichtet und mich nicht mehr groß damit beschäftigt daher stehe ich jetzt ewas auf dem Schlauch und weiß nicht so recht weiter. Daher hoffe ich auf die geballte Kompetenz hier ...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/zfs-degraded-brauche-hilfe.187094/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>29</slash:comments>
-    </item>
-    <item>
-      <title>Netapp as PBS-Storage</title>
-      <pubDate>Thu, 05 Nov 2026 08:27:34 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/netapp-as-pbs-storage.187441/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187441</guid>
-      <author>invalid@example.com (OsvaldoP)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>OsvaldoP</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">After an successfull migration from esxi to pve, one of our customer have an free netap and want to use them as pbs backupstorage<br />
-Currently active is an phy PBS with local SSD. Plan is, to use the netapp as second storage to hold multiple backups. Sync from local storage to netapp.<br />
-<br />
-The following options should be available for connecting the NetApp:<br />
-NFS/SMB: I think this is the traditional approach that is often described, but not <br />
-optimal.<br />
-<br />
-iSCSI: I can&#039;t say much about this.<br />
-<br />
-S3: We...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/netapp-as-pbs-storage.187441/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>0</slash:comments>
-    </item>
-    <item>
-      <title>dbus-vmstate: conntrack size check ignores the --mark text, live migration fails and VM stops</title>
-      <pubDate>Thu, 05 Nov 2026 08:14:06 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/dbus-vmstate-conntrack-size-check-ignores-the-mark-text-live-migration-fails-and-vm-stops.187433/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187433</guid>
-      <author>invalid@example.com (David123)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>David123</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">We found a bug in the conntrack helper used by live migration with --with-conntrack-state. It stops about 1 % of our live migrations. I could not find it reported, so I am posting the details here.<br />
-<br />
-Environment: PVE 9.2.9, qemu-server 9.2.4 to 9.2.14, pve-qemu-kvm 11.0.3-1, two clusters. The helper script has the same checksum on all those versions, and the same code is in current git.<br />
-<br />
-<b>The cause</b><br />
-<br />
-In /usr/libexec/qemu-server/dbus-vmstate, Save checks the size before it adds the mark to...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/dbus-vmstate-conntrack-size-check-ignores-the-mark-text-live-migration-fails-and-vm-stops.187433/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
     </item>
   </channel>
 </rss>
