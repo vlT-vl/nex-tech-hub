@@ -4,11 +4,102 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Thu, 12 Nov 2026 23:01:27 +0000</pubDate>
-    <lastBuildDate>Thu, 12 Nov 2026 23:01:27 +0000</lastBuildDate>
+    <pubDate>Fri, 13 Nov 2026 04:12:52 +0000</pubDate>
+    <lastBuildDate>Fri, 13 Nov 2026 04:12:52 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>PBS on TrueNAS - Have your cake and eat it too</title>
+      <pubDate>Fri, 13 Nov 2026 01:17:16 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/pbs-on-truenas-have-your-cake-and-eat-it-too.162860/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:162860</guid>
+      <author>invalid@example.com (PwrBank)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>PwrBank</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper"><div style="text-align: center"><b><span style="color: rgb(209, 72, 65)"><span style="font-size: 22px">What?</span></span></b>&#8203;</div>Are you wanting to use PBS to backup your servers, but want to use TrueNAS as the storage handler?<br />
+I&#039;ve been using this setup for the last few weeks and it has worked perfectly.<br />
+<br />
+With the latest update of TrueNAS Community Edition, 25.04, you can run Linux Containers (LXC) natively on the system.<br />
+<br />
+<div style="text-align: center"><b><span style="color: rgb(209, 72, 65)"><span style="font-size: 22px">Why?</span></span></b>&#8203;</div>This will allow you to have the ZFS back end of TrueNAS handle snapshots, replication, etc. for a robust storage layer. TrueNAS is a...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/pbs-on-truenas-have-your-cake-and-eat-it-too.162860/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>57</slash:comments>
+    </item>
+    <item>
+      <title>[solved] acme nsupdate TSIG error with server: expected a TSIG or SIG(0)</title>
+      <pubDate>Fri, 13 Nov 2026 00:08:49 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/solved-acme-nsupdate-tsig-error-with-server-expected-a-tsig-or-sig-0.162512/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:162512</guid>
+      <author>invalid@example.com (Thatoo)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>Thatoo</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I created a file /usr/share/proxmox-acme/lebureaunsupdate.key with the content : <br />
+```<br />
+key &quot;update&quot; {<br />
+    algorithm hmac-sha512;<br />
+    secret &quot;AAA/MY/SECRET/AAA==&quot;;<br />
+};<br />
+```<br />
+and I filed the acme plugin like that<br />
+<a href="https://forum.proxmox.com/attachments/1739966260059-png.82597/"
+		target="_blank"><img src="https://forum.proxmox.com/data/attachments/82/82293-d95f3fe10444a6963f82e0a7f9828206.jpg?hash=AJrkyzcqbg"
+		srcset=""
+		class="bbImage "
+		style=""
+		alt="1739966260059.png"
+		title="1739966260059.png"
+		width="293" height="150" loading="lazy" /></a><br />
+<br />
+but when I try to order a certificate, I get the following error : <br />
+```<br />
+2025-02-19T12:00:10+01:00: Placing ACME order<br />
+2025-02-19T12:00:10+01:00: Order URL: <a href="https://acme-v02.api.letsencrypt.org/acme/order/1660398277/355912587995" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://acme-v02.api.letsencrypt.org/acme/order/1660398277/355912587995</a><br />
+2025-02-19T12:00:10+01:00: Getting...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/solved-acme-nsupdate-tsig-error-with-server-expected-a-tsig-or-sig-0.162512/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
+    <item>
+      <title>Regression in kernel 7.0.14-28-pve: Jellyfin LXC playback lag and high CPU usage on Intel iGPU (Kaby Lake), fixed by pinning 7.0.14-11-pve</title>
+      <pubDate>Thu, 12 Nov 2026 23:37:00 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/regression-in-kernel-7-0-14-28-pve-jellyfin-lxc-playback-lag-and-high-cpu-usage-on-intel-igpu-kaby-lake-fixed-by-pinning-7-0-14-11-pve.187549/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187549</guid>
+      <author>invalid@example.com (gamer3000)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>gamer3000</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">SUMMARY<br />
+After updating to kernel 7.0.14-28-pve, Jellyfin running in an unprivileged LXC with Intel iGPU passthrough started to lag when playing a movie, with much higher CPU usage than before the update. Booting 7.0.14-11-pve (same hardware, same config, nothing else changed) makes the problem disappear completely. I pinned 7.0.14-11-pve as a workaround.<br />
+<br />
+ENVIRONMENT<br />
+- Proxmox VE 9.2.25<br />
+- Host: HP EliteBook laptop, Intel Core i5-7200U (Kaby Lake), HD Graphics 620 (PCI ID 8086:5916), 16 GB...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/regression-in-kernel-7-0-14-28-pve-jellyfin-lxc-playback-lag-and-high-cpu-usage-on-intel-igpu-kaby-lake-fixed-by-pinning-7-0-14-11-pve.187549/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>0</slash:comments>
+    </item>
+    <item>
+      <title>proxmox-backup-debug diff archive of snapshots with the change-detection-mode "metadata" option</title>
+      <pubDate>Thu, 12 Nov 2026 23:11:23 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/proxmox-backup-debug-diff-archive-of-snapshots-with-the-change-detection-mode-metadata-option.187497/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187497</guid>
+      <author>invalid@example.com (fraroy)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
+      <dc:creator>fraroy</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hello,<br />
+<br />
+I&#039;m trying to compare two snapshots of a host with the &quot;proxmox-backup-debug diff archive...&quot; utility. The host backups were performed with &quot;change-detection mode&quot; set at &quot;metadata&quot;, which creates two didx files: .<b>m</b>pxar and .<b>p</b>pxar (instead of the single .pxar without this option).<br />
+<br />
+- when specifying &quot;archivename.pxar&quot; operand to proxmox-backup-debug, it complains file &quot;archivename.pxar.didx&quot; can not be found in the snapshot directory.<br />
+<br />
+- when specifying...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/proxmox-backup-debug-diff-archive-of-snapshots-with-the-change-detection-mode-metadata-option.187497/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>3</slash:comments>
+    </item>
     <item>
       <title>GC: bad  durations and no last-run-endtimes??</title>
       <pubDate>Thu, 12 Nov 2026 22:57:02 +0000</pubDate>
@@ -92,24 +183,6 @@ So if you run multiple different VMs that do different tasks...<br />
 <br />
 <a href="https://forum.proxmox.com/threads/feature-request-folders-for-vms-containers.156432/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>8</slash:comments>
-    </item>
-    <item>
-      <title>PBS on TrueNAS - Have your cake and eat it too</title>
-      <pubDate>Thu, 12 Nov 2026 21:13:18 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/pbs-on-truenas-have-your-cake-and-eat-it-too.162860/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:162860</guid>
-      <author>invalid@example.com (PwrBank)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>PwrBank</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper"><div style="text-align: center"><b><span style="color: rgb(209, 72, 65)"><span style="font-size: 22px">What?</span></span></b>&#8203;</div>Are you wanting to use PBS to backup your servers, but want to use TrueNAS as the storage handler?<br />
-I&#039;ve been using this setup for the last few weeks and it has worked perfectly.<br />
-<br />
-With the latest update of TrueNAS Community Edition, 25.04, you can run Linux Containers (LXC) natively on the system.<br />
-<br />
-<div style="text-align: center"><b><span style="color: rgb(209, 72, 65)"><span style="font-size: 22px">Why?</span></span></b>&#8203;</div>This will allow you to have the ZFS back end of TrueNAS handle snapshots, replication, etc. for a robust storage layer. TrueNAS is a...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/pbs-on-truenas-have-your-cake-and-eat-it-too.162860/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>54</slash:comments>
     </item>
     <item>
       <title>Veeam Backup Error virt-win 0.1.302</title>
@@ -372,84 +445,6 @@ How can I configure backups to my free partition through the UI...<br />
 </ol><br />
 <a href="https://forum.proxmox.com/threads/fehler-bei-turnkey-linux-mediaserver-password-cannot-be-empty.187543/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>handle vm backups in proxmox</title>
-      <pubDate>Thu, 12 Nov 2026 15:56:29 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/handle-vm-backups-in-proxmox.187539/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187539</guid>
-      <author>invalid@example.com (Grace)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-backup-installation-and-configuration.24/"><![CDATA[Proxmox Backup: Installation and configuration]]></category>
-      <dc:creator>Grace</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">I&#039;m curious how you guys manage VM backups in Proxmox environments. Do you rely mainly on PBS, or use third-party backup tools as well?<br />
-What about cross-platform migration, especially when moving VMs between Proxmox, VMware, and Hyper-V?<br />
-I recently came across this <a href="https://www.vinchin.com/vm-migration/v2v-migration.html" target="_blank" class="link link--external" rel="nofollow ugc noopener">V2V migration guide</a>, which also introduces Vinchin as an option for cross-platform VM backup and migration.<br />
-Full disclosure: I work with Vinchin, but I&#039;d love to hear what solutions others are using in real-world...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/handle-vm-backups-in-proxmox.187539/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>Proxmox VE 9.2.21 - BCM57412 bnxt_en network failure after upgrade to kernel 7.0.14-20-pve</title>
-      <pubDate>Thu, 12 Nov 2026 15:14:33 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/proxmox-ve-9-2-21-bcm57412-bnxt_en-network-failure-after-upgrade-to-kernel-7-0-14-20-pve.186749/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186749</guid>
-      <author>invalid@example.com (ManuS)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>ManuS</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-After upgrade on my test cluster using no-subscription repository, broadcom network card failed to load<br />
-<br />
-Environment:<br />
-<br />
-- Proxmox VE 9.2.21<br />
-<br />
-- No-subscription repository<br />
-<br />
-- Dell XC750-14 CORE<br />
-<br />
-- Broadcom BCM57412 NetXtreme-E 10Gb<br />
-<br />
-- Firmware 236.1.167.0<br />
-<br />
-- Driver bnxt_en<br />
-<br />
- <br />
-<br />
-Problem:<br />
-<br />
-After upgrading to kernel 7.0.14-20-pve and rebooting, the management network becomes unavailable.<br />
-<br />
- <br />
-<br />
-Observed errors:<br />
-bnxt_init_nic err: fffffff3<br />
-nic open fail (rc: fffffff3)<br />
-NETDEV WATCHDOG: transmit...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/proxmox-ve-9-2-21-bcm57412-bnxt_en-network-failure-after-upgrade-to-kernel-7-0-14-20-pve.186749/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>99</slash:comments>
-    </item>
-    <item>
-      <title>Hard system freezes (no kernel panic) under multi-GPU AI workload on Z690 (RTX 3090 + RTX 3060)</title>
-      <pubDate>Thu, 12 Nov 2026 14:47:42 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/hard-system-freezes-no-kernel-panic-under-multi-gpu-ai-workload-on-z690-rtx-3090-rtx-3060.187546/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187546</guid>
-      <author>invalid@example.com (TomasHermansson)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>TomasHermansson</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi everyone,<br />
-<br />
-I am troubleshooting recurring hard system freezes on my Proxmox VE node during heavy local AI workloads (Ollama/LLM inference) and would appreciate any insights into potential kernel, BIOS, or PCIe/chipset bottlenecks.<br />
-<br />
-<b>Symptoms:</b><br />
-<ul>
-<li data-xf-list-type="ul">Under sustained multi-GPU AI load, the host completely locks up in a &quot;zombie state&quot;.</li>
-<li data-xf-list-type="ul">Fans and LEDs stay on, but the system is completely unresponsive over SSH, WebUI, and local console.</li>
-<li data-xf-list-type="ul">Nothing is written to <code class="bbCodeInline">journalctl</code> at the...</li>
-</ul><br />
-<a href="https://forum.proxmox.com/threads/hard-system-freezes-no-kernel-panic-under-multi-gpu-ai-workload-on-z690-rtx-3090-rtx-3060.187546/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>1</slash:comments>
     </item>
   </channel>
 </rss>
