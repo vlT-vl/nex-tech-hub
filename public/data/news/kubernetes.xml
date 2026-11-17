@@ -1,4 +1,178 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>From Working Group to SIG Architecture: spotlight on AI Conformance</title><link>https://kubernetes.io/blog/2026/10/29/sig-arch-ai-conformance-2026/</link><pubDate>Thu, 29 Oct 2026 05:00:00 +0000</pubDate><guid>https://kubernetes.io/blog/2026/10/29/sig-arch-ai-conformance-2026/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Scheduling the removal of the kube-proxy IPVS backend</title><link>https://kubernetes.io/blog/2026/11/16/ipvs-removal/</link><pubDate>Mon, 16 Nov 2026 10:35:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/11/16/ipvs-removal/</guid><description>
+&lt;p>The &lt;code>ipvs&lt;/code> backend for kube-proxy was an experiment in providing a
+service proxy implementation with better performance than the
+&lt;code>iptables&lt;/code> backend. While it succeeded in that goal, the kernel IPVS
+API has turned out to be a bad match for the Kubernetes Services API,
+and the &lt;code>ipvs&lt;/code> backend was never able to implement all of the edge
+cases of Kubernetes Service functionality correctly.&lt;/p>
+&lt;p>In Kubernetes 1.29, the project introduced the &lt;code>nftables&lt;/code> backend for
+kube-proxy, which became GA in 1.33. Part of the plan behind adding
+the &lt;code>nftables&lt;/code> backend was the idea that it would eventually replace
+both the &lt;code>iptables&lt;/code> and &lt;code>ipvs&lt;/code> backends. Because the &lt;code>ipvs&lt;/code> backend in
+particular is complex, not 100% feature complete, and architecturally
+quite different from the other two backends (and thus more work to
+maintain), Kubernetes SIG Network decided to officially &lt;a href="https://kubernetes.io/blog/2025/12/17/kubernetes-v1-35-release/#deprecation-of-ipvs-mode-in-kube-proxy">deprecate it
+as of Kubernetes 1.35&lt;/a>. Although it currently remains available in
+kube-proxy (with a warning about its deprecation), we (Kubernetes SIG
+Network) now plan to remove it in Kubernetes 1.40. All &lt;code>ipvs&lt;/code> users
+should therefore be planning to migrate to either the &lt;code>nftables&lt;/code> or
+&lt;code>iptables&lt;/code> backends.&lt;/p>
+&lt;h2 id="why-was-the-ipvs-backend-written">Why was the &lt;code>ipvs&lt;/code> backend written?&lt;a class="td-heading-self-link" href="#why-was-the-ipvs-backend-written" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The &lt;code>ipvs&lt;/code> backend was originally designed to fix two different kinds
+of performance problems in the &lt;code>iptables&lt;/code> backend:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>First, &lt;code>iptables&lt;/code> had problems with &lt;em>data plane&lt;/em> latency (the speed
+at which clients could establish new connections to services),
+because kube-proxy would write a separate iptables rule to match
+each service IP, so every new connection would need to be matched
+against a long series of rules that was &lt;strong>O(n)&lt;/strong> in the number of
+services in the cluster.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Second, it had an even larger problem with &lt;em>control plane&lt;/em> latency
+(the speed at which kube-proxy could process changes to services and
+endpoints and update the data plane rules), because kube-proxy would
+rewrite the entire iptables ruleset every time any service or
+endpoint changed. While the list of rules itself was only &lt;strong>O(n)&lt;/strong>
+in the total number of endpoints, the amount of time, RAM, and CPU
+that it took to process the updated ruleset grew faster than that.
+In very large clusters, kube-proxy would use 100% of one CPU all the
+time just to process iptables updates. (In fact, the control plane
+scaling problem was bad enough that for most users it was not even
+possible to grow the cluster to the size where the data plane
+scaling problem became noticeable.)&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>The &lt;code>ipvs&lt;/code> backend solved both of these scaling problems. The data
+plane problem was solved mostly automatically, because the kernel IPVS
+subsystem uses hash tables rather than linear lookup. The
+control-plane problem was solved by &lt;strong>not&lt;/strong> rewriting the entire
+ruleset on every update. (The kernel IPVS API doesn’t have a way of
+doing batch updates anyway, so this was essentially forced.)&lt;/p>
+&lt;h2 id="why-is-the-ipvs-backend-now-being-deprecated">Why is the &lt;code>ipvs&lt;/code> backend now being deprecated?&lt;a class="td-heading-self-link" href="#why-is-the-ipvs-backend-now-being-deprecated" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Almost from the start, the &lt;code>ipvs&lt;/code> backend also had problems.&lt;/p>
+&lt;p>The first version didn’t have 100% compatibility with the &lt;code>iptables&lt;/code>
+backend, but it was assumed that this would be fixed over time.
+Unfortunately, the original authors moved on to other things outside
+the Kubernetes ecosystem (as inevitably sometimes happens in open
+source), and it took a while to find new people interested in
+maintaining the code.&lt;/p>
+&lt;p>Meanwhile, as people began using the &lt;code>ipvs&lt;/code> backend in larger and
+larger clusters, its own scaling problems started to emerge. In
+particular, the lack of batch update operations in the IPVS API meant
+that while the &lt;code>ipvs&lt;/code> backend was faster than &lt;code>iptables&lt;/code> when making a
+few small changes, it was potentially slower when making a large
+number of changes at once. And because the IPVS API is fairly limited
+in what it can do, kube-proxy's &lt;code>ipvs&lt;/code> backend needed to fall back to
+using iptables to implement various features of Kubernetes Services
+beyond basic &amp;quot;load balancing&amp;quot;, making it run into some of the same
+scaling problems the &lt;code>iptables&lt;/code> backend has. While the &lt;code>ipvs&lt;/code> backend
+tried to mitigate this by using &lt;code>ipset&lt;/code> for some of its rules, this
+again ran into the problem of not having a batch update API.
+Additionally, the fact that the &lt;code>ipvs&lt;/code> backend uses iptables means
+that it has the same long-term support problem as the &lt;code>iptables&lt;/code>
+backend: Red Hat's plan to remove the iptables API entirely from Red
+Hat Enterprise Linux means the &lt;code>ipvs&lt;/code> kube-proxy backend will also no
+longer be available to Kubernetes users on RHEL.&lt;/p>
+&lt;h3 id="what-about-ipvs-schedulers">What about IPVS schedulers?&lt;a class="td-heading-self-link" href="#what-about-ipvs-schedulers" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Beyond performance, the other reason some users were excited about the
+&lt;code>ipvs&lt;/code> backend was the ability to pick from among various IPVS
+&amp;quot;schedulers&amp;quot; for distributing traffic to endpoints, rather than
+relying on the simple random selection used by &lt;code>iptables&lt;/code> (and
+&lt;code>nftables&lt;/code>).&lt;/p>
+&lt;p>Unfortunately, the way IPVS is used by kube-proxy prevents it from
+being able to use most of the IPVS schedulers in a &lt;em>useful&lt;/em> way. The
+problem is that kube-proxy is a distributed service that runs on all
+nodes in the cluster, but the kube-proxy processes on different nodes
+do not share their IPVS scheduler state, so each node picks endpoints
+without knowing what is happening with clients on any other node. Even
+the schedulers that are designed to work in a distributed way
+generally don't work better than random selection in the context of
+kube-proxy. For example, the &lt;code>mh&lt;/code> scheduler uses Maglev Hashing to
+select endpoints, which theoretically allows for extremely efficient
+distributed load balancing. But that efficiency is only in the context
+of &lt;a href="https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/44824.pdf">a specific sort of two-layer load-balancer design&lt;/a>, and kube-proxy
+does not have the right architecture to be able to act as &lt;em>either&lt;/em> of
+the two layers in that design.&lt;/p>
+&lt;h2 id="switching-away-from-ipvs">Switching away from &lt;code>ipvs&lt;/code>&lt;a class="td-heading-self-link" href="#switching-away-from-ipvs" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;h3 id="switching-to-nftables">Switching to &lt;code>nftables&lt;/code>&lt;a class="td-heading-self-link" href="#switching-to-nftables" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>If you are running Kubernetes 1.36 or later, and your nodes are
+running a Linux distribution with kernel 5.13 or later, and you use
+the &lt;code>ipvs&lt;/code> proxy mode, then Kubernetes recommends switching to the
+&lt;code>nftables&lt;/code> mode of kube-proxy. (Although the &lt;code>nftables&lt;/code> backend is GA
+—and fully usable—as of Kubernetes 1.33, there have been some
+performance- and scaling-related fixes since then that that weren't
+backported to releases earlier than 1.36.)&lt;/p>
+&lt;p>The &lt;code>nftables&lt;/code> backend is fully supported, feature-complete, and even
+has &lt;em>very slightly&lt;/em> better performance than &lt;code>ipvs&lt;/code>:&lt;/p>
+&lt;figure>
+&lt;img src="https://kubernetes.io/blog/2026/11/16/ipvs-removal/ipvs-vs-nftables.svg"
+alt="kube-proxy ipvs-vs-nftables first packet latency, at various percentiles, in clusters of various sizes"/>
+&lt;/figure>
+&lt;p>(Taller bars represent longer latency. The &amp;quot;p50&amp;quot; group is the average
+connection establishment latency. Note that even the largest numbers
+in this graph are quite tiny; the point is not to claim that
+&lt;code>nftables&lt;/code> is (noticeably) faster than &lt;code>ipvs&lt;/code>, just to show that,
+unlike &lt;code>iptables&lt;/code>, it's not &lt;em>slower&lt;/em>.)&lt;/p>
+&lt;p>Switching is as easy as changing the kube-proxy configuration and
+restarting kube-proxy. For example, in clusters deployed via kubeadm,
+change &lt;code>mode: ipvs&lt;/code> to &lt;code>mode: nftables&lt;/code> in the &lt;code>kube-proxy&lt;/code> ConfigMap
+and then restart the kube-proxy pods, as described in the
+documentation on &lt;a href="https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-reconfigure/#applying-kube-proxy-configuration-changes">reconfiguring a kubeadm cluster&lt;/a>. (If you are
+overriding other &lt;code>ipvs&lt;/code>-specific kube-proxy configuration, you will
+also need to change those options to &lt;a href="https://kubernetes.io/docs/reference/config-api/kube-proxy-config.v1alpha1/#kubeproxy-config-k8s-io-v1alpha1-KubeProxyNFTablesConfiguration">the corresponding &lt;code>nftables&lt;/code>
+ones&lt;/a>.)&lt;/p>
+&lt;h3 id="switching-to-iptables">Switching to &lt;code>iptables&lt;/code>: &amp;quot;It's Not As Slow As You Think!&amp;quot;&lt;a class="td-heading-self-link" href="#switching-to-iptables" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>If you can't switch to &lt;code>nftables&lt;/code>, either because you are on an older
+version of Kubernetes, or because your cluster runs on an older Linux
+distribution that isn't new enough to support the &lt;code>nftables&lt;/code> backend,
+you may be able to just switch to the &lt;code>iptables&lt;/code> backend, which has
+improved greatly since the original creation of the &lt;code>ipvs&lt;/code> backend in
+2017:&lt;/p>
+&lt;ul>
+&lt;li>
+&lt;p>The generated ruleset has been optimized to remove redundant and
+irrelevant rules (&lt;a href="https://github.com/kubernetes/kubernetes/pull/57461">#57461&lt;/a>, &lt;a href="https://github.com/kubernetes/kubernetes/pull/60306">#60306&lt;/a>, &lt;a href="https://github.com/kubernetes/kubernetes/pull/96959">#96959&lt;/a>, &lt;a href="https://github.com/kubernetes/kubernetes/pull/108251/changes/37ada4b04f4a21daf0e3628c63226531b51ee6bf">#108251&lt;/a>), reducing
+data plane latency.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The code that generates the ruleset has been optimized to do fewer
+allocations, and to avoid unnecessarily recomputing the same
+information multiple times (&lt;a href="https://github.com/kubernetes/kubernetes/pull/65755">#65755&lt;/a>, &lt;a href="https://github.com/kubernetes/kubernetes/pull/65902">#65902&lt;/a>, &lt;a href="https://github.com/kubernetes/kubernetes/pull/67948">#67948&lt;/a>, &lt;a href="https://github.com/kubernetes/kubernetes/pull/85617">#85617&lt;/a>,
+&lt;a href="https://github.com/kubernetes/kubernetes/pull/90103">#90103&lt;/a>, &lt;a href="https://github.com/kubernetes/kubernetes/pull/97238/changes/4c8b190372aaf6eb6ccce07d1763d2d4e26eb98d">#97238&lt;/a>), reducing CPU and memory usage when resyncing.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Rather than doing “check the current state of the rules, then update
+them to the new state”, &lt;code>iptables&lt;/code> kube-proxy now does “assume the
+current state is correct, update to the new state based on that
+assumption, and only explicitly check the current state if that
+update fails”. This greatly improves the resyncing speed, because it
+turns out that even &lt;em>reading&lt;/em> the iptables ruleset is extremely slow
+in large clusters (&lt;a href="https://github.com/kubernetes/kubernetes/pull/81517">#81517&lt;/a>, &lt;a href="https://github.com/kubernetes/kubernetes/pull/110334">#110334&lt;/a>, &lt;a href="https://github.com/kubernetes/kubernetes/pull/114181">#114181&lt;/a>).&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>To the extent possible within the constraints of the iptables APIs,
+kube-proxy’s iptables backend now only updates iptables rules for
+services/endpoints that have changed since the last sync, rather
+than rewriting the entire ruleset every time (&lt;a href="https://github.com/kubernetes/kubernetes/pull/110268">#110268&lt;/a> /
+&lt;a href="https://github.com/kubernetes/enhancements/blob/master/keps/sig-network/3453-minimize-iptables-restore/README.md">KEP-3453&lt;/a>).&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;p>The net result of this is that the &lt;code>iptables&lt;/code> backend of 2026, while
+still not as good as the &lt;code>ipvs&lt;/code> backend, is at least &lt;strong>much&lt;/strong> better
+than the &lt;code>iptables&lt;/code> backend of 2017 was, and many people who found
+&lt;code>iptables&lt;/code> unusable in the past would not have problems with it now.&lt;/p>
+&lt;p>As with switching to &lt;code>nftables&lt;/code>, switching to &lt;code>iptables&lt;/code> is mostly
+just a matter of updating your kube-proxy configuration, although for
+technical reasons, in this case we recommend that you reboot each node
+after changing the kube-proxy configuration, rather than merely
+restarting kube-proxy.&lt;/p>
+&lt;h2 id="learn-more">Learn more&lt;a class="td-heading-self-link" href="#learn-more" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;ul>
+&lt;li>
+&lt;p>&lt;a href="https://github.com/kubernetes/enhancements/blob/master/keps/sig-network/5495-deprecate-ipvs-mode-in-kube-proxy/README.md">KEP-5495&lt;/a> gives the full timeline and plan for kube-proxy IPVS
+deprecation.&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>The blog post &amp;quot;&lt;a href="https://kubernetes.io/blog/2025/02/28/nftables-kube-proxy/">NFTables mode for kube-proxy&lt;/a>&amp;quot; has more information
+about &lt;code>nftables&lt;/code> mode and its performance relative to &lt;code>ipvs&lt;/code> and
+&lt;code>iptables&lt;/code>.&lt;/p>
+&lt;/li>
+&lt;/ul></description></item><item><title>From Working Group to SIG Architecture: spotlight on AI Conformance</title><link>https://kubernetes.io/blog/2026/10/29/sig-arch-ai-conformance-2026/</link><pubDate>Thu, 29 Oct 2026 05:00:00 +0000</pubDate><guid>https://kubernetes.io/blog/2026/10/29/sig-arch-ai-conformance-2026/</guid><description>
 &lt;p>In this SIG Architecture spotlight we talked with &lt;a href="https://github.com/janetkuo">Janet Kuo&lt;/a> (Google)
 and &lt;a href="https://github.com/terrytangyuan">Yuan Tang&lt;/a> (TensorScale AI) about the journey of AI Conformance in
 Kubernetes, from the initial &lt;a href="https://github.com/kubernetes/community/blob/main/governance.md#working-groups">Working
@@ -7506,197 +7680,4 @@ operators running large clusters.&lt;/p>
 &lt;li>&lt;a href="https://github.com/everettraven">Bryce Palmer&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;p>And the many others across the Kubernetes community who contributed along the way.&lt;/p>
-&lt;p>Welcome to the declarative future of Kubernetes validation!&lt;/p></description></item><item><title>Kubernetes v1.36: Admission Policies That Can't Be Deleted</title><link>https://kubernetes.io/blog/2026/05/04/kubernetes-v1-36-manifest-based-admission-control/</link><pubDate>Mon, 04 May 2026 10:35:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/05/04/kubernetes-v1-36-manifest-based-admission-control/</guid><description>
-&lt;p>If you've ever tried to enforce a security policy across a fleet of
-Kubernetes clusters, you've probably run into a frustrating chicken-and-egg
-problem. Your admission policies are API objects, which means they don't
-exist until someone creates them, and they can be deleted by anyone with
-the right permissions. There's always a window during cluster bootstrap
-where your policies aren't active yet, and there's no way to prevent a
-privileged user from removing them.&lt;/p>
-&lt;p>Kubernetes v1.36 introduces an alpha feature that addresses this:
-&lt;em>manifest-based admission control&lt;/em>. It lets you define admission webhooks
-and &lt;a href="https://kubernetes.io/docs/reference/using-api/cel/">CEL&lt;/a>-based policies as files on disk, loaded by the API server at
-startup, before it serves any requests.&lt;/p>
-&lt;h2 id="the-gap-we-re-closing">The gap we're closing&lt;a class="td-heading-self-link" href="#the-gap-we-re-closing" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Most Kubernetes policy enforcement today works through the API. You create
-a ValidatingAdmissionPolicy or a webhook configuration as an API object,
-and the admission controller picks it up. This works well in steady state,
-but it has some fundamental limitations.&lt;/p>
-&lt;p>During cluster bootstrap, there's a gap between when the API server starts
-serving requests and when your policies are created and active. If you're
-restoring from a backup or recovering from an etcd failure, that gap can be
-significant.&lt;/p>
-&lt;p>There's also a self-protection problem. Admission webhooks and policies
-can't intercept operations on their own configuration resources. Kubernetes
-skips invoking webhooks on types like ValidatingWebhookConfiguration to
-avoid circular dependencies. That means a sufficiently privileged user can
-delete your critical admission policies, and there's nothing in the
-admission chain to stop them.&lt;/p>
-&lt;p>We - Kubernetes SIG API Machinery - wanted a way to say &amp;quot;these policies are always on, full stop.&amp;quot;&lt;/p>
-&lt;h2 id="how-it-works">How it works&lt;a class="td-heading-self-link" href="#how-it-works" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>You add a &lt;code>staticManifestsDir&lt;/code> field to the &lt;code>AdmissionConfiguration&lt;/code> file
-that you already pass to the API server via &lt;code>--admission-control-config-file&lt;/code>.
-Point it at a directory, drop your policy YAML files in there, and the API
-server loads them before it starts serving.&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">apiserver.config.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">AdmissionConfiguration&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">plugins&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ValidatingAdmissionPolicy&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">configuration&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">apiserver.config.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ValidatingAdmissionPolicyConfiguration&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">staticManifestsDir&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;/etc/kubernetes/admission/validating-policies/&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>The manifest files are standard Kubernetes resource definitions. The only
-requirement is that all the objects that these manifests define &lt;strong>must&lt;/strong> have names ending in &lt;code>.static.k8s.io&lt;/code>.
-This reserved suffix prevents collisions with API-based configurations and
-makes it easy to tell where an admission decision came from when you're
-looking at metrics or audit logs.&lt;/p>
-&lt;p>Here's a complete example that denies privileged containers outside
-kube-system:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">admissionregistration.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ValidatingAdmissionPolicy&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;deny-privileged.static.k8s.io&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kubernetes.io/description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Deny launching privileged pods, anywhere this policy is applied&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">failurePolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Fail&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">matchConstraints&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resourceRules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">apiGroups&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">apiVersions&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;v1&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">operations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;CREATE&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;UPDATE&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;pods&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">variables&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">allContainers&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">expression&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">&amp;gt;-&lt;/span>&lt;span class="sd">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd"> object.spec.containers +
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd"> (has(object.spec.initContainers) ? object.spec.initContainers : []) +
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd"> (has(object.spec.ephemeralContainers) ? object.spec.ephemeralContainers : [])&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">validations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">expression&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">&amp;gt;-&lt;/span>&lt;span class="sd">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd"> !variables.allContainers.exists(c,
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd"> has(c.securityContext) &amp;amp;&amp;amp; has(c.securityContext.privileged) &amp;amp;&amp;amp;
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd"> c.securityContext.privileged == true)&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">message&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Privileged containers are not allowed&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">admissionregistration.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ValidatingAdmissionPolicyBinding&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;deny-privileged-binding.static.k8s.io&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kubernetes.io/description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Bind deny-privileged policy to all namespaces except kube-system&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">policyName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;deny-privileged.static.k8s.io&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">validationActions&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">Deny&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">matchResources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">namespaceSelector&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">matchExpressions&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">key&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;kubernetes.io/metadata.name&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">operator&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">NotIn&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">values&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;kube-system&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="protecting-what-couldn-t-be-protected-before">Protecting what couldn't be protected before&lt;a class="td-heading-self-link" href="#protecting-what-couldn-t-be-protected-before" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The part we're most excited about is the ability to intercept operations on
-admission configuration resources themselves.&lt;/p>
-&lt;p>With API-based admission, webhooks and policies are never invoked on types
-like ValidatingAdmissionPolicy or ValidatingWebhookConfiguration. That
-restriction exists for good reason: if a webhook could reject changes to
-its own configuration, you could end up locked out with no way to fix it
-through the API.&lt;/p>
-&lt;p>Manifest-based policies don't have that problem. If a bad policy is
-blocking something it shouldn't, you fix the file on disk and the API
-server picks up the change. There's no circular dependency because the
-recovery path doesn't go through the API.&lt;/p>
-&lt;p>This means you can write a manifest-based policy that prevents deletion of
-your critical API-based admission policies. For platform teams managing
-shared clusters, this is a significant improvement. You can now guarantee
-that your baseline security policies can't be removed by a cluster admin,
-accidentally or otherwise.&lt;/p>
-&lt;p>Here's what that looks like in practice. This policy prevents any
-modification or deletion of admission resources that carry the
-&lt;code>platform.example.com/protected: &amp;quot;true&amp;quot;&lt;/code> label:&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-yaml" data-lang="yaml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">admissionregistration.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ValidatingAdmissionPolicy&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;protect-policies.static.k8s.io&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kubernetes.io/description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Prevent modification or deletion of protected admission resources&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">failurePolicy&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Fail&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">matchConstraints&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resourceRules&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">apiGroups&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;admissionregistration.k8s.io&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">apiVersions&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;*&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">operations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;DELETE&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;UPDATE&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">resources&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;validatingadmissionpolicies&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;validatingadmissionpolicybindings&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;validatingwebhookconfigurations&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="s2">&amp;#34;mutatingwebhookconfigurations&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">validations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="nt">expression&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">&amp;gt;-&lt;/span>&lt;span class="sd">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd"> !has(oldObject.metadata.labels) ||
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd"> !(&amp;#39;platform.example.com/protected&amp;#39; in oldObject.metadata.labels) ||
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd"> oldObject.metadata.labels[&amp;#39;platform.example.com/protected&amp;#39;] != &amp;#39;true&amp;#39;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">message&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Protected admission resources cannot be modified or deleted&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nn">---&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">apiVersion&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">admissionregistration.k8s.io/v1&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">kind&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ValidatingAdmissionPolicyBinding&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">metadata&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;protect-policies-binding.static.k8s.io&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">annotations&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">kubernetes.io/description&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;Bind protect-policies policy to all admission resources&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="nt">spec&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">policyName&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="s2">&amp;#34;protect-policies.static.k8s.io&amp;#34;&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">validationActions&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>- &lt;span class="l">Deny&lt;/span>&lt;span class="w">
-&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>With this in place, any API-based admission policy or webhook configuration
-labeled &lt;code>platform.example.com/protected: &amp;quot;true&amp;quot;&lt;/code> is shielded from tampering.
-The protection itself lives on disk and can't be removed through the API.&lt;/p>
-&lt;h2 id="a-few-things-to-know">A few things to know&lt;a class="td-heading-self-link" href="#a-few-things-to-know" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Manifest-based configurations are intentionally self-contained. They can't
-reference API resources, which means no &lt;code>paramKind&lt;/code> for policies, no
-Service references for admission webhooks (instead they are URL-only),
-and bindings may only reference
-policies in the same manifest set. These restrictions exist because the
-configurations need to work without any cluster state, including at startup
-before etcd is available.&lt;/p>
-&lt;p>If you run multiple API server instances, each one loads its own manifest
-files independently. There's no cross-server synchronization built in. This
-is the same model as other file-based API server configurations like
-encryption at rest. When this feature is enabled, Kubernetes exposes a configuration hash as a label on relevant metrics, so you can
-detect drift.&lt;/p>
-&lt;p>Files are watched for changes at runtime, so you don't need to restart the
-API server to update policies. If you update a manifest file, the API
-server validates the new configuration and swaps it in atomically. If
-validation fails, it keeps the previous good configuration and logs the
-error. This means you can roll out policy changes across your fleet using
-standard configuration management tools (Ansible, Puppet, or even mounted
-ConfigMaps) without any API server downtime.&lt;/p>
-&lt;p>The initial load at startup is stricter: if any manifest is invalid, the
-API server won't start. This is intentional. At startup, failing fast is
-safer than running without your expected policies.&lt;/p>
-&lt;h2 id="try-it-out">Try it out&lt;a class="td-heading-self-link" href="#try-it-out" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>To try this in Kubernetes v1.36:&lt;/p>
-&lt;ol>
-&lt;li>Enable the &lt;a href="https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#ManifestBasedAdmissionControlConfig">&lt;code>ManifestBasedAdmissionControlConfig&lt;/code>&lt;/a>
-feature gate for each kube-apiserver.&lt;/li>
-&lt;li>Create a directory with your static manifest files.
-If you need to mount that in to the Pod where the API server runs, do that too. Read-only is fine.&lt;/li>
-&lt;li>Configure &lt;code>staticManifestsDir&lt;/code> in your &lt;a href="https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/">&lt;code>AdmissionConfiguration&lt;/code>&lt;/a>
-with the directory path.&lt;/li>
-&lt;li>Start the API server with &lt;code>--admission-control-config-file&lt;/code> pointing to
-your &lt;code>AdmissionConfiguration&lt;/code> file.&lt;/li>
-&lt;/ol>
-&lt;p>The full documentation is at
-&lt;a href="https://kubernetes.io/docs/reference/access-authn-authz/manifest-admission-control/">Manifest-Based Admission Control&lt;/a>,
-and you can follow
-&lt;a href="https://kep.k8s.io/5793">KEP-5793&lt;/a>
-for ongoing progress.&lt;/p>
-&lt;p>We'd love to hear your feedback. Reach out on the
-&lt;a href="https://kubernetes.slack.com/archives/C0EG7JC6T">#sig-api-machinery&lt;/a>
-channel on Kubernetes Slack
-(for an invitation, visit &lt;a href="https://slack.k8s.io/">https://slack.k8s.io/&lt;/a>).&lt;/p>
-&lt;h2 id="how-to-get-involved">How to get involved&lt;a class="td-heading-self-link" href="#how-to-get-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>If you're interested in contributing to this feature or other
-SIG API Machinery projects, join us on
-&lt;a href="https://kubernetes.slack.com/archives/C0EG7JC6T">#sig-api-machinery&lt;/a>
-on Kubernetes Slack. You're also welcome to attend the
-&lt;a href="https://github.com/kubernetes/community/blob/master/sig-api-machinery/README.md#meetings">SIG API Machinery meetings&lt;/a>,
-held every other Wednesday.&lt;/p></description></item></channel></rss>
+&lt;p>Welcome to the declarative future of Kubernetes validation!&lt;/p></description></item></channel></rss>
