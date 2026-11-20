@@ -12,7 +12,7 @@
 	<atom:link href="https://blogs.vmware.com/feed" rel="self" type="application/rss+xml" />
 	<link>https://blogs.vmware.com/</link>
 	<description>VMware Blogs</description>
-	<lastBuildDate>Thu, 19 Nov 2026 07:17:50 +0000</lastBuildDate>
+	<lastBuildDate>Thu, 19 Nov 2026 19:20:16 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -20,6 +20,235 @@
 	1	</sy:updateFrequency>
 	<generator>https://wordpress.org/?v=6.8.13</generator>
 <site xmlns="com-wordpress:feed-additions:1">237817777</site>	<item>
+		<title>Securing 5G with VMware HyperArmor on VCF Telco: Hypervisor-Layer Defense across Control and User Planes</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/11/19/securing-5g-with-vmware-hyperarmor-on-vcf-telco-hypervisor-layer-defense-across-control-and-user-planes/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Thu, 19 Nov 2026 17:55:46 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10110276</guid>
+
+					<description><![CDATA[<img width="299" height="138" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_01.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>The layer every other control trusts 5G&#8217;s cloud-native decomposition placed the mobile core — control plane (AMF, SMF, NRF, AUSF, UDM, PCF, NEF, NSSF, SEPP) and user plane (UPF, GTP-U on N3/N9, N6, PFCP on N4) — onto virtualized infrastructure, most commonly VMware Cloud Foundation (VCF) with ESX hypervisors.&#160; Every layer of defense for VCF &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/19/securing-5g-with-vmware-hyperarmor-on-vcf-telco-hypervisor-layer-defense-across-control-and-user-planes/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/19/securing-5g-with-vmware-hyperarmor-on-vcf-telco-hypervisor-layer-defense-across-control-and-user-planes/">Securing 5G with VMware HyperArmor on VCF Telco: Hypervisor-Layer Defense across Control and User Planes</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="299" height="138" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_01.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="139" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_01.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_01.png 1242w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_01.png?resize=300,139 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_01.png?resize=768,355 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_01.png?resize=1024,473 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_01.png?resize=600,277 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+<h2 class="wp-block-heading" id="h-the-layer-every-other-control-trusts"><strong>The layer every other control trusts</strong></h2>
+<p>5G&#8217;s cloud-native decomposition placed the mobile core — control plane (AMF, SMF, NRF, AUSF, UDM, PCF, NEF, NSSF, SEPP) and user plane (UPF, GTP-U on N3/N9, N6, PFCP on N4) — onto virtualized infrastructure, most commonly VMware Cloud Foundation (VCF) with ESX hypervisors.&nbsp;</p>
+<p>Every layer of defense for VCF built to date (vDefend microsegmentation, mTLS/OAuth2 at the SBA, confidential computing for memory, EDR for guest workloads, etc.) assumes one thing:&nbsp; ESX hypervisor is the most important security boundary you own. Every control you have invested in assumes it is trustworthy.&nbsp;</p>
+<p>That assumption in an AI world can be your weakest link. AI-accelerated attack tools discover and weaponize vulnerabilities at machine speed, shrinking the patch window from months to hours, while stolen root credentials remain the single most common route into the hypervisor. Acknowledging the shifting security landscape, Broadcom introduced VMware HyperArmor to make that assumption a reality rather than a hope.</p>
+<h2 class="wp-block-heading" id="h-the-problems-behind-most-hypervisor-attacks-nbsp"><strong>The problems behind most Hypervisor attacks</strong><strong>&nbsp;</strong></h2>
+<p>Two problems account for most hypervisor attacks: stolen root credentials and unpatched vulnerabilities. Both are directly relevant to telecom 5G:</p>
+<h3 class="wp-block-heading" id="h-stolen-root-credentials"><strong>Stolen root credentials</strong></h3>
+<p>Communication Service Providers (CSP) operations teams reach ESX hosts over SSH for troubleshooting, patching, and emergency work, often from a central NOC or through jump hosts. A phished or leaked root password gives an attacker the command line of a host that may carry a dozen virtual network functions (NFs) and cloud-native network functions (CNFs).</p>
+<p><a href="https://nvd.nist.gov/vuln/detail/cve-2024-37085">CVE-2024-37085</a> showed how this cascades. Attackers who had already compromised Active Directory created an &#8220;ESX Admins&#8221; group, gained full ESX admin rights, and deployed ransomware against every VM on the host. In a telco cloud, that is an outage measured in subscribers, not servers.</p>
+<h3 class="wp-block-heading" id="h-unpatched-vulnerabilities-and-the-collapsing-patch-window"><strong>Unpatched vulnerabilities and the collapsing patch window</strong></h3>
+<p>The patch window is the gap between a vulnerability&#8217;s disclosure and a tested patch in production. AI-driven attack tooling now finds and weaponizes obscure flaws faster than IT teams can test fixes.</p>
+<p>Telco change control works in the opposite direction. ESX upgrades need network function (NF) vendor regression testing, change-board approval, and a maintenance window on a platform that runs 24/7. The next window may be weeks away while the exploit is available today. Edge sites are usually patched last, so they stay exposed longest.</p>
+<h3 class="wp-block-heading" id="h-what-does-that-mean-for-a-telco"><strong>What does that mean for a Telco?</strong></h3>
+<p>•&nbsp; &nbsp; &nbsp; One compromised host exposes every NF on it, whatever the guest-level controls.</p>
+<p>•&nbsp; &nbsp; &nbsp; Ransomware aimed at ESX encrypts all VMs at once, turning a host incident into a service outage.</p>
+<p>•&nbsp; &nbsp; &nbsp; Your exposure time is set by your change calendar, while the attacker&#8217;s timeline is set by automation.</p>
+<h2 class="wp-block-heading" id="h-what-does-hyperarmor-bring-to-your-telco-cloud"><strong>What does HyperArmor bring to your telco cloud?</strong></h2>
+<p>HyperArmor is a software add-on for the ESX hypervisor in VCF as a proactive, real-time defense layer for the ESX component of VCF, and thus applies to your 5G core and edge clusters. </p>
+<figure class="wp-block-image"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_01_7265cc.png" alt="The current image has no alternative text. The file name is: image_01.png" /></figure>
+<p>VMware HyperArmor has three pillars:</p>
+<h3 class="wp-block-heading" id="h-1-host-level-virtual-patching"><strong>1. Host-level virtual patching</strong></h3>
+<p>HyperArmor detects and blocks attempts to exploit a host before the vulnerability can be used, with no host reboot and no software upgrade. It extends the network-layer virtual patching that vDefend already provides down to the hypervisor itself.</p>
+<p>For a CSP, this turns the strategy from &#8220;exposed until the next maintenance window&#8221; to &#8220;mitigated now, patched on schedule.&#8221;</p>
+<h3 class="wp-block-heading" id="h-2-positive-host-security-guardrails"><strong>2. Positive Host Security Guardrails</strong></h3>
+<p>ESX runs a small, fixed set of processes, which makes it a natural fit for allowlisting. HyperArmor builds a known-good baseline, inventories existing scripts and allows them, and then blocks any unauthorized executable or script. It is agentless, monitors continuously, and adds minimal overhead.</p>
+<p>The practical effect, <a href="https://www.heise.de/en/news/VMware-HyperArmor-protects-ESX-hypervisor-from-AI-attacks-11496581.html#An%20exploit%20can%20therefore%20hit%20a%20vulnerability,%20but%20it%20cannot%20download%20or%20place%20malicious%20code:~:text=An%20exploit%20can%20therefore%20hit%20a%20vulnerability%2C%20but%20it%20cannot%20download%20or%20place%20malicious%20code">as Heise describes it</a>, is that an exploit may reach a vulnerability but cannot download or plant malicious code.</p>
+<h3 class="wp-block-heading" id="h-3-hypervisor-level-mfa"><strong>3. Hypervisor-level MFA</strong></h3>
+<p>A time-based one-time password (TOTP) challenge sits directly in the ESX SSH login path. It is tied to a separately defined identity, so a stolen root password alone does not reach the command line.</p>
+<h2 class="wp-block-heading" id="h-why-does-the-design-fit-how-csps-operate"><strong>Why does the design fit how CSPs operate?</strong></h2>
+<p>Most host-security tools fail in telco clouds for operational reasons, not technical ones: they need reboots, agents, or upgrades that collide with certification and change control. HyperArmor&#8217;s design constraints line up with those realities.</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td>HyperArmor property</td>
+<td>Why it matters on VCF Telco&nbsp;</td>
+</tr>
+<tr>
+<td>No host reboots</td>
+<td>A 5G core host cannot be rebooted without service impact, so mitigation must be live</td>
+</tr>
+<tr>
+<td>No software upgrade to mitigate</td>
+<td>Telco patch testing is long; protection has to arrive before the patch</td>
+</tr>
+<tr>
+<td>No in-guest agents</td>
+<td>VNFs and CNFs are vendor-certified; adding agents risks support status and performance</td>
+</tr>
+<tr>
+<td>Agentless, minimal overhead</td>
+<td>User-plane hosts run at high throughput; host security must not tax the dataplane</td>
+</tr>
+<tr>
+<td>Positive (allowlist) model</td>
+<td>ESX runs a small, fixed process set, so allowlisting is practical rather than brittle</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p>The result is time. Security teams get a much shorter risk window, and platform teams keep the freedom to test and apply official patches on their own schedule.</p>
+<h2 class="wp-block-heading" id="h-defending-the-control-plane-hosts"><strong>Defending the control-plane hosts</strong></h2>
+<p>Control-plane hosts are where HyperArmor should land first. They carry your most valuable secrets: subscriber credential stores, authentication key material, and the NRF&#8217;s OAuth2 token-signing key. A single compromised host here can lead to a subscriber credential breach or network-wide policy manipulation.</p>
+<h3 class="wp-block-heading" id="h-the-host-layer-threats"><strong>The host-layer threats</strong></h3>
+<p>•&nbsp; &nbsp; &nbsp; <strong>Stolen SSH credentials:</strong> With root, an attacker can read VM memory that is not protected by confidential computing, mount virtual disks offline, change VM configuration, and pivot toward vCenter.</p>
+<p>•&nbsp; &nbsp; &nbsp; <strong>Unpatched ESX flaws:</strong> Every day between disclosure and your maintenance window is exposure and AI tooling shrinks the attacker&#8217;s side of that gap to hours.</p>
+<p>•&nbsp; &nbsp; &nbsp; <strong>Unauthorized code on the host:</strong> Ransomware, cryptominers, reverse shells, and lateral-movement tools all need to run a process or write files on ESX.</p>
+<p>•&nbsp; &nbsp; &nbsp; <strong>ESX-targeted ransomware:</strong> The most common real-world disaster: every VM on the host is encrypted, taking down every control-plane NF it carries.</p>
+<h3 class="wp-block-heading" id="h-how-does-hyperarmor-answer-each-one"><strong>How does HyperArmor answer each one?</strong></h3>
+<p><strong>MFA protects the hosts that hold your credential stores.</strong></p>
+<p>With TOTP in the SSH path, a leaked root password cannot reach the shell of the host running AUSF, UDM or the NRF. This breaks the most common chain (stolen credential, host access, key theft) at the front door. Because the second factor uses a separate identity, a compromised AD or vCenter account does not hand over SSH access. That is a direct defense against the <a href="https://nvd.nist.gov/vuln/detail/cve-2024-37085">CVE-2024-37085</a> pattern case.</p>
+<p><strong>Guardrails enforce a known-good baseline.</strong></p>
+<p>An attacker who does reach an NRF host cannot launch a credential-dumping tool. One who reaches an AUSF/UDM host cannot run a memory scraper. Enforcement happens at the infrastructure layer, so vendor-certified NFs from Ericsson, Nokia, Cisco, and others are untouched.</p>
+<p><strong>Virtual patching closes the exposure window.</strong>&nbsp;</p>
+<p>ESX patching at Telcos can take weeks of change control and NF regression testing. HyperArmor blocks exploitation attempts on the host in the meantime, with no reboot. Paired with vDefend&#8217;s virtual patching at the vNIC, you get two interim layers: vDefend stops network-level exploit patterns reaching the NF and HyperArmor stops exploitation of the hypervisor itself.</p>
+<p><strong>Ransomware kill chain breaks before encryption starts.</strong>&nbsp;</p>
+<p>ESX ransomware has to run unauthorized processes and write encrypted payloads to disk. The guardrails block both, protecting every control-plane NF on the host from the scenario operators fear most.</p>
+<h3 class="wp-block-heading" id="h-control-plane-deployment-notes"><strong>Control-plane deployment notes</strong></h3>
+<p>•&nbsp; &nbsp; &nbsp; <strong>Blast radius:</strong> These are your highest-value hosts, so deploy here first.</p>
+<p>•&nbsp; &nbsp; &nbsp; <strong>Change control:</strong> Adding HyperArmor is still a platform change, but no reboots and no guest agents keep the approval light.</p>
+<p>•&nbsp; &nbsp; &nbsp; <strong>Baseline governance:</strong> Set a formal process for approving new scripts on control-plane hosts, to avoid both false blocks and an allowlist that grows too large.</p>
+<p>•&nbsp; &nbsp; &nbsp; <strong>Patch hosts:</strong> Virtual patching buys time; it does not replace the official patch.</p>
+<p>•&nbsp; &nbsp; &nbsp; <strong>Compliance and auditing: </strong>The hypervisor-level MFA and guardrail logs of HyperArmor integrate directly into SIEM pipelines, supporting strict regulatory frameworks like <a href="https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final">NIST SP 800-53 Rev-5</a> and <a href="https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=3169">3GPP TS 33.501</a> for OAM traceability.</p>
+<h2 class="wp-block-heading" id="h-defending-user-plane-hosts"><strong>Defending user-plane hosts</strong></h2>
+<p>User-plane hosts carry live subscriber traffic and many of them sit at edge sites with weaker physical security and nobody on site. That combination makes HyperArmor&#8217;s agentless, no-reboot model especially valuable at the edge.</p>
+<h3 class="wp-block-heading" id="h-the-host-layer-threats-0"><strong>The host-layer threats</strong></h3>
+<p>•&nbsp; &nbsp; &nbsp; <strong>Edge host compromise:</strong> Someone with physical or network access to an edge ESX host running a UPF can go after the hypervisor directly.</p>
+<p>•&nbsp; &nbsp; &nbsp; <strong>Host-level UPF manipulation:</strong> From the host, an attacker can mount the UPF&#8217;s virtual disk offline to pull session data, change VM configuration to redirect traffic, or encrypt the UPF and cut service.</p>
+<p>•&nbsp; &nbsp; &nbsp; <strong>Escalation beyond protocol attacks:</strong> GTP-U floods and crafted packets target the UPF application; owning the host gives an attacker far more power than any of them.</p>
+<p>•&nbsp; &nbsp; &nbsp; <strong>Ransomware at the edge:</strong> Edge sites are attractive targets precisely because recovery is slow, with remote hands only.</p>
+<h3 class="wp-block-heading" id="h-how-does-hyperarmor-answer-each-one-0"><strong>How does HyperArmor answer each one?</strong></h3>
+<p><strong>MFA secures remote access to edge hosts.</strong>&nbsp;</p>
+<p>Edge ESX access is almost always remote, from the NOC or through jump hosts. TOTP in the SSH path means a stolen or brute-forced root password cannot reach the shell. A cell-site cabinet host gets the same protection as a core data center host, with no extra physical security.</p>
+<p><strong>Guardrails lock down the edge UPF host.</strong>&nbsp;</p>
+<p>At an unstaffed site, nobody will notice a rogue process. HyperArmor blocks any unauthorized executable or script, whether the attacker arrived over SSH, through a compromised management network or at the physical console. They cannot run tools to tamper with the UPF VM, extract data from its disks, or launch ransomware. The no-agent design matters doubly here: UPF dataplanes cannot absorb a guest-agent tax and CNF vendor certification would rule one out anyway.</p>
+<p><strong>Virtual patching covers your slowest-patched sites.</strong>&nbsp;</p>
+<p>Edge sites are usually last in an ESX rollout because of logistics and change windows. HyperArmor protects them against known exploitation techniques now, while the official patch follows the normal schedule.</p>
+<p><strong>vDefend and HyperArmor complement each other.</strong>&nbsp;</p>
+<p>Where UPF traffic crosses the vNIC path and a signature exists, vDefend IDPS provides network-layer virtual patching for GTP-U and protocol exploits. HyperArmor adds the host layer beneath: if an exploit or a malicious process tries to take over the host itself, the guardrails and host-level virtual patching stop it.</p>
+<h3 class="wp-block-heading" id="h-user-plane-deployment-notes"><strong>User-plane deployment notes</strong></h3>
+<p>•&nbsp; &nbsp; &nbsp; <strong>Performance:</strong> Performance overhead is minimal but validation with specific NF vendors is . .</p>
+<p>•&nbsp; &nbsp; &nbsp; <strong>Scale:</strong> Thousands of edge hosts need automated baseline management and central policy administration.</p>
+<p>•&nbsp; &nbsp; &nbsp; <strong>Business case:</strong> Broadcom pitches HyperArmor at higher-risk workloads. Both control and user planes qualify in telecom.</p>
+<p>•&nbsp; &nbsp; &nbsp; <strong>Scope:</strong> HyperArmor protects the ESX host, not the inside of the UPF VM or CNF. Use vDefend Guest Introspection, CNF runtime security, andUPF-native controls for that, where supported.</p>
+<h2 class="wp-block-heading" id="h-control-plane-vs-user-plane-at-a-glance"><strong>Control plane vs. user plane at a glance</strong></h2>
+<p>The three pillars are the same on every host; what changes is which one matters most and how you run it.</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td>&nbsp;</td>
+<td><strong>Control-plane hosts</strong></td>
+<td><strong>User-plane and edge hosts</strong></td>
+</tr>
+<tr>
+<td>What a compromise costs</td>
+<td>Credential and key theft, policy manipulation across the network</td>
+<td>Subscriber traffic exposure, traffic redirection, site outage</td>
+</tr>
+<tr>
+<td>Highest-value pillar</td>
+<td>MFA, protecting hosts with credential stores and signing keys</td>
+<td>Guardrails, because nobody on site will spot a rogue process</td>
+</tr>
+<tr>
+<td>Virtual patching role</td>
+<td>Covers weeks of telco change control</td>
+<td>Covers the longest patch latency in the estate</td>
+</tr>
+<tr>
+<td>Main operational concern</td>
+<td>Strict baseline governance for ops tooling</td>
+<td>Throughput validation on SR-IOV/DPDK hosts; baselines at scale</td>
+</tr>
+<tr>
+<td>Rollout order</td>
+<td>First, starting with AUSF/UDM and NRF hosts</td>
+<td>Central UPF hosts in phase 1, then edge</td>
+</tr>
+<tr>
+<td>Complementary controls</td>
+<td>vDefend, SBI mTLS/OAuth2, confidential computing</td>
+<td>vDefend IDPS for GTP-U, CNF runtime security, UPF-native controls</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<h2 class="wp-block-heading" id="h-hyperarmor-in-your-defense-in-depth-stack"><strong>HyperArmor in your defense-in-depth stack</strong></h2>
+<p>HyperArmor does not replace any control you run today. It protects the layer that all of them depend on.</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td><strong>Layer</strong></td>
+<td><strong>What it protects</strong></td>
+<td><strong>Mechanism</strong></td>
+<td><strong>Plane relevance</strong></td>
+</tr>
+<tr>
+<td>HyperArmor</td>
+<td>ESX host integrity</td>
+<td>Host virtual patching, allowlist guardrails, SSH MFA</td>
+<td>Both: trust anchor for every NF on the host</td>
+</tr>
+<tr>
+<td>vDefend DFW, IDS/IPS, NDR</td>
+<td>Traffic at the vNIC</td>
+<td>Microsegmentation, signature and behavior inspection</td>
+<td>Both: flow-level enforcement</td>
+</tr>
+<tr>
+<td>SBA mTLS + OAuth2</td>
+<td>SBI calls and token issuance</td>
+<td>Mutual TLS, JWT access tokens via the NRF</td>
+<td>Control plane: application-layer authentication</td>
+</tr>
+<tr>
+<td>Confidential computing (SEV-SNP / TDX)</td>
+<td>Data in use</td>
+<td>Per-VM memory encryption, hardware attestation</td>
+<td>Both: guest memory stays protected even from a compromised host</td>
+</tr>
+<tr>
+<td>ESX EDR (partner agents, VCF 9.1)</td>
+<td>Host process, file and network telemetry</td>
+<td>Partner agents in an isolated, read-only container</td>
+<td>Both: detection to pair with HyperArmor&#8217;s prevention</td>
+</tr>
+<tr>
+<td>AI-assisted analysis</td>
+<td>All of the above</td>
+<td>Correlation, vulnerability triage, policy drafting</td>
+<td>Both: reasoning above the enforcement layers</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p>HyperArmor prevents at the host, ESX EDR detects at the host, vDefend covers the network, mTLS and OAuth2 cover the service-based interfaces, and confidential computing covers memory. An attacker who slips past one layer may still be stopped or seen by another, but that might not be enough sometimes so host hardening, management-plane monitoring, identity controls, and tested recovery remain mandatory.</p>
+<div class="wp-block-image">
+<figure class="aligncenter size-full is-resized"><img fetchpriority="high" decoding="async" width="940" height="634" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_c898b3.png" alt="" class="wp-image-36635" style="width:752px;height:auto" srcset="https://blogs.vmware.com/wp-content/uploads/2026/11/image_c898b3.png 940w, https://blogs.vmware.com/wp-content/uploads/2026/11/image_c898b3.png?resize=300,202 300w, https://blogs.vmware.com/wp-content/uploads/2026/11/image_c898b3.png?resize=768,518 768w, https://blogs.vmware.com/wp-content/uploads/2026/11/image_c898b3.png?resize=600,405 600w" sizes="(max-width: 940px) 100vw, 940px" /></figure>
+</div>
+<p>One important point to remember is that vDefend rules are enforced by the hypervisor, mTLS terminates in VMs or the hypervisor hosts, and confidential VMs still depend on the ESX host for lifecycle and availability. HyperArmor is the layer that protects the layer everything else relies on.</p>
+<h2 class="wp-block-heading" id="h-conclusion"><strong>Conclusion</strong></h2>
+<p>HyperArmor turns the hypervisor under your 5G core and edge from an assumed-trust layer into an enforced trust boundary. It tackles the two problems behind most hypervisor attacks: stolen root credentials through SSH MFA and unpatched flaws through host-level virtual patching. Positive guardrails stop unauthorized code even when an attacker reaches the host.</p>
+<p>On the control plane, it shields the hosts holding your most sensitive keys and credential stores, where one breach can spread network-wide. On the user plane, it brings strong host protection to edge sites where patching is slowest, physical security is weakest, and on-site response is absent without taxing the dataplane or breaking vendor certification.</p>
+<p>Ready to harden your telco infrastructure?</p>
+<ul class="wp-block-list">
+<li>Explore more about <a href="https://www.vmware.com/products/security/hyperarmor">VMware HyperArmor</a>.</li>
+<li>Contact your Broadcom account representative for assessment and proof-of-concept.</li>
+</ul>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/19/securing-5g-with-vmware-hyperarmor-on-vcf-telco-hypervisor-layer-defense-across-control-and-user-planes/">Securing 5G with VMware HyperArmor on VCF Telco: Hypervisor-Layer Defense across Control and User Planes</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/19/securing-5g-with-vmware-hyperarmor-on-vcf-telco-hypervisor-layer-defense-across-control-and-user-planes/">Securing 5G with VMware HyperArmor on VCF Telco: Hypervisor-Layer Defense across Control and User Planes</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10110276</post-id>	</item>
+		<item>
 		<title>VCF 9.1 VPC Networking, Part 1: From External Connection to Virtual Private Cloud</title>
 		<link>https://blogs.vmware.com/cloud-foundation/2026/11/18/vcf-9-1-vpc-networking-part-1-from-external-connection-to-virtual-private-cloud/</link>
 		
@@ -28,10 +257,10 @@
 				<category><![CDATA[Cloud Infrastructure]]></category>
 		<guid isPermaLink="false">https://blogs.vmware.com/?p=10110014</guid>
 
-					<description><![CDATA[<img width="299" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc-part1-opt4-layer-stack.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" fetchpriority="high" /><p>Series · Part 1 of 6 The VCF 9.1 VPC Networking Mental Model 1VCF 9.1 VPC Networking, Part 1: From External Connection to VPCYou are here 2VCF 9.1 VPC Networking, Part 2: IP Blocks, External Connections, Transit Gateways, Subnets and NATComing soon 3VCF 9.1 VPC Networking, Part 3: The Distributed Transit GatewayComing soon 4VCF 9.1 &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/18/vcf-9-1-vpc-networking-part-1-from-external-connection-to-virtual-private-cloud/">Continued</a></p>
+					<description><![CDATA[<img width="299" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc-part1-opt4-layer-stack.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Series · Part 1 of 6 The VCF 9.1 VPC Networking Mental Model 1VCF 9.1 VPC Networking, Part 1: From External Connection to VPCYou are here 2VCF 9.1 VPC Networking, Part 2: IP Blocks, External Connections, Transit Gateways, Subnets and NATComing soon 3VCF 9.1 VPC Networking, Part 3: The Distributed Transit GatewayComing soon 4VCF 9.1 &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/18/vcf-9-1-vpc-networking-part-1-from-external-connection-to-virtual-private-cloud/">Continued</a></p>
 <p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/18/vcf-9-1-vpc-networking-part-1-from-external-connection-to-virtual-private-cloud/">VCF 9.1 VPC Networking, Part 1: From External Connection to Virtual Private Cloud</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
-										<content:encoded><![CDATA[<img width="299" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc-part1-opt4-layer-stack.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc-part1-opt4-layer-stack.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png 2400w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png?resize=1536,864 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png?resize=2048,1152 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png?resize=600,338 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+										<content:encoded><![CDATA[<img width="299" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc-part1-opt4-layer-stack.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc-part1-opt4-layer-stack.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png 2400w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png?resize=1536,864 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png?resize=2048,1152 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part1-opt4-layer-stack.png?resize=600,338 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
 <figure style="margin:0 0 1.3em"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc1-header-card.png" alt="The build order for a VPC in VCF 9.1: provider constructs, delegation, then the project build" style="max-width:100%;height:auto;display:block;border-radius:8px" /></figure>
 <div style="margin:1.3em 0;background:#f4f6f8;border:1px solid #e1e5ea;border-top:3px solid #0091da;border-radius:10px;padding:26px 30px 18px;box-sizing:border-box">
 <div style="font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#0072a3;margin:0 0 6px;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">Series · Part 1 of 6</div>
@@ -1157,84 +1386,5 @@ for comp in sorted(os.listdir(C)):
 		
 		
 		<post-id xmlns="com-wordpress:feed-additions:1">10109213</post-id>	</item>
-		<item>
-		<title>Strengthening Cloud-Native Security Through Upstream Collaboration</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/11/12/strengthening-cloud-native-security-through-upstream-collaboration/</link>
-		
-		<dc:creator><![CDATA[Natalie Fisher]]></dc:creator>
-		<pubDate>Thu, 12 Nov 2026 16:00:00 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10108074</guid>
-
-					<description><![CDATA[<img width="300" height="167" src="https://blogs.vmware.com/wp-content/uploads/2026/11/AI-Security.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Open source has always been foundational to cloud-native computing. Kubernetes itself is the product of thousands of contributors, but the platforms we build around it depend on an even broader ecosystem of projects spanning networking, storage, identity, backup and recovery, cluster lifecycle management, and more. At Broadcom, contributing to that ecosystem has long meant more &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/12/strengthening-cloud-native-security-through-upstream-collaboration/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/12/strengthening-cloud-native-security-through-upstream-collaboration/">Strengthening Cloud-Native Security Through Upstream Collaboration</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="167" src="https://blogs.vmware.com/wp-content/uploads/2026/11/AI-Security.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="167" src="https://blogs.vmware.com/wp-content/uploads/2026/11/AI-Security.jpeg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/AI-Security.jpeg 2752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/AI-Security.jpeg?resize=300,167 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/AI-Security.jpeg?resize=768,429 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/AI-Security.jpeg?resize=1024,572 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/AI-Security.jpeg?resize=1536,857 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/AI-Security.jpeg?resize=2048,1143 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/AI-Security.jpeg?resize=600,335 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<p>Open source has always been foundational to cloud-native computing. Kubernetes itself is the product of thousands of contributors, but the platforms we build around it depend on an even broader ecosystem of projects spanning networking, storage, identity, backup and recovery, cluster lifecycle management, and more.</p>
-<p>At Broadcom, contributing to that ecosystem has long meant more than consuming open source software. Our engineers contribute code, participate in communities, work alongside maintainers, and help projects evolve based on what we learn from running cloud-native technologies at enterprise scale.</p>
-<p>Increasingly, we’re also thinking about another dimension of that responsibility: security.</p>
-<p>The cloud-native world is expanding, and AI is shifting how we build and secure software. That opens up fresh ways to catch security risks while doubling down on what always works, which is direct, open collaboration with upstream communities.</p>
-<h1 class="wp-block-heading" id="h-security-is-a-shared-responsibility">Security Is a Shared Responsibility</h1>
-<p>Cloud-native infrastructure is inherently interconnected and a Kubernetes environment isn’t simply Kubernetes. It depends on projects responsible for cluster lifecycle, identity, storage, networking, backup and recovery, and many other capabilities. A security improvement in one of those projects can benefit far more than a single product or vendor.</p>
-<p>That’s one reason we’ve expanded some of our upstream work to include proactive security research across open source projects that are important to the cloud-native ecosystem.</p>
-<p>Our engineers work across projects including etcd, Cluster API, Pinniped, and Velero, where they work to identify potential issues, investigate them with project maintainers, and help move validated findings toward resolution.</p>
-<p>The objective isn’t simply to find more vulnerabilities. It’s to help make the software that all of us depend on safer and more resilient.</p>
-<h1 class="wp-block-heading" id="h-finding-an-issue-is-only-the-beginning">Finding an Issue Is Only the Beginning</h1>
-<p>One thing this work has reinforced is that identifying a potential security issue and resolving one are very different things.</p>
-<p>Modern AI tools can help engineers analyze large codebases and surface potential problems at a scale that would have been extraordinarily difficult through manual analysis alone. That’s a powerful capability, and one we believe can augment the work security researchers and software engineers are already doing.</p>
-<p>But an AI-generated finding isn’t automatically a vulnerability.</p>
-<p>Someone still has to understand the code. Is the behavior actually exploitable? Under what conditions? Which versions are affected? Is the proposed remediation appropriate? Could a fix introduce a regression somewhere else?</p>
-<p>And in open source, there’s another critical participant in that process: the maintainer.</p>
-<p>Maintainers understand the architecture, history, and operational realities of their projects. Responsible security work therefore requires collaboration by bringing potential findings to the appropriate project, validating them together, developing and reviewing fixes, and coordinating disclosure and releases when necessary.</p>
-<p>AI can accelerate parts of that process. It doesn’t replace it.</p>
-<h1 class="wp-block-heading" id="h-from-findings-to-upstream-fixes">From Findings to Upstream Fixes</h1>
-<p>We have seen the tangible impact of that upstream collaboration across several core projects:&nbsp;</p>
-<ul class="wp-block-list">
-<li><strong>Velero</strong>: The work contributed directly to fixes for two published GitHub Security Advisories in the 1.18.3 release.</li>
-<li><strong>etcd</strong>: Research not only resolved issues across supported release branches but also updated the project’s threat model.</li>
-<li><strong>Cluster API</strong> and <strong>Pinniped</strong>: Findings were validated with community maintainers to deliver upstream remediations.</li>
-</ul>
-<h2 class="wp-block-heading" id="h-project-highlights">Project Highlights</h2>
-<ul class="wp-block-list">
-<li><strong>Velero (v1.18.3)</strong>: Coordinated and resolved security advisories<a href="https://github.com/velero-io/velero/security/advisories/GHSA-vrfp-2x59-hcfm"> GHSA-vrfp-2&#215;59-hcfm</a> and<a href="https://github.com/velero-io/velero/security/advisories/GHSA-8gv3-c356-fw76"> GHSA-8gv3-c356-fw76</a> upstream in release <strong>v1.18.3</strong> (integrated downstream in VMware vSphere Kubernetes Service (<strong>VKS</strong>)<strong> Add-ons v3.7.0+20260924</strong>), authoring patch remediation and performing end-to-end backup/restore validation.</li>
-<li><strong>etcd (v3.5.33 / v3.6.14 / v3.7.1)</strong>: Discovered and disclosed<a href="https://nvd.nist.gov/vuln/detail/cve-2026-73500"> CVE-2026-73500</a>, contributed upstream patch remediation backported across releases <strong>v3.5.33</strong>, <strong>v3.6.14</strong>, and <strong>v3.7.1</strong> (integrated downstream in vSphere Kubernetes Release (<strong>VKr</strong>)<strong> Oct Releases</strong>), and updated distributed state storage threat models.</li>
-<li><strong>Cluster API (v1.12.11, v1.13.5, v1.14.0)</strong>: Screened and validated findings upstream, contributing bug fixes and hardening controller reconciliation logic.</li>
-<li><strong>Pinniped (v0.47.0)</strong>: Identified authentication credential handling vulnerabilities under<a href="https://nvd.nist.gov/vuln/detail/cve-2026-59269"> CVE-2026-59269</a>, developed upstream remediation released in <strong>v0.47.0</strong> (integrated downstream in <strong>VKr Oct Releases</strong>), and verified identity provider integration tests.</li>
-</ul>
-<h2 class="wp-block-heading" id="h-impact-by-the-numbers">Impact by the Numbers</h2>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="186" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_3f09a6.png" alt="" class="wp-image-36381" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_3f09a6.png 1212w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_3f09a6.png?resize=300,54 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_3f09a6.png?resize=768,139 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_3f09a6.png?resize=1024,186 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_3f09a6.png?resize=600,109 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
-<p>*Validated as Fixed Upstream: Pull Request with a fix was merged upstream and cherry picked when appropriate.</p>
-<h2 class="wp-block-heading" id="h-from-ai-findings-to-upstream-security-improvements">From AI Findings to Upstream Security Improvements</h2>
-<p>Identifying potential vulnerabilities is only the beginning. Turning AI-generated findings into meaningful security improvements requires careful validation, collaboration with upstream maintainers, and an understanding of each project’s architecture and threat model.</p>
-<p>As <strong>Pushkar Joglekar</strong>, a Kubernetes maintainer who led this vulnerability discovery research, explained, an important part of the process was ensuring that findings were reviewed from a maintainer’s perspective before being shared with upstream projects.</p>
-<p><em>“One non-negotiable requirement was to have every AI-generated finding filtered through a maintainer persona, so that when we request maintainer review time – a highly constrained resource – we are not wasting it by disclosing raw findings, which are often overstated or reflect intentional design decisions.”</em></p>
-<p>This approach helped ensure that maintainer attention was focused on findings that warranted further investigation rather than potential issues already understood or accounted for in the project’s design.</p>
-<p>For etcd, this collaboration also created opportunities to strengthen how security issues are evaluated. <strong>Benjamin Wang</strong>, an etcd maintainer, described how the work extended beyond validating vulnerabilities and developing patches to refining the project’s threat model and clarifying vulnerability boundaries.</p>
-<p>These outcomes were not limited to identifying security vulnerabilities. In the Cluster API project, the research also provided opportunities to evaluate existing security practices and identify areas for additional hardening.</p>
-<p>As longtime Cluster API maintainers <strong>Fabrizio Pandini</strong> and <strong>Stefan Büringer</strong> observed:</p>
-<p><em>“Usage of AI models provides a new valuable source of input for this work, which led to a series of useful robustness / hardening improvements.”</em></p>
-<p>They also emphasized that the absence of major findings reinforced the value of the project’s established security processes and ongoing collaboration with the Kubernetes Security Response Committee.</p>
-<p>Together, these experiences demonstrate that AI-assisted vulnerability discovery is most valuable when paired with maintainer expertise and established upstream security practices. The result is not simply more findings, but better-informed security decisions and opportunities to strengthen the resilience of the projects the cloud-native ecosystem depends on.</p>
-<h1 class="wp-block-heading" id="h-strengthening-the-ecosystem-we-all-depend-on">Strengthening the Ecosystem We All Depend On</h1>
-<p>There is a tendency in technology to talk about open source contribution primarily in terms of features: a new capability contributed upstream, a new project donated to a foundation, or a new integration built with another project.</p>
-<p>Those contributions matter.</p>
-<p>But maintaining a healthy open source ecosystem also means doing some of the less visible work required to make that ecosystem dependable. This includes testing, reviewing, fixing, documenting, maintaining, and increasingly, proactively looking for ways to improve security.</p>
-<p>For Broadcom, that’s an important part of what upstream participation means.</p>
-<p>We build products using cloud-native open source technologies. Our customers rely on those technologies. Our engineers participate in the communities that maintain them.</p>
-<p>When we combine our engineering expertise with emerging tools like AI to identify an issue, collaborate with maintainers, and contribute an improvement upstream, the benefit extends well beyond Broadcom.</p>
-<p>It strengthens the shared foundation we’re all building on.</p>
-<p>And as cloud-native infrastructure becomes the foundation for the next generation of applications and AI workloads, continuing to invest in that foundation may be one of the most important contributions we can make.</p>
-<h1 class="wp-block-heading" id="h-resources">Resources</h1>
-<ul class="wp-block-list">
-<li><a href="http://vmware.com/vks">Learn more about VKS</a></li>
-<li><a href="https://blogs.vmware.com/cloud-foundation/2026/11/10/running-agent-substrate-on-vmware-vsphere-kubernetes-service/">Running agent substrate on VKS</a></li>
-<li><a href="https://blogs.vmware.com/cloud-foundation/2026/11/09/advancing-the-cloud-native-ecosystem-through-open-collaboration/">Advancing the Cloud-Native Ecosystem Through Open Collaboration</a></li>
-</ul>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/12/strengthening-cloud-native-security-through-upstream-collaboration/">Strengthening Cloud-Native Security Through Upstream Collaboration</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/12/strengthening-cloud-native-security-through-upstream-collaboration/">Strengthening Cloud-Native Security Through Upstream Collaboration</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10108074</post-id>	</item>
 	</channel>
 </rss>
