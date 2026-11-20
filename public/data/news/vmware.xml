@@ -12,7 +12,7 @@
 	<atom:link href="https://blogs.vmware.com/feed" rel="self" type="application/rss+xml" />
 	<link>https://blogs.vmware.com/</link>
 	<description>VMware Blogs</description>
-	<lastBuildDate>Thu, 19 Nov 2026 19:20:16 +0000</lastBuildDate>
+	<lastBuildDate>Fri, 20 Nov 2026 15:12:49 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -20,6 +20,329 @@
 	1	</sy:updateFrequency>
 	<generator>https://wordpress.org/?v=6.8.13</generator>
 <site xmlns="com-wordpress:feed-additions:1">237817777</site>	<item>
+		<title>Migrate from vSAN OSA to vSAN ESA in VCF 9.1 Without Extra Hardware</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/11/20/migrate-from-vsan-osa-to-vsan-esa-in-vcf-9-1-without-extra-hardware/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Fri, 20 Nov 2026 13:00:00 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10110548</guid>
+
+					<description><![CDATA[<img width="299" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/11/MigratetovSANESA-FI.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" fetchpriority="high" /><p>The use of extra hardware has been a common element in migrations and upgrades. Extra servers would be provisioned as a new vSphere or vSAN cluster, and workloads would be moved over using vMotion and storage vMotion. It was the de facto approach for migrating from vSAN OSA to vSAN ESA, since no classic in-place &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/20/migrate-from-vsan-osa-to-vsan-esa-in-vcf-9-1-without-extra-hardware/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/20/migrate-from-vsan-osa-to-vsan-esa-in-vcf-9-1-without-extra-hardware/">Migrate from vSAN OSA to vSAN ESA in VCF 9.1 Without Extra Hardware</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="299" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/11/MigratetovSANESA-FI.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/11/MigratetovSANESA-FI.png" class="attachment-medium size-medium wp-post-image" alt="Migrate from vSAN OSA to ESA using decoupled swing migration" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/MigratetovSANESA-FI.png 1200w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/MigratetovSANESA-FI.png?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/MigratetovSANESA-FI.png?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/MigratetovSANESA-FI.png?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/MigratetovSANESA-FI.png?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/MigratetovSANESA-FI.png?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/MigratetovSANESA-FI.png?resize=600,338 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<p>The use of extra hardware has been a common element in migrations and upgrades. Extra servers would be provisioned as a new vSphere or vSAN cluster, and workloads would be moved over using vMotion and storage vMotion. It was the de facto approach for migrating from vSAN OSA to vSAN ESA, since no classic in-place migration between the two architectures exist.</p>
+<p>But the pricing and availability of hardware in the data center has demanded a more prudent approach. Customers have shared with us that they clearly understand the benefit that vSAN ESA delivers, but are now looking for a leaner, minimalist path to transition their workloads and data to ESA. <strong>New capabilities within vSAN now make migrations from OSA to ESA easier and more cost efficient!</strong></p>
+<h2 class="wp-block-heading" id="h-a-classic-swing-migration">A Classic Swing Migration</h2>
+<p>Our telemetry data shows a<strong> large percentage of VMware customers running vSphere or vSAN OSA have servers that fully support vSAN ESA. </strong>Many of these servers running OSA already use NVMe storage devices in place—one of the primary requirements for ESA. Other servers often have the appropriate NVMe backplane, and just need NVMe storage devices to be ready for ESA.</p>
+<p>The primary migration method used in the scenario described above was a classic swing migration. As shown in “<em>Scenario 2 &gt; Migration Option 2”</em> in the post “<a href="https://blogs.vmware.com/cloud-foundation/2023/01/01/migrating-to-the-express-storage-architecture-in-vsan-8/" target="_blank" rel="noreferrer noopener">Migrating to the Express Storage Architecture in vSAN</a>,” three to six extra hosts were used to create a new cluster followed by a vMotion and storage vMotion migration of the workloads off of the old cluster to the new cluster. When sufficient resources were free on the old cluster, the remaining hosts would be decommissioned and reprovisioned as hosts in the new vSAN ESA cluster.</p>
+<figure class="wp-block-image size-large"><img decoding="async" height="531" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vSAN-Traditional-Swing-Migration-from-OSA-to-ESA.gif" alt="" class="wp-image-36672" /></figure>
+<p>Figure 1. Classic swing migration from vSAN OSA to ESA</p>
+<p>While this strategy is very simple, some found its inherent limitations difficult to overcome, including:</p>
+<ul class="wp-block-list">
+<li><strong>A lack of extra swing hosts to perform this migration. </strong>The cost and availability of hardware has meant that for many customers, there are no eligible extra hosts available for this task.</li>
+<li><strong>Insufficient swing hosts to maintain required levels of resilience.</strong> Some organizations have a strict requirement on higher levels of resilience, which means they must start with a cluster of six hosts instead of just three.</li>
+<li><strong>Insufficient rack space and network uplinks to accommodate swing hosts. </strong>Rack space and network uplinks can also be at a premium, especially when trying to place hosts in the appropriate leaf of a spine-leaf network.</li>
+<li><strong>Logistics of moving VM instances and data at the same time.</strong> This type of migration previously required the VM instance and the storage must be migrated at the same time. This could be a heavy lift depending on the circumstances.</li>
+</ul>
+<h2 class="wp-block-heading" id="h-a-new-decoupled-swing-migration">A New Decoupled Swing Migration</h2>
+<p><a href="https://blogs.vmware.com/cloud-foundation/2026/05/12/vsan-storage-clusters-in-vcf-9-1/" target="_blank" rel="noreferrer noopener">vSAN in VMware Cloud Foundation (VCF) 9.1 introduced more flexibility with mounting remote datastores</a>, where <strong>vSAN OSA clusters can mount the datastore of vSAN ESA clusters, and vice versa.</strong> One can use this capability to perform a <strong><em>decoupled swing migration</em></strong>, where workloads can be migrated from one cluster to another with minimal spare resources. Depending on the circumstances, this decoupled swing migration requires no extra hardware using swing hosts, and is very close in principle to an in-place upgrade of a cluster from OSA to ESA.</p>
+<p>Not only will this migration method allow you to potentially avoid the use of swing hosts, but it will also maintain full data resilience of your workloads. Traditional swing migrations were more susceptible to temporary degradations in resilience as cluster host counts changed.</p>
+<h2 class="wp-block-heading" id="h-what-the-workflow-looks-like">What the Workflow Looks Like</h2>
+<p>In this example, we will use a vSAN OSA cluster consisting of 20 hosts, with a high amount of CPU utilization, and ~40% storage capacity used. The hosts are fully compatible with ESA, but are running vSAN OSA. This particular example will not use any extra hardware as swing hosts, and have a maximum of only one host&#8217;s worth of compute resources offline (N-1) at any given time.</p>
+<ol class="wp-block-list">
+<li>Enter one host into maintenance mode, remove any disk claiming for that host, and remove it from the OSA cluster.</li>
+<li>Create a new vSAN ESA cluster, and move this “host 1” into a new vSAN ESA cluster. <strong>For the first eight hosts, do not claim any of the disks in yet</strong>, as it will only be providing compute resources initially.</li>
+<li>Mount the OSA cluster’s datastore to the new vSAN ESA cluster using the datastore sharing feature in 9.1.</li>
+<li>Perform a<strong> vMotion (compute only)</strong> of running VMs onto this first host. This allows the data to remain fully resilient on the new cluster as it is initially being provisioned.</li>
+<li>Repeat the process above, one host at a time, until 8 hosts have been moved to the new vSAN ESA cluster. At this point, the OSA cluster will be consuming about 67% of the available cluster capacity.</li>
+<li>Claim all of the appropriate storage devices for the hosts in the 8-host vSAN ESA cluster. <a href="https://blogs.vmware.com/cloud-foundation/2026/05/08/auto-raid-in-vsan-for-vcf-9-1/" target="_blank" rel="noreferrer noopener">Auto-RAID in vSAN for VCF 9.1</a> will automatically set the highest level of data resilience for you. Mount the ESA cluster’s datastore to the vSAN OSA cluster using the datastore sharing feature in 9.1.</li>
+<li>From the ESA cluster, perform a <strong>storage vMotion of all VM objects </strong>from the OSA cluster to the ESA cluster.</li>
+<li>For the ninth host in the OSA cluster, enter the host into maintenance mode, remove any disk claiming for that host, and remove it from the OSA cluster. Add this host to the new ESA cluster and claim the appropriate storage devices.</li>
+<li>Perform a vMotion (compute only) of one host’s worth of VM workloads.</li>
+<li>Repeat steps 8 and 9, until all of the remaining hosts in the OSA cluster have been migrated to the ESA cluster.</li>
+<li>Enable the Automatic Rebalance capability in the new vSAN ESA cluster.</li>
+</ol>
+<figure class="wp-block-image size-large"><a href="https://www.youtube.com/watch?v=FZaA2znY8gg" target="_blank" rel=" noreferrer noopener"><img decoding="async" height="582" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/MigratetovSANESA-VideoThumb.png" alt="" class="wp-image-36671" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/MigratetovSANESA-VideoThumb.png 1214w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/MigratetovSANESA-VideoThumb.png?resize=300,171 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/MigratetovSANESA-VideoThumb.png?resize=768,437 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/MigratetovSANESA-VideoThumb.png?resize=1024,582 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/MigratetovSANESA-VideoThumb.png?resize=600,341 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></a></figure>
+<p>Figure 2. Decoupled swing migration from vSAN OSA to ESA without using extra hardware (video)</p>
+<p>In this particular scenario,<strong> there was never more than one host’s worth of compute capacity offline at any point. </strong>The initial 20-host OSA cluster required a substantial amount of free capacity because the cluster capacity decreased significantly during the initial 8-host cluster provisioning process, as shown in step 5, above. The initial capacity utilization, the overall cluster host count, and other variables will impact what is possible using this type of migration that does not use any extra swing hosts.</p>
+<h2 class="wp-block-heading" id="h-who-can-benefit">Who Can Benefit</h2>
+<p>A decoupled swing migration of workloads to a new vSAN ESA cluster using existing hardware is ideal for customers who:</p>
+<ul class="wp-block-list">
+<li>Currently <strong>have vSAN OSA clusters using server hardware compatible with vSAN ESA</strong>.</li>
+<li>Currently have vSAN OSA clusters with high workload CPU utilization, but relatively low storage capacity utilization.</li>
+<li>Currently have little to no extra server hardware or rack space to help with migration from vSAN OSA to ESA.</li>
+<li>Prefer to decouple the migration of VM instances (via vMotion) from VM storage (via storage vMotion).</li>
+<li>Must maintain the prescribed levels of resilience during the migration.</li>
+</ul>
+<h2 class="wp-block-heading" id="h-requirements-and-caveats">Requirements and Caveats</h2>
+<p>While this more granular method of migration can minimize the need for spare hardware resources, it can introduce additional steps and other considerations, including, but not limited to:</p>
+<ul class="wp-block-list">
+<li><strong>Cluster host count. </strong>This decoupled swing migration is ideal for larger cluster sizes similar to the example shown above. Larger cluster host counts help keep the percentage of resources absent to a minimum while the migration process takes place.</li>
+<li><strong>Storage capacity utilization in cluster.</strong> A decoupled swing migration requires sufficient free storage capacity on the cluster. This is because several hosts that contribute storage capacity must first be removed from the cluster.</li>
+<li><strong>vSAN version.</strong> This decoupled swing migration uses a feature introduced in vSAN for VCF 9.1.</li>
+<li><strong>Hardware.</strong>  The server hardware must be compatible with vSAN ESA.  For some environments where the hardware is not already compatible, this may be as little as replacing the storage devices to NVMe storage devices during the decoupled swing migration.</li>
+</ul>
+<p>Much like the traditional swing migration, the <strong>decoupled swing migration does not apply to first class disks (CNS persistent volumes for Kubernetes), vSAN file services shares, and vSAN iSCSI volumes. </strong>This data will need to be migrated independent from this migration prior to the OSA cluster being retired. The vSAN Performance Service on the OSA cluster must also be turned off before the OSA cluster can be fully decommissioned.</p>
+<p><em><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-vivid-cyan-blue-color">Recommendation: On the new ESA cluster, do not enable the “Automatic Rebalance” service until the migration has been completed. This will minimize any unnecessary rebalancing until after the migration procedure is complete.</mark></em></p>
+<h2 class="wp-block-heading" id="h-let-s-hear-from-you">Let’s Hear from You!</h2>
+<p>The vSAN Product Team is interested if streamlining this process would be useful for your environment. <a href="https://docs.google.com/forms/d/e/1FAIpQLSelWXc5Iv-heA_yoeXE3EkEso0XQQuErQOCq5fPHQ0P6QLeAQ/viewform?usp=header" target="_blank" rel="noreferrer noopener"><strong>Please take this brief survey</strong></a> to help us better understand your specific environment, and how we can help you accomplish these types of OSA-to-ESA migrations easier.</p>
+<h2 class="wp-block-heading" id="h-summary">Summary</h2>
+<p>There is a good chance that your server hardware running vSAN OSA can run vSAN ESA as well. Thanks to new capabilities in vSAN for VCF 9.1, a decoupled swing migration can make this transition easier and more cost-efficient than ever before. For more information on migrating to vSAN, see the<a href="https://www.vmware.com/docs/vmw-vsan-migration-guide" target="_blank" rel="noreferrer noopener"> vSAN Migration Guide</a>.</p>
+<p><a href="https://x.com/vmpete" target="_blank" rel="noreferrer noopener">@vmpete</a></p>
+</p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/20/migrate-from-vsan-osa-to-vsan-esa-in-vcf-9-1-without-extra-hardware/">Migrate from vSAN OSA to vSAN ESA in VCF 9.1 Without Extra Hardware</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/20/migrate-from-vsan-osa-to-vsan-esa-in-vcf-9-1-without-extra-hardware/">Migrate from vSAN OSA to vSAN ESA in VCF 9.1 Without Extra Hardware</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10110548</post-id>	</item>
+		<item>
+		<title>VCF 9.1 VPC Networking, Part 2: IP Blocks, External Connections, Transit Gateways, Subnets, and NAT</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/11/19/vcf-9-1-vpc-networking-part-2-ip-blocks-external-connections-transit-gateways-subnets-and-nat/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Fri, 20 Nov 2026 06:09:37 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10110403</guid>
+
+					<description><![CDATA[<img width="299" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc-part2-opt1-one-object-one-job.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Series · Part 2 of 6 The VCF 9.1 VPC Networking Mental Model 1VCF 9.1 VPC Networking, Part 1: From External Connection to VPC 2VCF 9.1 VPC Networking, Part 2: IP Blocks, External Connections, Transit Gateways, Subnets, and NATYou are here 3VCF 9.1 VPC Networking, Part 3: The Distributed Transit GatewayComing soon 4VCF 9.1 VPC &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/19/vcf-9-1-vpc-networking-part-2-ip-blocks-external-connections-transit-gateways-subnets-and-nat/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/19/vcf-9-1-vpc-networking-part-2-ip-blocks-external-connections-transit-gateways-subnets-and-nat/">VCF 9.1 VPC Networking, Part 2: IP Blocks, External Connections, Transit Gateways, Subnets, and NAT</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="299" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc-part2-opt1-one-object-one-job.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc-part2-opt1-one-object-one-job.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part2-opt1-one-object-one-job.png 2400w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part2-opt1-one-object-one-job.png?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part2-opt1-one-object-one-job.png?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part2-opt1-one-object-one-job.png?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part2-opt1-one-object-one-job.png?resize=1536,864 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part2-opt1-one-object-one-job.png?resize=2048,1152 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part2-opt1-one-object-one-job.png?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part2-opt1-one-object-one-job.png?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/vpc-part2-opt1-one-object-one-job.png?resize=600,338 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<figure style="margin:0 0 1.3em"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-header-card.png" alt="One mental model for VPC connectivity in VCF 9.1: IP blocks, External Connections, Transit Gateways, Connectivity Profiles and subnet access modes" style="max-width:100%;height:auto;display:block;border-radius:8px" /></figure>
+<div style="margin:1.3em 0;background:#f4f6f8;border:1px solid #e1e5ea;border-top:3px solid #0091da;border-radius:10px;padding:26px 30px 18px;box-sizing:border-box">
+<div style="font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#0072a3;margin:0 0 6px;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">Series · Part 2 of 6</div>
+<div style="font-size:24px;font-weight:700;color:#1a1a1a;margin:0 0 18px;line-height:1.25;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">The VCF 9.1 VPC Networking Mental Model</div>
+<div style="display:flex;align-items:flex-start;gap:16px;padding:14px 18px;margin:0 0 6px"><span style="flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#fff;border:1.5px solid #0091da;color:#0072a3;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">1</span><span style="flex:1 1 auto;min-width:0"><a href="https://blogs.vmware.com/cloud-foundation/2026/11/18/vcf-9-1-vpc-networking-part-1-from-external-connection-to-virtual-private-cloud/" style="display:block;font-size:19px;font-weight:700;color:#0072a3;line-height:1.3;text-decoration:none;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">VCF 9.1 VPC Networking, Part 1: From External Connection to VPC</a></span></div>
+<div style="display:flex;align-items:flex-start;gap:16px;background:#fff;border-left:3px solid #0091da;border-radius:6px;padding:14px 18px 14px 15px;margin:0 0 14px"><span style="flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#0091da;color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">2</span><span style="flex:1 1 auto;min-width:0"><span style="display:block;font-size:19px;font-weight:700;color:#1a1a1a;line-height:1.3;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">VCF 9.1 VPC Networking, Part 2: IP Blocks, External Connections, Transit Gateways, Subnets, and NAT</span><span style="display:block;font-size:15px;color:#0072a3;margin-top:4px;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">You are here</span></span></div>
+<div style="display:flex;align-items:flex-start;gap:16px;padding:14px 18px;margin:0 0 6px"><span style="flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#fff;border:1.5px solid #cfd5dc;color:#4a5562;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">3</span><span style="flex:1 1 auto;min-width:0"><span style="display:block;font-size:19px;font-weight:700;color:#4a5562;line-height:1.3;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">VCF 9.1 VPC Networking, Part 3: The Distributed Transit Gateway<span style="display:inline-block;vertical-align:middle;margin-left:10px;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b7682;background:#fff;border:1px solid #cfd5dc;border-radius:999px;padding:2px 10px;line-height:1.5;white-space:nowrap;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">Coming soon</span></span></span></div>
+<div style="display:flex;align-items:flex-start;gap:16px;padding:14px 18px;margin:0 0 6px"><span style="flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#fff;border:1.5px solid #cfd5dc;color:#4a5562;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">4</span><span style="flex:1 1 auto;min-width:0"><span style="display:block;font-size:19px;font-weight:700;color:#4a5562;line-height:1.3;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">VCF 9.1 VPC Networking, Part 4: VLAN Extension Under the Hood<span style="display:inline-block;vertical-align:middle;margin-left:10px;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b7682;background:#fff;border:1px solid #cfd5dc;border-radius:999px;padding:2px 10px;line-height:1.5;white-space:nowrap;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">Coming soon</span></span></span></div>
+<div style="display:flex;align-items:flex-start;gap:16px;padding:14px 18px;margin:0 0 6px"><span style="flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#fff;border:1.5px solid #cfd5dc;color:#4a5562;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">5</span><span style="flex:1 1 auto;min-width:0"><span style="display:block;font-size:19px;font-weight:700;color:#4a5562;line-height:1.3;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">VCF 9.1 VPC Networking, Part 5: Four Gates for VPC Traffic<span style="display:inline-block;vertical-align:middle;margin-left:10px;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b7682;background:#fff;border:1px solid #cfd5dc;border-radius:999px;padding:2px 10px;line-height:1.5;white-space:nowrap;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">Coming soon</span></span></span></div>
+<div style="display:flex;align-items:flex-start;gap:16px;padding:14px 18px;margin:0 0 6px"><span style="flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:#fff;border:1.5px solid #cfd5dc;color:#4a5562;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">6</span><span style="flex:1 1 auto;min-width:0"><span style="display:block;font-size:19px;font-weight:700;color:#4a5562;line-height:1.3;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">VCF 9.1 VPC Networking, Part 6: The VPC North-South Firewall and Its Coverage<span style="display:inline-block;vertical-align:middle;margin-left:10px;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b7682;background:#fff;border:1px solid #cfd5dc;border-radius:999px;padding:2px 10px;line-height:1.5;white-space:nowrap;font-family:Inter,-apple-system,&#039;Segoe UI&#039;,Roboto,Helvetica,Arial,sans-serif">Coming soon</span></span></span></div>
+</div>
+<p>This is Part 2 of the series The VCF 9.1 VPC Networking Mental Model. <a href="https://blogs.vmware.com/cloud-foundation/2026/11/18/vcf-9-1-vpc-networking-part-1-from-external-connection-to-virtual-private-cloud/">Part 1</a> gave the build order. This part explains what each object does and how they relate.</p>
+<p>VMware Cloud Foundation (VCF) 9.1 puts a cloud-style Virtual Private Cloud (VPC) model on top of NSX. Each object is simple on its own. The value is in seeing how they fit: IP blocks provide addresses, External Connections provide paths, Transit Gateways provide shared routing, Connectivity Profiles bind that routing model to VPCs, and subnet access modes decide how far a workload can talk.</p>
+<h2 id="core-idea"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-core-idea.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Core idea</h2>
+<p>An IP block answers &#8220;which addresses may I use?&#8221; An External Connection answers &#8220;which external path may traffic use?&#8221; A Transit Gateway answers &#8220;how do several VPCs share routing?&#8221; A Connectivity Profile carries that Transit Gateway design into a VPC. The subnet access mode answers &#8220;how visible should this workload network be?&#8221;</p>
+<figure style="margin:1.3em 0"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-figure-01.png" alt="The complete block diagram: provider objects, project allocation, and where each route is visible." style="border:1px solid #e1e5ea;border-radius:8px;max-width:100%;height:auto;display:block" /><figcaption style="font-size:13.5px;color:#6b7682;margin-top:8px">Figure 1. The complete block diagram: provider objects, project allocation, and where each route is visible.</figcaption></figure>
+<p>In everyday terms, think of an office phone system. Private subnets are internal extensions. Anyone in the building can dial 4021, but nobody outside can. Public subnets are direct-dial numbers listed in the phone book. NAT is the switchboard that places your outside call from the main number, so the person you ring sees the company number, not your extension. The IP blocks are the number ranges the company owns for each kind of line.</p>
+<h2 id="1-start-with-visibility-not-with-nat"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-1-start-with-visibility-not-with-nat.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />1. Start with visibility, not with NAT</h2>
+<p>Before you pick a subnet type, decide how far its routes must be visible.</p>
+<figure style="margin:1.3em 0"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-figure-02.png" alt="Three nested scopes. Route visibility is the first design decision." style="border:1px solid #e1e5ea;border-radius:8px;max-width:100%;height:auto;display:block" /><figcaption style="font-size:13.5px;color:#6b7682;margin-top:8px">Figure 2. Three nested scopes. Route visibility is the first design decision.</figcaption></figure>
+<p>This routing scope is the basic design decision. NAT is an extra translation service. It is not a substitute for knowing where routes exist.</p>
+<h2 id="2-why-are-there-several-ip-blocks"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-2-why-are-there-several-ip-blocks.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />2. Why are there several IP blocks?</h2>
+<p>VCF separates address ownership by the routing scope each block serves.</p>
+<figure style="margin:1.3em 0"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-figure-03.png" alt="In the lab: one VPC consumes three blocks. The Private VPC CIDR, the project&#x27;s Private TGW block and an External block shared from the Default project." style="border:1px solid #e1e5ea;border-radius:8px;max-width:100%;height:auto;display:block" /><figcaption style="font-size:13.5px;color:#6b7682;margin-top:8px">Figure 3. In the lab: one VPC consumes three blocks. The Private VPC CIDR, the project&#8217;s Private TGW block and an External block shared from the Default project.</figcaption></figure>
+<h3 id="external-ip-blocks"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-external-ip-blocks.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />External IP blocks</h3>
+<p>An External IP block supplies the addresses that give outside connectivity to VPC workloads. The docs list three uses:</p>
+<ul>
+<li>Public subnets</li>
+<li>External IPs</li>
+<li>Translated IPs for the system-created and user-defined NAT rules, including default outbound NAT</li>
+</ul>
+<p>External means outside the VPC, not necessarily the Internet. In the same way, a Public subnet means reachable from the outside data centre network, not necessarily exposed to the Internet.</p>
+<p>Two rules apply. External IP blocks must not overlap each other within a project or on the same Tier-0 gateway. They should not overlap with any other CIDR in use.</p>
+<h3 id="private-tgw-ip-blocks"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-private-tgw-ip-blocks.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Private TGW IP blocks</h3>
+<p>A Private TGW block creates Private-TGW subnets. These addresses are for inter-VPC communication through the Transit Gateway. The usual example is application VPCs reaching DNS, Active Directory, or monitoring in a shared services VPC.</p>
+<p>By default the Transit Gateway does not advertise them to the outside data centre. On a centralized connection the provider can turn on Advertised Private IP Blocks. You must then also add the TGW_PRIVATE route advertisement rule to the Transit Gateway attachment before the blocks are advertised.</p>
+<h3 id="private-vpc-cidr"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-private-vpc-cidr.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Private VPC CIDR</h3>
+<p>The Private VPC CIDR is set on the VPC itself. It supplies addresses to Private-VPC subnets. A Private-VPC subnet is reachable only from inside its VPC.</p>
+<p>Private VPC CIDRs may overlap between VPCs. That is useful for repeatable application blueprints and labs. Traffic from these subnets that leaves the VPC goes through NAT.</p>
+<h3 id="provider-outbound-snat-ip-block"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-provider-outbound-snat-ip-block.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Provider Outbound SNAT IP block</h3>
+<p>This block belongs to a provider setting on a centralized connection, Provider Outbound SNAT. It works like this:</p>
+<ul>
+<li>With the toggle on, the provider controls outgoing traffic, whatever the subnet type.</li>
+<li>The SNAT IP Block holds the ranges or CIDRs used as the translated IP. It must also be listed in Authorize External IP Blocks.</li>
+<li>With the toggle on, Authorize External IP Blocks becomes mandatory. Only the blocks listed there are advertised.</li>
+<li>Any other NAT rule on a Transit Gateway uplink has a higher priority than the provider outbound SNAT rule.</li>
+</ul>
+<h2 id="3-what-does-an-external-connection-define"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-3-what-does-an-external-connection-define.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />3. What does an External Connection define?</h2>
+<p>An External Connection is the path from a Transit Gateway to the outside network. The provider shares it with a project. The project attaches it to a Transit Gateway.</p>
+<h3 id="connection-type"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-connection-type.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Connection type</h3>
+<ul>
+<li>A Centralized connection links the Transit Gateway through a Tier-0 gateway on NSX Edge nodes, which provides the link to the physical fabric. You deploy the Edge nodes and manage their lifecycle. The Transit Gateway has its own HA mode.</li>
+<li>A Distributed VLAN connection gives lightweight connectivity to the data centre fabric with no NSX Edge nodes and no dynamic routing. Stateful services use Virtual Network Appliances (VNAs).</li>
+<li>A Distributed VXLAN connection is listed for 9.1.1 and later. It needs EVPN Route Controller nodes and a standards-based EVPN-VXLAN fabric.</li>
+</ul>
+<p>A Transit Gateway can have more than one External Connection, for example to separate Internet and intranet paths. All of them must be the same type: all centralized or all distributed. A VPC connects to only one Transit Gateway.</p>
+<figure style="margin:1.3em 0"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-figure-04.png" alt="In the lab: two Centralized connections, each backed by a Tier-0 VRF, and one Distributed VLAN connection dedicated to a subnet (covered in Part 4)." style="border:1px solid #e1e5ea;border-radius:8px;max-width:100%;height:auto;display:block" /><figcaption style="font-size:13.5px;color:#6b7682;margin-top:8px">Figure 4. In the lab: two Centralized connections, each backed by a Tier-0 VRF, and one Distributed VLAN connection dedicated to a subnet (covered in Part 4).</figcaption></figure>
+<h3 id="inbound-remote-networks"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-inbound-remote-networks.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Inbound Remote Networks</h3>
+<p>A centralized connection has an advanced setting called Inbound Remote Networks. These are the destination networks that VPCs reach through that connection. When a Transit Gateway has several connections, the default route can sit on only one of them. Every other connection needs inbound remote networks to carry traffic.</p>
+<p>For example:</p>
+<ul>
+<li>10.100.0.0/16 behind the Corporate-DC connection.</li>
+<li>The default route, 0.0.0.0/0, behind the Internet-Egress connection.</li>
+</ul>
+<p>Inbound remote networks must be unique per connection. ECMP networks are not supported. If none is set, the default route is used. They answer &#8220;which destinations use this connection?&#8221; They are not address pools for VMs.</p>
+<h3 id="authorize-external-ip-blocks-and-advertised-private-ip-blocks"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-authorize-external-ip-blocks-and-advertised-private-ip-blocks.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Authorize External IP Blocks and Advertised Private IP Blocks</h3>
+<p>The other direction is what the connection advertises:</p>
+<ul>
+<li>Authorize External IP Blocks sets which external IP blocks the connection may advertise. Left empty, all external IP blocks are advertised. Traffic from these blocks is routed to the external network without NAT.</li>
+<li>Advertised Private IP Blocks is a toggle that also advertises the Private TGW IP blocks, together with the TGW_PRIVATE route advertisement rule.</li>
+</ul>
+<p>Keep the two directions apart. Inbound Remote Networks are destinations outside VCF that VPCs reach through this connection. Authorized and advertised blocks are local VCF prefixes the outside network learns, so it can route back to them.</p>
+<h2 id="4-why-must-resources-be-shared-with-a-project"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-4-why-must-resources-be-shared-with-a-project.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />4. Why must resources be shared with a project?</h2>
+<p>The Default project can use external connections, external IP blocks and Edge nodes without defining them as shared resources. A user-defined project cannot. You have to share those resources with it.</p>
+<p>So the Enterprise Admin shares the External Connections and External IP blocks a project may use. The Project Admin builds Transit Gateways and VPCs from them. This is the boundary between provider governance and tenant self-service.</p>
+<p>One limit showed up in the lab. A centralized connection that a Transit Gateway in one project already uses cannot be shared with a second project. The share fails with &#8220;TGW external connection &#8230; already used in another project&#8221; (error 500157). Plan one centralized connection per project, or check the Broadcom docs for the supported sharing options.</p>
+<h2 id="5-transit-gateway-the-shared-routing-hub"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-5-transit-gateway-the-shared-routing-hub.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />5. Transit Gateway: the shared routing hub</h2>
+<p>The Transit Gateway provides inter-VPC communication and the connection to the outside network through External Connections. Its southbound side connects to VPC Gateways. Its northbound side connects to the External Connections attached to it.</p>
+<p>The connection choices are:</p>
+<ul>
+<li>None: the Transit Gateway has no external connection.</li>
+<li>Centralized: northbound traffic uses a Tier-0 gateway on NSX Edge nodes.</li>
+<li>Distributed VLAN: northbound connectivity from the hosts to a VLAN.</li>
+<li>Distributed VXLAN: northbound connectivity into an EVPN-VXLAN fabric (9.1.1 and later).</li>
+</ul>
+<figure style="margin:1.3em 0"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-figure-05.png" alt="In the lab: two transit gateways in one project. One has no external connection. The other is Centralized on the provider&#x27;s connection." style="border:1px solid #e1e5ea;border-radius:8px;max-width:100%;height:auto;display:block" /><figcaption style="font-size:13.5px;color:#6b7682;margin-top:8px">Figure 5. In the lab: two transit gateways in one project. One has no external connection. The other is Centralized on the provider&#8217;s connection.</figcaption></figure>
+<p>Two VPCs on the same Transit Gateway can reach each other&#8217;s Private-TGW subnets through it. Private-VPC subnets stay inside their own VPC.</p>
+<h3 id="private-tgw-route-advertisement"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-private-tgw-route-advertisement.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Private-TGW route advertisement</h3>
+<p>Keep two scopes clear:</p>
+<ul>
+<li>A Private-TGW subnet is available for inter-VPC communication on its Transit Gateway.</li>
+<li>Advertising it to the outside network is off by default. It needs the Advertised Private IP Blocks toggle on the connection and the TGW_PRIVATE route advertisement rule.</li>
+</ul>
+<p>Only turn on external advertisement when the outside network has a return path and the wider visibility matches the security design.</p>
+<h2 id="6-the-vpc-connectivity-profile-is-the-contract"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-6-the-vpc-connectivity-profile-is-the-contract.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />6. The VPC Connectivity Profile is the contract</h2>
+<p>A VPC Connectivity Profile ties a VPC to a Transit Gateway. It carries the External IP Blocks and Private TGW IP Blocks the VPC can use, and switches such as N-S Services and Default Outbound NAT. When you create a Transit Gateway, NSX creates a default connectivity profile for it. In the lab it did this for a distributed Transit Gateway as well as a centralized one.</p>
+<p>Each VPC uses one Connectivity Profile. Many VPCs can share the same profile. To move a VPC to another Transit Gateway, change its connectivity profile.</p>
+<p>Public and Private-TGW subnets in the VPC take their addresses from the blocks in that profile.</p>
+<figure style="margin:1.3em 0"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-figure-06.png" alt="In the lab: each profile binds a VPC to one transit gateway, an External IP block and a Private TGW block. The expanded row shows N-S Services and Default Outbound NAT switched on." style="border:1px solid #e1e5ea;border-radius:8px;max-width:100%;height:auto;display:block" /><figcaption style="font-size:13.5px;color:#6b7682;margin-top:8px">Figure 6. In the lab: each profile binds a VPC to one transit gateway, an External IP block and a Private TGW block. The expanded row shows N-S Services and Default Outbound NAT switched on.</figcaption></figure>
+<figure style="margin:1.3em 0"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-figure-07.png" alt="In the lab: the same object on a distributed Transit Gateway. NSX created the ip-man-dtgw profile together with the gateway, and three VPCs share it. With no VNA cluster selected, N-S Services is off and Default Outbound NAT is not set." style="border:1px solid #e1e5ea;border-radius:8px;max-width:100%;height:auto;display:block" /><figcaption style="font-size:13.5px;color:#6b7682;margin-top:8px">Figure 7. In the lab: the same object on a distributed Transit Gateway. NSX created the ip-man-dtgw profile together with the gateway, and three VPCs share it. With no VNA cluster selected, N-S Services is off and Default Outbound NAT is not set.</figcaption></figure>
+<h2 id="7-what-is-configured-on-the-vpc"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-7-what-is-configured-on-the-vpc.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />7. What is configured on the VPC?</h2>
+<p>The VPC is the tenant&#8217;s logical application boundary. At creation time the important inputs are:</p>
+<ul>
+<li>The Private VPC CIDR used by Private-VPC subnets.</li>
+<li>The VPC Connectivity Profile linking the VPC to the Transit Gateway.</li>
+<li>The VPC Service Profile, which holds DHCP server or relay settings and subnet profiles.</li>
+<li>Optional VPC static routes.</li>
+<li>The Enable for Avi Load Balancer toggle. It lets the Avi Load Balancer Controller discover the VPC and needs at least one private IP block and one edge cluster assigned to the VPC.</li>
+</ul>
+<p>The VPC Gateway routes between the subnets inside the VPC and northbound toward the Transit Gateway. It is also the default gateway for every subnet. NSX gives each subnet a gateway address, the first usable address in its CIDR, and that address lives on the VPC Gateway. In the lab the Public subnet 10.50.0.64/28 gets 10.50.0.65, and the Private-VPC subnet 172.16.0.0/26 gets 172.16.0.1.</p>
+<h2 id="8-the-three-subnet-access-modes"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-8-the-three-subnet-access-modes.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />8. The three subnet access modes</h2>
+<figure style="margin:1.3em 0"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-figure-08.png" alt="In the lab: all three access modes side by side. Private-VPC subnets come from the VPC&#x27;s own CIDR, Public subnets from the External IP block, and the Private-TGW subnet from the Private TGW block. The two VLAN-extended subnets are covered in Part 4." style="border:1px solid #e1e5ea;border-radius:8px;max-width:100%;height:auto;display:block" /><figcaption style="font-size:13.5px;color:#6b7682;margin-top:8px">Figure 8. In the lab: all three access modes side by side. Private-VPC subnets come from the VPC&#8217;s own CIDR, Public subnets from the External IP block, and the Private-TGW subnet from the Private TGW block. The two VLAN-extended subnets are covered in Part 4.</figcaption></figure>
+<h3 id="private-vpc"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-private-vpc.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Private VPC</h3>
+<p>Use Private VPC for workloads that should be reachable only from inside one VPC.</p>
+<ul>
+<li>Address source: the VPC&#8217;s Private VPC CIDR</li>
+<li>Reachable from: inside the same VPC only</li>
+<li>Private VPC CIDRs can overlap between VPCs</li>
+<li>Typical use: back-end tiers such as database and application servers</li>
+<li>Outside access: through NAT</li>
+</ul>
+<h3 id="private-tgw"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-private-tgw.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Private TGW</h3>
+<p>Use Private TGW when workloads in different VPCs must talk through the same Transit Gateway.</p>
+<ul>
+<li>Address source: the Private TGW IP block</li>
+<li>Reachable from: VPCs on the same Transit Gateway</li>
+<li>Typical use: shared services such as DNS, Active Directory and monitoring</li>
+<li>Outside access: through NAT, or by advertising the Private TGW block (Advertised Private IP Blocks plus the TGW_PRIVATE rule)</li>
+</ul>
+<h3 id="public"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-public.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Public</h3>
+<p>Use Public when the subnet must be reachable from outside the VPC.</p>
+<ul>
+<li>Address source: an External IP block</li>
+<li>Reachable from: inside the VPC and from the outside data centre network</li>
+<li>NAT: not needed for this reachability</li>
+<li>Typical use: front-end web servers that users or management reach directly from the corporate network</li>
+</ul>
+<p>Public does not remove the need for firewall policy. Route visibility and security authorization are different controls.</p>
+<h2 id="9-nat-what-problem-does-it-solve"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-9-nat-what-problem-does-it-solve.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />9. NAT: what problem does it solve?</h2>
+<p>NAT changes the source or destination address at a routing boundary. In this design it does three jobs:</p>
+<ul>
+<li>Give private subnets outbound access outside the VPC.</li>
+<li>Map a single private workload to an External IP, instead of making its whole subnet Public.</li>
+<li>Let the provider control outgoing traffic with provider outbound SNAT.</li>
+</ul>
+<h3 id="default-outbound-nat"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-default-outbound-nat.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Default Outbound NAT</h3>
+<p>Default Outbound NAT is a toggle in the VPC Connectivity Profile. You can also set it when you create a Transit Gateway. It gives workloads on private subnets outbound access outside the VPC. One SNAT rule per VPC is created automatically. The translated IP comes from the profile&#8217;s External IP Blocks, or from the block set in External IP Block for Default Outbound NAT.</p>
+<p>Because the rule is per VPC, each VPC&#8217;s outbound traffic leaves with its own translated address, and the private subnets stay hidden.</p>
+<figure style="margin:1.3em 0"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-figure-09.png" alt="In the lab: the default outbound NAT rule NSX creates for a VPC. The Private VPC CIDR 172.30.0.0/16 is translated to 20.20.20.0, an address from the External IP block." style="border:1px solid #e1e5ea;border-radius:8px;max-width:100%;height:auto;display:block" /><figcaption style="font-size:13.5px;color:#6b7682;margin-top:8px">Figure 9. In the lab: the default outbound NAT rule NSX creates for a VPC. The Private VPC CIDR 172.30.0.0/16 is translated to 20.20.20.0, an address from the External IP block.</figcaption></figure>
+<h3 id="external-ips-and-your-own-nat-rules"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-external-ips-and-your-own-nat-rules.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />External IPs and your own NAT rules</h3>
+<p>An External IP is a stateless 1:1 NAT for one workload, with the address taken from the External IP block. You can also add your own NAT rules to a VPC. Two limits apply. For SNAT, the source network must not overlap with external IP blocks. For DNAT, the translated network must not overlap with external IP blocks.</p>
+<h3 id="provider-outbound-snat"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-provider-outbound-snat.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Provider Outbound SNAT</h3>
+<p>Provider outbound SNAT is set on a centralized connection, as described in section 2. It translates outgoing traffic into the provider&#8217;s SNAT IP Block, whatever the subnet type. Any other NAT rule on the Transit Gateway uplink has a higher priority.</p>
+<h3 id="nat-decision-table"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-nat-decision-table.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />NAT decision table</h3>
+<div style="border:1px solid #e1e5ea;border-radius:8px;overflow:hidden;margin:1.3em 0">
+<table style="width:100%;border-collapse:collapse;margin:0;font-size:15px">
+<thead>
+<tr>
+<th style="padding:8px 12px;text-align:left;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#1a1a1a;background:#f4f6f8;border-bottom:2px solid #cfd5dc">You want</th>
+<th style="padding:8px 12px;text-align:left;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#1a1a1a;background:#f4f6f8;border-bottom:2px solid #cfd5dc">Use</th>
+<th style="padding:8px 12px;text-align:left;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#1a1a1a;background:#f4f6f8;border-bottom:2px solid #cfd5dc">Who sets it</th>
+</tr>
+</thead>
+<tbody>
+<tr style="">
+<td style="padding:8px 12px;color:#4a5562;border-bottom:1px solid #e1e5ea;vertical-align:top">Workloads reachable from outside by their real address</td>
+<td style="padding:8px 12px;color:#4a5562;border-bottom:1px solid #e1e5ea;vertical-align:top">A Public subnet, or an authorized Private TGW block</td>
+<td style="padding:8px 12px;color:#4a5562;border-bottom:1px solid #e1e5ea;vertical-align:top">Project or VPC admin; provider for advertisement</td>
+</tr>
+<tr style="background:#f9fafb;">
+<td style="padding:8px 12px;color:#4a5562;border-bottom:1px solid #e1e5ea;vertical-align:top">Private subnets with outbound access</td>
+<td style="padding:8px 12px;color:#4a5562;border-bottom:1px solid #e1e5ea;vertical-align:top">Default Outbound NAT in the connectivity profile</td>
+<td style="padding:8px 12px;color:#4a5562;border-bottom:1px solid #e1e5ea;vertical-align:top">Project admin</td>
+</tr>
+<tr style="">
+<td style="padding:8px 12px;color:#4a5562;border-bottom:1px solid #e1e5ea;vertical-align:top">One private workload reachable from outside</td>
+<td style="padding:8px 12px;color:#4a5562;border-bottom:1px solid #e1e5ea;vertical-align:top">An External IP</td>
+<td style="padding:8px 12px;color:#4a5562;border-bottom:1px solid #e1e5ea;vertical-align:top">VPC admin</td>
+</tr>
+<tr style="background:#f9fafb;">
+<td style="padding:8px 12px;color:#4a5562;border-bottom:1px solid #e1e5ea;vertical-align:top;border-bottom:0">All outgoing traffic leaving with provider addresses</td>
+<td style="padding:8px 12px;color:#4a5562;border-bottom:1px solid #e1e5ea;vertical-align:top;border-bottom:0">Provider Outbound SNAT on the connection</td>
+<td style="padding:8px 12px;color:#4a5562;border-bottom:1px solid #e1e5ea;vertical-align:top;border-bottom:0">Provider</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="10-vlan-extension-and-access-mode"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-10-vlan-extension-and-access-mode.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />10. VLAN extension and access mode</h2>
+<p>VLAN extension connects a VPC subnet to an existing VLAN. A VLAN-extended subnet uses access mode Public, and DHCP does not apply to it. The form also offers L2 Only once VLAN extension is on, but that mode is for the TEP-less VLAN-backed VPC, where the Transit Gateway has no external connection.</p>
+<p>VLAN extension is not another way to connect Private-VPC or Private-TGW routing. It serves a different purpose, which Part 4 will cover in detail.</p>
+<h2 id="11-design-checks-before-production"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-11-design-checks-before-production.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />11. Design checks before production</h2>
+<ul>
+<li>With more than one connection on a Transit Gateway, does only one carry the default route? Do the others have unique inbound remote networks?</li>
+<li>Are External IP blocks free of overlap within the project, on the Tier-0 gateway and with other CIDRs in use?</li>
+<li>Are all External Connections on each Transit Gateway the same type?</li>
+<li>Are Private-TGW prefixes meant to stay inside the Transit Gateway, or be advertised outside?</li>
+<li>If advertised, are both the toggle and the TGW_PRIVATE rule in place? Does the outside network have a return route?</li>
+<li>If not advertised, which NAT provides the translated source?</li>
+<li>If Provider Outbound SNAT is on, is the SNAT IP Block also in Authorize External IP Blocks?</li>
+<li>Does each VPC use the intended Connectivity Profile?</li>
+<li>Is VLAN extension needed, or would routed connectivity be simpler?</li>
+</ul>
+<p>Once route visibility is clear, the NAT decision is simple. Route the real address when the network should know it. Translate the address when it should not.</p>
+<h2 id="whats-next"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/vpc2-icon-whats-next.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />What&#8217;s next</h2>
+<p>Part 3, coming soon, opens the hood on the Distributed Transit Gateway: how a VPC reaches the physical network with no NSX Edge and no routing protocol, and the three paths traffic takes out of a VPC.</p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/19/vcf-9-1-vpc-networking-part-2-ip-blocks-external-connections-transit-gateways-subnets-and-nat/">VCF 9.1 VPC Networking, Part 2: IP Blocks, External Connections, Transit Gateways, Subnets, and NAT</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/19/vcf-9-1-vpc-networking-part-2-ip-blocks-external-connections-transit-gateways-subnets-and-nat/">VCF 9.1 VPC Networking, Part 2: IP Blocks, External Connections, Transit Gateways, Subnets, and NAT</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10110403</post-id>	</item>
+		<item>
+		<title>導入事例：株式会社ラウンドワンジャパン様</title>
+		<link>https://blogs.vmware.com/vmware-japan/2026/11/customer-case-studies-roundone.html</link>
+		
+		<dc:creator><![CDATA[vmware japan blog]]></dc:creator>
+		<pubDate>Fri, 20 Nov 2026 02:15:20 +0000</pubDate>
+				<category><![CDATA[International]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10110360</guid>
+
+					<description><![CDATA[<img width="300" height="138" src="https://blogs.vmware.com/wp-content/uploads/2026/11/【ラウンドワン様】ROUND1_BO-1.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>ボウリングやアミューズメント、カラオケ、スポッチャなど、屋内型複合レジャー施設を国内外に162店舗展開する株式会社ラウンドワンジャパン様。本日は、VMware Cloud Foundation® Edge（VCF Edge）および VMware Cloud Foundation Operations（VCF Operations）を活用した店舗サーバー基盤の刷新事例をご紹介いたします。 同社では、店舗ごとの個別POS運用や紙・FAXによるアナログな集計業務から脱却し、店舗同士をつなぐオンライン対戦コンテンツの提供や店舗運営の省力化を実現する新たな環境整備が求められていました。この課題を解決し、IT専任者が不在の各店舗でも保守性の高い共通基盤を少数精鋭で運用できる体制を確立したのが、VCF Edge を採用した店舗サーバーの仮想化です。 全国98店舗に同一の仮想環境を展開し保守性と拡張性を向上 データセンターと店舗を低遅延な専用閉域網で接続したうえで、国内98店舗すべてにハードウェアを含めた同一の VCF Edge 環境を設置。1ノード上でPOS集計、受付システム、映像配信など9台の仮想マシンを集約稼働させることで、将来的な新規サービス追加にもハードウェアを増設せず柔軟に対応できる拡張性と調達コストの最適化を実現しました。 VCF Operations による集中監視と迅速な障害復旧 本部から全店舗のサーバー稼働状況を的確に把握できる運用体制を整備。クリティカルなアラート発生時には根拠データとともに具体的な対処ガイドが提示されるため、以前はメーカーへのログ送付・分析を待っていた原因特定が大幅にスピードアップし、店舗現場の負担を最小限に抑える迅速な復旧を可能にしています。 店舗オペレーションの自動化と今後のグローバル展開 各業態のPOSデータを店舗サーバーへ集約して本部DBと自動連携することで、閉店時の売上締め作業や集計業務を大幅に効率化。今後は蓄積した知見と標準化された仕組みを活かし、米国市場での店舗サーバー展開やAIを活用した障害の予知保全にも取り組んでいく計画です。 さらなる詳細については、以下のPDFをダウンロードの上、ご参照ください。 ラウンドワンジャパン様導入事例をダウンロード The post 導入事例：株式会社ラウンドワンジャパン様 appeared first on VMware Japan Blog.</p>
+<p>The post <a href="https://blogs.vmware.com/vmware-japan/2026/11/customer-case-studies-roundone.html">導入事例：株式会社ラウンドワンジャパン様</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="138" src="https://blogs.vmware.com/wp-content/uploads/2026/11/【ラウンドワン様】ROUND1_BO-1.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="139" src="https://blogs.vmware.com/wp-content/uploads/2026/11/【ラウンドワン様】ROUND1_BO-1.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/【ラウンドワン様】ROUND1_BO-1.jpg 8355w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/【ラウンドワン様】ROUND1_BO-1.jpg?resize=300,139 300w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/【ラウンドワン様】ROUND1_BO-1.jpg?resize=768,355 768w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/【ラウンドワン様】ROUND1_BO-1.jpg?resize=1024,473 1024w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/【ラウンドワン様】ROUND1_BO-1.jpg?resize=1536,709 1536w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/【ラウンドワン様】ROUND1_BO-1.jpg?resize=2048,946 2048w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/【ラウンドワン様】ROUND1_BO-1.jpg?resize=600,277 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<p>ボウリングやアミューズメント、カラオケ、スポッチャなど、屋内型複合レジャー施設を国内外に162店舗展開する株式会社ラウンドワンジャパン様。本日は、VMware Cloud Foundation® Edge（VCF Edge）および VMware Cloud Foundation Operations（VCF Operations）を活用した店舗サーバー基盤の刷新事例をご紹介いたします。 同社では、店舗ごとの個別POS運用や紙・FAXによるアナログな集計業務から脱却し、店舗同士をつなぐオンライン対戦コンテンツの提供や店舗運営の省力化を実現する新たな環境整備が求められていました。この課題を解決し、IT専任者が不在の各店舗でも保守性の高い共通基盤を少数精鋭で運用できる体制を確立したのが、VCF Edge を採用した店舗サーバーの仮想化です。 全国98店舗に同一の仮想環境を展開し保守性と拡張性を向上 データセンターと店舗を低遅延な専用閉域網で接続したうえで、国内98店舗すべてにハードウェアを含めた同一の VCF Edge 環境を設置。1ノード上でPOS集計、受付システム、映像配信など9台の仮想マシンを集約稼働させることで、将来的な新規サービス追加にもハードウェアを増設せず柔軟に対応できる拡張性と調達コストの最適化を実現しました。 VCF Operations による集中監視と迅速な障害復旧 本部から全店舗のサーバー稼働状況を的確に把握できる運用体制を整備。クリティカルなアラート発生時には根拠データとともに具体的な対処ガイドが提示されるため、以前はメーカーへのログ送付・分析を待っていた原因特定が大幅にスピードアップし、店舗現場の負担を最小限に抑える迅速な復旧を可能にしています。 店舗オペレーションの自動化と今後のグローバル展開 各業態のPOSデータを店舗サーバーへ集約して本部DBと自動連携することで、閉店時の売上締め作業や集計業務を大幅に効率化。今後は蓄積した知見と標準化された仕組みを活かし、米国市場での店舗サーバー展開やAIを活用した障害の予知保全にも取り組んでいく計画です。 さらなる詳細については、以下のPDFをダウンロードの上、ご参照ください。 ラウンドワンジャパン様導入事例をダウンロード</p>
+<p>The post <a href="https://blogs.vmware.com/vmware-japan/2026/11/customer-case-studies-roundone.html">導入事例：株式会社ラウンドワンジャパン様</a> appeared first on <a href="https://blogs.vmware.com/vmware-japan">VMware Japan Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/vmware-japan/2026/11/customer-case-studies-roundone.html">導入事例：株式会社ラウンドワンジャパン様</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10110360</post-id>	</item>
+		<item>
 		<title>Securing 5G with VMware HyperArmor on VCF Telco: Hypervisor-Layer Defense across Control and User Planes</title>
 		<link>https://blogs.vmware.com/cloud-foundation/2026/11/19/securing-5g-with-vmware-hyperarmor-on-vcf-telco-hypervisor-layer-defense-across-control-and-user-planes/</link>
 		
@@ -28,10 +351,10 @@
 				<category><![CDATA[Cloud Infrastructure]]></category>
 		<guid isPermaLink="false">https://blogs.vmware.com/?p=10110276</guid>
 
-					<description><![CDATA[<img width="299" height="138" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_01.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>The layer every other control trusts 5G&#8217;s cloud-native decomposition placed the mobile core — control plane (AMF, SMF, NRF, AUSF, UDM, PCF, NEF, NSSF, SEPP) and user plane (UPF, GTP-U on N3/N9, N6, PFCP on N4) — onto virtualized infrastructure, most commonly VMware Cloud Foundation (VCF) with ESX hypervisors.&#160; Every layer of defense for VCF &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/19/securing-5g-with-vmware-hyperarmor-on-vcf-telco-hypervisor-layer-defense-across-control-and-user-planes/">Continued</a></p>
+					<description><![CDATA[<img width="299" height="138" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_01.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>The layer every other control trusts 5G&#8217;s cloud-native decomposition placed the mobile core — control plane (AMF, SMF, NRF, AUSF, UDM, PCF, NEF, NSSF, SEPP) and user plane (UPF, GTP-U on N3/N9, N6, PFCP on N4) — onto virtualized infrastructure, most commonly VMware Cloud Foundation (VCF) with ESX hypervisors.&#160; Every layer of defense for VCF &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/19/securing-5g-with-vmware-hyperarmor-on-vcf-telco-hypervisor-layer-defense-across-control-and-user-planes/">Continued</a></p>
 <p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/19/securing-5g-with-vmware-hyperarmor-on-vcf-telco-hypervisor-layer-defense-across-control-and-user-planes/">Securing 5G with VMware HyperArmor on VCF Telco: Hypervisor-Layer Defense across Control and User Planes</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
-										<content:encoded><![CDATA[<img width="299" height="138" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_01.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="139" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_01.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_01.png 1242w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_01.png?resize=300,139 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_01.png?resize=768,355 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_01.png?resize=1024,473 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_01.png?resize=600,277 600w" sizes="(max-width: 300px) 100vw, 300px" /></div>
+										<content:encoded><![CDATA[<img width="299" height="138" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_01.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="139" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_01.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_01.png 1242w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_01.png?resize=300,139 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_01.png?resize=768,355 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_01.png?resize=1024,473 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_01.png?resize=600,277 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
 <h2 class="wp-block-heading" id="h-the-layer-every-other-control-trusts"><strong>The layer every other control trusts</strong></h2>
 <p>5G&#8217;s cloud-native decomposition placed the mobile core — control plane (AMF, SMF, NRF, AUSF, UDM, PCF, NEF, NSSF, SEPP) and user plane (UPF, GTP-U on N3/N9, N6, PFCP on N4) — onto virtualized infrastructure, most commonly VMware Cloud Foundation (VCF) with ESX hypervisors.&nbsp;</p>
 <p>Every layer of defense for VCF built to date (vDefend microsegmentation, mTLS/OAuth2 at the SBA, confidential computing for memory, EDR for guest workloads, etc.) assumes one thing:&nbsp; ESX hypervisor is the most important security boundary you own. Every control you have invested in assumes it is trustworthy.&nbsp;</p>
@@ -667,724 +990,5 @@
 		
 		
 		<post-id xmlns="com-wordpress:feed-additions:1">10109570</post-id>	</item>
-		<item>
-		<title>Announcing the General Availability of Holodeck 9.1.1</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/11/16/announcing-the-general-availability-of-holodeck-9-1-1/</link>
-		
-		<dc:creator><![CDATA[dhruv tyagi]]></dc:creator>
-		<pubDate>Tue, 17 Nov 2026 05:21:31 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10109402</guid>
-
-					<description><![CDATA[<img width="300" height="291" src="https://blogs.vmware.com/wp-content/uploads/2026/11/holodeck9.0.1_98a0a8.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/wp-content/uploads/2026/11/holodeck9.0.1_98a0a8.png 300w, https://blogs.vmware.com/wp-content/uploads/2026/11/holodeck9.0.1_98a0a8.png?resize=216,210 216w" sizes="auto, (max-width: 300px) 100vw, 300px" /><p>Holodeck 9.1.1, a patch release for the nested VMware Cloud Foundation (VCF) toolkit, is now available. This release follows Holodeck 9.1 and focuses on deployment reliability, tighter prechecks, and added support for new versions. Holodeck 9.1 introduced Virtual Network Appliance (VNA) cluster support and expanded VCF 9.1 coverage. It also introduced a long list of &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/16/announcing-the-general-availability-of-holodeck-9-1-1/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/16/announcing-the-general-availability-of-holodeck-9-1-1/">Announcing the General Availability of Holodeck 9.1.1</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="291" src="https://blogs.vmware.com/wp-content/uploads/2026/11/holodeck9.0.1_98a0a8.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/wp-content/uploads/2026/11/holodeck9.0.1_98a0a8.png 300w, https://blogs.vmware.com/wp-content/uploads/2026/11/holodeck9.0.1_98a0a8.png?resize=216,210 216w" sizes="auto, (max-width: 300px) 100vw, 300px" /><div><img width="300" height="291" src="https://blogs.vmware.com/wp-content/uploads/2026/11/holodeck9.0.1_98a0a8.png" class="attachment-medium size-medium wp-post-image" alt="Dhruv Tyagi - Holodeck 9.1" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/10/holodeck9.0.1_98a0a8.png 539w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2025/10/holodeck9.0.1_98a0a8.png?resize=300,291 300w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<p><a href="https://vmware.github.io/Holodeck/9.1.1/release_notes/#holodeck-911-patch-release" target="_blank" rel="noreferrer noopener">Holodeck 9.1.1</a>, a patch release for the nested VMware Cloud Foundation (VCF) toolkit, is now available. This release follows <a href="https://vmware.github.io/Holodeck/9.1.1/release_notes/#holodeck-91-major-release" target="_blank" rel="noreferrer noopener">Holodeck 9.1</a> and focuses on deployment reliability, tighter prechecks, and added support for new versions.</p>
-<p>Holodeck 9.1 introduced Virtual Network Appliance (VNA) cluster support and expanded VCF 9.1 coverage. It also introduced a long list of Day 2 operations improvements. Holodeck 9.1.1 builds on that foundation. Holodeck 9.1.1 adds support for VMware vSphere Foundation (VVF) and VCF 9.1.1. It also fixes bugs from the 9.1 release, and tightens the prechecks that catches deployment problems during prechecks.</p>
-<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
-<h2 class="wp-block-heading" id="h-a-quick-refresher">A quick refresher</h2>
-<div class="wp-block-image">
-<figure data-wp-context="{&quot;imageId&quot;:&quot;6afbe4ae1cc16&quot;}" data-wp-interactive="core/image" class="aligncenter size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="576" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_e446f8.png" alt="What do I use Holodeck for?" class="wp-image-36457" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_e446f8.png 1920w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_e446f8.png?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_e446f8.png?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_e446f8.png?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_e446f8.png?resize=1536,864 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_e446f8.png?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_e446f8.png?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_e446f8.png?resize=600,338 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
-			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
-				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
-			</svg><br />
-		</button></figure>
-</div>
-<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
-<p><a href="https://vmware.github.io/Holodeck/9.1.1/#what-is-holodeck" target="_blank" rel="noreferrer noopener">Holodeck</a> is a self-contained, automated, and repeatable way to deploy nested VCF environments. It virtualizes the full management and workload domain stack, ships with built-in infrastructure services such as NTP, DNS, BGP, and DHCP, and runs on a single ESX host or a modest vSphere cluster. Teams use it to validate new VCF capabilities, train administrators, and reproduce support scenarios without reserving production hardware.</p>
-<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
-<div class="wp-block-image">
-<figure data-wp-context="{&quot;imageId&quot;:&quot;6afbe4ae1d221&quot;}" data-wp-interactive="core/image" class="aligncenter size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="576" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_4ae9ff.png" alt="Holodeck one pager" class="wp-image-36456" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_4ae9ff.png 1920w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_4ae9ff.png?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_4ae9ff.png?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_4ae9ff.png?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_4ae9ff.png?resize=1536,864 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_4ae9ff.png?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_4ae9ff.png?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_4ae9ff.png?resize=600,338 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
-			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
-				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
-			</svg><br />
-		</button></figure>
-</div>
-<div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
-<h2 class="wp-block-heading" id="h-what-s-new-in-holodeck-9-1-1">What&#8217;s new in Holodeck 9.1.1</h2>
-<h3 class="wp-block-heading" id="h-features">Features</h3>
-<p>Holodeck 9.1.1 adds support for deploying VMware vSphere Foundation and VCF 9.1.1, and it supports greenfield deployment of VCF 9.1 patch releases more broadly, so you&#8217;re not stuck waiting for a new Holodeck release to test the latest patch. This release also adds support for custom VM and template folder structures when deploying to a vCenter target, giving administrators more control over how nested environments land in their existing inventory, allowing use of RBAC in vCenter.</p>
-<h3 class="wp-block-heading" id="h-enhancements">Enhancements</h3>
-<p>Several changes in this release reduce failed deployments. Holodeck now checks online depot connectivity for 9.x environments before a deployment gets underway, and ovftool checks along with ISO and OVA guardrails catch issues earlier in the VCF Installer flow. Holodeck now relaxes precheck validation for 9.0.x ESX and VCF Installer binaries. This lets you deploy patch releases as greenfield deployments.</p>
-<p>Dual-site BGP setups get their own bgpRouterConfiguration.yaml, alongside updated handling for GitLab, rc.local, and centralized transit gateway IP blocks. The HoloRouter OVA deployment flow now logs more detail when GitOps is enabled, and the Authentik configuration and network manager service handling inside the HoloRouter and Webtop flow have both been updated for reliability.</p>
-<h3 class="wp-block-heading" id="h-bug-fixes">Bug fixes</h3>
-<p>This patch resolves multiple issues surfaced during 9.1 deployments. For the full list, see the <a href="https://vmware.github.io/Holodeck/9.1.1/release_notes/#holodeck-911-patch-release" target="_blank" rel="noreferrer noopener">release notes</a>.</p>
-<h3 class="wp-block-heading" id="h-supported-versions">Supported versions</h3>
-<p>Holodeck 9.1.1 supports:</p>
-<ul class="wp-block-list">
-<li>VCF 9.1.1.0, 9.1.0.0, 9.0.2.0, 9.0.1.0, and 9.0.0.0 (including patch releases for VCF 9.1)</li>
-<li>VCF 5.2.4, 5.2.3, 5.2.2, 5.2.1, and 5.2</li>
-</ul>
-<p>The minimum ESX version required on the physical server to deploy Holodeck is 8.0 U3.</p>
-<h2 class="wp-block-heading" id="h-get-started">Get started</h2>
-<p>If you&#8217;re already running Holodeck 9.1, upgrading to 9.1.1 gets you a more stable deployment experience with the same feature set you know. If you haven&#8217;t tried Holodeck yet, this patch is a good time to start: VMware vSphere Foundation and VCF 9.1.1 support means you can validate the latest patch release in a nested environment before it touches your production hardware.</p>
-<p>For the complete list of features, enhancements, and bug fixes, read the <a href="https://vmware.github.io/Holodeck/9.1.1/release_notes/#holodeck-911-patch-release" target="_blank" rel="noreferrer noopener">Holodeck 9.1.1 release notes</a>.</p>
-<p>Ready to get started? Here are all the resources you need:</p>
-<ul class="wp-block-list">
-<li><a href="https://vmware.github.io/Holodeck/latest/downloads/#holodeck-911" target="_blank" rel="noreferrer noopener"><strong>Download Holodeck 9.1.1</strong></a> — Get the latest release and start deploying nested VCF environments today.</li>
-<li><a href="https://github.com/vmware/Holodeck/issues" target="_blank" rel="noreferrer noopener"><strong>Report an Issue</strong></a> — Found a bug or have a feature request? Open an issue on GitHub and help us make Holodeck even better.</li>
-</ul>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/16/announcing-the-general-availability-of-holodeck-9-1-1/">Announcing the General Availability of Holodeck 9.1.1</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/16/announcing-the-general-availability-of-holodeck-9-1-1/">Announcing the General Availability of Holodeck 9.1.1</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10109402</post-id>	</item>
-		<item>
-		<title>Know the Moment Your VCF Platform Changes: Alerting on New Services Runtime Nodes</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/11/16/know-the-moment-your-vcf-platform-changes-alerting-on-new-services-runtime-nodes/</link>
-		
-		<dc:creator><![CDATA[brian oconnell]]></dc:creator>
-		<pubDate>Mon, 16 Nov 2026 13:12:02 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10109277</guid>
-
-					<description><![CDATA[<img width="300" height="186" src="https://blogs.vmware.com/wp-content/uploads/2026/11/services-runtime-node-detection.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>A VCF Operations alert that detects new Services Runtime node VMs by name and IP address. VMware Cloud Foundation (VCF) management services in VCF 9.1.x run on VCF services runtime, a Kubernetes-based layer whose worker nodes are ordinary virtual machines in your management domain. When you scale out, perform upgrade operations, or when a node &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/16/know-the-moment-your-vcf-platform-changes-alerting-on-new-services-runtime-nodes/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/16/know-the-moment-your-vcf-platform-changes-alerting-on-new-services-runtime-nodes/">Know the Moment Your VCF Platform Changes: Alerting on New Services Runtime Nodes</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="186" src="https://blogs.vmware.com/wp-content/uploads/2026/11/services-runtime-node-detection.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="187" src="https://blogs.vmware.com/wp-content/uploads/2026/11/services-runtime-node-detection.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/services-runtime-node-detection.png 2440w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/services-runtime-node-detection.png?resize=300,187 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/services-runtime-node-detection.png?resize=768,478 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/services-runtime-node-detection.png?resize=1024,638 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/services-runtime-node-detection.png?resize=1536,957 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/services-runtime-node-detection.png?resize=2048,1276 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/services-runtime-node-detection.png?resize=600,374 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<h2 class="wp-block-heading" id="h-a-vcf-operations-alert-that-detects-new-services-runtime-node-vms-by-name-and-ip-address">A VCF Operations alert that detects new Services Runtime node VMs by name and IP address.</h2>
-<p>VMware Cloud Foundation (VCF) management services in VCF 9.1.x run on VCF services runtime, a Kubernetes-based layer whose worker nodes are ordinary virtual machines in your management domain. When you scale out, perform upgrade operations, or when a node fails and is recovered, VCF services runtime deploys new worker node virtual machines for you. That is convenient, but it leaves operations teams with a question that sounds simple:</p>
-<p>How do you know a new node was deployed, and which VM is it?</p>
-<p>Until you can answer that reliably, everything downstream is manual. Nobody updates the Configuration Management Database (CMDB), nobody adds the virtual machine to the right vSphere DRS group, and nobody tells the monitoring team there is something new to watch. In this post we show how to build a precise, event-driven alert for worker node creation based on only the data collected by VCF Operations. Then we look at a number of different use cases, where we can perform various actions based on the alert being triggered.</p>
-<h2 class="wp-block-heading" id="h-what-the-alert-gives-you">What the alert gives you</h2>
-<p>When a new control plane or worker node virtual machine appears, VCF Operations will raise an alert against that virtual machine. The alert consists of the following details:</p>
-<ul class="wp-block-list">
-<li>The <strong>VM name</strong>, exactly as it appears in vCenter</li>
-<li>The <strong>guest IP address</strong>, reported by VMware Tools</li>
-<li>A timestamp, and an alert object you can attach any notification to</li>
-</ul>
-<p>Once the alert is triggered, any response or action depends on your organization&#8217;s specific needs. The rest of this post explains how the alert works, then covers use cases.</p>
-<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="638" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/services-runtime-node-detection_2885ed.png" alt="" class="wp-image-36428" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/services-runtime-node-detection.png 2440w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/services-runtime-node-detection.png?resize=300,187 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/services-runtime-node-detection.png?resize=768,478 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/services-runtime-node-detection.png?resize=1024,638 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/services-runtime-node-detection.png?resize=1536,957 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/services-runtime-node-detection.png?resize=2048,1276 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/services-runtime-node-detection.png?resize=600,374 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
-<p><strong>The vCenter adapter</strong> tracks each VM&#8217;s creation time, guest IP address, and uptime. <strong>The VCF management services adapter</strong> creates a vmsp-platform-node object for every real Kubernetes node and links it to its VM. So VCF Operations alerts on properties and relationships.</p>
-<h2 class="wp-block-heading" id="h-how-the-alert-works">How the alert works</h2>
-<p>The alert is defined on the <strong>VM</strong> object type. It combines symptoms from the VM with a symptom from a related object, and all of them must be true at once.</p>
-<p><strong>On the VM:</strong></p>
-<figure class="wp-block-table">
-<table class="has-fixed-layout">
-<thead>
-<tr>
-<th>Symptom</th>
-<th>Condition</th>
-<th>Why</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Created after baseline</td>
-<td><code>config|createDate</code> is greater than a fixed time</td>
-<td>Ignores VMs that already existed</td>
-</tr>
-<tr>
-<td>Has an IP</td>
-<td><code>summary|guest|ipAddress</code> matches an IPv4 pattern</td>
-<td>VMware Tools is up, and the IP appears in the alert text</td>
-</tr>
-<tr>
-<td>Recently booted</td>
-<td><code>sys|osUptime_latest</code> is less than 7200 seconds</td>
-<td>The VM started in the last two hours</td>
-</tr>
-</tbody>
-</table>
-</figure>
-<p><strong>On a related object (at least one child):</strong></p>
-<figure class="wp-block-table">
-<table class="has-fixed-layout">
-<thead>
-<tr>
-<th>Symptom</th>
-<th>Condition</th>
-<th>Why</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Node object exists</td>
-<td>A <code>vmsp-platform-node</code> object related to the VM has a registered node type</td>
-<td>The Services Runtime adapter confirms this VM is a real cluster node</td>
-</tr>
-</tbody>
-</table>
-</figure>
-<h2 class="wp-block-heading" id="h-identity-comes-from-a-relationship-not-a-name">Identity comes from a relationship, not a name</h2>
-<p>A fair question is whether an ordinary VM, deployed by a user at the same moment, could be mistaken for a node. The first three conditions would not stop it. The fourth does.</p>
-<p>The adapter links a node object to its VM using the node&#8217;s <strong>UUID</strong>, not its name or IP address. On a live node, the nodeUUID on the vmsp-platform-node object is identical to the summary|smbiosUUID on the vCenter VM object. A VM that was not provisioned as a cluster node would have a different hardware UUID and no vmsp-platform-node child, so the alert stays inactive for it, whatever it is called. A plain clone of a node VM gets a new SMBIOS UUID by default, so it does not match either.</p>
-<h2 class="wp-block-heading" id="h-use-case-1-notify-the-team-by-email">Use case 1: Notify the team by email</h2>
-<p>The simplest response is a notification rule on the alert that sends email through your existing SMTP outbound plugin. Because of the &#8220;has an IP&#8221; symptom, the alert text contains both the VM name and its address, so the message is useful on its own: &#8220;a new node, sfo-sr01-abcde, is live at 10.11.x.x.&#8221;</p>
-<p>Send it to the platform team, the monitoring team, or a shared mailbox that feeds a ticket queue. It is also the fallback: whatever else you automate, the email still tells a human what happened.</p>
-<p>Two coarser alerts on the VCF services runtime cluster object, based on the new_resources and not_existing_resource_count counters, can complement it. They count every object under the cluster, including pods and volumes, so they fire on upgrades and do not name a node. Treat them as &#8220;something changed, take a look.&#8221;</p>
-<h2 class="wp-block-heading" id="h-use-case-2-place-the-vm-in-a-drs-vm-group">Use case 2: Place the VM in a DRS VM group</h2>
-<p>In many environments VCF services runtime nodes are spread across availability zones with VM-Host rules. A new VM that is not in the right vSphere DRS VM group is a VM vSphere DRS may be placed anywhere, and someone has to remember to add it.</p>
-<p>A second notification rule on the same alert can call a <strong>webhook</strong> that starts a VCF Operations orchestrator workflow. Ours does the following:</p>
-<ol class="wp-block-list">
-<li><strong>Ignores cancel notifications.</strong> Operations also notifies when an alert clears.</li>
-<li><strong>Finds the cluster</strong> and fails loudly if there is not exactly one match.</li>
-<li><strong>Finds the VM by name</strong> as vCenter reports it, ignoring the request if it is not found and refusing to act if more than one VM has that name.</li>
-<li><strong>Checks the VM runs on a host in the target cluster.</strong> This is the scope guard.</li>
-<li><strong>Checks if the DRS VM group exists</strong> and whether the VM is already a member. If it is, nothing happens.</li>
-<li><strong>Runs the built-in &#8220;Add virtual machines to DRS group&#8221; workflow</strong> and waits for it to finish.</li>
-</ol>
-<p>Step 5 makes the workflow idempotent. Notifications repeat, and a node that reboots can raise the alert again, but the second run finds the VM already in the group and changes nothing. The workflow also supports a <strong>dry run</strong>: if the alert ID starts with dryrun, it runs every check and reports what it would do. Use it to test against a real VM without touching the group.</p>
-<p>Because the workflow takes the VM name exactly as vCenter reports it and applies no naming filter, it works for any Services Runtime cluster, not just one. and applies no naming filter, it works for any Services Runtime cluster, not just one.</p>
-<h2 class="wp-block-heading" id="h-use-case-3-keep-your-cmdb-current">Use case 3: Keep your CMDB current</h2>
-<p>New infrastructure that never reaches the CMDB is a familiar audit finding. The alert already contains what a CMDB’s Configuration Item (CI) record needs: the VM name and the IP address. The same webhook pattern that adds a VM to a vSphere DRS group can create or update a configuration item instead, or as well:</p>
-<ul class="wp-block-list">
-<li><strong>Call your ITSM tool directly.</strong> An orchestrator workflow can call the REST API of ServiceNow or a similar platform to create a CI with the name, IP, platform and discovery time, using the alert as the trigger.</li>
-<li><strong>Open a ticket first.</strong> For environments where CI creation needs approval, create a change or task record from the alert and let the CMDB process take over.</li>
-<li><strong>Reconcile rather than create.</strong> Look up the CI by name, update it if it exists and create it if not, so repeated notifications do no harm.</li>
-</ul>
-<p>The idempotent design from the vSphere DRS workflow carries over. The alert identifies a node, the workflow checks whether the record already exists, and it acts only when something is missing.</p>
-<h2 class="wp-block-heading" id="h-more-use-cases">More use cases</h2>
-<ul class="wp-block-list">
-<li><strong>Tag the VM</strong> in vCenter (for example with its platform and owner) so reporting policies pick it up.</li>
-<li><strong>Post to chat.</strong> Send the name and IP to the platform team&#8217;s channel through a webhook.</li>
-<li><strong>Confirm capacity.</strong> Compare the new node count against what you planned, and flag scale-outs nobody expected.</li>
-<li><strong>Start a compliance check.</strong> Trigger a baseline scan or a security review on each new node.</li>
-</ul>
-<p>You wire these up exactly as the DRS rule is: a notification rule on the alert, pointing at an outbound plugin.</p>
-<h2 class="wp-block-heading" id="h-wiring-the-webhook">Wiring the webhook</h2>
-<p>A webhook outbound plugin in VCF Operations posts a JSON payload to the workflow&#8217;s REST endpoint. The payload carries values from the alert:</p>
-<pre class="crayon-plain-tag">&lt;code&gt;{&quot;parameters&quot;:&amp;#91;
- {&quot;name&quot;:&quot;alertName&quot;,    &quot;type&quot;:&quot;string&quot;,&quot;value&quot;:{&quot;string&quot;:{&quot;value&quot;:&quot;${ALERT_DEFINITION}&quot;}}},
- {&quot;name&quot;:&quot;resourceName&quot;, &quot;type&quot;:&quot;string&quot;,&quot;value&quot;:{&quot;string&quot;:{&quot;value&quot;:&quot;${RESOURCE_NAME}&quot;}}},
- {&quot;name&quot;:&quot;alertId&quot;,      &quot;type&quot;:&quot;string&quot;,&quot;value&quot;:{&quot;string&quot;:{&quot;value&quot;:&quot;${ALERT_ID}&quot;}}},
- {&quot;name&quot;:&quot;alertStatus&quot;,  &quot;type&quot;:&quot;string&quot;,&quot;value&quot;:{&quot;string&quot;:{&quot;value&quot;:&quot;${ALERT_STATUS}&quot;}}}
-]}&lt;/code&gt;</pre>
-<h2 class="wp-block-heading" id="h-what-to-take-away">What to take away</h2>
-<ul class="wp-block-list">
-<li><strong>Alert on what the platform already knows.</strong> When logs cannot be tied to an object, properties, metrics, and relationships usually can.</li>
-<li><strong>Use a relationship, not a name, to prove identity.</strong> Linking the VM to its node object through the hardware UUID is what stops a look-alike VM from triggering anything.</li>
-<li><strong>Treat the alert as a platform event.</strong> One reliable signal, with a name and an IP, can feed email, DRS placement, your CMDB, and more. Build the signal once, and add responses as you need them.</li>
-<li><strong>Make every action idempotent, and give it a dry run.</strong> Notification systems repeat themselves. An action that is safe to run twice, and can be tested without consequences, removes most of the fear from automation.</li>
-</ul>
-<p>If you already run VCF Operations 9.1.x with the VCF management services adapter, you can build the alert in an afternoon: three symptoms on the VM, one on its child node object, and an email rule. Add a webhook and a workflow when you are ready to act on it. The harder, and more valuable, work is deciding what should happen automatically when platform changes occur.</p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/16/know-the-moment-your-vcf-platform-changes-alerting-on-new-services-runtime-nodes/">Know the Moment Your VCF Platform Changes: Alerting on New Services Runtime Nodes</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/16/know-the-moment-your-vcf-platform-changes-alerting-on-new-services-runtime-nodes/">Know the Moment Your VCF Platform Changes: Alerting on New Services Runtime Nodes</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10109277</post-id>	</item>
-		<item>
-		<title>Building a VCF 9.1 Installer Depot Offline, without a Download Token</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/11/16/building-a-vcf-9-1-installer-depot-offline-without-a-download-token/</link>
-		
-		<dc:creator><![CDATA[syed qamar]]></dc:creator>
-		<pubDate>Mon, 16 Nov 2026 08:33:04 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10109213</guid>
-
-					<description><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-feature-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>In 9.1, the VCF Download Tool (VCFDT) needs an activation code tied to an entitled site. A username and password don&#8217;t work in 9.x. If you&#8217;re a Broadcom partner or an employee, your portal login can usually download individual files from the Broadcom Support Portal, but it often can&#8217;t generate an activation code. That leaves &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/16/building-a-vcf-9-1-installer-depot-offline-without-a-download-token/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/16/building-a-vcf-9-1-installer-depot-offline-without-a-download-token/">Building a VCF 9.1 Installer Depot Offline, without a Download Token</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="168" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-feature-1.png?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="169" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-feature-1.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/dep-feature-1.png 2400w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/dep-feature-1.png?resize=300,169 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/dep-feature-1.png?resize=768,432 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/dep-feature-1.png?resize=1024,576 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/dep-feature-1.png?resize=1536,864 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/dep-feature-1.png?resize=2048,1152 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/dep-feature-1.png?resize=752,423 752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/dep-feature-1.png?resize=576,324 576w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/dep-feature-1.png?resize=600,338 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<figure style="margin:1.3em 0"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-header-card.png" alt="Building a VCF 9.1 Installer Depot Offline, without a Download Token" style="max-width:100%;height:auto;display:block;margin:0 auto" /></figure>
-<p>In 9.1, the VCF Download Tool (VCFDT) needs an activation code tied to an entitled site. A username and password don&#8217;t work in 9.x. If you&#8217;re a Broadcom partner or an employee, your portal login can usually download individual files from the Broadcom Support Portal, but it often can&#8217;t generate an activation code. That leaves you with a freshly deployed VCF Installer and nothing to install from.</p>
-<p>You can still fill it. Download every file and the metadata by hand, build the depot folder structure yourself, copy it to the installer, and let VCFDT upload it. This post walks through that run from start to finish, and explains the one rule that trips most people up: the installer only accepts a component when every file the product version catalog lists for that bundle is present, in the right folder, at the right size. A bundle with even one missing file is skipped without a word.</p>
-<h2 id="two-ways-to-get-binaries-in"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-two-ways-to-get-binaries-in.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Two Ways to Get Binaries In</h2>
-<p>If you&#8217;re a customer with entitlement, don&#8217;t do any of this. Follow the official VCFDT procedure in the <a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/deployment/deploying-a-new-vmware-cloud-foundation-or-vmware-vsphere-foundation-private-cloud-/preparing-your-environment/downloading-binaries-to-the-vcf-installer-appliance/use-the-vmware-download-tool-to-download-binaries.html">Broadcom documentation</a>. With a token or activation code, VCFDT pulls all files and the metadata for you, and every trap below goes away. If the installer has internet or proxy access, the online depot is simpler still.</p>
-<p>If you&#8217;re a partner or building a lab without a token, you download everything by hand, build the depot layout, copy it over, and then follow steps 5 to 7 of the same article. The rest of this post is about that second path, because the article assumes VCFDT did the downloading and so says little about what the folders must look like.</p>
-<h2 id="the-lab"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-the-lab.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />The Lab</h2>
-<ul>
-<li>VCF Installer appliance: 9.1.1.0200.25801073, FQDN <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcf-installer.vcf9.ai</code></li>
-<li>VCFDT: <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcf-download-tool-9.1.1.0200.25801073</code>, a tar.gz extracted on the appliance</li>
-<li>Workstation: Windows with WSL, where the Windows drive appears at <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">/mnt/host/c/...</code></li>
-<li>SSH to the installer as <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcf</code>. Root SSH is disabled by default, so use <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">su -</code> for the root steps</li>
-<li>Depot root on the appliance: <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">/nfs/vmware/vcf/nfs-mount/depot</code>, which will contain <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">PROD</code></li>
-</ul>
-<p>The binaries total roughly 65 GB. Check the space before you start:</p>
-<pre class="crayon-plain-tag">df -h /nfs/vmware/vcf/nfs-mount</pre>
-<h2 id="where-the-files-come-from"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-where-the-files-come-from.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Where the Files Come From</h2>
-<p>Everything is on the Broadcom Support Portal under the VCF 9.1.1 release, on each component&#8217;s download page. That includes the metadata and every yaml and plugin file. Component pages you&#8217;ll visit include Fleet Lifecycle, SDDC Lifecycle, Software Depot, Telemetry and VCF services runtime.</p>
-<p>The yaml and plugin files are tiny, under 35 KB and some under 1 KB, so they&#8217;re easy to miss in a file list. Download them anyway. You&#8217;ll see why in a moment.</p>
-<p>Take the patch builds that match your installer, which here means the <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">.0100</code> and <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">.0200</code> builds, not the 9.1.1.0 GA builds. The catalog only links files from the same build.</p>
-<p>You don&#8217;t need any of these for a fleet install:</p>
-<ul>
-<li>the ESX installer ISO (hosts are installed separately)</li>
-<li>vSphere Supervisor</li>
-<li>HCX</li>
-<li>Native Storage Service</li>
-<li>the optional VCF service entries</li>
-<li>vsan-service-vmsp-backend</li>
-</ul>
-<h2 id="the-depot-layout"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-the-depot-layout.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />The Depot Layout</h2>
-<p>This is everything that ends up under <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">/nfs/vmware/vcf/nfs-mount/depot/</code>. Folder names are case-sensitive and come from the component names in <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">productVersionCatalog.json</code>. Don&#8217;t extract or rename any file.</p>
-<p>Metadata first. It comes from the portal&#8217;s metadata download and must match the build level of the binaries:</p>
-<pre class="crayon-plain-tag">PROD/metadata/manifest/v1/vcfManifest.json
-PROD/metadata/productVersionCatalog/v1/productVersionCatalog.json
-PROD/metadata/productVersionCatalog/v1/productVersionCatalog.sig
-PROD/metadata/Compatibility/v1/VmwareCompatibilityData.json
-PROD/metadata/Compatibility/v2/VmwareCompatibilityData.json
-PROD/metadata/vsan/hcl/all.json
-PROD/metadata/vsan/hcl/lastupdatedtime.json
-PROD/vsan/hcl/all.json                                   (VCFDT reads this path)
-PROD/vsan/hcl/lastupdatedtime.json
-PROD/COMP/SDDC_MANAGER_VCF/Compatibility/VmwareCompatibilityData.json
-PROD/COMP/VCENTER/vmw/8d167796-34d5-4899-be0a-6daade4005a3/upgrade_info.xml
-PROD/COMP/VCENTER/vmw/8d167796-34d5-4899-be0a-6daade4005a3/upgrade_info.sig
-PROD/COMP/VCENTER/vmw/8d167796-34d5-4899-be0a-6daade4005a3/upgrade_info.xml.sha256</pre>
-<p>Appliances need one file each, in <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">PROD/COMP/&lt;FOLDER&gt;/</code>:</p>
-<pre class="crayon-plain-tag">SDDC_MANAGER_VCF/     VCF-SDDC-Manager-Appliance-9.1.1.0200.25801071.ova     (2.40 GB)
-VCENTER/              VMware-VCSA-all-9.1.1.0100.25784172.iso                (9.69 GB)
-NSX_T_MANAGER/        nsx-unified-appliance-9.1.1.0100.25762948.ova          (8.26 GB)
-VROPS/                Operations-Appliance-9.1.1.0100.25795063.ova           (3.14 GB)
-VCF_OPS_CLOUD_PROXY/  Operations-Cloud-Proxy-9.1.1.0100.25795064.ova         (3.22 GB)
-VCF_LICENSE_SERVER/   Vcf-License-Server-9.1.1.0100.25795080.ova             (884 MB)</pre>
-<p>The NSX bundle version in the catalog and the upload summary is <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">9.1.1.0100.25762940</code>, while the OVA file name ends <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">25762948</code>. That&#8217;s expected.</p>
-<p>Service packages need four files each: the package, a plugin, a configuration-schema yaml and a depot-manifest yaml. Same location, <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">PROD/COMP/&lt;FOLDER&gt;/</code>:</p>
-<pre class="crayon-plain-tag">VCF_FLEET_LCM/   (Fleet lifecycle)
-  vcf-fleet-lcm-9.1.1.0200.25801070.tgz
-  vcf-fleet-lcm-plugin-9.1.1.0200.25801070.tgz
-  configuration-schema-vcf-fleet-lcm-9.1.1.0200.25801070.yaml
-  depot-manifest-vcf-fleet-lcm-9.1.1.0200.25801070.yaml
-VCF_SDDC_LCM/   (SDDC lifecycle)
-  vcf-sddc-lcm-9.1.1.0200.25801981.tgz
-  vcf-sddc-lcm-plugin-9.1.1.0200.25801981.tgz
-  configuration-schema-vcf-sddc-lcm-9.1.1.0200.25801981.yaml
-  depot-manifest-vcf-sddc-lcm-9.1.1.0200.25801981.yaml
-DEPOT_SERVICE/   (Software depot)
-  vcf-fleet-depot-9.1.1.0200.25801072.tgz
-  vcf-fleet-depot-plugin-9.1.1.0200.25801072.tgz
-  configuration-schema-vcf-fleet-depot-9.1.1.0200.25801072.yaml
-  depot-manifest-vcf-fleet-depot-9.1.1.0200.25801072.yaml
-VCF_SALT/   (Salt master)
-  salt-9.1.1.0100.25795075.tgz
-  salt-plugin-9.1.1.0100.25795075.tgz
-  configuration-schema-salt-9.1.1.0100.25795075.yaml
-  depot-manifest-salt-9.1.1.0100.25795075.yaml
-VCF_SALT_RAAS/   (Salt RaaS)
-  salt-raas-9.1.1.0100.25795075.tgz
-  salt-raas-plugin-9.1.1.0100.25795075.tgz
-  configuration-schema-salt-raas-9.1.1.0100.25795075.yaml
-  depot-manifest-salt-raas-9.1.1.0100.25795075.yaml
-TELEMETRY_ACCEPTOR/   (Telemetry)
-  telemetry-acceptor-9.1.1.0100.25741214.tgz
-  telemetry-acceptor-plugin-9.1.1.0100.25741214.tgz
-  configuration-schema-telemetry-acceptor-9.1.1.0100.25741214.yaml
-  depot-manifest-telemetry-acceptor-9.1.1.0100.25741214.yaml
-VIDB/   (Identity broker; note the plugin name)
-  vidb-9.1.1.0100.25796677.tgz
-  vidb-upgrade-plugin-9.1.1.0100.25796677.tgz
-  configuration-schema-vidb-9.1.1.0100.25796677.yaml
-  depot-manifest-vidb-9.1.1.0100.25796677.yaml
-VCF_SERVICE_VCD_MIGRATION_BACKEND/   (Migration service engine)
-  vcd-migrator-9.1.1.0200.25801570.tgz
-  vcd-migrator-plugin-9.1.1.0200.25801570.tgz
-  configuration-schema-vcd-migrator-9.1.1.0200.25801570.yaml
-  depot-manifest-vcd-migrator-9.1.1.0200.25801570.yaml
-VRA/   (VCF Automation, 15.69 GB; note the plugin name)
-  vcfa-bundle-9.1.1.0200.25801570.tar
-  vcfa-plugin-9.1.1.0200.25801570.tgz
-  configuration-schema-vcfa-bundle-9.1.1.0200.25801570.yaml
-  depot-manifest-vcfa-bundle-9.1.1.0200.25801570.yaml</pre>
-<p>The VCF services runtime needs six files, in <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">PROD/COMP/VSP/</code> (16.11 GB):</p>
-<pre class="crayon-plain-tag">vmsp-platform-9.1.1.0100.25801571.tar
-vmsp-plugin-9.1.1.0100.25801571.tgz
-vmsp-cli-9.1.1.0100.25801571.tar.gz
-vcf-services-platform-template-9.1.1.0100.25801571.ova
-configuration-schema-vmsp-platform-9.1.1.0100.25801571.yaml
-depot-manifest-vmsp-platform-9.1.1.0100.25801571.yaml</pre>
-<p>The portal&#8217;s display names don&#8217;t match the folder names. Use this mapping:</p>
-<div style="overflow-x:auto;border:1px solid #e1e5ea;border-radius:8px;margin:1.2em 0">
-<table style="border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.45;font-family:Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif;margin:0">
-<thead>
-<tr>
-<th style="text-align:left;font:700 11.5px/1.3 Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#1a1a1a;background:#f4f6f8;padding:9px 12px;border-bottom:2px solid #cfd5dc">Portal display name</th>
-<th style="text-align:left;font:700 11.5px/1.3 Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#1a1a1a;background:#f4f6f8;padding:9px 12px;border-bottom:2px solid #cfd5dc">Folder</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">Fleet Lifecycle</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VCF_FLEET_LCM</code></td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">SDDC Lifecycle</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VCF_SDDC_LCM</code></td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">Software Depot</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">DEPOT_SERVICE</code></td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">Salt master</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VCF_SALT</code></td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">Salt RaaS</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VCF_SALT_RAAS</code></td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">Telemetry</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">TELEMETRY_ACCEPTOR</code></td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">Identity broker</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VIDB</code></td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">VCF service &#8211; Migration service engine</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VCF_SERVICE_VCD_MIGRATION_BACKEND</code></td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">VCF Automation</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VRA</code></td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb;border-bottom:0">VCF services runtime</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb;border-bottom:0"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VSP</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="the-procedure"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-the-procedure.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />The Procedure</h2>
-<h3 id="1-deploy-the-vcf-installer-appliance"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-1-deploy-the-vcf-installer-appliance.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />1. Deploy the VCF Installer Appliance</h3>
-<p>Nothing special here. Deploy it the usual way and make sure you can SSH to it as <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcf</code>.</p>
-<h3 id="2-prepare-the-folders"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-2-prepare-the-folders.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />2. Prepare the Folders</h3>
-<p>On the installer, as root:</p>
-<pre class="crayon-plain-tag">mkdir -p /nfs/vmware/vcf/nfs-mount/depot /nfs/vmware/vcf/nfs-mount/vcfdt
-chown vcf:vcf /nfs/vmware/vcf/nfs-mount/depot /nfs/vmware/vcf/nfs-mount/vcfdt</pre>
-<h3 id="3-copy-the-downloads-to-the-installer"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-3-copy-the-downloads-to-the-installer.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />3. Copy the Downloads to the Installer</h3>
-<p>Download every file listed above from the portal into one folder on the workstation. Then copy it from WSL. Install rsync first if you don&#8217;t have it:</p>
-<pre class="crayon-plain-tag">sudo apt install -y rsync
-rsync -rtvP /mnt/host/c/Users/&amp;lt;user&amp;gt;/Downloads/&amp;lt;folder&amp;gt;/ vcf@&amp;lt;installer-fqdn&amp;gt;:/nfs/vmware/vcf/nfs-mount/depot/</pre>
-<p>Use <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">-rtvP</code> rather than <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">-aP</code>. Files on a Windows mount carry odd permissions, and <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">-a</code> would try to preserve them. Mind the trailing slashes, which decide whether you copy the folder&#8217;s contents or the folder itself. <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">-P</code> lets an interrupted copy resume, which you&#8217;ll appreciate with a 16 GB file.</p>
-<h3 id="4-sort-the-flat-files-into-the-component-folders"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-4-sort-the-flat-files-into-the-component-folders.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />4. Sort the Flat Files into the Component Folders</h3>
-<div style="border-left:6px solid #cc092f;background:rgba(204,9,47,.08);border-radius:0 8px 8px 0;padding:12px 16px;font-size:15.5px;margin:1.2em 0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif;color:#1f2933;font-weight:500"><b style="display:block;font:700 12px/1 Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#cc092f;margin-bottom:6px">Important</b></p>
-<p style="margin:0">The folder structure and file names are what VCFDT reads to find the binaries. It looks in <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">PROD/COMP/&lt;FOLDER&gt;</code> for the file names the product version catalog lists, and the folder names must match the catalog&#8217;s component names, case included. A file in the wrong folder, a renamed or extracted file, or a missing yaml or plugin file means the bundle is skipped without an error, and that component never reaches the VCF Installer. Keep every file as downloaded and let the loop below place it.</p>
-</div>
-<p>The files landed flat in the depot root. As root, from the depot root, this loop moves each one into <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">PROD/COMP/&lt;FOLDER&gt;</code>:</p>
-<pre class="crayon-plain-tag">cd /nfs/vmware/vcf/nfs-mount/depot
-for f in *; do
-  [ -f &quot;$f&quot; ] || continue
-  b=${f#configuration-schema-}; b=${b#depot-manifest-}
-  case &quot;$b&quot; in
-    VCF-SDDC-Manager-Appliance-*) d=SDDC_MANAGER_VCF ;;
-    VMware-VCSA-all-*)            d=VCENTER ;;
-    nsx-unified-appliance-*)      d=NSX_T_MANAGER ;;
-    Operations-Appliance-*)       d=VROPS ;;
-    Operations-Cloud-Proxy-*)     d=VCF_OPS_CLOUD_PROXY ;;
-    Vcf-License-Server-*)         d=VCF_LICENSE_SERVER ;;
-    vcfa-*)                       d=VRA ;;
-    vidb-*)                       d=VIDB ;;
-    vcf-fleet-lcm-*)              d=VCF_FLEET_LCM ;;
-    vcf-sddc-lcm-*)               d=VCF_SDDC_LCM ;;
-    vcf-fleet-depot-*)            d=DEPOT_SERVICE ;;
-    salt-raas-*)                  d=VCF_SALT_RAAS ;;
-    salt-*)                       d=VCF_SALT ;;
-    telemetry-acceptor-*)         d=TELEMETRY_ACCEPTOR ;;
-    vcd-migrator-*)               d=VCF_SERVICE_VCD_MIGRATION_BACKEND ;;
-    vmsp-*|vcf-services-platform-*) d=VSP ;;
-    *) echo &quot;SKIP $f&quot;; continue ;;
-  esac
-  mkdir -p PROD/COMP/$d &amp;amp;&amp;amp; mv -v &quot;$f&quot; PROD/COMP/$d/
-done</pre>
-<p>A few things in that loop are deliberate:</p>
-<ul>
-<li><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">salt-raas-*</code> has to be matched before <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">salt-*</code>, or the Salt RaaS files end up in the Salt master folder.</li>
-<li>Match <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcfa-*</code>, not <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcfa-bundle-*</code>, so that <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcfa-plugin</code> lands in <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VRA</code> along with the bundle.</li>
-<li><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcf-services-platform-template</code> goes to <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VSP</code>, which is why the last pattern has two alternatives.</li>
-<li>The prefix strip at the top sends each yaml to the same folder as its package.</li>
-</ul>
-<p>To use it, run it as root from the depot root, as shown. It only looks at regular files sitting directly in that folder, so <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">PROD</code> and anything already sorted is left alone, and it&#8217;s safe to run again after you copy in more files. Anything it doesn&#8217;t recognise prints <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">SKIP &lt;name&gt;</code> and stays where it is, which tells you to check the file name or add a pattern.</p>
-<p>Sorting by hand means placing 48 files into 16 folders, and the plugin and yaml files are the ones that end up in the wrong folder or get forgotten. The loop sorts them the same way every time, so the ordering rules above are written down once instead of remembered for every file.</p>
-<figure style="margin:1.3em 0"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-figure-01.png" alt="ls of PROD/COMP showing the component folders" style="border:1px solid #e1e5ea;border-radius:8px;max-width:100%;height:auto;display:block" /><figcaption style="font-size:13.5px;color:#6b7682;margin-top:8px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif">The component folders under PROD/COMP after the sort.</figcaption></figure>
-<h3 id="5-copy-the-metadata-into-prod"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-5-copy-the-metadata-into-prod.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />5. Copy the Metadata into PROD</h3>
-<p>Put the metadata files at the paths shown in the layout above, exactly. VCFDT reads fixed locations, and a file one folder off is the same as a file that isn&#8217;t there.</p>
-<h3 id="6-extract-vcfdt"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-6-extract-vcfdt.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />6. Extract VCFDT</h3>
-<p>Extract the VCFDT tar.gz under <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">/nfs/vmware/vcf/nfs-mount/vcfdt</code>. The <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">bin</code> folder you&#8217;ll run it from in step 9 sits under that path.</p>
-<h3 id="7-fix-ownership-and-permissions"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-7-fix-ownership-and-permissions.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />7. Fix Ownership and Permissions</h3>
-<p>As root:</p>
-<pre class="crayon-plain-tag">chown -R vcf_lcm:vcf /nfs/vmware/vcf/nfs-mount/depot
-find /nfs/vmware/vcf/nfs-mount/depot -type d -exec chmod 755 {} ;
-find /nfs/vmware/vcf/nfs-mount/depot -type f -exec chmod 644 {} ;</pre>
-<p>This step looks cosmetic and isn&#8217;t. The troubleshooting section explains why the upload fails without it. Run it again any time you copy something new into the depot as <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcf</code>.</p>
-<h3 id="8-verify-every-bundle-against-the-catalog"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-8-verify-every-bundle-against-the-catalog.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />8. Verify Every Bundle against the Catalog</h3>
-<p>Before you upload anything, check the depot against the product version catalog. The script below reads <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">productVersionCatalog.json</code>, finds each INSTALL bundle that matches a file in each folder, and checks that every file the bundle lists exists at the catalog&#8217;s exact size.</p>
-<pre class="crayon-plain-tag">import json, os
-P = '/nfs/vmware/vcf/nfs-mount/depot/PROD/metadata/productVersionCatalog/v1/productVersionCatalog.json'
-C = '/nfs/vmware/vcf/nfs-mount/depot/PROD/COMP'
-bundles = []
-def walk(o):
-    if isinstance(o, dict):
-        if 'binaries' in o and 'id' in o: bundles.append(o)
-        for v in o.values(): walk(v)
-    elif isinstance(o, list):
-        for v in o: walk(v)
-walk(json.load(open(P)))
-for comp in sorted(os.listdir(C)):
-    d = os.path.join(C, comp)
-    if not os.path.isdir(d): continue
-    have = set(os.listdir(d))
-    for b in bundles:
-        if b.get('type') != 'INSTALL': continue
-        if not have.intersection(x['fileName'] for x in b['binaries']): continue
-        print(f&quot;== {comp}  bundle {b['id']}&quot;)
-        for x in b['binaries']:
-            f = os.path.join(d, x['fileName'])
-            st = 'MISSING' if not os.path.exists(f) else ('OK' if os.path.getsize(f) == x.get('size') else 'WRONG SIZE')
-            print(f&quot;   {st:&amp;lt;12} {x['fileName']}&quot;)</pre>
-<p>Save it with vi rather than pasting a heredoc into the terminal, which can mangle the indentation. Every line must say <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">OK</code> before you upload.</p>
-<p>A check based on file name patterns isn&#8217;t enough here. Plugin names don&#8217;t follow one pattern (<code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vidb-upgrade-plugin</code>, <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcfa-plugin</code>), so a pattern-based check passes folders that are missing a file. Reading the catalog is the only way to know what each bundle really wants.</p>
-<p>To use it, save it as <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">check-depot.py</code> with vi and run <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">python3 check-depot.py</code> as root. It changes nothing and only prints. The two paths at the top, <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">P</code> for the catalog and <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">C</code> for <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">PROD/COMP</code>, match the depot root used in this post, so edit them if yours is somewhere else. Each folder gets a heading with the catalog&#8217;s bundle ID, then one line per required file marked <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">OK</code>, <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">MISSING</code> or <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">WRONG SIZE</code>. Pipe it through <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">tee</code> if you want a copy of the output to work from.</p>
-<p>The installer skips an incomplete bundle without telling you, so the first sign of a missing file is a component that never shows up, usually after a long upload. The script turns that into a list of exactly which file is missing or the wrong size, before you upload anything. Doing the same check by hand means opening the pretty-printed catalog and comparing the listed size of every file with what&#8217;s on disk, for 48 files. The script does it in a few seconds and reads the file list from the catalog itself, so it catches the oddly named plugin files that a name-based check misses.</p>
-<figure style="margin:1.3em 0"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-figure-02.png" alt="The step 8 check output with every line OK" style="border:1px solid #e1e5ea;border-radius:8px;max-width:100%;height:auto;display:block" /><figcaption style="font-size:13.5px;color:#6b7682;margin-top:8px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif">The catalog check, with every file reporting OK.</figcaption></figure>
-<h3 id="9-upload"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-9-upload.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />9. Upload</h3>
-<pre class="crayon-plain-tag">cd /nfs/vmware/vcf/nfs-mount/vcfdt/bin
-./vcf-download-tool binaries upload --depot-store /nfs/vmware/vcf/nfs-mount/depot --sddc-manager-fqdn vcf-installer.vcf9.ai --sddc-manager-user admin@local --sddc-manager-user-password-file &amp;lt;password file&amp;gt;</pre>
-<p><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">--depot-store</code> points at the folder that contains <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">PROD</code>, not at <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">PROD</code> itself. On the first run VCFDT asks whether to trust the installer&#8217;s certificate. Answer yes. Keep the SSH session open, because the two 16 GB components take a while. Delete the password file when you&#8217;re done.</p>
-<figure style="margin:1.3em 0"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-figure-03.png" alt="VCFDT console during upload, showing the bundle list and an IN_PROGRESS line" style="border:1px solid #e1e5ea;border-radius:8px;max-width:100%;height:auto;display:block" /><figcaption style="font-size:13.5px;color:#6b7682;margin-top:8px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif">VCFDT queuing the six appliance bundles, then the 20 service package bundles, and polling one that&#8217;s still uploading. The two tables come from separate runs.</figcaption></figure>
-<h3 id="10-check-binary-management"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-10-check-binary-management.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />10. Check Binary Management</h3>
-<p>In the installer UI, open Binary Management for VMware Cloud Foundation 9.1.1.0. Online Depot and Offline Depot both show as not configured. That&#8217;s expected when you side-load.</p>
-<h2 id="how-the-upload-decides-what-to-accept"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-how-the-upload-decides-what-to-accept.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />How the Upload Decides What to Accept</h2>
-<p>Knowing what VCFDT does makes the failures easier to read.</p>
-<p>It starts with metadata, uploading in a fixed order: vSAN HCL, compatibility data, the unified release manifest, the product version catalog, and the vCenter upgrade info. It only indexes binaries after all five succeed.</p>
-<p>Then it scans each component folder against the catalog&#8217;s bundles. Each bundle entry lists every file name with a checksum, a size and a tag: <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">BINARY</code>, <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">BINARY_SCHEMA</code>, <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">DEPOT_MANIFEST</code> or <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">PLUGIN_BINARY</code>. If every listed file is there, VCFDT logs &#8220;local files exist (OCI verification disabled)&#8221; and queues the bundle. If one is missing, it logs &#8220;has missing local files&#8221; and skips the bundle. Nothing on the console tells you that happened. The only hint is a smaller element count.</p>
-<p>Appliances have a single INSTALL bundle each. Service packages show up twice, as an INSTALL bundle and a PATCH bundle that share the same files. Six appliances plus ten service components gives 26 bundles.</p>
-<p>Once a bundle is queued, the console prints &#8220;Uploading binary for Component: &#8230;&#8221; and polls IN_PROGRESS every 10 seconds until it reaches SUCCESSFUL. A Binary Upload Summary table closes the run.</p>
-<p>After a successful upload, VCFDT deletes the uploaded binaries from the depot (&#8220;Cleaning binary files &#8230; after successful upload&#8221;). Re-running is safe. Components already at Success stay at Success, and the manifest step logs <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">LCM_MANIFEST_ALREADY_EXISTS</code> and still reports success.</p>
-<h2 id="troubleshooting"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-troubleshooting.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Troubleshooting</h2>
-<h3 id="the-sso-credentials-for-user-vcf-are-not-correct-or-the-sso-account-is-locked"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-the-sso-credentials-for-user-vcf-are-not-correct-or-the-sso-account-is-locked.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />&#8220;The SSO credentials for user vcf are not correct or the SSO account is locked.&#8221;</h3>
-<p>You passed the OS user to the tool. Use the installer&#8217;s local admin instead: <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">--sddc-manager-user admin@local</code>.</p>
-<h3 id="metadata-files-not-found"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-metadata-files-not-found.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Metadata Files Not Found</h3>
-<p>You&#8217;ll see a <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">NoSuchFileException</code> for <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">PROD/vsan/hcl/all.json</code>, <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VmwareCompatibilityData.json</code> or <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcfManifest.json</code>. Put the metadata at the exact paths in the layout above. Note that <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">all.json</code> is needed in two places: under <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">PROD/metadata/vsan/hcl/</code> and under <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">PROD/vsan/hcl/</code>.</p>
-<h3 id="insufficient-product-version-catalog-read-permissions-or-insufficient-vcenter-upgrade-info-read-permissions"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-insufficient-product-version-catalog-read-permissions-or-insufficient-vcenter-upgrade-info-read-permissions.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />INSUFFICIENT_PRODUCT_VERSION_CATALOG_READ_PERMISSIONS or INSUFFICIENT_VCENTER_UPGRADE_INFO_READ_PERMISSIONS</h3>
-<p>This one is confusing because the log can say &#8220;Signature in productVersionCatalog.sig is valid&#8221; right before it fails.</p>
-<p>VCFDT runs as <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcf</code> and streams some files itself. For the catalog and the vCenter upgrade info, though, it only passes the path, and the installer&#8217;s LCM service reads the file from disk as <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcf_lcm</code>. Folders created by the <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcf</code> account are private (<code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">drwx------</code>), so <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcf_lcm</code> can&#8217;t get in. Running <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">namei -l</code> on the file path shows which folder is blocking it.</p>
-<p>The fix is step 7. To verify it, read the file as <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcf_lcm</code>:</p>
-<pre class="crayon-plain-tag">su -s /bin/bash vcf_lcm -c &quot;cat &amp;lt;file&amp;gt; &amp;gt; /dev/null &amp;amp;&amp;amp; echo OK&quot;</pre>
-<p>Re-run step 7 after you copy anything new in as <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcf</code>.</p>
-<h3 id="file-does-not-exist-at-the-password-file-path"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-file-does-not-exist-at-the-password-file-path.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />File Does Not Exist at the Password File Path</h3>
-<p>The path to <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">installer-password.txt</code> is wrong for the user running the tool. Check it from the same account.</p>
-<h3 id="only-the-appliances-upload-and-the-service-packages-stay-not-downloaded"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-only-the-appliances-upload-and-the-service-packages-stay-not-downloaded.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Only the Appliances Upload and the Service Packages Stay &#8220;Not downloaded&#8221;</h3>
-<p>Someone downloaded only the <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">.tgz</code> or <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">.tar</code> package without its yaml and plugin files. Download all four files per package (six for VSP) and run the step 8 script.</p>
-<h3 id="the-upload-lists-0-elements-and-nothing-uploads"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-the-upload-lists-0-elements-and-nothing-uploads.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />The Upload Lists &#8220;0 elements&#8221; and Nothing Uploads</h3>
-<p>The files look right and nothing happens. The cause is a missing plugin file or the VSP template OVA, which name-based checks don&#8217;t catch. Read the catalog entry to see every file the bundle requires:</p>
-<pre class="crayon-plain-tag">grep -n -B30 -A20 '&quot;fileName&quot;: &quot;&amp;lt;file&amp;gt;&quot;' PROD/metadata/productVersionCatalog/v1/productVersionCatalog.json</pre>
-<p>The catalog is pretty-printed JSON, so <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">grep -o</code> on a single line shows nothing useful.</p>
-<h3 id="failed-to-load-the-token-etc-security-token-token-properties-permission-denied"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-failed-to-load-the-token-etc-security-token-token-properties-permission-denied.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />&#8220;Failed to load the token &#8230; /etc/security/token/token.properties (Permission denied)&#8221;</h3>
-<p>This appears on every run as <code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">vcf</code>. It&#8217;s harmless.</p>
-<h2 id="the-outcome"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-the-outcome.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />The Outcome</h2>
-<p>All 26 bundles uploaded with status SUCCESS and none failed. The six appliances have one INSTALL bundle. The ten service components have both INSTALL and PATCH:</p>
-<div style="overflow-x:auto;border:1px solid #e1e5ea;border-radius:8px;margin:1.2em 0">
-<table style="border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.45;font-family:Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif;margin:0">
-<thead>
-<tr>
-<th style="text-align:left;font:700 11.5px/1.3 Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#1a1a1a;background:#f4f6f8;padding:9px 12px;border-bottom:2px solid #cfd5dc">Folder</th>
-<th style="text-align:left;font:700 11.5px/1.3 Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#1a1a1a;background:#f4f6f8;padding:9px 12px;border-bottom:2px solid #cfd5dc">Component</th>
-<th style="text-align:left;font:700 11.5px/1.3 Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#1a1a1a;background:#f4f6f8;padding:9px 12px;border-bottom:2px solid #cfd5dc">Version</th>
-<th style="text-align:left;font:700 11.5px/1.3 Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#1a1a1a;background:#f4f6f8;padding:9px 12px;border-bottom:2px solid #cfd5dc">Bundles</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VCF_LICENSE_SERVER</code></td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">License server</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">9.1.1.0100.25795080</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">INSTALL</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">SDDC_MANAGER_VCF</code></td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">SDDC Manager</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">9.1.1.0200.25801071</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">INSTALL</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">NSX_T_MANAGER</code></td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">VMware NSX</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">9.1.1.0100.25762940</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">INSTALL</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VROPS</code></td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">VCF Operations</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">9.1.1.0100.25795063</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">INSTALL</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VCENTER</code></td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">VMware vCenter</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">9.1.1.0100.25784172</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">INSTALL</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VCF_OPS_CLOUD_PROXY</code></td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">Cloud proxy</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">9.1.1.0100.25795064</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">INSTALL</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VSP</code></td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">VCF services runtime</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">9.1.1.0100.25801571</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">INSTALL + PATCH</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VRA</code></td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">VCF Automation</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">9.1.1.0200.25801570</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">INSTALL + PATCH</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VCF_SALT</code></td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">Salt master</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">9.1.1.0100.25795075</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">INSTALL + PATCH</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VIDB</code></td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">Identity broker</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">9.1.1.0100.25796677</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">INSTALL + PATCH</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VCF_SERVICE_VCD_MIGRATION_BACKEND</code></td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">Migration service engine</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">9.1.1.0200.25801570</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">INSTALL + PATCH</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VCF_FLEET_LCM</code></td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">Fleet lifecycle</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">9.1.1.0200.25801070</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">INSTALL + PATCH</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VCF_SDDC_LCM</code></td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">SDDC lifecycle</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">9.1.1.0200.25801981</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">INSTALL + PATCH</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">TELEMETRY_ACCEPTOR</code></td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">Telemetry</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">9.1.1.0100.25741214</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">INSTALL + PATCH</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">DEPOT_SERVICE</code></td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">Software depot</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">9.1.1.0200.25801072</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">INSTALL + PATCH</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb;border-bottom:0"><code style="font:500 .86em &#039;IBM Plex Mono&#039;,ui-monospace,Menlo,Consolas,monospace;background:#f4f6f8;border:1px solid #e1e5ea;padding:.1em .35em;border-radius:3px;color:inherit">VCF_SALT_RAAS</code></td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb;border-bottom:0">Salt RaaS</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb;border-bottom:0">9.1.1.0100.25795075</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb;border-bottom:0">INSTALL + PATCH</td>
-</tr>
-</tbody>
-</table>
-</div>
-<figure style="margin:1.3em 0"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-figure-04.png" alt="Binary Upload Summaries showing SUCCESS for all 26 bundles" style="border:1px solid #e1e5ea;border-radius:8px;max-width:100%;height:auto;display:block" /><figcaption style="font-size:13.5px;color:#6b7682;margin-top:8px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif">The Binary Upload Summaries from the two runs: 6 SUCCESS for the appliances and 20 SUCCESS for the service packages, 26 bundles in total.</figcaption></figure>
-<p>Binary Management for VMware Cloud Foundation 9.1.1.0 now shows all 16 components at Success:</p>
-<div style="overflow-x:auto;border:1px solid #e1e5ea;border-radius:8px;margin:1.2em 0">
-<table style="border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.45;font-family:Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif;margin:0">
-<thead>
-<tr>
-<th style="text-align:left;font:700 11.5px/1.3 Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#1a1a1a;background:#f4f6f8;padding:9px 12px;border-bottom:2px solid #cfd5dc">Component</th>
-<th style="text-align:left;font:700 11.5px/1.3 Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#1a1a1a;background:#f4f6f8;padding:9px 12px;border-bottom:2px solid #cfd5dc">Version</th>
-<th style="text-align:left;font:700 11.5px/1.3 Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#1a1a1a;background:#f4f6f8;padding:9px 12px;border-bottom:2px solid #cfd5dc">Size</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">Cloud proxy</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">9.1.1.0100</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">3.22 GB</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">Fleet lifecycle</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">9.1.1.0200</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">582.57 MB</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">Identity broker</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">9.1.1.0100</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">858.77 MB</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">License server</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">9.1.1.0100</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">884.16 MB</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">Migration service engine</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">9.1.1.0200</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">524.67 MB</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">Salt master</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">9.1.1.0100</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">393.84 MB</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">Salt RaaS</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">9.1.1.0100</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">655.78 MB</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">SDDC lifecycle</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">9.1.1.0200</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">650.06 MB</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">SDDC Manager</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">9.1.1.0200</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">2.40 GB</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">Software depot</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">9.1.1.0200</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">879.89 MB</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">Telemetry</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">9.1.1.0100</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">240.50 MB</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">VCF Automation</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">9.1.1.0200</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">15.69 GB</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">VCF Operations</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">9.1.1.0100</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">3.14 GB</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">VCF services runtime</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">9.1.1.0100</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb">16.11 GB</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">VMware NSX</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">9.1.1.0100</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0">8.26 GB</td>
-</tr>
-<tr>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb;border-bottom:0">VMware vCenter</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb;border-bottom:0">9.1.1.0100</td>
-<td style="padding:8px 12px;border-bottom:1px solid #e1e5ea;color:#4a5562;vertical-align:top;border-top:0;background:#f9fafb;border-bottom:0">9.69 GB</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>The Download Summary for 9.1.1.0 shows VMware vSphere Foundation and VMware Cloud Foundation both as &#8220;Downloaded&#8221;. The installer is ready for fleet deployment.</p>
-<figure style="margin:1.3em 0"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-figure-05.png" alt="Binary Management with all 16 components at Success and 9.1.1.0 Downloaded" style="border:1px solid #e1e5ea;border-radius:8px;max-width:100%;height:auto;display:block" /><figcaption style="font-size:13.5px;color:#6b7682;margin-top:8px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif">Binary Management after the upload.</figcaption></figure>
-<h2 id="two-more-things"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-icon-two-more-things.png" alt="" style="height:1.15em;width:auto;vertical-align:-0.22em;margin-right:0.45em;border-radius:4px" />Two More Things</h2>
-<div style="border-left:4px solid #0091da;background:#f4f6f8;border-radius:0 8px 8px 0;padding:12px 16px;font-size:15.5px;margin:1.2em 0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif;color:#1f2933"><b style="display:block;font:700 12px/1 Inter,ui-sans-serif,system-ui,-apple-system,&#039;Segoe UI&#039;,Arial,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#0072a3;margin-bottom:6px">Note</b></p>
-<p style="margin:0">This is a 9.1-specific step. After the fleet deploys, the management component binaries also have to be uploaded into the new Fleet Depot Service when you aren&#8217;t using an offline depot.</p>
-</div>
-<p>If you can get a customer token or activation code, use it. VCFDT then pulls all files and metadata itself, and none of the layout rules above apply. The online depot is easier again if the installer has internet or proxy access.</p>
-<figure style="margin:0"><img decoding="async" src="https://blogs.vmware.com/wp-content/uploads/2026/11/dep-tags.png" alt="" style="max-width:260px;margin:1.2em 0;height:auto;display:block" /></figure>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/16/building-a-vcf-9-1-installer-depot-offline-without-a-download-token/">Building a VCF 9.1 Installer Depot Offline, without a Download Token</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/16/building-a-vcf-9-1-installer-depot-offline-without-a-download-token/">Building a VCF 9.1 Installer Depot Offline, without a Download Token</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10109213</post-id>	</item>
 	</channel>
 </rss>
