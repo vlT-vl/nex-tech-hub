@@ -4,11 +4,117 @@
     <language>en-US</language>
     <title>Proxmox Support Forum</title>
     <description>Proxmox Support Forum</description>
-    <pubDate>Sat, 21 Nov 2026 23:03:39 +0000</pubDate>
-    <lastBuildDate>Sat, 21 Nov 2026 23:03:39 +0000</lastBuildDate>
+    <pubDate>Sun, 22 Nov 2026 05:09:35 +0000</pubDate>
+    <lastBuildDate>Sun, 22 Nov 2026 05:09:35 +0000</lastBuildDate>
     <generator>Proxmox Support Forum</generator>
     <link>https://forum.proxmox.com/</link>
     <atom:link rel="self" type="application/rss+xml" href="https://forum.proxmox.com/forums/-/index.rss"/>
+    <item>
+      <title>Issue with booting kernels after 7.0.14-6</title>
+      <pubDate>Sun, 22 Nov 2026 01:04:40 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/issue-with-booting-kernels-after-7-0-14-6.185725/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:185725</guid>
+      <author>invalid@example.com (ADFHogan)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>ADFHogan</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have a Qotom Q20332G9-S10 with an Intel C3758 processor running firmware QDNV0121.V11, dated 02/21/2024 (latest available).<br />
+It&#039;s a small mini PC with a heap of networking ports on it that I use as my home gateway (OPNsense, UnifiOS, HAOS etc.).<br />
+Samsung 970 EVO Plus 1TB NVMe.<br />
+<br />
+Recently it&#039;s developed an issue where if I try to boot it up with a kernel more recent than 7.0.14-6, grub will display:<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>Loading Linux 7.0.14-11-pve ...
+Loading initial ramdisk ...</code></pre>
+	</div>
+</div>... and just hangs.. numlock...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/issue-with-booting-kernels-after-7-0-14-6.185725/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>7</slash:comments>
+    </item>
+    <item>
+      <title>Backups - Is this a bug, and if so how do I report it?</title>
+      <pubDate>Sun, 22 Nov 2026 00:02:54 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/backups-is-this-a-bug-and-if-so-how-do-i-report-it.187733/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187733</guid>
+      <author>invalid@example.com (Jeremy E)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>Jeremy E</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">I have just noticed in the logs for my backups that the task is removing backups that I thought I was keeping... it appears as though it is treating the &quot;Keep Hourly/Daily/Weekly/Monthly/Yearly&quot; (under Retention) option the same as I would expect from &quot;Keep Last&quot;. I&#039;m sure it <u>used</u> to work as expected.<br />
+<br />
+I see these - today (here) is the 22nd of November:<br />
+<br />
+
+	
+	
+
+
+<div class="bbCodeBlock bbCodeBlock--screenLimited bbCodeBlock--code">
+	<div class="bbCodeBlock-title">
+		Code:
+	</div>
+	<div class="bbCodeBlock-content" dir="ltr">
+		<pre class="bbCodeCode" dir="ltr" data-xf-init="code-block" data-lang=""><code>100: 2026-11-22 00:00:07 INFO: Starting Backup of VM 100 (lxc)
+[truncated for brevity]
+100: 2026-11-22 00:00:08 INFO: creating...</code></pre>
+	</div>
+</div><br />
+<a href="https://forum.proxmox.com/threads/backups-is-this-a-bug-and-if-so-how-do-i-report-it.187733/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>1</slash:comments>
+    </item>
+    <item>
+      <title>Intel Arc A580 idle power regression with kernel 7.0.14-20/22-pve</title>
+      <pubDate>Sat, 21 Nov 2026 23:54:17 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/intel-arc-a580-idle-power-regression-with-kernel-7-0-14-20-22-pve.186930/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:186930</guid>
+      <author>invalid@example.com (seylon79)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>seylon79</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
+<br />
+I&#039;ve noticed what appears to be a kernel regression affecting the idle power consumption of an Intel Arc A580.<br />
+<br />
+<b>Hardware:</b><br />
+<br />
+<ul>
+<li data-xf-list-type="ul">Proxmox VE 9.2</li>
+<li data-xf-list-type="ul">AMD Ryzen 5 9600X</li>
+<li data-xf-list-type="ul">Intel Arc A580</li>
+<li data-xf-list-type="ul">Arc is using the i915 driver</li>
+</ul>I originally noticed that the Arc was drawing significantly more power than expected at idle. I tested this by booting different installed Proxmox kernels.<br />
+<br />
+<b>Results:</b><br />
+<br />
+<div class="bbTable">
+<table style='width: 100%'><tr><th>Kernel</th><th>Arc A580 idle power</th></tr><tr><td>7.0.14-16-pve</td><td>~6 W</td></tr></table>
+...</div><br />
+<a href="https://forum.proxmox.com/threads/intel-arc-a580-idle-power-regression-with-kernel-7-0-14-20-22-pve.186930/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>16</slash:comments>
+    </item>
+    <item>
+      <title>Opt-in Linux 7.3 Kernel for Proxmox VE 9 available</title>
+      <pubDate>Sat, 21 Nov 2026 23:41:57 +0000</pubDate>
+      <link>https://forum.proxmox.com/threads/opt-in-linux-7-3-kernel-for-proxmox-ve-9-available.187665/</link>
+      <guid isPermaLink="false">urn:xenforo:thread:187665</guid>
+      <author>invalid@example.com (t.lamprecht)</author>
+      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
+      <dc:creator>t.lamprecht</dc:creator>
+      <content:encoded><![CDATA[<div class="bbWrapper">We recently uploaded the 7.3 kernel to the test and no-subscription repositories of all our Debian Trixie-based releases. It will stay an opt-in kernel for these release series, while the 7.0-based kernel remains the default for them.<br />
+<br />
+Unlike our previous kernels, which were based on the Ubuntu kernel, the 7.3 kernel is based directly on the upstream stable branch from kernel.org. 7.3 is also likely to become this year&#039;s upstream longterm (LTS) kernel.<br />
+We have a long-standing and good...<br />
+<br />
+<a href="https://forum.proxmox.com/threads/opt-in-linux-7-3-kernel-for-proxmox-ve-9-available.187665/" class="link link--internal">Read more</a></div>]]></content:encoded>
+      <slash:comments>34</slash:comments>
+    </item>
     <item>
       <title>CVE-2026-99288 (NoisyTCP) status in Proxmox</title>
       <pubDate>Sat, 21 Nov 2026 22:57:22 +0000</pubDate>
@@ -165,22 +271,6 @@ how can I turn it off completely so as to not make one more place to check for c
 Attached find my pve-pve-report<br />
 Proxmox Ver: 9.2.26</div>]]></content:encoded>
       <slash:comments>8</slash:comments>
-    </item>
-    <item>
-      <title>Opt-in Linux 7.3 Kernel for Proxmox VE 9 available</title>
-      <pubDate>Sat, 21 Nov 2026 18:59:41 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/opt-in-linux-7-3-kernel-for-proxmox-ve-9-available.187665/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187665</guid>
-      <author>invalid@example.com (t.lamprecht)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>t.lamprecht</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">We recently uploaded the 7.3 kernel to the test and no-subscription repositories of all our Debian Trixie-based releases. It will stay an opt-in kernel for these release series, while the 7.0-based kernel remains the default for them.<br />
-<br />
-Unlike our previous kernels, which were based on the Ubuntu kernel, the 7.3 kernel is based directly on the upstream stable branch from kernel.org. 7.3 is also likely to become this year&#039;s upstream longterm (LTS) kernel.<br />
-We have a long-standing and good...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/opt-in-linux-7-3-kernel-for-proxmox-ve-9-available.187665/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>33</slash:comments>
     </item>
     <item>
       <title>Installation not work in local</title>
@@ -354,74 +444,6 @@ My current setup is a three-node Proxmox cluster:<br />
 <br />
 <a href="https://forum.proxmox.com/threads/glusterfs-replacement-for-small-proxmox-clusters-2-storage-nodes-arbiter.187718/" class="link link--internal">Read more</a></div>]]></content:encoded>
       <slash:comments>2</slash:comments>
-    </item>
-    <item>
-      <title>set vm ram in GB instead of MB in gui</title>
-      <pubDate>Sat, 21 Nov 2026 13:13:27 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/set-vm-ram-in-gb-instead-of-mb-in-gui.184916/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:184916</guid>
-      <author>invalid@example.com (nd6376)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>nd6376</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">is it possible to input the ram of a vm in the &quot;create VM&quot; gui in GB increments on top of entering the exact MB required?<br />
-<br />
-eg, 8GB instead of 8192MB via a dropbox for MB, GB, TB<br />
-<br />
-<a href="https://forum.proxmox.com/attachments/1783558022894-png.98866/"
-		target="_blank"><img src="https://forum.proxmox.com/data/attachments/98/98562-b00d912d2b5c38d8449969a8f6589365.jpg?hash=PvPO6tfSQm"
-		srcset="https://forum.proxmox.com/data/attachments/98/2x/98562-b00d912d2b5c38d8449969a8f6589365.jpg?hash=PvPO6tfSQm 2x"
-		class="bbImage "
-		style=""
-		alt="1783558022894.png"
-		title="1783558022894.png"
-		width="434" height="150" loading="lazy" /></a></div>]]></content:encoded>
-      <slash:comments>20</slash:comments>
-    </item>
-    <item>
-      <title>Intel Arc A580 idle power regression with kernel 7.0.14-20/22-pve</title>
-      <pubDate>Sat, 21 Nov 2026 13:08:25 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/intel-arc-a580-idle-power-regression-with-kernel-7-0-14-20-22-pve.186930/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:186930</guid>
-      <author>invalid@example.com (seylon79)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-installation-and-configuration.16/"><![CDATA[Proxmox VE: Installation and configuration]]></category>
-      <dc:creator>seylon79</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Hi,<br />
-<br />
-I&#039;ve noticed what appears to be a kernel regression affecting the idle power consumption of an Intel Arc A580.<br />
-<br />
-<b>Hardware:</b><br />
-<br />
-<ul>
-<li data-xf-list-type="ul">Proxmox VE 9.2</li>
-<li data-xf-list-type="ul">AMD Ryzen 5 9600X</li>
-<li data-xf-list-type="ul">Intel Arc A580</li>
-<li data-xf-list-type="ul">Arc is using the i915 driver</li>
-</ul>I originally noticed that the Arc was drawing significantly more power than expected at idle. I tested this by booting different installed Proxmox kernels.<br />
-<br />
-<b>Results:</b><br />
-<br />
-<div class="bbTable">
-<table style='width: 100%'><tr><th>Kernel</th><th>Arc A580 idle power</th></tr><tr><td>7.0.14-16-pve</td><td>~6 W</td></tr></table>
-...</div><br />
-<a href="https://forum.proxmox.com/threads/intel-arc-a580-idle-power-regression-with-kernel-7-0-14-20-22-pve.186930/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>15</slash:comments>
-    </item>
-    <item>
-      <title>Migration physischer Windows-Server 2019 zu PVE: best practice?</title>
-      <pubDate>Sat, 21 Nov 2026 12:12:27 +0000</pubDate>
-      <link>https://forum.proxmox.com/threads/migration-physischer-windows-server-2019-zu-pve-best-practice.187720/</link>
-      <guid isPermaLink="false">urn:xenforo:thread:187720</guid>
-      <author>invalid@example.com (sgw)</author>
-      <category domain="https://forum.proxmox.com/forums/proxmox-ve-deutsch-german.20/"><![CDATA[Proxmox VE (Deutsch/German)]]></category>
-      <dc:creator>sgw</dc:creator>
-      <content:encoded><![CDATA[<div class="bbWrapper">Ich habe heute erfahren, dass wir in einem physischen Server auf ein Problem mit den SSDs zulaufen ( bei Interesse: <a href="https://www.kpc.de/en/blog/firmware-bug-in-micron-5100-and-5200-sata-ssds/" target="_blank" class="link link--external" rel="nofollow ugc noopener">https://www.kpc.de/en/blog/firmware-bug-in-micron-5100-and-5200-sata-ssds/</a>  // aber das will ich hier natürlich nicht diskutieren).<br />
-<br />
-Der Server ist alt und es war ohnehin angedacht, den zu virtualisieren, allerdings noch nicht so schnell. Jetzt muss es aber im Laufe der kommenden Wochen passieren.<br />
-<br />
-<b>Prinzipiell</b> ist mir klar, wie ich das angehe, aber ich möchte...<br />
-<br />
-<a href="https://forum.proxmox.com/threads/migration-physischer-windows-server-2019-zu-pve-best-practice.187720/" class="link link--internal">Read more</a></div>]]></content:encoded>
-      <slash:comments>6</slash:comments>
     </item>
   </channel>
 </rss>
