@@ -1,4 +1,140 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Scheduling the removal of the kube-proxy IPVS backend</title><link>https://kubernetes.io/blog/2026/11/16/ipvs-removal/</link><pubDate>Mon, 16 Nov 2026 10:35:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/11/16/ipvs-removal/</guid><description>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Kubernetes Blog</title><link>https://kubernetes.io/</link><description>The Kubernetes blog is used by the project to communicate new features, community reports, and any news that might be relevant to the Kubernetes community.</description><generator>Hugo -- gohugo.io</generator><language>en</language><image><url>https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png</url><title>The Kubernetes project logo</title><link>https://kubernetes.io/</link></image><atom:link href="https://kubernetes.io/feed.xml" rel="self" type="application/rss+xml"/><item><title>Kubernetes v1.38 Sneak Peek</title><link>https://kubernetes.io/blog/2026/11/23/kubernetes-v1-38-sneak-peek/</link><pubDate>Mon, 23 Nov 2026 08:00:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/11/23/kubernetes-v1-38-sneak-peek/</guid><description>
+&lt;p>As we get closer to the release date for Kubernetes v1.38, the project develops and matures,
+features may be deprecated, removed, or replaced with better ones for the project's overall health.
+This blog post outlines some of the planned changes for the Kubernetes v1.38 release that the
+release team feels you should be aware of for the continued maintenance of your Kubernetes
+environment and keeping up to date with the latest changes. The information listed below is based
+on the current status of the v1.38 release and may change before the actual release date.&lt;/p>
+&lt;h2 id="deprecations-and-removals-for-kubernetes-v1-38">Deprecations and removals for Kubernetes v1.38&lt;a class="td-heading-self-link" href="#deprecations-and-removals-for-kubernetes-v1-38" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;h3 id="kubectl-websocket-opt-out-environment-variables-removed">kubectl: WebSocket opt-out environment variables removed&lt;a class="td-heading-self-link" href="#kubectl-websocket-opt-out-environment-variables-removed" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>&lt;code>kubectl&lt;/code> has used WebSockets instead of SPDY by default for &lt;code>kubectl exec&lt;/code>, &lt;code>attach&lt;/code> and &lt;code>cp&lt;/code> since
+v1.30, and for &lt;code>kubectl port-forward&lt;/code> since v1.31. The &lt;code>KUBECTL_REMOTE_COMMAND_WEBSOCKETS&lt;/code> and
+&lt;code>KUBECTL_PORT_FORWARD_WEBSOCKETS&lt;/code> environment variables let you turn that behavior off. These
+variables are going to be removed in v1.38. &lt;code>kubectl&lt;/code> will then always try WebSockets first and fall
+back to SPDY when it needs to (the same as the current default behavior). If your scripts or CI
+environments set either of these environment variables, you can remove them since they will no
+longer have any effect.&lt;/p>
+&lt;p>To learn more, refer to
+&lt;a href="https://kubernetes.dev/resources/keps/4006">KEP-4006: Transition from SPDY to WebSockets&lt;/a>.&lt;/p>
+&lt;h3 id="kubectl-name-dropped-from-kuberc-credential-plugin-allowlist-entries">kubectl: &lt;code>name&lt;/code> dropped from kuberc credential plugin allowlist entries&lt;a class="td-heading-self-link" href="#kubectl-name-dropped-from-kuberc-credential-plugin-allowlist-entries" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The &lt;code>kuberc&lt;/code> file keeps kubectl user preferences separate from cluster credentials in the
+kubeconfig, including an allowlist of the credential plugins &lt;code>kubectl&lt;/code> is allowed to run. In the
+beta &lt;code>kubectl.config.k8s.io/v1beta1&lt;/code> API, an allowlist entry can use &lt;code>name&lt;/code> as an alias for
+&lt;code>command&lt;/code>. The &lt;code>name&lt;/code> field (not &lt;code>command&lt;/code>) has been deprecated since v1.36.&lt;/p>
+&lt;p>With &lt;code>kuberc&lt;/code> expected to graduate to stable in v1.38, the new &lt;code>kubectl.config.k8s.io/v1&lt;/code> API will
+not include &lt;code>name&lt;/code>. If any of your allowlist entries use &lt;code>name&lt;/code>, change them to &lt;code>command&lt;/code> now.&lt;/p>
+&lt;p>To learn more, refer to
+&lt;a href="https://kubernetes.dev/resources/keps/3104">KEP-3104: Separate kubectl user preferences from cluster configs&lt;/a>.&lt;/p>
+&lt;h2 id="ongoing-major-changes">Ongoing major changes&lt;a class="td-heading-self-link" href="#ongoing-major-changes" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;h3 id="cgroup-v1-support">Future removal of cgroup v1 support&lt;a class="td-heading-self-link" href="#cgroup-v1-support" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Support for cgroup v1 is being phased out. Since v1.35, the kubelet fails to start on nodes that use
+cgroup v1 unless you set &lt;code>failCgroupV1: false&lt;/code> in the kubelet configuration. This option remains
+available in v1.38, but it should be treated as a short-term fix as support for cgroup v1 is planned
+to be removed in a future release. If you haven't already, please plan your migration to
+&lt;a href="https://kubernetes.io/docs/concepts/architecture/cgroups/">cgroup v2&lt;/a>.&lt;/p>
+&lt;p>To learn more, refer to
+&lt;a href="https://kubernetes.dev/resources/keps/5573">KEP-5573: Remove cgroup v1 support&lt;/a>.&lt;/p>
+&lt;h3 id="webhook-virtual-resources">Admission webhooks no longer receive authentication and authorization review requests&lt;a class="td-heading-self-link" href="#webhook-virtual-resources" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Since v1.37, the &lt;code>ExcludeAdmissionWebhookVirtualResources&lt;/code> feature gate has been enabled by default.
+With it on, validating and mutating admission webhooks no longer receive requests for (virtual)
+writes to TokenReview, SelfSubjectReview, SubjectAccessReview, SelfSubjectAccessReview,
+LocalSubjectAccessReview or SelfSubjectRulesReview. Creating or updating a webhook configuration
+whose rules name one of these resources returns a deprecation warning, and the API server logs any
+existing configurations that are affected when it starts.&lt;/p>
+&lt;p>If you rely on a webhook to see these requests, you can turn the feature gate off for now, but note
+that the gate is planned to be locked on when the feature graduates to stable.&lt;/p>
+&lt;p>To learn more, refer to
+&lt;a href="https://kubernetes.dev/resources/keps/5793">KEP-5793: Manifest Based Admission Control Config&lt;/a>.&lt;/p>
+&lt;h2 id="breaking-changes-in-kubernetes-v1-38">Breaking changes in Kubernetes v1.38&lt;a class="td-heading-self-link" href="#breaking-changes-in-kubernetes-v1-38" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;h3 id="cgroup-driver-from-cri">Container runtimes must report the cgroup driver&lt;a class="td-heading-self-link" href="#cgroup-driver-from-cri" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The kubelet in v1.37 and older supported releases provides a legacy mechanism to configure the
+cgroup driver. The modern way to do that is via the CRI &lt;code>RuntimeConfig&lt;/code> RPC, which reports the
+cgroup driver that the container runtime recommends using. In v1.38, the kubelet defaults to not
+allowing the legacy configuration mechanism: it will be both deprecated and unavailable unless
+explicitly re-activated. As a result, v1.38 nodes will essentially require that your container
+runtime is running &lt;strong>before&lt;/strong> the kubelet starts (to look up the expected cgroup driver); if the
+kubelet can't get the cgroup driver from the runtime even after retrying, it will exit with an error
+before even registering the node.&lt;/p>
+&lt;p>As part of this upcoming release, the &lt;code>cgroupDriver&lt;/code> field in the kubelet configuration file will be
+deprecated. Not only is specifying that field going to be deprecated, the kubelet will actually
+reject it unless you reactivate the legacy mechanism by enabling the (temporary)
+&lt;code>LegacyCgroupDriverFallback&lt;/code> feature gate. The kubeadm tool will also no longer set &lt;code>cgroupDriver&lt;/code>
+to &lt;code>systemd&lt;/code> by default, and its preflight checks will report an error if the runtime doesn't
+support the RPC. If any of your nodes run an older, incompatible container runtime, you should
+follow the instructions in the official v1.38 release notes about how to upgrade.&lt;/p>
+&lt;p>To learn more, refer to
+&lt;a href="https://kubernetes.dev/resources/keps/4033">KEP-4033: Discover cgroup driver from CRI&lt;/a> and
+&lt;a href="https://github.com/kubernetes/kubernetes/pull/136731">kubernetes/kubernetes#136731&lt;/a>.&lt;/p>
+&lt;h3 id="pod-level-resources-swap">Pod-level resources: swap behavior changes on &lt;code>LimitedSwap&lt;/code> nodes&lt;a class="td-heading-self-link" href="#pod-level-resources-swap" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>If you use pod-level resources on Linux nodes that use cgroup v2 and are configured with
+&lt;code>LimitedSwap&lt;/code>, the kubelet in v1.38 will start applying swap limits based on the Pod's pod-level
+memory settings. This means that Pods whose pod-level memory request equals their memory limit will
+get no swap at all (both for the Pod and for every container in it), even if a container sets a
+memory request lower than its limit. Check any workloads that rely on swap before you upgrade, and
+be sure to read the official release notes for v1.38 for detailed advice.&lt;/p>
+&lt;p>To learn more, refer to
+&lt;a href="https://kubernetes.dev/resources/keps/2837">KEP-2837: Pod Level Resource Specifications&lt;/a>.&lt;/p>
+&lt;h2 id="featured-enhancements-of-kubernetes-v1-38">Featured enhancements of Kubernetes v1.38&lt;a class="td-heading-self-link" href="#featured-enhancements-of-kubernetes-v1-38" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The following list of enhancements is likely to be included in the upcoming v1.38 release. This is
+not a commitment and the release content is subject to change.&lt;/p>
+&lt;h3 id="kuberc">kubectl user preferences (kuberc) graduating to stable&lt;a class="td-heading-self-link" href="#kuberc" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>kuberc, the separate kubectl configuration file for user preferences such as aliases, default
+options and a credential plugin policy, is expected to graduate to stable in v1.38.&lt;/p>
+&lt;p>To learn more, read &lt;a href="https://kubernetes.io/docs/reference/kubectl/kuberc/">Kubectl user preferences (kuberc)&lt;/a> or refer to
+&lt;a href="https://kubernetes.dev/resources/keps/3104">KEP-3104: Separate kubectl user preferences from cluster configs&lt;/a>.&lt;/p>
+&lt;h3 id="pod-level-resources">Pod-level resources graduating to stable&lt;a class="td-heading-self-link" href="#pod-level-resources" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Pod-level resources, which let you set CPU, memory and hugepages requests and limits for a Pod as a
+whole, are expected to graduate to stable in v1.38. If you run Linux nodes with &lt;code>LimitedSwap&lt;/code>, see
+the &lt;a href="#pod-level-resources-swap">swap behavior change&lt;/a> above before you upgrade.&lt;/p>
+&lt;p>To learn more, read
+&lt;a href="https://kubernetes.io/docs/tasks/configure-pod-container/assign-pod-level-resources/">Assign Pod-level CPU and memory resources&lt;/a>
+or refer to
+&lt;a href="https://kubernetes.dev/resources/keps/2837">KEP-2837: Pod Level Resource Specifications&lt;/a>.&lt;/p>
+&lt;h3 id="dra-partitionable-devices">DRA support for partitionable devices graduating to stable&lt;a class="td-heading-self-link" href="#dra-partitionable-devices" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Partitionable devices let a
+&lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/">Dynamic Resource Allocation&lt;/a> (DRA)
+driver advertise a device such as a GPU both as a whole and as smaller partitions, and the scheduler
+allocates only combinations that fit within the physical device. The feature is expected to
+graduate to stable in v1.38, and the &lt;code>DRAPartitionableDevices&lt;/code> feature gate will then be locked on.&lt;/p>
+&lt;p>To learn more, read
+&lt;a href="https://kubernetes.io/docs/concepts/resource-management/dynamic-resource-allocation/dra-features/#partitionable-devices">Partitionable devices&lt;/a>
+or refer to
+&lt;a href="https://kubernetes.dev/resources/keps/4815">KEP-4815: DRA: Add support for partitionable devices&lt;/a>.&lt;/p>
+&lt;h3 id="eviction-request-api">EvictionRequest API (alpha)&lt;a class="td-heading-self-link" href="#eviction-request-api" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>Evicting a Pod isn’t always as simple as terminating it. Some applications may be in the middle of
+important work, such as data migration or cleanup, and terminating them without giving them time to
+prepare can cause disruptions.&lt;/p>
+&lt;p>The EvictionRequest API introduces a more coordinated way to evict Pods. It gives applications and
+controllers time to prepare before a Pod is evicted. For example, when a node needs to be drained or
+a Pod needs to be moved to another node, a controller can create an EvictionRequest to signal that
+this Pod needs to be evicted.&lt;/p>
+&lt;p>The eviction request controller coordinates with the responders configured for the Pod. These
+responders can perform application-specific tasks such as completing ongoing work, cleaning up
+resources, or migrating data before the Pod is terminated.&lt;/p>
+&lt;p>If no custom responder is available or responders don't complete the process, Kubernetes can fall
+back to the existing API-initiated eviction mechanism, which continues to respect
+PodDisruptionBudgets (PDBs). The EvictionRequest API does not replace PDBs. It gives applications a
+chance to participate in the eviction process.&lt;/p>
+&lt;p>As this is an alpha feature, you will need to enable the &lt;code>EvictionRequestAPI&lt;/code> feature gate &lt;strong>and&lt;/strong>
+the relevant alpha API group. Check the v1.38 release notes and documentation, once they're
+available, to confirm exactly what's required.&lt;/p>
+&lt;p>To learn more, refer to &lt;a href="https://kubernetes.dev/resources/keps/4563">KEP-4563: EvictionRequest API&lt;/a>.&lt;/p>
+&lt;h2 id="want-to-know-more">Want to know more?&lt;a class="td-heading-self-link" href="#want-to-know-more" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>New features and deprecations are also announced in the Kubernetes release notes. We will formally
+announce what's new in &lt;a href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.38.md">Kubernetes v1.38&lt;/a>
+as part of the CHANGELOG for that release.&lt;/p>
+&lt;p>The Kubernetes v1.38 release is planned for &lt;strong>Wednesday, December 16th, 2026&lt;/strong>. Stay tuned for updates!&lt;/p>
+&lt;p>You can see the announcements of changes in the release notes for:&lt;/p>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.37.md">Kubernetes v1.37&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.36.md">Kubernetes v1.36&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG/CHANGELOG-1.35.md">Kubernetes v1.35&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h2 id="get-involved">Get involved&lt;a class="td-heading-self-link" href="#get-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The simplest way to get involved with Kubernetes is by joining one of the many
+&lt;a href="https://kubernetes.dev/community/community-groups/sigs/">Special Interest Groups&lt;/a> (SIGs) that align
+with your interests.&lt;/p>
+&lt;p>If you don't know where to start, join our monthly
+&lt;a href="https://www.kubernetes.dev/docs/orientation/">New Contributor Orientations&lt;/a> where we teach the
+community how the project is structured, and we'll guide you on how to make your first contribution
+to the project.&lt;/p>
+&lt;ul>
+&lt;li>Read more on how to become a &lt;a href="https://www.kubernetes.dev/docs/guide/">Kubernetes Contributor&lt;/a>&lt;/li>
+&lt;li>Read more about what’s happening with Kubernetes on our &lt;a href="https://kubernetes.io/blog/">blog&lt;/a>&lt;/li>
+&lt;li>Join us on &lt;a href="https://slack.k8s.io/">Slack&lt;/a>&lt;/li>
+&lt;li>Follow us on &lt;a href="https://x.com/kubernetesio">X&lt;/a>&lt;/li>
+&lt;li>Follow us on &lt;a href="https://www.linkedin.com/company/kubernetes/">LinkedIn&lt;/a>&lt;/li>
+&lt;li>Follow us on &lt;a href="https://bsky.app/profile/kubernetes.io">Bluesky&lt;/a> for the latest updates&lt;/li>
+&lt;li>Join the community discussion on &lt;a href="https://discuss.kubernetes.io/">Discuss&lt;/a>&lt;/li>
+&lt;li>Post questions (or answer questions) on
+&lt;a href="https://stackoverflow.com/questions/tagged/kubernetes">Stack Overflow&lt;/a>&lt;/li>
+&lt;li>Share your &lt;a href="https://www.cncf.io/case-studies/">Kubernetes End User Story&lt;/a>&lt;/li>
+&lt;li>Learn more about the &lt;a href="https://github.com/kubernetes/sig-release/tree/master/release-team">Kubernetes Release Team&lt;/a>&lt;/li>
+&lt;/ul></description></item><item><title>Scheduling the removal of the kube-proxy IPVS backend</title><link>https://kubernetes.io/blog/2026/11/16/ipvs-removal/</link><pubDate>Mon, 16 Nov 2026 10:35:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/11/16/ipvs-removal/</guid><description>
 &lt;p>The &lt;code>ipvs&lt;/code> backend for kube-proxy was an experiment in providing a
 service proxy implementation with better performance than the
 &lt;code>iptables&lt;/code> backend. While it succeeded in that goal, the kernel IPVS
@@ -7626,58 +7762,4 @@ operators running large clusters.&lt;/p>
 &lt;li>&lt;a href="https://github.com/kubernetes/community/tree/master/sig-api-machinery">SIG API Machinery&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;p>If you have questions or feedback, join the &lt;code>#sig-api-machinery&lt;/code> channel on
-&lt;a href="https://slack.k8s.io/">Kubernetes Slack&lt;/a>.&lt;/p></description></item><item><title>Kubernetes v1.36: Declarative Validation Graduates to GA</title><link>https://kubernetes.io/blog/2026/05/05/kubernetes-v1-36-declarative-validation-ga/</link><pubDate>Tue, 05 May 2026 10:35:00 -0800</pubDate><guid>https://kubernetes.io/blog/2026/05/05/kubernetes-v1-36-declarative-validation-ga/</guid><description>
-&lt;p>In Kubernetes v1.36, &lt;strong>Declarative Validation&lt;/strong> for Kubernetes native types has reached General Availability (GA).&lt;/p>
-&lt;p>For users, this means more reliable, predictable, and better-documented APIs. By moving to a declarative model, the project also unlocks the future ability to publish validation rules via OpenAPI and integrate with ecosystem tools like Kubebuilder. For contributors and ecosystem developers, this replaces thousands of lines of handwritten validation code with a unified, maintainable framework.&lt;/p>
-&lt;p>This post covers why this migration was necessary, how the declarative validation framework works, and what new capabilities come with this GA release.&lt;/p>
-&lt;h2 id="the-motivation-escaping-the-handwritten-technical-debt">The Motivation: Escaping the &amp;quot;Handwritten&amp;quot; Technical Debt&lt;a class="td-heading-self-link" href="#the-motivation-escaping-the-handwritten-technical-debt" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>For years, the validation of Kubernetes native APIs relied almost entirely on handwritten Go code. If a field needed to be bounded by a minimum value, or if two fields needed to be mutually exclusive, developers had to write explicit Go functions to enforce those constraints.&lt;/p>
-&lt;p>As the Kubernetes API surface expanded, this approach led to several systemic issues:&lt;/p>
-&lt;ol>
-&lt;li>&lt;strong>Technical Debt:&lt;/strong> The project accumulated roughly 18,000 lines of boilerplate validation code. This code was difficult to maintain, error-prone, and required intense scrutiny during code reviews.&lt;/li>
-&lt;li>&lt;strong>Inconsistency:&lt;/strong> Without a centralized framework, validation rules were sometimes applied inconsistently across different resources.&lt;/li>
-&lt;li>&lt;strong>Opaque APIs:&lt;/strong> Handwritten validation logic was difficult to discover or analyze programmatically. This meant clients and tooling couldn't predictably know validation rules without consulting the source code or encountering errors at runtime.&lt;/li>
-&lt;/ol>
-&lt;p>The solution proposed by SIG API Machinery was &lt;strong>Declarative Validation&lt;/strong>: using Interface Definition Language (IDL) tags (specifically &lt;code>+k8s:&lt;/code> marker tags) directly within &lt;code>types.go&lt;/code> files to define validation rules.&lt;/p>
-&lt;h2 id="enter-validation-gen">Enter &lt;code>validation-gen&lt;/code>&lt;a class="td-heading-self-link" href="#enter-validation-gen" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>At the core of the declarative validation feature is a new code generator called &lt;code>validation-gen&lt;/code>. Just as Kubernetes uses generators for deep copies, conversions, and defaulting, &lt;code>validation-gen&lt;/code> parses &lt;code>+k8s:&lt;/code> tags and automatically generates the corresponding Go validation functions.&lt;/p>
-&lt;p>These generated functions are then registered seamlessly with the API scheme. The generator is designed as an extensible framework, allowing developers to plug in new &amp;quot;Validators&amp;quot; by describing the tags they parse and the Go logic they should produce.&lt;/p>
-&lt;h3 id="a-comprehensive-suite-of-k8s-tags">A Comprehensive Suite of +k8s: Tags&lt;a class="td-heading-self-link" href="#a-comprehensive-suite-of-k8s-tags" aria-label="Heading self-link">&lt;/a>&lt;/h3>&lt;p>The declarative validation framework introduces a comprehensive suite of marker tags that provide rich validation capabilities highly optimized for Go types. For a full list of supported tags, check out the &lt;a href="https://kubernetes.io/docs/reference/using-api/declarative-validation/#declarative-validation-tag-reference">official documentation&lt;/a>. Here is a catalog of some of the most common tags you will now see in the Kubernetes codebase:&lt;/p>
-&lt;ul>
-&lt;li>&lt;strong>Presence:&lt;/strong> &lt;code>+k8s:optional&lt;/code>, &lt;code>+k8s:required&lt;/code>&lt;/li>
-&lt;li>&lt;strong>Basic Constraints:&lt;/strong> &lt;code>+k8s:minimum=0&lt;/code>, &lt;code>+k8s:maximum=100&lt;/code>, &lt;code>+k8s:maxLength=16&lt;/code>, &lt;code>+k8s:format=k8s-short-name&lt;/code>&lt;/li>
-&lt;li>&lt;strong>Collections:&lt;/strong> &lt;code>+k8s:listType=map&lt;/code>, &lt;code>+k8s:listMapKey=type&lt;/code>&lt;/li>
-&lt;li>&lt;strong>Unions:&lt;/strong> &lt;code>+k8s:unionMember&lt;/code>, &lt;code>+k8s:unionDiscriminator&lt;/code>&lt;/li>
-&lt;li>&lt;strong>Immutability:&lt;/strong> &lt;code>+k8s:immutable&lt;/code>, &lt;code>+k8s:update=[NoSet, NoModify, NoClear]&lt;/code>&lt;/li>
-&lt;/ul>
-&lt;p>&lt;strong>Example Usage:&lt;/strong>&lt;/p>
-&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="line">&lt;span class="cl">&lt;span class="kd">type&lt;/span> &lt;span class="nx">ReplicationControllerSpec&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// +k8s:optional&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// +k8s:minimum=0&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nx">Replicas&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="kt">int32&lt;/span> &lt;span class="s">`json:&amp;#34;replicas,omitempty&amp;#34;`&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>By placing these tags directly above the field definitions, the constraints are self-documenting and immediately visible to anyone reading the type definitions.&lt;/p>
-&lt;h2 id="advanced-capabilities-ambient-ratcheting">Advanced Capabilities: &amp;quot;Ambient Ratcheting&amp;quot;&lt;a class="td-heading-self-link" href="#advanced-capabilities-ambient-ratcheting" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>One of the most substantial outcomes of this work is that validation ratcheting is now a standard, ambient part of the API. In the past, if we needed to tighten validation, we had to first add handwritten ratcheting code, wait a release, and then tighten the validation to avoid breaking existing objects.&lt;/p>
-&lt;p>With declarative validation, this safety mechanism is built-in. If a user updates an existing object, the validation framework compares the incoming object with the &lt;code>oldObject&lt;/code>. If a specific field's value is semantically equivalent to its prior state (i.e., the user didn't change it), the new validation rule is bypassed. This &amp;quot;ambient ratcheting&amp;quot; means we can loosen or tighten validation immediately and in the least disruptive way possible.&lt;/p>
-&lt;h2 id="scaling-api-reviews-with-kube-api-linter">Scaling API Reviews with &lt;code>kube-api-linter&lt;/code>&lt;a class="td-heading-self-link" href="#scaling-api-reviews-with-kube-api-linter" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>Reaching GA required absolute confidence in the generated code, but our vision extends beyond just validation. Declarative validation is a key part of a comprehensive approach to making API review easier, more consistent, and highly scalable.&lt;/p>
-&lt;p>By moving validation rules out of opaque Go functions and into structured markers, we are empowering tools like &lt;code>kube-api-linter&lt;/code>. This linter can now statically analyze API types and enforce API conventions automatically, significantly reducing the manual burden on SIG API Machinery reviewers and providing immediate feedback to contributors.&lt;/p>
-&lt;h2 id="what-s-next">What's next?&lt;a class="td-heading-self-link" href="#what-s-next" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>With the release of Kubernetes v1.36, Declarative Validation graduates to General Availability (GA). As a stable feature, the associated &lt;code>DeclarativeValidation&lt;/code> feature gate is now enabled by default. It has become the primary mechanism for adding new validation rules to Kubernetes native types.&lt;/p>
-&lt;p>Looking forward, the project is committed to adopting declarative validation even more extensively. This includes migrating the remaining legacy handwritten validation code for established APIs and requiring its use for all new APIs and new fields. This ongoing transition will continue to shrink the codebase's complexity while enhancing the consistency and reliability of the entire Kubernetes API surface.&lt;/p>
-&lt;p>Beyond the core migration, declarative validation also unlocks an exciting future for the broader ecosystem. Because validation rules are now defined as structured markers rather than opaque Go code, they can be parsed and reflected in the OpenAPI schemas published by the Kubernetes API server. This paves the way for tools like &lt;code>kubectl&lt;/code>, client libraries, and IDEs to perform rich client-side validation before a request is ever sent to the cluster. The same declarative framework can also be consumed by ecosystem tools like Kubebuilder, enabling a more consistent developer experience for authors of Custom Resource Definitions (CRDs).&lt;/p>
-&lt;h2 id="getting-involved">Getting involved&lt;a class="td-heading-self-link" href="#getting-involved" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>The migration to declarative validation is an ongoing effort. While the framework itself is GA, there is still work to be done migrating older APIs to the new declarative format.&lt;/p>
-&lt;p>If you are interested in contributing to the core of Kubernetes API Machinery, this is a fantastic place to start. Check out the &lt;code>validation-gen&lt;/code> documentation, look for issues tagged with &lt;code>sig/api-machinery&lt;/code>, and join the conversation in the &lt;a href="https://kubernetes.slack.com/messages/sig-api-machinery">#sig-api-machinery&lt;/a> and &lt;a href="https://kubernetes.slack.com/messages/sig-api-machinery-dev-tools">#sig-api-machinery-dev-tools&lt;/a> channels on Kubernetes Slack (for an invitation, visit &lt;a href="https://slack.k8s.io/">https://slack.k8s.io/&lt;/a>). You can also attend the &lt;a href="https://github.com/kubernetes/community/tree/master/sig-api-machinery#meetings">SIG API Machinery meetings&lt;/a> to get involved directly.&lt;/p>
-&lt;h2 id="acknowledgments">Acknowledgments&lt;a class="td-heading-self-link" href="#acknowledgments" aria-label="Heading self-link">&lt;/a>&lt;/h2>&lt;p>A huge thank you to everyone who helped bring this feature to GA:&lt;/p>
-&lt;ul>
-&lt;li>&lt;a href="https://github.com/thockin">Tim Hockin&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/jpbetz">Joe Betz&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/aaron-prindle">Aaron Prindle&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/lalitc375">Lalit Chauhan&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/deads2k">David Eads&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/darshansreenivas">Darshan Murthy&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/liggitt">Jordan Liggitt&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/pohly">Patrick Ohly&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/soltysh">Maciej Szulik&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/wojtek-t">Wojciech Tyczynski&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/JoelSpeed">Joel Speed&lt;/a>&lt;/li>
-&lt;li>&lt;a href="https://github.com/everettraven">Bryce Palmer&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;p>And the many others across the Kubernetes community who contributed along the way.&lt;/p>
-&lt;p>Welcome to the declarative future of Kubernetes validation!&lt;/p></description></item></channel></rss>
+&lt;a href="https://slack.k8s.io/">Kubernetes Slack&lt;/a>.&lt;/p></description></item></channel></rss>
