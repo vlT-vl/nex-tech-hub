@@ -12,7 +12,7 @@
 	<atom:link href="https://blogs.vmware.com/feed" rel="self" type="application/rss+xml" />
 	<link>https://blogs.vmware.com/</link>
 	<description>VMware Blogs</description>
-	<lastBuildDate>Fri, 20 Nov 2026 17:03:01 +0000</lastBuildDate>
+	<lastBuildDate>Sun, 22 Nov 2026 21:02:35 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -20,6 +20,208 @@
 	1	</sy:updateFrequency>
 	<generator>https://wordpress.org/?v=6.8.13</generator>
 <site xmlns="com-wordpress:feed-additions:1">237817777</site>	<item>
+		<title>Microsoft SQL Server Failover Clustering on VCF 9.1 VM Service: Requirements, Topology and Methods (Part 1)</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/11/22/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-requirements-topology-and-methods-part-1/</link>
+		
+		<dc:creator><![CDATA[abdullah abdullah]]></dc:creator>
+		<pubDate>Sun, 22 Nov 2026 21:00:00 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10111133</guid>
+
+					<description><![CDATA[<img width="298" height="166" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Part-1-FeaturedImage.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>Introduction The transition to VMware Cloud Foundation (VCF) will typically involve questions about not only new functionalities, but also functionalities and capabilities that are already in use. One of the most common use cases for vSphere is virtualizing business-critical applications (BCA). Running these applications on vSphere is a well-established, industry-validated practice with widespread adoption. With &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/22/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-requirements-topology-and-methods-part-1/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/22/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-requirements-topology-and-methods-part-1/">Microsoft SQL Server Failover Clustering on VCF 9.1 VM Service: Requirements, Topology and Methods (Part 1)</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="298" height="166" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Part-1-FeaturedImage.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="167" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Part-1-FeaturedImage.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-1-FeaturedImage.png 4450w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-1-FeaturedImage.png?resize=300,167 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-1-FeaturedImage.png?resize=768,427 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-1-FeaturedImage.png?resize=1024,570 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-1-FeaturedImage.png?resize=1536,854 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-1-FeaturedImage.png?resize=2048,1139 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-1-FeaturedImage.png?resize=600,334 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<h2 class="wp-block-heading" id="h-introduction">Introduction</h2>
+<p>The transition to VMware Cloud Foundation (VCF) will typically involve questions about not only new functionalities, but also functionalities and capabilities that are already in use. One of the most common use cases for vSphere is virtualizing business-critical applications (BCA). Running these applications on vSphere is a well-established, industry-validated practice with widespread adoption. With VCF, the Supervisor and its VM Service capability, the question was whether we can run BCA on top of a Supervisor VM Service. The answer is YES!</p>
+<p>This multi-part series will focus on the design and implementation of Microsoft SQL Failover Cluster Instances (FCI) on top of VCF 9.x. From the basic Supervisor deployment to a fully fledged VCF Automation blueprint, we will go through the different requirements alongside their architectural impact and then finally walk you through the implementation steps.</p>
+<ul class="wp-block-list">
+<li>Part 1 (this article) focuses on <strong>Requirements, Topology and Methods</strong>.</li>
+<li>Part 2 focuses on the Supervisor direct implementation.</li>
+<li>Part 3 focuses on the VCF Automation manual implementation.</li>
+<li>Part 4 focuses on the VCFA Automation blueprint based implementation.</li>
+</ul>
+<h2 class="wp-block-heading" id="h-what-will-you-learn-from-this-article"><strong>What will you learn from this article?</strong></h2>
+<p>By the end of part 1, you will be able to identify what is required to build the infrastructure side of the MSSQL FCIs, including mapping the traditional VM objects to VM Service objects. In addition, you will be able to describe the topologies that will be used to build the platform, which will be covered in parts 2-4.</p>
+<h2 class="wp-block-heading" id="h-traditional-vms-versus-vm-service"><strong>Traditional VMs Versus VM Service</strong></h2>
+<p>Before going further, we will map out and compare a standard MSSQL VM versus a VM Service based MSSQL VM.</p>
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b035865cdce8&quot;}" data-wp-interactive="core/image" class="wp-block-image size-large wp-lightbox-container"><img fetchpriority="high" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="493" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P1-1.png" alt="" class="wp-image-36577" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png 2979w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=300,144 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=768,370 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=1024,493 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=1536,739 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=2048,986 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=600,289 600w" sizes="(max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+<h2 class="wp-block-heading" id="h-mssql-fci-cluster-requirements"><strong>MSSQL FCI Cluster Requirements</strong></h2>
+<p>A Windows Server Failover Cluster (WSFC) is a group of Windows Servers that provides logically a since service that is highly-available, where if one node fails, another takes over. For MSSQL FCI, the active node will own the shared disks, the MSSQL cluster computer object which relatively owns the MSSQL cluster listener. The following table details what will be required from the platform to achieve this:</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td><strong>Requirement</strong></td>
+<td><strong>Requirement Details</strong></td>
+<td><strong>Mandatory/<br />Optional</strong></td>
+<td><strong>How can it be achieved in VCF 9.x?</strong></td>
+</tr>
+<tr>
+<td>Shared Disks</td>
+<td>Same disks shared by the two MSSQL nodes.</td>
+<td>Mandatory</td>
+<td>ReadWriteMany (RWX) blocks volumes on vSAN (ESA/OSA) or any storage protocol that supports multi-writer disks.</td>
+</tr>
+<tr>
+<td>Networks</td>
+<td>Two networks, primary that is reachable and routed, a heart beat / cluster network that is not necessarily routed.</td>
+<td>Mandatory</td>
+<td>Two Virtual Private Cloud (VPC) subnets, one that can be public and another one that is private. Do note that the public one can be private as well depending on the infrastructure services placement (within the tenant or outside of the tenant).</td>
+</tr>
+<tr>
+<td>Performance Guarantee</td>
+<td>Compute and Memory reservations, no hot-add, and UEFI with Secure Boot.</td>
+<td>Optional</td>
+<td>The custom class is mandatory, however reservations are not.</td>
+</tr>
+<tr>
+<td>Fault Domains</td>
+<td>An MSSQL node must reside on the same physical host at any point in time.</td>
+<td>Mandatory</td>
+<td>DRS VM-to-VM anti-affinity rule / compute policy / infrastructure policy.</td>
+</tr>
+<tr>
+<td>Infrastructure Services</td>
+<td>ADDS, DNS, NTP, etc.</td>
+<td>Mandatory</td>
+<td>Sysprep can optionally be leveraged to facilitate the configuration, however it is mandatory that those infrastructure components exist and reachable from the primary network.</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<h2 class="wp-block-heading" id="h-the-building-blocks-based-on-vcf-9-1-1"><strong>The Building Blocks (based on VCF 9.1.1)</strong></h2>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td><strong>Component</strong></td>
+<td><strong>Expected Configuration</strong></td>
+</tr>
+<tr>
+<td>Workload Domain</td>
+<td>A VCF Workload Domain, this could be a consolidated management + resources, or a standard workload domain that is separate from management.</td>
+</tr>
+<tr>
+<td>VCF Networking</td>
+<td>A VPC with public and private subnets. Depending on the scenario this would be either created via the NSX Manager or via VCF Automation Tenant Management.</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>Within the context of this article, we are using vSAN, however any supported storage type that provides the ability to configure multi-writer VMDKs should be okay to be used as part of the storage policy configuration.</td>
+</tr>
+<tr>
+<td>Supervisor</td>
+<td>A cluster with vSphere Supervisor activated using VPC networking.</td>
+</tr>
+<tr>
+<td>Supervisor VM Service</td>
+<td>The Supervisor service that runs VMs. Its controller, VM Operator, turns a VirtualMachine object into a VM in vCenter.</td>
+</tr>
+<tr>
+<td>VM Class</td>
+<td>A custom VM Class based on the preferred MSSQL Server node requirements, in this environment we are using values to show functionality, however those values are not to be considered as a best practice.</td>
+</tr>
+<tr>
+<td>vSphere Namespace</td>
+<td>A vSphere Namespace with its own quota, permissions, VM classes, images and storage classes. From a VCF Automation perspective, this will be done via tenant management.</td>
+</tr>
+<tr>
+<td>Guest OS</td>
+<td>Within this environment we are using 2 VMs running Microsoft Windows Server 2022 (Standard), with the Failover Clustering feature enabled. Sysprep optionally can be used to automate the initial OS configuration.</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>Within this environment we are using Microsoft SQL Server 2022 Failover Cluster.</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<h2 class="wp-block-heading" id="h-high-level-architecture"><strong>High-Level Architecture</strong></h2>
+<p>This high-level architecture includes the aspects related only to MSSQL FCI use case, and it will not cover aspects that are related to VCF Fleet, Instances or Workload Domains. In addition, the high-level architecture focuses primarily on the data plane, where the other parts of the series will cover achieving the same use case across the different management planes.</p>
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b035865ce322&quot;}" data-wp-interactive="core/image" class="wp-block-image size-large wp-lightbox-container"><img decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="517" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P1-2.png" alt="" class="wp-image-36579" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png 2979w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=300,151 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=768,387 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=1024,517 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=1536,775 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=2048,1033 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=600,303 600w" sizes="(max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+<h3 class="wp-block-heading" id="h-general-overview"><strong>General Overview</strong></h3>
+<p>Like any vSphere Namespace, this one has its quote allocated, storage policies defined, VM Classes and Content Library assigned. From a networking standpoint, each node has two network interfaces:</p>
+<ul class="wp-block-list">
+<li>NIC 1 is connected to sql-public which is the client-facing subnet, and its default gateway leads through the VPC&#8217;s transit gateway to the clients. The term public (which is also referred to as primary) here means client-facing, and from an NSX terminology the subnet can use the Private – Transit Gateway access mode, or Public when the addresses must be routable outside the organization.</li>
+<li>NIC 2 is connected to sql-heartbeat, which is the private subnet that stays inside the VPC and has no gateway.</li>
+</ul>
+<p>On the storage side, both nodes reach the same three disks through SCSI controller 1 (SCSI controller 0 will be used by the OS disk(s) by default), which uses physical bus sharing (the sizes/values are just examples):</p>
+<ul class="wp-block-list">
+<li>sqlfci01-data (500 GB) is attached at SCSI 1:0 and holds the user databases.</li>
+<li>sqlfci01-home (100 GB) is attached at SCSI 1:1 and holds the SQL Server instance files and system databases.</li>
+<li>sqlfci01-quorum (50 GB) attached at SCSI 1:2 and acts as the cluster&#8217;s disk witness.</li>
+</ul>
+<p>A caveat with respect to having shared volumes/disks, that they must be kept within the zone and mapped to one vSAN cluster. Although in VCF 9.1 a zone can span several clusters, a vSAN datastore belongs to one cluster, and both nodes must access the same datastore where the volumes/disks will be residing.</p>
+<h3 class="wp-block-heading" id="h-shared-volumes"><strong>Shared Volumes</strong></h3>
+<p>Since this is a core area across the entire series, we needed to go through more details around it.</p>
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b035865ce973&quot;}" data-wp-interactive="core/image" class="wp-block-image size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="334" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P1-3.png" alt="" class="wp-image-36580" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-3.png 2979w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-3.png?resize=300,98 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-3.png?resize=768,250 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-3.png?resize=1024,334 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-3.png?resize=1536,501 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-3.png?resize=2048,668 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-3.png?resize=600,196 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+<ul class="wp-block-list">
+<li>It all starts with the volume creation, and in the Supervisor world, this is translated into a persistent volume claim where for each disk, we define:
+<ul class="wp-block-list">
+<li>Access mode -&gt; ReadWriteMany</li>
+<li>Volume mode -&gt; Block</li>
+<li>Storage Class -&gt; RAID1-FTT1</li>
+</ul>
+</li>
+<li>Then comes the roles of the vSphere CSI driver, which acknowledges that the Supervisor has the shared-disk capability, and creates a shared raw block volume on vSAN.</li>
+<li>To realize the results, each Windows server will see an ordinary SCSI disk, and the cluster uses SCSI-3 persistent reservations to decide which node owns it, which is the job of the Failover Cluster mechanism.</li>
+</ul>
+<h2 class="wp-block-heading" id="h-how-to-build-this"><strong>How to build this?</strong></h2>
+<p>Given that the underlying consumption layer will always remain the same, we can build this using 3 methods:</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td><strong>Method</strong></td>
+<td><strong>Persona</strong></td>
+<td><strong>Use Case</strong></td>
+</tr>
+<tr>
+<td>vSphere Client and the Local Consumption Interface, with kubectl for two gaps</td>
+<td>vSphere Administrator</td>
+<td>No VCF Automation, or a small platform team</td>
+</tr>
+<tr>
+<td>The VCF Automation IaaS Services Console</td>
+<td>Organization Administrator</td>
+<td>Multi-tenant self-service with manual provisioning.</td>
+</tr>
+<tr>
+<td>A VCF Automation blueprint in the catalog</td>
+<td>Organization Administrator</td>
+<td>Multi-tenant self-service with repeatable and reusable builds.</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b035865cef0c&quot;}" data-wp-interactive="core/image" class="wp-block-image size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="501" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P1-4_1ef7b3.png" alt="" class="wp-image-36583" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-4_1ef7b3.png 2979w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-4_1ef7b3.png?resize=300,147 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-4_1ef7b3.png?resize=768,376 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-4_1ef7b3.png?resize=1024,501 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-4_1ef7b3.png?resize=1536,751 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-4_1ef7b3.png?resize=2048,1002 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-4_1ef7b3.png?resize=600,293 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+<h2 class="wp-block-heading" id="h-up-next"><strong>Up Next</strong></h2>
+<p>Head over to Part 2, where we will build on this topology with the vSphere Client and the Local Consumption Interface, which represents the Supervisor Direct option.</p>
+</p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/22/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-requirements-topology-and-methods-part-1/">Microsoft SQL Server Failover Clustering on VCF 9.1 VM Service: Requirements, Topology and Methods (Part 1)</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/22/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-requirements-topology-and-methods-part-1/">Microsoft SQL Server Failover Clustering on VCF 9.1 VM Service: Requirements, Topology and Methods (Part 1)</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10111133</post-id>	</item>
+		<item>
 		<title>From AI Experimentation to Production: Key Takeaways from KubeCon North America 2026</title>
 		<link>https://blogs.vmware.com/cloud-foundation/2026/11/20/from-ai-experimentation-to-production-key-takeaways-from-kubecon-north-america-2026/</link>
 		
@@ -28,7 +230,7 @@
 				<category><![CDATA[Cloud Infrastructure]]></category>
 		<guid isPermaLink="false">https://blogs.vmware.com/?p=10110581</guid>
 
-					<description><![CDATA[<img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/11/KubeConNA2026.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" fetchpriority="high" /><p>Walk the halls of KubeCon + CloudNativeCon North America 2026 in Salt Lake City, and you’ll notice a subtle but unmistakable shift in how engineers talk about AI. A year ago, the dominant question was whether Kubernetes could handle AI workloads at all. This year, nobody is debating capability anymore. Instead they’re wrestling with the &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/20/from-ai-experimentation-to-production-key-takeaways-from-kubecon-north-america-2026/">Continued</a></p>
+					<description><![CDATA[<img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/11/KubeConNA2026.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Walk the halls of KubeCon + CloudNativeCon North America 2026 in Salt Lake City, and you’ll notice a subtle but unmistakable shift in how engineers talk about AI. A year ago, the dominant question was whether Kubernetes could handle AI workloads at all. This year, nobody is debating capability anymore. Instead they’re wrestling with the &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/20/from-ai-experimentation-to-production-key-takeaways-from-kubecon-north-america-2026/">Continued</a></p>
 <p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/20/from-ai-experimentation-to-production-key-takeaways-from-kubecon-north-america-2026/">From AI Experimentation to Production: Key Takeaways from KubeCon North America 2026</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
 										<content:encoded><![CDATA[<img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/11/KubeConNA2026.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="200" src="https://blogs.vmware.com/wp-content/uploads/2026/11/KubeConNA2026.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/KubeConNA2026.jpg 2400w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/KubeConNA2026.jpg?resize=300,200 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/KubeConNA2026.jpg?resize=768,512 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/KubeConNA2026.jpg?resize=1024,683 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/KubeConNA2026.jpg?resize=1536,1024 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/KubeConNA2026.jpg?resize=2048,1365 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/KubeConNA2026.jpg?resize=600,400 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
@@ -37,7 +239,7 @@
 <h1 class="wp-block-heading" id="h-ai-infrastructure-is-growing-up-and-moving-into-the-core">AI Infrastructure Is Growing Up and Moving Into the Core</h1>
 <p>If there was any doubt that AI has become central to the Cloud Native Computing Foundation’s (CNCF) roadmap, the numbers settled it. In its<a href="https://www.cncf.io/announcements/2026/11/10/cncf-hits-major-milestones-with-global-community-growth-record-industry-investment-and-a-new-generation-of-projects-to-build-ai-systems-in-production/"> 2026 ecosystem milestones announcement</a>, CNCF reported that its portfolio has reached <strong>231 hosted projects</strong>, with 32 added over the past year alone.</p>
 <p>What stands out isn’t just the volume of new projects, though, but it’s what they’re trying to solve. With newcomers like <a href="https://github.com/agent-substrate/substrate"><strong>Agent Substrate</strong></a>, <a href="https://github.com/NVIDIA/OpenShell"><strong>OpenShell</strong></a>, and <a href="https://github.com/openrl-dev/openrl"><strong>OpenRL</strong></a>, alongside <a href="https://llm-d.ai/"><strong>llm-d 1.0</strong></a> and <a href="https://project-hami.io/"><strong>HAMi’s</strong></a><strong> </strong>move into incubation, the community is shifting from &#8220;how do we schedule a GPU?&#8221; to &#8220;how do we manage inference routing, accelerator sharing, and agent execution at scale?&#8221;</p>
-<figure class="wp-block-image size-large"><img decoding="async" height="572" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_564bb7.jpeg" alt="" class="wp-image-36699" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_564bb7.jpeg 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_564bb7.jpeg?resize=300,167 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_564bb7.jpeg?resize=768,429 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_564bb7.jpeg?resize=1024,572 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_564bb7.jpeg?resize=1536,857 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_564bb7.jpeg?resize=600,335 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="572" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_564bb7.jpeg" alt="" class="wp-image-36699" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_564bb7.jpeg 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_564bb7.jpeg?resize=300,167 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_564bb7.jpeg?resize=768,429 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_564bb7.jpeg?resize=1024,572 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_564bb7.jpeg?resize=1536,857 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_564bb7.jpeg?resize=600,335 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
 <p>The real bottleneck for enterprises now isn&#8217;t a lack of tooling; it’s integration. Nobody wants to maintain a bespoke, disconnected infrastructure stack just to serve models. The winning pattern emerging from KubeCon is embedding GPU scheduling, isolation, and observability directly into the same Kubernetes control plane teams already trust.</p>
 <h1 class="wp-block-heading" id="h-platform-engineering-has-a-new-user-and-it-isn-t-human">Platform Engineering Has a New User…and It Isn&#8217;t Human</h1>
 <p>Platform engineering has officially gone mainstream. According to CNCF’s<a href="https://www.cncf.io/reports/the-state-of-cloud-native-development-q3-2026/"> State of Cloud Native Development Q3 2026 report</a>, <strong>93% of developers</strong> now work inside organizations using some form of DevOps standardization or internal developer platform, up from 77% just a year ago.</p>
@@ -48,7 +250,7 @@
 <li><strong>Delegation:</strong> How is authority safely passed across distributed services without over-privileging the agent?</li>
 <li><strong>Auditability:</strong> How are autonomous actions observed and logged in real time?</li>
 </ol>
-<figure class="wp-block-image size-large"><img decoding="async" height="572" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_ecdd42.jpeg" alt="" class="wp-image-36701" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_ecdd42.jpeg 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_ecdd42.jpeg?resize=300,167 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_ecdd42.jpeg?resize=768,429 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_ecdd42.jpeg?resize=1024,572 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_ecdd42.jpeg?resize=1536,857 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_ecdd42.jpeg?resize=600,335 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="572" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_ecdd42.jpeg" alt="" class="wp-image-36701" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_ecdd42.jpeg 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_ecdd42.jpeg?resize=300,167 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_ecdd42.jpeg?resize=768,429 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_ecdd42.jpeg?resize=1024,572 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_ecdd42.jpeg?resize=1536,857 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_ecdd42.jpeg?resize=600,335 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
 <h1 class="wp-block-heading" id="h-conformance-needs-to-move-up-the-stack">Conformance Needs to Move Up the Stack</h1>
 <p>As Kubernetes stretches to absorb AI, virtualization, and edge workloads, portability is once again front and center. Passing baseline Kubernetes conformance tells you a cluster meets the spec, but it doesn&#8217;t guarantee your workload won&#8217;t break when you move it between environments.</p>
 <p>That’s why two complementary milestones at KubeCon matter so much. First, the Kubernetes AI Conformance Program hit 40 certified platforms, giving teams a reliable baseline for AI-ready infrastructure. VMware vSphere Kubernetes Service (VKS) is among the platforms certified under the program, providing enterprises with a conformant Kubernetes runtime integrated into VMware Cloud Foundation. With support for GPU-enabled workloads, automated cluster lifecycle management, and enterprise security controls, VKS provides a foundation for running AI applications and emerging agentic workloads, including those built using technologies such as Agent Substrate.&nbsp;</p>
@@ -913,25 +1115,5 @@
 		
 		
 		<post-id xmlns="com-wordpress:feed-additions:1">10109911</post-id>	</item>
-		<item>
-		<title>導入事例：Qsol株式会社様</title>
-		<link>https://blogs.vmware.com/vmware-japan/2026/11/customer-case-studies-qsol.html</link>
-		
-		<dc:creator><![CDATA[vmware japan blog]]></dc:creator>
-		<pubDate>Wed, 18 Nov 2026 02:04:22 +0000</pubDate>
-				<category><![CDATA[International]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10109744</guid>
-
-					<description><![CDATA[<img width="300" height="120" src="https://blogs.vmware.com/wp-content/uploads/2026/11/【Qsol様】_top.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>九州電力株式会社の電力安定供給に不可欠な基幹系システムをはじめ、九電グループ全体の多様な業務システムの開発・運用を担うQsol株式会社様。本日は、VMware ソリューションを活用したプライベートクラウド基盤の高度化と、プロフェッショナルサービス（VMware Cloud Foundation Professional Service / TAM）による伴走支援の事例をご紹介いたします。 社会インフラを支える同社の業務基盤では、厳格なセキュリティと高可用性の維持、さらには拠点移設に伴う大規模なアプリ改修コストの抑制やグループ全体のITガバナンス強化が求められていました。この課題を解決し、変化に追従できる柔軟かつ堅牢な基盤整備を実現したのが、VMware NSX や VMware vDefend、VCF Operations を中核としたプライベートクラウド環境です。 L2ネットワーク延伸によるアプリ改修コストの低減 VMware NSX のL2ネットワーク延伸技術を採用することで、IPアドレス体系を変更せずに複数拠点へネットワークを延伸。拠点移設に伴う大規模なアプリケーション改修コストや移行期間を大幅に削減しました。 サーバー集約率400%向上と徹底したセキュリティ対策 汎用インフラである第4世代（G4）基盤において、56台のホスト上に約1,900台の仮想マシンを集約し、サーバー集約率400%向上によるインフラコスト最適化を達成。また、VMware vDefend の分散ファイアウォールにより、社会インフラ基盤に求められる高度な脅威対策を実装しています。 VCF Operations と伴走支援による運用の高度化と内製化 VCF Operations のダッシュボードで性能やキャパシティを可視化し、障害の未然防止と少数精鋭での効率的な運用を実現。さらに、TAMをはじめとするVCF PSOの伴走支援により社内への知見蓄積と内製化を推進し、次期基盤に向けたさらなる自動化にも取り組んでいます。 詳細については、以下のPDFをダウンロードの上、ご参照ください。 Qsol様導入事例をダウンロード The post 導入事例：Qsol株式会社様 appeared first on VMware Japan Blog.</p>
-<p>The post <a href="https://blogs.vmware.com/vmware-japan/2026/11/customer-case-studies-qsol.html">導入事例：Qsol株式会社様</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="120" src="https://blogs.vmware.com/wp-content/uploads/2026/11/【Qsol様】_top.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="121" src="https://blogs.vmware.com/wp-content/uploads/2026/11/【Qsol様】_top.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" srcset="https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/【Qsol様】_top.jpg 10000w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/【Qsol様】_top.jpg?resize=300,121 300w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/【Qsol様】_top.jpg?resize=768,310 768w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/【Qsol様】_top.jpg?resize=1024,413 1024w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/【Qsol様】_top.jpg?resize=1536,619 1536w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/【Qsol様】_top.jpg?resize=2048,825 2048w, https://blogs.vmware.com/vmware-japan/wp-content/uploads/sites/132/2026/11/【Qsol様】_top.jpg?resize=600,242 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<p>九州電力株式会社の電力安定供給に不可欠な基幹系システムをはじめ、九電グループ全体の多様な業務システムの開発・運用を担うQsol株式会社様。本日は、VMware ソリューションを活用したプライベートクラウド基盤の高度化と、プロフェッショナルサービス（VMware Cloud Foundation Professional Service / TAM）による伴走支援の事例をご紹介いたします。 社会インフラを支える同社の業務基盤では、厳格なセキュリティと高可用性の維持、さらには拠点移設に伴う大規模なアプリ改修コストの抑制やグループ全体のITガバナンス強化が求められていました。この課題を解決し、変化に追従できる柔軟かつ堅牢な基盤整備を実現したのが、VMware NSX や VMware vDefend、VCF Operations を中核としたプライベートクラウド環境です。 L2ネットワーク延伸によるアプリ改修コストの低減 VMware NSX のL2ネットワーク延伸技術を採用することで、IPアドレス体系を変更せずに複数拠点へネットワークを延伸。拠点移設に伴う大規模なアプリケーション改修コストや移行期間を大幅に削減しました。 サーバー集約率400%向上と徹底したセキュリティ対策 汎用インフラである第4世代（G4）基盤において、56台のホスト上に約1,900台の仮想マシンを集約し、サーバー集約率400%向上によるインフラコスト最適化を達成。また、VMware vDefend の分散ファイアウォールにより、社会インフラ基盤に求められる高度な脅威対策を実装しています。 VCF Operations と伴走支援による運用の高度化と内製化 VCF Operations のダッシュボードで性能やキャパシティを可視化し、障害の未然防止と少数精鋭での効率的な運用を実現。さらに、TAMをはじめとするVCF PSOの伴走支援により社内への知見蓄積と内製化を推進し、次期基盤に向けたさらなる自動化にも取り組んでいます。 詳細については、以下のPDFをダウンロードの上、ご参照ください。 Qsol様導入事例をダウンロード</p>
-<p>The post <a href="https://blogs.vmware.com/vmware-japan/2026/11/customer-case-studies-qsol.html">導入事例：Qsol株式会社様</a> appeared first on <a href="https://blogs.vmware.com/vmware-japan">VMware Japan Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/vmware-japan/2026/11/customer-case-studies-qsol.html">導入事例：Qsol株式会社様</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10109744</post-id>	</item>
 	</channel>
 </rss>
