@@ -12,7 +12,7 @@
 	<atom:link href="https://blogs.vmware.com/feed" rel="self" type="application/rss+xml" />
 	<link>https://blogs.vmware.com/</link>
 	<description>VMware Blogs</description>
-	<lastBuildDate>Sun, 22 Nov 2026 21:02:35 +0000</lastBuildDate>
+	<lastBuildDate>Mon, 23 Nov 2026 03:13:24 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -20,6 +20,331 @@
 	1	</sy:updateFrequency>
 	<generator>https://wordpress.org/?v=6.8.13</generator>
 <site xmlns="com-wordpress:feed-additions:1">237817777</site>	<item>
+		<title>Microsoft SQL Server Failover Clustering on VCF 9.1 VM Service: Supervisor Direct Implementation (Part 2)</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/11/22/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-supervisor-direct-implementation-part-2/</link>
+		
+		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
+		<pubDate>Mon, 23 Nov 2026 03:00:00 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10111206</guid>
+
+					<description><![CDATA[<img width="298" height="166" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Part-2-FeaturedImage.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>Introduction In this part of the series, we will build the two nodes MSSQL FCI Cluster via the vSphere Supervisor and the Local Consumption Interface service. Part 1 focuses on Requirements, Topology, and Methods. Part 2 (this article) focuses on the Supervisor Direct Implementation. Part 3 focuses on the VMware Cloud Foundation (VCF) Automation manual &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/22/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-supervisor-direct-implementation-part-2/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/22/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-supervisor-direct-implementation-part-2/">Microsoft SQL Server Failover Clustering on VCF 9.1 VM Service: Supervisor Direct Implementation (Part 2)</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="298" height="166" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Part-2-FeaturedImage.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="167" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Part-2-FeaturedImage.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-2-FeaturedImage.png 4450w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-2-FeaturedImage.png?resize=300,167 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-2-FeaturedImage.png?resize=768,427 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-2-FeaturedImage.png?resize=1024,570 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-2-FeaturedImage.png?resize=1536,854 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-2-FeaturedImage.png?resize=2048,1139 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-2-FeaturedImage.png?resize=600,334 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<h2 class="wp-block-heading" id="h-introduction"><strong>Introduction</strong></h2>
+<p>In this part of the series, we will build the two nodes MSSQL FCI Cluster via the vSphere Supervisor and the Local Consumption Interface service.</p>
+<ul class="wp-block-list">
+<li>Part 1 focuses on Requirements, Topology, and Methods.</li>
+<li>Part 2 (this article) focuses on the <strong>Supervisor Direct Implementation</strong>.</li>
+<li>Part 3 focuses on the VMware Cloud Foundation (VCF) Automation manual implementation.</li>
+<li>Part 4 focuses on the VCF Automation blueprint-based implementation.</li>
+</ul>
+<h2 class="wp-block-heading" id="h-what-will-you-learn-from-this-article"><strong>What will you learn from this article?</strong></h2>
+<p>By the end of part 2, you will be able to create a fully fledged infrastructure that is ready for MSSQL Server Failover Clustering via the Supervisor VM Service.</p>
+<h2 class="wp-block-heading" id="h-the-configuration-iteration"><strong>The Configuration Iteration</strong></h2>
+<p>To achieve the desired configuration, we will iterate between the vCenter vSphere Client and the Supervisor’s Local Consumption Interface.</p>
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b03af4a1e176&quot;}" data-wp-interactive="core/image" class="wp-block-image size-large wp-lightbox-container"><img fetchpriority="high" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="507" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P2-1.png" alt="" class="wp-image-36586" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-1.png 2979w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-1.png?resize=300,149 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-1.png?resize=768,380 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-1.png?resize=1024,507 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-1.png?resize=1536,761 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-1.png?resize=2048,1014 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-1.png?resize=600,297 600w" sizes="(max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+<p>For the sake of keeping this realistic, we will put some assumptions for the configuration values, which will be used to represent the different iteration inputs.</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td><strong>Configuration Item</strong></td>
+<td><strong>Value</strong></td>
+</tr>
+<tr>
+<td><strong>Namespace</strong></td>
+<td>sql-prod</td>
+</tr>
+<tr>
+<td><strong>VM Class</strong></td>
+<td>sql-fci-8c64g</td>
+</tr>
+<tr>
+<td><strong>Storage Class</strong></td>
+<td>vsan-raid1-sql</td>
+</tr>
+<tr>
+<td><strong>Windows Image</strong></td>
+<td>win2k22</td>
+</tr>
+<tr>
+<td><strong>Subnets</strong></td>
+<td>sql-public: 100.100.127.0/24 sql-hearbeat: 192.168.50.0/24</td>
+</tr>
+<tr>
+<td><strong>Nodes</strong></td>
+<td>sqlfci01-n1: 100.100.127.11 | 192.168.50.11 sqlfci01-n2: 100.100.127.12 | 192.168.50.12 sql-fci01-cls: 100.100.127.13 (CNO/cluster name object) sql-fci01-lsn: 100.100.127.14 (MSSQL listener)</td>
+</tr>
+<tr>
+<td><strong>Shared Volumes</strong></td>
+<td>sqlfci01-data: 500GB. sqlfci01-home: 100GB. sqlfci01-quorum: 50GB.</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<h3 class="wp-block-heading" id="h-step-01-check-the-shared-disk-capability"><strong>Step 01: Check the shared-disk capability</strong></h3>
+<p>Shared disks work only when the Supervisor capability “<strong>supports_shared_disks_with_VM_service_VMs</strong>” is active, and this is set to true by default, however it is always good to double check.</p>
+<p>By using VCF CLI, make sure you are on the Supervisor default context then you can use kubectl to retrieve the capability state, where the expected output is “true”:</p>
+<pre class="crayon-plain-tag">&lt;strong&gt;kubectl get capabilities.iaas.vmware.com supervisor-capabilities -o jsonpath='{.status.supervisor.supports_shared_disks_with_VM_service_VMs.activated}'&lt;/strong&gt;</pre>
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b03af4a1e929&quot;}" data-wp-interactive="core/image" class="wp-block-image size-large wp-lightbox-container"><img decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="73" width="1024" src="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-2-SupervisorSharedDiskCapabilityCheck.png?w=1024" alt="" class="wp-image-36603" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-2-SupervisorSharedDiskCapabilityCheck.png 1330w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-2-SupervisorSharedDiskCapabilityCheck.png?resize=300,21 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-2-SupervisorSharedDiskCapabilityCheck.png?resize=768,55 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-2-SupervisorSharedDiskCapabilityCheck.png?resize=1024,73 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-2-SupervisorSharedDiskCapabilityCheck.png?resize=600,43 600w" sizes="(max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+<p>On the other hand, when this is set to “false,” the VM Operator removes the shared-disk fields from its API, and the later steps fail.</p>
+<h3 class="wp-block-heading" id="h-step-02-create-the-storage-policy"><strong>Step 02: Create the storage policy</strong></h3>
+<p>Depending on your performance preference, and the actual production MSSQL deployment requirements, you should configure a storage policy to match those requirements. One thing to note: “<strong>VM Encryption</strong>” cannot be added to-date, and if configured the VM Operator will refuse adding a shared controller on an encrypted storage class. To that end, you may use an alternative, such as. vSAN’s <strong>data-at-rest</strong> encryption.</p>
+<div class="wp-block-image">
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b03af4a1ef92&quot;}" data-wp-interactive="core/image" class="aligncenter size-full wp-lightbox-container"><img loading="lazy" decoding="async" width="458" height="501" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P2-3-StoragePolicy.png" alt="" class="wp-image-36817" srcset="https://blogs.vmware.com/wp-content/uploads/2026/11/P2-3-StoragePolicy.png 458w, https://blogs.vmware.com/wp-content/uploads/2026/11/P2-3-StoragePolicy.png?resize=274,300 274w" sizes="auto, (max-width: 458px) 100vw, 458px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+</div>
+<h3 class="wp-block-heading" id="h-step-03-create-the-vm-class"><strong>Step 03: Create the VM Class</strong></h3>
+<p>The VM Class here is important, not just from a t-shirt size perspective, but also from a performance perspective, given that creating the VM Class includes configuring the compute criteria required by the MSSQL nodes.</p>
+<ul class="wp-block-list">
+<li>From the Supervisor Management, go to the Services tab, and click Manage on the VM Service pane. Click VM Classes, then Create VM Class.</li>
+<li>Name it, i.e. <strong>sql-fci-8c64g</strong>, and make sure you’re picking the newest virtual hardware version as this cannot be changed later.</li>
+<li>Finish the wizard, then open the class and click Edit:
+<ul>
+<li>Set CPU to 8 and memory to 64 GB.</li>
+</ul>
+<ul>
+<li>Set the memory reservation to 64 GB and tick Reserve all guest memory (All locked).</li>
+</ul>
+<ul class="wp-block-list">
+<li>Leave CPU Hot Plug and Memory Hot Plug unchecked.</li>
+</ul>
+</li>
+</ul>
+<div class="wp-block-image">
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b03af4a1f4e3&quot;}" data-wp-interactive="core/image" class="aligncenter size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="838" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P2-4-VMClassMemory.png" alt="" class="wp-image-36818" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-4-VMClassMemory.png 1528w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-4-VMClassMemory.png?resize=300,245 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-4-VMClassMemory.png?resize=768,628 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-4-VMClassMemory.png?resize=1024,838 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-4-VMClassMemory.png?resize=600,491 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+</div>
+<ul class="wp-block-list">
+<li>Under VM Options, Boot Options, choose EFI firmware and enable Secure Boot.</li>
+</ul>
+<div class="wp-block-image">
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b03af4a1f95d&quot;}" data-wp-interactive="core/image" class="aligncenter size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="884" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P2-5-VMClassSecureBoot.png" alt="" class="wp-image-36819" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-5-VMClassSecureBoot.png 1520w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-5-VMClassSecureBoot.png?resize=300,259 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-5-VMClassSecureBoot.png?resize=768,663 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-5-VMClassSecureBoot.png?resize=1024,884 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-5-VMClassSecureBoot.png?resize=600,518 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+</div>
+<ul class="wp-block-list">
+<li><strong>An important note</strong>: Make sure you’re not adding any new SCSI controllers; those will be added automatically by the VM Operator when the shared disks are attached.</li>
+</ul>
+<h3 class="wp-block-heading" id="h-step-04-prepare-the-vsphere-namespace"><strong>Step 04: Prepare the vSphere Namespace</strong></h3>
+<p>After configuring the storage policy and the VM Class, and given that you already have a content library that has the Windows 2022 template, it is time to create the Namespace.</p>
+<ul class="wp-block-list">
+<li>From the Supervisor Management, go to Namespaces and create the namespace <strong>sql-prod</strong> in the Supervisor&#8217;s designated zone.</li>
+<li>On the namespace:
+<ul>
+<li>From the Storage card, add the RAID-5 policy (which will appear in the namespace as a storage class).</li>
+</ul>
+<ul class="wp-block-list">
+<li>From the VM Service card:
+<ul class="wp-block-list">
+<li>Click Add VM Class and select <strong>sql-fci-8c64g</strong>.</li>
+<li>Click Add Content Library and select the library that holds the Windows image.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b03af4a1ff26&quot;}" data-wp-interactive="core/image" class="wp-block-image size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="237" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P2-6-Namespace.png" alt="" class="wp-image-36820" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-6-Namespace.png 2918w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-6-Namespace.png?resize=300,69 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-6-Namespace.png?resize=768,178 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-6-Namespace.png?resize=1024,237 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-6-Namespace.png?resize=1536,356 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-6-Namespace.png?resize=2048,474 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-6-Namespace.png?resize=600,139 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+<h3 class="wp-block-heading" id="h-step-05-create-the-subnets"><strong>Step 05: Create the Subnets</strong></h3>
+<p>The configuration requires the creation of the primary and heartbeat networks, and to that end there are multiple ways:</p>
+<ul class="wp-block-list">
+<li>If it is a shared subnet, as in not originating from the Namespace and was created via NSX to serve other workloads, then what you need to do is attach the subnets to the Namespace rather than creating them:
+<ul>
+<li>From the Supervisor Management, go to <strong>sql-prod</strong> Namespace and select the <strong>Configure</strong> tab (give it a couple of seconds to load all the information).</li>
+</ul>
+<ul class="wp-block-list">
+<li>In <strong>General</strong>, scroll down to the <strong>Namespace Networks</strong>, and click on Add.</li>
+<li>Once you have added both networks, they will show as “Shared Namespace Network” in the UI.</li>
+</ul>
+</li>
+</ul>
+<div class="wp-block-image">
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b03af4a2044a&quot;}" data-wp-interactive="core/image" class="aligncenter size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="80" width="1024" src="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-7-NamespaceSharedNetwork.png?w=1024" alt="" class="wp-image-36821" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-7-NamespaceSharedNetwork.png 1825w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-7-NamespaceSharedNetwork.png?resize=300,23 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-7-NamespaceSharedNetwork.png?resize=768,60 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-7-NamespaceSharedNetwork.png?resize=1024,80 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-7-NamespaceSharedNetwork.png?resize=1536,120 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-7-NamespaceSharedNetwork.png?resize=600,47 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+</div>
+<ul class="wp-block-list">
+<li>If the subnet will be originating from the Namespace directly, those can be configured via the Local Consumption Interface:
+<ul>
+<li>From the Supervisor Management, go to <strong>sql-prod</strong> Namespace and select the <strong>Resources</strong> tab.</li>
+</ul>
+<ul>
+<li>Click on “<strong>GO TO SERVICE</strong>” in the <strong>Network</strong> card.</li>
+</ul>
+<ul>
+<li>Click on the <strong>Subnets</strong> tab.</li>
+</ul>
+<ul class="wp-block-list">
+<li>Click on “<strong>NEW SUBNET</strong>”, and from here the first time you will create the public network, and you will do the same to create the private heartbeat network.</li>
+<li>Those networks will be bound to the Namespace and will not be marked as shared.</li>
+</ul>
+</li>
+</ul>
+<div class="wp-block-image">
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b03af4a20928&quot;}" data-wp-interactive="core/image" class="aligncenter size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="730" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P2-8-NamespaceDedicatedNetworks.png" alt="" class="wp-image-36822" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-8-NamespaceDedicatedNetworks.png 2603w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-8-NamespaceDedicatedNetworks.png?resize=300,214 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-8-NamespaceDedicatedNetworks.png?resize=768,548 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-8-NamespaceDedicatedNetworks.png?resize=1024,730 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-8-NamespaceDedicatedNetworks.png?resize=1536,1095 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-8-NamespaceDedicatedNetworks.png?resize=2048,1460 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-8-NamespaceDedicatedNetworks.png?resize=600,428 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+</div>
+<h3 class="wp-block-heading" id="h-step-06-create-the-shared-volumes"><strong>Step 06: Create the shared volumes</strong></h3>
+<p>For this specific deployment, the shared disks number, volume and sizes are there to serve the purpose of showcasing how it works, however in production, most likely you will have a completely different number of disks with different sizes and allocations based on your requirements.</p>
+<ul class="wp-block-list">
+<li>From the Supervisor Management, go to <strong>sql-prod</strong> Namespace and select the <strong>Resources</strong> tab.</li>
+<li>Click on “<strong>GO TO SERVICE</strong>” in the <strong>Volume</strong> card, and click <strong>New Volume</strong>, then you are going to create the following three volumes:</li>
+</ul>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<tbody>
+<tr>
+<td><strong>Volume Name</strong></td>
+<td><strong>Capacity</strong></td>
+<td><strong>Access Mode</strong></td>
+</tr>
+<tr>
+<td>sqlfci01-data<strong></strong></td>
+<td>500 GB</td>
+<td>Multiple VMs / Pods (Read Write Many)</td>
+</tr>
+<tr>
+<td>sqlfci01-home<strong></strong></td>
+<td>100 GB</td>
+<td>Multiple VMs / Pods (Read Write Many)</td>
+</tr>
+<tr>
+<td>sqlfci01-quorum<strong></strong></td>
+<td>50 GB</td>
+<td>Multiple VMs / Pods (Read Write Many)</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<div class="wp-block-image">
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b03af4a20f1e&quot;}" data-wp-interactive="core/image" class="aligncenter size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="514" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P2-9-SharedVolume.png" alt="" class="wp-image-36824" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-9-SharedVolume.png 1071w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-9-SharedVolume.png?resize=300,151 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-9-SharedVolume.png?resize=768,386 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-9-SharedVolume.png?resize=1024,514 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-9-SharedVolume.png?resize=600,301 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+</div>
+<h3 class="wp-block-heading" id="h-step-07-create-the-vms"><strong>Step 07: Create the VMs</strong></h3>
+<p>We will be creating the two nodes, without attaching the Shared Volumes during creation, this step will be done later on (the following steps are to be repeated per VM):</p>
+<ul class="wp-block-list">
+<li>From the Supervisor Management, go to <strong>sql-prod</strong> Namespace and select the <strong>Resources</strong> tab.</li>
+<li>Click on “<strong>GO TO SERVICE</strong>” in the <strong>Virtual Machine Service</strong> card, and click <strong>CREATE VM</strong>.</li>
+<li>Pick the source type from where you will deploy this VM: choose OVF</li>
+<li>Select the VM Class and VM Image:
+<ul>
+<li>Input the VM’s name.</li>
+</ul>
+<ul>
+<li>Select the zone.</li>
+</ul>
+<ul>
+<li>Select the Windows 2022 image.</li>
+</ul>
+<ul>
+<li>Select the VM class.</li>
+</ul>
+<ul>
+<li>Select the Storage Class</li>
+</ul>
+<ul class="wp-block-list">
+<li>Change the Power State to <strong>Powered Off</strong>.</li>
+</ul>
+</li>
+<li>Advanced Settings (optional): you can configure Sysprep here if desired, otherwise skip to the next configuration window.</li>
+<li>Network Configuration:
+<ul>
+<li>Edit the default eth0 interface and select the primary network and input the IP address.</li>
+</ul>
+<ul>
+<li>Click on <strong>ADD NETWORK INTERFACE</strong> and select the heartbeat network and input the IP address.</li>
+</ul>
+<ul class="wp-block-list">
+<li>Fill in the Global Network Settings as desired.</li>
+</ul>
+</li>
+<li>Review and confirm.</li>
+</ul>
+<div class="wp-block-image">
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b03af4a214ec&quot;}" data-wp-interactive="core/image" class="aligncenter size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="553" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P2-10-VMCreation.png" alt="" class="wp-image-36826" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-10-VMCreation.png 1040w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-10-VMCreation.png?resize=300,162 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-10-VMCreation.png?resize=768,415 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-10-VMCreation.png?resize=1024,553 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-10-VMCreation.png?resize=600,324 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+</div>
+<h3 class="wp-block-heading" id="h-step-08-attach-the-shared-volumes"><strong>Step 08: Attach the Shared Volumes</strong></h3>
+<p>We will be attaching the 3 volumes that were created previously, and this action will be repeated on the two VMs.</p>
+<ul class="wp-block-list">
+<li>From the Supervisor Management, go to <strong>sql-prod</strong> Namespace and select the <strong>Resources</strong> tab.</li>
+<li>Click on “<strong>GO TO SERVICE</strong>” in the <strong>Virtual Machine Service</strong> card.</li>
+<li>Click on the MSSQL node VM.</li>
+<li>Scroll down to <strong>Volumes</strong>.</li>
+<li>Click on “<strong>ATTACH VOLUME</strong>”.</li>
+<li>Select <strong>Choose from existing volumes</strong>, select <strong>sqlfci01-data</strong> and set <strong>Application Type</strong> to <strong>Microsoft WSFC</strong>.</li>
+</ul>
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b03af4a21a19&quot;}" data-wp-interactive="core/image" class="wp-block-image size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="174" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P2-11-AttachedVolumes.png" alt="" class="wp-image-36828" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-11-AttachedVolumes.png 1948w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-11-AttachedVolumes.png?resize=300,51 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-11-AttachedVolumes.png?resize=768,130 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-11-AttachedVolumes.png?resize=1024,174 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-11-AttachedVolumes.png?resize=1536,261 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P2-11-AttachedVolumes.png?resize=600,102 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+<ul class="wp-block-list">
+<li>Repeat the same steps for sqlfci01-home, then for sqlfci01-quorum (keep the order on both nodes).</li>
+<li>For you to see also the controller, you can edit the VM settings in the vSphere Client (you’ll get a warning so that you do not to modify anything). From there you can see the additional SCSI controller that has been added and you can see that all 3 volumes/disks are now attached to it.</li>
+</ul>
+<div class="wp-block-image">
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b03af4a21f2e&quot;}" data-wp-interactive="core/image" class="aligncenter size-full wp-lightbox-container"><img loading="lazy" decoding="async" width="759" height="711" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P2-12-SCSIController.png" alt="" class="wp-image-36829" srcset="https://blogs.vmware.com/wp-content/uploads/2026/11/P2-12-SCSIController.png 759w, https://blogs.vmware.com/wp-content/uploads/2026/11/P2-12-SCSIController.png?resize=300,281 300w, https://blogs.vmware.com/wp-content/uploads/2026/11/P2-12-SCSIController.png?resize=600,562 600w" sizes="auto, (max-width: 759px) 100vw, 759px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
+				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
+			</svg><br />
+		</button></figure>
+</div>
+<h3 class="wp-block-heading" id="h-step-09-power-on-the-vms"><strong>Step 09: Power On the VMs</strong></h3>
+<p>Now that everything is set, you can change the state of the VMs from Powered Off to Powered On.</p>
+<ul class="wp-block-list">
+<li>From the Supervisor Management, go to <strong>sql-prod</strong> Namespace and select the <strong>Resources</strong> tab.</li>
+<li>Click on “<strong>GO TO SERVICE</strong>” in the <strong>Virtual Machine Service</strong> card.</li>
+<li>Click on the first MSSQL node VM.</li>
+<li>Toggle the <strong>Power State</strong> so that to change it to <strong>Powered On</strong>.</li>
+<li>Repeat the same steps for the second MSSQL node VM.</li>
+</ul>
+<h3 class="wp-block-heading" id="h-step-10-create-the-drs-rules"><strong>Step 10: Create the DRS Rules</strong></h3>
+<p>Finally you can configure a DRS rule which makes sure that both nodes do not reside on the same ESX host at the same time.</p>
+<h3 class="wp-block-heading" id="h-step-11-mssql-fci-installation"><strong>Step 11: MSSQL FCI Installation</strong></h3>
+<p>From here you can work on the initial configuration of the Windows OS, and then follow Microsoft’s guidance for installing and configuring a two node Microsoft SQL Server Failover Cluster.</p>
+<h2 class="wp-block-heading" id="h-up-next"><strong>Up Next</strong></h2>
+<p>Head over to Part 3, where we will build on the same topology via VCF Automation via the IaaS Services Console.</p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/22/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-supervisor-direct-implementation-part-2/">Microsoft SQL Server Failover Clustering on VCF 9.1 VM Service: Supervisor Direct Implementation (Part 2)</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/22/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-supervisor-direct-implementation-part-2/">Microsoft SQL Server Failover Clustering on VCF 9.1 VM Service: Supervisor Direct Implementation (Part 2)</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10111206</post-id>	</item>
+		<item>
 		<title>Microsoft SQL Server Failover Clustering on VCF 9.1 VM Service: Requirements, Topology and Methods (Part 1)</title>
 		<link>https://blogs.vmware.com/cloud-foundation/2026/11/22/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-requirements-topology-and-methods-part-1/</link>
 		
@@ -28,7 +353,7 @@
 				<category><![CDATA[Cloud Infrastructure]]></category>
 		<guid isPermaLink="false">https://blogs.vmware.com/?p=10111133</guid>
 
-					<description><![CDATA[<img width="298" height="166" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Part-1-FeaturedImage.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>Introduction The transition to VMware Cloud Foundation (VCF) will typically involve questions about not only new functionalities, but also functionalities and capabilities that are already in use. One of the most common use cases for vSphere is virtualizing business-critical applications (BCA). Running these applications on vSphere is a well-established, industry-validated practice with widespread adoption. With &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/22/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-requirements-topology-and-methods-part-1/">Continued</a></p>
+					<description><![CDATA[<img width="298" height="166" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Part-1-FeaturedImage.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Introduction The transition to VMware Cloud Foundation (VCF) will typically involve questions about not only new functionalities, but also functionalities and capabilities that are already in use. One of the most common use cases for vSphere is virtualizing business-critical applications (BCA). Running these applications on vSphere is a well-established, industry-validated practice with widespread adoption. With &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/22/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-requirements-topology-and-methods-part-1/">Continued</a></p>
 <p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/22/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-requirements-topology-and-methods-part-1/">Microsoft SQL Server Failover Clustering on VCF 9.1 VM Service: Requirements, Topology and Methods (Part 1)</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
 										<content:encoded><![CDATA[<img width="298" height="166" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Part-1-FeaturedImage.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="167" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Part-1-FeaturedImage.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-1-FeaturedImage.png 4450w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-1-FeaturedImage.png?resize=300,167 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-1-FeaturedImage.png?resize=768,427 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-1-FeaturedImage.png?resize=1024,570 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-1-FeaturedImage.png?resize=1536,854 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-1-FeaturedImage.png?resize=2048,1139 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-1-FeaturedImage.png?resize=600,334 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
@@ -45,7 +370,7 @@
 <p>By the end of part 1, you will be able to identify what is required to build the infrastructure side of the MSSQL FCIs, including mapping the traditional VM objects to VM Service objects. In addition, you will be able to describe the topologies that will be used to build the platform, which will be covered in parts 2-4.</p>
 <h2 class="wp-block-heading" id="h-traditional-vms-versus-vm-service"><strong>Traditional VMs Versus VM Service</strong></h2>
 <p>Before going further, we will map out and compare a standard MSSQL VM versus a VM Service based MSSQL VM.</p>
-<figure data-wp-context="{&quot;imageId&quot;:&quot;6b035865cdce8&quot;}" data-wp-interactive="core/image" class="wp-block-image size-large wp-lightbox-container"><img fetchpriority="high" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="493" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P1-1.png" alt="" class="wp-image-36577" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png 2979w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=300,144 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=768,370 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=1024,493 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=1536,739 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=2048,986 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=600,289 600w" sizes="(max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b035865cdce8&quot;}" data-wp-interactive="core/image" class="wp-block-image size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="493" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P1-1.png" alt="" class="wp-image-36577" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png 2979w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=300,144 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=768,370 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=1024,493 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=1536,739 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=2048,986 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-1.png?resize=600,289 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
 			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
 				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
 			</svg><br />
@@ -143,7 +468,7 @@
 </figure>
 <h2 class="wp-block-heading" id="h-high-level-architecture"><strong>High-Level Architecture</strong></h2>
 <p>This high-level architecture includes the aspects related only to MSSQL FCI use case, and it will not cover aspects that are related to VCF Fleet, Instances or Workload Domains. In addition, the high-level architecture focuses primarily on the data plane, where the other parts of the series will cover achieving the same use case across the different management planes.</p>
-<figure data-wp-context="{&quot;imageId&quot;:&quot;6b035865ce322&quot;}" data-wp-interactive="core/image" class="wp-block-image size-large wp-lightbox-container"><img decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="517" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P1-2.png" alt="" class="wp-image-36579" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png 2979w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=300,151 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=768,387 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=1024,517 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=1536,775 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=2048,1033 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=600,303 600w" sizes="(max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
+<figure data-wp-context="{&quot;imageId&quot;:&quot;6b035865ce322&quot;}" data-wp-interactive="core/image" class="wp-block-image size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="517" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P1-2.png" alt="" class="wp-image-36579" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png 2979w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=300,151 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=768,387 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=1024,517 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=1536,775 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=2048,1033 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P1-2.png?resize=600,303 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
 			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
 				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
 			</svg><br />
@@ -1070,50 +1395,5 @@
 		
 		
 		<post-id xmlns="com-wordpress:feed-additions:1">10109965</post-id>	</item>
-		<item>
-		<title>New Diagnostics Content Pack in VCF Operations 9.1</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/11/18/new-diagnostics-content-pack-in-vcf-operations-9-1/</link>
-		
-		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
-		<pubDate>Wed, 18 Nov 2026 17:57:01 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10109911</guid>
-
-					<description><![CDATA[<img width="299" height="148" src="https://blogs.vmware.com/wp-content/uploads/2026/11/VCF-9.1-VCF-Operations_f6fab1-e1781629697273.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>In VMware Cloud Foundation (VCF) Operations 9.1 the Broadcom team has re-engineered the Diagnostics Management Pack. We split the Diagnostics Management Pack into two parts, the Diagnostics Management Pack and the Diagnostics Content Pack, so we can deliver findings more quickly to our customers.&#160; When the findings were bundled into the Diagnostics Management pack, they &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/18/new-diagnostics-content-pack-in-vcf-operations-9-1/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/18/new-diagnostics-content-pack-in-vcf-operations-9-1/">New Diagnostics Content Pack in VCF Operations 9.1</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="299" height="148" src="https://blogs.vmware.com/wp-content/uploads/2026/11/VCF-9.1-VCF-Operations_f6fab1-e1781629697273.png?w=299" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img loading="lazy" width="300" height="148" src="https://blogs.vmware.com/wp-content/uploads/2026/11/VCF-9.1-VCF-Operations_f6fab1-e1781629697273.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" /></div>
-<p>In VMware Cloud Foundation (VCF) Operations 9.1 the Broadcom team has re-engineered the Diagnostics Management Pack. We split the Diagnostics Management Pack into two parts, the Diagnostics Management Pack and the Diagnostics Content Pack, so we can deliver findings more quickly to our customers.&nbsp;</p>
-<p>When the findings were bundled into the Diagnostics Management pack, they were released along with product releases. This limited the number of finding releases and increased the time to inform customers of new security vulnerabilities and known issues in their environments. Splitting the findings out of this management pack allows us to add content packs to the Solution Catalog and not tie finding releases to solely product releases. The best way to think of this is the Anti-Virus definition model: the Diagnostics Management Pack is the required engine component and the Diagnostics Content Pack is the definition file that gives signatures of the known vulnerabilities. A new feature alerts customers when a new content pack is released to the solution catalog. From the Active Findings screen and Findings Catalog, customers will see the following notification banner.&nbsp;</p>
-<figure class="wp-block-image size-large"><img fetchpriority="high" decoding="async" height="231" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_8b4bfc.png" alt="" class="wp-image-36520" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_8b4bfc.png 1754w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_8b4bfc.png?resize=300,68 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_8b4bfc.png?resize=768,173 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_8b4bfc.png?resize=1024,231 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_8b4bfc.png?resize=1536,346 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_8b4bfc.png?resize=600,135 600w" sizes="(max-width: 1024px) 100vw, 1024px" /></figure>
-<p>In <a href="https://vcf.broadcom.com/vsc/services/details/vmware-cloud-foundation-content-pack-for-diagnostics-2?slug=true">the first content pack</a> that we released to both VCF Operations 9.1.0 and 9.1.1, we included security-based, adoption blocking, and high global support trending issues. Most of the proceeding content packs will be focused on VMSA/CVE type findings. Below are some highlights of the findings in this content pack.&nbsp;</p>
-<p><strong>Security Vulnerabilities</strong></p>
-<p>In VMSA-2026-0006, Broadcom informs customers of multiple CVEs impacting both vCenter and ESX. VMware vCenter contains an authentication bypass vulnerability in the VMware Directory Service (CVE-2026-59309). A malicious actor with network access to vCenter may exploit this issue to bypass authentication and gain unauthorized access to the system. VMware vCenter contains a directory traversal vulnerability in the Syslog server (CVE-2026-59310). A malicious actor with network access to vCenter may exploit this issue to execute arbitrary code. VMware ESX contains an out-of-bounds write vulnerability in the VMXNET3 virtual network adapter. A malicious actor with local administrative privileges on a virtual machine with VMXNET3 virtual network adapter may exploit this issue to execute code on the host.&nbsp;</p>
-<p>vCenter_CVE_2026_59309to10_VMSA_202606 / ESX_CVE_2026_47876_VMSA_202606</p>
-<ul class="wp-block-list">
-<li><a href="https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/38017">https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/38017</a></li>
-<li>Critical</li>
-</ul>
-<p><strong>VCF Adoption Blocking Issues</strong></p>
-<p>Broadcom Technical Support has been focusing on resolving adoption blocking issues. One of the findings found in the content pack is a vCenter UUID case mismatch which impacts vCenter licensing. This is a vCenter Instance UUID case mismatch between vCenter and VCF Operations that causes this issue. This issue is resolved in VMware vCenter 9.1.0.0200. The workaround for this issue is to match the UUID case between VCF Operations and vCenter server.&nbsp;</p>
-<p>vCenter_UUIDCaseMismatch_KB_440982</p>
-<ul class="wp-block-list">
-<li><a href="https://knowledge.broadcom.com/external/article/440982">https://knowledge.broadcom.com/external/article/440982</a></li>
-<li>Immediate</li>
-</ul>
-<p><strong>Broadcom Technical Support Trending Issues</strong></p>
-<p>Broadcom Technical Support trending issues are Knowledge Base articles that have solved many cases and/or are viewed many times. One of the findings in the content pack is a vCenter login failure. This can happen when the client credentials used by the vCenter&#8217;s oauth2 client becomes invalid because it has expired. In VCF 9.0, there is a logic to rotate the vCenter’s OAuth2 client credentials every 90 days. This issue is resolved in vCenter 9.0.2 and workarounds are available in 9.0.0 and 9.0.1.&nbsp;</p>
-<p>vCenter_oauth2credentialsinvalid_KB_414489</p>
-<ul class="wp-block-list">
-<li><a href="https://knowledge.broadcom.com/external/article/414489">https://knowledge.broadcom.com/external/article/414489</a></li>
-<li>Immediate</li>
-</ul>
-<p>We plan on releasing more Diagnostics Content Packs in the next coming weeks. Please subscribe to KB <a href="https://knowledge.broadcom.com/external/article/371661">https://knowledge.broadcom.com/external/article/371661</a> for the latest updates.</p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/18/new-diagnostics-content-pack-in-vcf-operations-9-1/">New Diagnostics Content Pack in VCF Operations 9.1</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/18/new-diagnostics-content-pack-in-vcf-operations-9-1/">New Diagnostics Content Pack in VCF Operations 9.1</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10109911</post-id>	</item>
 	</channel>
 </rss>
