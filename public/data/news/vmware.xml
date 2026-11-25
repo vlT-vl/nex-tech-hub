@@ -12,7 +12,7 @@
 	<atom:link href="https://blogs.vmware.com/feed" rel="self" type="application/rss+xml" />
 	<link>https://blogs.vmware.com/</link>
 	<description>VMware Blogs</description>
-	<lastBuildDate>Tue, 24 Nov 2026 17:01:23 +0000</lastBuildDate>
+	<lastBuildDate>Wed, 25 Nov 2026 17:03:42 +0000</lastBuildDate>
 	<language>en-US</language>
 	<sy:updatePeriod>
 	hourly	</sy:updatePeriod>
@@ -20,6 +20,678 @@
 	1	</sy:updateFrequency>
 	<generator>https://wordpress.org/?v=6.8.13</generator>
 <site xmlns="com-wordpress:feed-additions:1">237817777</site>	<item>
+		<title>Building Enterprise AI Agents on VMware vSphere Kubernetes Service Part 2: Declarative Orchestration with kagent</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/11/25/running-kagent-on-vmware-vsphere-kubernetes-service/</link>
+		
+		<dc:creator><![CDATA[jessiely consolacion]]></dc:creator>
+		<pubDate>Wed, 25 Nov 2026 16:00:00 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10111937</guid>
+
+					<description><![CDATA[<img width="300" height="167" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Gemini_Generated_Image_6ajuhs6ajuhs6aju.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" fetchpriority="high" /><p>Author: Jessiely Consolacion In Part 1 of this series, Running Agent Substrate on VMware vSphere Kubernetes Service, we demonstrated how to package and deploy Agent Substrate as a VMware vSphere Kubernetes Service (VKS) add-on. Agent Substrate solves the low-level runtime problem: it schedules sandboxed Actors onto warm worker pools, isolates untrusted execution with gVisor, and &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/25/running-kagent-on-vmware-vsphere-kubernetes-service/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/25/running-kagent-on-vmware-vsphere-kubernetes-service/">Building Enterprise AI Agents on VMware vSphere Kubernetes Service Part 2: Declarative Orchestration with kagent</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="167" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Gemini_Generated_Image_6ajuhs6ajuhs6aju.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="167" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Gemini_Generated_Image_6ajuhs6ajuhs6aju.jpeg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Gemini_Generated_Image_6ajuhs6ajuhs6aju.jpeg 2752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Gemini_Generated_Image_6ajuhs6ajuhs6aju.jpeg?resize=300,167 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Gemini_Generated_Image_6ajuhs6ajuhs6aju.jpeg?resize=768,429 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Gemini_Generated_Image_6ajuhs6ajuhs6aju.jpeg?resize=1024,572 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Gemini_Generated_Image_6ajuhs6ajuhs6aju.jpeg?resize=1536,857 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Gemini_Generated_Image_6ajuhs6ajuhs6aju.jpeg?resize=2048,1143 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Gemini_Generated_Image_6ajuhs6ajuhs6aju.jpeg?resize=600,335 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<h4 class="wp-block-heading" id="h-author-jessiely-consolacion"><strong>Author: Jessiely Consolacion</strong></h4>
+<p>In Part 1 of this series, <a href="https://blogs.vmware.com/cloud-foundation/2026/11/10/running-agent-substrate-on-vmware-vsphere-kubernetes-service/"><em>Running Agent Substrate on VMware vSphere Kubernetes Service</em></a>, we demonstrated how to package and deploy <a href="https://ate.dev/">Agent Substrate</a> as a VMware vSphere Kubernetes Service (VKS) add-on. Agent Substrate solves the low-level runtime problem: it schedules sandboxed Actors onto warm worker pools, isolates untrusted execution with <a href="https://gvisor.dev/">gVisor</a>, and suspends idle workloads via sub-second state snapshots.</p>
+<p>Once you have a hardened, high-density runtime running on your VKS clusters, platform teams still face the upper-stack challenge: how do you declaratively define what those agents do, connect them to enterprise tools, govern LLM credentials, and coordinate multi-agent workflows across teams?</p>
+<p>Running an AI agent in isolation is relatively simple; managing fleets of agents consistently across enterprise teams is where platform architectures are tested. As organizations move beyond individual agent deployments, they need a standardized, Kubernetes-native way to define agent behavior, govern model access, enforce tool permissions, and coordinate multi-agent orchestration.</p>
+<p>Enter <a href="https://kagent.dev/">kagent</a>—an open-source CNCF project that brings declarative, Kubernetes-native management to AI agents. In the architecture explored in this series, kagent complements Agent Substrate by providing an orchestration layer for defining agent behavior, configuring model access, and managing interactions with enterprise tools, while Agent Substrate provides the underlying execution runtime.</p>
+<p>As the second step in a broader series on enterprise agentic architectures on VKS, this post bridges runtime primitives and full end-to-end workflows (which we&#8217;ll explore further in Part 3 and beyond) across four areas:</p>
+<ul class="wp-block-list">
+<li><strong>Layering kagent onto Agent Substrate</strong> to turn sandboxes into governed agents</li>
+<li><strong>Packaging kagent as a composable VKS add-on</strong> that consumes your Agent Substrate runtime</li>
+<li><strong>Installing the kagent add-on</strong> on Substrate-enabled VKS workload clusters via the VCF Automation UI or declarative GitOps</li>
+</ul>
+<h2 class="wp-block-heading">From Low-Level Actors to Declarative Agents</h2>
+<p>In our Agent Substrate post, we worked directly with low-level runtime primitives—scheduling individual Actors onto worker pods and verifying gVisor isolation and cross-worker snapshot resumption. While essential for infrastructure engineering, application teams shouldn&#8217;t have to manage raw Actor lifecycles or manually wire up model endpoints and tool servers for every agent they build.</p>
+<figure class="wp-block-image size-full"><img decoding="async" width="1064" height="650" src="https://blogs.vmware.com/wp-content/uploads/2026/11/From-Low-Level-Actors-to-Declarative-Agents-Page-1-6.png" alt="" class="wp-image-37153" style="object-fit:cover" srcset="https://blogs.vmware.com/wp-content/uploads/2026/11/From-Low-Level-Actors-to-Declarative-Agents-Page-1-6.png 1064w, https://blogs.vmware.com/wp-content/uploads/2026/11/From-Low-Level-Actors-to-Declarative-Agents-Page-1-6.png?resize=300,183 300w, https://blogs.vmware.com/wp-content/uploads/2026/11/From-Low-Level-Actors-to-Declarative-Agents-Page-1-6.png?resize=768,469 768w, https://blogs.vmware.com/wp-content/uploads/2026/11/From-Low-Level-Actors-to-Declarative-Agents-Page-1-6.png?resize=1024,626 1024w, https://blogs.vmware.com/wp-content/uploads/2026/11/From-Low-Level-Actors-to-Declarative-Agents-Page-1-6.png?resize=600,367 600w" sizes="(max-width: 1064px) 100vw, 1064px" /></figure>
+<p class="has-text-align-center"><em>Figure 1: Declarative Agent Orchestration with kagent</em></p>
+<p>kagent bridges this gap by introducing <a href="https://kagent.dev/docs/kagent/latest/reference/api-ref/">Kubernetes custom resources</a> that compile down into workloads scheduled on your existing Agent Substrate worker pools:</p>
+<ul class="wp-block-list">
+<li>Agent and AgentTemplate: Separate <em>what</em> an agent does (system prompts, skills, sub-agents, and tool allowlists) from its runtime configuration, letting teams reuse standardized agent behaviors across environments.</li>
+<li>Harness: Connects an agent definition to the underlying Agent Substrate execution engine—binding kagent&#8217;s Go/Python ADK, Claude, Codex, or custom runtimes directly to the Substrate worker pools provisioned by your base add-on.</li>
+<li>ModelConfig: Centralizes LLM provider configurations (Anthropic, OpenAI, Gemini, Bedrock, Ollama, or internal AI gateways) and injects credentials at <a href="https://kagent.dev/docs/kagent/latest/setup/model-providers/about-model-providers/#:~:text=About%20model%20providers.%20Copy%20as%20Markdown.%20Understand,template%20calls%20the%20model%20that%20it%20names.">egress</a> so raw API keys never sit inside the agent sandbox.</li>
+<li>RemoteMCPServer and MCPServer: Connects agents to external enterprise systems and built-in Kubernetes/infrastructure toolsets over the Model Context Protocol (MCP) with per-agent tool allowlists.</li>
+</ul>
+<p>Together, kagent&#8217;s controller, web UI, PostgreSQL session store, and OpenTelemetry tracing wrap Agent Substrate&#8217;s Actor model in a complete, GitOps-friendly platform.</p>
+<h2 class="wp-block-heading" id="h-orchestration-meets-execution-the-request-flow">Orchestration Meets Execution: The Request Flow</h2>
+<figure class="wp-block-image size-full"><img decoding="async" width="1850" height="1285" src="https://blogs.vmware.com/wp-content/uploads/2026/11/sequence-diagram-request-flow-Page-1-4-1.png" alt="" class="wp-image-37100" style="aspect-ratio:3/2;object-fit:cover" srcset="https://blogs.vmware.com/wp-content/uploads/2026/11/sequence-diagram-request-flow-Page-1-4-1.png 1850w, https://blogs.vmware.com/wp-content/uploads/2026/11/sequence-diagram-request-flow-Page-1-4-1.png?resize=300,208 300w, https://blogs.vmware.com/wp-content/uploads/2026/11/sequence-diagram-request-flow-Page-1-4-1.png?resize=768,533 768w, https://blogs.vmware.com/wp-content/uploads/2026/11/sequence-diagram-request-flow-Page-1-4-1.png?resize=1024,711 1024w, https://blogs.vmware.com/wp-content/uploads/2026/11/sequence-diagram-request-flow-Page-1-4-1.png?resize=1536,1067 1536w, https://blogs.vmware.com/wp-content/uploads/2026/11/sequence-diagram-request-flow-Page-1-4-1.png?resize=600,417 600w" sizes="(max-width: 1850px) 100vw, 1850px" /></figure>
+<p>When an alert or user request triggers concurrent work across several agents, kagent and Agent Substrate divide execution cleanly:</p>
+<ol class="wp-block-list">
+<li><strong>On-Demand Session Dispatch:</strong> kagent coordinates task delegation over the Agent-to-Agent (A2A) protocol, routes tool calls over MCP, and requests sandboxed Actor instances on demand from your pre-warmed Agent Substrate worker pool. Each active session runs securely inside a gVisor sandbox.</li>
+<li><strong>Turn Boundary:</strong> The Actor stops executing the moment it reaches a turn boundary and requires external input to proceed including an LLM response, a Human-in-the-Loop (HITL) approval click, or a new user prompt.&nbsp;</li>
+<li><strong>Suspension and Snapshot:</strong> The Actor is immediately <a href="https://kagent.dev/docs/kagent/latest/about/substrate-runtime/suspend-and-resume/#suspension-between-turns">suspended</a>. Process memory is discarded, and its current state (including the filesystem and pending workflow state) is <a href="https://kagent.dev/docs/kagent/latest/about/architecture/agent-substrate/#suspend-snapshot-and-resume">snapshotted</a> to durable object storage rather than being kept &#8220;warm&#8221; in memory.</li>
+<li><strong>Worker Release:</strong> Because the Actor is suspended to object storage, the compute Worker pod is immediately freed to handle other tasks. This reduces idle compute consumption, allowing available worker capacity to be reused for other agent workloads.</li>
+<li><strong>Sub-Second Restoration:</strong> When the LLM responds, or when a human finally replies or clicks approve, kagent retrieves the snapshot. Agent Substrate boots a container on whichever warm Worker pod has capacity and restores the snapshot in <a href="https://kagent.dev/substrate-calculator">milliseconds</a>, resuming the Actor precisely where it left off to process the input.</li>
+</ol>
+<p><strong>Zero Application-Level Hooks Required:</strong> In the kagent implementation, suspension and resumption are automatic and managed by the underlying runtime infrastructure. You do not need to write explicit application-level hooks, state-saving logic, or &#8220;suspend&#8221; API calls into your agent&#8217;s code; the runtime triggers suspension at every turn boundary as soon as nothing in the session is actively running.</p>
+<h2 class="wp-block-heading">Packaging kagent as a Composable VKS Add-on</h2>
+<p>Note: While VKS supports add-on extensibility, the specific add-on manifests and artifacts referenced in this post are intended solely for demonstration. These examples are not officially supported production configurations. Detailed packaging mechanics for VKS add-ons are still evolving and will be covered in a future post in this series. You can learn more about VKS add-ons in the<a href="https://techdocs.broadcom.com/"> Managing Add-ons in VKS Clusters</a> documentation.</p>
+<p>One of the biggest advantages of the <a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-service-administration-and-development/9-1/release-notes/vks-release-notes/vmware-tanzu-kubernetes-grid-service-37-release-notes.html#vsphere-kubernetes-service-3.7.0+v1.36:~:text=and%20Microsoft%20Azure.-,Add%2Dons%20and%20Add%2Don%20Management,-Support%20for%20Multiple">VKS add-on framework</a> is modularity. Instead of building a monolithic package that overwrites or duplicates the Agent Substrate add-on from our first post, we keep Agent Substrate and kagent as two distinct, composable VKS add-ons&nbsp;to ensure:</p>
+<ul class="wp-block-list">
+<li><strong>Independent Lifecycle and Ownership:</strong> Infrastructure teams can tune worker pool sizing, update gVisor, or upgrade the node-level atelet daemon via the agent-substrate add-on without disrupting the kagent control plane—and AI platform teams can roll out new kagent features independently.</li>
+<li><strong>Shared Runtime Density:</strong> A single Agent Substrate add-on deployment can serve as a shared, multi-tenant execution fabric for kagent (as well as any custom internal Actor workloads), maximizing worker pool utilization across the cluster.</li>
+</ul>
+<p>When layered onto a Substrate-enabled VKS cluster, the kagent add-on integrates cleanly across four touchpoints:</p>
+<ol class="wp-block-list">
+<li><strong>Control-Plane-Only Footprint:</strong> Rather than spinning up duplicate worker pods, the kagent add-on deploys strictly the orchestration layer—the kagent controller, web UI, and built-in MCP server—delegating all sandboxed execution to your existing Agent Substrate runtime.</li>
+<li><strong>Direct Runtime Binding:</strong> Through AddonConfig, you point kagent to the local Agent Substrate control plane endpoint. Default Harness definitions then automatically target the warm, gVisor-isolated worker pools already managed by your base add-on.</li>
+<li><strong>Fleet-Wide Guardrails out of the Box:</strong> Platform administrators can pre-populate cluster-wide defaults—including approved ModelConfig LLM gateways, OIDC authentication, private container registry mirrors, and egress network policies—so application teams inherit enterprise governance from day one.</li>
+<li><strong>Coordinated CAPI Lifecycle Management:</strong> Because VKS tracks compatibility constraints and reconciles add-ons alongside <a href="https://cluster-api.sigs.k8s.io/">Cluster API (CAPI)</a>, both the agent-substrate and kagent add-ons benefit from drift self-healing and validated, non-disruptive upgrades across your fleet.</li>
+</ol>
+<h2 class="wp-block-heading">Installing the kagent Add-on on VKS</h2>
+<p>Assuming your target VKS workload clusters already have the agent-substrate ClusterAddon deployed and reporting Ready (as covered in the previous post), layering on kagent follows the exact same VKS workflow:</p>
+<ul class="wp-block-list">
+<li><strong>Via the VCF Automation UI:</strong> Navigate to the VKS Cluster Management add-ons catalog in VMware Cloud Foundation Automation, select the <strong>kagent</strong> add-on, point it to the cluster&#8217;s existing Agent Substrate runtime and default LLM gateways, and deploy onto your target VKS clusters.</li>
+<li><strong>Via GitOps and </strong><strong>kubectl</strong><strong>:</strong> Declare an AddonInstall using label selectors or CEL constraints to target clusters already equipped with the Agent Substrate add-on, pair it with a per-cluster AddonConfig, and monitor rollout progress through the ClusterAddon status resource.</li>
+</ul>
+<p>Once ClusterAddon transitions to Ready, the kagent control plane is online and ready to compile Agent definitions into ActorTemplates—spinning up sandboxed agent sessions on demand across your cluster&#8217;s pre-warmed Substrate worker pools whenever requests arrive. </p>
+<h2 class="wp-block-heading">Advancing the Kubernetes-Native Agentic Stack on VKS</h2>
+<p>As enterprises move from AI agent experimentation toward broader adoption, platform teams need more than the ability to run individual agents. They need a consistent foundation that allows them to manage, govern, and evolve AI agent workloads without tightly coupling every layer of the architecture.</p>
+<p>The modular approach explored throughout this series illustrates how VKS can provide that foundation:</p>
+<ul class="wp-block-list">
+<li><strong>VKS and the Add-on Framework</strong> provide consistent infrastructure provisioning and lifecycle management across Kubernetes environments on vSphere.</li>
+<li><strong>Agent Substrate</strong> provides a shared execution foundation designed for isolated, resource-efficient agent workloads.</li>
+<li><strong>kagent</strong> introduces declarative agent management and orchestration, bringing agent definitions, model access, and tool configuration into Kubernetes-native workflows.</li>
+</ul>
+<p>By separating infrastructure, execution, and orchestration, enterprises can evolve these layers independently, establish clearer operational responsibilities, and incorporate emerging cloud-native AI capabilities as their requirements change.</p>
+<p>This is where the extensibility of VKS becomes particularly valuable. Rather than prescribing a single, monolithic AI agent stack, VKS provides a foundation on which platform teams can compose architectures that reflect their organization&#8217;s evolving needs.</p>
+<p>In Part 3, we&#8217;ll build on this architectural foundation with a practical reference pattern demonstrating how agent definitions, multi-agent orchestration, MCP governance, and end-to-end workflows come together.</p>
+<p>Ready to dive deeper? Revisit Part 1, <a href="https://blogs.vmware.com/cloud-foundation/2026/11/10/running-agent-substrate-on-vmware-vsphere-kubernetes-service/"><em>Running Agent Substrate on VMware vSphere Kubernetes Service</em></a>, to learn how the underlying runtime add-on is constructed and configured. You can also watch Solo.io&#8217;s <a href="https://www.youtube.com/watch?v=8iqB9MGUpL4"><em>Introducing kagent: Managing AI Agents in Kubernetes</em></a> to explore kagent&#8217;s declarative orchestration and observability capabilities in action.</p>
+</p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/25/running-kagent-on-vmware-vsphere-kubernetes-service/">Building Enterprise AI Agents on VMware vSphere Kubernetes Service Part 2: Declarative Orchestration with kagent</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/25/running-kagent-on-vmware-vsphere-kubernetes-service/">Building Enterprise AI Agents on VMware vSphere Kubernetes Service Part 2: Declarative Orchestration with kagent</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10111937</post-id>	</item>
+		<item>
+		<title>Using the Salt API Behind VCF Security Posture Management</title>
+		<link>https://blogs.vmware.com/cloud-foundation/2026/11/25/using-the-salt-api-behind-vcf-security-posture-management/</link>
+		
+		<dc:creator><![CDATA[denys aleksandrov]]></dc:creator>
+		<pubDate>Wed, 25 Nov 2026 13:52:43 +0000</pubDate>
+				<category><![CDATA[Cloud Infrastructure]]></category>
+		<guid isPermaLink="false">https://blogs.vmware.com/?p=10111944</guid>
+
+					<description><![CDATA[<img width="300" height="161" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Getty-1420039900.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>VMware Cloud Foundation (VCF) Operations checks my lab against its compliance rules and shows me what has drifted. That’s fine in the UI, but I wanted to do the same from a script: pick one setting, check it, fix it, check again. In VCF 9.1 that work is done by Salt, and Salt comes with &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/25/using-the-salt-api-behind-vcf-security-posture-management/">Continued</a></p>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/25/using-the-salt-api-behind-vcf-security-posture-management/">Using the Salt API Behind VCF Security Posture Management</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<img width="300" height="161" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Getty-1420039900.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="162" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Getty-1420039900.jpeg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Getty-1420039900.jpeg 6500w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Getty-1420039900.jpeg?resize=300,162 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Getty-1420039900.jpeg?resize=768,414 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Getty-1420039900.jpeg?resize=1024,551 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Getty-1420039900.jpeg?resize=1536,827 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Getty-1420039900.jpeg?resize=2048,1103 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Getty-1420039900.jpeg?resize=600,323 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+<p>VMware Cloud Foundation (VCF) Operations checks my lab against its compliance rules and shows me what has drifted. That’s fine in the UI, but I wanted to do the same from a script: pick one setting, check it, fix it, check again. In VCF 9.1 that work is done by Salt, and Salt comes with an API, the VMware Salt for VCF Components API. This post is what I worked out while using it to fix NTP on six ESX hosts. Some of it is in the docs. Some of it I had to dig out of the job history.</p>
+<p>By the end you’ll have:</p>
+<ul class="wp-block-list">
+<li>A bearer token for the API</li>
+<li>A few read-only calls to look around (minions, Salt environments, files, and jobs)</li>
+<li>An NTP spec for ESX, drafted with a community generator and pushed to the Salt file server</li>
+<li>An assessment and a remediation run against the ESX hosts behind a vCenter</li>
+</ul>
+<h2 class="wp-block-heading" id="h-where-this-api-fits">Where this API fits</h2>
+<p>The configuration compliance side of VCF, Security Posture Management (SPM) in VCF Operations, is powered by Salt. When VCF Operations assesses your environment, it doesn’t log in to vCenter or NSX itself. It sends Salt jobs to a RaaS server and Salt minions running on the VCF components perform assessment and remediation. The Salt for VCF Components API is the API of that RaaS server, so whatever SPM does, you can do yourself.</p>
+<p>A few things that helped me get a picture of it:</p>
+<ul class="wp-block-list">
+<li>RaaS runs as pods in the VSP Kubernetes cluster, in the <code>salt-raas</code> namespace. You reach it through the fleet LCM FQDN at <code>/raas/rpc</code>. The docs write this as <code>https://&lt;vcfms-hostname&gt;/raas/rpc</code>; in my lab it is <code>fleetlcm.gpu.set.lab</code>.</li>
+<li>Minions run on the components themselves: vCenter, the NSX Managers, SDDC Manager, the VCF Operations nodes, and the cloud proxy, plus one minion pod inside VSP.</li>
+<li>ESX hosts have no minions. The vCenter minion checks and fixes them through vCenter. That decides how you target everything later.</li>
+<li>The compliance content lives in a Salt environment called <code>vcfsecops</code>, not in the usual <code>base</code>.</li>
+<li>The nightly assessment is a <code>state.apply</code> of a state called <code>ops_assess_u</code>, with a pillar that specifies which objects to check and the desired values. You can read those jobs using the API, and that was the most useful thing I found.</li>
+</ul>
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="624" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_976fc8.png" alt="" class="wp-image-36751" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_976fc8.png 1969w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_976fc8.png?resize=300,183 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_976fc8.png?resize=768,468 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_976fc8.png?resize=1024,624 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_976fc8.png?resize=1536,935 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_976fc8.png?resize=600,365 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+<h2 class="wp-block-heading">Authentication</h2>
+<p>There are three hops: an API token from VCF Operations, an exchange at the VCF instance’s Identity Broker (vIDB) for a bearer token, and then providing that bearer token on every RaaS call.</p>
+<h3 class="wp-block-heading">1. Create an API client in VCF Operations</h3>
+<p><strong>Prerequisite</strong>: VCF SSO must be enabled and configured before you can generate an API token.</p>
+<p>In VCF Operations go to <strong>Manage &gt; Fleet Management &gt; Identity and Access &gt; Identity Broker &gt; API Access</strong>. Create an API client with the Config Admin role (VCF Administrator includes it by default), then generate a token in the UI and copy it. It starts with <code>vidb_</code>. Treat it like a password.</p>
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="421" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_2106ad.png" alt="" class="wp-image-36752" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_2106ad.png 1247w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_2106ad.png?resize=300,123 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_2106ad.png?resize=768,316 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_2106ad.png?resize=1024,421 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_2106ad.png?resize=600,247 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+<figure class="wp-block-image size-full"><img loading="lazy" decoding="async" width="879" height="816" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_8ffc15.png" alt="" class="wp-image-36753" srcset="https://blogs.vmware.com/wp-content/uploads/2026/11/image_8ffc15.png 879w, https://blogs.vmware.com/wp-content/uploads/2026/11/image_8ffc15.png?resize=300,278 300w, https://blogs.vmware.com/wp-content/uploads/2026/11/image_8ffc15.png?resize=768,713 768w, https://blogs.vmware.com/wp-content/uploads/2026/11/image_8ffc15.png?resize=600,557 600w" sizes="auto, (max-width: 879px) 100vw, 879px" /></figure>
+<h3 class="wp-block-heading">2. Exchange it for a bearer token</h3>
+<p>The vIDB token endpoint takes the API token with a custom grant type and hands back an OAuth access token:</p>
+<pre class="crayon-plain-tag">export VIDB=vidb.gpu.set.lab
+export RAAS=fleetlcm.gpu.set.lab
+export VIDB_API_TOKEN='vidb_...'
+
+TOKEN=$(curl -sk -X POST &quot;https://$VIDB/acs/t/CUSTOMER/token&quot; 
+        -H 'Accept: application/json;charset=UTF-8' 
+        -H 'Content-Type: application/x-www-form-urlencoded' 
+        --data grant_type=urn:custom:vcf:params:oauth:grant-type:api-token 
+        --data-urlencode &quot;api_token=$VIDB_API_TOKEN&quot; | jq -r .access_token)</pre>
+<p><code>CUSTOMER</code> in the path is the tenant, and it worked as-is for me. The access token is short-lived, so when calls start failing on auth, run the exchange again. I use -k only because my lab runs on self-signed certificates.</p>
+<h3 class="wp-block-heading">3. Call RaaS</h3>
+<p>Every call is a POST to<code> /raas/rpc </code>with a JSON body that names a resource, a method, and its keyword arguments. A small shell helper saves a lot of typing:</p>
+<pre class="crayon-plain-tag">raas() {
+  curl -sk -X POST &quot;https://$RAAS/raas/rpc&quot; 
+    -H &quot;Authorization: Bearer $TOKEN&quot; 
+    -H &quot;Content-Type: application/json&quot; 
+    -H &quot;Accept: application/json&quot; 
+    -d &quot;$1&quot;
+}</pre>
+<p>Pass it a JSON string, or <code>@file.json</code> to send a file. The response always has the same envelope:</p>
+<pre class="crayon-plain-tag">{ &quot;riq&quot;: 216948794121888, &quot;ret&quot;: { &quot;...&quot;: &quot;...&quot; }, &quot;error&quot;: null, &quot;warnings&quot;: [] }</pre>
+<p><code>ret</code> holds the result and <code>error</code> tells you what went wrong. These are the error codes I ran into:</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<thead>
+<tr>
+<th>Code</th>
+<th>Message</th>
+<th>What it meant for me</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3001</td>
+<td>RPC func &#8216;&lt;resource&gt;.&lt;method&gt;&#8217; was not found</td>
+<td>The method doesn’t exist on your build. The “latest” docs can be ahead of what you run.</td>
+</tr>
+<tr>
+<td>3004</td>
+<td>Request validation failure (the detail lists the bad fields)</td>
+<td>The method exists, you’re just missing arguments. Handy for checking a method without changing anything.</td>
+</tr>
+<tr>
+<td>5000</td>
+<td>Internal Error</td>
+<td>Something broke on the server. Read the RaaS pod logs.</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p>For a 5000, or when calls just hang, the RaaS logs tell you what happened. I ran these on a VSP node:</p>
+<pre class="crayon-plain-tag">kubectl -n salt-raas get pods
+kubectl -n salt-raas logs -f {raas-pod} --tail=100</pre>
+<p>I also keep all of these calls in a VS Code REST Client file, which is nicer for clicking through responses. The token request gets a name, and the other requests reuse its result:</p>
+<pre class="crayon-plain-tag">### Get bearer token
+# @name gettoken
+POST https://{{vidbFqdn}}/acs/t/CUSTOMER/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=urn:custom:vcf:params:oauth:grant-type:api-token&amp;amp;api_token={{vidbApiToken}}
+
+###
+@token = {{gettoken.response.body.access_token}}</pre>
+<p>The whole REST Client file is in the GitHub repo for this post: <br /><a href="https://github.com/denysaleksandrov/vfc-salt-api-test">h</a><a href="https://github.com/denysaleksandrov/vfc-salt-api-test" target="_blank" rel="noreferrer noopener">ttps://github.com/denysaleksandrov/vfc-salt-api-test</a></p>
+<h2 class="wp-block-heading">Looking around</h2>
+<p>Before changing anything, I want to know what’s connected, which files are on the Salt side, and what has been running. All of the calls in this section are read-only.</p>
+<h3 class="wp-block-heading">Which minions are present</h3>
+<p>Presence shows which minions are connected, with the minion ID next to the host name:</p>
+<pre class="crayon-plain-tag">raas '{&quot;resource&quot;:&quot;minions&quot;,&quot;method&quot;:&quot;get_minion_presence&quot;,&quot;kwarg&quot;:{&quot;status&quot;:&quot;present&quot;}}' 
+  | jq -r '.ret.results[] | [.host, .minion, .status] | @tsv'
+
+salt-minion-55cd4df7db-w84lj  ed35318e-0da5-43a1-95bb-a692eaaf1272  present
+nsx03                         00c4b75e-97bb-4e39-928c-5c55190ae3cd  present
+ops02                         3e539c47-06b9-4527-97f0-746053059bb6  present
+ops01                         e2e0da68-5036-410e-b01d-cd5ece515828  present
+vc01                          349eea8d-e7c8-47f6-b2ea-a197ea245562  present
+collector                     97805429-66a3-474e-bdc6-08b28def8a70  present
+sddcm                         e6b92638-46a8-4bc2-a6b2-e8ad19defbf3  present
+nsx04                         a94ac790-0d99-4d0f-a251-85b76496b9a5  present
+ops03                         9d93bcf7-fc2f-4a97-970e-24c04a675b66  present
+nsx02                         b85d6a5f-b0ba-464f-b3c4-680fa00e8702  present</pre>
+<p><code>ret.get_minions</code> lists the minion IDs grouped by Salt master:</p>
+<pre class="crayon-plain-tag">raas '{&quot;resource&quot;:&quot;ret&quot;,&quot;method&quot;:&quot;get_minions&quot;}' | jq .ret
+{
+
+  &quot;salt-master-5d1353b8-aa1a-463d-b00c-eeb680f93b0e&quot;: [
+    &quot;a94ac790-0d99-4d0f-a251-85b76496b9a5&quot;,
+    &quot;9d93bcf7-fc2f-4a97-970e-24c04a675b66&quot;,
+    &quot;b85d6a5f-b0ba-464f-b3c4-680fa00e8702&quot;,
+    &quot;ed35318e-0da5-43a1-95bb-a692eaaf1272&quot;,
+    &quot;00c4b75e-97bb-4e39-928c-5c55190ae3cd&quot;,
+    &quot;3e539c47-06b9-4527-97f0-746053059bb6&quot;,
+    &quot;e2e0da68-5036-410e-b01d-cd5ece515828&quot;,
+    &quot;349eea8d-e7c8-47f6-b2ea-a197ea245562&quot;,
+    &quot;97805429-66a3-474e-bdc6-08b28def8a70&quot;,
+    &quot;e6b92638-46a8-4bc2-a6b2-e8ad19defbf3&quot;
+  ]
+}</pre>
+<p><code>minions.get_minion_details</code> returns the grains of every minion when you call it without arguments. Two grains matter most here: <code>fqdn</code>, and <code>vcfops_resource_kind</code>, which says what the component is:</p>
+<pre class="crayon-plain-tag">raas '{&quot;resource&quot;:&quot;minions&quot;,&quot;method&quot;:&quot;get_minion_details&quot;,&quot;kwarg&quot;:{}}' 
+  | jq -r '.ret.results[] | [.id, .grains.vcfops_resource_kind, .grains.fqdn] | @tsv'
+
+00c4b75e-97bb-4e39-928c-5c55190ae3cd  nsxm         nsx03.gpu.set.lab
+349eea8d-e7c8-47f6-b2ea-a197ea245562  vcenter      vc01.gpu.set.lab
+3e539c47-06b9-4527-97f0-746053059bb6  ops          ops02.gpu.set.lab
+97805429-66a3-474e-bdc6-08b28def8a70  cloud-proxy  collector.gpu.set.lab
+9d93bcf7-fc2f-4a97-970e-24c04a675b66  ops          ops03.gpu.set.lab
+a94ac790-0d99-4d0f-a251-85b76496b9a5  nsxm         nsx04.gpu.set.lab
+b85d6a5f-b0ba-464f-b3c4-680fa00e8702  nsxm         nsx02.gpu.set.lab
+e2e0da68-5036-410e-b01d-cd5ece515828  ops          ops01.gpu.set.lab
+e6b92638-46a8-4bc2-a6b2-e8ad19defbf3  sddcm        sddcm.gpu.set.lab
+ed35318e-0da5-43a1-95bb-a692eaaf1272  vmsp         salt-minion-55cd4df7db-w84lj</pre>
+<p>You can also filter on a grain, and list the values a grain has across all minions:</p>
+<pre class="crayon-plain-tag">raas '{&quot;resource&quot;:&quot;minions&quot;,&quot;method&quot;:&quot;get_minion_details&quot;,
+       &quot;kwarg&quot;:{&quot;grains&quot;:{&quot;vcfops_resource_kind&quot;:&quot;vcenter&quot;}}}' 
+  | jq -r '.ret.results[] | [.id, .grains.fqdn] | @tsv'
+
+raas '{&quot;resource&quot;:&quot;minions&quot;,&quot;method&quot;:&quot;get_minion_grain_values&quot;,
+       &quot;kwarg&quot;:{&quot;key&quot;:&quot;vcfops_resource_kind&quot;}}' | jq -c .ret</pre>
+<p>In my lab the kinds are <code>vcenter</code>, <code>nsxm</code>, <code>ops</code>, <code>sddcm</code>, <code>cloud-proxy</code> and <code>vmsp</code>. No ESX hosts, as expected.</p>
+<h3 class="wp-block-heading">Salt environments and files</h3>
+<pre class="crayon-plain-tag">raas '{&quot;resource&quot;:&quot;fs&quot;,&quot;method&quot;:&quot;get_envs&quot;}' | jq .ret</pre>
+<p>On my system that returns <code>["vcfsecops"]</code>. To list the files in it:</p>
+<pre class="crayon-plain-tag">raas '{&quot;resource&quot;:&quot;fs&quot;,&quot;method&quot;:&quot;get_env&quot;,&quot;kwarg&quot;:{&quot;saltenv&quot;:&quot;vcfsecops&quot;}}' 
+ | jq -r '.ret[] | [.path, .content_type] | @tsv'
+/_utils/nsxt_edge.py     text/plain
+/_utils/esxi.py          text/plain
+/ops_assess_u.sls        application/x-yaml
+/ops_remed_u.sls         application/x-yaml
+/_utils/cp.py            text/plain
+/_utils/vro.py           text/plain
+/_utils/vra.py           text/plain
+/_utils/hcx.py           text/plain
+/_utils/vcenter.py       text/plain
+/_utils/sddc_manager.py  text/plain
+/_utils/nsxt_manager.py  text/plain
+/_utils/avi.py           text/plain
+/_utils/ls.py            text/plain
+/_states/ops.py          text/plain</pre>
+<p>You’ll see <code>ops_assess_u.sls</code>, <code>ops_remed_u.sls</code>, <code>_states/ops.py</code> and a set of <code>_utils/*.py </code>files, one per product. To read a file use <code>fs.get_file</code>. The contents come back base64-encoded unless the file was stored as <code>text/plain</code>:</p>
+<pre class="crayon-plain-tag">raas '{&quot;resource&quot;:&quot;fs&quot;,&quot;method&quot;:&quot;get_file&quot;,
+       &quot;kwarg&quot;:{&quot;saltenv&quot;:&quot;vcfsecops&quot;,&quot;path&quot;:&quot;/ops_assess_u.sls&quot;}}' 
+ | jq -r .ret.contents | base64 -d</pre>
+<p>That’s the state VCF Operations applies for its assessments, and it’s worth reading:</p>
+<pre class="crayon-plain-tag">{% set saltenv=&quot;vcfsecops&quot; %}
+{% do salt[&quot;saltutil.sync_all&quot;](saltenv=saltenv, refresh=True) %}
+install_config_modules:
+  ops.pkg_install:
+    - saltenv: {{saltenv}}
+{% set minion_id = grains['id'] %}
+{% set ids = pillar['object_id'][minion_id] %}
+{% set object_type = pillar.get(&quot;object_type&quot;) %}
+{% set target_control_config = pillar.get(&quot;desired_spec&quot;) %}
+compliance_{{object_type}}:
+  vmware_compliance_control.check_control:
+    - control_config: {{ target_control_config | tojson | safe }}
+    - product: {{ object_type }}
+    {% if object_type in [&quot;esxi&quot;, &quot;vm&quot;, &quot;nsxt_edge&quot;] %}
+    - ids: {{ ids }}
+    {% endif %}
+    - require:
+      - install_config_modules</pre>
+<p>It syncs the custom modules from <code>vcfsecops</code>, installs the config-modules package where a product needs one, and then calls <code>vmware_compliance_control.check_control.</code>&nbsp;</p>
+<p>Everything comes from the pillar: <code>object_type</code>, <code>object_id</code> and <code>desired_spec</code>. For ESX, VMs and NSX Edges it also passes ids, the list of objects to check. On my build<code> ops_remed_u.sls</code> is the same file. Whether it only assesses or also fixes comes down to Salt’s <code>test</code> flag, as you’ll see below.</p>
+<h3 class="wp-block-heading">Jobs</h3>
+<p>There are a few ways to look at jobs, and they show different things. <code>job.get_jobs</code> lists saved job definitions. Mine is empty, because VCF Operations doesn’t save its jobs there:</p>
+<pre class="crayon-plain-tag">raas '{&quot;resource&quot;:&quot;job&quot;,&quot;method&quot;:&quot;get_jobs&quot;,&quot;kwarg&quot;:{}}'  jq .ret</pre>
+<p>The job history lives under <code>ret.get_jids </code>gives the recent job IDs with the function and the user, and <code>get_jid</code> gives the per-minion return of one job:</p>
+<pre class="crayon-plain-tag">raas '{&quot;resource&quot;:&quot;ret&quot;,&quot;method&quot;:&quot;get_jids&quot;,&quot;kwarg&quot;:{&quot;limit&quot;:&quot;50&quot;}}' 
+  | jq -r '.ret | to_entries[] | [.key, .value.fun, .value.user] | @tsv'
+
+20261112154759893040 state.apply             master_salt-master-5d1353b8-aa1a-463d-b00c-eeb680f93b0e
+20261112154759878819 state.apply             master_salt-master-5d1353b8-aa1a-463d-b00c-eeb680f93b0e
+20261112154759864913 state.apply             master_salt-master-5d1353b8-aa1a-463d-b00c-eeb680f93b0e
+20261112154759849769 state.apply             master_salt-master-5d1353b8-aa1a-463d-b00c-eeb680f93b0e
+20261112154759830857 state.apply             master_salt-master-5d1353b8-aa1a-463d-b00c-eeb680f93b0e
+20261112154759815920 state.apply             master_salt-master-5d1353b8-aa1a-463d-b00c-eeb680f93b0e
+20261112154759797240 state.apply             master_salt-master-5d1353b8-aa1a-463d-b00c-eeb680f93b0e
+20261112154732417375 saltutil.refresh_grains master_salt-master-5d1353b8-aa1a-463d-b00c-eeb680f93b0e
+20261112153232155513 saltutil.refresh_grains master_salt-master-5d1353b8-aa1a-463d-b00c-eeb680f93b0e
+&hellip;</pre>
+<p>Pick a JID from that list to see what each minion returned:</p>
+<pre class="crayon-plain-tag">raas '{&quot;resource&quot;:&quot;ret&quot;,&quot;method&quot;:&quot;get_jid&quot;,&quot;kwarg&quot;:{&quot;jid&quot;:&quot;20261112010353733411&quot;}}' | jq .</pre>
+<p>Then there’s <code>ret.get_returns</code>, which is the one I’d point anyone to first. Filter on <code>state.apply</code> and every result includes <code>fun_args</code>, which is the exact pillar VCF Operations sent: object type, object IDs and the full desired spec.</p>
+<pre class="crayon-plain-tag">raas '{&quot;resource&quot;:&quot;ret&quot;,&quot;method&quot;:&quot;get_returns&quot;,&quot;kwarg&quot;:{&quot;fun&quot;:&quot;state.apply&quot;,&quot;limit&quot;:50}}' 
+  | jq -c '.ret.results[]
+  | {jid, type: .fun_args[1].pillar.object_type?, ids: .fun_args[1].pillar.object_id?}'
+
+{&quot;jid&quot;:&quot;20261112154759893040&quot;,&quot;type&quot;:&quot;vrops&quot;,&quot;ids&quot;: {
+&quot;3e539c47-06b9-4527-97f0-746053059bb6&quot;:[&quot;3e539c47-06b9-4527-97f0-746053059bb6&quot;],
+&quot;9d93bcf7-fc2f-4a97-970e-24c04a675b66&quot;:[&quot;9d93bcf7-fc2f-4a97-970e-24c04a675b66&quot;],
+&quot;e2e0da68-5036-410e-b01d-cd5ece515828&quot;:[&quot;e2e0da68-5036-410e-b01d-cd5ece515828&quot;]}}</pre>
+<p>Whenever I wasn’t sure what a call should look like, I found the job VCF Operations ran for the same object type and copied it.</p>
+<h2 class="wp-block-heading">Finding the IDs you need</h2>
+<p>Two kinds of ID go into every compliance call for ESX: the vCenter minion ID and one or more ESX host IDs. I got both wrong at least once, so here’s where they come from.</p>
+<h3 class="wp-block-heading">The vCenter minion ID</h3>
+<p>Minion IDs are UUIDs, not host names. In my lab, the vCenter minion ID is the same value as its vcfops_resource_id grain. The quickest way to find it is the grain filter from the previous section, which gives one line per vCenter:</p>
+<pre class="crayon-plain-tag">349eea8d-e7c8-47f6-b2ea-a197ea245562   vc01.gpu.set.lab</pre>
+<p>It’s used in two places:</p>
+<ul class="wp-block-list">
+<li>as the target of the job: <code>"tgt": {"*": {"tgt": "L@&lt;vcenter-minion-id&gt;", "tgt_type": "compound"}}</code>,</li>
+<li>as the key of the pillar’s <code>object_id</code> map, with the ESX hosts as its value.</li>
+</ul>
+<p>Because <code>object_id</code> is a map, one call can cover several vCenters: one key per vCenter minion, each with its own list of hosts. The state looks up its own minion ID in that map, so every minion you target needs a key there.</p>
+<h3 class="wp-block-heading">ESX host IDs</h3>
+<p>This is where I lost the most time. My first guess was the managed object ID from the vCenter URL, <code>host-25</code> for esx214. The assessment came back with an overall <code>COMPLIANT</code> and I was pleased for about a minute, until I looked at the per-host result:</p>
+<pre class="crayon-plain-tag">&quot;host-25&quot;: {
+  &quot;errors&quot;: [&quot;Host 'host-25' is not managed by this vCenter.&quot;],
+  &quot;status&quot;: &quot;SKIPPED&quot;
+}</pre>
+<p>For ESX, the IDs are the host names as vCenter and VCF Operations know them. In my lab those are the FQDNs, <code>esx213.set.lab</code> to <code>esx218.set.lab</code>. VMs are different again: for them VCF Operations sends managed object IDs like <code>vm-31</code>. The quickest way to get the host list is, once more, a job VCF Operations already ran:</p>
+<pre class="crayon-plain-tag">raas '{&quot;resource&quot;:&quot;ret&quot;,&quot;method&quot;:&quot;get_returns&quot;,&quot;kwarg&quot;:{&quot;fun&quot;:&quot;state.apply&quot;,&quot;limit&quot;:50}}' 
+  | jq -c '[.ret.results[] | select(.fun_args[1].pillar.object_type? == &quot;esxi&quot;)]
+  | max_by(.fun_args[1].pillar.desired_spec.compliance_config.esxi | length)
+  | .fun_args[1].pillar.object_id'
+
+{&quot;349eea8d-e7c8-47f6-b2ea-a197ea245562&quot;:[
+ &quot;esx213.set.lab&quot;,
+ &quot;esx214.set.lab&quot;,
+ &quot;esx215.set.lab&quot;,
+ &quot;esx216.set.lab&quot;,
+ &quot;esx217.set.lab&quot;,
+ &quot;esx218.set.lab&quot;]}</pre>
+<p>(The <code>max_by</code> picks the job with the most settings in its spec, so it’s one of VCF Operations’ runs and not one of your own test runs.)</p>
+<div class="wp-block-image">
+<figure class="aligncenter size-full"><img loading="lazy" decoding="async" width="374" height="246" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_664e15.png" alt="" class="wp-image-36771" srcset="https://blogs.vmware.com/wp-content/uploads/2026/11/image_664e15.png 374w, https://blogs.vmware.com/wp-content/uploads/2026/11/image_664e15.png?resize=300,197 300w" sizes="auto, (max-width: 374px) 100vw, 374px" /></figure>
+</div>
+<p>Also note that a skipped host doesn’t fail the run. Always read the per-host status, not only the summary.</p>
+<h3 class="wp-block-heading">What VCF Operations sends per object type</h3>
+<p>Here’s what I found in the job history for each object type, in case you want to go beyond ESX. The grain kind and the object type don’t always use the same name.</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<thead>
+<tr>
+<th>object_type</th>
+<th>Grain kind</th>
+<th>Key in object_id</th>
+<th>IDs in the list</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>esxi</td>
+<td>(no minion)</td>
+<td>vCenter minion</td>
+<td>ESX host names (FQDNs)</td>
+</tr>
+<tr>
+<td>vm</td>
+<td>(no minion)</td>
+<td>vCenter minion</td>
+<td>VM managed object IDs (vm-NNN)</td>
+</tr>
+<tr>
+<td>vcenter</td>
+<td>vcenter</td>
+<td>vCenter minion</td>
+<td>the vCenter minion ID</td>
+</tr>
+<tr>
+<td>nsxt_manager</td>
+<td>nsxm</td>
+<td>each NSX Manager minion</td>
+<td>that minion’s ID</td>
+</tr>
+<tr>
+<td>sddc_manager</td>
+<td>sddcm</td>
+<td>SDDC Manager minion</td>
+<td>that minion’s ID</td>
+</tr>
+<tr>
+<td>vrops</td>
+<td>ops</td>
+<td>each VCF Operations node minion</td>
+<td>that minion’s ID</td>
+</tr>
+<tr>
+<td>cp</td>
+<td>cloud-proxy</td>
+<td>cloud proxy minion</td>
+<td>that minion’s ID</td>
+</tr>
+<tr>
+<td>vmsp</td>
+<td>vmsp</td>
+<td>VSP salt-minion pod</td>
+<td>that minion’s ID</td>
+</tr>
+<tr>
+<td>vcfa</td>
+<td>(no minion)</td>
+<td>VSP salt-minion pod</td>
+<td>a UUID (I assume the VCF Automation instance)</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<h2 class="wp-block-heading">Drafting the NTP spec</h2>
+<p>For the desired values I used the <a href="https://saltstack.github.io/salt-for-vcf/SaltforVCF-StateandJinjaFile-Generator-911.html" target="_blank" rel="noreferrer noopener">Salt for VCF Component State &amp; Jinja File Generator</a> from Salt for VCF github page. You pick a component, pick configuration IDs from a list and fill in the values, and it gives you a Salt state file and a Jinja file with the settings. It saved me a lot of digging, mostly because it lists every configuration ID per component with its title and a sensible starting value.</p>
+<p>For ESX, NTP is three configuration IDs:</p>
+<ul class="wp-block-list">
+<li>147: ESX host must configure NTP time synchronization.</li>
+<li>148: The ESX host must configure NTP Service startup policy.</li>
+<li>149: Start NTP service on the ESX host.</li>
+</ul>
+<p>I started with 147 alone and two NTP servers.</p>
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="898" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_698b47.png" alt="" class="wp-image-36772" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_698b47.png 1541w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_698b47.png?resize=300,263 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_698b47.png?resize=768,674 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_698b47.png?resize=1024,898 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_698b47.png?resize=1536,1348 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_698b47.png?resize=600,526 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+<p>Before pushing, I changed two names, so the spec matches what the compliance module expects. It is also the shape VCF Operations sends:</p>
+<ol class="wp-block-list">
+<li><strong>The top-level key.</strong> The generator uses <code>state_to_jinja_linked_name</code> as the link between the state and the Jinja file. <code>check_control</code> wants <code>compliance_config</code> there, with the product (<code>esxi</code>) one level below it. With any other name the run ends with <mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-luminous-vivid-amber-color">Desired spec is empty or not in correct format</mark><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-cyan-bluish-gray-color">.</mark></li>
+<li><strong>The setting name.</strong> The module has its own names for settings, and the one for 147 is <code>ntp_config</code>. The easiest place to find them is a VCF Operations assessment job:</li>
+</ol>
+<pre class="crayon-plain-tag">raas '{&quot;resource&quot;:&quot;ret&quot;,&quot;method&quot;:&quot;get_returns&quot;,&quot;kwarg&quot;:{&quot;fun&quot;:&quot;state.apply&quot;,&quot;limit&quot;:50}}' 
+  | jq -r '[.ret.results[] | select(.fun_args[1].pillar.object_type? == &quot;esxi&quot;)]
+  | max_by(.fun_args[1].pillar.desired_spec.compliance_config.esxi | length)
+  | .fun_args[1].pillar.desired_spec.compliance_config.esxi
+  | to_entries[] 
+  | [.value.metadata.configuration_id, .key, (.value.value | tojson)] 
+  | @tsv'</pre>
+<p>For NTP, that gives these names. The values are the ones I want:</p>
+<figure class="wp-block-table">
+<table class="has-fixed-layout">
+<thead>
+<tr>
+<th>Config ID</th>
+<th>Setting name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>147</td>
+<td>ntp_config</td>
+<td>{&#8220;protocol&#8221;: &#8220;ntp&#8221;, &#8220;servers&#8221;: [&#8220;10.3.0.10&#8221;, &#8220;10.3.1.10&#8221;]}</td>
+</tr>
+<tr>
+<td>148</td>
+<td>ntp_service_startup_policy</td>
+<td>{&#8220;service_policy&#8221;: &#8220;on&#8221;}</td>
+</tr>
+<tr>
+<td>149</td>
+<td>ntp_service_config</td>
+<td>{&#8220;service_running&#8221;: true}</td>
+</tr>
+</tbody>
+</table>
+</figure>
+<p><code>protocol</code> is required for <code>ntp_config</code>. If you leave it out, the host reports a validation error. The generator already fills it in.</p>
+<p>Here are the two files I ended up with. The Jinja file holds the spec:</p>
+<pre class="crayon-plain-tag">{# Save this file to: esx_component.jinja #}
+
+{% load_yaml as global %}
+compliance_config:
+  esxi:
+    ntp_config:
+      metadata:
+        configuration_id: &quot;147&quot;
+        configuration_title: &quot;ESX host must configure NTP time synchronization.&quot;
+      value:
+        protocol: &quot;ntp&quot;
+        servers:
+          - &quot;10.3.0.10&quot;
+          - &quot;10.3.1.10&quot;
+{% endload %} {# Required for Salt to process Jinja file properly. #}</pre>
+<p>The state file loads it and passes it to the compliance check:</p>
+<pre class="crayon-plain-tag">{% set esx_component_config = &quot;compliance_config&quot; %}
+
+{% from 'esx_component.jinja' import global with context %} #Insert the path location where your jinja file is located
+{% set control_config = global[esx_component_config] %}
+
+{% set target_control_config = {&quot;compliance_config&quot;: control_config } %}
+
+esx_component_settings:
+  vmware_compliance_control.check_control:
+    - control_config: {{ target_control_config }}
+    - product: &quot;esxi&quot;</pre>
+<h3 class="wp-block-heading">Push the files</h3>
+<p>Files go to the Salt file server with <code>fs.save_file</code>. The docs say text files can be sent as plain text, but my build base64-decodes whatever arrives in <code>contents</code>. A plain-text upload got me a 5000 and a <code>binascii.Error</code> in the RaaS log. So I base64-encode everything:</p>
+<pre class="crayon-plain-tag">push() {   # push {local file} {path in vcfsecops}
+  raas &quot;$(jq -nc --arg p &quot;$2&quot; --arg c &quot;$(base64 &amp;lt; &quot;$1&quot; | tr -d 'n')&quot; 
+    '{resource:&quot;fs&quot;, method:&quot;save_file&quot;,
+      kwarg:{saltenv:&quot;vcfsecops&quot;, path:$p, contents:$c}}')&quot;
+}
+
+push esx_component.jinja /esx_component.jinja
+push esx_ntp.sls /esx_ntp.sls
+
+raas '{&quot;resource&quot;:&quot;fs&quot;,&quot;method&quot;:&quot;get_env&quot;,&quot;kwarg&quot;:{&quot;saltenv&quot;:&quot;vcfsecops&quot;}}' 
+  | jq -r '.ret[] | [.path, .content_type] | @tsv'
+
+&hellip;
+/esx_component.jinja
+/esx_ntp.sls</pre>
+<h2 class="wp-block-heading">Assess</h2>
+<p>For the actual run, I went back to the built-in states, <code>ops_assess_u</code> and <code>ops_remed_u</code>, and passed my spec through the pillar, the same way VCF Operations does. The generated state doesn’t pass <code>ids</code>, which ESX needs. The Jinja file is still where I keep the spec; <code>yq</code> turns its YAML into the JSON for the pillar:</p>
+<pre class="crayon-plain-tag">VC_MINION=349eea8d-e7c8-47f6-b2ea-a197ea245562
+ESX_HOSTS='[&quot;esx213.set.lab&quot;,&quot;esx214.set.lab&quot;,&quot;esx215.set.lab&quot;,
+            &quot;esx216.set.lab&quot;,&quot;esx217.set.lab&quot;,&quot;esx218.set.lab&quot;]'
+
+# the YAML inside the Jinja file, minus the Jinja lines, is the desired spec
+SPEC=$(sed '/^{[%#]/d' esx_component.jinja | yq -o=json -I=0 '.')
+
+jq -n --arg vc &quot;$VC_MINION&quot; --argjson hosts &quot;$ESX_HOSTS&quot; --argjson spec &quot;$SPEC&quot; '
+{
+  resource: &quot;cmd&quot;, method: &quot;route_cmd&quot;,
+  kwarg: {
+    cmd: &quot;local&quot;, fun: &quot;state.apply&quot;,
+    arg: { arg: [&quot;ops_assess_u&quot;],
+           kwarg: { saltenv: &quot;vcfsecops&quot;, test: true, queue: true,
+                    pillar: { object_type: &quot;esxi&quot;,
+                              object_id: { ($vc): $hosts },
+                              desired_spec: $spec } } },
+    tgt: { &quot;*&quot;: { tgt: (&quot;L@&quot; + $vc), tgt_type: &quot;compound&quot; } }
+  }
+}' | tee esx_ntp_assess.json</pre>
+<p>If you’d rather not use <code>jq</code>, this is the request it builds (host list shortened):</p>
+<pre class="crayon-plain-tag">{
+  &quot;resource&quot;: &quot;cmd&quot;,
+  &quot;method&quot;: &quot;route_cmd&quot;,
+  &quot;kwarg&quot;: {
+    &quot;cmd&quot;: &quot;local&quot;,
+    &quot;fun&quot;: &quot;state.apply&quot;,
+    &quot;arg&quot;: {
+      &quot;arg&quot;: [&quot;ops_assess_u&quot;],
+      &quot;kwarg&quot;: {
+        &quot;saltenv&quot;: &quot;vcfsecops&quot;,
+        &quot;test&quot;: true,
+        &quot;queue&quot;: true,
+        &quot;pillar&quot;: {
+          &quot;object_type&quot;: &quot;esxi&quot;,
+          &quot;object_id&quot;: {
+            &quot;349eea8d-e7c8-47f6-b2ea-a197ea245562&quot;: [&quot;esx213.set.lab&quot;, &quot;esx214.set.lab&quot;, &quot;...&quot;]
+          },
+          &quot;desired_spec&quot;: {
+            &quot;compliance_config&quot;: {
+              &quot;esxi&quot;: {
+                &quot;ntp_config&quot;: {
+                  &quot;value&quot;: { &quot;protocol&quot;: &quot;ntp&quot;, &quot;servers&quot;: [&quot;10.3.0.10&quot;, &quot;10.3.1.10&quot;] },
+                  &quot;metadata&quot;: {
+                    &quot;configuration_id&quot;: &quot;147&quot;,
+                    &quot;configuration_title&quot;: &quot;ESX host must configure NTP time synchronization.&quot;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    &quot;tgt&quot;: { &quot;*&quot;: { &quot;tgt&quot;: &quot;L@349eea8d-e7c8-47f6-b2ea-a197ea245562&quot;, &quot;tgt_type&quot;: &quot;compound&quot; } }
+  }
+}</pre>
+<p>A few things in there:</p>
+<ul class="wp-block-list">
+<li><code>test: true</code> is Salt’s dry run, so <code>check_control</code> only reports.</li>
+<li><code>queue: true</code> queues the run if another state run is already going on the minion, which can happen while VCF Operations is doing its own.</li>
+<li><code>object_id</code> maps the vCenter minion to its ESX hosts, and <code>tgt</code> sends the job to that same minion.</li>
+</ul>
+<p>Send it, wait a little, and fetch the return:</p>
+<pre class="crayon-plain-tag">JID=$(raas @esx_ntp_assess.json | jq -r .ret)
+sleep 10
+raas '{&quot;resource&quot;:&quot;ret&quot;,&quot;method&quot;:&quot;get_jid&quot;,&quot;kwarg&quot;:{&quot;jid&quot;:&quot;'&quot;$JID&quot;'&quot;}}' | tee assess_result.json</pre>
+<p>The return is long. These two filters give the per-host status and the NTP details:</p>
+<pre class="crayon-plain-tag">jq '.ret[].return[] | select(.__id__==&quot;compliance_esxi&quot;)
+    | .changes | del(.metadata_grains) | map_values(.status)' assess_result.json
+
+jq '.ret[].return[] | select(.__id__==&quot;compliance_esxi&quot;)
+    | .changes | del(.metadata_grains)
+    | map_values(.host_changes.compliance_config.esxi.ntp_config)' assess_result.json</pre>
+<p>All six came back <code>NON_COMPLIANT</code>, and for esx214 the second filter showed exactly what I expected, one server configured and two wanted:</p>
+<pre class="crayon-plain-tag">{
+  &quot;esx213.set.lab&quot;: &quot;NON_COMPLIANT&quot;,
+  &quot;esx214.set.lab&quot;: &quot;NON_COMPLIANT&quot;,
+  &quot;esx215.set.lab&quot;: &quot;NON_COMPLIANT&quot;,
+  &quot;esx216.set.lab&quot;: &quot;NON_COMPLIANT&quot;,
+  &quot;esx217.set.lab&quot;: &quot;NON_COMPLIANT&quot;,
+  &quot;esx218.set.lab&quot;: &quot;NON_COMPLIANT&quot;
+}
+&hellip;
+&quot;esx214.set.lab&quot;: {
+  &quot;status&quot;: &quot;NON_COMPLIANT&quot;,
+  &quot;current&quot;: { &quot;servers&quot;: [&quot;10.3.0.10&quot;] },
+  &quot;desired&quot;: { &quot;servers&quot;: [&quot;10.3.0.10&quot;, &quot;10.3.1.10&quot;] }
+}</pre>
+<p>The state itself reports <code>result: null</code>, which is Salt’s way of saying “this would change” in test mode.</p>
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="264" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_6db3db.png" alt="" class="wp-image-36791" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_6db3db.png 1343w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_6db3db.png?resize=300,77 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_6db3db.png?resize=768,198 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_6db3db.png?resize=1024,264 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_6db3db.png?resize=600,155 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+<h2 class="wp-block-heading">Remediate</h2>
+<p>Remediation is the same request with <code>ops_remed_u</code> and without <code>test</code>. Run the assessment first and read it, because this one changes your hosts.</p>
+<pre class="crayon-plain-tag">jq '.kwarg.arg.arg = [&quot;ops_remed_u&quot;] | del(.kwarg.arg.kwarg.test)' 
+ esx_ntp_assess.json | tee esx_ntp_remediate.json
+
+JID=$(raas @esx_ntp_remediate.json | jq -r .ret)
+sleep 10
+raas '{&quot;resource&quot;:&quot;ret&quot;,&quot;method&quot;:&quot;get_jid&quot;,&quot;kwarg&quot;:{&quot;jid&quot;:&quot;'&quot;$JID&quot;'&quot;}}' | tee remediate_result.json</pre>
+<p>The same two filters, run on <code>remediate_result.json</code>, show <code>SUCCESS</code> for all six hosts and the server list before and after:</p>
+<pre class="crayon-plain-tag">{
+  &quot;esx213.set.lab&quot;: &quot;SUCCESS&quot;,
+  &quot;esx214.set.lab&quot;: &quot;SUCCESS&quot;,
+  &quot;esx215.set.lab&quot;: &quot;SUCCESS&quot;,
+  &quot;esx216.set.lab&quot;: &quot;SUCCESS&quot;,
+  &quot;esx217.set.lab&quot;: &quot;SUCCESS&quot;,
+  &quot;esx218.set.lab&quot;: &quot;SUCCESS&quot;
+}
+&hellip;
+&quot;esx214.set.lab&quot;: {
+  &quot;new&quot;: { &quot;servers&quot;: [&quot;10.3.0.10&quot;, &quot;10.3.1.10&quot;] },
+  &quot;old&quot;: { &quot;servers&quot;: [&quot;10.3.0.10&quot;] },
+  &quot;status&quot;: &quot;SUCCESS&quot;
+}</pre>
+<p>In vCenter, esx214 now lists both servers and the NTP service is running.</p>
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="360" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_50f05b.png" alt="" class="wp-image-36792" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_50f05b.png 1296w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_50f05b.png?resize=300,105 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_50f05b.png?resize=768,270 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_50f05b.png?resize=1024,360 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_50f05b.png?resize=600,211 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+<p>Finally, run the assessment again. Every host should come back <code>COMPLIANT</code> for <code>ntp_config</code>.</p>
+<figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="473" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_38464c.png" alt="" class="wp-image-36793" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_38464c.png 1975w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_38464c.png?resize=300,139 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_38464c.png?resize=768,355 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_38464c.png?resize=1024,473 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_38464c.png?resize=1536,709 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_38464c.png?resize=600,277 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
+<h2 class="wp-block-heading">Things that tripped me up</h2>
+<ul class="wp-block-list">
+<li>A skipped host still gives an overall <code>COMPLIANT</code>. Read the per-host status.</li>
+<li>ESX IDs are host names (FQDNs in my lab), not <code>host-NNN</code>. VM IDs, on the other hand, are <code>vm-NNN</code>.</li>
+<li>The files live in <code>vcfsecops</code>. Pass <code>saltenv</code> to <code>state.apply,</code> or Salt looks in <code>base</code>.</li>
+<li>On my build, <code>fs.save_file</code> wanted base64 for <code>.jinja </code>and <code>.sls</code> files.</li>
+<li>Setting names are fixed by the module (<code>ntp_config</code>, not <code>ntp</code>). Copy them from a VCF Operations job.</li>
+<li>The API docs follow the latest release. On my build, <code>tgt.get_tgts</code>, <code>test.ping</code> and <code>stats.get_stats</code> return 3001. The upload and run snippet on the generator page uses <code>fs.write_file</code> and <code>job.run</code>, while my build has <code>fs.save_file</code> and <code>cmd.route_cmd</code>. Check what yours has; a 3004 means the method is there.</li>
+<li>Grain kinds and object types use different names (<code>nsxm</code> and <code>nsxt_manager</code>, <code>ops</code> and <code>vrops</code>).</li>
+<li>When something returns 5000, the RaaS pod log has the real error.</li>
+</ul>
+<h2 class="wp-block-heading">What’s next</h2>
+<p>Next I’ll add 148 and 149 to the same spec, so the NTP service is set to start with the host and is running, and then work through the other ESX settings that come back non-compliant.&nbsp;</p>
+<p>Because <code>object_id</code> is a map, the same request will cover more than one vCenter once there’s a second one in the lab.</p>
+<h2 class="wp-block-heading">References</h2>
+<ul class="wp-block-list">
+<li><a href="https://techdocs.broadcom.com/us/en/vmware-cis/vcf/vcf-9-0-and-later/9-1/security-and-compliance/security-posture-management.html" target="_blank" rel="noreferrer noopener">Security Posture Management, VCF 9.1 documentation on Broadcom TechDocs</a></li>
+<li><a href="https://blogs.vmware.com/cloud-foundation/2026/10/26/from-open-source-to-enterprise-understanding-the-vmware-salt-api-evolution/" target="_blank" rel="noreferrer noopener">From Open Source to Enterprise: Understanding the VMware Salt API Evolution</a></li>
+<li><a href="https://developer.broadcom.com/xapis/vmware-salt-for-vcf-components-api/latest/" target="_blank" rel="noreferrer noopener">VMware Salt for VCF Components API</a> on the Broadcom Developer Portal, in particular the <a href="https://developer.broadcom.com/xapis/vmware-salt-for-vcf-components-api/latest/rpc_minions.html" target="_blank" rel="noreferrer noopener">minions</a>, <a href="https://developer.broadcom.com/xapis/vmware-salt-for-vcf-components-api/latest/rpc_fs.html" target="_blank" rel="noreferrer noopener">fs</a>, <a href="https://developer.broadcom.com/xapis/vmware-salt-for-vcf-components-api/latest/rpc_cmd.html" target="_blank" rel="noreferrer noopener">cmd</a>, <a href="https://developer.broadcom.com/xapis/vmware-salt-for-vcf-components-api/latest/rpc_ret.html" target="_blank" rel="noreferrer noopener">ret</a>, <a href="https://developer.broadcom.com/xapis/vmware-salt-for-vcf-components-api/latest/rpc_job.html" target="_blank" rel="noreferrer noopener">job</a> and <a href="https://developer.broadcom.com/xapis/vmware-salt-for-vcf-components-api/latest/rpc_tgt.html" target="_blank" rel="noreferrer noopener">tgt</a> interfaces</li>
+<li><a href="https://saltstack.github.io/salt-for-vcf/SaltforVCF-StateandJinjaFile-Generator-911.html" target="_blank" rel="noreferrer noopener">Salt for VCF Component State &amp; Jinja File Generator (9.1.1)</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=humao.rest-client" target="_blank" rel="noreferrer noopener">REST Client for VS Code</a></li>
+<li>GitHub repo for this post: <a href="https://github.com/denysaleksandrov/vfc-salt-api-test" target="_blank" rel="noreferrer noopener">https://github.com/denysaleksandrov/vfc-salt-api-test</a></li>
+</ul>
+<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/25/using-the-salt-api-behind-vcf-security-posture-management/">Using the Salt API Behind VCF Security Posture Management</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/25/using-the-salt-api-behind-vcf-security-posture-management/">Using the Salt API Behind VCF Security Posture Management</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">10111944</post-id>	</item>
+		<item>
 		<title>What’s New in VMware Cloud Foundation Edge  9.1.2</title>
 		<link>https://blogs.vmware.com/cloud-foundation/2026/11/24/whats-new-in-vmware-cloud-foundation-edge-9-1-2/</link>
 		
@@ -28,10 +700,10 @@
 				<category><![CDATA[Cloud Infrastructure]]></category>
 		<guid isPermaLink="false">https://blogs.vmware.com/?p=10111623</guid>
 
-					<description><![CDATA[<img width="300" height="167" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Image-blog-VCF-Edge.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" fetchpriority="high" /><p>Thousands of remote sites keep business moving, often without a single systems administrator on site. That gap creates the defining challenge of the distributed edge: heavy hardware sprawl run by a lean team. VMware Cloud Foundation Edge (VCF Edge) is an optimized configuration of VMware Cloud Foundation (VCF) built for edge use cases. It runs &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/24/whats-new-in-vmware-cloud-foundation-edge-9-1-2/">Continued</a></p>
+					<description><![CDATA[<img width="300" height="167" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Image-blog-VCF-Edge.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Thousands of remote sites keep business moving, often without a single systems administrator on site. That gap creates the defining challenge of the distributed edge: heavy hardware sprawl run by a lean team. VMware Cloud Foundation Edge (VCF Edge) is an optimized configuration of VMware Cloud Foundation (VCF) built for edge use cases. It runs &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/24/whats-new-in-vmware-cloud-foundation-edge-9-1-2/">Continued</a></p>
 <p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/24/whats-new-in-vmware-cloud-foundation-edge-9-1-2/">What’s New in VMware Cloud Foundation Edge  9.1.2</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
-										<content:encoded><![CDATA[<img width="300" height="167" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Image-blog-VCF-Edge.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><div><img width="300" height="167" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Image-blog-VCF-Edge.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Image-blog-VCF-Edge.jpg 2752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Image-blog-VCF-Edge.jpg?resize=300,167 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Image-blog-VCF-Edge.jpg?resize=768,429 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Image-blog-VCF-Edge.jpg?resize=1024,572 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Image-blog-VCF-Edge.jpg?resize=1536,857 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Image-blog-VCF-Edge.jpg?resize=2048,1143 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Image-blog-VCF-Edge.jpg?resize=600,335 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
+										<content:encoded><![CDATA[<img width="300" height="167" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Image-blog-VCF-Edge.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="167" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Image-blog-VCF-Edge.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Image-blog-VCF-Edge.jpg 2752w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Image-blog-VCF-Edge.jpg?resize=300,167 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Image-blog-VCF-Edge.jpg?resize=768,429 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Image-blog-VCF-Edge.jpg?resize=1024,572 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Image-blog-VCF-Edge.jpg?resize=1536,857 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Image-blog-VCF-Edge.jpg?resize=2048,1143 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Image-blog-VCF-Edge.jpg?resize=600,335 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
 <p>Thousands of remote sites keep business moving, often without a single systems administrator on site. That gap creates the defining challenge of the distributed edge: heavy hardware sprawl run by a lean team. VMware Cloud Foundation Edge (VCF Edge) is an optimized configuration of VMware Cloud Foundation (VCF) built for edge use cases. It runs traditional VMs, native containers, and edge AI workloads on one consistent platform across thousands of remote locations, with centralized policy and automation doing the heavy lifting.</p>
 <p>Following the release of <a href="https://blogs.vmware.com/cloud-foundation/2026/05/05/announcing-vmware-cloud-foundation-edge-9-1-a-scalable-autonomous-edge-platform/">VCF Edge 9.1</a>, we are continuing to build on that foundation by delivering new capabilities for VCF Edge in 9.1.2 for fleet management, application delivery, and security to improve operations. Here&#8217;s what&#8217;s new in these releases, and what it means for running edge sites.</p>
 <figure class="wp-block-image size-large"><img loading="lazy" decoding="async" height="510" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_1e14a2.png" alt="VMware Cloud Foundation Edge overview showing three pillars: autonomous edge operations, a unified edge runtime for VMs, containers and AI and a secure and resilient edge sites" class="wp-image-36927" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_1e14a2.png 1500w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_1e14a2.png?resize=300,149 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_1e14a2.png?resize=768,382 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_1e14a2.png?resize=1024,510 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_1e14a2.png?resize=600,299 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /></figure>
@@ -80,7 +752,7 @@
 				<category><![CDATA[Cloud Infrastructure]]></category>
 		<guid isPermaLink="false">https://blogs.vmware.com/?p=10111633</guid>
 
-					<description><![CDATA[<img width="300" height="163" src="https://blogs.vmware.com/wp-content/uploads/2026/11/private-ai-9-3-2nd.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" /><p>Introduction While artificial intelligence offers transformative potential, enterprise deployment remains constrained. At the forefront, privacy, IP protection, and compliance present severe existential threats. Foundational issues however are infrastructural demands—such as GPU bottlenecks, network I/O, and compute expenses—forcing a delicate trade-off between high-performance execution and sustainable spending. Every AI project starts in the same place: Day-0. &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/24/automate-day-0-ai-deployment-with-ai-infrastructure-quickstart-in-vcf-9-1-2/">Continued</a></p>
+					<description><![CDATA[<img width="300" height="163" src="https://blogs.vmware.com/wp-content/uploads/2026/11/private-ai-9-3-2nd.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Introduction While artificial intelligence offers transformative potential, enterprise deployment remains constrained. At the forefront, privacy, IP protection, and compliance present severe existential threats. Foundational issues however are infrastructural demands—such as GPU bottlenecks, network I/O, and compute expenses—forcing a delicate trade-off between high-performance execution and sustainable spending. Every AI project starts in the same place: Day-0. &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/24/automate-day-0-ai-deployment-with-ai-infrastructure-quickstart-in-vcf-9-1-2/">Continued</a></p>
 <p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/24/automate-day-0-ai-deployment-with-ai-infrastructure-quickstart-in-vcf-9-1-2/">Automate Day-0 AI Deployment with AI infrastructure quickstart in VCF 9.1.2 </a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
 ]]></description>
 										<content:encoded><![CDATA[<img width="300" height="163" src="https://blogs.vmware.com/wp-content/uploads/2026/11/private-ai-9-3-2nd.jpg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="164" src="https://blogs.vmware.com/wp-content/uploads/2026/11/private-ai-9-3-2nd.jpg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/private-ai-9-3-2nd.jpg 2816w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/private-ai-9-3-2nd.jpg?resize=300,164 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/private-ai-9-3-2nd.jpg?resize=768,419 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/private-ai-9-3-2nd.jpg?resize=1024,559 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/private-ai-9-3-2nd.jpg?resize=1536,838 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/private-ai-9-3-2nd.jpg?resize=2048,1117 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/09/private-ai-9-3-2nd.jpg?resize=600,327 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
@@ -514,272 +1186,5 @@
 		
 		
 		<post-id xmlns="com-wordpress:feed-additions:1">10111595</post-id>	</item>
-		<item>
-		<title>Agentic AI for Enhanced Network Operations in VMware Cloud Foundation</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/11/23/agentic-ai-for-enhanced-network-operations-in-vmware-cloud-foundation/</link>
-		
-		<dc:creator><![CDATA[ken guo and varun santosh]]></dc:creator>
-		<pubDate>Mon, 23 Nov 2026 16:00:00 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10111420</guid>
-
-					<description><![CDATA[<img width="300" height="165" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Getty-2235180073.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>For networking and operations teams, a single incident can require evidence from several parts of the private cloud. Gathering that evidence often means moving between management consoles, running diagnostic commands, and checking the results against known issues. Recent advancements in agentic AI technologies can help evolve network operations by chaining diagnostic reasoning, live telemetry verification, &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/23/agentic-ai-for-enhanced-network-operations-in-vmware-cloud-foundation/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/23/agentic-ai-for-enhanced-network-operations-in-vmware-cloud-foundation/">Agentic AI for Enhanced Network Operations in VMware Cloud Foundation</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="300" height="165" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Getty-2235180073.jpeg?w=300" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="165" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Getty-2235180073.jpeg" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Getty-2235180073.jpeg 4908w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Getty-2235180073.jpeg?resize=300,165 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Getty-2235180073.jpeg?resize=768,422 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Getty-2235180073.jpeg?resize=1024,563 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Getty-2235180073.jpeg?resize=1536,845 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Getty-2235180073.jpeg?resize=2048,1127 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Getty-2235180073.jpeg?resize=600,330 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<p>For networking and operations teams, a single incident can require evidence from several parts of the private cloud. Gathering that evidence often means moving between management consoles, running diagnostic commands, and checking the results against known issues.</p>
-<p>Recent advancements in agentic AI technologies can help evolve network operations by chaining diagnostic reasoning, live telemetry verification, and policy checks into closed-loop investigation workflows. Rather than treating issues as isolated telemetry counters, agents formulate hypotheses, query APIs and CLI endpoints, evaluate evidence across components, and recommend or execute targeted remediations.</p>
-<p>This blog explores the use of agentic AI to deliver AI-assisted diagnostics and advisory for networking across VMware Cloud Foundation (VCF). Available as a free-to-download Agentic AI Hub Fling on the <a href="https://support.broadcom.com/group/ecx/productdownloads?subfamily=Flings&amp;freeDownloads=true" target="_blank" rel="noreferrer noopener">Broadcom Support Portal</a>, these specialized agentic workflows assist in investigating networks, flow analysis, and storage issues using live infrastructure tools available through Model Context Protocol (MCP) integrations.</p>
-<p class="has-medium-font-size"><strong>What It Does</strong></p>
-<p>Agentic AI tools turn an operator’s question into a guided investigation. Domain skills define the checks and tools for each task, while MCP integrations retrieve live inventory, configuration, operational state, and diagnostic results. The assistant brings the findings together and recommends what to check or do next.</p>
-<div class="wp-block-image">
-<figure class="aligncenter size-large"><img fetchpriority="high" decoding="async" height="622" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/AGentic-Loop.png" alt="" class="wp-image-36689" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/AGentic-Loop.png 1341w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/AGentic-Loop.png?resize=300,182 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/AGentic-Loop.png?resize=768,466 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/AGentic-Loop.png?resize=1024,622 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/AGentic-Loop.png?resize=600,364 600w" sizes="(max-width: 1024px) 100vw, 1024px" /><figcaption class="wp-element-caption"><em>Figure 1. The agentic loop</em></figcaption></figure>
-</div>
-<p>The Fling focuses on diagnosis and recommendations, using connectivity probes and diagnostic runbooks to help operators investigate issues. Operators review the findings and decide which configuration changes to make.</p>
-<div class="wp-block-image">
-<figure class="aligncenter size-large is-resized"><img loading="lazy" decoding="async" height="556" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_cdcaf4.png" alt="" class="wp-image-36531" style="width:816px;height:auto" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_cdcaf4.png 2028w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_cdcaf4.png?resize=300,163 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_cdcaf4.png?resize=768,417 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_cdcaf4.png?resize=1024,556 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_cdcaf4.png?resize=1536,834 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/image_cdcaf4.png?resize=600,326 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><figcaption class="wp-element-caption"><em>Figure 2. The agentic AI agent catalog</em></figcaption></figure>
-</div>
-<p><strong>Network Diagnostics and Flow Analysis</strong></p>
-<p>Network investigations often span NSX Manager, Edge Node diagnostics, and VCF Operations for Networks. Agentic AI brings specialized workflows to some of the most demanding tasks:</p>
-<ul class="wp-block-list">
-<li>BGP troubleshooting – Investigate failed or flapping peering sessions using live diagnostic runbooks. Check session state, routes, connectivity, and relevant Edge evidence before recommending a next step.</li>
-<li>Network Datapath troubleshooting – Investigate connectivity between a source and destination using Traceflow or LiveTrace. Review forwarding observations, identify reported drops, and use the results to guide follow-up checks.</li>
-<li>Edge and Virtual Network Appliance (VNA) capacity – Examine datapath CPU, memory-pool utilization, and relevant alarms to help assess capacity pressure and sizing needs.</li>
-<li>NSX upgrade readiness – Review supported upgrade paths, environment health, and pre-checks before a maintenance window. Findings help administrators decide what needs attention before proceeding.</li>
-<li>Flow analysis – Translate natural-language questions into validated queries for VCF Operations for Networks, then analyze traffic patterns, top talkers, drops, and anomalies.</li>
-</ul>
-<p>Consider the question, “<em>Why can&#8217;t App-VM-01 reach DB-VM-02 on port 5432?</em>” Agentic AI-based diagnostics can find the endpoint VMs or VMware vSphere Kubernetes Service (VKS) pods, run the connectivity diagnostic workflow, and report the forwarding observations and any drops it finds. The operator gets evidence about the connection in question, along with follow-up checks and recommendations based on the results.</p>
-<div class="wp-block-image">
-<figure class="aligncenter size-full"><img loading="lazy" decoding="async" width="1011" height="769" src="https://blogs.vmware.com/wp-content/uploads/2026/11/image_f17d48.png" alt="" class="wp-image-36532" srcset="https://blogs.vmware.com/wp-content/uploads/2026/11/image_f17d48.png 1011w, https://blogs.vmware.com/wp-content/uploads/2026/11/image_f17d48.png?resize=300,228 300w, https://blogs.vmware.com/wp-content/uploads/2026/11/image_f17d48.png?resize=768,584 768w, https://blogs.vmware.com/wp-content/uploads/2026/11/image_f17d48.png?resize=600,456 600w" sizes="auto, (max-width: 1011px) 100vw, 1011px" /><figcaption class="wp-element-caption"><em>Figure 3. Root cause analysis of network connectivity issue by Network Assistant</em></figcaption></figure>
-</div>
-<p>MCP Servers</p>
-<p>The agentic AI agents connect to VCF components through MCP servers. Each server exposes tools that query live inventory, configuration, and operational state, along with prompts that give the model domain context. This grounds the assistant&#8217;s reasoning in how each product actually works and in the current state of the environment.</p>
-<p>Here’s the list of MCP servers.</p>
-<figure class="wp-block-table">
-<table class="has-fixed-layout">
-<tbody>
-<tr>
-<td>NSX MCP Server</td>
-<td>Connects to NSX Manager endpoints to retrieve inventory, configuration, realization state, and diagnostic results for networking investigations.</td>
-</tr>
-<tr>
-<td>VCF Operations for Networks MCP Server&nbsp;</td>
-<td>Connects to VCF Operations for Networks endpoints to query flow records, top talkers, and traffic patterns for flow analysis.</td>
-</tr>
-<tr>
-<td>Log Insight MCP Server</td>
-<td>Connects to Log Insight endpoints so assistants can search logs and correlate events with other findings.</td>
-</tr>
-<tr>
-<td>Python Sandbox MCP Server&nbsp;</td>
-<td>Runs short Python scripts in a WASM-isolated sandbox. Scripts can call other MCP tools through the AI Gateway to combine and analyze data from several sources.</td>
-</tr>
-<tr>
-<td>Script Assistant MCP Server</td>
-<td>Provides semantic search over VCF SDK documentation for PowerCLI and Python, to help with building automation scripts.</td>
-</tr>
-</tbody>
-</table>
-</figure>
-<p class="has-medium-font-size"><strong>Two Ways to Use Agentic AI for Networking</strong></p>
-<p>Networking teams can use agentic AI through the built-in UI or connect its MCP tools to an AI client they already work with.</p>
-<p><strong>Guided investigations in the UI:</strong> Operators sign in through a browser, and the Agent Portal routes each question to the appropriate assistant. The assistants bring domain skills, investigation plans, diagnostic runbooks, and validation rules to the task. Findings can include topology maps, data cards, and charts, with human approval for sensitive tool calls handled in the portal. This is the full built-in assistant experience for operators working through an investigation.</p>
-<p><strong>MCP access from other AI harnesses:</strong> Teams can connect an MCP-compatible client, such as Claude Code, Cursor, or Gemini CLI, to the Agentic AI MCP endpoint. This approach does not use the built-in assistants. Instead, it gives teams direct access to the MCP tools and resources, which they can build into their own diagnostic workflows and automation. The external client and its model provide the reasoning and workflow; agentic AI platform&#8217;s built-in agent skills, investigation plans, guardrail prompts, and rich UI are not included in this approach.</p>
-<p>Both options use the same underlying MCP servers, identity framework, role-based tool authorization, and audit logging. Direct MCP access retains those platform access controls, while giving teams flexibility to build their own workflows around the tools.</p>
-<p class="has-medium-font-size"><strong>What Comes Next</strong></p>
-<p>The Fling gives customers an opportunity to try these workflows in lab and non-production environments on problems they recognize: a flapping BGP peer, a connection that fails between two applications, or a cluster running short of capacity. Where did the assistant save time? Which checks were missing? Was the recommended next step useful? Those answers will help determine what we improve next.</p>
-<p>Areas being explored include vSphere configuration and desired-state inspection, broader lifecycle prechecks, and investigations that connect evidence across compute, networking, and storage. The platform’s modular skills allow our engineering and domain teams to add and refine diagnostic workflows.</p>
-<p>Our goal is to provide an agentic AI platform where operators can carry the context of an issue into the specialist diagnostics they need. What we learn through the Fling will help shape that experience and make AI assistance a more useful part of everyday private cloud operations.</p>
-<p>Download and learn more on the <a href="https://support.broadcom.com/group/ecx/productdownloads?subfamily=Flings&amp;freeDownloads=true" target="_blank" rel="noreferrer noopener">Broadcom Support Portal</a>.</p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/23/agentic-ai-for-enhanced-network-operations-in-vmware-cloud-foundation/">Agentic AI for Enhanced Network Operations in VMware Cloud Foundation</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/23/agentic-ai-for-enhanced-network-operations-in-vmware-cloud-foundation/">Agentic AI for Enhanced Network Operations in VMware Cloud Foundation</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10111420</post-id>	</item>
-		<item>
-		<title>Microsoft SQL Server Failover Clustering on VCF 9.1 VM Service: VCF Automation Blueprint Based Implementation (Part 4)</title>
-		<link>https://blogs.vmware.com/cloud-foundation/2026/11/23/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-vcf-automation-blueprint-based-implementation-part-4/</link>
-		
-		<dc:creator><![CDATA[vmwareblogs]]></dc:creator>
-		<pubDate>Mon, 23 Nov 2026 15:00:00 +0000</pubDate>
-				<category><![CDATA[Cloud Infrastructure]]></category>
-		<guid isPermaLink="false">https://blogs.vmware.com/?p=10111386</guid>
-
-					<description><![CDATA[<img width="298" height="166" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Part-4-FeaturedImage.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><p>Introduction In this part of the series, we will build the two nodes MSSQL FCI Cluster via VMware Cloud Foundation (VCF) Automation and its IaaS Services Console. Part 1 focuses on Requirements, Topology and Methods. Part 2 focuses on the Supervisor direct implementation. Part 3 focuses on the VCF Automation manual implementation. Part 4 (this &#8230; <a href="https://blogs.vmware.com/cloud-foundation/2026/11/23/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-vcf-automation-blueprint-based-implementation-part-4/">Continued</a></p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/23/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-vcf-automation-blueprint-based-implementation-part-4/">Microsoft SQL Server Failover Clustering on VCF 9.1 VM Service: VCF Automation Blueprint Based Implementation (Part 4)</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></description>
-										<content:encoded><![CDATA[<img width="298" height="166" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Part-4-FeaturedImage.png?w=298" class="attachment-large size-large wp-post-image" alt="" decoding="async" loading="lazy" /><div><img width="300" height="167" src="https://blogs.vmware.com/wp-content/uploads/2026/11/Part-4-FeaturedImage.png" class="attachment-medium size-medium wp-post-image" alt="" style="margin-bottom: 10px;" decoding="async" loading="lazy" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-4-FeaturedImage.png 4450w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-4-FeaturedImage.png?resize=300,167 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-4-FeaturedImage.png?resize=768,427 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-4-FeaturedImage.png?resize=1024,570 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-4-FeaturedImage.png?resize=1536,854 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-4-FeaturedImage.png?resize=2048,1139 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/Part-4-FeaturedImage.png?resize=600,334 600w" sizes="auto, (max-width: 300px) 100vw, 300px" /></div>
-<h2 class="wp-block-heading" id="h-introduction"><strong>Introduction</strong></h2>
-<p>In this part of the series, we will build the two nodes MSSQL FCI Cluster via VMware Cloud Foundation (VCF) Automation and its IaaS Services Console.</p>
-<ul class="wp-block-list">
-<li>Part 1 focuses on <a href="https://blogs.vmware.com/cloud-foundation/2026/11/22/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-requirements-topology-and-methods-part-1/" target="_blank" rel="noreferrer noopener">Requirements, Topology and Methods</a>.</li>
-<li>Part 2 focuses on the <a href="https://blogs.vmware.com/cloud-foundation/2026/11/22/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-supervisor-direct-implementation-part-2/" target="_blank" rel="noreferrer noopener">Supervisor direct implementation</a>.</li>
-<li>Part 3 focuses on the <a href="https://blogs.vmware.com/cloud-foundation/2026/11/23/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-vcf-automation-manual-implementation-part-3/">VCF Automation manual implementation</a>.</li>
-<li>Part 4 (this article) focuses on the <a href="https://blogs.vmware.com/cloud-foundation/2026/11/23/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-vcf-automation-blueprint-based-implementation-part-4/"><strong>VCFA Automation blueprint based implementation</strong></a>.</li>
-</ul>
-<h2 class="wp-block-heading" id="h-what-will-you-learn-from-this-article"><strong>What will you learn from this article?</strong></h2>
-<p>Compared to parts 2 and 3 where both required manual intervention to be able to provision the nodes. This part turns the project user&#8217;s work into one catalog item, where a requester fills in one form, and a VCF Automation takes care of the rest.</p>
-<p>By the end of part 4, you will be able to realize the potential of having a blueprint that is ready for provisioning a repeatable infrastructure for MSSQL Server Failover Clustering. This article is not aimed at showcasing how to create the blueprint via the designer, it is more around how the blueprint can be architected to achieve the repeatable state. However you can find the YAML code for this blueprint <a href="https://github.com/doodzzz/CloudTemplates/blob/main/MSSQL-FCI-AllApps-Blueprint_v1dot0.yaml" target="_blank" rel="noreferrer noopener"><strong>here</strong></a>.</p>
-<h2 class="wp-block-heading" id="h-what-does-the-blueprint-focus-on"><strong>What does the blueprint focus on?</strong></h2>
-<p>The blueprint will cover the project user steps mainly. All of the prerequisites from both the Provider Administrator and Organization Administrator must be fulfilled prior to requesting the service.</p>
-<h2 class="wp-block-heading" id="h-the-blueprint-s-flow"><strong>The Blueprint’s Flow</strong></h2>
-<div class="wp-block-image">
-<figure data-wp-context="{&quot;imageId&quot;:&quot;6b04574c43d37&quot;}" data-wp-interactive="core/image" class="aligncenter size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="508" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P4-1-BlueprintFlow.png" alt="" class="wp-image-36854" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-1-BlueprintFlow.png 2974w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-1-BlueprintFlow.png?resize=300,149 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-1-BlueprintFlow.png?resize=768,381 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-1-BlueprintFlow.png?resize=1024,508 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-1-BlueprintFlow.png?resize=1536,762 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-1-BlueprintFlow.png?resize=2048,1016 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-1-BlueprintFlow.png?resize=600,298 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
-			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
-				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
-			</svg><br />
-		</button></figure>
-</div>
-<ul class="wp-block-list">
-<li>The requester fills in the form and submits it, where all of the required details can be retrieved via VCF Automation directly.</li>
-<li>VCF Automation evaluates the inputs.</li>
-<li>Via the Supervisor integration, it creates the Secret and the three volume claims in the namespace, and the vSphere CSI driver creates the shared disks on vSAN.</li>
-<li>Once all four exist (blueprint conditions), it creates both VMs in parallel.</li>
-<li>The VM Operator&#8217;s webhooks check each VM/</li>
-<li>NSX binds each typed address to the VM&#8217;s port on its subnet.</li>
-<li>The VM Operator attaches the three disks to both VMs, then powers them on.</li>
-<li>On the first boot:
-<ul class="wp-block-list">
-<li>Sysprep sets the computer name, both addresses with their masks and the password.</li>
-<li>VCF Automation completes the deployment when both VMs report Created and NetworkReady.</li>
-</ul>
-</li>
-</ul>
-<h2 class="wp-block-heading" id="h-the-request-form"><strong>The Request Form</strong></h2>
-<p>You will see that in the example blueprint design, the form has around 20 fields, and those fields fall into subgroups:</p>
-<figure class="wp-block-table">
-<table class="has-fixed-layout">
-<tbody>
-<tr>
-<td><strong>Group</strong></td>
-<td><strong>Fields</strong></td>
-<td><strong>Example</strong></td>
-<td><strong>Form Condition</strong></td>
-</tr>
-<tr>
-<td><strong>Placement</strong></td>
-<td>Namespace, VM class, Windows image, storage class</td>
-<td>sql-prod-x7k2q, sql-fci-8c64g, ws2022-sql-template, vsan-esa-raid5-sql</td>
-<td>The image field takes the vmi- ID or the image name</td>
-</tr>
-<tr>
-<td><strong>Names</strong></td>
-<td>VM 1 name, VM 2 name</td>
-<td>sqlfci01-n1, sqlfci01-n2</td>
-<td>Lower-case, 15 characters at most; also the computer name</td>
-</tr>
-<tr>
-<td><strong>Networks</strong></td>
-<td>Public network, heartbeat network</td>
-<td>sql-public, sql-heartbeat</td>
-<td>Existing subnets in the namespace</td>
-</tr>
-<tr>
-<td><strong>Addresses</strong></td>
-<td>Public IP and gateway, heartbeat IP and gateway, for each VM</td>
-<td>100.100.127.11/24 and 100.100.127.1; 192.168.50.11/24 and an empty gateway</td>
-<td>IPv4 address with its prefix length; the heartbeat gateway is optional</td>
-</tr>
-<tr>
-<td><strong>Disks</strong></td>
-<td>Shared disk 1, 2, and 3 size</td>
-<td>500, 100 and 50 GB</td>
-<td>Whole number from 1 to 63,488</td>
-</tr>
-<tr>
-<td><strong>Password</strong></td>
-<td>Local Administrator password</td>
-<td>Not shown</td>
-<td>Encrypted, 8 characters at least</td>
-</tr>
-</tbody>
-</table>
-</figure>
-<h2 class="wp-block-heading" id="h-anatomy-of-the-blueprint"><strong>Anatomy of The Blueprint</strong></h2>
-<p>Similar to what we have showcased in the previous parts, the blueprint will also automate the provisioning up to the level where the nodes are ready for the MSSQL FCI installation.</p>
-<p>The blueprint is a simple example and is not the full potential of what can be achieved via VCF Automation, and this is intentional so that you can grab the YAML code and use it in your environment without the need for any complex integration. As such, you will notice that the blueprint’s fields require all static inputs, because dynamic inputs will require VCF Orchestrator workflows, and this is beyond what we set out to do as part of this series.</p>
-<div class="wp-block-image">
-<figure data-wp-context="{&quot;imageId&quot;:&quot;6b04574c444bd&quot;}" data-wp-interactive="core/image" class="aligncenter size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="507" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P4-2-BlueprintAnatomy.png" alt="" class="wp-image-36856" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-2-BlueprintAnatomy.png 2979w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-2-BlueprintAnatomy.png?resize=300,149 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-2-BlueprintAnatomy.png?resize=768,380 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-2-BlueprintAnatomy.png?resize=1024,507 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-2-BlueprintAnatomy.png?resize=1536,761 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-2-BlueprintAnatomy.png?resize=2048,1014 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-2-BlueprintAnatomy.png?resize=600,297 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
-			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
-				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
-			</svg><br />
-		</button></figure>
-</div>
-<ul class="wp-block-list">
-<li><strong>Inputs:</strong>
-<ul>
-<li>Comes first in the file, so the form and the code read in the same order.</li>
-</ul>
-<ul>
-<li>Every value is typed at request time.</li>
-</ul>
-<ul class="wp-block-list">
-<li>There are no hidden variables to edit before you publish.</li>
-</ul>
-</li>
-<li><strong>Resources are created in two waves:</strong>
-<ul>
-<li>The first wave holds the Secret and the three volume claims, each ReadWriteMany with the volume mode Block.</li>
-</ul>
-<ul>
-<li>The second wave holds the two VMs, which depend on all four.</li>
-</ul>
-<ul class="wp-block-list">
-<li>Each VM resource waits until VM Operator reports VirtualMachineCreated and VirtualMachineNetworkReady, and only then does VCF Automation mark the deployment complete.</li>
-</ul>
-</li>
-<li><strong>Outputs:</strong></li>
-</ul>
-<p>Gives the requester a deployment overview with names, addresses and disk sizes, plus the network settings VM Operator actually applied to each interface.</p>
-<h2 class="wp-block-heading" id="h-publishing-the-blueprint"><strong>Publishing the Blueprint</strong></h2>
-<p>After going through the overall logic of the blueprint creation, the next step is to actually create it and then publish it, thus making it available for consumption throughout projects.</p>
-<ul class="wp-block-list">
-<li>Go to <strong>Build &amp; Deploy</strong> -&gt; <strong>Content Hub</strong> -&gt; <strong>Blueprint Design</strong> -&gt; and click <strong>NEW FROM</strong> -&gt; <strong>Blank canvas</strong>.</li>
-<li>Name the blueprint and select the project that owns the namespace.</li>
-<li>Make sure to “<strong>Allow all projects in the organization to have access to the catalog item</strong>” and “<strong>Allow other organizations to have access to the catalog item</strong>”.</li>
-<li>Replace everything in the code editor with the file from the YAML file that was provided previously.</li>
-<li>The canvas will show the namespace holding the Secret, the three disks and the two VMs, with arrows from each VM to the Secret and the disks.</li>
-<li>Check that the code editor reports no errors.</li>
-</ul>
-<figure data-wp-context="{&quot;imageId&quot;:&quot;6b04574c44c91&quot;}" data-wp-interactive="core/image" class="wp-block-image size-large wp-lightbox-container"><img loading="lazy" decoding="async" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" height="308" width="1024" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P4-3-Blueprint.png" alt="" class="wp-image-36857" srcset="https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-3-Blueprint.png 2499w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-3-Blueprint.png?resize=300,90 300w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-3-Blueprint.png?resize=768,231 768w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-3-Blueprint.png?resize=1024,308 1024w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-3-Blueprint.png?resize=1536,462 1536w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-3-Blueprint.png?resize=2048,615 2048w, https://blogs.vmware.com/cloud-foundation/wp-content/uploads/sites/75/2026/11/P4-3-Blueprint.png?resize=600,180 600w" sizes="auto, (max-width: 1024px) 100vw, 1024px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
-			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
-				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
-			</svg><br />
-		</button></figure>
-<ul class="wp-block-list">
-<li>Click Version, name the version 1.0, select Publish this version to the catalog, and click Create. Once the blueprint is published you will be able to see it available in the Catalog.</li>
-</ul>
-<figure data-wp-context="{&quot;imageId&quot;:&quot;6b04574c45211&quot;}" data-wp-interactive="core/image" class="wp-block-image size-full wp-lightbox-container"><img loading="lazy" decoding="async" width="1004" height="445" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P4-4-CatalogueItem.png" alt="" class="wp-image-36858" srcset="https://blogs.vmware.com/wp-content/uploads/2026/11/P4-4-CatalogueItem.png 1004w, https://blogs.vmware.com/wp-content/uploads/2026/11/P4-4-CatalogueItem.png?resize=300,133 300w, https://blogs.vmware.com/wp-content/uploads/2026/11/P4-4-CatalogueItem.png?resize=768,340 768w, https://blogs.vmware.com/wp-content/uploads/2026/11/P4-4-CatalogueItem.png?resize=600,266 600w" sizes="auto, (max-width: 1004px) 100vw, 1004px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
-			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
-				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
-			</svg><br />
-		</button></figure>
-<h2 class="wp-block-heading" id="h-consuming-the-blueprint"><strong>Consuming the Blueprint</strong></h2>
-<p>Now that the blueprint is published, it can be requested in order to provision the two nodes that will be hosting the MSSQL FCI deployment.</p>
-<ul class="wp-block-list">
-<li>Go to <strong>Build &amp; Deploy</strong> -&gt; <strong>Catalog</strong> -&gt; and click on <strong>REQUEST</strong> within the published catalog item.</li>
-<li>Fill in the form with the values (you can easily get the values from our deployment in Part 3).</li>
-</ul>
-<div class="wp-block-image">
-<figure data-wp-context="{&quot;imageId&quot;:&quot;6b04574c4572f&quot;}" data-wp-interactive="core/image" class="aligncenter size-full wp-lightbox-container"><img loading="lazy" decoding="async" width="1016" height="890" data-wp-class--hide="state.isContentHidden" data-wp-class--show="state.isContentVisible" data-wp-init="callbacks.setButtonStyles" data-wp-on-async--click="actions.showLightbox" data-wp-on-async--load="callbacks.setButtonStyles" data-wp-on-async-window--resize="callbacks.setButtonStyles" src="https://blogs.vmware.com/wp-content/uploads/2026/11/P4-5-Request.png" alt="" class="wp-image-36859" srcset="https://blogs.vmware.com/wp-content/uploads/2026/11/P4-5-Request.png 1016w, https://blogs.vmware.com/wp-content/uploads/2026/11/P4-5-Request.png?resize=300,263 300w, https://blogs.vmware.com/wp-content/uploads/2026/11/P4-5-Request.png?resize=768,673 768w, https://blogs.vmware.com/wp-content/uploads/2026/11/P4-5-Request.png?resize=600,526 600w" sizes="auto, (max-width: 1016px) 100vw, 1016px" /><button class="lightbox-trigger" type="button" aria-haspopup="dialog" aria-label="Enlarge" data-wp-init="callbacks.initTriggerButton" data-wp-on-async--click="actions.showLightbox" data-wp-style--right="state.imageButtonRight" data-wp-style--top="state.imageButtonTop"><br />
-			<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewbox="0 0 12 12">
-				<path fill="#fff" d="M2 0a2 2 0 0 0-2 2v2h1.5V2a.5.5 0 0 1 .5-.5h2V0H2Zm2 10.5H2a.5.5 0 0 1-.5-.5V8H0v2a2 2 0 0 0 2 2h2v-1.5ZM8 12v-1.5h2a.5.5 0 0 0 .5-.5V8H12v2a2 2 0 0 1-2 2H8Zm2-12a2 2 0 0 1 2 2v2h-1.5V2a.5.5 0 0 0-.5-.5H8V0h2Z" />
-			</svg><br />
-		</button></figure>
-</div>
-<ul class="wp-block-list">
-<li>Submit the request and follow the deployment.</li>
-<li>When it completes, the overview lists the names and addresses, and the outputs.</li>
-<li>Once each VM&#8217;s GuestCustomization is complete you sign in to Windows, and start working on the MSSQL prerequisites and deployments from an application level perspective.</li>
-</ul>
-<h2 class="wp-block-heading" id="h-summary"><strong>Summary</strong></h2>
-<p>Now that we’re at the end of this series, we have showcased how the VM Service can be&nbsp; consumed to provision the infrastructure for business critical applications such as Microsoft SQL Server Failover Cluster Instance(s), and we went through the different methods for achieving this. Thank you for taking the time to learn and engage with us.</p>
-<p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/23/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-vcf-automation-blueprint-based-implementation-part-4/">Microsoft SQL Server Failover Clustering on VCF 9.1 VM Service: VCF Automation Blueprint Based Implementation (Part 4)</a> appeared first on <a href="https://blogs.vmware.com/cloud-foundation">VMware Cloud Foundation (VCF) Blog</a>.</p><p>The post <a href="https://blogs.vmware.com/cloud-foundation/2026/11/23/microsoft-sql-server-failover-clustering-on-vcf-9-1-vm-service-vcf-automation-blueprint-based-implementation-part-4/">Microsoft SQL Server Failover Clustering on VCF 9.1 VM Service: VCF Automation Blueprint Based Implementation (Part 4)</a> appeared first on <a href="https://blogs.vmware.com">VMware Blogs</a>.</p>
-]]></content:encoded>
-					
-		
-		
-		<post-id xmlns="com-wordpress:feed-additions:1">10111386</post-id>	</item>
 	</channel>
 </rss>
